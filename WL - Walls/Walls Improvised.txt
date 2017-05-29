@@ -1,0 +1,38 @@
+@a[585,4,-669,dx=11,dy=10,dz=11]
+
+scoreboard objectives add Walls dummy
+scoreboard objectives add WallsD deathCount
+scoreboard teams add WallsR Red_Team
+scoreboard teams add WallsB Blue_Team
+scoreboard teams option WallsR color red
+scoreboard teams option WallsB color blue
+scoreboard teams option WallsR friendlyfire false
+scoreboard teams option WallsB friendlyfire false
+scoreboard objectives setdisplay sidebar Walls
+scoreboard players add @a[585,4,-669,dx=11,dy=10,dz=11] Walls 0
+scoreboard players set Time Walls 12000
+
+
+scoreboard teams join @r[585,4,-669,dx=11,dy=10,dz=11,score_Walls_min=0,score_Walls=0] WallsR
+scoreboard players set @a[team=WallsR,score_Walls=0,score_Walls_min=0] Walls 1
+scoreboard teams join @r[585,4,-669,dx=11,dy=10,dz=11,score_Walls_min=0,score_Walls=0] WallsB
+scoreboard players set @a[team=WallsB,score_Walls=0,score_Walls_min=0] Walls 1
+
+
+minecraft:tp @a[team=WallsR] 510 2 -696
+minecraft:tp @a[team=WallsB] 535 3 -696
+gamemode 0 @a[score_Walls_min=1]
+title @a title {"text":"Begin","color":"green"}
+
+scoreboard players operation Seconds Walls = Time Walls
+scoreboard players operation Seconds Walls /= 20 Number
+scoreboard players reset @a[score_WallsD_min=1] Walls
+scoreboard teams leave @a[score_WallsD_min=1]
+scoreboard players reset @a[score_WallsD_min=1] WallsD
+
+
+
+scoreboard teams remove WallsR
+scoreboard teams remove WallsB
+scoreboard objectives remove Walls
+scoreboard objectives remove WallsD

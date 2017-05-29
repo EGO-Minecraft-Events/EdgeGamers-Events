@@ -1,0 +1,460 @@
+//#-p stonebrick 0 -print
+///	
+
+//<Defines
+DEFINE $s$ minecraft:
+DEFINE $ObjA$ scoreboard objectives add
+DEFINE $Obj$ scoreboard objectives remove
+DEFINE $TeamA$ scoreboard teams add
+DEFINE $TeamO$ scoreboard teams option
+DEFINE $TeamR$ scoreboard teams remove
+DEFINE $Style$ 16 16 0
+DEFINE $SA$ x=741,y=59,z=-538,dx=96,dy=100,dz=137
+DEFINE $TextStart$ {"text":"","extra"[{"text":"[","color":"gray","bold":true},{"text":"R","color":"red","bold":true},{"text":"B","color":"blue","bold":true},{"text":"]","color":"gray","bold":true},{"text":": "},
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+DEFINE ScTG scoreboard players tag
+DEFINE ScOP scoreboard players operation
+DEFINE RevST scoreboard players tag @a[|0|] remove |0|
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+DEFINE NumberAdd |0| Number = |0|
+DEFINE NumberObjAdd Number dummy
+
+///	Blaze Rods
+DEFINE CCItem_BlazeRodG blaze_rod 1 0 {ench:[{id:19,lvl:|0|}],display:{Name:"Glove",Lore:["Crouch in the","goalie box to","increase knockback!"]},HideFlags:127}
+DEFINE CCItem_BlazeRodP blaze_rod1 0 {ench:[{id:19,lvl:1}],display:{Name:"Boot"},HideFlags:127}
+
+///	Summon Rabbit Coords
+DEFINE $Middle$ 
+
+///	Select Mid line + Red or Blue
+DEFINE $MidLineR$ 
+DEFINE $MidLineB$ 
+
+/// Spawn Coords
+DEFINE $TPSpawn$
+
+///	Teleport the rabbit coords
+DEFINE $Somewhere$ 
+
+/// Coords to summon AreaEffectCloud
+DEFINE $ScoreCloudR$ 
+DEFINE $ScoreCloudB$
+
+///	Clearing score
+DEFINE $ScoreClear$ 
+
+///	Score setting lines
+DEFINE $Score64$ 
+DEFINE $Score32$ 
+DEFINE $Score16$ 
+DEFINE $Score8$ 
+DEFINE $Score4$ 
+DEFINE $Score2$ 
+DEFINE $Score1$ 
+
+///	Select corner
+DEFINE $SC1$ 
+DEFINE $SC2$ 
+DEFINE $SC3$ 
+DEFINE $SC4$ 
+
+///	Teleport from corner
+DEFINE $TPC1$ 
+DEFINE $TPC2$ 
+DEFINE $TPC3$ 
+DEFINE $TPC4$ 
+
+///	Select Goal
+DEFINE $SGR$ 
+DEFINE $SGB$ 
+
+///	Select Goal Box
+DEFINE $SGBR$ 
+DEFINE $SGBB$ 
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	-Lever to start / remove scoreboards
+	-Button for countdown
+		@e[type=ArmorStand,RBEntity] RBcd = 0
+	-Button to reset countdown
+		@e[type=ArmorStand,RBEntity] RBcd = -1
+	
+	-Button for random choose teams
+	-Button for carrot on a stick
+	-Button to reset both
+	-Button to select via tellraw (teams and goalie)
+	
+	-Tellraw for the last person to hit the bunny lololol
+	
+	-When a goal is scored, the rabbit gets a boot from the goalie rather than it being killed
+	
+	-Button to set goalie
+		-RBpl = 2 instead of 1
+	
+Goalie:
+	-Cannot go past the half line
+	-Has a level 2 knockback like everyone else
+	-If...
+		-The goalie is in the goal post area
+		-Is crouching
+	-Then
+		-Charges up a knockback meter increasing the knockback level to 4 in 4 seconds
+		-Given hunger and jump boost to disable sprinting and jump boost
+		-Hunger and jump boost remain for one second after disabling
+		-The charge is disabled if the goalie isn't shifting, is out of the goal post area or successfully hits the bunny
+	
+Regular:
+	-Normal knockback one stick
+	-Carrot on a stick in the offhand slot
+	-When the carrot on a stick is activated, they get a 5 second speed boost
+	-The speed boost takes 20 seconds to fully recharge
+	-Increases by 20% every time the player successfully hits the rabbit
+	
+	
+	-Both mechanics should have a togglable feature, mostly to get the skill curve to exist
+		-Eg. Learn the basics of the game, add some tidbits afterwards for funzies
+	
+	
+	-Add / remove score from blue / red (4 signs to right click)
+	-Score goes from 0 to 9
+///	 -		1 
+///	| |		2 / 4
+///	 -		8
+///	| |		16 / 32
+///	 -		64
+	
+	0 = 1 + 2 + 4 + 16 + 32 + 64 		0 = 119
+	1 = 2 + 16							1 = 18
+	2 = 1 + 4 + 8 + 16 + 64				2 = 93
+	3 = 1 + 4 + 8 + 32 + 64				3 = 109
+	4 = 2 + 4 + 8 + 32					4 = 46
+	5 = 1 + 2 + 8 + 32 + 64				5 = 107
+	6 = 1 + 2 + 8 + 16 + 32 + 64		6 = 123
+	7 = 1 + 4 + 32						7 = 37
+	8 = 1 + 2 + 4 + 8 + 16 + 32 + 64	8 = 127
+	9 = 1 + 2 + 4 + 8 + 32				9 = 47
+	
+	
+Display:
+	Red				Player #
+	Blue			Player #
+	Red_Score		Red Score
+	Blue_Score		Blue Score
+	Time_Elapsed	In seconds btw
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+Mandatory:
+	-Goal scoring clock
+	-
+
+Additional:
+	-General playsounds for abilities
+	-Last hit features
+	-Last hit calc objective so any hits marked as 0 can work
+	-If the boot thing happened, make a red/blue display team
+	
+Features:
+	-Seperate the countdown clock from the main clock
+	-Rabbit type = confirmed
+	-Countdown
+	-Teleporting goalies and rabbits
+	-Goalie and regular player features
+	-Playsound upon hit
+END
+//>
+
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		RB dummy Rabbit Ball
+		RBcd dummy Rabbit Ball Countdown
+		RBti dummy Rabbit Ball Timer
+		RBpl dummy Rabbit Ball Player List
+		RBab dummy Rabbit Ball Ability
+		RBas dummy Rabbit Ball Ability State
+		RBat dummy Rabbit Ball Ability Toggle
+		RBtc dummy Rabbit Ball Team Calc
+		RBsc dummy Rabbit Ball Score Calc
+		RBst stat.sneakTime Rabbit Ball Sneak Timer
+		RBdd stat.damageDealt Rabbit Ball Damage Dealt
+		RBlt stat.damageDealt Rabbit Ball Last Hit
+		RBcs stat.useItem.minecraft.carrot_on_a_stick Rabbit Ball Carrot Stick
+		NumberObjAdd
+	UNUSE
+	
+	USE $TeamA$
+		RBr Rabbit Ball Red
+		RBb Rabbit Ball Blue
+		RBd_y Rabbit Ball Display Yellow
+	UNUSE
+	
+	USE $TeamO$
+		RBr color red
+		RBr friendlyfire false
+		RBr nametagVisibility hideForOtherTeams
+		RBb color blue
+		RBb friendlyfire false
+		RBb nametagVisibility hideForOtherTeams
+		RBd_y color yellow
+	UNUSE
+	
+	Red RB + 0
+	Blue RB + 0
+	Red_Score RB + 0
+	Blue_Score RB + 0
+	Time_Elapsed RB + 0
+	
+	scoreboard teams join RBr Red Red_Score
+	scoreboard teams join RBb Blue Blue_Score
+	scoreboard teams join RBd_y Time_Elapsed
+	
+	0 RBsc = 119
+	1 RBsc = 18
+	2 RBsc = 93
+	3 RBsc = 109
+	4 RBsc = 46
+	5 RBsc = 107
+	6 RBsc = 123
+	7 RBsc = 37
+	8 RBsc = 127
+	9 RBsc = 47
+	
+	summon ArmorStand ~ ~ ~ {Tags:["RBEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	@e[type=ArmorStand,RREntity] RBcd = -1
+	@e[type=ArmorStand,RREntity] RBti + 0
+	@e[type=ArmorStand,RREntity] RBti + 0
+	NumberAdd(20)
+	
+	summon AreaEffectCloud $ScoreCloudR$ {Tags:["RBEntity","RBScore","RBScoreR"],Duration:1000000}
+	summon AreaEffectCloud $ScoreCloudB$ {Tags:["RBEntity","RBScore","RBScoreB"],Duration:1000000}
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+///	Goalie Abilities
+///	Teleports
+	$s$tp @a[$MidLineB$,RBpl=2,team=RBr] ~ ~ ~
+	$s$tp @a[$MidLineR$,RBpl=2,team=RBb] ~ ~ ~
+	
+//(m=2)
+	
+///	Goalie state + ability charge
+	@a[$SA$,m=2,RBpl=2] RBas = 0
+	
+	@a[$SGBR$,m=2,RBat=2,team=RBr,RBpl=2,RBst>=1] RBas = 1
+	@a[$SGBB$,m=2,RBat=2,team=RBb,RBpl=2,RBst>=1] RBas = 1
+	@a[$SA$,m=2,RBat=2,RBpl=2,RBas=1,RBab>=0] RBab + 1
+	@a[$SA$,m=2,RBat=2,RBpl=2,RBas=0,RBab<=81] RBab = 80
+	@a[$SA$,m=2,RBat=2,RBpl=2,RBas=0,RBab<=81] RBab - 1
+	@a[$SA$,m=2,RBat=2,RBpl=2,RBab>=0,RBdd>=0] RBab = 0
+	
+///	Blaze Rod
+	$s$clear @a[$SA$,m=2,RBat=2,RBpl=2,RBab=80] blaze_rod
+	replaceitem entity @a[$SA$,m=2,RBat=2,RBpl=2,RBas=1,RBab=80] slot.hotbar.0 CCItem_BlazeRodG(4)
+	replaceitem entity @a[$SA$,m=2,RBat=2,RBpl=2,RBas=0,RBab=80] slot.hotbar.0 CCItem_BlazeRodG(3)
+	$s$clear @a[$SA$,m=2,RBat=2,RBpl=2,RBab=40] blaze_rod
+	replaceitem entity @a[$SA$,m=2,RBat=2,RBpl=2,RBas=1,RBab=40] slot.hotbar.0 CCItem_BlazeRodG(3)
+	replaceitem entity @a[$SA$,m=2,RBat=2,RBpl=2,RBas=0,RBab=40] slot.hotbar.0 CCItem_BlazeRodG(2)
+	
+///	Player speed boosts
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas>=0<=1,RBab>=0<=399] RRab + 1
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=1,RBcs>=1] playsound entity.donkey.hurt voice @a[c=1] ~ ~ ~ 0.5 0.5
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=1,RBcs>=1] particle //(happy villager)
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBcs>=1] playsound entity.donkey.hurt voice @a[c=1] ~ ~ ~ 0.5 0.5
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBcs>=1] particle //(happy villager)
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBcs>=1] RBas = 1
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=1,RBcs>=1] RBas = 2
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab>=1<=400] RBab - 4
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab>=1<=400] particle //(smoke)
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab<=-1] RBab = 0
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab=0] playsound entity.donkey.hurt voice @a[c=1] ~ ~ ~ 0.5 0.5
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab=0] RBas = 0
+	
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBdd>=0] RBab + 80
+	@a[$SA$,m=2,RBat=2,RBpl=1,RBab>=401] RBab = 400
+	
+	effect @a[$SA$,m=2,RBat=2,RBpl=1,RBas=2,RBab>=1<=100] 1 2 1 true
+	effect @a[$SA$,m=2,RBat=2,RBpl=1,RBas=0] 1 0 1 true
+	
+///	Playsound upon hitting the rabbit
+	@a[$SA$,m=2,RBat=2,RBpl>=1,RBdd>=0] playsound minecraft:entity.experience_orb.touch voice @a[c=1]
+	
+///	Resetting scores
+	@a[RBst>=1] RBst = 0
+	@a[RBcs>=1] RBcs = 0
+	scoreboard players reset @a[RBdd>=0] RBdd
+	
+	
+	
+	
+	-Add / remove score from blue / red (4 signs to right click)
+	-Score goes from 0 to 9
+	
+	
+Display:
+	Red				Player #
+	Blue			Player #
+	Red_Score		Red Score
+	Blue_Score		Blue Score
+	Time_Elapsed	In seconds btw
+
+	
+///	Corner Teleports
+	$s$tp @e[$SC1$,type=Rabbit,RBRabbit] $TPC1$
+	$s$tp @e[$SC2$,type=Rabbit,RBRabbit] $TPC2$
+	$s$tp @e[$SC3$,type=Rabbit,RBRabbit] $TPC3$
+	$s$tp @e[$SC4$,type=Rabbit,RBRabbit] $TPC4$
+	
+///	Last Hit Detector
+///	RBlt>=1 turns RBlt to -1
+///	When one player is RBlt=-1, all RBlt of -2 is reset to 0
+///	The player at RBlt=-1 turns to -2
+///	-2 score is the most recent
+	@a[$SA$,RBpl=1,RBlt>=0] RBlt = -1
+	scoreboard players reset @a[$SA$,RBpl=1,RBlt=-2] RBlt
+	@a[$SA$,RBpl=1,RBlt=-1] RBlt = -2
+	
+///	Goal Activator
+	@e[$SGB$,type=Rabbit,RBRabbit,RBsc=0] RBsc = 1
+	@e[$SGR$,type=Rabbit,RBRabbit,RBsc=0] RBsc = 2
+	
+	
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		RB
+		RBcd
+		RBti
+		RBpl
+		RBab
+		RBas
+		RBat
+		RBtc
+		RBsc
+		RBst
+		RBdd
+		RBlt
+		RBcs
+	UNUSE
+	
+	USE $TeamR$
+		RBr
+		RBb
+		RBd_y
+	UNUSE
+	
+	$s$kill @e[RBBEntity]
+END
+//>
+
+
+//<Countdown Clock
+FUNC Func_CountdownClock
+	testfor @e[type=ArmorStand,RBEntity,RBcd>=0]
+	SetblockTestfor
+	
+///	Countdown Asthetics
+	@e[type=ArmorStand,RBEntity,RBcd>=0] tellraw @a $TextStart${"text":"5!","color":"yellow"}]}
+	@e[type=ArmorStand,RBEntity,RBcd>=0] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	@e[type=ArmorStand,RBEntity,RBcd>=20] tellraw @a $TextStart${"text":"4!","color":"yellow"}]}
+	@e[type=ArmorStand,RBEntity,RBcd>=20] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	@e[type=ArmorStand,RBEntity,RBcd>=40] tellraw @a $TextStart${"text":"3!","color":"yellow"}]}
+	@e[type=ArmorStand,RBEntity,RBcd>=40] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	@e[type=ArmorStand,RBEntity,RBcd>=60] tellraw @a $TextStart${"text":"2!","color":"yellow"}]}
+	@e[type=ArmorStand,RBEntity,RBcd>=60] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	@e[type=ArmorStand,RBEntity,RBcd>=80] tellraw @a $TextStart${"text":"1!","color":"yellow"}]}
+	@e[type=ArmorStand,RBEntity,RBcd>=80] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	@e[type=ArmorStand,RBEntity,RBcd=100] title @a title {"text":"Begin!","color":"green"}
+	@e[type=ArmorStand,RBEntity,RBcd=100] tellraw @a $TextStart${"text":"Begin!","color":"green","bold":true}]}
+	@e[type=ArmorStand,RBEntity,RBcd=100] @a playsound minecraft:entity.wither.death voice @a[c=1]
+	@e[type=ArmorStand,RBEntity,RBcd=100] @a playsound entity.experience_orb.touch voice @a[c=1]
+	@e[type=ArmorStand,RBEntity,RBcd=103] @a playsound entity.experience_orb.touch voice @a[c=1]
+	@e[type=ArmorStand,RBEntity,RBcd=106] @a playsound entity.experience_orb.touch voice @a[c=1]
+
+/// Countdown functions when it hits 0
+///	{Id:23,Amplifier:0,Duration:1000000000,ShowParticles:0b}
+	@e[type=ArmorStand,RBEntity,RBcd=100] summon Rabbit $Middle$ {Tags:["RBEntity","RBRabbit"],CustomName:"Soccer Ball",CustomNameVisible:1,Team:"RBd_y",RabbitType:3,Glowing:1,ActiveEffects:[{Id:11,Amplifier:3,Duration:1000000000,ShowParticles:0b},{Id:6,Amplifier:100,Duration:1000000000,ShowParticles:0b}]}
+	@e[type=ArmorStand,RBEntity,RBcd=100] 
+	@e[type=ArmorStand,RBEntity,RBcd=100] 
+	@e[type=ArmorStand,RBEntity,RBcd=100] 
+	@e[type=ArmorStand,RBEntity,RBcd=100] 
+	
+	@e[type=ArmorStand,RBEntity,RBcd=106] RBcd = -1
+	@e[type=ArmorStand,RBEntity,RBcd>=0,RBcd<=105] RBcd + 1
+END
+//>
+
+//<Goal Clock
+FUNC Func_GoalClock
+/// baby i'm ballin
+///	When the rabbit goes into the goal
+///		Score has to reset displays
+///		Score has to increment
+///		Bunny must be teleported and killed (unless doing boot - not doing boot for now)
+///		Firework, title, tellraw
+	testfor @e[type=Rabbit,RBRabbit,RBsc>=1<=2]
+	SetblockTestfor
+	
+	@e[type=Rabbit,RBRabbit,RBsc=1] Red RB + 1
+	@e[type=Rabbit,RBRabbit,RBsc=1] ScOP @e[type=AreaEffectCloud,RBScoreR] RBsc = Red RB
+	@e[type=Rabbit,RBRabbit,RBsc=1] summon $FireworkR$
+	@e[type=Rabbit,RBRabbit,RBsc=1] title @a title {"text":"red scored yay","color":"red"}
+	@e[type=Rabbit,RBRabbit,RBsc=1] tellraw @a $TextStart${"text":"red scored yay","color":"red"}]}
+	
+	@e[type=Rabbit,RBRabbit,RBsc=2] Blue RB + 1
+	@e[type=Rabbit,RBRabbit,RBsc=2] ScOP @e[type=AreaEffectCloud,RBScoreR] RBsc = Blue RB
+	@e[type=Rabbit,RBRabbit,RBsc=2] summon $FireworkB$
+	@e[type=Rabbit,RBRabbit,RBsc=2] title @a title {"text":"blue scored yay","color":"blue"}
+	@e[type=Rabbit,RBRabbit,RBsc=2] tellraw @a $TextStart${"text":"blue scored yay","color":"blue"}]}
+	
+	$s$tp @e[type=Rabbit,RBRabbit,RBsc>=1<=2] $Somewhere$
+	$s$kill @e[type=Rabbit,RBRabbit,RBsc>=1<=2]
+///	@e[type=Rabbit,RBRabbit,RBsc>=1<=2] RBsc = 3
+	
+	@e[type=AreaEffectCloud,RBScore,RBsc>=1] fill $ScoreClear$ air 0
+	LOOP 0 9 + 1
+		ScOP @e[type=AreaEffectCloud,RBScore,RBsc=|0|] RBsc = |0| RBsc
+	END
+	
+	LOOP 64 1 / 2
+		@e[type=AreaEffectCloud,RBScore,RBsc>=|0|] fill $Score|0|$ redstone_block 0
+		@e[type=AreaEffectCloud,RBScore,RBsc>=|0|] RBsc - |0|
+	END
+	@e[type=AreaEffectCloud,RBScore,RBsc>=1] RBsc = 0
+END
+//>
+
+//<Temporary Arena
+FUNC Func_TemporaryArena
+	According to all known laws of aviation, there is no way a bee should be able to fly.
+END
+//>
+
+
+//<Groups
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Activate(CBPMainClock)
+Func_GeneralScoreboardStart
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Deactivate(CBPMainClock)
+Func_GeneralScoreboardEnd
+//>
+

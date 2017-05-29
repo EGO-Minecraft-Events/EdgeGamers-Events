@@ -1,0 +1,94 @@
+//#-p stonebrick 0 -b X Y Z -print
+///	
+
+//<Defines
+DEFINE $CMDName$ NAME
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 6
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ # 10 #
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+
+///	Name
+DEFINE $Name$ 
+///	Text display name
+DEFINE $TD$ 
+///	Hover and scoreboard name
+DEFINE $TDName$ 
+///	Scoreboard teams color
+DEFINE $Color$ 
+///	Place where air is when open
+DEFINE $Dao$ 
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 
+///	Spawn Coords ID
+DEFINE $SPid$ 
+
+///	Where laps are completed
+DEFINE $lap$ 
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ 
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ 
+
+PCBPIMPORT PCBPI_PosR X OR Z .txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+
+//<General Scoreboard Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_EditGeneralScoreboardClock
+	
+END
+//>
+
+//<Countdown Clock
+FUNC Func_EditCountdownClock
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_EditGeneralScoreboardEnd
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+///	fill $Dro$ stonebrick 0 replace redstone_block 0
+END
+
+PCBPIMPORT PCBPI_LapRace.txt
+//>

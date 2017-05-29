@@ -1,0 +1,107 @@
+//#-p stonebrick 0 -b 212 17 -21 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\DR - Diamond Race\CBP_DiamondRace.txt
+
+//<Defines
+DEFINE $CMDName$ DR
+DEFINE $CMDSizeX$ 6
+DEFINE $CMDSizeY$ 6
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=206,y=4,z=-57,dx=49,dy=100,dz=39
+
+///	Name
+DEFINE $Name$ Diamond
+///	Race Status Number
+DEFINE $RSn$ 11
+///	Text display name
+DEFINE $TD$ DR
+///	Text display hover name
+DEFINE $TDName$ Diamond Race
+///	Scoreboard teams color
+DEFINE $Color$ aqua
+///	Place where air is when open
+DEFINE $Dao$ 224 16 -34 230 16 -40
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 224 14 -38 230 14 -36
+///	Spawn Coords for teleporting
+DEFINE $SC$ 218 18 -37 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 5
+
+///	Where laps are completed
+DEFINE $lap$ x=224,y=18,z=-42,dx=6,dy=10,dz=1
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ x=249,y=4,z=-28,dx=1,dy=15,dz=6
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=214,y=16,z=-38,dx=16,dy=5,dz=3
+
+PCBPIMPORT PCBPI_PosRZ.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+
+//<Groups
+FUNC Func_EditGeneralScoreboardStart
+
+END
+
+FUNC Func_EditGeneralScoreboardClock
+
+END
+
+FUNC Func_EditCountdownClock
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill 223 17 -38 222 17 -36 stonebrick 3
+END
+
+FUNC Func_EditGeneralScoreboardEnd
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+	fill $Dro$ stonebrick 0 replace redstone_block 0
+	fill 223 17 -36 223 17 -38 air 0
+	fill 222 17 -36 222 17 -38 stone_slab 5
+END
+
+PCBPIMPORT PCBPI_LapRace.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

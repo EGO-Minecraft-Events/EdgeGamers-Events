@@ -1,0 +1,63 @@
+Notes for general events:
+
+
+
+Notes for the Halloween event:
+	Idea of the event:
+		-PvE (Players vs Mobs) event
+		-People are given around 20 minutes (can be changed) to get gear and build defences
+		-After the 20 minutes are up, mobs will start spawning outside the walls of the village, and people will try to survive
+		-Mobs will most likely be spawned in waves, either by the EC or via command blocks. 
+			-If they are spawned by the EC, they will communicate with each other on what theme the wave is.
+		-People can run into the forest if they are feeling adventurous to find loot at the cost of safety.
+		
+	RULES:
+		-You cannot just hide yourself in a dirt cage not do anything (So, actually fight lol)
+		-It is highly discouraged to use a texture pack that removes the texture of a pumpkin when wearing it, especially if you're planning on wearing a pumpkin. Bleh
+		-All of the eGO rules still apply, and that's pretty much saying: Don't be stupid.
+		-Try not to ghost if you're in spectator mode. Like seriously, don't.
+		-Feel free to break down anything you want, and build overtop anything you want assuming it's not griefing
+		
+	Constants:
+		-Big water sources (lakes, oceans, etc.) should be the only place with lapis in them
+			-So don't ever use lapis or build with lapis
+		-The nether or the end cannot be accessed
+			-So try not to use many nether-related items for rewards, or build with nether/end items.
+			-Nether items pretty much cannot be accessed until you get to the crator area.
+		-PvP is not allowed, and ECs will not be "super mobs". They will instead be summmoning mobs assuming command blocks aren't there to assist
+		-If people die, they can respawn in the middle of the village. Their items will be like normal: they disappear after 5 minutes.
+			-However, if they die during the night, they will be stuck in spectator mode. Rip :(
+		-Obsidian shouldn't ever be used in large amounts for buildings, because tnt will be a thing that exists and will happen during then night.
+			-That being said, don't put obsidian/bedrock on the village's walls.
+		-Do not build structures with valuable blocks, because people can just break it down and use it. (Unless those blocks are rewards for completeing a task.)
+		-Don't have potatoes in the main village, unless that secondary village doesn't exist.
+		-Don't overuse lava (have maybe 1-10 source blocks in one area AT A TIME.)
+	
+	General Ideas:
+		-Always consider the fact that people can break through blocks and build their way over obstacles
+			-Example: mazes can just be broken through.
+		-Lava should remain scarce to prevent people from using lava against mobs (The lava in the caves will most likely be removed.)
+		-The walls will be blown up half way through the event to allow mobs to get past those defences
+		-The entire area around the village will be a roofed forest (regular oak trees, dark oak trees, giant mushrooms)
+		-If people go outside the walls and into the roofed forest, they will have to wear a pumpkin on their head to avoid being poisoned
+			-The poison radius will not affect the players underneath the roofed forest, or in water
+			-It will be controlled with command blocks
+		-Puzzles and chests and rewards are amazing. However, don't go full hunger-games style and overdo the chests. They should feel special, not like an everyday appearance.
+		-If there are any mazes, they will be randomized regardless of what you do so the builders don't remember the paths.
+		-The roofed forest will be riddled with mob spawners for normal mobs like zombies, skeletons, spiders and creepers.
+			-These monster spawners will be more common as they get close to the border / deeper into the forest
+		
+		
+	To do list (buildings):
+		Actually needed:
+			-A couple more buildings around the village
+			-Some sort of wall around the village
+			-Smoothen out the hill thing
+		Other that would be nice to have but is completely unnecessary
+			-A secondary small-ish village area around a river that seemingly mastered irrigation (they will have potatoes and cocoa beans)
+			-
+			
+			
+	Other things:
+		-A copy of the landscape before buildings can be found at ./warp halloween3 (don't you dare mess with this. there's a clear difference since this is in a plains biome.)
+		-Passive mobs: decide on number

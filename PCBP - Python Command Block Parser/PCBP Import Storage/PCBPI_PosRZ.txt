@@ -1,0 +1,74 @@
+/// Races
+
+DEFINE $s$ minecraft:
+DEFINE $ObjA$ scoreboard objectives add
+DEFINE $ObjR$ scoreboard objectives remove
+DEFINE $TeamA$ scoreboard teams add
+DEFINE $TeamO$ scoreboard teams option
+DEFINE $TeamR$ scoreboard teams remove
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PARSE($TD$)","color":"PARSE($Color$)","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"PARSE($TDName$)","color":"PARSE($Color$)"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+DEFINE ColorFillWool fill |0| wool |1|
+DEFINE ColorFillClay fill |0| stained_hardened_clay |1|
+DEFINE ColorFillGlass fill |0| stained_glass |1|
+DEFINE ColorFillWood fill |0| planks |1|
+DEFINE ScTG scoreboard players tag
+DEFINE ScOP scoreboard players operation
+DEFINE ScTE scoreboard players test
+DEFINE ScRE scoreboard players reset
+DEFINE ScTJ scoreboard teams join
+DEFINE ScTL scoreboard teams leave
+DEFINE RevST scoreboard players tag @a[|0|] remove |0|
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
+DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
+DEFINE NumberAdd |0| Number = |0|
+DEFINE NumberObjAdd Number dummy
+
+FUNC Func_CMDSave
+	fill 0x -1y 0z 3x -3y 3z air 0
+	setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+	setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 1x -1y 0z wooden_button 4
+	setblock 1x -3y 0z wooden_button 4
+	setblock 2x -1y 1z redstone_lamp 0
+	setblock 2x -3y 1z redstone_lamp 0
+	setblock 1x -1y 2z minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+END
+
+FUNC Func_SpawnIDSetting
+	@a[$SA$] SPid + 0
+	@a[$SA$,SPid<-$SPid$] SPid = $SPid$
+	@a[$SA$,SPid>-$SPid$] SPid = $SPid$
+END
+
+FUNC Func_SpawnStandStart
+	@e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+	@e[type=ArmorStand,SpawnStand] SPpvp = $SPpvp$
+	@e[type=ArmorStand,SpawnStand] SPsat = $SPsat$
+	@e[type=ArmorStand,SpawnStand] SPgmd = 1
+	@e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
+END
+
+FUNC Func_SpawnStandEnd
+	@e[type=ArmorStand,SpawnStand] SPtp = 0
+	@e[type=ArmorStand,SpawnStand] SPpvp = 0
+	@e[type=ArmorStand,SpawnStand] SPsat = 1
+	@e[type=ArmorStand,SpawnStand] SPgmd = 1
+	@e[type=ArmorStand,SpawnStand,SPgam=$SPid$] SPgam = 0
+	@e[type=ArmorStand,SpawnStand] SPwea = 0
+END
+
+FUNC Func_SpawnStandEdit
+	@e[type=ArmorStand,SpawnStand] SPtp = |0|
+	@e[type=ArmorStand,SpawnStand] SPpvp = |1|
+	@e[type=ArmorStand,SpawnStand] SPsat = |2|
+	@e[type=ArmorStand,SpawnStand] SPgmd = |3|
+	@e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
+	@e[type=ArmorStand,SpawnStand] SPwea = |4|
+END

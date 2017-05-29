@@ -1,0 +1,157 @@
+fill 431 6 -135 434 4 -132 air 0
+setblock 432 6 -134 structure_block 0 replace {name:"CMDSave_EpicR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:10,sizeY:8,sizeZ:6}
+setblock 432 4 -134 structure_block 0 replace {name:"CMDSave_EpicR",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 431 6 -134 wooden_button 2
+setblock 431 4 -134 wooden_button 2
+setblock 432 6 -133 redstone_lamp 0
+setblock 432 4 -133 redstone_lamp 0
+setblock 433 6 -134 minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+
+:CBPMainStart PULSE 10 10 0		[0 0 2 | 12 5 3]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 12
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	fill ~-6 ~0 ~0 ~-6 ~0 ~0 stonebrick
+	scoreboard objectives add EpicRace dummy Epic Race
+	scoreboard objectives add EpicRaceCD dummy Epic Race Countdown
+	scoreboard objectives add EpicRaceCL dummy Epic Race Clear
+	scoreboard objectives add EpicRaceDE deathCount Epic Race Deaths
+	scoreboard objectives add EpicRaceBC dummy Epic Race Broadcast
+	scoreboard objectives add EpicRaceCP dummy Epic Race Checkpoints
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay sidebar EpicRace
+	scoreboard teams add EpicR
+	scoreboard teams option EpicR color gold
+	scoreboard teams option EpicR seeFriendlyInvisibles true
+	scoreboard teams option EpicR collisionRule never
+	scoreboard teams option EpicR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["EpicRaceCD"]}
+	scoreboard players set /spawn EpicRace 0
+	scoreboard teams join EpicR /spawn
+	fill ~-2 ~-2 ~-2 ~-2 ~-2 ~-2 redstone_block
+	fill ~-3 ~-2 ~2 ~-3 ~-2 ~2 redstone_block
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 12
+
+:CBPMainClock CLOCK 10 10 0		[0 0 0 | 12 10 3]
+	scoreboard players add @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] SPid 0
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,score_SPid=-13] SPid 12
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,score_SPid_min=-11] SPid 12
+	minecraft:kill @e[x=416,y=4,z=-135,dx=60,dy=29,dz=65,type=Item]
+	scoreboard players add @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,team=!EpicR] EpicRaceBC 0
+	scoreboard players add @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2] EpicRaceCL 0
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceCL_min=0,score_EpicRaceCL=0] EpicRaceDE 1
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceCL_min=0,score_EpicRaceCL=0] EpicRaceCL 1
+	effect @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceDE_min=1] clear
+	minecraft:clear @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceDE_min=1]
+	scoreboard teams join EpicR @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,team=!EpicR]
+	effect @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,team=EpicR] 14 3 0 true
+	scoreboard players set @a[x=429,y=22,z=-123,dy=2,dz=2,c=1,m=2,score_EpicRaceBC_min=0,score_EpicRaceBC=0] EpicRaceBC 1
+	execute @a[x=429,y=22,z=-123,dy=2,dz=2,c=1,m=2,score_EpicRaceBC_min=1,score_EpicRaceBC=1] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=429,y=22,z=-123,dy=2,dz=2,c=1,m=2,score_EpicRaceBC_min=1,score_EpicRaceBC=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=429,y=22,z=-123,dy=2,dz=2,c=1,m=2,score_EpicRaceBC_min=1,score_EpicRaceBC=1] ~ ~ ~ fill 430 19 -123 430 19 -121 redstone_block 0
+	scoreboard players set @a[x=429,y=22,z=-126,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=0,score_EpicRaceBC=0] EpicRaceBC 2
+	execute @a[x=429,y=22,z=-126,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=2,score_EpicRaceBC=2] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=429,y=22,z=-126,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=2,score_EpicRaceBC=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=429,y=22,z=-126,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=2,score_EpicRaceBC=2] ~ ~ ~ fill 430 19 -125 430 19 -126 redstone_block 0
+	scoreboard players set @a[x=429,y=22,z=-118,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=0,score_EpicRaceBC=0] EpicRaceBC 3
+	execute @a[x=429,y=22,z=-118,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=3,score_EpicRaceBC=3] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=429,y=22,z=-118,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=3,score_EpicRaceBC=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=429,y=22,z=-118,dy=2,dz=1,c=1,m=2,score_EpicRaceBC_min=3,score_EpicRaceBC=3] ~ ~ ~ fill 430 19 -119 430 19 -118 redstone_block 0
+	execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_EpicRaceBC_min=1] EpicRace = @a[r=1,c=1,m=2,score_EpicRaceBC_min=1] EpicRaceBC
+	scoreboard players operation @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceBC_min=1] EpicRace *= -1 Number
+	scoreboard players operation @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceBC_min=1] EpicRaceBC *= -1 Number
+	scoreboard players add @a[x=420,y=11,z=-126,dx=6,dy=5,dz=8,m=2,team=EpicR] EpicRaceCP 0
+	execute @a[x=425,y=10,z=-116,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=0,score_EpicRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=425,y=10,z=-116,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=0,score_EpicRaceCP=0] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=0,score_EpicRaceCP=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=425,y=10,z=-116,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=0,score_EpicRaceCP=0] EpicRaceCP 1
+	execute @a[x=456,y=11,z=-93,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=1,score_EpicRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=456,y=11,z=-93,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=1,score_EpicRaceCP=1] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=1,score_EpicRaceCP=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=456,y=11,z=-93,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=1,score_EpicRaceCP=1] EpicRaceCP 2
+	execute @a[x=469,y=10,z=-76,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=2,score_EpicRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=469,y=10,z=-76,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=2,score_EpicRaceCP=2] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=2,score_EpicRaceCP=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
+	scoreboard players set @a[x=469,y=10,z=-76,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=2,score_EpicRaceCP=2] EpicRaceCP 3
+	execute @a[x=465,y=10,z=-123,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=3,score_EpicRaceCP=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=465,y=10,z=-123,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=3,score_EpicRaceCP=3] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=3,score_EpicRaceCP=3]"},{"text":" has reached checkpoint 4!","color":"yellow"}]}
+	scoreboard players set @a[x=465,y=10,z=-123,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=3,score_EpicRaceCP=3] EpicRaceCP 4
+	execute @a[x=466,y=26,z=-111,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=4,score_EpicRaceCP=4] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=466,y=26,z=-111,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=4,score_EpicRaceCP=4] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=4,score_EpicRaceCP=4]"},{"text":" has reached checkpoint 5!","color":"yellow"}]}
+	scoreboard players set @a[x=466,y=26,z=-111,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=4,score_EpicRaceCP=4] EpicRaceCP 5
+	execute @a[x=442,y=24,z=-94,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=5,score_EpicRaceCP=5] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=442,y=24,z=-94,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=5,score_EpicRaceCP=5] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=5,score_EpicRaceCP=5]"},{"text":" has reached checkpoint 6!","color":"yellow"}]}
+	scoreboard players set @a[x=442,y=24,z=-94,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=5,score_EpicRaceCP=5] EpicRaceCP 6
+	execute @a[x=458,y=25,z=-104,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=6,score_EpicRaceCP=6] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=458,y=25,z=-104,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=6,score_EpicRaceCP=6] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=6,score_EpicRaceCP=6]"},{"text":" has reached checkpoint 7!","color":"yellow"}]}
+	scoreboard players set @a[x=458,y=25,z=-104,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=6,score_EpicRaceCP=6] EpicRaceCP 7
+	execute @a[x=458,y=21,z=-112,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=7,score_EpicRaceCP=7] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=458,y=21,z=-112,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=7,score_EpicRaceCP=7] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EpicR,score_EpicRaceCP_min=7,score_EpicRaceCP=7]"},{"text":" has reached checkpoint 8!","color":"yellow"}]}
+	scoreboard players set @a[x=458,y=21,z=-112,dx=2,dy=3,dz=2,m=2,team=EpicR,score_EpicRaceCP_min=7,score_EpicRaceCP=7] EpicRaceCP 8
+	execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add EpicRWaterTP
+	scoreboard players tag @a[x=420,y=11,z=-126,dx=6,dy=5,dz=8,m=2,score_EpicRaceCP_min=1] add EpicRWaterTP
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=0,score_EpicRaceCP=0] 424 12 -122 -90 20
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=1,score_EpicRaceCP=1] 426 11 -115 -90 0
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=2,score_EpicRaceCP=2] 457 12 -92 50 0
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=3,score_EpicRaceCP=3] 470 11 -75 90 20
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=4,score_EpicRaceCP=4] 466 11 -122 180 0
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=5,score_EpicRaceCP=5] 467 27 -110 0 20
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=6,score_EpicRaceCP=6] 443 25 -93 -90 20
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=7,score_EpicRaceCP=7] 459 26 -103 90 20
+	minecraft:tp @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,tag=EpicRWaterTP,score_EpicRaceCP_min=8,score_EpicRaceCP=8] 459 22 -111 180 20
+	effect @a[tag=EpicRWaterTP] 6 1 100 true
+	effect @a[tag=EpicRWaterTP] 11 1 100 true
+	execute @a[tag=EpicRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=EpicRWaterTP] remove EpicRWaterTP
+	replaceitem block 472 12 -102 slot.container.4 arrow 64
+	replaceitem block 472 12 -104 slot.container.4 arrow 64
+	replaceitem block 472 12 -106 slot.container.4 arrow 64
+	replaceitem block 472 12 -108 slot.container.4 arrow 64
+	scoreboard players tag @e[x=416,y=4,z=-135,dx=60,dy=29,dz=65,type=Arrow] add EpicRinGround {inGround:1b}
+	$server$kill @e[x=416,y=4,z=-135,dx=60,dy=29,dz=65,type=Arrow,tag=EpicRinGround]
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2,score_EpicRaceDE_min=1] EpicRaceDE 0
+
+:CBPCountdown CLOCK 10 10 0		[0 0 4 | 12 4 3]
+	scoreboard players add @e[type=AreaEffectCloud,tag=EpicRaceCD] EpicRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=20,score_EpicRaceCD=20] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=20,score_EpicRaceCD=20] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=40,score_EpicRaceCD=40] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=40,score_EpicRaceCD=40] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=60,score_EpicRaceCD=60] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=60,score_EpicRaceCD=60] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=80,score_EpicRaceCD=80] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=80,score_EpicRaceCD=80] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=100,score_EpicRaceCD=100] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=100,score_EpicRaceCD=100] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=120,score_EpicRaceCD=120] ~ ~ ~ execute @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=120,score_EpicRaceCD=120] ~ ~ ~ tellraw @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EpicR","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Epic Race","color":"gold"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=120,score_EpicRaceCD=120] ~ ~ ~ title @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65] title {"text":"GO!","color":"green"}
+	testfor @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=120,score_EpicRaceCD=120]
+	 L fill ~-3 ~-1 ~0 ~-3 ~-1 ~0 stonebrick
+	execute @e[type=AreaEffectCloud,tag=EpicRaceCD,score_EpicRaceCD_min=120,score_EpicRaceCD=120] ~ ~ ~ fill 427 9 -126 427 9 -118 stonebrick 0 replace redstone_block 0
+
+:CBPMainEnd PULSE 10 10 0		[0 4 2 | 12 5 3]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=12,score_SPgam=12] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	fill ~-7 ~0 ~0 ~-7 ~0 ~0 stonebrick
+	scoreboard objectives remove EpicRace
+	scoreboard objectives remove EpicRaceCD
+	scoreboard objectives remove EpicRaceCL
+	scoreboard objectives remove EpicRaceDE
+	scoreboard objectives remove EpicRaceBC
+	scoreboard objectives remove EpicRaceCP
+	scoreboard teams remove EpicR
+	minecraft:kill @e[type=AreaEffectCloud,tag=EpicRaceCD]
+	fill 430 19 -123 430 19 -121 air 0
+	fill 430 19 -125 430 19 -126 air 0
+	fill 430 19 -119 430 19 -118 air 0
+	effect @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2] clear
+	minecraft:clear @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2]
+	effect @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2] 6 20 100 true
+	scoreboard players set @a[x=416,y=4,z=-135,dx=60,dy=29,dz=65,m=2] SPtp 12
+	fill 427 9 -126 427 9 -118 redstone_block 0 replace stonebrick 0
+	fill ~-4 ~-6 ~-2 ~-4 ~-6 ~-2 stonebrick
+	fill ~-5 ~-6 ~2 ~-5 ~-6 ~2 stonebrick
+

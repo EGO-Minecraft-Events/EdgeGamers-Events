@@ -1,0 +1,114 @@
+//#-p stonebrick 0 -b -81 58 -235 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus1.txt
+
+//<Defines
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
+
+DEFINE $SA$ x=-130,y=4,z=-315,dx=121,dy=60,dz=181
+DEFINE $CMDName$ V1
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+///	Teleport virus to above mid
+DEFINE $VirusBeg$ -69.0 53 -225.0
+/// Mid tube
+DEFINE $VirusEnd$ -69.0 38 -225.0
+///	Select Spawn
+DEFINE $SP$ x=-85,y=45,z=-241,dx=31,dy=5,dz=31
+///	Select Virus
+DEFINE $SV$ x=-70,y=53,z=-226,dx=1,dy=3,dz=1
+///	Open mid door
+DEFINE $DoorMid$ -73 49 -229 -66 49 -222
+///	Open virus door
+DEFINE $DoorVirus$ -73 52 -222 -66 52 -229
+///	Spawn ID
+DEFINE $SPid$ 17
+/// Virus Type
+DEFINE $VType$ 1
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+//<Comments: To do
+FUNC Func_ToDoThings
+Mandatory:
+	
+Additional:
+	-Make it not a player number when there are more than 10 people
+	-Last person standing gets 16 snowballs and a speed boost
+	
+Features:
+	-XP bar and scoreboard display timer
+END
+//>
+
+//<Main Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<Main Clock
+FUNC Func_EditGeneralScoreboardClock
+	
+END
+//>
+
+//<Open Doors Pulse
+FUNC Func_EditOpenDoorsPulse
+	fill $DoorMid$ stonebrick 0 replace redstone_block 0
+END
+//>
+
+//<Release Virus Testfor Clock
+FUNC Func_EditReleaseVirusTFClock
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<End Game Testfor Clock
+FUNC Func_EditEndGameTFClock
+	
+END
+//>
+
+//<Main End
+FUNC Func_EditGeneralScoreboardEnd
+	
+END
+
+PCBPIMPORT PCBPI_Virus.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

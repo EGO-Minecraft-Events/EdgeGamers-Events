@@ -1,0 +1,110 @@
+minecraft:give @a[r=5,m=1] written_book 1 0 
+	{pages:[0:
+		"[\"\",
+			{\"text\":\"General Settings\",\"bold\":true},
+			{\"text\":\"\n\"},
+			
+			{\"text\":\"Butter: \",\"color\":\"black\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -304 16 992 redstone_block 0\"}},
+			{\"text\":\" / \",\"color\":\"black\"},
+			{\"text\":\"Stop\n\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -304 19 992 redstone_block 0\"}},
+			
+			
+			{\"text\":\"BAT:\n\",\"color\":\"dark_gray\"},
+			{\"text\":\"[TP-R]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 256\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the BAT rooms\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[TP-L]\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 64\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the lobby from the BAT rooms\",\"color\":\"red\"}}
+			},
+			
+			{\"text\":\"[1]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 1\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"BAT Room 1\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[2]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 2\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"BAT Room 2\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[3]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 3\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"BAT Room 3\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[4]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 4\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"BAT Room 4\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[5]\n\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 5\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"BAT Room 5\",\"color\":\"gold\"}}
+			},
+			
+			
+			
+			{\"text\":\"AAT:\n\",\"color\":\"dark_gray\"},
+			{\"text\":\"[TP-R]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 128\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the AAT rooms\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[TP-L]\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 32\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the lobby from the AAT rooms\",\"color\":\"red\"}}
+			},
+			
+			{\"text\":\"[1]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 6\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"AAT Room 1\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[2]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 7\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"AAT Room 2\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[3]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 8\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"AAT Room 3\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[4]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 9\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"AAT Room 4\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[5]\n\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterStand] ButterLoad 10\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"AAT Room 5\",\"color\":\"gold\"}}
+			},
+			
+			
+			
+			{\"text\":\"House: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 16\"}},
+			{\"text\":\" / \",\"color\":\"black\"},
+			{\"text\":\"Closed\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 8\"}},
+			
+			{\"text\":\"[TP-H]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 4\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the house\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[TP-L]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 3\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport to the lobby from the house\",\"color\":\"red\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[R]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[tag=ButterOptionStand] ButterOption 1\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets house\",\"color\":\"red\"}}
+			}
+		]"
+	],
+title:Butter School Settings,author:french_man}

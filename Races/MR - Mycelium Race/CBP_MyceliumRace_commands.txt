@@ -1,0 +1,96 @@
+fill 447 47 -689 458 53 -683 air
+kill @e[type=!Player,x=447,y=47,z=-689,dx=11,dy=6,dz=6]
+fill 447 47 -689 458 53 -683 air
+kill @e[type=!Player,x=447,y=47,z=-689,dx=11,dy=6,dz=6]
+setblock 448 48 -688 stonebrick 0
+setblock 448 48 -686 stonebrick 0
+setblock 448 48 -684 stonebrick 0
+setblock 448 51 -684 stonebrick 0
+setblock 449 48 -688 repeating_command_block 5 replace {Command:"minecraft:weather clear 1000000",TrackOutput:0b,auto:0b}
+setblock 450 48 -688 chain_command_block 5 replace {Command:"gamemode 2 @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=0]",TrackOutput:0b,auto:1b}
+setblock 451 48 -688 chain_command_block 5 replace {Command:"minecraft:clear @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2]",TrackOutput:0b,auto:1b}
+setblock 452 48 -688 chain_command_block 5 replace {Command:"scoreboard teams join MyceliumR @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,team=!MyceliumR]",TrackOutput:0b,auto:1b}
+setblock 453 48 -688 chain_command_block 5 replace {Command:"effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,team=MyceliumR] 14 3 0 true",TrackOutput:0b,auto:1b}
+setblock 454 48 -688 chain_command_block 5 replace {Command:"scoreboard players add @a[x=442,y=67,z=-673,dx=17,dy=5,dz=7,m=2,team=MyceliumR] MyceliumRaceCP 0",TrackOutput:0b,auto:1b}
+setblock 455 48 -688 chain_command_block 5 replace {Command:"execute @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=0,score_MyceliumRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 456 48 -688 chain_command_block 5 replace {Command:"execute @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=0,score_MyceliumRaceCP=0] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=0,score_MyceliumRaceCP=0]\\\"},{\\\"text\\\":\\\" has reached checkpoint 1!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 457 48 -688 chain_command_block 1 replace {Command:"scoreboard players set @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=0,score_MyceliumRaceCP=0] MyceliumRaceCP 1",TrackOutput:0b,auto:1b}
+setblock 457 49 -688 chain_command_block 4 replace {Command:"execute @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=1,score_MyceliumRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 456 49 -688 chain_command_block 4 replace {Command:"execute @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=1,score_MyceliumRaceCP=1] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=1,score_MyceliumRaceCP=1]\\\"},{\\\"text\\\":\\\" has reached checkpoint 2!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 455 49 -688 chain_command_block 4 replace {Command:"scoreboard players set @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=1,score_MyceliumRaceCP=1] MyceliumRaceCP 2",TrackOutput:0b,auto:1b}
+setblock 454 49 -688 chain_command_block 4 replace {Command:"execute @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=2,score_MyceliumRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 453 49 -688 chain_command_block 4 replace {Command:"execute @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=2,score_MyceliumRaceCP=2] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=2,score_MyceliumRaceCP=2]\\\"},{\\\"text\\\":\\\" has reached checkpoint 3!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 452 49 -688 chain_command_block 4 replace {Command:"scoreboard players set @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=2,score_MyceliumRaceCP=2] MyceliumRaceCP 3",TrackOutput:0b,auto:1b}
+setblock 451 49 -688 chain_command_block 4 replace {Command:"execute @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 450 49 -688 chain_command_block 4 replace {Command:"execute @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3]\\\"},{\\\"text\\\":\\\" has reached checkpoint 4!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 449 49 -688 chain_command_block 4 replace {Command:"scoreboard players set @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] MyceliumRaceCP 4",TrackOutput:0b,auto:1b}
+setblock 448 49 -688 chain_command_block 1 replace {Command:"execute @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 448 50 -688 chain_command_block 5 replace {Command:"execute @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3]\\\"},{\\\"text\\\":\\\" has reached checkpoint 4!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 449 50 -688 chain_command_block 5 replace {Command:"scoreboard players set @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] MyceliumRaceCP 4",TrackOutput:0b,auto:1b}
+setblock 450 50 -688 chain_command_block 5 replace {Command:"execute @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=4,score_MyceliumRaceCP=4] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 451 50 -688 chain_command_block 5 replace {Command:"execute @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=4,score_MyceliumRaceCP=4] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP_min=4,score_MyceliumRaceCP=4]\\\"},{\\\"text\\\":\\\" has reached checkpoint 5!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 452 50 -688 chain_command_block 5 replace {Command:"scoreboard players set @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP_min=4,score_MyceliumRaceCP=4] MyceliumRaceCP 5",TrackOutput:0b,auto:1b}
+setblock 453 50 -688 chain_command_block 5 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add MyceliumRWaterTP",TrackOutput:0b,auto:1b}
+setblock 454 50 -688 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=442,y=67,z=-673,dx=17,dy=5,dz=7,m=2,score_MyceliumRaceCP_min=1] add MyceliumRWaterTP",TrackOutput:0b,auto:1b}
+setblock 455 50 -688 chain_command_block 5 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=0,score_MyceliumRaceCP=0] 455.0 68 -672 -180 0",TrackOutput:0b,auto:1b}
+setblock 456 50 -688 chain_command_block 5 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=1,score_MyceliumRaceCP=1] 454 59 -719 180 45",TrackOutput:0b,auto:1b}
+setblock 457 50 -688 chain_command_block 1 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=2,score_MyceliumRaceCP=2] 449 15 -724 0 15",TrackOutput:0b,auto:1b}
+setblock 457 51 -688 chain_command_block 4 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=3,score_MyceliumRaceCP=3] 449 16 -699 -45 15",TrackOutput:0b,auto:1b}
+setblock 456 51 -688 chain_command_block 4 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=4,score_MyceliumRaceCP=4] 452 20 -684 45 15",TrackOutput:0b,auto:1b}
+setblock 455 51 -688 chain_command_block 4 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP_min=5,score_MyceliumRaceCP=5] 445 41 -656 -160 15",TrackOutput:0b,auto:1b}
+setblock 454 51 -688 chain_command_block 4 replace {Command:"effect @a[tag=MyceliumRWaterTP] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock 453 51 -688 chain_command_block 4 replace {Command:"effect @a[tag=MyceliumRWaterTP] 11 1 100 true",TrackOutput:0b,auto:1b}
+setblock 452 51 -688 chain_command_block 4 replace {Command:"execute @a[tag=MyceliumRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 451 51 -688 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=MyceliumRWaterTP] remove MyceliumRWaterTP",TrackOutput:0b,auto:1b}
+setblock 449 48 -686 repeating_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD] {Age:20}",TrackOutput:0b,auto:0b}
+setblock 450 48 -686 chain_command_block 13 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1",TrackOutput:0b,auto:1b}
+setblock 451 48 -686 chain_command_block 13 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"4\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 452 48 -686 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD] {Age:40}",TrackOutput:0b,auto:1b}
+setblock 453 48 -686 chain_command_block 13 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5",TrackOutput:0b,auto:1b}
+setblock 454 48 -686 chain_command_block 13 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"3\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 455 48 -686 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 455 49 -686 chain_command_block 4 replace {Command:"testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD] {Age:60}",TrackOutput:0b,auto:1b}
+setblock 454 49 -686 chain_command_block 12 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2",TrackOutput:0b,auto:1b}
+setblock 453 49 -686 chain_command_block 12 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"2\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 452 49 -686 chain_command_block 4 replace {Command:"testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD] {Age:80}",TrackOutput:0b,auto:1b}
+setblock 451 49 -686 chain_command_block 12 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2",TrackOutput:0b,auto:1b}
+setblock 450 49 -686 chain_command_block 12 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"1\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 449 49 -686 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 449 50 -686 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD] {Age:100}",TrackOutput:0b,auto:1b}
+setblock 450 50 -686 chain_command_block 13 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 451 50 -686 chain_command_block 13 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"GO!\\\",\\\"color\\\":\\\"green\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 452 50 -686 chain_command_block 13 replace {Command:"title @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] title {\\\"text\\\":\\\"GO!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock 453 50 -686 chain_command_block 13 replace {Command:"fill 450 65 -674 459 65 -674 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 454 50 -686 chain_command_block 13 replace {Command:"fill ~-6 ~-2 ~0 ~-6 ~-2 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock 449 48 -684 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 450 48 -684 chain_command_block 5 replace {Command:"scoreboard objectives add MyceliumRace dummy Mycelium Race",TrackOutput:0b,auto:1b}
+setblock 451 48 -684 chain_command_block 5 replace {Command:"scoreboard objectives add MyceliumRaceCP dummy MyceliumRace Checkpoints",TrackOutput:0b,auto:1b}
+setblock 452 48 -684 chain_command_block 5 replace {Command:"scoreboard objectives setdisplay sidebar MyceliumRace",TrackOutput:0b,auto:1b}
+setblock 453 48 -684 chain_command_block 5 replace {Command:"scoreboard teams add MyceliumR",TrackOutput:0b,auto:1b}
+setblock 454 48 -684 chain_command_block 5 replace {Command:"scoreboard teams option MyceliumR color dark_purple",TrackOutput:0b,auto:1b}
+setblock 455 48 -684 chain_command_block 5 replace {Command:"scoreboard teams option MyceliumR seeFriendlyInvisibles true",TrackOutput:0b,auto:1b}
+setblock 456 48 -684 chain_command_block 5 replace {Command:"scoreboard teams option MyceliumR collisionRule never",TrackOutput:0b,auto:1b}
+setblock 457 48 -684 chain_command_block 1 replace {Command:"scoreboard players set MyceliumR_Open RS 3",TrackOutput:0b,auto:1b}
+setblock 457 49 -684 chain_command_block 4 replace {Command:"scoreboard players reset MyceliumR_Closed RS",TrackOutput:0b,auto:1b}
+setblock 456 49 -684 chain_command_block 4 replace {Command:"summon AreaEffectCloud ~ ~ ~ {Duration:101,Tags:[\\\"MyceliumRaceCD\\\"]}",TrackOutput:0b,auto:1b}
+setblock 455 49 -684 chain_command_block 4 replace {Command:"tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {\\\"text\\\":\\\"5\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 454 49 -684 chain_command_block 4 replace {Command:"execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5",TrackOutput:0b,auto:1b}
+setblock 453 49 -684 chain_command_block 4 replace {Command:"effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] clear",TrackOutput:0b,auto:1b}
+setblock 452 49 -684 chain_command_block 4 replace {Command:"scoreboard players set /warp_mr MyceliumRace 0",TrackOutput:0b,auto:1b}
+setblock 451 49 -684 chain_command_block 4 replace {Command:"scoreboard teams join MyceliumR /warp_mr",TrackOutput:0b,auto:1b}
+setblock 450 49 -684 chain_command_block 4 replace {Command:"fill ~-2 ~-1 ~-4 ~-2 ~-1 ~-4 redstone_block",TrackOutput:0b,auto:1b}
+setblock 449 49 -684 chain_command_block 4 replace {Command:"fill ~-1 ~-1 ~-2 ~-1 ~-1 ~-2 redstone_block",TrackOutput:0b,auto:1b}
+setblock 449 51 -684 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 450 51 -684 chain_command_block 5 replace {Command:"scoreboard objectives remove MyceliumRace",TrackOutput:0b,auto:1b}
+setblock 451 51 -684 chain_command_block 5 replace {Command:"scoreboard objectives remove MyceliumRaceCP",TrackOutput:0b,auto:1b}
+setblock 452 51 -684 chain_command_block 5 replace {Command:"scoreboard teams remove MyceliumR",TrackOutput:0b,auto:1b}
+setblock 453 51 -684 chain_command_block 5 replace {Command:"fill ~-5 ~-3 ~-4 ~-5 ~-3 ~-4 stonebrick",TrackOutput:0b,auto:1b}
+setblock 454 51 -684 chain_command_block 5 replace {Command:"fill ~-6 ~-3 ~-2 ~-6 ~-3 ~-2 stonebrick",TrackOutput:0b,auto:1b}
+setblock 455 51 -684 chain_command_block 5 replace {Command:"scoreboard players set MyceliumR_Closed RS 3",TrackOutput:0b,auto:1b}
+setblock 456 51 -684 chain_command_block 5 replace {Command:"scoreboard players reset MyceliumR_Open RS",TrackOutput:0b,auto:1b}
+setblock 457 51 -684 chain_command_block 1 replace {Command:"minecraft:kill @e[type=AreaEffectCloud,tag=MyceliumRaceCD]",TrackOutput:0b,auto:1b}
+setblock 457 52 -684 chain_command_block 4 replace {Command:"fill 450 65 -674 459 65 -674 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 456 52 -684 chain_command_block 4 replace {Command:"effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] clear",TrackOutput:0b,auto:1b}
+setblock 455 52 -684 chain_command_block 4 replace {Command:"minecraft:clear @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2]",TrackOutput:0b,auto:1b}
+setblock 454 52 -684 chain_command_block 4 replace {Command:"effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] 6 20 100 true",TrackOutput:0b,auto:1b}
+setblock 453 52 -684 chain_command_block 4 replace {Command:"minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] 445 68 -669.0 -90 0",TrackOutput:0b,auto:1b}

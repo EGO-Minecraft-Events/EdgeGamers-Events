@@ -1,0 +1,100 @@
+minecraft:tp @a[score_RBs=0,score_RBs_min=0,m=2] x y z
+scoreboard players set @e[type=ArmorStand,name=RBs,c=1] RBs 0
+scoreboard players operation @e[type=ArmorStand,name=RBs,c=1] RBs += @a[741,59,-538,dx=96,dy=100,dz=137,score_RBs=1,team=RBr,m=2] RBs
+scoreboard players operation @e[type=ArmorStand,name=RBs,c=1] RBs -= @a[741,59,-538,dx=96,dy=100,dz=137,score_RBs=1,team=RBb,m=2] RBs
+execute @e[type=ArmorStand,name=RBs,c=1,score_RBs=-1] ~ ~ ~ scoreboard teams join RBr @r[825,83,-475,1,m=2,score_RBs=0]
+execute @e[type=ArmorStand,name=RBs,c=1,score_RBs_min=1] ~ ~ ~ scoreboard teams join RBb @r[825,83,-475,1,m=2,score_RBs=0]
+scoreboard players set @a[825,83,-475,1,m=2,score_RBs=0,team=RBr] RBs 1
+scoreboard players set @a[825,83,-475,1,m=2,score_RBs=0,team=RBb] RBs 1
+minecraft:tp @a[825,83,-475,1,m=2,score_RBs=1,score_RBs_min=1,team=RBr] 766 65 -462
+minecraft:tp @a[825,83,-475,1,m=2,score_RBs=1,score_RBs_min=1,team=RBb] 766 65 -476
+execute @e[type=ArmorStand,name=RBs,c=1,score_RBs=0,score_RBs_min=0] ~ ~ ~ setblock x3 y3 z3 redstone_block 0
+
+
+setblock x4 y4 z4 redstone_block 0 (fast selector)
+setblock x y z redstone_block 0 (fast selector 2)
+setblock ~ ~1 ~ air 0
+
+scoreboard players join RBr @r[741,59,-538,1,m=2,score_RBs=0]
+minecraft:tp @a[x,y,z,1,m=2,team=RBr] 766 65 -462
+scoreboard players join RBb @r[741,59,-538,1,m=2,score_RBs=0]
+minecraft:tp @a[x,y,z,1,m=2,team=RBb] 766 65 -476
+
+
+Torch:
+setblock x3 y3 z3 redstone_block 0 (fast selector 2)
+setblock x4 y4 z4 redstone_block 0 (fast selector)
+
+
+
+
+
+
+scoreboard teams remove RBb
+scoreboard teams remove RBr
+scoreboard objectives remove RBg
+scoreboard objectives remove RBs
+scoreboard objectives setdisplay sidebar
+setblock 822 79 -479 redstone_block 0
+gamerule sendCommandFeedback true
+setblock 827 80 -464 iron_block 0
+setblock 822 79 -459 redstone_block 0
+
+
+
+tellraw @p[r=5] {"text":"Click me to force someone against their will to join red!","color":"red","italic":"true","clickEvent":{"action":"suggest_command","value":"/scoreboard teams join RBr MinecraftName"}}
+
+tellraw @p[r=5] {"text":"Click me to force someone against their will to join blue!","color":"blue","italic":"true","clickEvent":{"action":"suggest_command","value":"/scoreboard teams join RBb MinecraftName"}}
+
+tellraw @p[r=5] {"text":"Click me to force someone against their will to leave their team!","color":"gray","italic":"true","clickEvent":{"action":"suggest_command","value":"/scoreboard teams leave MinecraftName"}}
+
+
+
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=0,score_RBg_min=0] slot.hotbar.0 stick 1 0 {ench:[{id:19,lvl:1}],display:{Name:"Boot"}}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=0,score_RBg_min=0] slot.armor.feet air 1 0
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=0,score_RBg_min=0] slot.armor.legs air 1 0
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=1,score_RBg_min=1] slot.hotbar.0 blaze_rod 1 0 {ench:[{id:19,lvl:2}],display:{Name:"Glove"}}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=1,score_RBg_min=1] slot.armor.head leather_helmet 1 0 {display:{color:1644825},Unbreakable:1}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=1,score_RBg_min=1] slot.armor.feet leather_boots 1 0 {display:{color:1644825},Unbreakable:1}
+
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,team=RBr] slot.armor.chest leather_chestplate 1 0 {display:{color:16711680},Unbreakable:1}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=0,score_RBg_min=0,team=RBr] slot.armor.head leather_helmet 1 0 {display:{color:16711680},Unbreakable:1}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=1,score_RBg_min=1,team=RBr] slot.armor.legs leather_leggings 1 0 {display:{color:16711680},Unbreakable:1}
+
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,team=RBb] slot.armor.chest leather_chestplate 1 0 {display:{color:3361970},Unbreakable:1}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=0,score_RBg_min=0,team=RBb] slot.armor.head leather_helmet 1 0 {display:{color:3361970},Unbreakable:1}
+replaceitem entity @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs=1,score_RBs_min=1,score_RBg=1,score_RBg_min=1,team=RBb] slot.armor.legs leather_leggings 1 0 {display:{color:3361970},Unbreakable:1}
+
+gamemode 2 @a[741,59,-538,dx=96,dy=100,dz=137,m=0]
+minecraft:kill @e[741,59,-538,dx=96,dy=100,dz=137,type=Item]
+scoreboard players add @a[741,59,-538,dx=96,dy=100,dz=137,m=2] RBs 0
+scoreboard players add @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs_min=1,score_RBs=1] RBg 0
+minecraft:clear @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs_min=0,score_RBs=0]
+effect @a[741,59,-538,dx=96,dy=100,dz=137,m=2,score_RBs_min=0,score_RBs=0] clear
+scoreboard players set @a[741,59,-538,dx=96,dy=100,dz=137,m=2,team=RBb] RBs 1
+scoreboard players set @a[741,59,-538,dx=96,dy=100,dz=137,m=2,team=RBr] RBs 1
+
+minecraft:tp @e[768,64,-427,dy=1,type=Rabbit] 769 65 -428
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

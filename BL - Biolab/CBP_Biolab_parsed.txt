@@ -1,0 +1,1139 @@
+:PIDUpdate CLOCK 16 0 1		[0 13 6 | 8 3 3]
+	scoreboard players add @a BiolabPID 0
+	execute @a[score_BiolabPID_min=0,score_BiolabPID=0,c=1] ~ ~ ~ scoreboard players add HighestValueIdentifier BiolabPID 1
+	scoreboard players operation @a[score_BiolabPID_min=0,score_BiolabPID=0,c=1] BiolabPID = HighestValueIdentifier BiolabPID
+	scoreboard players tag @a[tag=BiolabPlayer] remove BiolabPlayer
+	scoreboard players tag @a[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210] add BiolabPlayer
+
+:balanceTeams PULSE 16 0 1		[0 0 8 | 18 6 3]
+	scoreboard players set @e[tag=BiolabTeamPlayerCounter] BiolabTPC 0
+	execute @a[team=BiolabBlue,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamBluePlayers] BiolabTPC 1
+	execute @a[team=BiolabRed,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamRedPlayers] BiolabTPC 1
+	execute @a[team=BiolabPurple,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamPurplePlayers] BiolabTPC 1
+	scoreboard players operation BiolabTeamComparator BiolabTPC = @e[tag=BiolabTeamBluePlayers] BiolabTPC
+	scoreboard players operation BiolabTeamComparator BiolabTPC -= @e[tag=BiolabTeamRedPlayers] BiolabTPC
+	scoreboard players test BiolabTeamComparator BiolabTPC 2
+	 L scoreboard players tag @r[team=BiolabBlue,m=2] add MovRed
+	scoreboard players test BiolabTeamComparator BiolabTPC -100 -2
+	 L scoreboard players tag @r[team=BiolabRed,m=2] add MovBlue
+	scoreboard players operation BiolabTeamComparator BiolabTPC = @e[tag=BiolabTeamBluePlayers] BiolabTPC
+	scoreboard players operation BiolabTeamComparator BiolabTPC -= @e[tag=BiolabTeamPurplePlayers] BiolabTPC
+	scoreboard players test BiolabTeamComparator BiolabTPC 2
+	 L scoreboard players tag @r[team=BiolabBlue,m=2] add MovPurple
+	
+	scoreboard players test BiolabTeamComparator BiolabTPC -100 -2
+	 L scoreboard players tag @r[team=BiolabPurple,m=2] add MovBlue
+	scoreboard players operation BiolabTeamComparator BiolabTPC = @e[tag=BiolabTeamRedPlayers] BiolabTPC
+	scoreboard players operation BiolabTeamComparator BiolabTPC -= @e[tag=BiolabTeamPurplePlayers] BiolabTPC
+	scoreboard players test BiolabTeamComparator BiolabTPC 2
+	 L scoreboard players tag @r[team=BiolabRed,m=2] add MovPurple
+	scoreboard players test BiolabTeamComparator BiolabTPC -100 -2
+	 L scoreboard players tag @r[team=BiolabPurple,m=2] add MovRed
+	scoreboard teams leave @a[tag=MovBlue]
+	testfor @a[tag=MovBlue]
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[tag=MovBlue]"}," has been moved to ",{"text":"Blue","color":"blue"}," to balance teams."]
+	effect @a[tag=MovBlue] clear
+	clear @a[tag=MovBlue]
+	scoreboard teams join BiolabBlue @a[tag=MovBlue]
+	tp @a[tag=MovBlue] -120.0 19 -1193 0 0
+	scoreboard players tag @a[tag=MovBlue] remove InLift
+	scoreboard players tag @a[tag=MovBlue] remove MovBlue
+	scoreboard teams leave @a[tag=MovRed]
+	testfor @a[tag=MovRed]
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[tag=MovRed]"}," has been moved to ",{"text":"Red","color":"red"}," to balance teams."]
+	effect @a[tag=MovRed] clear
+	clear @a[tag=MovRed]
+	scoreboard teams join BiolabRed @a[tag=MovRed]
+	tp @a[tag=MovRed] -133 19 -1205.0 90 0
+	scoreboard players tag @a[tag=MovRed] remove InLift
+	scoreboard players tag @a[tag=MovRed] remove MovRed
+	scoreboard teams leave @a[tag=MovPurple]
+	testfor @a[tag=MovPurple]
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[tag=MovPurple]"}," has been moved to ",{"text":"Purple","color":"light_purple"}," to balance teams."]
+	effect @a[tag=MovPurple] clear
+	clear @a[tag=MovPurple]
+	scoreboard teams join BiolabPurple @a[tag=MovPurple]
+	tp @a[tag=MovPurple] -108 19 -1205.0 -90 0
+	scoreboard players tag @a[tag=MovPurple] remove InLift
+	scoreboard players tag @a[tag=MovPurple] remove MovPurple
+	fill ~-12 ~-3 ~0 ~-12 ~-3 ~0 coal_block 0 replace redstone_block 0
+
+:countPlayers PULSE 16 0 1		[0 13 2 | 12 3 3]
+	scoreboard players set @e[tag=BiolabTeamPlayerCounter] BiolabTPC 0
+	execute @a[team=BiolabBlue,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamBluePlayers] BiolabTPC 1
+	execute @a[team=BiolabRed,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamRedPlayers] BiolabTPC 1
+	execute @a[team=BiolabPurple,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabTeamPurplePlayers] BiolabTPC 1
+	tellraw @p ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Player Count"]
+	tellraw @p ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Blue","color":"blue"}," Team: ",{"score":{"name":"@e[tag=BiolabTeamBluePlayers]","objective":"BiolabTPC"}}]
+	tellraw @p ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Red","color":"red"}," Team: ",{"score":{"name":"@e[tag=BiolabTeamRedPlayers]","objective":"BiolabTPC"}}]
+	tellraw @p ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Purple","color":"light_purple"}," Team: ",{"score":{"name":"@e[tag=BiolabTeamPurplePlayers]","objective":"BiolabTPC"}}]
+	fill ~-9 ~0 ~0 ~-9 ~0 ~0 coal_block 0 replace redstone_block 0
+
+:teamJoining CLOCK 16 0 1		[0 0 4 | 18 8 3]
+	gamemode 2 @a[tag=BiolabPlayer,m=0]
+	scoreboard players tag @a[x=-114,y=19,z=-1212,dx=-13,dy=6,dz=13] add InBiolabSpawn
+	tp @a[tag=InBiolabSpawn,team=BiolabBlue,m=2] -120.0 19 -1193 0 0
+	tp @a[tag=InBiolabSpawn,team=BiolabRed,m=2] -133 19 -1205.0 90 0
+	tp @a[tag=InBiolabSpawn,team=BiolabPurple,m=2] -108 19 -1205.0 -90 0
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabCPL
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabDPL
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabLD
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabSneakTimer
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabCOS
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabJC
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabJCP
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove LightAssault
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove JetpackEnabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove JetpackDisabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove JetpackCooldown
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabCC
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabLI
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove Infiltrator
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove CloakEnabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove CloakDisabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove CloakCooldown
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabNRC
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabNRCP
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove CombatMedic
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NanoRegenEnabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NanoRegenDisabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NanoRegenCooldown
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove Engineer
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO -= @a[tag=InBiolabSpawn,m=2] BiolabPID
+	kill @e[tag=AmmoPack,score_BiolabAPO_min=0,score_BiolabAPO=0]
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO += @a[tag=InBiolabSpawn,m=2] BiolabPID
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabNSC
+	scoreboard players reset @a[tag=InBiolabSpawn,m=2] BiolabNSCP
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove HeavyAssault
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NaniteShieldEnabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NaniteShieldDisabled
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove NaniteShieldCooldown
+	scoreboard players tag @a[tag=InBiolabSpawn,m=2] remove MAX
+	effect @a[tag=InBiolabSpawn,m=2] clear
+	clear @a[tag=InBiolabSpawn,m=2]
+	xp -1000000l @a[tag=InBiolabSpawn,m=2]
+	scoreboard players tag @a[tag=InBiolabSpawn] remove InBiolabSpawn
+	particle magicCrit -120.0 21 -1198 2.5 2 0 0 30
+	testfor @a[x=-117,y=19,z=-1198,dx=-7,dy=4,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-117,y=19,z=-1198,dx=-7,dy=4,m=2]"}," has joined team ",{"text":"Blue","color":"blue"},"!"]
+	 | scoreboard teams join BiolabBlue @a[x=-117,y=19,z=-1198,dx=-7,dy=4,m=2]
+	 L tp @a[x=-117,y=19,z=-1198,dx=-7,dy=4,m=2] -120.0 19 -1193 0 0
+	particle magicCrit -120.0 21 -1196 2.5 2 0 0 30
+	clear @a[x=-117,y=19,z=-1196,dx=-7,dy=4,m=2]
+	scoreboard teams leave @a[x=-117,y=19,z=-1196,dx=-7,dy=4,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-117,y=19,z=-1196,dx=-7,dy=4,m=2]"}," has left team ",{"text":"Blue","color":"blue"},"!"]
+	 L tp @a[x=-117,y=19,z=-1196,dx=-7,dy=4,m=2] -120.0 19 -1200 180 0
+	particle reddust -128 21 -1205.0 0 2 2.5 0 20
+	testfor @a[x=-128,y=19,z=-1202,dy=4,dz=-7,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-128,y=19,z=-1202,dy=4,dz=-7,m=2]"}," has joined team ",{"text":"Red","color":"red"},"!"]
+	 | scoreboard teams join BiolabRed @a[x=-128,y=19,z=-1202,dy=4,dz=-7,m=2]
+	 L tp @a[x=-128,y=19,z=-1202,dy=4,dz=-7,m=2] -133 19 -1205.0 90 0
+	particle reddust -130 21 -1205.0 0 2 2.5 0 20
+	clear @a[x=-130,y=19,z=-1202,dy=4,dz=-7,m=2]
+	scoreboard teams leave @a[x=-130,y=19,z=-1202,dy=4,dz=-7,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-130,y=19,z=-1202,dy=4,dz=-7,m=2]"}," has left team ",{"text":"Red","color":"red"},"!"]
+	 L tp @a[x=-130,y=19,z=-1202,dy=4,dz=-7,m=2] -126 19 -1205.0 -90 0
+	particle dragonbreath -113 21 -1205.0 0 2 2.5 0 6
+	testfor @a[x=-113,y=19,z=-1209,dy=4,dz=7,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-113,y=19,z=-1209,dy=4,dz=7,m=2]"}," has joined team ",{"text":"Purple","color":"light_purple"},"!"]
+	 | scoreboard teams join BiolabPurple @a[x=-113,y=19,z=-1209,dy=4,dz=7,m=2]
+	 L tp @a[x=-113,y=19,z=-1209,dy=4,dz=7,m=2] -108 19 -1205.0 -90 0
+	particle dragonbreath -111 21 -1205.0 0 2 2.5 0 6
+	clear @a[x=-111,y=19,z=-1209,dy=4,dz=7,m=2]
+	scoreboard teams leave @a[x=-111,y=19,z=-1209,dy=4,dz=7,m=2]
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@a[x=-111,y=19,z=-1209,dy=4,dz=7,m=2]"}," has left team ",{"text":"Purple","color":"light_purple"},"!"]
+	 L tp @a[x=-111,y=19,z=-1209,dy=4,dz=7,m=2] -115 19 -1205.0 90 0
+
+:updateExperienceIndicator CLOCK 16 0 1		[0 13 4 | 11 3 3]
+	scoreboard players add @a[tag=BiolabPlayer] BiolabCPL 0
+	scoreboard players add @a[tag=BiolabPlayer] BiolabLD 0
+	stats entity @a set QueryResult @p BiolabCPL
+	execute @a[tag=BiolabPlayer] ~ ~ ~ xp 0l @p
+	execute @a[tag=BiolabPlayer] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabLD = @e[c=1,r=1,type=Player] BiolabCPL
+	execute @a[tag=BiolabPlayer] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabLD -= @e[c=1,r=1,type=Player] BiolabDPL
+	xp -1l @a[score_BiolabLD_min=1]
+	xp 1l @a[score_BiolabLD=-1]
+
+:weapons CLOCK 16 0 1		[0 10 2 | 18 4 3]
+	scoreboard players tag @e[type=Item] add AmmoPack {Item:{id:"minecraft:stone_slab"}}
+	kill @e[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210,type=Item,tag=!AmmoPack]
+	execute @p[score_BiolabUS_min=1,team=BiolabBlue] ~ ~ ~ scoreboard players tag @e[type=Snowball,c=1] add BlueSnowball
+	execute @p[score_BiolabUS_min=1,team=BiolabRed] ~ ~ ~ scoreboard players tag @e[type=Snowball,c=1] add RedSnowball
+	execute @p[score_BiolabUS_min=1,team=BiolabPurple] ~ ~ ~ scoreboard players tag @e[type=Snowball,c=1] add PurpleSnowball
+	scoreboard players set @a[score_BiolabUS_min=1] BiolabUS 0
+	execute @e[tag=BlueSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabBlue] ~ ~ ~ effect @p[r=0] minecraft:glowing 5 0
+	execute @e[tag=RedSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabRed] ~ ~ ~ effect @p[r=0] minecraft:glowing 5 0
+	execute @e[tag=PurpleSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabPurple] ~ ~ ~ effect @p[r=0] minecraft:glowing 5 0
+	execute @e[tag=BlueSnowball] ~ ~ ~ particle reddust ~ ~ ~ -1 0 1 -0.05
+	execute @e[tag=RedSnowball] ~ ~ ~ particle reddust ~ ~ ~ 0 0 0 -0.05
+	execute @e[tag=PurpleSnowball] ~ ~ ~ particle reddust ~ ~ ~ 0 0 1 -0.05
+	execute @e[tag=BlueSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabBlue] ~ ~ ~ effect @p[r=0] minecraft:instant_damage 1 0
+	execute @e[tag=RedSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabRed] ~ ~ ~ effect @p[r=0] minecraft:instant_damage 1 0
+	execute @e[tag=PurpleSnowball] ~ ~ ~ execute @a[r=2,team=!BiolabPurple] ~ ~ ~ effect @p[r=0] minecraft:instant_damage 1 0
+	scoreboard players tag @a remove HasMagazine
+	scoreboard players tag @a add HasMagazine {Inventory:[{id:"minecraft:prismarine_shard",tag:{display:{Name:"Magazine"}}}]}
+	scoreboard players tag @a remove HasSnowballs
+	scoreboard players tag @a add HasSnowballs {Inventory:[{id:"minecraft:snowball",tag:{display:{Name:"Bullets"}}}]}
+	scoreboard players add @a BiolabRT 0
+	execute @a[tag=!HasSnowballs] ~ ~ ~ scoreboard players set @p[tag=HasMagazine,score_BiolabRT_min=0,score_BiolabRT=0,r=0] BiolabRT 1
+	scoreboard players add @a[score_BiolabRT_min=1] BiolabRT 1
+	clear @a[score_BiolabRT_min=30] minecraft:prismarine_shard 0 1 {display:{Name:"Magazine"}}
+	replaceitem entity @a[score_BiolabRT_min=30] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	execute @a[score_BiolabRT_min=30] ~ ~ ~ scoreboard players set @p[r=0] BiolabRT 0
+
+:teleporters CLOCK 16 0 1		[0 5 8 | 18 6 3]
+	execute @e[tag=Blue_Outside1] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Outside1] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Outside2]
+	execute @e[tag=Blue_Outside2] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Blue_Outside2] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Outside2] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Outside1]
+	execute @e[tag=Blue_Outside1] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Blue_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Teleporter_11] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Teleporter_12]
+	execute @e[tag=Blue_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Blue_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Teleporter_12] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Teleporter_11]
+	execute @e[tag=Blue_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Blue_Teleporter_21] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Teleporter_21] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Teleporter_22]
+	execute @e[tag=Blue_Teleporter_22] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Blue_Teleporter_22] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabBlue] add Teleporting
+	execute @e[tag=Blue_Teleporter_22] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabBlue] @e[tag=Blue_Teleporter_21]
+	execute @e[tag=Blue_Teleporter_21] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Control_Room1] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Control_Room1] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Control_Room2]
+	execute @e[tag=Red_Control_Room2] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Control_Room2] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Control_Room2] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Control_Room1]
+	execute @e[tag=Red_Control_Room1] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Teleporter_11] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Teleporter_12]
+	execute @e[tag=Red_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Teleporter_12] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Teleporter_11]
+	execute @e[tag=Red_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Teleporter_21] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Teleporter_21] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Teleporter_22]
+	execute @e[tag=Red_Teleporter_22] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Red_Teleporter_22] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabRed] add Teleporting
+	execute @e[tag=Red_Teleporter_22] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabRed] @e[tag=Red_Teleporter_21]
+	execute @e[tag=Red_Teleporter_21] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Purple_Outside1] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabPurple] add Teleporting
+	execute @e[tag=Purple_Outside1] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabPurple] @e[tag=Purple_Outside2]
+	execute @e[tag=Purple_Outside2] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Purple_Outside2] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabPurple] add Teleporting
+	execute @e[tag=Purple_Outside2] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabPurple] @e[tag=Purple_Outside1]
+	execute @e[tag=Purple_Outside1] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Purple_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabPurple] add Teleporting
+	execute @e[tag=Purple_Teleporter_11] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabPurple] @e[tag=Purple_Teleporter_12]
+	execute @e[tag=Purple_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Purple_Teleporter_12] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1,team=BiolabPurple] add Teleporting
+	execute @e[tag=Purple_Teleporter_12] ~ ~ ~ tp @a[tag=!InTeleporter,r=1,team=BiolabPurple] @e[tag=Purple_Teleporter_11]
+	execute @e[tag=Purple_Teleporter_11] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Control_Point_D1] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1] add Teleporting
+	execute @e[tag=Control_Point_D1] ~ ~ ~ tp @a[tag=!InTeleporter,r=1] @e[tag=Control_Point_D2]
+	execute @e[tag=Control_Point_D2] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @e[tag=Control_Point_D2] ~ ~ ~ scoreboard players tag @a[tag=!InTeleporter,r=1] add Teleporting
+	execute @e[tag=Control_Point_D2] ~ ~ ~ tp @a[tag=!InTeleporter,r=1] @e[tag=Control_Point_D1]
+	execute @e[tag=Control_Point_D1] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] add InTeleporter
+	execute @a[tag=Teleporting] ~ ~ ~ execute @e[tag=BiolabTeleporter,c=1] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a ~ ~ ~
+	execute @a[tag=Teleporting] ~ ~ ~ execute @e[tag=BiolabTeleporter,c=1] ~ ~ ~ scoreboard players tag @a[tag=Teleporting] remove Teleporting
+	execute @e[tag=BiolabTeleporter] ~ ~ ~ execute @e[tag=BiolabBlue,r=1,c=1] ~ ~ ~ particle reddust ~ ~1 ~ -1 0 1 -0.05
+	execute @e[tag=BiolabTeleporter] ~ ~ ~ execute @e[tag=BiolabRed,r=1,c=1] ~ ~ ~ particle reddust ~ ~1 ~ 0 0 0 -0.05
+	execute @e[tag=BiolabTeleporter] ~ ~ ~ execute @e[tag=BiolabPurple,r=1,c=1] ~ ~ ~ particle reddust ~ ~1 ~ 0 0 1 -0.05
+	execute @e[tag=BiolabTeleporter] ~ ~ ~ execute @e[tag=BiolabNeutral,r=1,c=1] ~ ~ ~ particle reddust ~ ~1 ~ 0 1 1 -0.05
+	execute @e[tag=BiolabTeleporter] ~ ~ ~ scoreboard players tag @a[r=2,rm=1] remove InTeleporter
+
+:forceFields CLOCK 16 0 1		[0 0 10 | 18 5 3]
+	particle reddust -104.0 46 -1186 2.5 3 0 0 50 None @a Force
+	tp @a[x=-108,y=42,z=-1186,dx=7,dy=7,team=!BiolabRed,m=2] ~ ~ ~0.3
+	particle reddust -104.0 46 -1197 2.5 3 0 0 50 None @a Force
+	tp @a[x=-101,y=42,z=-1197,dx=-7,dy=7,team=!BiolabRed,m=2] ~ ~ ~-0.3
+	particle reddust -99 46 -1191.0 0 3 2.5 0 50 None @a Force
+	tp @a[x=-99,y=42,z=-1188,dy=7,dz=-7,team=!BiolabRed,m=2] ~0.3 ~ ~
+	particle reddust -110 46 -1191.0 0 3 2.5 0 50 None @a Force
+	tp @a[x=-110,y=42,z=-1195,dy=7,dz=7,team=!BiolabRed,m=2] ~-0.3 ~ ~
+	effect @e[x=-109,y=50,z=-1187,dx=9,dy=-8,dz=-9,team=BiolabRed] minecraft:resistance 1 5 true
+	particle reddust -147 67 -1191 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-147,y=66,z=-1190,dy=2,dz=-2,team=!BiolabRed,m=2] ~0.3 ~ ~
+	particle reddust -152 67 -1190 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-152,y=66,z=-1191,dy=2,dz=2,team=!BiolabRed,m=2] ~-0.3 ~ ~
+	particle reddust -149.0 67 -1184 1 0.75 0 0 9 None @a Force
+	tp @a[x=-151,y=66,z=-1184,dx=3,dy=2,team=!BiolabRed,m=2] ~ ~ ~0.3
+	effect @e[x=-148,y=70,z=-1197,dx=-3,dy=-4,dz=12,team=BiolabRed] minecraft:resistance 1 5 true
+	particle magicCrit -90 44 -1278 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-90,y=43,z=-1279,dy=2,dz=2,team=!BiolabBlue,m=2] ~-0.3 ~ ~
+	particle magicCrit -88 44 -1280 0.75 0.75 0 0 8 None @a Force
+	tp @a[x=-87,y=43,z=-1280,dx=-2,dy=2,team=!BiolabBlue,m=2] ~ ~ ~-0.3
+	particle magicCrit -83 44 -1278 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-83,y=43,z=-1277,dy=2,dz=-2,team=!BiolabBlue,m=2] ~0.3 ~ ~
+	effect @e[x=-84,y=43,z=-1276,dx=-5,dy=3,dz=-3,team=BiolabBlue] minecraft:resistance 1 5 true
+	particle magicCrit -113 67 -1235 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-113,y=66,z=-1236,dy=2,dz=2,team=!BiolabBlue,m=2] ~-0.3 ~ ~
+	particle magicCrit -110 67 -1231 0.75 0.75 0 0 8 None @a Force
+	tp @a[x=-111,y=66,z=-1231,dx=2,dy=2,team=!BiolabBlue,m=2] ~ ~ ~0.3
+	effect @e[x=-112,y=66,z=-1232,dx=3,dy=4,dz=-5,team=BiolabBlue] minecraft:resistance 1 5 true
+	particle magicCrit -81 67 -1215 0.75 0.75 0 0 8 None @a Force
+	tp @a[x=-76,y=66,z=-1219,dy=2,dz=-2,team=!BiolabBlue,m=2] ~0.3 ~ ~
+	particle magicCrit -76 67 -1220 0 0.75 0.75 0 8 None @a Force
+	tp @a[x=-82,y=66,z=-1215,dx=2,dy=2,team=!BiolabBlue,m=2] ~ ~ ~0.3
+	effect @e[x=-77,y=66,z=-1216,dx=-5,dy=4,dz=-5,team=BiolabBlue] minecraft:resistance 1 5 true
+	particle dragonbreath -98 44 -1103 0 0.75 0.75 0 4 None @a Force
+	tp @a[x=-98,y=43,z=-1102,dy=2,dz=-2,team=!BiolabPurple,m=2] ~0.3 ~ ~
+	particle dragonbreath -100 44 -1101 0.75 0.75 0 0 4 None @a Force
+	tp @a[x=-101,y=43,z=-1101,dx=2,dy=2,team=!BiolabPurple,m=2] ~ ~ ~0.3
+	particle dragonbreath -105 44 -1103 0 0.75 0.75 0 4 None @a Force
+	tp @a[x=-105,y=43,z=-1104,dy=2,dz=2,team=!BiolabPurple,m=2] ~-0.3 ~ ~
+	effect @e[x=-104,y=46,z=-1102,dx=5,dy=-3,dz=-3,team=BiolabPurple] minecraft:resistance 1 5 true
+	particle dragonbreath -77 67 -1155 0.75 0.75 0 0 4 None @a Force
+	tp @a[x=-78,y=66,z=-1155,dx=2,dy=2,team=!BiolabPurple,m=2] ~ ~ ~0.3
+	particle dragonbreath -75 67 -1159 0 0.75 0.75 0 4 None @a Force
+	tp @a[x=-75,y=66,z=-1158,dy=2,dz=-2,team=!BiolabPurple,m=2] ~0.3 ~ ~
+	effect @e[x=-76,y=66,z=-1156,dx=-4,dy=3,dz=-5,team=BiolabPurple] minecraft:resistance 1 5 true
+
+:southLift CLOCK 16 0 1		[0 4 10 | 18 5 3]
+	effect @a[x=-101,y=45,z=-1125,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1127,dy=72] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1125,dy=72] minecraft:levitation 0
+	effect @a[x=-103,y=45,z=-1125,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-104,y=45,z=-1125,dx=-1,dy=72] minecraft:levitation 0
+	effect @a[x=-104,y=45,z=-1127,dx=-1,dy=72] minecraft:levitation 0
+	effect @a[x=-106,y=45,z=-1125,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-107,y=45,z=-1125,dy=72] minecraft:levitation 0
+	effect @a[x=-107,y=45,z=-1127,dy=72] minecraft:levitation 0
+	effect @a[x=-108,y=45,z=-1125,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1126,dy=22] minecraft:levitation 1 245 true
+	effect @a[x=-107,y=45,z=-1126,dy=22] minecraft:levitation 1 245 true
+	effect @a[x=-104,y=45,z=-1126,dx=-1,dy=22] minecraft:levitation 1 6 true
+	effect @a[x=-102,y=45,z=-1126,dy=22] minecraft:jump_boost 2 255 true
+	effect @a[x=-107,y=45,z=-1126,dy=22] minecraft:jump_boost 2 255 true
+	effect @a[x=-104,y=45,z=-1126,dx=-1,dy=22] minecraft:jump_boost 2 255 true
+	scoreboard players tag @a[x=-101,y=45,z=-1125,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1127,dy=72] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1125,dy=72] remove InLift
+	scoreboard players tag @a[x=-103,y=45,z=-1125,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1125,dx=-1,dy=72] remove InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1127,dx=-1,dy=72] remove InLift
+	scoreboard players tag @a[x=-106,y=45,z=-1125,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1125,dy=72] remove InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1127,dy=72] remove InLift
+	scoreboard players tag @a[x=-108,y=45,z=-1125,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1126,dy=22] add InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1126,dy=22] add InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1126,dx=-1,dy=22] add InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1126,dy=22] add InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1126,dy=22] add InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1126,dx=-1,dy=22] add InLift
+	particle reddust -102 45 -1126 0.25 8 0.25 0 5 None @a Force
+	particle reddust -107 45 -1126 0.25 8 0.25 0 5 None @a Force
+	particle magicCrit -104 45 -1126 0.25 8 0.25 0 10 None @a Force
+	particle magicCrit -105 45 -1126 0.25 8 0.25 0 10 None @a Force
+
+:northLift CLOCK 16 0 1		[0 0 12 | 18 5 3]
+	effect @a[x=-101,y=45,z=-1256,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1258,dy=72] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1256,dy=72] minecraft:levitation 0
+	effect @a[x=-103,y=45,z=-1256,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-104,y=45,z=-1256,dx=-1,dy=72] minecraft:levitation 0
+	effect @a[x=-104,y=45,z=-1258,dx=-1,dy=72] minecraft:levitation 0
+	effect @a[x=-106,y=45,z=-1256,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-107,y=45,z=-1256,dy=72] minecraft:levitation 0
+	effect @a[x=-107,y=45,z=-1258,dy=72] minecraft:levitation 0
+	effect @a[x=-108,y=45,z=-1256,dy=72,dz=-2] minecraft:levitation 0
+	effect @a[x=-102,y=45,z=-1257,dy=22] minecraft:levitation 1 245 true
+	effect @a[x=-107,y=45,z=-1257,dy=22] minecraft:levitation 1 245 true
+	effect @a[x=-104,y=45,z=-1257,dx=-1,dy=22] minecraft:levitation 1 6 true
+	effect @a[x=-102,y=45,z=-1257,dy=22] minecraft:jump_boost 2 255 true
+	effect @a[x=-107,y=45,z=-1257,dy=22] minecraft:jump_boost 2 255 true
+	effect @a[x=-104,y=45,z=-1257,dx=-1,dy=22] minecraft:jump_boost 2 255 true
+	scoreboard players tag @a[x=-101,y=45,z=-1256,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1258,dy=72] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1256,dy=72] remove InLift
+	scoreboard players tag @a[x=-103,y=45,z=-1256,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1256,dx=-1,dy=72] remove InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1258,dx=-1,dy=72] remove InLift
+	scoreboard players tag @a[x=-106,y=45,z=-1256,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1256,dy=72] remove InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1258,dy=72] remove InLift
+	scoreboard players tag @a[x=-108,y=45,z=-1256,dy=72,dz=-2] remove InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1257,dy=22] add InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1257,dy=22] add InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1257,dx=-1,dy=22] add InLift
+	scoreboard players tag @a[x=-102,y=45,z=-1257,dy=22] add InLift
+	scoreboard players tag @a[x=-107,y=45,z=-1257,dy=22] add InLift
+	scoreboard players tag @a[x=-104,y=45,z=-1257,dx=-1,dy=22] add InLift
+	particle reddust -102 45 -1257 0.25 8 0.25 0 5 None @a Force
+	particle reddust -107 45 -1257 0.25 8 0.25 0 5 None @a Force
+	particle magicCrit -104 45 -1257 0.25 8 0.25 0 10 None @a Force
+	particle magicCrit -105 45 -1257 0.25 8 0.25 0 10 None @a Force
+
+:controlPointUpdateClock CLOCK 16 0 1		[0 0 0 | 18 10 3]
+	scoreboard players set @e[tag=BiolabControlPoint] BiolabBCP 0
+	scoreboard players set @e[tag=BiolabControlPoint] BiolabCPPC 0
+	execute @e[tag=BiolabControlPoint] ~ ~ ~ execute @p[r=4,team=BiolabBlue,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabControlPoint,c=1] BiolabCPPC 1
+	execute @e[tag=BiolabControlPoint] ~ ~ ~ execute @p[r=4,team=BiolabRed,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabControlPoint,c=1] BiolabCPPC 2
+	execute @e[tag=BiolabControlPoint] ~ ~ ~ execute @p[r=4,team=BiolabPurple,m=2] ~ ~ ~ scoreboard players add @e[tag=BiolabControlPoint,c=1] BiolabCPPC 4
+	scoreboard players add @e[team=BiolabCPBlue,score_BiolabCPPC_min=1,score_BiolabCPPC=1,score_BiolabCPI=199] BiolabCPI 1
+	scoreboard players add @e[team=BiolabCPRed,score_BiolabCPPC_min=2,score_BiolabCPPC=2,score_BiolabCPI=199] BiolabCPI 1
+	scoreboard players add @e[team=BiolabCPPurple,score_BiolabCPPC_min=4,score_BiolabCPPC=4,score_BiolabCPI=199] BiolabCPI 1
+	scoreboard players remove @e[score_BiolabCPPC_min=1,score_BiolabCPPC=1,team=!BiolabCPBlue,score_BiolabCPI_min=1] BiolabCPI 1
+	scoreboard players remove @e[score_BiolabCPPC_min=2,score_BiolabCPPC=2,team=!BiolabCPRed,score_BiolabCPI_min=1] BiolabCPI 1
+	scoreboard players remove @e[score_BiolabCPPC_min=4,score_BiolabCPPC=4,team=!BiolabCPPurple,score_BiolabCPI_min=1] BiolabCPI 1
+	scoreboard players set @e[score_BiolabCPPC_min=1,score_BiolabCPPC=1,team=!BiolabCPBlue] BiolabBCP 1
+	scoreboard players set @e[score_BiolabCPPC_min=2,score_BiolabCPPC=2,team=!BiolabCPRed] BiolabBCP 1
+	scoreboard players set @e[score_BiolabCPPC_min=4,score_BiolabCPPC=4,team=!BiolabCPPurple] BiolabBCP 1
+	scoreboard players tag @e[score_BiolabCPI_min=0,score_BiolabCPI=0,team=BiolabCPNeutral,score_BiolabCPPC_min=1,score_BiolabCPPC=1] add CPtoBlue
+	scoreboard players tag @e[score_BiolabCPI_min=0,score_BiolabCPI=0,team=BiolabCPNeutral,score_BiolabCPPC_min=2,score_BiolabCPPC=2] add CPtoRed
+	scoreboard players tag @e[score_BiolabCPI_min=0,score_BiolabCPI=0,team=BiolabCPNeutral,score_BiolabCPPC_min=4,score_BiolabCPPC=4] add CPtoPurple
+	scoreboard players tag @e[score_BiolabCPI_min=0,score_BiolabCPI=0,team=!BiolabCPNeutral] add CPtoNeutral
+	execute @e[tag=CPtoBlue] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[team=BiolabBlue] ~ ~ ~
+	execute @e[tag=CPtoBlue] ~ ~ ~ tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Blue","color":"blue"}," team has captured ",{"selector":"@e[tag=BiolabControlPointVisual,c=1]"},"!"]
+	scoreboard players set @e[tag=CPtoBlue] BiolabCPI 1
+	scoreboard teams join BiolabCPBlue @e[tag=CPtoBlue]
+	execute @e[tag=CPtoRed] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[team=BiolabRed] ~ ~ ~
+	execute @e[tag=CPtoRed] ~ ~ ~ tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Red","color":"red"}," team has captured ",{"selector":"@e[tag=BiolabControlPointVisual,c=1]"},"!"]
+	scoreboard players set @e[tag=CPtoRed] BiolabCPI 1
+	scoreboard teams join BiolabCPRed @e[tag=CPtoRed]
+	execute @e[tag=CPtoPurple] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[team=BiolabPurple] ~ ~ ~
+	execute @e[tag=CPtoPurple] ~ ~ ~ tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"text":"Purple","color":"light_purple"}," team has captured ",{"selector":"@e[tag=BiolabControlPointVisual,c=1]"},"!"]
+	scoreboard players set @e[tag=CPtoPurple] BiolabCPI 1
+	scoreboard teams join BiolabCPPurple @e[tag=CPtoPurple]
+	execute @e[tag=CPtoNeutral] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a ~ ~ ~
+	execute @e[tag=CPtoNeutral] ~ ~ ~ tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",{"selector":"@e[tag=BiolabControlPointVisual,c=1]"}," has been lost!"]
+	scoreboard players set @e[tag=CPtoNeutral] BiolabCPI 100
+	scoreboard teams join BiolabCPNeutral @e[tag=CPtoNeutral]
+	scoreboard players tag @e[tag=CPtoBlue] remove CPtoBlue
+	scoreboard players tag @e[tag=CPtoRed] remove CPtoRed
+	scoreboard players tag @e[tag=CPtoPurple] remove CPtoPurple
+	scoreboard players tag @e[tag=CPtoNeutral] remove CPtoNeutral
+	scoreboard players set @e[score_BiolabCPI_min=101] BiolabCPIS 2
+	scoreboard players set @e[score_BiolabCPI=100] BiolabCPIS 1
+	execute @e[score_BiolabBCP_min=1,score_BiolabBCP=1] ~ ~ ~ scoreboard players operation @e[score_BiolabBCP_min=1,score_BiolabBCP=1,c=1] BiolabTemp = @e[score_BiolabBCP_min=1,score_BiolabBCP=1,c=1] BiolabCPI
+	scoreboard players operation @e[score_BiolabBCP_min=1,score_BiolabBCP=1] BiolabTemp %= 20 BiolabTemp
+	execute @e[score_BiolabBCP_min=1,score_BiolabBCP=1,score_BiolabTemp_min=10,score_BiolabTemp=10] ~ ~ ~ playsound minecraft:block.note.pling voice @a ~ ~ ~
+	execute @e[score_BiolabBCP_min=1,score_BiolabBCP=1,score_BiolabTemp_min=11] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 0
+	execute @e[score_BiolabBCP_min=1,score_BiolabBCP=1,score_BiolabTemp_min=11] ~ ~ ~ scoreboard teams join BiolabCPNeutral @e[tag=BiolabControlPointVisual,r=1,c=1,team=!BiolabCPNeutral]
+	scoreboard players set @e[score_BiolabBCP_min=1,score_BiolabBCP=1,score_BiolabTemp=10] BiolabBCP 0
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 11
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 3
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue] ~ ~ ~ scoreboard teams join BiolabCPBlue @e[tag=BiolabControlPointVisual,r=1,c=1,team=!BiolabCPBlue]
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 14
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 6
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed] ~ ~ ~ scoreboard teams join BiolabCPRed @e[tag=BiolabControlPointVisual,r=1,c=1,team=!BiolabCPRed]
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 10
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 2
+	execute @e[score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple] ~ ~ ~ scoreboard teams join BiolabCPPurple @e[tag=BiolabControlPointVisual,r=1,c=1,team=!BiolabCPPurple]
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 11
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 14
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 10
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 3
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 6
+	execute @e[tag=BCPA,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 2
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 11
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 14
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 10
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 3
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 6
+	execute @e[tag=BCPB,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 2
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 11
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 14
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 10
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 3
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 6
+	execute @e[tag=BCPC,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 2
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 11
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 14
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=2,score_BiolabCPIS=2] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 10
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPBlue,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 3
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPRed,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 6
+	execute @e[tag=BCPD,score_BiolabBCP_min=0,score_BiolabBCP=0,team=BiolabCPPurple,score_BiolabCPIS_min=1,score_BiolabCPIS=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 2
+	execute @e[tag=BCPA] ~ ~ ~ execute @e[tag=BiolabControlPointVisual,team=BiolabCPNeutral,r=0,c=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.4 minecraft:stained_glass 1 0
+	execute @e[tag=BCPB] ~ ~ ~ execute @e[tag=BiolabControlPointVisual,team=BiolabCPNeutral,r=0,c=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.5 minecraft:stained_glass 1 0
+	execute @e[tag=BCPC] ~ ~ ~ execute @e[tag=BiolabControlPointVisual,team=BiolabCPNeutral,r=0,c=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.6 minecraft:stained_glass 1 0
+	execute @e[tag=BCPD] ~ ~ ~ execute @e[tag=BiolabControlPointVisual,team=BiolabCPNeutral,r=0,c=1] ~ ~ ~ replaceitem entity @a[tag=BiolabPlayer] slot.hotbar.7 minecraft:stained_glass 1 0
+	execute @e[score_BiolabCPIS_min=2,score_BiolabCPIS=2,team=BiolabCPBlue] ~ ~ ~ scoreboard players add Blue_Team BiolabTS 10
+	execute @e[score_BiolabCPIS_min=1,score_BiolabCPIS=1,team=BiolabCPBlue] ~ ~ ~ scoreboard players add Blue_Team BiolabTS 5
+	execute @e[score_BiolabCPIS_min=2,score_BiolabCPIS=2,team=BiolabCPRed] ~ ~ ~ scoreboard players add Red_Team BiolabTS 10
+	execute @e[score_BiolabCPIS_min=1,score_BiolabCPIS=1,team=BiolabCPRed] ~ ~ ~ scoreboard players add Red_Team BiolabTS 5
+	execute @e[score_BiolabCPIS_min=2,score_BiolabCPIS=2,team=BiolabCPPurple] ~ ~ ~ scoreboard players add Purple_Team BiolabTS 10
+	execute @e[score_BiolabCPIS_min=1,score_BiolabCPIS=1,team=BiolabCPPurple] ~ ~ ~ scoreboard players add Purple_Team BiolabTS 5
+	scoreboard players set ScoreCalc BiolabTemp 0
+	scoreboard players test Blue_Team BiolabTS 1680000
+	 L scoreboard players add ScoreCalc BiolabTemp 1
+	scoreboard players test Red_Team BiolabTS 1680000
+	 L scoreboard players add ScoreCalc BiolabTemp 2
+	
+	scoreboard players test Purple_Team BiolabTS 1680000
+	 L scoreboard players add ScoreCalc BiolabTemp 4
+	scoreboard players test ScoreCalc BiolabTemp 1 1
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Blue","color":"blue"}," team has won!"]
+	scoreboard players test ScoreCalc BiolabTemp 2 2
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Red","color":"red"}," team has won!"]
+	scoreboard players test ScoreCalc BiolabTemp 4 4
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Purple","color":"light_purple"}," team has won!"]
+	scoreboard players test ScoreCalc BiolabTemp 3 3
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Blue","color":"blue"}," and ",{"text":"Red","color":"red"}," have tied!"]
+	scoreboard players test ScoreCalc BiolabTemp 5 5
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Blue","color":"blue"}," and ",{"text":"Purple","color":"light_purple"}," have tied!"]
+	scoreboard players test ScoreCalc BiolabTemp 6 6
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},{"text":"Red","color":"red"}," and ",{"text":"Purple","color":"light_purple"}," have tied!"]
+	
+	scoreboard players test ScoreCalc BiolabTemp 7 7
+	 L title @a[tag=BiolabPlayer] title [{"text":"","color":"green"},"All teams have tied!"]
+	scoreboard players test ScoreCalc BiolabTemp 1
+	 | fill ~-11 ~-7 ~0 ~-11 ~-7 ~0 coal_block 0 replace redstone_block 0
+	 L fill ~-10 ~1 ~12 ~-10 ~1 ~12 redstone_block 0 replace coal_block 0
+
+:lightAssaultJetpack CLOCK 16 0 1		[0 10 4 | 18 4 3]
+	scoreboard players add @a[tag=LightAssault] BiolabJCP 0
+	scoreboard players tag @a[tag=LightAssault,score_BiolabSneakTimer_min=1] remove JetpackDisabled
+	scoreboard players tag @a[tag=LightAssault,score_BiolabSneakTimer_min=1] add JetpackEnabled
+	scoreboard players set @a[tag=JetpackCooldown,score_BiolabJCP=1999] BiolabSneakTimer 0
+	scoreboard players tag @a[score_BiolabJCP_min=2000] remove JetpackCooldown
+	scoreboard players tag @a[tag=LightAssault,score_BiolabSneakTimer_min=0,score_BiolabSneakTimer=0] remove JetpackEnabled
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!JetpackCooldown,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackEnabled,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ playsound minecraft:block.lava.extinguish voice @a ~ ~ ~ 0.5
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!JetpackCooldown,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackEnabled,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ effect @a[r=0,c=1] minecraft:jump_boost 1 255 true
+	scoreboard players tag @a[tag=LightAssault,score_BiolabSneakTimer_min=0,score_BiolabSneakTimer=0] add JetpackDisabled
+	scoreboard players tag @a[score_BiolabJCP_min=0,score_BiolabJCP=0] remove JetpackEnabled
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!JetpackCooldown,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackEnabled,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ playsound minecraft:block.lava.extinguish voice @a ~ ~ ~ 0.5
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!JetpackCooldown,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackEnabled,r=0,c=1] ~ ~ ~ execute @a[tag=!JetpackDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ effect @a[r=0,c=1] minecraft:jump_boost 1 255 true
+	scoreboard players tag @a[score_BiolabJCP_min=0,score_BiolabJCP=0] add JetpackDisabled
+	scoreboard players tag @a[score_BiolabJCP_min=0,score_BiolabJCP=0] add JetpackCooldown
+	execute @a[tag=JetpackEnabled] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ playsound minecraft:entity.player.attack.nodamage voice @a ~ ~ ~ 1 0.5
+	execute @a[tag=JetpackEnabled] ~ ~ ~ execute @a[tag=!InLift,team=BiolabBlue,r=0,c=1] ~ ~ ~ particle reddust ~ ~ ~ -1 0 1 -0.05
+	execute @a[tag=JetpackEnabled] ~ ~ ~ execute @a[tag=!InLift,team=BiolabRed,r=0,c=1] ~ ~ ~ particle reddust ~ ~ ~ 0 0 0 -0.05
+	execute @a[tag=JetpackEnabled] ~ ~ ~ execute @a[tag=!InLift,team=BiolabPurple,r=0,c=1] ~ ~ ~ particle reddust ~ ~ ~ 0 0 1 -0.05
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ effect @p[tag=JetpackDisabled,r=0] minecraft:levitation 0
+	execute @a[tag=LightAssault] ~ ~ ~ execute @a[tag=!InLift,r=0,c=1] ~ ~ ~ effect @p[tag=JetpackEnabled,score_BiolabJCP_min=1,r=0] minecraft:levitation 1000000 2 true
+	scoreboard players remove @a[tag=JetpackEnabled] BiolabJCP 80
+	scoreboard players set @a[tag=LightAssault,score_BiolabJCP=-1] BiolabJCP 0
+	scoreboard players set @a[score_BiolabJCP_min=8001] BiolabJCP 8000
+	scoreboard players add @a[tag=JetpackDisabled,score_BiolabJCP=7999] BiolabJCP 100
+	scoreboard players set @a[tag=LightAssault] BiolabSneakTimer 0
+	execute @a[tag=LightAssault] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabJC = @e[c=1,r=1,type=Player] BiolabJCP
+	scoreboard players operation @a[tag=LightAssault] BiolabJC /= 100 CONST
+	execute @a[tag=LightAssault] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabDPL = @e[c=1,r=1,type=Player] BiolabJC
+
+:infiltratorCloak CLOCK 16 0 1		[0 4 12 | 18 5 3]
+	scoreboard players tag @a[tag=InFourthSlot] remove InFourthSlot
+	scoreboard players tag @a[tag=Infiltrator] add InFourthSlot {SelectedItemSlot:3}
+	scoreboard players tag @a[tag=Infiltrator,score_BiolabCOS_min=1,score_BiolabCOS=1] remove CloakDisabled
+	execute @a[tag=Infiltrator] ~ ~ ~ execute @a[tag=!CloakDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!CloakEnabled,r=0,c=1] ~ ~ ~ playsound entity.donkey.hurt voice @a ~ ~ ~ 0.5 0.5
+	scoreboard players tag @a[tag=Infiltrator,score_BiolabCOS_min=1,score_BiolabCOS=1] add CloakEnabled
+	scoreboard players set @a[tag=CloakCooldown,score_BiolabCCP=1999] BiolabCOS 0
+	scoreboard players tag @a[score_BiolabCCP_min=2000] remove CloakCooldown
+	scoreboard players tag @a[tag=Infiltrator,score_BiolabCOS_min=0,score_BiolabCOS=0] remove CloakEnabled
+	execute @a[tag=Infiltrator] ~ ~ ~ execute @a[tag=!CloakDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!CloakEnabled,r=0,c=1] ~ ~ ~ playsound entity.donkey.hurt voice @a ~ ~ ~ 0.5 0.5
+	scoreboard players tag @a[tag=Infiltrator,score_BiolabCOS_min=0,score_BiolabCOS=0] add CloakDisabled
+	scoreboard players tag @a[score_BiolabCCP_min=0,score_BiolabCCP=0] remove CloakEnabled
+	execute @a[tag=Infiltrator] ~ ~ ~ execute @a[tag=!CloakDisabled,r=0,c=1] ~ ~ ~ execute @a[tag=!CloakEnabled,r=0,c=1] ~ ~ ~ playsound entity.donkey.hurt voice @a ~ ~ ~ 0.5 0.5
+	scoreboard players tag @a[score_BiolabCCP_min=0,score_BiolabCCP=0] add CloakDisabled
+	scoreboard players tag @a[score_BiolabCCP_min=0,score_BiolabCCP=0] add CloakCooldown
+	execute @a[tag=Infiltrator] ~ ~ ~ effect @p[tag=CloakDisabled,r=0] minecraft:invisibility 0
+	execute @a[tag=Infiltrator] ~ ~ ~ effect @p[tag=CloakEnabled,score_BiolabSneakTimer_min=1,r=0] minecraft:invisibility 8000 0 true
+	execute @a[tag=Infiltrator] ~ ~ ~ effect @p[tag=CloakEnabled,score_BiolabSneakTimer_min=0,score_BiolabSneakTimer=0,r=0] minecraft:invisibility 8000 0 false
+	replaceitem entity @a[tag=CloakDisabled] slot.hotbar.3 minecraft:carrot_on_a_stick 1 0 {display:{Name:"Cloaking Device",Lore:["Right-click me to cloak!","Select another slot in your hotbar to uncloak."]}}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabBlue] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabBlue] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabBlue] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabBlue] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabRed] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabRed] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabRed] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabRed] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabPurple] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabPurple] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabPurple] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @a[tag=CloakDisabled,team=BiolabPurple] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @a[tag=CloakEnabled] slot.hotbar.3 air
+	replaceitem entity @a[tag=CloakEnabled] slot.armor.head air
+	replaceitem entity @a[tag=CloakEnabled] slot.armor.chest air
+	replaceitem entity @a[tag=CloakEnabled] slot.armor.legs air
+	replaceitem entity @a[tag=CloakEnabled] slot.armor.feet air
+	scoreboard players remove @a[tag=CloakEnabled] BiolabCCP 33
+	execute @a[tag=CloakEnabled] ~ ~ ~ scoreboard players set @p[tag=!InFourthSlot,r=0] BiolabCOS 0
+	scoreboard players set @a[tag=Infiltrator,score_BiolabCCP=-1] BiolabCCP 0
+	scoreboard players set @a[tag=Infiltrator,score_BiolabCCP_min=8001] BiolabCCP 8000
+	scoreboard players add @a[tag=CloakDisabled,score_BiolabCCP=7999] BiolabCCP 100
+	scoreboard players set @a[tag=Infiltrator] BiolabSneakTimer 0
+	execute @a[tag=Infiltrator] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabCC = @e[c=1,r=1,type=Player] BiolabCCP
+	scoreboard players operation @a[tag=Infiltrator] BiolabCC /= 100 CONST
+	execute @a[tag=Infiltrator] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabDPL = @e[c=1,r=1,type=Player] BiolabCC
+
+:engineerAbilities CLOCK 16 0 1		[0 10 6 | 18 4 3]
+	scoreboard players add @e[tag=AmmoPack] BiolabAPO 0
+	entitydata @e[tag=AmmoPack,score_BiolabAPO_min=0,score_BiolabAPO=0] {PickupDelay:32767,CustomName:"Ammo Pack",CustomNameVisible:1b}
+	execute @e[tag=Engineer,team=BiolabBlue] ~ ~ ~ effect @p[tag=MAX,team=BiolabBlue,rm=1,r=5] minecraft:regeneration 1 2
+	execute @e[tag=Engineer,team=BiolabRed] ~ ~ ~ effect @p[tag=MAX,team=BiolabRed,rm=1,r=5] minecraft:regeneration 1 2
+	execute @e[tag=Engineer,team=BiolabPurple] ~ ~ ~ effect @p[tag=MAX,team=BiolabPurple,rm=1,r=5] minecraft:regeneration 1 2
+	scoreboard players tag @e[tag=AmmoPack,score_BiolabAPO_min=0,score_BiolabAPO=0,c=1] add CurrentAmmoPackCalc
+	execute @e[tag=CurrentAmmoPackCalc] ~ ~ ~ scoreboard players tag @p[tag=Engineer] add CurrentEngineerCalc
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO -= @p[tag=CurrentEngineerCalc] BiolabPID
+	kill @e[tag=AmmoPack,score_BiolabAPO_min=0,score_BiolabAPO=0]
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO += @p[tag=CurrentEngineerCalc] BiolabPID
+	execute @p[tag=CurrentEngineerCalc,team=BiolabBlue] ~ ~ ~ scoreboard players tag @e[tag=CurrentAmmoPackCalc] add BlueAmmoPack
+	execute @p[tag=CurrentEngineerCalc,team=BiolabRed] ~ ~ ~ scoreboard players tag @e[tag=CurrentAmmoPackCalc] add RedAmmoPack
+	execute @p[tag=CurrentEngineerCalc,team=BiolabPurple] ~ ~ ~ scoreboard players tag @e[tag=CurrentAmmoPackCalc] add PurpleAmmoPack
+	execute @p[tag=CurrentEngineerCalc,team=BiolabBlue] ~ ~ ~ scoreboard teams join BiolabCPBlue @e[tag=CurrentAmmoPackCalc]
+	execute @p[tag=CurrentEngineerCalc,team=BiolabRed] ~ ~ ~ scoreboard teams join BiolabCPRed @e[tag=CurrentAmmoPackCalc]
+	execute @p[tag=CurrentEngineerCalc,team=BiolabPurple] ~ ~ ~ scoreboard teams join BiolabCPPurple @e[tag=CurrentAmmoPackCalc]
+	scoreboard players operation @e[tag=CurrentAmmoPackCalc] BiolabAPO = @p[tag=CurrentEngineerCalc] BiolabPID
+	scoreboard players tag @e[tag=CurrentEngineerCalc] remove CurrentEngineerCalc
+	scoreboard players tag @e[tag=CurrentAmmoPackCalc] remove CurrentAmmoPackCalc
+	replaceitem entity @a[tag=Engineer] slot.hotbar.3 minecraft:stone_slab 1 0 {display:{Name:"Ammo Pack",Lore:["I give players ammo.","Drop me to use!"]}}
+	execute @e[tag=BlueAmmoPack] ~ ~ ~ replaceitem entity @a[team=BiolabBlue,r=3] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	execute @e[tag=RedAmmoPack] ~ ~ ~ replaceitem entity @a[team=BiolabRed,r=3] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	execute @e[tag=PurpleAmmoPack] ~ ~ ~ replaceitem entity @a[team=BiolabPurple,r=3] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+
+:combatMedicNanoRegen CLOCK 16 0 1		[0 10 8 | 18 4 3]
+	scoreboard players set @a[tag=CombatMedic,score_BiolabCOS_min=2,score_BiolabCOS=2] BiolabCOS 0
+	scoreboard players tag @a[tag=CombatMedic,score_BiolabCOS_min=1,score_BiolabCOS=1] remove NanoRegenDisabled
+	scoreboard players tag @a[tag=CombatMedic,score_BiolabCOS_min=1,score_BiolabCOS=1] add NanoRegenEnabled
+	scoreboard players set @a[tag=NanoRegenCooldown,score_BiolabNRCP=1999] BiolabCOS 0
+	scoreboard players tag @a[score_BiolabNRCP_min=2000] remove NanoRegenCooldown
+	scoreboard players tag @a[tag=CombatMedic,score_BiolabCOS_min=0,score_BiolabCOS=0] remove NanoRegenEnabled
+	scoreboard players tag @a[tag=CombatMedic,score_BiolabCOS_min=0,score_BiolabCOS=0] add NanoRegenDisabled
+	scoreboard players tag @a[score_BiolabNRCP_min=0,score_BiolabNRCP=0] remove NanoRegenEnabled
+	scoreboard players tag @a[score_BiolabNRCP_min=0,score_BiolabNRCP=0] add NanoRegenDisabled
+	scoreboard players tag @a[score_BiolabNRCP_min=0,score_BiolabNRCP=0] add NanoRegenCooldown
+	execute @a[tag=CombatMedic,team=BiolabBlue] ~ ~ ~ effect @p[tag=!MAX,team=BiolabBlue,rm=1,r=5] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic,team=BiolabRed] ~ ~ ~ effect @p[tag=!MAX,team=BiolabRed,rm=1,r=5] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic,team=BiolabPurple] ~ ~ ~ effect @p[tag=!MAX,team=BiolabPurple,rm=1,r=5] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic] ~ ~ ~ execute @p[tag=NanoRegenEnabled,team=BiolabBlue] ~-5 ~-5 ~-5 effect @a[tag=!MAX,dx=5,dy=5,dz=5,team=BiolabBlue] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic] ~ ~ ~ execute @p[tag=NanoRegenEnabled,team=BiolabRed] ~-5 ~-5 ~-5 effect @a[tag=!MAX,dx=5,dy=5,dz=5,team=BiolabRed] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic] ~ ~ ~ execute @p[tag=NanoRegenEnabled,team=BiolabPurple] ~-5 ~-5 ~-5 effect @a[tag=!MAX,dx=5,dy=5,dz=5,team=BiolabPurple] minecraft:regeneration 1 2
+	execute @a[tag=CombatMedic] ~ ~ ~ execute @p[tag=NanoRegenEnabled] ~ ~ ~ particle happyVillager ~ ~1 ~ 2 2 2 0 2
+	scoreboard players remove @a[tag=NanoRegenEnabled] BiolabNRCP 200
+	scoreboard players set @a[tag=CombatMedic,score_BiolabNRCP=-1] BiolabNRCP 0
+	scoreboard players set @a[tag=CombatMedic,score_BiolabNRCP_min=40001] BiolabNRCP 40000
+	scoreboard players add @a[tag=NanoRegenDisabled,score_BiolabNRCP=39999] BiolabNRCP 100
+	execute @a[tag=CombatMedic] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabNRC = @e[c=1,r=1,type=Player] BiolabNRCP
+	scoreboard players operation @a[tag=CombatMedic] BiolabNRC /= 100 CONST
+	execute @a[tag=CombatMedic] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabDPL = @e[c=1,r=1,type=Player] BiolabNRC
+
+:heavyAssaultNaniteShield CLOCK 16 0 1		[0 0 14 | 18 4 3]
+	scoreboard players set @a[tag=HeavyAssault,score_BiolabCOS_min=2,score_BiolabCOS=2] BiolabCOS 0
+	scoreboard players tag @a[tag=HeavyAssault,score_BiolabCOS_min=1,score_BiolabCOS=1] remove NaniteShieldDisabled
+	scoreboard players tag @a[tag=HeavyAssault,score_BiolabCOS_min=1,score_BiolabCOS=1] add NaniteShieldEnabled
+	scoreboard players set @a[tag=NaniteShieldCooldown,score_BiolabNSCP=1999] BiolabCOS 0
+	scoreboard players tag @a[score_BiolabNSCP_min=2000] remove NaniteShieldCooldown
+	scoreboard players tag @a[tag=HeavyAssault,score_BiolabCOS_min=0,score_BiolabCOS=0] remove NaniteShieldEnabled
+	scoreboard players tag @a[tag=HeavyAssault,score_BiolabCOS_min=0,score_BiolabCOS=0] add NaniteShieldDisabled
+	scoreboard players tag @a[score_BiolabNSCP_min=0,score_BiolabNSCP=0] remove NaniteShieldEnabled
+	scoreboard players tag @a[score_BiolabNSCP_min=0,score_BiolabNSCP=0] add NaniteShieldDisabled
+	scoreboard players tag @a[score_BiolabNSCP_min=0,score_BiolabNSCP=0] add NaniteShieldCooldown
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldDisabled,r=0] minecraft:resistance 0
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldDisabled,r=0] minecraft:slowness 0
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldDisabled,r=0] minecraft:glowing 0
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldEnabled,r=0] minecraft:glowing 1000000 0
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldEnabled,r=0] minecraft:slowness 1000000 1
+	execute @a[tag=HeavyAssault] ~ ~ ~ effect @p[tag=NaniteShieldEnabled,r=0] minecraft:resistance 1000000 1
+	scoreboard players remove @a[tag=NaniteShieldEnabled] BiolabNSCP 80
+	scoreboard players set @a[tag=HeavyAssault,score_BiolabNSCP=-1] BiolabNSCP 0
+	scoreboard players set @a[tag=HeavyAssault,score_BiolabNSCP_min=30001] BiolabNSCP 30000
+	scoreboard players add @a[tag=NaniteShieldDisabled,score_BiolabNSCP=29999] BiolabNSCP 100
+	execute @a[tag=HeavyAssault] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabNSC = @e[c=1,r=1,type=Player] BiolabNSCP
+	scoreboard players operation @a[tag=HeavyAssault] BiolabNSC /= 100 CONST
+	execute @a[tag=HeavyAssault] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=Player] BiolabDPL = @e[c=1,r=1,type=Player] BiolabNSC
+
+:chooseInfiltratorClass PULSE 16 0 1		[0 3 14 | 18 4 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add Infiltrator
+	scoreboard players tag @p[tag=Target] add CloakDisabled
+	scoreboard players set @p[tag=Target] BiolabCCP 8000
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.3 minecraft:carrot_on_a_stick 1 0 {display:{Name:"Cloaking Device",Lore:["Right-click me to cloak!","Select another slot in your hotbar to uncloak."]}}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	xp 80l @p[tag=Target]
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the Infiltrator class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:chooseLightAssaultClass PULSE 16 0 1		[0 6 14 | 18 4 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add LightAssault
+	scoreboard players tag @p[tag=Target] add JetpackDisabled
+	scoreboard players set @p[tag=Target] BiolabJetCharge 8000
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.3 minecraft:paper 1 0 {display:{Name:"Jump Jets",Lore:["Hold your sneak key to fill redstone_block coal_block your jump jets!","Reach heights that no other classes can!"]}}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:8421504},Unbreakable:1,ench:[{id:"minecraft:protection",lvl:7}]}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	xp 80l @p[tag=Target]
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the Light Assault class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:chooseEngineerClass PULSE 16 0 1		[0 13 0 | 16 3 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add Engineer
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.3 minecraft:stone_slab 1 0 {display:{Name:"Ammo Pack",Lore:["I give players ammo.","Drop me on the ground to use!"]}}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16776960},Unbreakable:1,ench:[{id:"minecraft:protection",lvl:7}]}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the Engineer class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:chooseCombatMedicClass PULSE 16 0 1		[0 9 14 | 18 4 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add CombatMedic
+	scoreboard players tag @p[tag=Target] add NanoRegenDisabled
+	scoreboard players set @p[tag=Target] BiolabNRCP 40000
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.3 minecraft:carrot_on_a_stick 1 0 {display:{Name:"Nano Regen Device",Lore:["Right-click me to toggle an area of effect Regeneration!"]}}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16777215},Unbreakable:1,ench:[{id:"minecraft:protection",lvl:7}]}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	xp 400l @p[tag=Target]
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the Combat Medic class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:chooseHeavyAssaultClass PULSE 16 0 1		[0 12 10 | 18 4 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add HeavyAssault
+	scoreboard players tag @p[tag=Target] add NaniteShieldDisabled
+	scoreboard players set @p[tag=Target] BiolabNSCP 30000
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.3 minecraft:carrot_on_a_stick 1 0 {display:{Name:"Nanite Shield Activator",Lore:["Right-click me to toggle your shield!"]}}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:172311},Unbreakable:1,ench:[{id:"minecraft:protection",lvl:10}]}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	xp 300l @p[tag=Target]
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the Heavy Assault class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:chooseMAXClass PULSE 16 0 1		[0 6 6 | 17 3 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players tag @p[tag=Target] add MAX
+	effect @p[tag=Target] minecraft:slowness 1000000 0
+	clear @p[tag=Target]
+	replaceitem entity @p[tag=Target] slot.hotbar.0 minecraft:iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.hotbar.1 minecraft:snowball 16 0 {display:{Name:"Bullets"}}
+	replaceitem entity @p[tag=Target] slot.hotbar.2 minecraft:prismarine_shard 3 0 {display:{Name:"Magazine"}}
+	replaceitem entity @p[tag=Target] slot.weapon.offhand minecraft:shield 1 0 {Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:0},Unbreakable:1,ench:[{id:"minecraft:protection",lvl:14}]}
+	replaceitem entity @p[tag=Target] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+	replaceitem entity @p[tag=Target] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have chosen the MAX class!"]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:deselectClass PULSE 16 0 1		[0 8 10 | 18 5 3]
+	scoreboard players tag @p[m=2] add Target
+	scoreboard players reset @p[tag=Target] BiolabCPL
+	scoreboard players reset @p[tag=Target] BiolabDPL
+	scoreboard players reset @p[tag=Target] BiolabLD
+	scoreboard players reset @p[tag=Target] BiolabSneakTimer
+	scoreboard players reset @p[tag=Target] BiolabCOS
+	scoreboard players reset @p[tag=Target] BiolabJC
+	scoreboard players reset @p[tag=Target] BiolabJCP
+	scoreboard players tag @p[tag=Target] remove LightAssault
+	scoreboard players tag @p[tag=Target] remove JetpackEnabled
+	scoreboard players tag @p[tag=Target] remove JetpackDisabled
+	scoreboard players tag @p[tag=Target] remove JetpackCooldown
+	scoreboard players reset @p[tag=Target] BiolabCC
+	scoreboard players reset @p[tag=Target] BiolabLI
+	scoreboard players tag @p[tag=Target] remove Infiltrator
+	scoreboard players tag @p[tag=Target] remove CloakEnabled
+	scoreboard players tag @p[tag=Target] remove CloakDisabled
+	scoreboard players tag @p[tag=Target] remove CloakCooldown
+	scoreboard players reset @p[tag=Target] BiolabNRC
+	scoreboard players reset @p[tag=Target] BiolabNRCP
+	scoreboard players tag @p[tag=Target] remove CombatMedic
+	scoreboard players tag @p[tag=Target] remove NanoRegenEnabled
+	scoreboard players tag @p[tag=Target] remove NanoRegenDisabled
+	scoreboard players tag @p[tag=Target] remove NanoRegenCooldown
+	scoreboard players tag @p[tag=Target] remove Engineer
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO -= @p[tag=Target] BiolabPID
+	kill @e[tag=AmmoPack,score_BiolabAPO_min=0,score_BiolabAPO=0]
+	scoreboard players operation @e[tag=AmmoPack] BiolabAPO += @p[tag=Target] BiolabPID
+	scoreboard players reset @p[tag=Target] BiolabNSC
+	scoreboard players reset @p[tag=Target] BiolabNSCP
+	scoreboard players tag @p[tag=Target] remove HeavyAssault
+	scoreboard players tag @p[tag=Target] remove NaniteShieldEnabled
+	scoreboard players tag @p[tag=Target] remove NaniteShieldDisabled
+	scoreboard players tag @p[tag=Target] remove NaniteShieldCooldown
+	scoreboard players tag @p[tag=Target] remove MAX
+	effect @p[tag=Target] clear
+	clear @p[tag=Target]
+	xp -1000000l @p[tag=Target]
+	tellraw @p[tag=Target] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","You have deselected your current class."]
+	scoreboard players tag @p[tag=Target] remove Target
+
+:initialization PULSE 16 0 1		[0 0 2 | 18 9 3]
+	gamerule naturalRegeneration false
+	scoreboard objectives add BiolabTemp dummy Temporary Biolab Values
+	scoreboard objectives add BiolabPID dummy Player ID
+	fill ~-4 ~13 ~4 ~-4 ~13 ~4 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabCPL dummy Current Player Level
+	scoreboard objectives add BiolabDPL dummy Desired Player Level
+	scoreboard objectives add BiolabLD dummy Level Difference
+	fill ~-8 ~13 ~2 ~-8 ~13 ~2 redstone_block 0 replace coal_block 0
+	fill ~-9 ~0 ~10 ~-9 ~0 ~10 redstone_block 0 replace coal_block 0
+	fill ~-10 ~4 ~8 ~-10 ~4 ~8 redstone_block 0 replace coal_block 0
+	scoreboard teams add BiolabBlue
+	scoreboard teams option BiolabBlue nametagVisibility hideForOtherTeams
+	scoreboard teams add BiolabRed
+	scoreboard teams option BiolabRed nametagVisibility hideForOtherTeams
+	scoreboard teams add BiolabPurple
+	scoreboard teams option BiolabPurple nametagVisibility hideForOtherTeams
+	scoreboard teams add BiolabCPBlue
+	scoreboard teams option BiolabCPBlue nametagVisibility always
+	scoreboard teams add BiolabCPRed
+	scoreboard teams option BiolabCPRed nametagVisibility always
+	scoreboard teams add BiolabCPPurple
+	scoreboard teams option BiolabCPPurple nametagVisibility always
+	scoreboard teams add BiolabCPNeutral
+	scoreboard teams option BiolabCPNeutral nametagVisibility always
+	scoreboard teams option BiolabBlue color blue
+	scoreboard teams option BiolabRed color red
+	scoreboard teams option BiolabPurple color light_purple
+	scoreboard teams option BiolabBlue friendlyfire false
+	scoreboard teams option BiolabRed friendlyfire false
+	scoreboard teams option BiolabPurple friendlyfire false
+	scoreboard teams option BiolabCPBlue color blue
+	scoreboard teams option BiolabCPRed color red
+	scoreboard teams option BiolabCPPurple color light_purple
+	scoreboard teams option BiolabCPNeutral color white
+	scoreboard objectives add BiolabCPI dummy CP Integrity
+	scoreboard objectives add BiolabCPIS dummy CP Integrity Status
+	scoreboard objectives add BiolabBCP dummy Blink CP
+	scoreboard objectives add BiolabCPPC dummy CP Player Count
+	scoreboard objectives add BiolabTS dummy Team Scores
+	scoreboard players set 20 BiolabTemp 20
+	summon ArmorStand -104 67 -1166 {Tags:["BiolabControlPoint","BCPA"],NoGravity:1b,Marker:1b,Invisible:1b,Invulnerable:1b,PerisistenceRequired:1b,Small:1b}
+	execute @e[tag=BCPA] ~ ~ ~ summon Shulker ~ ~ ~ {CustomName:"Control Point A",CustomNameVisible:1b,Tags:["BiolabControlPointVisual","BCPAV"],Invulnerable:1b,Glowing:1b,NoAI:1b,PerisistenceRequired:1b}
+	scoreboard players set @e[tag=BCPA] BiolabCPI 100
+	scoreboard players set @e[tag=BCPA] BiolabCPIS 1
+	execute @e[tag=BCPA] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 0
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPA]
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPAV]
+	summon ArmorStand -75 72 -1174 {Tags:["BiolabControlPoint","BCPB"],NoGravity:1b,Marker:1b,Invisible:1b,Invulnerable:1b,PerisistenceRequired:1b,Small:1b}
+	execute @e[tag=BCPB] ~ ~ ~ summon Shulker ~ ~ ~ {CustomName:"Control Point B",CustomNameVisible:1b,Tags:["BiolabControlPointVisual","BCPBV"],Invulnerable:1b,Glowing:1b,NoAI:1b,PerisistenceRequired:1b}
+	scoreboard players set @e[tag=BCPB] BiolabCPI 100
+	scoreboard players set @e[tag=BCPB] BiolabCPIS 1
+	execute @e[tag=BCPB] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 0
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPB]
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPBV]
+	summon ArmorStand -119 71 -1219 {Tags:["BiolabControlPoint","BCPC"],NoGravity:1b,Marker:1b,Invisible:1b,Invulnerable:1b,PerisistenceRequired:1b,Small:1b}
+	execute @e[tag=BCPC] ~ ~ ~ summon Shulker ~ ~ ~ {CustomName:"Control Point C",CustomNameVisible:1b,Tags:["BiolabControlPointVisual","BCPCV"],Invulnerable:1b,Glowing:1b,NoAI:1b,PerisistenceRequired:1b}
+	scoreboard players set @e[tag=BCPC] BiolabCPI 100
+	scoreboard players set @e[tag=BCPC] BiolabCPIS 1
+	execute @e[tag=BCPC] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 0
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPC]
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPCV]
+	summon ArmorStand -203 44 -1189 {Tags:["BiolabControlPoint","BCPD"],NoGravity:1b,Marker:1b,Invisible:1b,Invulnerable:1b,PerisistenceRequired:1b,Small:1b}
+	execute @e[tag=BCPD] ~ ~ ~ summon Shulker ~ ~ ~ {CustomName:"Control Point D",CustomNameVisible:1b,Tags:["BiolabControlPointVisual","BCPDV"],Invulnerable:1b,Glowing:1b,NoAI:1b,PerisistenceRequired:1b}
+	scoreboard players set @e[tag=BCPD] BiolabCPI 100
+	scoreboard players set @e[tag=BCPD] BiolabCPIS 1
+	execute @e[tag=BCPD] ~ ~ ~ setblock ~ ~1 ~ minecraft:stained_glass 0
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPD]
+	scoreboard teams join BiolabCPNeutral @e[tag=BCPDV]
+	scoreboard teams join BiolabCPBlue Blue_Team
+	scoreboard teams join BiolabCPRed Red_Team
+	scoreboard teams join BiolabCPPurple Purple_Team
+	scoreboard players set Blue_Team BiolabTS 0
+	scoreboard players set Red_Team BiolabTS 0
+	scoreboard players set Purple_Team BiolabTS 0
+	scoreboard objectives setdisplay sidebar BiolabTS
+	fill ~-12 ~-4 ~-2 ~-12 ~-4 ~-2 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabTPC dummy Team Player Counts
+	summon ArmorStand ~ ~ ~ {Tags:["BiolabTeamPlayerCounter","BiolabTeamBluePlayers"],NoGravity:1b,Marker:1b,Invisible:1b}
+	summon ArmorStand ~ ~ ~ {Tags:["BiolabTeamPlayerCounter","BiolabTeamRedPlayers"],NoGravity:1b,Marker:1b,Invisible:1b}
+	summon ArmorStand ~ ~ ~ {Tags:["BiolabTeamPlayerCounter","BiolabTeamPurplePlayers"],NoGravity:1b,Marker:1b,Invisible:1b}
+	scoreboard objectives add BiolabUS stat.useItem.minecraft.snowball Use Snowball
+	scoreboard objectives add BiolabRT dummy Reload Timer
+	fill ~-12 ~5 ~0 ~-12 ~5 ~0 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabJC dummy Biolab Jetpack Charge
+	scoreboard objectives add BiolabJCP dummy BiolabJC Precision
+	scoreboard objectives add BiolabSneakTimer stat.sneakTime Biolab Sneak Timer
+	fill ~-8 ~5 ~2 ~-8 ~5 ~2 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabCC dummy Biolab Cloak Charge
+	scoreboard objectives add BiolabCCP dummy BiolabCC Precision
+	scoreboard objectives add BiolabSneakTimer stat.sneakTime Biolab Sneak Timer
+	scoreboard objectives add BiolabCOS stat.useItem.minecraft.carrot_on_a_stick Biolab C.o.S.
+	scoreboard players set 100 BiolabTemp 100
+	fill ~-2 ~-1 ~10 ~-2 ~-1 ~10 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabNRC dummy Nano Regen Charge
+	scoreboard objectives add BiolabNRCP dummy BiolabNRC Precision
+	scoreboard objectives add BiolabCOS stat.useItem.minecraft.carrot_on_a_stick Biolab C.o.S.
+	scoreboard players set 100 BiolabTemp 100
+	fill ~-2 ~4 ~6 ~-2 ~4 ~6 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabAPO dummy Ammo Pack Owner
+	fill ~-4 ~4 ~4 ~-4 ~4 ~4 redstone_block 0 replace coal_block 0
+	scoreboard objectives add BiolabNSC dummy Nano Regen Charge
+	scoreboard objectives add BiolabNSCP dummy BiolabNSC Precision
+	scoreboard objectives add BiolabCOS stat.useItem.minecraft.carrot_on_a_stick Biolab C.o.S.
+	scoreboard players set 100 BiolabTemp 100
+	fill ~-9 ~-6 ~12 ~-9 ~-6 ~12 redstone_block 0 replace coal_block 0
+	fill ~-10 ~-6 ~8 ~-10 ~-6 ~8 redstone_block 0 replace coal_block 0
+	fill ~-11 ~-6 ~2 ~-11 ~-6 ~2 redstone_block 0 replace coal_block 0
+
+:teleportersOn PULSE 16 0 1		[0 12 12 | 18 4 3]
+	summon ArmorStand -116 20 -1193 {CustomName:"Blue_Outside",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Outside1","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[90.0f,0.0f,0.0f]}
+	summon ArmorStand -87 44 -1276 {CustomName:"Blue_Outside",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Outside2","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[180.0f,0.0f,0.0f]}
+	summon ArmorStand -128 20 -1195 {CustomName:"Blue_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Teleporter_11","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-54.0f,0.0f,0.0f]}
+	summon ArmorStand -82 67 -1221 {CustomName:"Blue_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Teleporter_12","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-45.0f,0.0f,0.0f]}
+	summon ArmorStand -128 20 -1191 {CustomName:"Blue_Teleporter_2",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Teleporter_21","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-118.0f,0.0f,0.0f]}
+	summon ArmorStand -109 67 -1237 {CustomName:"Blue_Teleporter_2",CustomNameVisible:1b,Tags:["BiolabTeleporter","Blue_Teleporter_22","BiolabBlue"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[36.0f,0.0f,0.0f]}
+	summon ArmorStand -133 20 -1201 {CustomName:"Red_Control_Room",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Control_Room1","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[180.0f,0.0f,0.0f]}
+	summon ArmorStand -100 44 -1187 {CustomName:"Red_Control_Room",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Control_Room2","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[135.0f,0.0f,0.0f]}
+	summon ArmorStand -109 44 -1187 {CustomName:"Red_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Teleporter_11","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-135.0f,0.0f,0.0f]}
+	summon ArmorStand -151 67 -1197 {CustomName:"Red_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Teleporter_12","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-15.0f,0.0f,0.0f]}
+	summon ArmorStand -100 44 -1196 {CustomName:"Red_Teleporter_2",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Teleporter_21","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[45.0f,0.0f,0.0f]}
+	summon ArmorStand -110 67 -1187 {CustomName:"Red_Teleporter_2",CustomNameVisible:1b,Tags:["BiolabTeleporter","Red_Teleporter_22","BiolabRed"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[45.0f,0.0f,0.0f]}
+	summon ArmorStand -108 20 -1210 {CustomName:"Purple_Outside",CustomNameVisible:1b,Tags:["BiolabTeleporter","Purple_Outside1","BiolabPurple"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[0.0f,0.0f,0.0f]}
+	summon ArmorStand -101 44 -1105 {CustomName:"Purple_Outside",CustomNameVisible:1b,Tags:["BiolabTeleporter","Purple_Outside2","BiolabPurple"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[0.0f,0.0f,0.0f]}
+	summon ArmorStand -108 20 -1201 {CustomName:"Purple_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Purple_Teleporter_11","BiolabPurple"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[180.0f,0.0f,0.0f]}
+	summon ArmorStand -80 67 -1161 {CustomName:"Purple_Teleporter_1",CustomNameVisible:1b,Tags:["BiolabTeleporter","Purple_Teleporter_12","BiolabPurple"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-36.0f,0.0f,0.0f]}
+	summon ArmorStand -203 45 -1099 {CustomName:"Control_Point_D",CustomNameVisible:1b,Tags:["BiolabTeleporter","Control_Point_D1","BiolabNeutral"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[-90.0f,0.0f,0.0f]}
+	summon ArmorStand -200 44 -1158 {CustomName:"Control_Point_D",CustomNameVisible:1b,Tags:["BiolabTeleporter","Control_Point_D2","BiolabNeutral"],Marker:1b,Invulnerable:1b,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[180.0f,0.0f,0.0f]}
+	fill ~-12 ~-8 ~-4 ~-12 ~-8 ~-4 redstone_block 0 replace coal_block 0
+	fill ~-11 ~-1 ~0 ~-11 ~-1 ~0 coal_block 0 replace redstone_block 0
+
+:gameStart PULSE 16 0 1		[0 13 8 | 7 3 3]
+	summon AreaEffectCloud ~ ~ ~ {Duration:1201,Tags:["BiolabCountdown"]}
+	tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Mission begins in 60 seconds."]
+	fill ~-3 ~-4 ~-8 ~-3 ~-4 ~-8 redstone_block 0 replace coal_block 0
+	fill ~-4 ~0 ~0 ~-4 ~0 ~0 coal_block 0 replace redstone_block 0
+
+:gameCountdown CLOCK 16 0 1		[0 9 0 | 16 5 3]
+	testfor @e[tag=BiolabCountdown] {Age:600}
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Mission begins in 30 seconds."]
+	testfor @e[tag=BiolabCountdown] {Age:800}
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Mission begins in 20 seconds."]
+	testfor @e[tag=BiolabCountdown] {Age:1000}
+	 L tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Mission begins in 10 seconds."]
+	testfor @e[tag=BiolabCountdown] {Age:1100}
+	 | tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","5"]
+	 L execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	testfor @e[tag=BiolabCountdown] {Age:1120}
+	 | tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","4"]
+	 L execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	
+	testfor @e[tag=BiolabCountdown] {Age:1140}
+	 | tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","3"]
+	 L execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	testfor @e[tag=BiolabCountdown] {Age:1160}
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","2"]
+	 L execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	testfor @e[tag=BiolabCountdown] {Age:1180}
+	 | tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","1"]
+	 L execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	
+	testfor @e[tag=BiolabCountdown] {Age:1200}
+	 | tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Begin! The teleporters are now enabled!"]
+	 | execute @a[tag=BiolabPlayer] ~ ~ ~ playsound minecraft:entity.wither.death voice @p
+	 | fill ~-7 ~1 ~12 ~-7 ~1 ~12 redstone_block 0 replace coal_block 0
+	 L fill ~-8 ~-2 ~0 ~-8 ~-2 ~0 coal_block 0 replace redstone_block 0
+
+:gameEnd PULSE 16 0 1		[0 8 12 | 17 5 3]
+	scoreboard players test ScoreCalc BiolabTemp 1 1
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Team: ", {"text":"Blue","color":"blue"}]
+	 L execute @a[team=BiolabBlue,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	scoreboard players test ScoreCalc BiolabTemp 2 2
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Team: ", {"text":"Red","color":"red"}]
+	 L execute @a[team=BiolabRed,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	scoreboard players test ScoreCalc BiolabTemp 4 4
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Team: ", {"text":"Purple","color":"light_purple"}]
+	 L execute @a[team=BiolabPurple,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	scoreboard players test ScoreCalc BiolabTemp 3 3
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Teams: ", {"text":"Blue","color":"blue"}," and ",{"text":"Red","color":"red"}]
+	 | execute @a[team=BiolabBlue,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	 L execute @a[team=BiolabRed,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	
+	scoreboard players test ScoreCalc BiolabTemp 5 5
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Teams: ", {"text":"Blue","color":"blue"}," and ",{"text":"Purple","color":"light_purple"}]
+	 | execute @a[team=BiolabBlue,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	 L execute @a[team=BiolabPurple,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	scoreboard players test ScoreCalc BiolabTemp 6 6
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Teams: ", {"text":"Red","color":"red"}," and ",{"text":"Purple","color":"light_purple"}]
+	 | execute @a[team=BiolabRed,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	 L execute @a[team=BiolabPurple,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	scoreboard players test ScoreCalc BiolabTemp 7 7
+	 | tellraw @a ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Winning Teams: ", {"text":"Blue","color":"blue"},", ",{"text":"Red","color":"red"},", and ",{"text":"Purple","color":"light_purple"}]
+	 | execute @a[team=BiolabBlue,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	 | execute @a[team=BiolabRed,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	 L execute @a[team=BiolabPurple,m=2] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:15,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+	tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Blue team players: ",{"selector":"@a[team=BiolabBlue,m=2]"}]
+	tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Red team players: ",{"selector":"@a[team=BiolabRed,m=2]"}]
+	tellraw @a[tag=BiolabPlayer] ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ","Purple team players: ",{"selector":"@a[team=BiolabPurple,m=2]"}]
+	fill ~-1 ~-2 ~0 ~-1 ~-2 ~0 coal_block 0 replace redstone_block 0
+
+:deinitialization PULSE 16 0 1		[0 0 6 | 18 7 3]
+	fill ~-1 ~9 ~-6 ~-1 ~9 ~-6 coal_block 0 replace redstone_block 0
+	fill ~-2 ~0 ~-2 ~-2 ~0 ~-2 coal_block 0 replace redstone_block 0
+	fill ~-3 ~0 ~4 ~-3 ~0 ~4 coal_block 0 replace redstone_block 0
+	fill ~-4 ~5 ~2 ~-4 ~5 ~2 coal_block 0 replace redstone_block 0
+	kill @e[tag=BiolabTeleporter]
+	scoreboard players tag * remove InTeleporter
+	scoreboard players tag * remove Teleporting
+	fill ~-8 ~0 ~-6 ~-8 ~0 ~-6 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabCPI
+	scoreboard objectives remove BiolabCPIS
+	scoreboard objectives remove BiolabBCP
+	scoreboard objectives remove BiolabCPPC
+	scoreboard objectives remove BiolabTS
+	kill @e[tag=BiolabControlPoint]
+	kill @e[tag=BiolabControlPointVisual]
+	kill @e[tag=BiolabTeamPlayerCounter]
+	scoreboard objectives remove BiolabTPC
+	scoreboard teams remove BiolabBlue
+	scoreboard teams remove BiolabRed
+	scoreboard teams remove BiolabPurple
+	fill ~-10 ~-1 ~6 ~-10 ~-1 ~6 coal_block 0 replace redstone_block 0
+	fill ~-9 ~3 ~4 ~-9 ~3 ~4 coal_block 0 replace redstone_block 0
+	scoreboard players tag * remove InLift
+	fill ~-7 ~9 ~-4 ~-7 ~9 ~-4 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabUS
+	scoreboard objectives remove BiolabRT
+	scoreboard players tag * remove HasMagazine
+	scoreboard players tag * remove HasSnowballs
+	fill ~-2 ~-1 ~8 ~-2 ~-1 ~8 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabCOS
+	scoreboard objectives remove BiolabNSC
+	scoreboard objectives remove BiolabNSCP
+	scoreboard players tag * remove HeavyAssault
+	scoreboard players tag * remove NaniteShieldEnabled
+	scoreboard players tag * remove NaniteShieldDisabled
+	scoreboard players tag * remove NaniteShieldCooldown
+	fill ~-5 ~8 ~0 ~-5 ~8 ~0 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabAPO
+	scoreboard players tag * remove Engineer
+	fill ~-8 ~8 ~2 ~-8 ~8 ~2 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabCOS
+	scoreboard objectives remove BiolabNRC
+	scoreboard objectives remove BiolabNRCP
+	scoreboard players tag * remove CombatMedic
+	scoreboard players tag * remove NanoRegenEnabled
+	scoreboard players tag * remove NanoRegenDisabled
+	scoreboard players tag * remove NanoRegenCooldown
+	fill ~-15 ~1 ~6 ~-15 ~1 ~6 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabSneakTimer
+	scoreboard objectives remove BiolabCOS
+	scoreboard objectives remove BiolabCC
+	scoreboard objectives remove BiolabCCP
+	scoreboard objectives remove BiolabLI
+	scoreboard players tag * remove Infiltrator
+	scoreboard players tag * remove CloakEnabled
+	scoreboard players tag * remove CloakDisabled
+	scoreboard players tag * remove CloakCooldown
+	scoreboard players tag * remove InFourthSlot
+	fill ~-4 ~7 ~-2 ~-4 ~7 ~-2 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabSneakTimer
+	scoreboard objectives remove BiolabJCP
+	scoreboard objectives remove BiolabJC
+	scoreboard players tag * remove LightAssault
+	scoreboard players tag * remove JetpackEnabled
+	scoreboard players tag * remove JetpackDisabled
+	scoreboard players tag * remove JetpackCooldown
+	fill ~-3 ~9 ~-2 ~-3 ~9 ~-2 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabCPL
+	scoreboard objectives remove BiolabDPL
+	scoreboard objectives remove BiolabLD
+	fill ~-7 ~9 ~0 ~-7 ~9 ~0 coal_block 0 replace redstone_block 0
+	scoreboard objectives remove BiolabPID
+	scoreboard players tags * remove BiolabPlayer
+	scoreboard objectives remove BiolabTemp
+	effect @a[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210,m=2] clear
+	clear @a[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210,m=2]
+	kill @e[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210,type=!Player]
+	tp @a[x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210,m=2] -120.0 19 -1205.0 0 0
+	gamerule naturalRegeneration true
+
+:AutomaticResetGroup PULSE 16 16 16		[0 8 2 | 18 3 7]
+	scoreboard objectives remove CONST
+	scoreboard objectives add CONST dummy
+	scoreboard objectives remove remove
+	scoreboard objectives add remove dummy
+	scoreboard objectives remove BiolabTemp
+	scoreboard objectives add BiolabTemp dummy
+	scoreboard objectives remove BiolabJetCharge
+	scoreboard objectives add BiolabJetCharge dummy
+	scoreboard objectives remove add
+	scoreboard objectives add add dummy
+	scoreboard objectives remove BiolabJC
+	scoreboard objectives add BiolabJC dummy
+	scoreboard objectives remove BiolabCPIS
+	scoreboard objectives add BiolabCPIS dummy
+	scoreboard objectives remove BiolabLD
+	scoreboard objectives add BiolabLD dummy
+	scoreboard objectives remove BiolabNRCP
+	scoreboard objectives add BiolabNRCP dummy
+	scoreboard objectives remove BiolabNSCP
+	scoreboard objectives add BiolabNSCP dummy
+	scoreboard objectives remove BiolabCC
+	scoreboard objectives add BiolabCC dummy
+	scoreboard objectives remove BiolabCPPC
+	scoreboard objectives add BiolabCPPC dummy
+	scoreboard objectives remove BiolabTPC
+	scoreboard objectives add BiolabTPC dummy
+	scoreboard objectives remove BiolabTS
+	scoreboard objectives add BiolabTS dummy
+	scoreboard objectives remove BiolabUS
+	scoreboard objectives add BiolabUS dummy
+	scoreboard objectives remove BiolabRT
+	scoreboard objectives add BiolabRT dummy
+	scoreboard objectives remove BiolabLI
+	scoreboard objectives add BiolabLI dummy
+	scoreboard objectives remove BiolabCPI
+	scoreboard objectives add BiolabCPI dummy
+	scoreboard objectives remove BiolabJCP
+	scoreboard objectives add BiolabJCP dummy
+	scoreboard objectives remove BiolabDPL
+	scoreboard objectives add BiolabDPL dummy
+	scoreboard objectives remove BiolabCPL
+	scoreboard objectives add BiolabCPL dummy
+	scoreboard objectives remove BiolabCOS
+	scoreboard objectives add BiolabCOS dummy
+	scoreboard objectives remove BiolabNRC
+	scoreboard objectives add BiolabNRC dummy
+	scoreboard objectives remove BiolabAPO
+	scoreboard objectives add BiolabAPO dummy
+	scoreboard objectives remove BiolabNSC
+	scoreboard objectives add BiolabNSC dummy
+	scoreboard objectives remove BiolabPID
+	scoreboard objectives add BiolabPID dummy
+	scoreboard objectives remove BiolabBCP
+	scoreboard objectives add BiolabBCP dummy
+	scoreboard objectives remove BiolabCCP
+	scoreboard objectives add BiolabCCP dummy
+	scoreboard objectives remove BiolabSneakTimer
+	scoreboard objectives add BiolabSneakTimer dummy
+	scoreboard teams remove BiolabBlue
+	scoreboard teams add BiolabBlue
+	scoreboard teams remove BiolabPurple
+	scoreboard teams add BiolabPurple
+	scoreboard teams remove BiolabCPBlue
+	scoreboard teams add BiolabCPBlue
+	scoreboard teams remove BiolabCPPurple
+	scoreboard teams add BiolabCPPurple
+	scoreboard teams remove BiolabRed
+	scoreboard teams add BiolabRed
+	scoreboard teams remove BiolabCPRed
+	scoreboard teams add BiolabCPRed
+	scoreboard teams remove BiolabCPNeutral
+	scoreboard teams add BiolabCPNeutral
+	scoreboard players set 100 CONST 100
+

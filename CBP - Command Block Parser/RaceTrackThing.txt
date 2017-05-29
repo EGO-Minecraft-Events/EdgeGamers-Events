@@ -1,0 +1,68 @@
+/scoreboard players set @a[tag=Driver] R 0
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 9 ~ stone 2 scoreboard players add @p R 256
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 8 ~ stone 2 scoreboard players add @p R 128
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 7 ~ stone 2 scoreboard players add @p R 64
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 6 ~ stone 2 scoreboard players add @p R 32
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 5 ~ stone 2 scoreboard players add @p R 16
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 4 ~ stone 2 scoreboard players add @p R 8
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 3 ~ stone 2 scoreboard players add @p R 4
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 2 ~ stone 2 scoreboard players add @p R 2
+/execute @a[tag=Driver] ~ ~ ~ detect ~ 1 ~ stone 2 scoreboard players add @p R 1
+
+/execute @a[tag=Driver] ~ ~ ~ scoreboard players operation @p RPrev -= @p R
+	/title @a[tag=RBack,score_RPrev_min=1] times 0 20 5
+	/title @a[tag=RBack,score_RPrev_min=1] title {"text":"Wrong Way!","color":"red"}
+/scoreboard players tag @a[tag=RBack] remove RBack
+/scoreboard players tag @a[tag=Driver,score_RPrev_min=1] add RBack
+/execute @a[tag=Driver] ~ ~ ~ scoreboard players operation @p RPrev = @p R
+/scoreboard players operation @a[tag=Driver] R *= 100 R
+/scoreboard players operation @a[tag=Driver] R /= Track R
+/weather clear
+
+
+
+/execute @a[tag=Driver] ~ ~ ~ scoreboard players operation @p RDummy = @p R
+/xp -2147483648L @a[tag=Driver]
+/xp 1129L @a[tag=Driver]
+/xp 11 @a[tag=Driver]
+/xp 6336 @a[tag=Driver,score_R_min=64]
+/scoreboard players remove @a[tag=Driver,score_R_min=64] R 64
+/xp 3168 @a[tag=Driver,score_R_min=32]
+/scoreboard players remove @a[tag=Driver,score_R_min=32] R 32
+/xp 1584 @a[tag=Driver,score_R_min=16]
+/scoreboard players remove @a[tag=Driver,score_R_min=16] R 16
+/xp 792 @a[tag=Driver,score_R_min=8]
+/scoreboard players remove @a[tag=Driver,score_R_min=8] R 8
+/xp 396 @a[tag=Driver,score_R_min=4]
+/scoreboard players remove @a[tag=Driver,score_R_min=4] R 4
+/xp 198 @a[tag=Driver,score_R_min=2]
+/scoreboard players remove @a[tag=Driver,score_R_min=2] R 2
+/xp 99 @a[tag=Driver,score_R_min=1]
+/xp -1129L @a[tag=Driver]
+
+/xp 64L @a[tag=Driver,score_RDummy_min=64]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=64] RDummy 64
+/xp 32L @a[tag=Driver,score_RDummy_min=32]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=32] RDummy 32
+/xp 16L @a[tag=Driver,score_RDummy_min=16]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=16] RDummy 16
+/xp 8L @a[tag=Driver,score_RDummy_min=8]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=8] RDummy 8
+/xp 4L @a[tag=Driver,score_RDummy_min=4]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=4] RDummy 4
+/xp 2L @a[tag=Driver,score_RDummy_min=2]
+/scoreboard players remove @a[tag=Driver,score_RDummy_min=2] RDummy 2
+/xp 1L @a[tag=Driver,score_RDummy_min=1]
+
+
+
+/scoreboard players operation @e[type=ArmorStand,name=R] R = R R
+/execute @e[type=ArmorStand,name=R,score_R_min=256] ~ ~ ~ setblock ~ ~1 ~ stone 2
+/scoreboard players remove @e[type=ArmorStand,name=R,score_R_min=256] R 256
+.
+.
+.
+/kill @e[type=ArmorStand,name=R]
+/scoreboard players add R R 1
+
+

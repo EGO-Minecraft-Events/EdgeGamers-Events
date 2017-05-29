@@ -1,0 +1,114 @@
+//#-p stonebrick 0 -b X Y Z -print
+///	
+
+//<Defines
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
+
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEFINE $CMDName$ V
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+///	Teleport virus to above mid
+DEFINE $VirusBeg$ 
+/// Mid tube
+DEFINE $VirusEnd$ 
+///	Select Spawn
+DEFINE $SP$ 
+///	Select Virus
+DEFINE $SV$ 
+///	Open mid door
+DEFINE $DoorMid$ 
+///	Open virus door
+DEFINE $DoorVirus$ 
+///	Spawn ID
+DEFINE $SPid$ 
+/// Virus Type
+DEFINE $VType$ 
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+//<Comments: To do
+FUNC Func_ToDoThings
+Mandatory:
+	
+Additional:
+	-Make it not a player number when there are more than 10 people
+	-Last person standing gets 16 snowballs and a speed boost
+	
+Features:
+	-XP bar and scoreboard display timer
+END
+//>
+
+//<Main Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<Main Clock
+FUNC Func_EditGeneralScoreboardClock
+	
+END
+//>
+
+//<Open Doors Pulse
+FUNC Func_EditOpenDoorsPulse
+	fill $DoorMid$ stonebrick 0 replace redstone_block 0
+END
+//>
+
+//<Release Virus Testfor Clock
+FUNC Func_EditReleaseVirusTFClock
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<End Game Testfor Clock
+FUNC Func_EditEndGameTFClock
+	
+END
+//>
+
+//<Main End
+FUNC Func_EditGeneralScoreboardEnd
+	
+END
+
+PCBPIMPORT PCBPI_Virus.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

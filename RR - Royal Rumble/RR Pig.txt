@@ -1,0 +1,44 @@
+
+
+
+
+@e[type=Pig,tag=RRGLaserPig,r=20] setblock ~ ~1 ~ stained_glass 5
+
+@e[type=Pig,tag=RRGLaserPig,r=20] summon ArmorStand ~ ~0.6 ~ {DisabledSlots:2096896,PersistenceRequired:1,Invisible:1,Small:1,Marker:1b,NoGravity:1,Tags:["LaserCow"],ArmorItems:[{},{},{},{id:redstone_block,Count:1b,tag:{ench:[{id:0,lvl:1}]}}]}
+
+execute @e[type=Pig,tag=RRGLaserPig,r=20] summon ArmorStand ~ ~ ~ {DisabledSlots:2096896,PersistenceRequired:1,Invisible:1,Small:1,Marker:1b,NoGravity:1,Tags:["LaserCow"],ArmorItems:[{},{},{},{id:stained_glass,Count:1b,Damage:5s}],Pose:{Head:[0f,45f,0f]}}
+
+execute @e[type=Pig,tag=RRGLaserPig,r=20] summon ArmorStand ~ ~0.625 ~ {DisabledSlots:2096896,PersistenceRequired:1,Invisible:1,Small:1,Marker:1b,NoGravity:1,Tags:["LaserCow"],ArmorItems:[{},{},{},{id:end_rod,Count:1b}],Pose:{Head:[30f,0f,0f]}}
+
+
+
+//-45 to 44 = south
+//	execute @a[r=10,rym=-45,ry=44] ~ ~ ~ say south
+
+//45 to 134 = west
+//	execute @a[r=10,rym=45,ry=134] ~ ~ ~ say west
+
+//135 to 224 = north
+//	execute @a[r=10,rym=135,ry=225] ~ ~ ~ say north
+
+//-135 to -44 = east
+//	execute @a[r=10,rym=-135,ry=-44] ~ ~ ~ say east
+
+
+//minecraft:give @p spawn_egg 1 0 {EntityTag:{id:"Pig"},display:{Name:"Reinforced Pig"},CanPlaceOn:["sandstone"]}
+//Change to "dispenser pig"?
+//Remember to give it regeneration 2
+
+
+//Level 1: (4 hits = 1/2 heart)
+//	3 blocks
+//	effect @p 11 1 0 true
+//	effect @p 7 1 0 true
+
+//Level 2: (3 hits = dead, 15s time)
+//	5 blocks
+//	effect @p 11 1 1 true
+//	effect @p 7 1 1 true
+
+//Level 3: (25s time)
+//	7 blocks

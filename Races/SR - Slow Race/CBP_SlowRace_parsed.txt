@@ -1,0 +1,109 @@
+fill 73 4 -63 76 2 -60 air 0
+setblock 74 4 -62 structure_block 0 replace {name:"CMDSave_SR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:8,sizeY:4,sizeZ:10}
+setblock 74 2 -62 structure_block 0 replace {name:"CMDSave_SR",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 74 4 -63 wooden_button 4
+setblock 74 2 -63 wooden_button 4
+setblock 75 4 -62 redstone_lamp 0
+setblock 75 2 -62 redstone_lamp 0
+setblock 74 4 -61 minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+
+:CBPMainStart PULSE 0 10 10		[0 0 0 | 3 5 12]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 2
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	fill ~0 ~0 ~-6 ~0 ~0 ~-6 stonebrick
+	scoreboard objectives add SlowRace dummy Slow Race
+	scoreboard objectives add SlowRaceCD dummy Slow Race Countdown
+	scoreboard objectives add SlowRaceCL dummy Slow Race Clear
+	scoreboard objectives add SlowRaceDE deathCount Slow Race Deaths
+	scoreboard objectives add SlowRaceBC dummy Slow Race Broadcast
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay sidebar SlowRace
+	scoreboard teams add SlowR
+	scoreboard teams option SlowR color gray
+	scoreboard teams option SlowR seeFriendlyInvisibles true
+	scoreboard teams option SlowR collisionRule never
+	scoreboard teams option SlowR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["SlowRaceCD"]}
+	scoreboard players set /spawn SlowRace 0
+	scoreboard teams join SlowR /spawn
+	fill ~2 ~-2 ~-1 ~2 ~-2 ~-1 redstone_block
+	fill ~6 ~-2 ~-2 ~6 ~-2 ~-2 redstone_block
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 2
+
+:CBPMainClock CLOCK 0 10 10		[2 0 0 | 3 5 12]
+	scoreboard players add @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] SPid 0
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,score_SPid=-3] SPid 2
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,score_SPid_min=-1] SPid 2
+	minecraft:kill @e[x=21,y=4,z=-88,dx=61,dy=100,dz=21,type=Item]
+	scoreboard players add @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,team=!SlowR] SlowRaceBC 0
+	scoreboard players add @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2] SlowRaceCL 0
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceCL_min=0,score_SlowRaceCL=0] SlowRaceDE 1
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceCL_min=0,score_SlowRaceCL=0] SlowRaceCL 1
+	effect @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceDE_min=1] clear
+	minecraft:clear @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceDE_min=1]
+	scoreboard teams join SlowR @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,team=!SlowR]
+	effect @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,team=SlowR] 14 3 0 true
+	scoreboard players set @a[x=70,y=13,z=-80,dy=1,c=1,m=2,score_SlowRaceBC_min=0,score_SlowRaceBC=0] SlowRaceBC 1
+	execute @a[x=70,y=13,z=-80,dy=1,c=1,m=2,score_SlowRaceBC_min=1,score_SlowRaceBC=1] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=70,y=13,z=-80,dy=1,c=1,m=2,score_SlowRaceBC_min=1,score_SlowRaceBC=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=70,y=13,z=-80,dy=1,c=1,m=2,score_SlowRaceBC_min=1,score_SlowRaceBC=1] ~ ~ ~ fill 70 11 -80 70 11 -80 redstone_block 0
+	scoreboard players set @a[x=70,y=13,z=-78,dy=1,c=1,m=2,score_SlowRaceBC_min=0,score_SlowRaceBC=0] SlowRaceBC 2
+	execute @a[x=70,y=13,z=-78,dy=1,c=1,m=2,score_SlowRaceBC_min=2,score_SlowRaceBC=2] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=70,y=13,z=-78,dy=1,c=1,m=2,score_SlowRaceBC_min=2,score_SlowRaceBC=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=70,y=13,z=-78,dy=1,c=1,m=2,score_SlowRaceBC_min=2,score_SlowRaceBC=2] ~ ~ ~ fill 70 11 -80 70 11 -78 redstone_block 0
+	scoreboard players set @a[x=70,y=13,z=-82,dy=1,c=1,m=2,score_SlowRaceBC_min=0,score_SlowRaceBC=0] SlowRaceBC 3
+	execute @a[x=70,y=13,z=-82,dy=1,c=1,m=2,score_SlowRaceBC_min=3,score_SlowRaceBC=3] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=70,y=13,z=-82,dy=1,c=1,m=2,score_SlowRaceBC_min=3,score_SlowRaceBC=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=70,y=13,z=-82,dy=1,c=1,m=2,score_SlowRaceBC_min=3,score_SlowRaceBC=3] ~ ~ ~ fill 70 11 -80 70 11 -82 redstone_block 0
+	execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_SlowRaceBC_min=1] SlowRace = @a[r=1,c=1,m=2,score_SlowRaceBC_min=1] SlowRaceBC
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceDE_min=1] SlowRaceDE 0
+	scoreboard players operation @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceBC_min=1] SlowRace *= -1 Number
+	scoreboard players operation @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2,score_SlowRaceBC_min=1] SlowRaceBC *= -1 Number
+
+:CBPCountdown CLOCK 0 10 10		[6 0 0 | 3 4 12]
+	scoreboard players add @e[type=AreaEffectCloud,tag=SlowRaceCD] SlowRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=20,score_SlowRaceCD=20] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=20,score_SlowRaceCD=20] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=40,score_SlowRaceCD=40] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=40,score_SlowRaceCD=40] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=60,score_SlowRaceCD=60] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=60,score_SlowRaceCD=60] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=80,score_SlowRaceCD=80] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=80,score_SlowRaceCD=80] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=100,score_SlowRaceCD=100] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=100,score_SlowRaceCD=100] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=120,score_SlowRaceCD=120] ~ ~ ~ execute @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=120,score_SlowRaceCD=120] ~ ~ ~ tellraw @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Slow Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=120,score_SlowRaceCD=120] ~ ~ ~ title @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21] title {"text":"GO!","color":"green"}
+	testfor @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=120,score_SlowRaceCD=120]
+	 L fill ~0 ~-1 ~-3 ~0 ~-1 ~-3 stonebrick
+	execute @e[type=AreaEffectCloud,tag=SlowRaceCD,score_SlowRaceCD_min=120,score_SlowRaceCD=120] ~ ~ ~ fill 71 5 -82 71 5 -78 stonebrick 0 replace redstone_block 0
+
+:CBPMainEnd PULSE 0 10 10		[4 0 0 | 3 5 12]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=2,score_SPgam=2] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	fill ~0 ~0 ~-7 ~0 ~0 ~-7 stonebrick
+	scoreboard objectives remove SlowRace
+	scoreboard objectives remove SlowRaceCD
+	scoreboard objectives remove SlowRaceCL
+	scoreboard objectives remove SlowRaceDE
+	scoreboard objectives remove SlowRaceBC
+	scoreboard teams remove SlowR
+	minecraft:kill @e[type=AreaEffectCloud,tag=SlowRaceCD]
+	fill 70 11 -80 70 11 -80 air 0
+	fill 70 11 -80 70 11 -78 air 0
+	fill 70 11 -80 70 11 -82 air 0
+	effect @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2] clear
+	minecraft:clear @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2]
+	effect @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2] 6 20 100 true
+	scoreboard players set @a[x=21,y=4,z=-88,dx=61,dy=100,dz=21,m=2] SPtp 2
+	fill 71 5 -82 71 5 -78 redstone_block 0 replace stonebrick 0
+	fill ~-2 ~-2 ~-3 ~-2 ~-2 ~-3 stonebrick
+	fill ~2 ~-2 ~-4 ~2 ~-2 ~-4 stonebrick
+

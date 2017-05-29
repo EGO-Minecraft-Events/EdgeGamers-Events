@@ -1,0 +1,32 @@
+/summon ArmorStand ~ ~0.15 ~1 
+{DisabledSlots:2096896,
+NoGravity:1,
+NoBasePlate:1,
+ShowArms:1,
+Small:1,
+Invulnerable:1,
+PersistenceRequired:1,
+Invisible:0,
+Rotation:[180f,270f],
+Pose:{
+	Body:[0f,0f,0f],
+	Head:[0f,0f,0f],
+	LeftArm:[-20f,0f,0f],
+	RightArm:[-20f,0f,0f],
+	LeftLeg:[-90f,0f,0f],
+	RightLeg:[-90f,0f,0f]
+	},
+ArmorItems:
+[
+	{},
+	{},
+	{},
+	{id:skull,Damage:3,Count:1,tag:{SkullOwner:"misteradamx"}}
+],
+HandItems:
+[
+	{},
+	{}
+]
+}
+

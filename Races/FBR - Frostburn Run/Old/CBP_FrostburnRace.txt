@@ -1,0 +1,168 @@
+//#-p stonebrick 0 -print
+//-65 18 255
+
+DEFINE $SA$ x=-159,y=1,z=244,dx=90,dy=50,dz=90
+DEFINE $server$ minecraft:
+DEFINE $Name$ FrostBurn
+DEFINE $Style$ 10 10 0
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+
+//Race Status Number
+DEFINE $RSn$ 4
+//Warp name
+DEFINE $WN$ fbr
+//Scoreboard teams color
+DEFINE $Color$ aqua
+//Place where air is when open
+DEFINE $Dao$ -82 6 252 -82 6 264
+//Place where redstone blocks are there when open
+DEFINE $Dro$ 
+//Spawn Coords
+DEFINE $SC$ -73 9 258 90 0
+
+
+//Checkpoint number
+DEFINE $CPn$ 3
+//Spawn area
+DEFINE $Spn$ x=-81,y=8,z=252,dx=11,dy=9,dz=12
+//Portal
+DEFINE $Ptl$ x=-79,y=10,z=291,dx=4,dy=4
+//Magma Maze
+DEFINE $MM$ x=-82,y=8,z=293,dx=11,dy=4,dz=11
+
+//Checkpoints for detection of players
+DEFINE $CPdp1$ x=-144,y=8,z=282,dx=4,dy=4,dz=2
+DEFINE $CPdp2$ x=-79,y=9,z=292,dx=5,dy=6
+DEFINE $CPdp3$ x=-100,y=19,z=305,dx=4,dy=5,dz=4
+
+//Checkpoint teleports
+DEFINE $CPtp0$ -78 9 258 90 0
+DEFINE $CPtp1$ -142 9 283 -90 0
+DEFINE $CPtp2$ -76.0 10 292 0 45
+DEFINE $CPtp3$ -98 19 307 90 20
+
+
+:MainStart PULSE $Style$
+Deactivate(MainStart)
+//Scoreboard
+scoreboard objectives add $Name$Race dummy $Name$ Race
+scoreboard objectives add $Name$RaceCP dummy $Name$Race Checkpoints
+scoreboard objectives setdisplay sidebar $Name$Race
+scoreboard teams add $Name$R
+scoreboard teams option $Name$R color $Color$
+scoreboard teams option $Name$R seeFriendlyInvisibles true
+scoreboard teams option $Name$R collisionRule never
+
+//Race Status
+$Name$R_Open RS = $RSn$
+scoreboard players reset $Name$R_Closed RS
+
+//Countdown startup
+summon AreaEffectCloud ~ ~ ~ {Duration:101,Tags:["$Name$RaceCD"]}
+tellraw @a[$SA$] {"text":"5","color":"yellow","bold":"true"}
+@a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+
+//Other
+effect @a[$SA$] clear
+\/warp_$WN$ $Name$Race = 0
+scoreboard teams join $Name$R /warp_$WN$
+Activate(MainClock)
+Activate(Countdown)
+
+
+:MainClock CLOCK $Style$
+$server$weather clear 1000000
+gamemode 2 @a[$SA$,m=0]
+$server$clear @a[$SA$,m=2]
+scoreboard teams join $Name$R @a[$SA$,team=!$Name$R]
+effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+effect @a[$SA$,m=2,team=$Name$R] 12 3 0 true
+effect @a[$MM$,m=2,team=$Name$R] 12 0 0 true
+
+
+//Checkpoint setups
+@a[$Spn$,m=2,team=$Name$R] $Name$RaceCP + 0
+LOOP 1 $CPn$ + 1 () 0 SUB($CPn$;1) + 1
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+END
+
+
+//Teleports
+$server$tp @a[$Ptl$,m=2,team=$Name$R] ~ ~ ~1
+@a[$SA$,m=2] hay_block -1 ~ ~-1.3 ~ scoreboard players tag @a[r=0,c=1] add $Name$RWaterTP
+scoreboard players tag @a[$Spn$,m=2,$Name$RaceCP>=1] add $Name$RWaterTP
+LOOP 0 $CPn$ + 1
+	$server$tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] $CPtp|0|$
+END
+effect @a[$Name$RWaterTP] 6 1 100 true
+effect @a[$Name$RWaterTP] 11 1 100 true
+@a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+scoreboard players tag @a[$Name$RWaterTP] remove $Name$RWaterTP
+
+
+:Countdown CLOCK $Style$
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:20}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	tellraw @a[$SA$] {"text":"4","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:40}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	tellraw @a[$SA$] {"text":"3","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:60}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	tellraw @a[$SA$] {"text":"2","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:80}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	tellraw @a[$SA$] {"text":"1","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:100}
+CONSTART
+	@a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
+	tellraw @a[$SA$] {"text":"GO!","color":"green","bold":"true"}
+	title @a[$SA$] title {"text":"GO!","color":"green"}
+	fill $Dao$ stonebrick 0 replace redstone_block 0
+//	fill $Dro$ redstone_block 0 replace stonebrick 0
+	Deactivate(Countdown)
+CONEND
+
+
+:MainEnd PULSE $Style$
+Deactivate(MainEnd)
+scoreboard objectives remove $Name$Race
+scoreboard objectives remove $Name$RaceCP
+scoreboard teams remove $Name$R
+
+Deactivate(MainClock)
+Deactivate(Countdown)
+
+$Name$R_Closed RS = $RSn$
+scoreboard players reset $Name$R_Open RS
+
+$server$kill @e[type=AreaEffectCloud,$Name$RaceCD]
+fill $Dao$ redstone_block 0 replace stonebrick 0
+//fill $Dro$ stonebrick 0 replace redstone_block 0
+
+effect @a[$SA$,m=2] clear
+$server$clear @a[$SA$,m=2]
+effect @a[$SA$,m=2] 6 20 100 true
+$server$tp @a[$SA$,m=2] $SC$
+
+
+
+
+
+
+
+
+
+

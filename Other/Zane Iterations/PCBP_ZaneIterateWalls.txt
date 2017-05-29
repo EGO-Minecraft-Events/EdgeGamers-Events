@@ -1,0 +1,184 @@
+//#-p stonebrick 0 -b 175 63 15 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Other\Zane Iterations\CBP_ZaneIterateWalls.txt
+
+//<Defines
+DEFINE $CMDName$ ZaneIterateWalls
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+
+DEFINE $CornerSpawn$ 158 4 2
+DEFINE $XDistance$ 45
+DEFINE $YDistance$ 28
+DEFINE $ZDistance$ 68
+
+DEFINE $LoopNum$ 30
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		NumberObjAdd
+		ZNde dummy Zane Detect
+		ZNct dummy Zane Counter
+		ZNdx dummy Distance X
+		ZNdy dummy Distance Y
+		ZNdz dummy Distance Z
+	UNUSE
+	
+	USE $TeamA$
+		ZNd_y
+		ZNd_b
+		ZNd_lb
+	UNUSE
+	
+	USE $TeamO$
+		ZNd_y color yellow
+		ZNd_b color black
+		ZNd_lb color aqua
+	UNUSE
+	
+	scoreboard objectives setdisplay sidebar ZNct
+	
+	summon ArmorStand $CornerSpawn$ {Tags:["ZaneStand"],Invulnerable:1,PersistenceRequired:1,NoGravity:1,Glowing:1}
+	
+	@e[type=ArmorStand,ZaneStand] ZNdx = 1
+	@e[type=ArmorStand,ZaneStand] ZNdy = 1
+	@e[type=ArmorStand,ZaneStand] ZNdz = 1
+	
+	NumberAdd(x)
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+	LOOP 1 $LoopNum$ + 1
+		@e[type=ArmorStand,ZaneStand,ZNdy=$YDistance$] ZNdx = -1
+		@e[type=ArmorStand,ZaneStand,ZNdy=$YDistance$] ZNdz = -1
+		@e[type=ArmorStand,ZaneStand,ZNdy=$YDistance$] ZNdy = -1
+		
+		$s$tp @e[type=ArmorStand,ZaneStand,ZNdz=$ZDistance$] ~ ~1 ~-SUB($ZDistance$;1)
+		@e[type=ArmorStand,ZaneStand,ZNdz=$ZDistance$] ZNdy + 1
+		@e[type=ArmorStand,ZaneStand,ZNdz=$ZDistance$] ZNdz = 1
+		
+		$s$tp @e[type=ArmorStand,ZaneStand,ZNdx=$XDistance$] ~-SUB($XDistance$;1) ~ ~1
+		@e[type=ArmorStand,ZaneStand,ZNdx=$XDistance$] ZNdz + 1
+		@e[type=ArmorStand,ZaneStand,ZNdx=$XDistance$] ZNdx = 1
+		
+		@e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] detect ~ ~ ~ iron_ore 0 summon Shulker ~ ~ ~ ;
+		{Tags:["Zane1","ZaneDetect"],Invulnerable:1,NoAI:1,Glowing:1}
+		
+		@e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] detect ~ ~ ~ coal_ore 0 summon Shulker ~ ~ ~ ;
+		{Tags:["Zane2","ZaneDetect"],Invulnerable:1,NoAI:1,Glowing:1}
+		
+		@e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] detect ~ ~ ~ diamond_ore 0 summon Shulker ~ ~ ~ ;
+		{Tags:["Zane3","ZaneDetect"],Invulnerable:1,NoAI:1,Glowing:1}
+		
+		/// @e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] detect ~ ~1 ~ double_plant 10 setblock ~ ~ ~ double_plant 5
+		/// @e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] detect ~ ~1 ~ double_plant 10 Plant ZNct + 1
+		
+		$s$tp @e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] ~1 ~ ~
+		@e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] ZNdx + 1
+	END
+	@e[type=ArmorStand,ZaneStand,ZNdx>=1<=SUB($XDistance$;1)] Iterations ZNct + $LoopNum$
+END
+//>
+
+//<Teams Join Pulse
+FUNC Func_TeamsJoinPulse
+	ScTJ ZNd_y @e[type=Shulker,Zane1]
+	ScTJ ZNd_y @e[type=Shulker,Zane2]
+	ScTJ ZNd_a @e[type=Shulker,Zane3]
+	
+	@e[type=Shulker,Zane1] Iron ZNct + 1
+	@e[type=Shulker,Zane2] Coal ZNct + 1
+	@e[type=Shulker,Zane3] Diamond ZNct + 1
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		ZNde
+		ZNct
+		ZNdx
+		ZNdy
+		ZNdz
+	UNUSE
+	
+	$s$kill @e[type=ArmorStand,ZaneStand]
+END
+//>
+
+//<Kill Armor Stands Pulse
+FUNC Func_KillArmorStandsPulse
+	USE $TeamR$
+		ZNd_y
+		ZNd_b
+		ZNd_lb
+	UNUSE
+	
+	$s$kill @e[type=Shulker,ZaneDetect]
+END
+//>
+
+//<Groups
+Func_CMDSave
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart
+Activate(CBPMainClock)
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd
+Deactivate(CBPMainClock)
+
+:CBPKillArmorStandsPulse PULSE $Style$
+Deactivate(CBPKillArmorStandsPulse)
+Func_KillArmorStandsPulse
+
+:CBPTeamsJoinPulse PULSE $Style$
+Deactivate(CBPTeamsJoinPulse)
+Func_TeamsJoinPulse
+//>
+
+
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\PCBP - Python Command Block Parser\PCBP Multi Storage\PCBPM_Temp.txt
+-tp True
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\IR - Ice Race\CBP_IceRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\SR - Slow Race\CBP_SlowRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\NR - Nether Race\CBP_NetherRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\EvilR - Evil Race\CBP_EvilRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\DeathR - Death Run\CBP_DeathRun.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\DR - Diamond Race\CBP_DiamondRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\ER - Emerald Race\CBP_EmeraldRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\QR - Quartz Race\CBP_QuartzRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\1.8R - 1.8 Race\CBP_18Race.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\SaltR - Salt Race\CBP_SaltRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\EpicR - Epic Race\CBP_EpicRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\FBR - Frostburn Race\CBP_FrostburnRace.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\ECR - Ever Changing Race\CBP_EverChangingRace.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus1.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus2.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\AD - Anvil Drop\CBP_AnvilDrop.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\ST - Sand Tomb\CBP_SandTomb.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\TP - The Pit\CBP_ThePit3.txt
+C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\DP - Death Pit\CBP_DeathPit.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\MM - Mastermind\CBP_Mastermind.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Armor Stand Zane.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Other\Zane Iterations\CBP_ZaneIterateWalls.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Other\Zane Iterations\CBP_ZaneIterateOre.txt
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Other\Zane Iterations\CBP_ZaneIterateRR.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\CBP - Command Block Parser\CBP_Test.txt
+
+/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Other\Spawnpoint Database\CBP_Spawnpoint.txt
+

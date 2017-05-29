@@ -1,0 +1,60 @@
+gamemode 2 @a[-44,3,289,dx=20,dy=23,dz=34,m=0]
+scoreboard objectives add BSp dummy Bow Spleef Players
+scoreboard objectives add BSd dummy Bow Spleef Deaths
+scoreboard objectives add BSdi dummy Bow Spleef
+scoreboard objectives add BSa dummy Bow Spleef Arrow
+scoreboard teams add BSp
+scoreboard players set @a[-44,3,289,dx=20,dy=23,dz=34,m=2] BSp 1
+scoreboard teams join BSp @a[-44,3,289,dx=20,dy=23,dz=34,m=2]
+replaceitem entity @a[-44,3,289,dx=20,dy=23,dz=34,m=2] slot.hotbar.0 bow 1 0 {ench:[{id:51,lvl:1}],Unbreakable:1,HideFlags:127}
+replaceitem entity @a[-44,3,289,dx=20,dy=23,dz=34,m=2] slot.hotbar.8 arrow 1 0 {ench:[{id:51,lvl:1}],Unbreakable:1,HideFlags:127}
+tellraw @a[r=400] {"text":"Begin!","color":"green","bold":"true"}
+title @a[r=400] title {"text":"Begin!","color":"green"}
+scoreboard objectives setdisplay sidebar BSdi
+
+
+execute @a[-44,4,289,dx=20,dy=0,dz=34] ~ ~ ~ detect ~ ~-0.50 ~ coal_block 0 minecraft:kill @a[c=1]
+scoreboard players reset @a[score_BSd=1,score_BSd_min=1] BSp
+scoreboard players set @e[type=ArmorStand,c=1,name=BS] BSp 0
+scoreboard players operation @e[type=ArmorStand,c=1,name=BS] BSp += @a[-44,3,289,dx=20,dy=23,dz=34,m=2,score_BSp=1,score_BSp_min=1] BSp
+scoreboard players operation Players: BSdi = @e[type=ArmorStand,c=1,name=BS] BSp
+execute @e[type=ArmorStand,c=1,name=BS,score_BSp=1,score_BSp_min=1] ~ ~ ~ scoreboard players set @a[-44,3,289,dx=20,dy=23,dz=34,m=2,score_BSp=1,score_BSp_min=1] BSdi -2
+execute @e[type=ArmorStand,c=1,name=BS,score_BSp=1,score_BSp_min=1] ~ ~ ~ scoreboard players set Winner: BSdi -1
+execute @e[type=ArmorStand,c=1,name=BS,score_BSp=0,score_BSp_min=0] ~ ~ ~ scoreboard players reset @a[score_BSdi=-2,score_BSdi_min=-2]
+execute @e[type=ArmorStand,c=1,name=BS,score_BSp=0,score_BSp_min=0] ~ ~ ~ scoreboard players reset Winner: BSdi
+
+scoreboard players add @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow] BSa 0
+scoreboard players set @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=0,score_BSa_min=0] BSa 1 {inTile:"minecraft:stained_glass"}
+
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~-0.1 ~-0.1 ~-0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~-0.1 ~-0.1 ~0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~0.1 ~-0.1 ~-0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~0.1 ~-0.1 ~0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~-0.1 ~0.1 ~-0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~-0.1 ~0.1 ~0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~0.1 ~0.1 ~-0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] ~ ~ ~ summon ArmorStand ~0.1 ~0.1 ~0.1 {CustomName:"Arrow",NoGravity:1,Invisible:1}
+
+execute @e[-44,3,289,dx=20,dy=23,dz=34,type=ArmorStand,name=Arrow] ~ ~ ~ detect ~ ~ ~ stained_glass -1 setblock ~ ~ ~ air 0 destroy
+
+minecraft:kill @e[type=ArmorStand,name=Arrow,r=400]
+scoreboard players set @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow,score_BSa=1,score_BSa_min=1] BSa 2
+scoreboard players set @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow] BSa 2 {inGround:1b}
+minecraft:kill @e[type=Arrow,score_BSa=2,score_BSa_min=2]
+
+
+
+
+scoreboard objectives remove BSp
+scoreboard objectives remove BSd
+scoreboard objectives remove BSdi
+scoreboard objectives remove BSa
+
+fill -44 19 289 -24 19 323 stained_glass 5 replace air
+fill -44 13 289 -24 13 323 stained_glass 4 replace air
+fill -44 7 289 -24 7 323 stained_glass 14 replace air
+
+minecraft:kill @e[-44,3,289,dx=20,dy=23,dz=34,type=Arrow]
+minecraft:clear @a[-44,3,289,dx=20,dy=23,dz=34,m=2]
+effect @a[-44,3,289,dx=20,dy=23,dz=34,m=2] clear
+minecraft:tp @a[-44,3,289,dx=20,dy=23,dz=34,m=2] -34 20 282 0 0

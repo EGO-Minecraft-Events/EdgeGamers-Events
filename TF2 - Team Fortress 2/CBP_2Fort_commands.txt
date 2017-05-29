@@ -1,0 +1,726 @@
+fill -129 79 -593 -121 96 -576 air
+kill @e[type=!Player,x=-129,y=79,z=-593,dx=8,dy=17,dz=17]
+fill -129 79 -593 -121 96 -576 air
+kill @e[type=!Player,x=-129,y=79,z=-593,dx=8,dy=17,dz=17]
+setblock -128 80 -592 stonebrick 0
+setblock -126 80 -592 stonebrick 0
+setblock -126 86 -592 stonebrick 0
+setblock -126 91 -592 stonebrick 0
+setblock -124 80 -592 stonebrick 0
+setblock -124 84 -592 stonebrick 0
+setblock -124 88 -592 stonebrick 0
+setblock -124 92 -592 stonebrick 0
+setblock -122 80 -592 stonebrick 0
+setblock -122 84 -592 stonebrick 0
+setblock -122 88 -592 stonebrick 0
+setblock -122 91 -592 stonebrick 0
+setblock -128 94 -592 stonebrick 0
+setblock -122 94 -592 stonebrick 0
+setblock -126 95 -592 stonebrick 0
+setblock -126 95 -582 stonebrick 0
+setblock -128 80 -591 repeating_command_block 3 replace {Command:"scoreboard players add @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] 2FTcss 0",TrackOutput:0b,auto:0b}
+setblock -128 80 -590 chain_command_block 3 replace {Command:"execute @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=0,score_2FTcss=0] ~ ~ ~ stats entity @a[r=0,c=1,m=2] set AffectedItems @a[r=0,c=1,m=2] 2FTsaf",TrackOutput:0b,auto:1b}
+setblock -128 80 -589 chain_command_block 3 replace {Command:"scoreboard players add @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=0,score_2FTcss=0] 2FTsaf 0",TrackOutput:0b,auto:1b}
+setblock -128 80 -588 chain_command_block 3 replace {Command:"execute @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=0,score_2FTcss=0] ~ ~ ~ minecraft:clear @a[r=0,c=1,m=2] leather_helmet -1 0",TrackOutput:0b,auto:1b}
+setblock -128 80 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTsaf_min=1,score_2FTcss_min=0,score_2FTcss=0] 2FTcss 1",TrackOutput:0b,auto:1b}
+setblock -128 80 -586 chain_command_block 3 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=0,score_2FTcss=0] slot.hotbar.0 leather_helmet 1 0 {display:{Name:\\\"Select red (TF2) by wearing this!\\\",color:16711680},Unbreakable:1,HideFlags:127}",TrackOutput:0b,auto:1b}
+setblock -128 80 -585 chain_command_block 3 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=0,score_2FTcss=0] slot.hotbar.1 leather_helmet 1 0 {display:{Name:\\\"Select blue (MC) by wearing this!\\\",color:255},Unbreakable:1,HideFlags:127}",TrackOutput:0b,auto:1b}
+setblock -128 80 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] 2FTtsi 1 {Inventory:[{tag:{display:{Name:\\\"Select red (TF2) by wearing this!\\\",color:16711680}},Slot:103b}]}",TrackOutput:0b,auto:1b}
+setblock -128 80 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] 2FTtsi 2 {Inventory:[{tag:{display:{Name:\\\"Select blue (MC) by wearing this!\\\",color:255}},Slot:103b}]}",TrackOutput:0b,auto:1b}
+setblock -128 80 -582 chain_command_block 3 replace {Command:"scoreboard teams join TF2R @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTtsi_min=1,score_2FTtsi=1,team=!TF2R]",TrackOutput:0b,auto:1b}
+setblock -128 80 -581 chain_command_block 3 replace {Command:"scoreboard teams join TF2B @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTtsi_min=2,score_2FTtsi=2,team=!TF2B]",TrackOutput:0b,auto:1b}
+setblock -128 80 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTtsi_min=1] 2FTcss 2",TrackOutput:0b,auto:1b}
+setblock -128 80 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTtsi_min=1] 2FTtsi 0",TrackOutput:0b,auto:1b}
+setblock -128 80 -578 chain_command_block 3 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.0 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Scout\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 80 -577 chain_command_block 1 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.1 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Soldier\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -577 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.2 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Pyro\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -578 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.3 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Demoman\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.4 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Heavy\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.5 paper 1 0 {display:{Name:\\\"Cannot choose the Engineer\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.6 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Medic\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Choose: Sniper\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcss_min=2,score_2FTcss=2] slot.hotbar.8 paper 1 0 {display:{Name:\\\"Cannot choose the Spy\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 81 -584 chain_command_block 2 replace {Command:"scoreboard players add @e[r=1000,type=Arrow] 2FTast 0",TrackOutput:0b,auto:1b}
+setblock -128 81 -585 chain_command_block 2 replace {Command:"execute @a[r=1000,score_2FTcid_min=8,score_2FTcid=8,score_2FTbui_min=1] ~ ~ ~ scoreboard players set @e[type=Arrow,score_2FTast_min=0,score_2FTast=0,r=3,c=1] 2FTast 1",TrackOutput:0b,auto:1b}
+setblock -128 81 -586 chain_command_block 2 replace {Command:"execute @a[r=1000,score_2FTcid_min=2,score_2FTcid=2,score_2FTbui_min=1] ~ ~ ~ scoreboard players set @e[type=Arrow,score_2FTast_min=0,score_2FTast=0,r=3,c=1] 2FTast 1",TrackOutput:0b,auto:1b}
+setblock -128 81 -587 chain_command_block 2 replace {Command:"entitydata @e[r=1000,type=Arrow,score_2FTast_min=1,score_2FTast=1] {NoGravity:1}",TrackOutput:0b,auto:1b}
+setblock -128 81 -588 chain_command_block 2 replace {Command:"scoreboard players set @e[r=1000,type=Arrow,score_2FTast_min=1,score_2FTast=1] 2FTast 2",TrackOutput:0b,auto:1b}
+setblock -128 81 -589 chain_command_block 2 replace {Command:"scoreboard players set @e[r=1000,type=Arrow,score_2FTast_min=0,score_2FTast=0] 2FTast 3",TrackOutput:0b,auto:1b}
+setblock -128 81 -590 chain_command_block 2 replace {Command:"scoreboard players set @e[r=1000,type=Arrow,score_2FTast_min=0] 2FTast 4 {inGround:1b}",TrackOutput:0b,auto:1b}
+setblock -128 81 -591 chain_command_block 2 replace {Command:"scoreboard players add @e[r=1000,type=Arrow,score_2FTast_min=2,score_2FTast=2] 2FTati 1",TrackOutput:0b,auto:1b}
+setblock -128 81 -592 chain_command_block 1 replace {Command:"minecraft:kill @e[r=1000,type=Arrow,score_2FTast_min=4,score_2FTast=4]",TrackOutput:0b,auto:1b}
+setblock -128 82 -592 chain_command_block 3 replace {Command:"minecraft:kill @e[r=1000,type=Arrow,score_2FTati_min=200]",TrackOutput:0b,auto:1b}
+setblock -128 82 -591 chain_command_block 3 replace {Command:"execute @a[r=1000,score_2FTcid_min=4,score_2FTcid=4] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_2FTcid_min=4,score_2FTcid=4] splash_potion -1 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -590 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=0,score_2FTgti=24,score_2FTsaf=3] 2FTgti 1",TrackOutput:0b,auto:1b}
+setblock -128 82 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTpui_min=1] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -128 82 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTpui_min=1] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -128 82 -587 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25,score_2FTgrs_min=0,score_2FTgrs=0,score_2FTsaf_min=0,score_2FTsaf=0] slot.hotbar.0 splash_potion 1 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -586 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25,score_2FTgrs_min=0,score_2FTgrs=0,score_2FTsaf_min=1,score_2FTsaf=1] slot.hotbar.0 splash_potion 2 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -585 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25,score_2FTgrs_min=0,score_2FTgrs=0,score_2FTsaf_min=2,score_2FTsaf=2] slot.hotbar.0 splash_potion 3 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -584 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25,score_2FTgrs_min=0,score_2FTgrs=0,score_2FTsaf_min=3,score_2FTsaf=3] slot.hotbar.0 splash_potion 4 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -583 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=12,score_2FTgti=12,score_2FTgrs_min=1,score_2FTgrs=1,score_2FTsaf_min=1,score_2FTsaf=1] slot.hotbar.0 splash_potion 2 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -582 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=12,score_2FTgti=12,score_2FTgrs_min=1,score_2FTgrs=1,score_2FTsaf_min=2,score_2FTsaf=2] slot.hotbar.0 splash_potion 3 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -581 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=12,score_2FTgti=12,score_2FTgrs_min=1,score_2FTgrs=1,score_2FTsaf_min=3,score_2FTsaf=3] slot.hotbar.0 splash_potion 4 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -580 chain_command_block 3 replace {Command:"execute @a[r=1000,score_2FTcid_min=4,score_2FTcid=4] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_2FTcid_min=4,score_2FTcid=4] splash_potion -1 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -579 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcid_min=4,score_2FTcid=4,score_2FTsaf_min=7,score_2FTsaf=7] splash_potion -1 3 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -578 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcid_min=4,score_2FTcid=4,score_2FTsaf_min=6,score_2FTsaf=6] splash_potion -1 2 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 82 -577 chain_command_block 1 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcid_min=4,score_2FTcid=4,score_2FTsaf_min=5,score_2FTsaf=5] splash_potion -1 1 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -128 83 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25,score_2FTgrs_min=0,score_2FTgrs=0,score_2FTsaf=3] 2FTgrs 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -578 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTpui_min=1] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -579 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=25,score_2FTgti=25] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -580 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=4,score_2FTcid=4,score_2FTgti_min=12,score_2FTgti=12,score_2FTgrs_min=1,score_2FTgrs=1] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -581 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FThti_min=0,score_2FThti=39] 2FThti 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -582 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=2,score_2FTcid=2,score_2FThti_min=0,score_2FThti=39] 2FThti 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -583 chain_command_block 2 replace {Command:"effect @a[r=1000,score_2FThti_min=40] 23 1 0 true",TrackOutput:0b,auto:1b}
+setblock -128 83 -584 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FThti_min=40] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -585 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FTgui_min=1] 2FTsti 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -586 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FTsti_min=1,score_2FTsti=599] 2FTsti 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -587 chain_command_block 2 replace {Command:"minecraft:give @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FTsti_min=600,score_2FTsti=600] golden_apple 1 0 {display:{Name:\\\"Golden Apple Sandvich\\\",Lore:[\\\"Regens in 10s\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -128 83 -588 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FTsti_min=600,score_2FTsti=600] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -589 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=5,score_2FTcid=5,score_2FTgui_min=1] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -128 83 -590 chain_command_block 2 replace {Command:"execute @a[r=1000,score_2FTcid_min=7,score_2FTcid=7] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_2FTcid_min=7,score_2FTcid=7] splash_potion -1 0 {Potion:\\\"minecraft:water_breathing\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 83 -591 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,score_2FTcid_min=7,score_2FTcid=7,score_2FTsaf_min=0,score_2FTsaf=0,score_2FTmti_min=0,score_2FTmti=19] 2FTmti 1",TrackOutput:0b,auto:1b}
+setblock -128 83 -592 chain_command_block 1 replace {Command:"minecraft:give @a[r=1000,score_2FTcid_min=7,score_2FTcid=7,score_2FTsaf_min=0,score_2FTsaf=0,score_2FTmti_min=15,score_2FTmti=15,team=TF2R] splash_potion 1 0 {HideFlags:127,Potion:\\\"minecraft:water_breathing\\\",display:{Name:\\\"Regen II - Red\\\",Lore:[\\\"Lasts 5 seconds\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -128 84 -592 chain_command_block 3 replace {Command:"minecraft:give @a[r=1000,score_2FTcid_min=7,score_2FTcid=7,score_2FTsaf_min=0,score_2FTsaf=0,score_2FTmti_min=15,score_2FTmti=15,team=TF2B] splash_potion 1 0 {HideFlags:127,Potion:\\\"minecraft:water_breathing\\\",display:{Name:\\\"Regen II - Blue\\\",Lore:[\\\"Lasts 5 seconds\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -128 84 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=7,score_2FTcid=7,score_2FTmti_min=15,score_2FTmti=15] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -128 84 -590 chain_command_block 3 replace {Command:"scoreboard players add @e[r=1000,type=ThrownPotion] 2FTmst 0 {Potion:{tag:{Potion:\\\"minecraft:water_breathing\\\"}}}",TrackOutput:0b,auto:1b}
+setblock -128 84 -589 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ThrownPotion,score_2FTmst_min=0,score_2FTmst=0] 2FTmst 1 {Potion:{tag:{display:{Name:\\\"Regen II - Red\\\"},Potion:\\\"minecraft:water_breathing\\\"}}}",TrackOutput:0b,auto:1b}
+setblock -128 84 -588 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ThrownPotion,score_2FTmst_min=0,score_2FTmst=0] 2FTmst 2 {Potion:{tag:{display:{Name:\\\"Regen II - Blue\\\"},Potion:\\\"minecraft:water_breathing\\\"}}}",TrackOutput:0b,auto:1b}
+setblock -128 84 -587 chain_command_block 3 replace {Command:"execute @a[r=1000,score_2FTpui_min=1,score_2FTcid_min=7,score_2FTcid=7,team=TF2R] ~ ~ ~ scoreboard players operation @e[type=ThrownPotion,score_2FTmst_min=1,score_2FTmst=1,r=5,c=1] 2FTpid = @a[r=1,c=1,score_2FTpui_min=1,score_2FTcid_min=7,score_2FTcid=7,team=TF2R] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -586 chain_command_block 3 replace {Command:"execute @a[r=1000,score_2FTpui_min=1,score_2FTcid_min=7,score_2FTcid=7,team=TF2B] ~ ~ ~ scoreboard players operation @e[type=ThrownPotion,score_2FTmst_min=2,score_2FTmst=2,r=5,c=1] 2FTpid = @a[r=1,c=1,score_2FTpui_min=1,score_2FTcid_min=7,score_2FTcid=7,team=TF2B] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -585 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ThrownPotion,score_2FTmst_min=1,score_2FTmst=1] 2FTmst 3",TrackOutput:0b,auto:1b}
+setblock -128 84 -584 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ThrownPotion,score_2FTmst_min=2,score_2FTmst=2] 2FTmst 4",TrackOutput:0b,auto:1b}
+setblock -128 84 -583 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=3,score_2FTmst=3] ~ ~ ~ minecraft:kill @e[type=AreaEffectCloud,tag=TF2MedibeamR,r=2,c=1]",TrackOutput:0b,auto:1b}
+setblock -128 84 -582 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=4,score_2FTmst=4] ~ ~ ~ minecraft:kill @e[type=AreaEffectCloud,tag=TF2MedibeamB,r=2,c=1]",TrackOutput:0b,auto:1b}
+setblock -128 84 -581 chain_command_block 3 replace {Command:"execute @e[r=1000,type=AreaEffectCloud,tag=TF2MedibeamR] ~ ~ ~ execute @a[m=2,r=3,team=TF2R] ~ ~ ~ scoreboard players operation @a[m=2,r=1,c=1,team=TF2R] 2FTmcl = @a[m=2,r=1,c=1,team=TF2R] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -580 chain_command_block 3 replace {Command:"execute @e[r=1000,type=AreaEffectCloud,tag=TF2MedibeamR] ~ ~ ~ scoreboard players operation @a[m=2,r=3,team=TF2R] 2FTmcl -= @e[r=1,c=1,type=AreaEffectCloud,tag=TF2MedibeamR] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -579 chain_command_block 3 replace {Command:"execute @e[r=1000,type=AreaEffectCloud,tag=TF2MedibeamB] ~ ~ ~ execute @a[m=2,r=3,team=TF2B] ~ ~ ~ scoreboard players operation @a[m=2,r=1,c=1,team=TF2B] 2FTmcl = @a[m=2,r=1,c=1,team=TF2B] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -578 chain_command_block 3 replace {Command:"execute @e[r=1000,type=AreaEffectCloud,tag=TF2MedibeamB] ~ ~ ~ scoreboard players operation @a[m=2,r=3,team=TF2B] 2FTmcl -= @e[r=1,c=1,type=AreaEffectCloud,tag=TF2MedibeamB] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 84 -577 chain_command_block 1 replace {Command:"effect @a[r=1000,m=2,score_2FTmcl_min=1] 10 5 1 true",TrackOutput:0b,auto:1b}
+setblock -128 85 -577 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTmcl=-1] 10 5 1 true",TrackOutput:0b,auto:1b}
+setblock -128 85 -578 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTmcl_min=1] 2FTrti -100",TrackOutput:0b,auto:1b}
+setblock -128 85 -579 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTmcl=-1] 2FTrti -100",TrackOutput:0b,auto:1b}
+setblock -128 85 -580 chain_command_block 2 replace {Command:"minecraft:kill @e[r=1000,type=AreaEffectCloud,tag=TF2Medibeam]",TrackOutput:0b,auto:1b}
+setblock -128 85 -581 chain_command_block 2 replace {Command:"scoreboard players reset @a[r=1000,m=2,score_2FTmcl=100000] 2FTmcl",TrackOutput:0b,auto:1b}
+setblock -128 85 -582 chain_command_block 2 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=3,score_2FTmst=3] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Tags:[\\\"TF2Medibeam\\\",\\\"TF2MedibeamR\\\"],Duration:3}",TrackOutput:0b,auto:1b}
+setblock -128 85 -583 chain_command_block 2 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=4,score_2FTmst=4] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Tags:[\\\"TF2Medibeam\\\",\\\"TF2MedibeamB\\\"],Duration:3}",TrackOutput:0b,auto:1b}
+
+setblock -128 85 -584 chain_command_block 2 replace {Command:"scoreboard players add @e[r=1000,type=AreaEffectCloud,tag=TF2Medibeam] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -128 85 -585 chain_command_block 2 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=3,score_2FTmst=3] ~ ~ ~ scoreboard players operation @e[type=AreaEffectCloud,tag=TF2MedibeamR,score_2FTpid_min=0,score_2FTpid=0,r=1,c=1] 2FTpid = @e[type=ThrownPotion,score_2FTmst_min=3,score_2FTmst=3,c=1,r=1] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 85 -586 chain_command_block 2 replace {Command:"execute @e[r=1000,type=ThrownPotion,score_2FTmst_min=4,score_2FTmst=4] ~ ~ ~ scoreboard players operation @e[type=AreaEffectCloud,tag=TF2MedibeamB,score_2FTpid_min=0,score_2FTpid=0,r=1,c=1] 2FTpid = @e[type=ThrownPotion,score_2FTmst_min=4,score_2FTmst=4,c=1,r=1] 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 85 -587 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,score_2FTcid_min=7,score_2FTcid=7,score_2FTpui_min=1] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -128 85 -588 chain_command_block 2 replace {Command:"effect @a[r=1000] 13 0 0 true",TrackOutput:0b,auto:1b}
+setblock -128 85 -589 chain_command_block 2 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcid_min=7,score_2FTcid=7,score_2FTrti_min=-100,score_2FTrti=59] 2FTrti 1",TrackOutput:0b,auto:1b}
+setblock -128 85 -590 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcid_min=7,score_2FTcid=7,score_2FTrti_min=59,score_2FTrti=59] 10 1 10 true",TrackOutput:0b,auto:1b}
+setblock -128 85 -591 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcid_min=7,score_2FTcid=7,score_2FTrti_min=60,score_2FTrti=60] 10 0 0 true",TrackOutput:0b,auto:1b}
+setblock -128 85 -592 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcid_min=7,score_2FTcid=7,score_2FTrti_min=60,score_2FTrti=60] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -128 86 -592 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FThfl_min=0,score_2FThfl=0] ~ ~ ~ scoreboard players set @a[x=-47,y=101,z=-606,dx=2,dy=3,dz=2,m=2,team=TF2R,score_2FTfst_min=0,score_2FTfst=0] 2FTfst 1",TrackOutput:0b,auto:1b}
+setblock -128 86 -591 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASB,score_2FThfl_min=0,score_2FThfl=0] ~ ~ ~ scoreboard players set @a[x=-203,y=101,z=-585,dx=2,dy=3,dz=2,m=2,team=TF2B,score_2FTfst_min=0,score_2FTfst=0] 2FTfst 1",TrackOutput:0b,auto:1b}
+setblock -128 86 -590 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2R,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ setblock -46 103 -605 air 0",TrackOutput:0b,auto:1b}
+setblock -128 86 -589 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2B,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ setblock -202 103 -584 air 0",TrackOutput:0b,auto:1b}
+setblock -128 86 -588 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2R,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@p[c=1,r=1,score_2FTfst_min=1,score_2FTfst=1]\\\"},{\\\"text\\\":\\\" has taken the \\\"},{\\\"text\\\":\\\"blue\\\",\\\"color\\\":\\\"blue\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 86 -587 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2B,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@p[c=1,r=1,score_2FTfst_min=1,score_2FTfst=1]\\\"},{\\\"text\\\":\\\" has taken the \\\"},{\\\"text\\\":\\\"red\\\",\\\"color\\\":\\\"red\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 86 -586 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ playsound minecraft:entity.item.pickup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -128 86 -585 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2R,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=2FTASR,score_2FThfl_min=0,score_2FThfl=0] 2FThfl 1",TrackOutput:0b,auto:1b}
+setblock -128 86 -584 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2B,score_2FTfst_min=1,score_2FTfst=1] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=2FTASB,score_2FThfl_min=0,score_2FThfl=0] 2FThfl 1",TrackOutput:0b,auto:1b}
+setblock -128 86 -583 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTfst_min=1,score_2FTfst=1] 2FTdsp 0",TrackOutput:0b,auto:1b}
+setblock -128 86 -582 chain_command_block 3 replace {Command:"effect @a[r=1000,score_2FTfst_min=1,score_2FTfst=1] 24 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -128 86 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,score_2FTfst_min=1,score_2FTfst=1] 2FTfst 2",TrackOutput:0b,auto:1b}
+setblock -128 86 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-203,y=101,z=-585,dx=2,dy=3,dz=2,m=2,team=TF2R,score_2FTfst_min=2,score_2FTfst=2] 2FTfst 3",TrackOutput:0b,auto:1b}
+setblock -128 86 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-47,y=101,z=-606,dx=2,dy=3,dz=2,m=2,team=TF2B,score_2FTfst_min=2,score_2FTfst=2] 2FTfst 3",TrackOutput:0b,auto:1b}
+setblock -128 86 -578 chain_command_block 3 replace {Command:"execute @a[r=1000,m=2,team=TF2R,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@p[c=1,r=1,score_2FTfst_min=3,score_2FTfst=3]\\\"},{\\\"text\\\":\\\" has captured the \\\"},{\\\"text\\\":\\\"blue\\\",\\\"color\\\":\\\"blue\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 86 -577 chain_command_block 1 replace {Command:"execute @a[r=1000,m=2,team=TF2B,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@p[c=1,r=1,score_2FTfst_min=3,score_2FTfst=3]\\\"},{\\\"text\\\":\\\" has captured the \\\"},{\\\"text\\\":\\\"red\\\",\\\"color\\\":\\\"red\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 87 -577 chain_command_block 2 replace {Command:"execute @a[r=1000,m=2,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:\\\"fireworks\\\",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}",TrackOutput:0b,auto:1b}
+setblock -128 87 -578 chain_command_block 2 replace {Command:"execute @a[r=1000,m=2,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1] ~ ~ ~ 2",TrackOutput:0b,auto:1b}
+setblock -128 87 -579 chain_command_block 2 replace {Command:"execute @a[r=1000,m=2,team=TF2R,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ scoreboard players add Red 2FTdsp 1",TrackOutput:0b,auto:1b}
+setblock -128 87 -580 chain_command_block 2 replace {Command:"execute @a[r=1000,m=2,team=TF2B,score_2FTfst_min=3,score_2FTfst=3] ~ ~ ~ scoreboard players add Blue 2FTdsp 1",TrackOutput:0b,auto:1b}
+setblock -128 87 -581 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTfst_min=3,score_2FTfst=3] 24 0 0 true",TrackOutput:0b,auto:1b}
+setblock -128 87 -582 chain_command_block 2 replace {Command:"scoreboard players set @a[score_2FTfst_min=2,score_2FTfst=2,score_2FTdea_min=1] 2FTfst 4",TrackOutput:0b,auto:1b}
+setblock -128 87 -583 chain_command_block 2 replace {Command:"execute @a[team=TF2R,score_2FTfst_min=4,score_2FTfst=4] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,score_2FTfst_min=4,score_2FTfst=4]\\\"},{\\\"text\\\":\\\" has lost the \\\"},{\\\"text\\\":\\\"blue\\\",\\\"color\\\":\\\"blue\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 87 -584 chain_command_block 2 replace {Command:"execute @a[team=TF2B,score_2FTfst_min=4,score_2FTfst=4] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,score_2FTfst_min=4,score_2FTfst=4]\\\"},{\\\"text\\\":\\\" has lost the \\\"},{\\\"text\\\":\\\"red\\\",\\\"color\\\":\\\"red\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 87 -585 chain_command_block 2 replace {Command:"execute @a[team=TF2R,score_2FTfst_min=5,score_2FTfst=5] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,score_2FTfst_min=5,score_2FTfst=5]\\\"},{\\\"text\\\":\\\" changed classes and lost the \\\"},{\\\"text\\\":\\\"blue\\\",\\\"color\\\":\\\"blue\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 87 -586 chain_command_block 2 replace {Command:"execute @a[team=TF2B,score_2FTfst_min=5,score_2FTfst=5] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,score_2FTfst_min=5,score_2FTfst=5]\\\"},{\\\"text\\\":\\\" changed classes and lost the \\\"},{\\\"text\\\":\\\"red\\\",\\\"color\\\":\\\"red\\\"},{\\\"text\\\":\\\" intel!\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -128 87 -587 chain_command_block 2 replace {Command:"execute @a[team=TF2R,score_2FTfst_min=3,score_2FTfst=5] ~ ~ ~ setblock -46 103 -605 wool 11",TrackOutput:0b,auto:1b}
+setblock -128 87 -588 chain_command_block 2 replace {Command:"execute @a[team=TF2B,score_2FTfst_min=3,score_2FTfst=5] ~ ~ ~ setblock -202 103 -584 wool 14",TrackOutput:0b,auto:1b}
+setblock -128 87 -589 chain_command_block 2 replace {Command:"execute @a[team=TF2B,score_2FTfst_min=4,score_2FTfst=5] ~ ~ ~ playsound minecraft:entity.zombie_villager.cure voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -128 87 -590 chain_command_block 2 replace {Command:"execute @a[team=TF2R,score_2FTfst_min=3,score_2FTfst=5] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=2FTASR,score_2FThfl_min=1,score_2FThfl=1] 2FThfl 0",TrackOutput:0b,auto:1b}
+setblock -128 87 -591 chain_command_block 2 replace {Command:"execute @a[team=TF2B,score_2FTfst_min=3,score_2FTfst=5] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=2FTASB,score_2FThfl_min=1,score_2FThfl=1] 2FThfl 0",TrackOutput:0b,auto:1b}
+setblock -128 87 -592 chain_command_block 1 replace {Command:"scoreboard players reset @a[score_2FTfst_min=3,score_2FTfst=5] 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -128 88 -592 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTfst_min=3,score_2FTfst=5] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -128 88 -591 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ArmorStand,tag=2FTAS,score_2FThfl_min=1,score_2FThfl=1] 2FTfch 0",TrackOutput:0b,auto:1b}
+setblock -128 88 -590 chain_command_block 3 replace {Command:"execute @a[r=1000,team=TF2R,score_2FTfst_min=2,score_2FTfst=2] ~ ~ ~ scoreboard players set @e[r=1000,type=ArmorStand,tag=2FTASR,score_2FThfl_min=1,score_2FThfl=1] 2FTfch 1",TrackOutput:0b,auto:1b}
+setblock -128 88 -589 chain_command_block 3 replace {Command:"execute @a[r=1000,team=TF2B,score_2FTfst_min=2,score_2FTfst=2] ~ ~ ~ scoreboard players set @e[r=1000,type=ArmorStand,tag=2FTASB,score_2FThfl_min=1,score_2FThfl=1] 2FTfch 1",TrackOutput:0b,auto:1b}
+setblock -128 88 -588 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASR,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ {\\\"text\\\":\\\"\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 88 -587 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASB,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ {\\\"text\\\":\\\"\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 88 -586 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASR,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ setblock -46 103 -605 wool 11",TrackOutput:0b,auto:1b}
+setblock -128 88 -585 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASB,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ setblock -202 103 -584 wool 14",TrackOutput:0b,auto:1b}
+setblock -128 88 -584 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASR,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ scoreboard players set @a[team=TF2R,score_2FTfst_min=2,score_2FTfst=2] 2FTlgm 1",TrackOutput:0b,auto:1b}
+setblock -128 88 -583 chain_command_block 3 replace {Command:"execute @e[r=1000,type=ArmorStand,tag=2FTASB,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] ~ ~ ~ scoreboard players set @a[team=TF2B,score_2FTfst_min=2,score_2FTfst=2] 2FTlgm 1",TrackOutput:0b,auto:1b}
+setblock -128 88 -582 chain_command_block 3 replace {Command:"scoreboard players set @e[r=1000,type=ArmorStand,tag=2FTAS,score_2FThfl_min=1,score_2FThfl=1,score_2FTfch_min=0,score_2FTfch=0] 2FThfl 0",TrackOutput:0b,auto:1b}
+setblock -128 88 -581 chain_command_block 3 replace {Command:"scoreboard players reset @a[score_2FTfst_min=2,score_2FTfst=2,score_2FTlgm_min=1] 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -128 88 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTfst_min=2,score_2FTfst=2,score_2FTlgm_min=1] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -128 88 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTlgm_min=1] 2FTlgm 0",TrackOutput:0b,auto:1b}
+setblock -128 88 -578 chain_command_block 3 replace {Command:"minecraft:weather clear 1000000",TrackOutput:0b,auto:1b}
+setblock -128 88 -577 chain_command_block 1 replace {Command:"minecraft:kill @e[r=1000,type=Item]",TrackOutput:0b,auto:1b}
+setblock -128 89 -577 chain_command_block 2 replace {Command:"execute @a[score_2FTpid_min=0,score_2FTpid=0,c=1] ~ ~ ~ scoreboard players add PlayerNumber 2FTpid 1",TrackOutput:0b,auto:1b}
+setblock -128 89 -578 chain_command_block 2 replace {Command:"scoreboard players operation @a[score_2FTpid_min=0,score_2FTpid=0,c=1] 2FTpid = PlayerNumber 2FTpid",TrackOutput:0b,auto:1b}
+setblock -128 89 -579 chain_command_block 2 replace {Command:"scoreboard players set @a[score_2FTdea_min=1] 2FTcsi 10",TrackOutput:0b,auto:1b}
+setblock -128 89 -580 chain_command_block 2 replace {Command:"scoreboard players set @a[score_2FTdea_min=1] 2FTdea 0",TrackOutput:0b,auto:1b}
+setblock -128 89 -581 chain_command_block 2 replace {Command:"minecraft:tp @a[m=2,x=-132,y=25,z=-601,dx=12,dy=2,dz=16,score_2FTrpt_min=1] -126 29 -593 0 0",TrackOutput:0b,auto:1b}
+setblock -128 89 -582 chain_command_block 2 replace {Command:"minecraft:clear @a[m=2,x=-129,y=29,z=-596,dx=5,dy=5,dz=5,score_2FTrpt_min=1] carrot_on_a_stick",TrackOutput:0b,auto:1b}
+setblock -128 89 -583 chain_command_block 2 replace {Command:"scoreboard players remove @a[m=2,score_2FTrpt_min=1] 2FTrpt 1",TrackOutput:0b,auto:1b}
+setblock -128 89 -584 chain_command_block 2 replace {Command:"minecraft:tp @a[m=2,x=-129,y=29,z=-596,dx=5,dy=5,dz=5,score_2FTrpt_min=0,score_2FTrpt=0] -126 25 -593 0 0",TrackOutput:0b,auto:1b}
+setblock -128 89 -585 chain_command_block 2 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=0,score_2FTgmt=19] 2FTgmt 1",TrackOutput:0b,auto:1b}
+setblock -128 89 -586 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ scoreboard players remove @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=1,score_2FTgmt=900] 2FTgmt 1",TrackOutput:0b,auto:1b}
+setblock -128 89 -587 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=600,score_2FTgmt=600] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"10 minutes remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 89 -588 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=300,score_2FTgmt=300] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"5 minutes remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 89 -589 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=60,score_2FTgmt=60] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"60 seconds remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 89 -590 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=30,score_2FTgmt=30] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"30 seconds remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 89 -591 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=10,score_2FTgmt=10] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"10 seconds remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 89 -592 chain_command_block 1 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=5,score_2FTgmt=5] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"5!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 90 -592 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=4,score_2FTgmt=4] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"4!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 90 -591 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=3,score_2FTgmt=3] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"3!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 90 -590 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=2,score_2FTgmt=2] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"2!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 90 -589 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=1,score_2FTgmt=1] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"1!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 90 -588 chain_command_block 3 replace {Command:"scoreboard players operation Time 2FTdsp = @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=900,score_2FTcdt_min=0,score_2FTcdt=0] 2FTgmt",TrackOutput:0b,auto:1b}
+setblock -128 90 -587 chain_command_block 3 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASB,score_2FTgmt_min=20,score_2FTgmt=20] 2FTgmt 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -586 chain_command_block 3 replace {Command:"fill -159 113 -618 -155 115 -618 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -585 chain_command_block 3 replace {Command:"fill -158 114 -618 -156 114 -618 stained_glass 7",TrackOutput:0b,auto:1b}
+setblock -128 90 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-159,y=113,z=-619,dx=4,dy=2,dz=2,team=TF2R] ~ ~ ~ fill -159 113 -618 -155 115 -618 air 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -583 chain_command_block 3 replace {Command:"fill -151 113 -581 -151 115 -579 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -582 chain_command_block 3 replace {Command:"fill -151 114 -580 -151 114 -580 stained_glass 7",TrackOutput:0b,auto:1b}
+setblock -128 90 -581 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-152,y=113,z=-581,dx=2,dy=2,dz=2,team=TF2R] ~ ~ ~ fill -151 113 -581 -151 115 -579 air 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -580 chain_command_block 3 replace {Command:"fill -213 104 -617 -213 102 -621 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -579 chain_command_block 3 replace {Command:"fill -213 103 -618 -213 103 -620 stained_glass 7",TrackOutput:0b,auto:1b}
+setblock -128 90 -578 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-214,y=102,z=621,dx=2,dy=2,dz=4,team=TF2R] ~ ~ ~ fill -213 104 -617 -213 102 -621 air 0",TrackOutput:0b,auto:1b}
+setblock -128 90 -577 chain_command_block 1 replace {Command:"fill -93 113 -571 -89 115 -571 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -577 chain_command_block 2 replace {Command:"fill -92 114 -571 -90 114 -571 stained_glass 7",TrackOutput:0b,auto:1b}
+setblock -128 91 -578 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-93,y=113,z=-572,dx=4,dy=2,dz=2,team=TF2B] ~ ~ ~ fill -93 113 -571 -89 115 -571 air 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -579 chain_command_block 2 replace {Command:"fill -97 113 -609 -97 115 -607 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -580 chain_command_block 2 replace {Command:"fill -97 114 -608 -97 114 -608 stained_glass 7",TrackOutput:0b,auto:1b}
+
+setblock -128 91 -581 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-98,y=113,z=-609,dx=2,dy=2,dz=2,team=TF2B] ~ ~ ~ fill -97 113 -609 -97 115 -607 air 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -582 chain_command_block 2 replace {Command:"fill -35 104 -572 -35 102 -568 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -583 chain_command_block 2 replace {Command:"fill -35 103 -571 -35 103 -569 stained_glass 7",TrackOutput:0b,auto:1b}
+setblock -128 91 -584 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @a[x=-36,y=102,z=-572,dx=2,dy=2,dz=4,team=TF2B] ~ ~ ~ fill -35 104 -572 -35 102 -568 air 0",TrackOutput:0b,auto:1b}
+setblock -128 91 -585 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-159,y=113,z=-618,dx=4,dy=2,m=2,team=TF2B] ~ ~ ~1",TrackOutput:0b,auto:1b}
+setblock -128 91 -586 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-151,y=113,z=-581,dy=2,dz=2,m=2,team=TF2B] ~1 ~ ~",TrackOutput:0b,auto:1b}
+setblock -128 91 -587 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-213,y=102,z=621,dy=2,dz=4,m=2,team=TF2B] ~1 ~ ~",TrackOutput:0b,auto:1b}
+setblock -128 91 -588 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-93,y=113,z=-571,dx=4,dy=2,m=2,team=TF2R] ~ ~ ~-1",TrackOutput:0b,auto:1b}
+setblock -128 91 -589 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-97,y=113,z=-609,dy=2,dz=2,m=2,team=TF2R] ~-1 ~ ~",TrackOutput:0b,auto:1b}
+setblock -128 91 -590 chain_command_block 2 replace {Command:"minecraft:tp @a[x=-35,y=102,z=-572,dy=2,dz=4,m=2,team=TF2R] ~-1 ~ ~",TrackOutput:0b,auto:1b}
+setblock -128 91 -591 chain_command_block 2 replace {Command:"execute @a[r=1000,score_Health=19,m=2] ~ ~-1.8 ~ scoreboard players set @e[type=ArmorStand,tag=2FTHL,r=1,c=1,score_2FThkt_min=0,score_2FThkt=0] 2FThkt -1",TrackOutput:0b,auto:1b}
+setblock -128 91 -592 chain_command_block 1 replace {Command:"execute @e[type=ArmorStand,tag=2FTHLS,score_2FThkt_min=-1,score_2FThkt=-1] ~ ~ ~ effect @a[c=1,r=5,m=2,score_Health=19] 6 1 0 true",TrackOutput:0b,auto:1b}
+setblock -128 92 -592 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTHLM,score_2FThkt_min=-1,score_2FThkt=-1] ~ ~ ~ effect @a[c=1,r=5,m=2,score_Health=19] 6 1 1 true",TrackOutput:0b,auto:1b}
+setblock -128 92 -591 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTHL,score_2FThkt_min=-1,score_2FThkt=-1] ~ ~ ~ execute @a[c=1,r=5,m=2,score_Health=19] ~ ~ ~ playsound minecraft:entity.item.pickup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -128 92 -590 chain_command_block 3 replace {Command:"replaceitem entity @e[type=ArmorStand,tag=2FTHL,score_2FThkt_min=-1,score_2FThkt=-1] slot.armor.head air 1 0",TrackOutput:0b,auto:1b}
+setblock -128 92 -589 chain_command_block 3 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTHL,score_2FThkt_min=-1,score_2FThkt=-1] 2FThkt 200",TrackOutput:0b,auto:1b}
+setblock -128 92 -588 chain_command_block 3 replace {Command:"scoreboard players remove @e[type=ArmorStand,tag=2FTHL,score_2FThkt_min=1,score_2FThkt=200] 2FThkt 1",TrackOutput:0b,auto:1b}
+setblock -128 92 -587 chain_command_block 3 replace {Command:"replaceitem entity @e[type=ArmorStand,tag=2FTHLS,score_2FThkt_min=1,score_2FThkt=1] slot.armor.head porkchop 1 0 {ench:[{id:0,lvl:1}]}",TrackOutput:0b,auto:1b}
+setblock -128 92 -586 chain_command_block 3 replace {Command:"replaceitem entity @e[type=ArmorStand,tag=2FTHLM,score_2FThkt_min=1,score_2FThkt=1] slot.armor.head bread 1 0 {ench:[{id:0,lvl:1}]}",TrackOutput:0b,auto:1b}
+setblock -128 92 -585 chain_command_block 3 replace {Command:"minecraft:tp @e[type=ArmorStand,tag=2FTHL,score_2FThkt_min=0,score_2FThkt=0] ~ ~ ~ ~5 ~",TrackOutput:0b,auto:1b}
+setblock -128 92 -584 chain_command_block 3 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=1] 2FTspn 1",TrackOutput:0b,auto:1b}
+setblock -128 92 -583 chain_command_block 3 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=2,score_2FTspn=2] 2FTspn 0",TrackOutput:0b,auto:1b}
+setblock -126 80 -591 command_block 3 replace {Command:"scoreboard objectives add 2FTcos stat.useItem.minecraft.carrot_on_a_stick 2fort Carrot Stick",TrackOutput:0b,auto:0b}
+setblock -126 80 -590 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTcsi dummy 2fort Class Selection ID",TrackOutput:0b,auto:1b}
+setblock -126 80 -589 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTcid dummy 2fort Class ID",TrackOutput:0b,auto:1b}
+setblock -126 80 -588 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTcss dummy 2fort Class Selection State",TrackOutput:0b,auto:1b}
+setblock -126 80 -587 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTtsi dummy 2fort Team Selection ID",TrackOutput:0b,auto:1b}
+setblock -126 80 -586 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTast dummy 2fort Arrow State",TrackOutput:0b,auto:1b}
+setblock -126 80 -585 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTati dummy 2fort Arrow Timer",TrackOutput:0b,auto:1b}
+setblock -126 80 -584 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTbui stat.useItem.minecraft.bow 2fort Bow Use Item",TrackOutput:0b,auto:1b}
+setblock -126 80 -583 chain_command_block 3 replace {Command:"scoreboard objectives add 2FThti dummy 2fort Hunger Timer",TrackOutput:0b,auto:1b}
+setblock -126 80 -582 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTgti dummy 2fort Grenade Timer",TrackOutput:0b,auto:1b}
+setblock -126 80 -581 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTgrs dummy 2fort Grenade Reload State",TrackOutput:0b,auto:1b}
+setblock -126 80 -580 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTpui stat.useItem.minecraft.splash_potion 2fort Potion Use Item",TrackOutput:0b,auto:1b}
+setblock -126 80 -579 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTsti dummy 2fort Sandvich Timer",TrackOutput:0b,auto:1b}
+setblock -126 80 -578 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTgui stat.useItem.minecraft.golden_apple 2fort Golden Apple Use Item",TrackOutput:0b,auto:1b}
+setblock -126 80 -577 chain_command_block 1 replace {Command:"scoreboard objectives add 2FTmti dummy 2fort Medibeam Timer",TrackOutput:0b,auto:1b}
+setblock -126 81 -577 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTmst dummy 2fort Medibeam State",TrackOutput:0b,auto:1b}
+setblock -126 81 -578 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTmcl dummy 2fort Medibeam Calc",TrackOutput:0b,auto:1b}
+setblock -126 81 -579 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTrti dummy 2fort Regen Timer",TrackOutput:0b,auto:1b}
+setblock -126 81 -580 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTdsp dummy 2fort",TrackOutput:0b,auto:1b}
+setblock -126 81 -581 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTfst dummy 2fort Flag State",TrackOutput:0b,auto:1b}
+setblock -126 81 -582 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTlgm stat.leaveGame 2fort Leave Game",TrackOutput:0b,auto:1b}
+setblock -126 81 -583 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTdea deathCount 2fort Deaths",TrackOutput:0b,auto:1b}
+setblock -126 81 -584 chain_command_block 2 replace {Command:"scoreboard objectives add 2FThfl dummy 2fort Has Flag",TrackOutput:0b,auto:1b}
+setblock -126 81 -585 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTfch dummy 2fort Flag Check",TrackOutput:0b,auto:1b}
+setblock -126 81 -586 chain_command_block 2 replace {Command:"scoreboard players add Red 2FTdsp 0",TrackOutput:0b,auto:1b}
+setblock -126 81 -587 chain_command_block 2 replace {Command:"scoreboard players add Blue 2FTdsp 0",TrackOutput:0b,auto:1b}
+setblock -126 81 -588 chain_command_block 2 replace {Command:"scoreboard teams join TF2R Red",TrackOutput:0b,auto:1b}
+setblock -126 81 -589 chain_command_block 2 replace {Command:"scoreboard teams join TF2B Blue",TrackOutput:0b,auto:1b}
+setblock -126 81 -590 chain_command_block 2 replace {Command:"scoreboard objectives setdisplay sidebar 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -126 81 -591 chain_command_block 2 replace {Command:"scoreboard objectives add 2FTsaf dummy 2fort Stats Affected Items",TrackOutput:0b,auto:1b}
+setblock -126 81 -592 chain_command_block 1 replace {Command:"scoreboard objectives add 2FTpid dummy 2fort Player ID",TrackOutput:0b,auto:1b}
+setblock -126 82 -592 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTrpt dummy 2fort Respawn Timer",TrackOutput:0b,auto:1b}
+setblock -126 82 -591 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTcdt dummy 2fort Countdown Timer",TrackOutput:0b,auto:1b}
+setblock -126 82 -590 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTgmt dummy 2fort Game Timer",TrackOutput:0b,auto:1b}
+setblock -126 82 -589 chain_command_block 3 replace {Command:"scoreboard objectives add 2FThkt dummy 2fort Health Kit Timer",TrackOutput:0b,auto:1b}
+setblock -126 82 -588 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTspn dummy 2fort Spawn",TrackOutput:0b,auto:1b}
+setblock -126 82 -587 chain_command_block 3 replace {Command:"scoreboard objectives add 2FTscl dummy 2fort Score Calc",TrackOutput:0b,auto:1b}
+setblock -126 82 -586 chain_command_block 3 replace {Command:"scoreboard teams add TF2R",TrackOutput:0b,auto:1b}
+setblock -126 82 -585 chain_command_block 3 replace {Command:"scoreboard teams add TF2B",TrackOutput:0b,auto:1b}
+setblock -126 82 -584 chain_command_block 3 replace {Command:"scoreboard teams option TF2R color red",TrackOutput:0b,auto:1b}
+setblock -126 82 -583 chain_command_block 3 replace {Command:"scoreboard teams option TF2R seeFriendlyInvisibles true",TrackOutput:0b,auto:1b}
+setblock -126 82 -582 chain_command_block 3 replace {Command:"scoreboard teams option TF2R collisionRule pushOwnTeam",TrackOutput:0b,auto:1b}
+setblock -126 82 -581 chain_command_block 3 replace {Command:"scoreboard teams option TF2R deathMessageVisibility false",TrackOutput:0b,auto:1b}
+setblock -126 82 -580 chain_command_block 3 replace {Command:"scoreboard teams option TF2R nametagVisibility hideForOtherTeams",TrackOutput:0b,auto:1b}
+setblock -126 82 -579 chain_command_block 3 replace {Command:"scoreboard teams option TF2R friendlyfire false",TrackOutput:0b,auto:1b}
+setblock -126 82 -578 chain_command_block 3 replace {Command:"scoreboard teams option TF2B color blue",TrackOutput:0b,auto:1b}
+setblock -126 82 -577 chain_command_block 1 replace {Command:"scoreboard teams option TF2B seeFriendlyInvisibles true",TrackOutput:0b,auto:1b}
+setblock -126 83 -577 chain_command_block 2 replace {Command:"scoreboard teams option TF2B collisionRule pushOwnTeam",TrackOutput:0b,auto:1b}
+setblock -126 83 -578 chain_command_block 2 replace {Command:"scoreboard teams option TF2B deathMessageVisibility false",TrackOutput:0b,auto:1b}
+setblock -126 83 -579 chain_command_block 2 replace {Command:"scoreboard teams option TF2B nametagVisibility hideForOtherTeams",TrackOutput:0b,auto:1b}
+setblock -126 83 -580 chain_command_block 2 replace {Command:"scoreboard teams option TF2B friendlyfire false",TrackOutput:0b,auto:1b}
+setblock -126 83 -581 chain_command_block 2 replace {Command:"gamerule keepInventory true",TrackOutput:0b,auto:1b}
+setblock -126 83 -582 chain_command_block 2 replace {Command:"gamerule naturalRegeneration false",TrackOutput:0b,auto:1b}
+setblock -126 83 -583 chain_command_block 2 replace {Command:"summon ArmorStand ~ ~ ~ {NoGravity:1,Invisible:1,Marker:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTAS\\\",\\\"2FTASR\\\"]}",TrackOutput:0b,auto:1b}
+setblock -126 83 -584 chain_command_block 2 replace {Command:"summon ArmorStand ~ ~ ~ {NoGravity:1,Invisible:1,Marker:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTAS\\\",\\\"2FTASB\\\"]}",TrackOutput:0b,auto:1b}
+setblock -126 83 -585 chain_command_block 2 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTAS] 2FThfl 0",TrackOutput:0b,auto:1b}
+setblock -126 83 -586 chain_command_block 2 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTASR] 2FTspn 0",TrackOutput:0b,auto:1b}
+setblock -126 83 -587 chain_command_block 2 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASR] 2FTcdt 20",TrackOutput:0b,auto:1b}
+setblock -126 83 -588 chain_command_block 2 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASR] 2FTgmt 900",TrackOutput:0b,auto:1b}
+setblock -126 83 -589 chain_command_block 2 replace {Command:"summon ArmorStand -166 111.3 -602 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLS\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:porkchop\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 83 -590 chain_command_block 2 replace {Command:"summon ArmorStand -159 101.3 -611 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLM\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:bread\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 83 -591 chain_command_block 2 replace {Command:"summon ArmorStand -181.5 100.3 -612.5 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLM\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:bread\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 83 -592 chain_command_block 1 replace {Command:"summon ArmorStand -82 111.3 -587 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLS\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:porkchop\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 84 -592 chain_command_block 3 replace {Command:"summon ArmorStand -89 101.3 -577 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLM\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:bread\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 84 -591 chain_command_block 3 replace {Command:"summon ArmorStand -66 100.3 -576 {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:[\\\"2FTHL\\\",\\\"2FTHLM\\\"],ArmorItems:[{},{},{},{id:\\\"minecraft:bread\\\",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}",TrackOutput:0b,auto:1b}
+setblock -126 84 -590 chain_command_block 3 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTHL] 2FThkt 0",TrackOutput:0b,auto:1b}
+setblock -126 84 -589 chain_command_block 3 replace {Command:"fill ~0 ~-4 ~-3 ~0 ~-4 ~-3 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 84 -588 chain_command_block 3 replace {Command:"fill ~0 ~7 ~-4 ~0 ~7 ~-4 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -587 chain_command_block 3 replace {Command:"fill ~2 ~-4 ~-5 ~2 ~-4 ~-5 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -586 chain_command_block 3 replace {Command:"fill ~2 ~0 ~-6 ~2 ~0 ~-6 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -585 chain_command_block 3 replace {Command:"fill ~2 ~4 ~-7 ~2 ~4 ~-7 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -584 chain_command_block 3 replace {Command:"fill ~2 ~8 ~-8 ~2 ~8 ~-8 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -583 chain_command_block 3 replace {Command:"fill ~4 ~-4 ~-9 ~4 ~-4 ~-9 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -582 chain_command_block 3 replace {Command:"fill ~4 ~0 ~-10 ~4 ~0 ~-10 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -581 chain_command_block 3 replace {Command:"fill ~4 ~7 ~-11 ~4 ~7 ~-11 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -580 chain_command_block 3 replace {Command:"fill ~4 ~4 ~-12 ~4 ~4 ~-12 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -579 chain_command_block 3 replace {Command:"fill ~4 ~10 ~-13 ~4 ~10 ~-13 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -578 chain_command_block 3 replace {Command:"fill ~-2 ~10 ~-14 ~-2 ~10 ~-14 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 84 -577 chain_command_block 1 replace {Command:"fill ~-2 ~-4 ~-15 ~-2 ~-4 ~-15 redstone_block",TrackOutput:0b,auto:1b}
+setblock -126 86 -591 command_block 3 replace {Command:"scoreboard objectives remove 2FTcos",TrackOutput:0b,auto:0b}
+setblock -126 86 -590 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTcsi",TrackOutput:0b,auto:1b}
+setblock -126 86 -589 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTcid",TrackOutput:0b,auto:1b}
+setblock -126 86 -588 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTcss",TrackOutput:0b,auto:1b}
+setblock -126 86 -587 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTtsi",TrackOutput:0b,auto:1b}
+setblock -126 86 -586 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTast",TrackOutput:0b,auto:1b}
+setblock -126 86 -585 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTati",TrackOutput:0b,auto:1b}
+setblock -126 86 -584 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTbui",TrackOutput:0b,auto:1b}
+setblock -126 86 -583 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FThti",TrackOutput:0b,auto:1b}
+setblock -126 86 -582 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTgti",TrackOutput:0b,auto:1b}
+setblock -126 86 -581 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTgrs",TrackOutput:0b,auto:1b}
+setblock -126 86 -580 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTpui",TrackOutput:0b,auto:1b}
+setblock -126 86 -579 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTsti",TrackOutput:0b,auto:1b}
+setblock -126 86 -578 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTgui",TrackOutput:0b,auto:1b}
+setblock -126 86 -577 chain_command_block 1 replace {Command:"scoreboard objectives remove 2FTmti",TrackOutput:0b,auto:1b}
+setblock -126 87 -577 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTmst",TrackOutput:0b,auto:1b}
+setblock -126 87 -578 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTmcl",TrackOutput:0b,auto:1b}
+setblock -126 87 -579 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTrti",TrackOutput:0b,auto:1b}
+setblock -126 87 -580 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -126 87 -581 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTfst",TrackOutput:0b,auto:1b}
+setblock -126 87 -582 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTlgm",TrackOutput:0b,auto:1b}
+setblock -126 87 -583 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTdea",TrackOutput:0b,auto:1b}
+setblock -126 87 -584 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FThfl",TrackOutput:0b,auto:1b}
+setblock -126 87 -585 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTfch",TrackOutput:0b,auto:1b}
+setblock -126 87 -586 chain_command_block 2 replace {Command:"setblock -46 103 -605 wool 11",TrackOutput:0b,auto:1b}
+setblock -126 87 -587 chain_command_block 2 replace {Command:"setblock -202 103 -584 wool 14",TrackOutput:0b,auto:1b}
+setblock -126 87 -588 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTsaf",TrackOutput:0b,auto:1b}
+setblock -126 87 -589 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTpid",TrackOutput:0b,auto:1b}
+setblock -126 87 -590 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTrpt",TrackOutput:0b,auto:1b}
+setblock -126 87 -591 chain_command_block 2 replace {Command:"scoreboard objectives remove 2FTcdt",TrackOutput:0b,auto:1b}
+setblock -126 87 -592 chain_command_block 1 replace {Command:"scoreboard objectives remove 2FTgmt",TrackOutput:0b,auto:1b}
+setblock -126 88 -592 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FThkt",TrackOutput:0b,auto:1b}
+setblock -126 88 -591 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTspn",TrackOutput:0b,auto:1b}
+setblock -126 88 -590 chain_command_block 3 replace {Command:"scoreboard objectives remove 2FTscl",TrackOutput:0b,auto:1b}
+setblock -126 88 -589 chain_command_block 3 replace {Command:"scoreboard teams remove TF2R",TrackOutput:0b,auto:1b}
+setblock -126 88 -588 chain_command_block 3 replace {Command:"scoreboard teams remove TF2B",TrackOutput:0b,auto:1b}
+setblock -126 88 -587 chain_command_block 3 replace {Command:"gamerule keepInventory false",TrackOutput:0b,auto:1b}
+setblock -126 88 -586 chain_command_block 3 replace {Command:"gamerule naturalRegeneration true",TrackOutput:0b,auto:1b}
+setblock -126 88 -585 chain_command_block 3 replace {Command:"minecraft:kill @e[r=1000,type=ArmorStand,tag=2FTAS]",TrackOutput:0b,auto:1b}
+setblock -126 88 -584 chain_command_block 3 replace {Command:"minecraft:kill @e[r=1000,type=ArmorStand,tag=2FTHL]",TrackOutput:0b,auto:1b}
+setblock -126 88 -583 chain_command_block 3 replace {Command:"minecraft:kill @e[r=1000,type=AreaEffectCloud,tag=TF2Medibeam]",TrackOutput:0b,auto:1b}
+setblock -126 88 -582 chain_command_block 3 replace {Command:"minecraft:kill @e[r=1000,type=Arrow]",TrackOutput:0b,auto:1b}
+setblock -126 88 -581 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2]",TrackOutput:0b,auto:1b}
+setblock -126 88 -580 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2] clear",TrackOutput:0b,auto:1b}
+
+setblock -126 88 -579 chain_command_block 3 replace {Command:"minecraft:tp @a[r=1000,m=2] -126 25 -593 0 0",TrackOutput:0b,auto:1b}
+setblock -126 88 -578 chain_command_block 3 replace {Command:"fill ~0 ~-2 ~-14 ~0 ~-2 ~-14 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 88 -577 chain_command_block 1 replace {Command:"fill ~0 ~3 ~-15 ~0 ~3 ~-15 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -577 chain_command_block 2 replace {Command:"fill ~2 ~-9 ~-15 ~2 ~-9 ~-15 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -578 chain_command_block 2 replace {Command:"fill ~2 ~-5 ~-14 ~2 ~-5 ~-14 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -579 chain_command_block 2 replace {Command:"fill ~2 ~-1 ~-13 ~2 ~-1 ~-13 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -580 chain_command_block 2 replace {Command:"fill ~2 ~3 ~-12 ~2 ~3 ~-12 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -581 chain_command_block 2 replace {Command:"fill ~4 ~-9 ~-11 ~4 ~-9 ~-11 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -582 chain_command_block 2 replace {Command:"fill ~4 ~-5 ~-10 ~4 ~-5 ~-10 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -583 chain_command_block 2 replace {Command:"fill ~4 ~2 ~-9 ~4 ~2 ~-9 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -584 chain_command_block 2 replace {Command:"fill ~4 ~-1 ~-8 ~4 ~-1 ~-8 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -585 chain_command_block 2 replace {Command:"fill ~4 ~5 ~-7 ~4 ~5 ~-7 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -586 chain_command_block 2 replace {Command:"fill ~-2 ~5 ~-6 ~-2 ~5 ~-6 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 89 -587 chain_command_block 2 replace {Command:"fill ~-2 ~-9 ~-5 ~-2 ~-9 ~-5 stonebrick",TrackOutput:0b,auto:1b}
+setblock -126 91 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=1,score_2FTcsi=1]",TrackOutput:0b,auto:0b}
+setblock -126 91 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -126 91 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1]",TrackOutput:0b,auto:1b}
+setblock -126 91 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] clear",TrackOutput:0b,auto:1b}
+setblock -126 91 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcid 1",TrackOutput:0b,auto:1b}
+setblock -126 91 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -126 91 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -126 92 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -126 92 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 23 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -126 92 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Scout hat\\\",color:65280},ench:[{id:4,lvl:2}]}",TrackOutput:0b,auto:1b}
+setblock -126 92 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] slot.hotbar.0 wooden_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -126 92 -581 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 1 1000000 1 true",TrackOutput:0b,auto:1b}
+setblock -126 92 -582 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 8 1000000 1 true",TrackOutput:0b,auto:1b}
+setblock -126 92 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -591 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -126 92 -592 chain_command_block 1 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -126 93 -592 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -588 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -587 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=1,score_2FTcsi=1] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=1,score_2FTcsi=1] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -126 93 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=1,score_2FTcsi=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=2,score_2FTcsi=2]",TrackOutput:0b,auto:0b}
+setblock -124 80 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -124 80 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2]",TrackOutput:0b,auto:1b}
+setblock -124 80 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] clear",TrackOutput:0b,auto:1b}
+setblock -124 80 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcid 2",TrackOutput:0b,auto:1b}
+setblock -124 80 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -124 80 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -124 81 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -124 81 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 17 1000000 100 true",TrackOutput:0b,auto:1b}
+setblock -124 81 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Soldier hat\\\",color:8355711},ench:[{id:4,lvl:3},{id:0,lvl:4}]}",TrackOutput:0b,auto:1b}
+setblock -124 81 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] slot.hotbar.0 bow 1 0 {Unbreakable:1,display:{Name:\\\"Rocket Launcher\\\"},ench:[{id:51,lvl:1},{id:48,lvl:3}]}",TrackOutput:0b,auto:1b}
+setblock -124 81 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] slot.hotbar.1 iron_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -124 81 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] slot.inventory.8 arrow 1 0",TrackOutput:0b,auto:1b}
+setblock -124 81 -583 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 1 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -124 81 -584 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 23 1 0 true",TrackOutput:0b,auto:1b}
+setblock -124 81 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -591 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 81 -592 chain_command_block 1 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 82 -592 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 82 -591 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -124 82 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=2,score_2FTcsi=2] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -583 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=2,score_2FTcsi=2] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -124 82 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=2,score_2FTcsi=2] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=3,score_2FTcsi=3]",TrackOutput:0b,auto:0b}
+setblock -124 84 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -124 84 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3]",TrackOutput:0b,auto:1b}
+setblock -124 84 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] clear",TrackOutput:0b,auto:1b}
+setblock -124 84 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcid 3",TrackOutput:0b,auto:1b}
+setblock -124 84 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -124 84 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -124 85 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -124 85 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 23 1000000 0 true",TrackOutput:0b,auto:1b}
+
+setblock -124 85 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Pyro hat\\\",color:16744192},ench:[{id:4,lvl:2},{id:0,lvl:3},{id:1,lvl:5}]}",TrackOutput:0b,auto:1b}
+setblock -124 85 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.0 bow 1 0 {Unbreakable:1,display:{Name:\\\"Flare Gun\\\"},ench:[{id:51,lvl:1},{id:50,lvl:1}]}",TrackOutput:0b,auto:1b}
+setblock -124 85 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.1 iron_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -124 85 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.3 blaze_rod 1 0 {display:{Name:\\\"Airblast Stick\\\"},ench:[{id:19,lvl:3}]}",TrackOutput:0b,auto:1b}
+setblock -124 85 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.inventory.8 arrow 1 0",TrackOutput:0b,auto:1b}
+setblock -124 85 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -591 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 85 -592 chain_command_block 1 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 86 -592 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -124 86 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -587 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=3,score_2FTcsi=3] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=3,score_2FTcsi=3] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -124 86 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=3,score_2FTcsi=3] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=4,score_2FTcsi=4]",TrackOutput:0b,auto:0b}
+setblock -124 88 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -124 88 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4]",TrackOutput:0b,auto:1b}
+setblock -124 88 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] clear",TrackOutput:0b,auto:1b}
+setblock -124 88 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcid 4",TrackOutput:0b,auto:1b}
+setblock -124 88 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -124 88 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -124 89 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -124 89 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 23 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -124 89 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Demoman hat\\\",color:16645888},ench:[{id:4,lvl:2},{id:0,lvl:3}]}",TrackOutput:0b,auto:1b}
+setblock -124 89 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] slot.hotbar.0 splash_potion 4 0 {Potion:\\\"minecraft:strong_harming\\\",display:{Name:\\\"Grenade(s)\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] slot.hotbar.1 wooden_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -124 89 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 89 -591 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -124 89 -592 chain_command_block 1 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -592 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -589 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -588 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=4,score_2FTcsi=4] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -587 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=4,score_2FTcsi=4] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -124 90 -585 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=4,score_2FTcsi=4] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=5,score_2FTcsi=5]",TrackOutput:0b,auto:0b}
+setblock -124 92 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -124 92 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5]",TrackOutput:0b,auto:1b}
+setblock -124 92 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] clear",TrackOutput:0b,auto:1b}
+setblock -124 92 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcid 5",TrackOutput:0b,auto:1b}
+setblock -124 92 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -124 92 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -124 93 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -124 93 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 17 1000000 100 true",TrackOutput:0b,auto:1b}
+setblock -124 93 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Heavy hat\\\",color:9127187},ench:[{id:4,lvl:4},{id:0,lvl:7}]}",TrackOutput:0b,auto:1b}
+setblock -124 93 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] slot.hotbar.0 diamond_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -124 93 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] slot.hotbar.1 golden_apple 1 0 {display:{Name:\\\"Golden Apple Sandvich\\\",Lore:[\\\"Regens in 10s\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -582 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 23 1 0 true",TrackOutput:0b,auto:1b}
+setblock -124 93 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -591 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -124 93 -592 chain_command_block 1 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -124 94 -592 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -588 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -587 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=5,score_2FTcsi=5] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=5,score_2FTcsi=5] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -124 94 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=5,score_2FTcsi=5] 2FTcsi 0",TrackOutput:0b,auto:1b}
+
+setblock -122 80 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=7,score_2FTcsi=7]",TrackOutput:0b,auto:0b}
+setblock -122 80 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -122 80 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7]",TrackOutput:0b,auto:1b}
+setblock -122 80 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] clear",TrackOutput:0b,auto:1b}
+setblock -122 80 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcid 7",TrackOutput:0b,auto:1b}
+setblock -122 80 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -122 80 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -122 81 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -122 81 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 23 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -122 81 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Medic hat\\\",color:16716947},ench:[{id:4,lvl:2},{id:0,lvl:3}]}",TrackOutput:0b,auto:1b}
+setblock -122 81 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] slot.hotbar.0 bow 1 0 {Unbreakable:1,display:{Name:\\\"Crusader's Crossbow\\\"},ench:[{id:51,lvl:1}]}",TrackOutput:0b,auto:1b}
+setblock -122 81 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7,team=TF2R] slot.hotbar.1 splash_potion 1 0 {HideFlags:127,Potion:\\\"minecraft:water_breathing\\\",display:{Name:\\\"Regen II - Red\\\",Lore:[\\\"Lasts 5 seconds\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7,team=TF2B] slot.hotbar.1 splash_potion 1 0 {HideFlags:127,Potion:\\\"minecraft:water_breathing\\\",display:{Name:\\\"Regen II - Blue\\\",Lore:[\\\"Lasts 5 seconds\\\"]}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] slot.hotbar.2 wooden_sword 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock -122 81 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] slot.inventory.8 arrow 1 0",TrackOutput:0b,auto:1b}
+setblock -122 81 -585 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 1 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -122 81 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -591 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 81 -592 chain_command_block 1 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 82 -592 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 82 -591 chain_command_block 3 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 82 -590 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -122 82 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -586 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=7,score_2FTcsi=7] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -583 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -582 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=7,score_2FTcsi=7] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -122 82 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=7,score_2FTcsi=7] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=8,score_2FTcsi=8]",TrackOutput:0b,auto:0b}
+setblock -122 84 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -122 84 -589 chain_command_block 3 replace {Command:"minecraft:clear @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8]",TrackOutput:0b,auto:1b}
+setblock -122 84 -588 chain_command_block 3 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] clear",TrackOutput:0b,auto:1b}
+setblock -122 84 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcid 8",TrackOutput:0b,auto:1b}
+setblock -122 84 -586 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTpid 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -585 chain_command_block 3 replace {Command:"scoreboard players add @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTfst 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTbui 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FThti 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTgti 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTgrs 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTpui 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTsti 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTgui 0",TrackOutput:0b,auto:1b}
+setblock -122 84 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTmti 0",TrackOutput:0b,auto:1b}
+setblock -122 85 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTrti 0",TrackOutput:0b,auto:1b}
+setblock -122 85 -578 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 23 1000000 0 true",TrackOutput:0b,auto:1b}
+setblock -122 85 -579 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.head leather_helmet 1 0 {Unbreakable:1,display:{Name:\\\"Sniper hat\\\",color:0},ench:[{id:4,lvl:2}]}",TrackOutput:0b,auto:1b}
+setblock -122 85 -580 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] slot.hotbar.0 bow 1 0 {Unbreakable:1,display:{Name:\\\"Sniper Rifle\\\"},ench:[{id:51,lvl:1},{id:49,lvl:1},{id:48,lvl:4}]}",TrackOutput:0b,auto:1b}
+setblock -122 85 -581 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] slot.inventory.8 arrow 1 0",TrackOutput:0b,auto:1b}
+setblock -122 85 -582 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] slot.hotbar.7 carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:\\\"Change classes\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -583 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] slot.hotbar.8 dye 1 1 {display:{Name:\\\"You are on the red team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -584 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] slot.hotbar.8 dye 1 12 {display:{Name:\\\"You are on the blue team\\\"}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -585 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red shirt\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -586 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red pants\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -587 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Red boots\\\",color:16711680}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -588 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.chest leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue shirt\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -589 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.legs leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue pants\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -590 chain_command_block 2 replace {Command:"replaceitem entity @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] slot.armor.feet leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:\\\"Blue boots\\\",color:255}}",TrackOutput:0b,auto:1b}
+setblock -122 85 -591 chain_command_block 2 replace {Command:"effect @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -122 85 -592 chain_command_block 1 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -592 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -591 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -590 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -589 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] -157 113 -641 0 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -588 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2R,score_2FTcsi_min=8,score_2FTcsi=8] -167 113 -562 -180 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -587 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=0,score_2FTspn=0] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] -91 113 -548 -180 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTspn_min=1,score_2FTspn=1] ~ ~ ~ minecraft:tp @a[r=1000,m=2,team=TF2B,score_2FTcsi_min=8,score_2FTcsi=8] -81 113 -625 0 0",TrackOutput:0b,auto:1b}
+setblock -122 86 -585 chain_command_block 3 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcsi_min=8,score_2FTcsi=8] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 88 -591 repeating_command_block 3 replace {Command:"testfor @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=0,score_2FTcdt=20]",TrackOutput:0b,auto:0b}
+setblock -122 88 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -122 88 -589 chain_command_block 3 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=0,score_2FTcdt=19] 2FTcdt 1",TrackOutput:0b,auto:1b}
+setblock -122 88 -588 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ scoreboard players remove @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=1,score_2FTcdt=20] 2FTcdt 1",TrackOutput:0b,auto:1b}
+setblock -122 88 -587 chain_command_block 3 replace {Command:"scoreboard players operation Countdown 2FTdsp = @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=1,score_2FTcdt=20] 2FTcdt",TrackOutput:0b,auto:1b}
+setblock -122 88 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=10,score_2FTcdt=10] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"10 seconds remain!\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 88 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=5,score_2FTcdt=5] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"5\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 88 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=5,score_2FTcdt=5] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -122 88 -583 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=4,score_2FTcdt=4] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"4\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 88 -582 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=4,score_2FTcdt=4] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -122 88 -581 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=3,score_2FTcdt=3] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"3\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 88 -580 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=3,score_2FTcdt=3] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -122 88 -579 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=2,score_2FTcdt=2] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"2\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 88 -578 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=2,score_2FTcdt=2] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -122 88 -577 chain_command_block 1 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=1,score_2FTcdt=1] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ tellraw @a[r=1000] {\\\"text\\\":\\\"1\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+
+setblock -122 89 -577 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=1,score_2FTcdt=1] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -122 89 -578 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ title @a[r=1000] title {\\\"text\\\":\\\"Begin!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock -122 89 -579 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ execute @a[r=1000] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2 2",TrackOutput:0b,auto:1b}
+setblock -122 89 -580 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] 2FTgmt 0",TrackOutput:0b,auto:1b}
+setblock -122 89 -581 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ execute @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] ~ ~ ~ scoreboard players reset Countdown 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -122 89 -582 chain_command_block 2 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTcdt_min=0,score_2FTcdt=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] 2FTcdt -1",TrackOutput:0b,auto:1b}
+setblock -122 89 -583 chain_command_block 2 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASB,score_2FTcdt_min=20,score_2FTcdt=20] 2FTcdt 0",TrackOutput:0b,auto:1b}
+setblock -122 91 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcos_min=1]",TrackOutput:0b,auto:0b}
+setblock -122 91 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -122 91 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcos_min=1] 2FTcsi 0",TrackOutput:0b,auto:1b}
+setblock -122 91 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 1 {SelectedItem:{tag:{display:{Name:\\\"Choose: Scout\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 2 {SelectedItem:{tag:{display:{Name:\\\"Choose: Soldier\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -586 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 3 {SelectedItem:{tag:{display:{Name:\\\"Choose: Pyro\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -585 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 4 {SelectedItem:{tag:{display:{Name:\\\"Choose: Demoman\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 5 {SelectedItem:{tag:{display:{Name:\\\"Choose: Heavy\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 7 {SelectedItem:{tag:{display:{Name:\\\"Choose: Medic\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -582 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2,score_2FTcos_min=1] 2FTcsi 8 {SelectedItem:{tag:{display:{Name:\\\"Choose: Sniper\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -581 chain_command_block 3 replace {Command:"scoreboard players set @a[m=2,score_2FTcos_min=1] 2FTrpt 102 {SelectedItem:{tag:{display:{Name:\\\"Change classes\\\"}}}}",TrackOutput:0b,auto:1b}
+setblock -122 91 -580 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102,score_2FTfst_min=2,score_2FTfst=2] 2FTfst 5",TrackOutput:0b,auto:1b}
+setblock -122 91 -579 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-161,y=112,z=-644,dx=10,dy=7,dz=26,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 91 -578 chain_command_block 3 replace {Command:"scoreboard players set @a[x=-172,y=112,z=-588,dx=21,dy=8,dz=29,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 91 -577 chain_command_block 1 replace {Command:"scoreboard players set @a[x=-221,y=101,z=-624,dx=8,dy=7,dz=10,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 92 -577 chain_command_block 2 replace {Command:"scoreboard players set @a[x=-97,y=112,z=-571,dx=10,dy=7,dz=26,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 92 -578 chain_command_block 2 replace {Command:"scoreboard players set @a[x=-76,y=112,z=-628,dx=-21,dy=8,dz=28,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 92 -579 chain_command_block 2 replace {Command:"scoreboard players set @a[x=-27,y=101,z=-565,dx=-8,dy=7,dz=-10,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 101",TrackOutput:0b,auto:1b}
+setblock -122 92 -580 chain_command_block 2 replace {Command:"minecraft:tp @a[r=1000,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] -126 29 -593 0 0",TrackOutput:0b,auto:1b}
+setblock -122 92 -581 chain_command_block 2 replace {Command:"minecraft:tp @a[r=1000,m=2,score_2FTcos_min=1,score_2FTrpt_min=101,score_2FTrpt=101] -126 25 -593 0 0",TrackOutput:0b,auto:1b}
+setblock -122 92 -582 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcos_min=1,score_2FTrpt_min=101,score_2FTrpt=102] 2FTcid 0",TrackOutput:0b,auto:1b}
+setblock -122 92 -583 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcos_min=1,score_2FTrpt_min=102,score_2FTrpt=102] 2FTrpt 100",TrackOutput:0b,auto:1b}
+setblock -122 92 -584 chain_command_block 2 replace {Command:"scoreboard players set @a[r=1000,m=2,score_2FTcos_min=1,score_2FTrpt_min=101,score_2FTrpt=101] 2FTrpt 0",TrackOutput:0b,auto:1b}
+setblock -122 92 -585 chain_command_block 2 replace {Command:"scoreboard players set @a[score_2FTcos_min=1] 2FTcos 0",TrackOutput:0b,auto:1b}
+setblock -128 94 -591 repeating_command_block 3 replace {Command:"testfor @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0]",TrackOutput:0b,auto:0b}
+setblock -128 94 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -128 94 -589 chain_command_block 3 replace {Command:"scoreboard players operation @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0] 2FTscl = Red 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -128 94 -588 chain_command_block 3 replace {Command:"scoreboard players operation @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0] 2FTscl -= Blue 2FTdsp",TrackOutput:0b,auto:1b}
+setblock -128 94 -587 chain_command_block 3 replace {Command:"title @a[r=1000] title {\\\"text\\\":\\\"Time!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 94 -586 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0,score_2FTscl_min=0,score_2FTscl=0] ~ ~ ~ title @a[r=1000] subtitle {\\\"text\\\":\\\"Stalemate! You're all losers :)\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 94 -585 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0,score_2FTscl_min=1] ~ ~ ~ title @a[r=1000] subtitle {\\\"text\\\":\\\"Red wins!\\\",\\\"color\\\":\\\"red\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 94 -584 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0,score_2FTscl=-1] ~ ~ ~ title @a[r=1000] subtitle {\\\"text\\\":\\\"Blue wins!\\\",\\\"color\\\":\\\"blue\\\"}",TrackOutput:0b,auto:1b}
+setblock -128 94 -583 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0,score_2FTscl_min=1] ~ ~ ~ execute @a[team=TF2R] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:\\\"fireworks\\\",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}",TrackOutput:0b,auto:1b}
+setblock -128 94 -582 chain_command_block 3 replace {Command:"execute @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0,score_2FTscl=-1] ~ ~ ~ execute @a[team=TF2B] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:\\\"fireworks\\\",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}",TrackOutput:0b,auto:1b}
+setblock -128 94 -581 chain_command_block 3 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=2FTASR,score_2FTgmt_min=0,score_2FTgmt=0] 2FTgmt -1",TrackOutput:0b,auto:1b}
+setblock -122 94 -591 repeating_command_block 3 replace {Command:"testfor @a[score_2FTcsi_min=10,score_2FTcsi=10]",TrackOutput:0b,auto:0b}
+setblock -122 94 -590 chain_command_block 3 replace {Command:"setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock -122 94 -589 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=1,score_2FTcid=1] 2FTcsi 1",TrackOutput:0b,auto:1b}
+setblock -122 94 -588 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=2,score_2FTcid=2] 2FTcsi 2",TrackOutput:0b,auto:1b}
+setblock -122 94 -587 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=3,score_2FTcid=3] 2FTcsi 3",TrackOutput:0b,auto:1b}
+setblock -122 94 -586 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=4,score_2FTcid=4] 2FTcsi 4",TrackOutput:0b,auto:1b}
+setblock -122 94 -585 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=5,score_2FTcid=5] 2FTcsi 5",TrackOutput:0b,auto:1b}
+setblock -122 94 -584 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=7,score_2FTcid=7] 2FTcsi 7",TrackOutput:0b,auto:1b}
+setblock -122 94 -583 chain_command_block 3 replace {Command:"scoreboard players set @a[score_2FTcsi_min=10,score_2FTcsi=10,score_2FTcid_min=8,score_2FTcid=8] 2FTcsi 8",TrackOutput:0b,auto:1b}
+setblock -126 95 -591 command_block 3 replace {Command:"fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick",TrackOutput:0b,auto:0b}
+setblock -126 95 -590 chain_command_block 3 replace {Command:"gamemode 2 @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=0]",TrackOutput:0b,auto:1b}
+setblock -126 95 -589 chain_command_block 3 replace {Command:"effect @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] clear",TrackOutput:0b,auto:1b}
+setblock -126 95 -588 chain_command_block 3 replace {Command:"minecraft:clear @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2]",TrackOutput:0b,auto:1b}
+setblock -126 95 -587 chain_command_block 3 replace {Command:"title @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16] title {\\\"text\\\":\\\"Welcome to Dustbowl!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock -126 95 -586 chain_command_block 3 replace {Command:"title @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16] subtitle {\\\"text\\\":\\\"Select your teams\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -126 95 -585 chain_command_block 3 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] slot.hotbar.0 leather_helmet 1 0 {display:{Name:\\\"Select red (TF2) by wearing this!\\\",color:16711680},Unbreakable:1,HideFlags:127}",TrackOutput:0b,auto:1b}
+setblock -126 95 -584 chain_command_block 3 replace {Command:"replaceitem entity @a[x=-132,y=25,z=-601,dx=12,dy=2,dz=16,m=2] slot.hotbar.1 leather_helmet 1 0 {display:{Name:\\\"Select blue (MC) by wearing this!\\\",color:255},Unbreakable:1,HideFlags:127}",TrackOutput:0b,auto:1b}
+setblock -126 95 -581 command_block 3 replace {Command:"fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick",TrackOutput:0b,auto:0b}
+setblock -126 95 -580 chain_command_block 3 replace {Command:"title @a[r=1000] title {\\\"text\\\":\\\"The game is starting!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock -126 95 -579 chain_command_block 3 replace {Command:"title @a[r=1000] subtitle {\\\"text\\\":\\\"20 seconds remain\\\",\\\"color\\\":\\\"yellow\\\"}",TrackOutput:0b,auto:1b}
+setblock -126 95 -578 chain_command_block 3 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=2FTASB] 2FTcdt 0",TrackOutput:0b,auto:1b}

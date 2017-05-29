@@ -1,0 +1,358 @@
+fill 1119 40 -1633 1136 53 -1627 air
+kill @e[type=!Player,x=1119,y=40,z=-1633,dx=17,dy=13,dz=6]
+fill 1119 40 -1633 1136 53 -1627 air
+kill @e[type=!Player,x=1119,y=40,z=-1633,dx=17,dy=13,dz=6]
+setblock 1120 41 -1632 stonebrick 0
+setblock 1120 41 -1630 stonebrick 0
+setblock 1120 46 -1630 stonebrick 0
+setblock 1120 41 -1628 stonebrick 0
+setblock 1120 44 -1628 stonebrick 0
+setblock 1120 47 -1628 stonebrick 0
+setblock 1120 49 -1628 stonebrick 0
+setblock 1120 50 -1632 stonebrick 0
+setblock 1120 51 -1630 stonebrick 0
+setblock 1120 51 -1628 stonebrick 0
+setblock 1120 52 -1632 stonebrick 0
+setblock 1121 41 -1632 repeating_command_block 5 replace {Command:"minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,type=Item]",TrackOutput:0b,auto:0b}
+setblock 1122 41 -1632 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] add BWKilled {OnGround:1b}",TrackOutput:0b,auto:1b}
+setblock 1123 41 -1632 chain_command_block 5 replace {Command:"minecraft:kill @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0,tag=BWKilled]",TrackOutput:0b,auto:1b}
+setblock 1124 41 -1632 chain_command_block 5 replace {Command:"kill @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0,score_CannotDie_min=0,score_CannotDie=0,tag=BWKilled]",TrackOutput:0b,auto:1b}
+setblock 1125 41 -1632 chain_command_block 5 replace {Command:"scoreboard players set @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0] BWaf 0",TrackOutput:0b,auto:1b}
+setblock 1126 41 -1632 chain_command_block 5 replace {Command:"execute @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] set AffectedItems @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] BWaf",TrackOutput:0b,auto:1b}
+setblock 1127 41 -1632 chain_command_block 5 replace {Command:"execute @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] written_book -1 0",TrackOutput:0b,auto:1b}
+setblock 1128 41 -1632 chain_command_block 5 replace {Command:"minecraft:clear @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_BWaf_min=0,score_BWaf=0]",TrackOutput:0b,auto:1b}
+setblock 1129 41 -1632 chain_command_block 5 replace {Command:"scoreboard players reset @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0] BWpl",TrackOutput:0b,auto:1b}
+setblock 1130 41 -1632 chain_command_block 5 replace {Command:"scoreboard teams leave @a[score_BWde_min=1,team=BW]",TrackOutput:0b,auto:1b}
+setblock 1131 41 -1632 chain_command_block 5 replace {Command:"gamemode 2 @a[x=1119,y=23,z=-1640,dx=20,dy=16,dz=32,m=0]",TrackOutput:0b,auto:1b}
+setblock 1132 41 -1632 chain_command_block 5 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=BWAS,score_BWde_min=0] BWde 1",TrackOutput:0b,auto:1b}
+setblock 1133 41 -1632 chain_command_block 5 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=BWAS,score_BWde_min=8,score_BWde=8] BWde 1",TrackOutput:0b,auto:1b}
+setblock 1134 41 -1632 chain_command_block 5 replace {Command:"scoreboard players set Players BWpl 0",TrackOutput:0b,auto:1b}
+setblock 1135 41 -1632 chain_command_block 1 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ scoreboard players add Players BWpl 1",TrackOutput:0b,auto:1b}
+setblock 1135 42 -1632 chain_command_block 4 replace {Command:"scoreboard players operation Players BWdi = Players BWpl",TrackOutput:0b,auto:1b}
+setblock 1134 42 -1632 chain_command_block 4 replace {Command:"scoreboard players test PVP BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1133 42 -1632 chain_command_block 12 replace {Command:"scoreboard players set PVP BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1132 42 -1632 chain_command_block 12 replace {Command:"scoreboard teams option BW friendlyfire false",TrackOutput:0b,auto:1b}
+setblock 1131 42 -1632 chain_command_block 4 replace {Command:"scoreboard players test PVP BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1130 42 -1632 chain_command_block 12 replace {Command:"scoreboard players set PVP BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1129 42 -1632 chain_command_block 12 replace {Command:"scoreboard teams option BW friendlyfire true",TrackOutput:0b,auto:1b}
+setblock 1128 42 -1632 chain_command_block 4 replace {Command:"scoreboard players test Snowball BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1127 42 -1632 chain_command_block 12 replace {Command:"scoreboard players set Snowball BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1126 42 -1632 chain_command_block 12 replace {Command:"fill ~-6 ~8 ~0 ~-6 ~8 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1125 42 -1632 chain_command_block 4 replace {Command:"scoreboard players test Snowball BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1124 42 -1632 chain_command_block 12 replace {Command:"scoreboard players set Snowball BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1123 42 -1632 chain_command_block 12 replace {Command:"fill ~-3 ~8 ~0 ~-3 ~8 ~0 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1122 42 -1632 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1122 43 -1632 chain_command_block 5 replace {Command:"scoreboard players test Hunger BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1123 43 -1632 chain_command_block 13 replace {Command:"scoreboard players set Hunger BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1124 43 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] melon",TrackOutput:0b,auto:1b}
+setblock 1125 43 -1632 chain_command_block 5 replace {Command:"scoreboard players test Hunger BWSave 1 1",TrackOutput:0b,auto:1b}
+setblock 1126 43 -1632 chain_command_block 13 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 23 3 100 true",TrackOutput:0b,auto:1b}
+setblock 1127 43 -1632 chain_command_block 5 replace {Command:"scoreboard players test Hunger BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1128 43 -1632 chain_command_block 13 replace {Command:"scoreboard players set Hunger BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1129 43 -1632 chain_command_block 13 replace {Command:"replaceitem entity @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] slot.weapon.offhand melon 64 0",TrackOutput:0b,auto:1b}
+setblock 1130 43 -1632 chain_command_block 5 replace {Command:"scoreboard players test Invulnerability BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1131 43 -1632 chain_command_block 13 replace {Command:"scoreboard players set Invulnerability BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1132 43 -1632 chain_command_block 13 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 11 0 0 true",TrackOutput:0b,auto:1b}
+setblock 1133 43 -1632 chain_command_block 5 replace {Command:"scoreboard players test Invulnerability BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1134 43 -1632 chain_command_block 13 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 11 3 10 true",TrackOutput:0b,auto:1b}
+setblock 1135 43 -1632 chain_command_block 1 replace {Command:"minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Item]",TrackOutput:0b,auto:1b}
+setblock 1135 44 -1632 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1134 44 -1632 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1133 44 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe",TrackOutput:0b,auto:1b}
+setblock 1132 44 -1632 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1131 44 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe",TrackOutput:0b,auto:1b}
+setblock 1130 44 -1632 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1129 44 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe",TrackOutput:0b,auto:1b}
+setblock 1128 44 -1632 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1127 44 -1632 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1126 44 -1632 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1125 44 -1632 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1124 44 -1632 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1123 44 -1632 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1122 44 -1632 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1122 45 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1123 45 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shovel BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1124 45 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel",TrackOutput:0b,auto:1b}
+setblock 1125 45 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1126 45 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel",TrackOutput:0b,auto:1b}
+setblock 1127 45 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1128 45 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel",TrackOutput:0b,auto:1b}
+setblock 1129 45 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1130 45 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shovel BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1131 45 -1632 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1132 45 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1133 45 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shovel BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1134 45 -1632 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1135 45 -1632 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1135 46 -1632 chain_command_block 4 replace {Command:"scoreboard players test Axe BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1134 46 -1632 chain_command_block 12 replace {Command:"scoreboard players set Axe BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1133 46 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe",TrackOutput:0b,auto:1b}
+setblock 1132 46 -1632 chain_command_block 4 replace {Command:"scoreboard players test Axe BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1131 46 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe",TrackOutput:0b,auto:1b}
+setblock 1130 46 -1632 chain_command_block 4 replace {Command:"scoreboard players test Axe BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1129 46 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe",TrackOutput:0b,auto:1b}
+setblock 1128 46 -1632 chain_command_block 4 replace {Command:"scoreboard players test Axe BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1127 46 -1632 chain_command_block 12 replace {Command:"scoreboard players set Axe BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1126 46 -1632 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1125 46 -1632 chain_command_block 4 replace {Command:"scoreboard players test Axe BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1124 46 -1632 chain_command_block 12 replace {Command:"scoreboard players set Axe BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1123 46 -1632 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1122 46 -1632 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+
+setblock 1122 47 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1123 47 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shears BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1124 47 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears",TrackOutput:0b,auto:1b}
+setblock 1125 47 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1126 47 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears",TrackOutput:0b,auto:1b}
+setblock 1127 47 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1128 47 -1632 chain_command_block 13 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears",TrackOutput:0b,auto:1b}
+setblock 1129 47 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1130 47 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shears BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1131 47 -1632 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1132 47 -1632 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 4 4",TrackOutput:0b,auto:1b}
+setblock 1133 47 -1632 chain_command_block 13 replace {Command:"scoreboard players set Shears BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1134 47 -1632 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1135 47 -1632 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1135 48 -1632 chain_command_block 4 replace {Command:"scoreboard players test SpeedPotion BWSave 0 0",TrackOutput:0b,auto:1b}
+setblock 1134 48 -1632 chain_command_block 12 replace {Command:"scoreboard players set SpeedPotion BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1133 48 -1632 chain_command_block 12 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] potion",TrackOutput:0b,auto:1b}
+setblock 1132 48 -1632 chain_command_block 4 replace {Command:"scoreboard players test SpeedPotion BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1131 48 -1632 chain_command_block 12 replace {Command:"scoreboard players set SpeedPotion BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1130 48 -1632 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] potion 1 0 {Potion:\\\"minecraft:strong_swiftness\\\"}",TrackOutput:0b,auto:1b}
+setblock 1121 41 -1630 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 1122 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWSave dummy Breakaway Settings Save",TrackOutput:0b,auto:1b}
+setblock 1123 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWde deathCount Breakaway Deaths",TrackOutput:0b,auto:1b}
+setblock 1124 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWpl dummy Breakaway Player List",TrackOutput:0b,auto:1b}
+setblock 1125 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWdi dummy Breakaway",TrackOutput:0b,auto:1b}
+setblock 1126 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWaf dummy Breakaway Affected Items",TrackOutput:0b,auto:1b}
+setblock 1127 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives add BWti dummy Breakaway Timer",TrackOutput:0b,auto:1b}
+setblock 1128 41 -1630 chain_command_block 5 replace {Command:"scoreboard objectives setdisplay sidebar BWdi",TrackOutput:0b,auto:1b}
+setblock 1129 41 -1630 chain_command_block 5 replace {Command:"scoreboard teams add BW",TrackOutput:0b,auto:1b}
+setblock 1130 41 -1630 chain_command_block 5 replace {Command:"scoreboard teams option BW color green",TrackOutput:0b,auto:1b}
+setblock 1131 41 -1630 chain_command_block 5 replace {Command:"scoreboard teams option BW collisionRule never",TrackOutput:0b,auto:1b}
+setblock 1132 41 -1630 chain_command_block 5 replace {Command:"scoreboard teams option BW deathMessageVisibility never",TrackOutput:0b,auto:1b}
+setblock 1133 41 -1630 chain_command_block 5 replace {Command:"gamerule keepInventory true",TrackOutput:0b,auto:1b}
+setblock 1134 41 -1630 chain_command_block 5 replace {Command:"gamerule doTileDrops false",TrackOutput:0b,auto:1b}
+setblock 1135 41 -1630 chain_command_block 1 replace {Command:"scoreboard teams join BW @a[x=1096,y=5,z=-1642,dx=22,dy=30,dz=56,m=2] @a[x=1141,y=5,z=-1634,dx=21,dy=30,dz=35,m=2] @a[x=1119,y=5,z=-1606,dx=20,dy=30,dz=20,m=2] @a[x=1096,y=5,z=-1642,dx=22,dy=30,dz=56,m=0] @a[x=1141,y=5,z=-1634,dx=21,dy=30,dz=35,m=0] @a[x=1119,y=5,z=-1606,dx=20,dy=30,dz=20,m=0]",TrackOutput:0b,auto:1b}
+setblock 1135 42 -1630 chain_command_block 4 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] clear",TrackOutput:0b,auto:1b}
+setblock 1134 42 -1630 chain_command_block 4 replace {Command:"gamemode 2 @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,team=BW]",TrackOutput:0b,auto:1b}
+setblock 1133 42 -1630 chain_command_block 4 replace {Command:"summon AreaEffectCloud ~ ~ ~ {Tags:[\\\"BWEntity\\\",\\\"BWCD\\\"],Duration:101}",TrackOutput:0b,auto:1b}
+setblock 1132 42 -1630 chain_command_block 4 replace {Command:"summon ArmorStand ~ ~ ~ {DisabledSlots:2096896,Marker:1,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:1,Invulnerable:1,PersistenceRequired:1,Invisible:1,Tags:[\\\"BWEntity\\\",\\\"BWAS\\\"]}",TrackOutput:0b,auto:1b}
+setblock 1131 42 -1630 chain_command_block 4 replace {Command:"scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWpl 0",TrackOutput:0b,auto:1b}
+setblock 1130 42 -1630 chain_command_block 4 replace {Command:"scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWti 100",TrackOutput:0b,auto:1b}
+setblock 1129 42 -1630 chain_command_block 4 replace {Command:"scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWaf 0",TrackOutput:0b,auto:1b}
+setblock 1128 42 -1630 chain_command_block 4 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] ~ ~ ~ stats entity @a[m=2,c=1,r=1,team=BW] set AffectedItems @a[m=2,c=1,r=1,team=BW] BWaf",TrackOutput:0b,auto:1b}
+setblock 1127 42 -1630 chain_command_block 4 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] 18 5 10 true",TrackOutput:0b,auto:1b}
+setblock 1126 42 -1630 chain_command_block 4 replace {Command:"scoreboard players add @e[type=ArmorStand,tag=BWAS] BWde 0",TrackOutput:0b,auto:1b}
+setblock 1125 42 -1630 chain_command_block 4 replace {Command:"scoreboard players test PVP BWSave 1 1",TrackOutput:0b,auto:1b}
+setblock 1124 42 -1630 chain_command_block 12 replace {Command:"scoreboard teams option BW friendlyfire false",TrackOutput:0b,auto:1b}
+setblock 1123 42 -1630 chain_command_block 4 replace {Command:"scoreboard players test PVP BWSave 3 3",TrackOutput:0b,auto:1b}
+setblock 1122 42 -1630 chain_command_block 12 replace {Command:"scoreboard teams option BW friendlyfire true",TrackOutput:0b,auto:1b}
+setblock 1121 42 -1630 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1121 43 -1630 chain_command_block 5 replace {Command:"scoreboard players test Snowball BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1122 43 -1630 chain_command_block 13 replace {Command:"scoreboard players set Snowball BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1123 43 -1630 chain_command_block 5 replace {Command:"scoreboard players test Snowball BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1124 43 -1630 chain_command_block 13 replace {Command:"scoreboard players set Snowball BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1125 43 -1630 chain_command_block 13 replace {Command:"fill ~-5 ~7 ~-2 ~-5 ~7 ~-2 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1126 43 -1630 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1127 43 -1630 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1128 43 -1630 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1129 43 -1630 chain_command_block 5 replace {Command:"execute @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0,c=1]\\\"},{\\\"text\\\":\\\" is a derp\\\",\\\"color\\\":\\\"red\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1130 43 -1630 chain_command_block 5 replace {Command:"effect @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock 1131 43 -1630 chain_command_block 5 replace {Command:"minecraft:tp @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1107.0 24 -1617",TrackOutput:0b,auto:1b}
+setblock 1132 43 -1630 chain_command_block 5 replace {Command:"minecraft:tp @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1152.0 24 -1616",TrackOutput:0b,auto:1b}
+setblock 1133 43 -1630 chain_command_block 5 replace {Command:"minecraft:tp @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1129 24 -1596",TrackOutput:0b,auto:1b}
+setblock 1134 43 -1630 chain_command_block 5 replace {Command:"scoreboard players tag @a[tag=BreakawayDerp] remove BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1135 43 -1630 chain_command_block 1 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1135 44 -1630 chain_command_block 4 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"5\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1134 44 -1630 chain_command_block 4 replace {Command:"fill ~-14 ~-3 ~2 ~-14 ~-3 ~2 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1133 44 -1630 chain_command_block 4 replace {Command:"fill ~-13 ~-3 ~-2 ~-13 ~-3 ~-2 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1132 44 -1630 chain_command_block 4 replace {Command:"fill ~-12 ~7 ~0 ~-12 ~7 ~0 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1121 46 -1630 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 1122 46 -1630 chain_command_block 5 replace {Command:"scoreboard objectives remove BWid",TrackOutput:0b,auto:1b}
+setblock 1123 46 -1630 chain_command_block 5 replace {Command:"scoreboard objectives remove BWaf",TrackOutput:0b,auto:1b}
+setblock 1124 46 -1630 chain_command_block 5 replace {Command:"fill 1124 29 -1618 1124 29 -1616 glowstone 0",TrackOutput:0b,auto:1b}
+setblock 1125 46 -1630 chain_command_block 5 replace {Command:"fill 1134 29 -1618 1134 29 -1616 glowstone 0",TrackOutput:0b,auto:1b}
+setblock 1126 46 -1630 chain_command_block 5 replace {Command:"fill 1128 29 -1614 1130 29 -1614 glowstone 0",TrackOutput:0b,auto:1b}
+setblock 1127 46 -1630 chain_command_block 5 replace {Command:"minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Item]",TrackOutput:0b,auto:1b}
+setblock 1128 46 -1630 chain_command_block 5 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2]",TrackOutput:0b,auto:1b}
+setblock 1129 46 -1630 chain_command_block 5 replace {Command:"scoreboard players test Hunger BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1130 46 -1630 chain_command_block 13 replace {Command:"scoreboard players set Hunger BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1131 46 -1630 chain_command_block 5 replace {Command:"scoreboard players test Hunger BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1132 46 -1630 chain_command_block 13 replace {Command:"scoreboard players set Hunger BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1133 46 -1630 chain_command_block 13 replace {Command:"replaceitem entity @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] slot.weapon.offhand melon 64 0",TrackOutput:0b,auto:1b}
+setblock 1134 46 -1630 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1134 47 -1630 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1133 47 -1630 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1132 47 -1630 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1131 47 -1630 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1130 47 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_pickaxe 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1129 47 -1630 chain_command_block 4 replace {Command:"scoreboard players test Pickaxe BWSave 4 5",TrackOutput:0b,auto:1b}
+setblock 1128 47 -1630 chain_command_block 12 replace {Command:"scoreboard players set Pickaxe BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1127 47 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1126 47 -1630 chain_command_block 4 replace {Command:"scoreboard players test Shovel BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1125 47 -1630 chain_command_block 12 replace {Command:"scoreboard players set Shovel BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1124 47 -1630 chain_command_block 4 replace {Command:"scoreboard players test Shovel BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1123 47 -1630 chain_command_block 12 replace {Command:"scoreboard players set Shovel BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1122 47 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_shovel 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1121 47 -1630 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1121 48 -1630 chain_command_block 5 replace {Command:"scoreboard players test Shovel BWSave 4 5",TrackOutput:0b,auto:1b}
+setblock 1122 48 -1630 chain_command_block 13 replace {Command:"scoreboard players set Shovel BWSave 5",TrackOutput:0b,auto:1b}
+
+setblock 1123 48 -1630 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1124 48 -1630 chain_command_block 5 replace {Command:"scoreboard players test Axe BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1125 48 -1630 chain_command_block 13 replace {Command:"scoreboard players set Axe BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1126 48 -1630 chain_command_block 5 replace {Command:"scoreboard players test Axe BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1127 48 -1630 chain_command_block 13 replace {Command:"scoreboard players set Axe BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1128 48 -1630 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_axe 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1129 48 -1630 chain_command_block 5 replace {Command:"scoreboard players test Axe BWSave 4 5",TrackOutput:0b,auto:1b}
+setblock 1130 48 -1630 chain_command_block 13 replace {Command:"scoreboard players set Axe BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1131 48 -1630 chain_command_block 13 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1132 48 -1630 chain_command_block 5 replace {Command:"scoreboard players test Shears BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1133 48 -1630 chain_command_block 13 replace {Command:"scoreboard players set Shears BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1134 48 -1630 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1134 49 -1630 chain_command_block 4 replace {Command:"scoreboard players test Shears BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1133 49 -1630 chain_command_block 12 replace {Command:"scoreboard players set Shears BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1132 49 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] shears 1 0 {Unbreakable:1}",TrackOutput:0b,auto:1b}
+setblock 1131 49 -1630 chain_command_block 4 replace {Command:"scoreboard players test Shears BWSave 4 5",TrackOutput:0b,auto:1b}
+setblock 1130 49 -1630 chain_command_block 12 replace {Command:"scoreboard players set Shears BWSave 5",TrackOutput:0b,auto:1b}
+setblock 1129 49 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}",TrackOutput:0b,auto:1b}
+setblock 1128 49 -1630 chain_command_block 4 replace {Command:"scoreboard players test SpeedPotion BWSave 0 1",TrackOutput:0b,auto:1b}
+setblock 1127 49 -1630 chain_command_block 12 replace {Command:"scoreboard players set SpeedPotion BWSave 1",TrackOutput:0b,auto:1b}
+setblock 1126 49 -1630 chain_command_block 4 replace {Command:"scoreboard players test SpeedPotion BWSave 2 3",TrackOutput:0b,auto:1b}
+setblock 1125 49 -1630 chain_command_block 12 replace {Command:"scoreboard players set SpeedPotion BWSave 3",TrackOutput:0b,auto:1b}
+setblock 1124 49 -1630 chain_command_block 12 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] potion 1 0 {Potion:\\\"minecraft:strong_swiftness\\\"}",TrackOutput:0b,auto:1b}
+setblock 1123 49 -1630 chain_command_block 4 replace {Command:"setblock 1141 40 -1631 redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1122 49 -1630 chain_command_block 4 replace {Command:"fill ~-2 ~2 ~2 ~-2 ~2 ~2 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1121 41 -1628 repeating_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:20}",TrackOutput:0b,auto:0b}
+setblock 1122 41 -1628 chain_command_block 13 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1123 41 -1628 chain_command_block 13 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"4\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1124 41 -1628 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:40}",TrackOutput:0b,auto:1b}
+setblock 1125 41 -1628 chain_command_block 13 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1126 41 -1628 chain_command_block 13 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"3\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1127 41 -1628 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:60}",TrackOutput:0b,auto:1b}
+setblock 1128 41 -1628 chain_command_block 13 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1129 41 -1628 chain_command_block 13 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"2\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1130 41 -1628 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:80}",TrackOutput:0b,auto:1b}
+setblock 1131 41 -1628 chain_command_block 13 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1132 41 -1628 chain_command_block 13 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"1\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1133 41 -1628 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:95}",TrackOutput:0b,auto:1b}
+setblock 1134 41 -1628 chain_command_block 13 replace {Command:"fill ~-14 ~11 ~-4 ~-14 ~11 ~-4 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1135 41 -1628 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock 1135 42 -1628 chain_command_block 4 replace {Command:"testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:100}",TrackOutput:0b,auto:1b}
+setblock 1134 42 -1628 chain_command_block 12 replace {Command:"fill ~-14 ~7 ~0 ~-14 ~7 ~0 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1133 42 -1628 chain_command_block 12 replace {Command:"fill ~-13 ~-1 ~0 ~-13 ~-1 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1132 42 -1628 chain_command_block 4 replace {Command:"scoreboard players tag @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1131 42 -1628 chain_command_block 4 replace {Command:"scoreboard players tag @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1130 42 -1628 chain_command_block 4 replace {Command:"scoreboard players tag @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1129 42 -1628 chain_command_block 4 replace {Command:"execute @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0,c=1]\\\"},{\\\"text\\\":\\\" is a derp\\\",\\\"color\\\":\\\"red\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1128 42 -1628 chain_command_block 4 replace {Command:"effect @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock 1127 42 -1628 chain_command_block 4 replace {Command:"minecraft:tp @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1107.0 24 -1617",TrackOutput:0b,auto:1b}
+setblock 1126 42 -1628 chain_command_block 4 replace {Command:"minecraft:tp @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1152.0 24 -1616",TrackOutput:0b,auto:1b}
+setblock 1125 42 -1628 chain_command_block 4 replace {Command:"minecraft:tp @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1129 24 -1596",TrackOutput:0b,auto:1b}
+setblock 1124 42 -1628 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=BreakawayDerp] remove BreakawayDerp",TrackOutput:0b,auto:1b}
+setblock 1121 44 -1628 command_block 5 replace {Command:"scoreboard teams remove BW",TrackOutput:0b,auto:0b}
+setblock 1122 44 -1628 chain_command_block 5 replace {Command:"minecraft:kill @e[tag=BWEntity]",TrackOutput:0b,auto:1b}
+setblock 1123 44 -1628 chain_command_block 5 replace {Command:"scoreboard players tag * remove BWKilled",TrackOutput:0b,auto:1b}
+setblock 1124 44 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] clear",TrackOutput:0b,auto:1b}
+setblock 1125 44 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock 1126 44 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 11 5 100 true",TrackOutput:0b,auto:1b}
+setblock 1127 44 -1628 chain_command_block 5 replace {Command:"gamerule keepInventory false",TrackOutput:0b,auto:1b}
+setblock 1128 44 -1628 chain_command_block 5 replace {Command:"scoreboard players set @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] BWaf 0",TrackOutput:0b,auto:1b}
+setblock 1129 44 -1628 chain_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] set AffectedItems @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] BWaf",TrackOutput:0b,auto:1b}
+setblock 1130 44 -1628 chain_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] written_book -1 0",TrackOutput:0b,auto:1b}
+setblock 1131 44 -1628 chain_command_block 5 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_BWaf_min=0,score_BWaf=0]",TrackOutput:0b,auto:1b}
+setblock 1132 44 -1628 chain_command_block 5 replace {Command:"minecraft:tp @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 1129 32 -1630 0 0",TrackOutput:0b,auto:1b}
+setblock 1133 44 -1628 chain_command_block 5 replace {Command:"scoreboard objectives remove BWde",TrackOutput:0b,auto:1b}
+setblock 1134 44 -1628 chain_command_block 5 replace {Command:"scoreboard objectives remove BWpl",TrackOutput:0b,auto:1b}
+setblock 1135 44 -1628 chain_command_block 1 replace {Command:"scoreboard objectives remove BWdi",TrackOutput:0b,auto:1b}
+setblock 1135 45 -1628 chain_command_block 4 replace {Command:"scoreboard objectives remove BWaf",TrackOutput:0b,auto:1b}
+setblock 1134 45 -1628 chain_command_block 4 replace {Command:"scoreboard objectives remove BWti",TrackOutput:0b,auto:1b}
+setblock 1133 45 -1628 chain_command_block 4 replace {Command:"fill 1115 23 -1640 1098 23 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1132 45 -1628 chain_command_block 4 replace {Command:"fill 1143 23 -1632 1160 23 -1601 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1131 45 -1628 chain_command_block 4 replace {Command:"fill 1143 19 -1632 1160 19 -1601 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1130 45 -1628 chain_command_block 4 replace {Command:"fill 1143 15 -1632 1160 15 -1601 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1129 45 -1628 chain_command_block 4 replace {Command:"fill 1137 23 -1604 1121 23 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1128 45 -1628 chain_command_block 4 replace {Command:"fill 1137 19 -1604 1121 19 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1127 45 -1628 chain_command_block 4 replace {Command:"fill 1137 15 -1604 1121 15 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1126 45 -1628 chain_command_block 4 replace {Command:"fill 1137 11 -1604 1121 11 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1125 45 -1628 chain_command_block 4 replace {Command:"fill 1137 7 -1604 1121 7 -1588 bedrock 0",TrackOutput:0b,auto:1b}
+setblock 1124 45 -1628 chain_command_block 4 replace {Command:"fill ~-4 ~-1 ~0 ~-4 ~-1 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1123 45 -1628 chain_command_block 4 replace {Command:"fill ~-3 ~-4 ~0 ~-3 ~-4 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1122 45 -1628 chain_command_block 4 replace {Command:"fill ~-2 ~-4 ~-4 ~-2 ~-4 ~-4 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1121 45 -1628 chain_command_block 4 replace {Command:"fill ~-1 ~6 ~-2 ~-1 ~6 ~-2 stonebrick",TrackOutput:0b,auto:1b}
+setblock 1121 47 -1628 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 1122 47 -1628 chain_command_block 5 replace {Command:"scoreboard objectives add BWid dummy Breakaway In Doors",TrackOutput:0b,auto:1b}
+setblock 1123 47 -1628 chain_command_block 5 replace {Command:"scoreboard objectives add BWaf dummy Breakaway Affected Items",TrackOutput:0b,auto:1b}
+setblock 1124 47 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 1 1",TrackOutput:0b,auto:1b}
+setblock 1125 47 -1628 chain_command_block 13 replace {Command:"title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {\\\"text\\\":\\\"Arena 1 is open\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock 1126 47 -1628 chain_command_block 13 replace {Command:"fill 1124 29 -1618 1124 29 -1616 air 0",TrackOutput:0b,auto:1b}
+setblock 1127 47 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1128 47 -1628 chain_command_block 13 replace {Command:"title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {\\\"text\\\":\\\"Arena 2 is open\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock 1129 47 -1628 chain_command_block 13 replace {Command:"fill 1134 29 -1618 1134 29 -1616 air 0",TrackOutput:0b,auto:1b}
+setblock 1130 47 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 3 3",TrackOutput:0b,auto:1b}
+setblock 1131 47 -1628 chain_command_block 13 replace {Command:"title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {\\\"text\\\":\\\"Arena 3 is open\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock 1132 47 -1628 chain_command_block 13 replace {Command:"fill 1128 29 -1614 1130 29 -1614 air 0",TrackOutput:0b,auto:1b}
+setblock 1133 47 -1628 chain_command_block 5 replace {Command:"fill ~-13 ~4 ~0 ~-13 ~4 ~0 redstone_block",TrackOutput:0b,auto:1b}
+setblock 1121 49 -1628 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 1122 49 -1628 chain_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2 2",TrackOutput:0b,auto:1b}
+setblock 1123 49 -1628 chain_command_block 5 replace {Command:"tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {\\\"text\\\":\\\"Begin!\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock 1124 49 -1628 chain_command_block 5 replace {Command:"gamemode 0 @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWpl_min=0,score_BWpl=0]",TrackOutput:0b,auto:1b}
+
+setblock 1125 49 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 1 1",TrackOutput:0b,auto:1b}
+setblock 1126 49 -1628 chain_command_block 13 replace {Command:"fill 1093 24 -1640 1093 23 -1640 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1127 49 -1628 chain_command_block 13 replace {Command:"fill 1093 24 -1640 1093 23 -1640 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1128 49 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1129 49 -1628 chain_command_block 13 replace {Command:"fill 1143 23 -1637 1143 15 -1637 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1130 49 -1628 chain_command_block 13 replace {Command:"fill 1143 23 -1637 1143 15 -1637 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1131 49 -1628 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 3 3",TrackOutput:0b,auto:1b}
+setblock 1132 49 -1628 chain_command_block 13 replace {Command:"fill 1121 23 -1583 1121 7 -1583 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1133 49 -1628 chain_command_block 13 replace {Command:"fill 1121 23 -1583 1121 7 -1583 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1121 50 -1632 repeating_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0] ~ ~ ~ minecraft:clear @a[score_BWpl_min=0,score_BWpl=0,m=0,c=1,r=1] snowball -1,0 {display:{Name:\\\"To do list: Rename this to something better\\\"}}",TrackOutput:0b,auto:0b}
+setblock 1122 50 -1632 chain_command_block 5 replace {Command:"scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=0,score_BWti=99] BWti 1",TrackOutput:0b,auto:1b}
+setblock 1123 50 -1632 chain_command_block 5 replace {Command:"minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=100,score_BWti=100] snowball 1,0 {display:{Name:\\\"To do list: Rename this to something better\\\"}}",TrackOutput:0b,auto:1b}
+setblock 1124 50 -1632 chain_command_block 5 replace {Command:"scoreboard players set @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=100,score_BWti=100] BWti 0",TrackOutput:0b,auto:1b}
+setblock 1125 50 -1632 chain_command_block 5 replace {Command:"scoreboard players tag @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=!BreakawaySnowball] add BreakawaySnowball",TrackOutput:0b,auto:1b}
+setblock 1126 50 -1632 chain_command_block 5 replace {Command:"execute @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=BreakawaySnowball] ~ ~ ~ minecraft:kill @e[type=AreaEffectCloud,tag=BreakawaySnowballCloud,c=1,r=5]",TrackOutput:0b,auto:1b}
+setblock 1127 50 -1632 chain_command_block 5 replace {Command:"scoreboard players tag @e[x=1098,y=21,z=-1640,dx=17,dy=5,dz=52,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA",TrackOutput:0b,auto:1b}
+setblock 1128 50 -1632 chain_command_block 5 replace {Command:"scoreboard players tag @e[x=1143,y=15,z=-1632,dx=17,dy=11,dz=31,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA",TrackOutput:0b,auto:1b}
+setblock 1129 50 -1632 chain_command_block 5 replace {Command:"scoreboard players tag @e[x=1121,y=7,z=-1640,dx=16,dy=19,dz=16,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA",TrackOutput:0b,auto:1b}
+setblock 1130 50 -1632 chain_command_block 5 replace {Command:"execute @e[type=AreaEffectCloud,tag=BreakawaySnowballCloudIA] ~ ~ ~ say ye",TrackOutput:0b,auto:1b}
+setblock 1131 50 -1632 chain_command_block 5 replace {Command:"execute @e[type=AreaEffectCloud,tag=BreakawaySnowballCloudIA] ~ ~ ~ playsound minecraft:entity.item.pickup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock 1132 50 -1632 chain_command_block 5 replace {Command:"minecraft:kill @e[type=AreaEffectCloud,tag=BreakawaySnowballCloud]",TrackOutput:0b,auto:1b}
+setblock 1133 50 -1632 chain_command_block 5 replace {Command:"execute @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=BreakawaySnowball] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:3,Tags:[\\\"BreakawaySnowballCloud\\\"]}",TrackOutput:0b,auto:1b}
+setblock 1121 51 -1630 repeating_command_block 5 replace {Command:"testfor @a[tag=BWKilled]",TrackOutput:0b,auto:0b}
+setblock 11\\22 51 -1630 chain_command_block 5 replace {Command:"setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}",TrackOutput:0b,auto:1b}
+setblock 1123 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=1,score_BWde=1] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" didnt bounce\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1124 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" spontaneously combusted\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1125 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ particle hugeexplosion ~ ~ ~ 0 0 0 0 1 force",TrackOutput:0b,auto:1b}
+setblock 1126 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ playsound minecraft:entity.generic.explode voice @a ~ ~ ~ 1 0.75",TrackOutput:0b,auto:1b}
+setblock 1127 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=3,score_BWde=3] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" faceplanted the ground\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1128 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=4,score_BWde=4] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" did not have feather falling boots\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1129 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=5,score_BWde=5] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" couldnt fly\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1130 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=6,score_BWde=6] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\" slipped on a banana\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1131 51 -1630 chain_command_block 5 replace {Command:"execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=7,score_BWde=7] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,tag=BWKilled,score_BWde_min=1]\\\"},{\\\"text\\\":\\\"'s legs bent the wrong way\\\"}]}",TrackOutput:0b,auto:1b}
+setblock 1132 51 -1630 chain_command_block 5 replace {Command:"scoreboard players tag @a[tag=BWKilled] remove BWKilled",TrackOutput:0b,auto:1b}
+setblock 1133 51 -1630 chain_command_block 5 replace {Command:"scoreboard players set @a[score_BWde_min=1] BWde 0",TrackOutput:0b,auto:1b}
+setblock 1121 51 -1628 repeating_command_block 5 replace {Command:"scoreboard players set @a[x=1124,y=28,z=-1618,dy=2,dz=2] BWid 1",TrackOutput:0b,auto:0b}
+setblock 1122 51 -1628 chain_command_block 5 replace {Command:"scoreboard players set @a[x=1134,y=28,z=-1618,dy=2,dz=2] BWid 1",TrackOutput:0b,auto:1b}
+setblock 1123 51 -1628 chain_command_block 5 replace {Command:"scoreboard players set @a[x=1128,y=28,z=-1614,dx=2,dy=2] BWid 1",TrackOutput:0b,auto:1b}
+setblock 1124 51 -1628 chain_command_block 5 replace {Command:"minecraft:gamemode 2 @a[score_BWid_min=1,score_BWid=1,m=0]",TrackOutput:0b,auto:1b}
+setblock 1125 51 -1628 chain_command_block 5 replace {Command:"scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] BWaf 0",TrackOutput:0b,auto:1b}
+setblock 1126 51 -1628 chain_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] set AffectedItems @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] BWaf",TrackOutput:0b,auto:1b}
+setblock 1127 51 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] clear",TrackOutput:0b,auto:1b}
+setblock 1128 51 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] 18 1000000 10 true",TrackOutput:0b,auto:1b}
+setblock 1129 51 -1628 chain_command_block 5 replace {Command:"effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] 23 1000000 10 true",TrackOutput:0b,auto:1b}
+setblock 1130 51 -1628 chain_command_block 5 replace {Command:"execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] written_book -1 0",TrackOutput:0b,auto:1b}
+setblock 1131 51 -1628 chain_command_block 5 replace {Command:"minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWid_min=1,score_BWid=1,score_BWaf_min=0,score_BWaf=0]",TrackOutput:0b,auto:1b}
+setblock 1132 51 -1628 chain_command_block 5 replace {Command:"scoreboard players set @a[score_BWid_min=1,score_BWid=1] BWid 0",TrackOutput:0b,auto:1b}
+setblock 1121 52 -1632 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock 1122 52 -1632 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 1 1",TrackOutput:0b,auto:1b}
+setblock 1123 52 -1632 chain_command_block 13 replace {Command:"fill 1168 6 -1663 1168 5 -1663 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1124 52 -1632 chain_command_block 13 replace {Command:"fill 1168 6 -1663 1168 5 -1663 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1125 52 -1632 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 2 2",TrackOutput:0b,auto:1b}
+setblock 1126 52 -1632 chain_command_block 13 replace {Command:"fill 1187 13 -1642 1187 5 -1642 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1127 52 -1632 chain_command_block 13 replace {Command:"fill 1187 13 -1642 1187 5 -1642 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock 1128 52 -1632 chain_command_block 5 replace {Command:"scoreboard players test Arena BWSave 3 3",TrackOutput:0b,auto:1b}
+setblock 1129 52 -1632 chain_command_block 13 replace {Command:"fill 1206 21 -1627 1206 5 -1627 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 1130 52 -1632 chain_command_block 13 replace {Command:"fill 1206 21 -1627 1206 5 -1627 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}

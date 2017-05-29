@@ -1,0 +1,417 @@
+
+//<Comments
+FUNC Func_RandomComments
+	-universal pvp lobby area
+	-when the arena is chosen, 10s wait time
+	-blind, slow, jump boost, weakness
+		-glass prism around
+	
+	-FFA - 0
+	-OITC - 1
+	-TDM - 2
+	
+	Sword - 1
+	Bow - 2
+	Shield - 4
+	KVR - 8
+	
+	PVPSave
+	Weapons		0-8
+	Mode		0-2
+	Countdown	10
+	GameTime	300
+	
+	-Countdown TF Clock
+	-Teleport TF Clock
+	-Initial Teleport TF Clock
+	
+	5 minutes
+	
+	Kill number: XP level
+	Time remaining: XP bar
+END
+//>
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		NumberObjAdd
+		PVPSave dummy PVP Save
+		PVP dummy PVP Display
+		PVPde deathCount PVP Deaths
+		PVPki playerKillCount PVP Kills
+		PVPkc playerKillCount PVP Kill Calc
+		PVPtp dummy PVP Teleport
+		PVPtc dummy PVP Teleport Calc
+		PVPcl dummy PVP Calc
+		PVPmd dummy PVP Mode
+		PVPwe dummy PVP Weapon
+		PVPti dummy PVP Timer
+		PVPti2 dummy PVP Timer 2
+		PVPti3 dummy PVP Timer 3
+	UNUSE
+	
+	USE $TeamA$
+		PVP
+		PVPr
+		PVPb
+		PVPd_y
+	UNUSE
+	
+	USE $TeamO$
+		PVP nametagVisibility never
+		PVP color green
+		
+		PVPr nametagVisibility hideForOwnTeam
+		PVPr color red
+		PVPr friendlyfire false
+		
+		PVPb nametagVisibility hideForOwnTeam
+		PVPb color blue
+		PVPb friendlyfire false
+		
+		PVPd_y color yellow
+	UNUSE
+	
+	ScTJ PVPd_y Countdown Minutes Seconds
+	
+	ExecuteSpawnStand scoreboard objectives setdisplay sidebar PVP
+	
+	LOOP 0 9 + 1
+		ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:1000000,Tags:["PVPEntity","PVPTeleport","PVPTeleport|0|"]}
+		@e[type=AreaEffectCloud,PVPTeleport|0|] PVPtp = |0|
+	END
+	ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["PVPEntity","PVPStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	
+	@e[type=ArmorStand,PVPStand] PVPti + 0
+	ScOP @e[type=ArmorStand,PVPStand] PVPti2 = Countdown PVPSave
+	@e[type=ArmorStand,PVPStand] PVPti3 = 1
+	@e[type=ArmorStand,PVPStand] PVPtp = 1
+	ScOP @e[type=ArmorStand,PVPStand] PVPmd = Mode PVPSave
+	ScOP @e[type=ArmorStand,PVPStand] PVPwe = Weapons PVPSave
+	
+///	OITC must have a sword and bow
+	ScOP @e[type=ArmorStand,PVPStand,PVPmd=1] PVPwe = 3
+	
+	NumberAdd($TPNumber$)
+	NumberAdd($TPNumberR$)
+	NumberAdd($TPNumberB$)
+	NumberAdd(100)
+	
+	//=
+	LOOP 1 $TPNumber$ + 1
+		summon AreaEffectCloud $TPCoords|0|$ {}
+	END
+	LOOP 1 $TPNumberR$ + 1
+		summon AreaEffectCloud $TPCoordsR|0|$ {}
+	END
+	LOOP 1 $TPNumberB$ + 1
+		summon AreaEffectCloud $TPCoordsB|0|$ {}
+	END
+	\\=
+END
+//>
+
+//<Countdown Testfor Clock
+FUNC Func_CountdownTFClock
+	testfor @e[PVPStand,PVPti>=0]
+	SetblockTestfor
+	
+	@e[type=ArmorStand,PVPStand,PVPti>=0,PVPti3=1] PVPti + 1
+	@e[type=ArmorStand,PVPStand,PVPti>=20,PVPti3=1] PVPti2 - 1
+	@e[type=ArmorStand,PVPStand,PVPti>=20,PVPti3=1] PVPti = 0
+	
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=10] tellraw @a[$SA$] $TextStart${"text":"10","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=10] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=5] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=5] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=4] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=4] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=3] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=3] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=2] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=2] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=1] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=1] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=0] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=0] @a[$SA$] playsound entity.experience_orb.touch voice @a[c=1]
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=0] ScRE Countdown PVP
+	@e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=0] PVPti3 = -1
+	ScOP @e[type=ArmorStand,PVPStand,PVPti=0,PVPti2=0,PVPti3=-1] PVPti2 = GameTime PVPSave
+	
+	@e[type=ArmorStand,PVPStand,PVPti3=1] ScOP Countdown PVP = @e[type=ArmorStand,PVPStand,PVPti3=1] PVPti2
+	
+///	Removed effects and replaced with glass pane cage
+///	@e[type=ArmorStand,PVPStand,PVPti3=1] effect @a[$SA$,m=2,PVPtp=-1] 15 2 0 true
+///	@e[type=ArmorStand,PVPStand,PVPti3=1] effect @a[$SA$,m=2,PVPtp=-1] 2 2 5 true
+///	@e[type=ArmorStand,PVPStand,PVPti3=1] effect @a[$SA$,m=2,PVPtp=-1] 8 2 250 true
+	@e[type=ArmorStand,PVPStand,PVPti3=1] @a[$SA$,m=2,PVPtp=-1] PVPtc = 1
+	
+///	@e[type=ArmorStand,PVPStand,PVPti3=-1] effect @a[$SA$,m=2,PVPtp=-1] 15 0 0 true
+///	@e[type=ArmorStand,PVPStand,PVPti3=-1] effect @a[$SA$,m=2,PVPtp=-1] 2 0 5 true
+///	@e[type=ArmorStand,PVPStand,PVPti3=-1] effect @a[$SA$,m=2,PVPtp=-1] 8 0 250 true
+	@e[type=ArmorStand,PVPStand,PVPti3=-1] @a[$SA$,m=2,PVPtp=-1] PVPtc = 0
+END
+//>
+
+//<Initial Teleport Testfor Clock
+FUNC Func_InitialTeleportTFClock
+	testfor @e[type=ArmorStand,PVPStand,PVPtp=1]
+	SetblockTestfor
+	ScOP @e[type=ArmorStand,PVPStand,PVPtp=1] PVPcl = $TPNumber$ Number
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] PVPcl = 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] @a[$SP$,m=2] PVPtp = 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] PVPtp = 0
+	
+	ScOP @a[$SP$,m=2] PVPtp = @e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl>=1] PVPcl
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl>=1] PVPcl - 1
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl=0] @a[$SA$,m=2] PVPtp + 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl=0] PVPtp = 0
+END
+//>
+
+//<Teleport Testfor Clock
+FUNC Func_TeleportTFClock
+	testfor @a[$SA$,m=2,PVPtp>=0]
+	SetblockTestfor
+	
+///	RNG
+	@a[$SA$,m=2,PVPtp=0] ScOP @a[c=1,r=1,m=2,PVPtp=0] PVPcl = @r[type=AreaEffectCloud,PVPTeleport] PVPtp
+	ScOP @a[$SA$,m=2,PVPtp=0] PVPcl *= 10 Number
+	@a[$SA$,m=2,PVPtp=0] ScOP @a[c=1,r=1,m=2,PVPtp=0] PVPcl + @r[type=AreaEffectCloud,PVPTeleport] PVPtp
+	ScOP @a[$SA$,m=2,PVPtp=0,team=PVP] PVPcl %= $TPNumber$ Number
+	ScOP @a[$SA$,m=2,PVPtp=0,team=PVPr] PVPcl %= $TPNumberR$ Number
+	ScOP @a[$SA$,m=2,PVPtp=0,team=PVPb] PVPcl %= $TPNumberB$ Number
+	@a[$SA$,m=2,PVPtp=0] PVPcl + 1
+	@a[$SA$,m=2,PVPtp=0] ScOP @a[c=1,r=1,m=2,PVPtp=0] PVPtp = @a[c=1,r=1,m=2,PVPtp=0] PVPcl
+	
+///	Teleports
+	LOOP 1 $TPNumber$ + 1
+		$s$tp @a[$SA$,m=2,PVPtp=|0|,team=PVP] $TPCoords|0|$
+	END
+	LOOP 1 $TPNumberR$ + 1
+		$s$tp @a[$SA$,m=2,PVPtp=|0|,team=PVPr] $TPCoordsR|0|$
+	END
+	LOOP 1 $TPNumberB$ + 1
+		$s$tp @a[$SA$,m=2,PVPtp=|0|,team=PVPb] $TPCoordsB|0|$
+	END
+	
+///	Teleport effects
+	effect @a[$SA$,m=2,PVPtp>=0,PVPtc=0] 11 2 10 true
+	effect @a[$SA$,m=2,PVPtp>=0,PVPtc=0] 6 1 100 true
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0] PVPcl = 0
+	
+///	Weapon give (since all teleports = refresh weapons)
+	$s$clear @a[$SA$,m=2,PVPtp>=0]
+	ScOP @a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe=0] PVPwe = @e[type=ArmorStand,PVPStand] PVPwe
+	replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=4] slot.weapon.offhand shield 1 0 {Unbreakable:1}
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=4] PVPwe - 4
+	
+	replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=2] slot.hotbar.1 bow 1 0 {Unbreakable:1,ench:[id:51,lvl:1]}
+	replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=2] slot.hotbar.2 arrow 1 0
+	@e[type=ArmorStand,PVPStand,PVPmd=1] replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0] slot.hotbar.1 bow 1 0 {Unbreakable:1}
+	@e[type=ArmorStand,PVPStand,PVPmd=1] replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0] slot.hotbar.2 arrow 1 0
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=2] PVPwe - 2
+	
+	replaceitem entity @a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=1] slot.hotbar.0 diamond_sword 1 0 {Unbreakable:1}
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0,PVPwe>=1] PVPwe = 0
+	
+	@a[$SA$,m=2,PVPtp>=0,PVPtc=0] PVPtp = -1
+END
+//>
+
+//<Game End Testfor Clock
+FUNC Func_GameEndTFClock
+	testfor @e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=0,PVPti3=-1]
+	SetblockTestfor
+	
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=0,PVPti3=-1] tellraw @a $TextStart${"text":"Time!","color":"green","bold":true}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=0,PVPti3=-1] $s$clear @a[$SA$,m=2]
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=0,PVPti3=-1] effect @a[$SA$,m=2] 18 3 100 true
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=0,PVPti3=-1] PVPti3 = 0
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+///	General
+	$s$kill @e[$SA$,type=Item]
+	Func_SpawnIDSetting
+	
+///	Time
+	@e[type=ArmorStand,PVPStand,PVPti<=-1,PVPti2>=1,PVPti3=-1] PVPti - 1
+	@e[type=ArmorStand,PVPStand,PVPti<=-21,PVPti2>=1,PVPti3=-1] PVPti2 - 1
+	@e[type=ArmorStand,PVPStand,PVPti<=-21,PVPti2>=0,PVPti3=-1] PVPti = -1
+	
+///	LOOP 9 2 - 1 () 540 120 - 60
+///		@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=|2|,PVPti3=-1] tellraw @a $TextStart${"text":"|0| minutes left!","color":"yellow}]}
+///	END
+	
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=540,PVPti3=-1] tellraw @a $TextStart${"text":"9 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=480,PVPti3=-1] tellraw @a $TextStart${"text":"8 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=420,PVPti3=-1] tellraw @a $TextStart${"text":"7 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=360,PVPti3=-1] tellraw @a $TextStart${"text":"6 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=300,PVPti3=-1] tellraw @a $TextStart${"text":"5 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=240,PVPti3=-1] tellraw @a $TextStart${"text":"4 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=180,PVPti3=-1] tellraw @a $TextStart${"text":"3 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=120,PVPti3=-1] tellraw @a $TextStart${"text":"2 minutes left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=60,PVPti3=-1] tellraw @a $TextStart${"text":"60 seconds left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=30,PVPti3=-1] tellraw @a $TextStart${"text":"30 seconds left!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=5,PVPti3=-1] tellraw @a $TextStart${"text":"5!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=4,PVPti3=-1] tellraw @a $TextStart${"text":"4!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=3,PVPti3=-1] tellraw @a $TextStart${"text":"3!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=2,PVPti3=-1] tellraw @a $TextStart${"text":"2!","color":"yellow}]}
+	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=1,PVPti3=-1] tellraw @a $TextStart${"text":"1!","color":"yellow}]}
+ 	
+///	Teleport from spawn
+	@a[$SP$,m=2,PVPtp=-1] PVPtp = 0
+	
+///	OITC
+	@e[type=ArmorStand,PVPStand,PVPmd=1] give @a[$SA$,m=2,PVPtp=-1,PVPkc>=1] arrow 1 0
+	@e[type=ArmorStand,PVPStand,PVPmd=1] @a[$SA$,m=2,PVPtp=-1,PVPkc>=1] PVPkc - 1
+	
+///	Display
+	Red_Kills PVPcl = 0
+	Blue_Kills PVPcl = 0
+	Red_Players PVPcl = 0
+	Blue_Players PVPcl = 0
+	
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Red_Kills PVPcl += @a[$SA$,m=2,PVPtp=-1,team=PVPr]
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Blue_Kills PVPcl += @a[$SA$,m=2,PVPtp=-1,team=PVPb]
+	@a[$SA$,m=2,PVPtp=-1,team=PVPr] Red_Players PVPcl + 1
+	@a[$SA$,m=2,PVPtp=-1,team=PVPb] Blue_Players PVPcl + 1
+	
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Red_Kills PVP = Red_Kills PVPcl
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Blue_Kills PVP = Blue_Kills PVPcl
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Red_Players PVP = Red_Players PVPcl
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScOP Blue_Players PVP = Blue_Players PVPcl
+	
+	@e[type=ArmorStand,PVPStand,PVPmd>=0<=1] @a[$SA$,m=2,PVPtp=-1,team=PVP] ScOP @a[c=1,f=1,m=2,PVPtp=-1,team=PVP] PVP = @a[c=1,f=1,m=2,PVPtp=-1,team=PVP] PVPki
+	
+	@e[type=ArmorStand,PVPStand,PVPmd>=0<=1] ScRE Red_Kills PVP
+	@e[type=ArmorStand,PVPStand,PVPmd>=0<=1] ScRE Blue_Kills PVP
+	@e[type=ArmorStand,PVPStand,PVPmd>=0<=1] ScRE Red_Players PVP
+	@e[type=ArmorStand,PVPStand,PVPmd>=0<=1] ScRE Blue_Players PVP
+	@e[type=ArmorStand,PVPStand,PVPmd=2] ScRE @a[$SA$,m=2,PVP>=0] PVP
+	
+///	@e[type=ArmorStand,PVPStand,]
+	
+///	XP
+	$s$kill @e[$SA$,type=XPOrb]
+	$s$xp -2147483648L @a[$SA$,m=2]
+	
+///	Countdown and GameTime on XP Bar
+	ScOP @a[$SA$,m=2,PVPxp>=0] PVPxp = @e[type=ArmorStand,PVPStand] PVPti2
+	ScOP @a[$SA$,m=2,PVPxp>=0] PVPxp *= 100 Number
+	@e[type=ArmorStand,PVPStand,PVPti3=1] ScOP @a[$SA$,m=2,PVPxp>=0] PVPxp /= Countdown PVPSave
+	@e[type=ArmorStand,PVPStand,PVPti3=-1] ScOP @a[$SA$,m=2,PVPxp>=0] PVPxp /= GameTime PVPSave
+
+	$s$xp 1129L @a[$SA$,m=2,PVPxp>=0]
+	$s$xp 11 @a[$SA$,m=2,PVPxp>=0]
+	LOOP 64 1 / 2 () 6336 99 / 2
+		$s$xp |2| @a[$SA$,m=2,PVPxp>=|0|]
+		@a[$SA$,m=2,PVPxp>=|0|] PVPxp - |0|
+	END
+	$s$xp -1129L @a[$SA$,m=2,PVPxp>=0]
+	@a[$SA$,m=2,PVPxp>=0] PVPxp = 0
+	
+///	Kills - Up to 255
+	@a[$SA$,m=2,PVPxp>=0] ScOP @a[c=1,r=1,m=2,PVPxp>=0] PVPxp2 = @a[c=1,r=1,m=2,PVPxp>=0] PVPki
+	LOOP 128 1 / 2
+		$s$xp |0|L @a[$SA$,m=2,PVPxi2>=|0|]
+		@a[$SA$,m=2,PVPxp2>=|0|] PVPxp2 - |0|
+	END
+	@a[$SA$,m=2,PVPxp2>=0] PVPxp2 = 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		PVP
+		PVPde
+		PVPki
+		PVPkc
+		PVPtp
+		PVPcl
+		PVPmd
+		PVPwe
+		PVPti
+		PVPti2
+		PVPti3
+	UNUSE
+	
+	USE $TeamR$
+		PVP
+		PVPr
+		PVPb
+		PVPd_y
+	UNUSE
+	
+	$s$kill @e[PVPEntity]
+	effect @a[$SA$] 6 1 100 true
+	@a[$SA$,m=2] SPtp = $SPid$
+END
+//>
+
+
+//<Groups
+Func_CMDSave
+:CBPMainStart PULSE $Style$
+Func_SpawnStandStart
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart
+Activate(CBPMainClock)
+Activate(CBPCountdownTFClock)
+Activate(CBPTeleportTFClock)
+Activate(CBPInitialTeleportTFClock)
+Activate(CBPGameEndTFClock)
+
+
+:CBPCountdownTFClock CLOCK $Style$
+Func_CountdownTFClock
+
+:CBPTeleportTFClock CLOCK $Style$
+Func_TeleportTFClock
+
+:CBPInitialTeleportTFClock CLOCK $Style$
+Func_InitialTeleportTFClock
+
+:CBPGameEndTFClock CLOCK $Style$
+Func_GameEndTFClock
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+
+
+:CBPMainEnd PULSE $Style$
+Func_SpawnStandEnd
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd
+Deactivate(CBPMainClock)
+Deactivate(CBPCountdownTFClock)
+Deactivate(CBPTeleportTFClock)
+Deactivate(CBPInitialTeleportTFClock)
+Deactivate(CBPGameEndTFClock)
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

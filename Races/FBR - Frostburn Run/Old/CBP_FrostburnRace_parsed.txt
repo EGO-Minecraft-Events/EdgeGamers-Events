@@ -1,0 +1,88 @@
+:MainStart PULSE 10 10 0		[0 0 4 | 12 4 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard objectives add FrostBurnRace dummy FrostBurn Race
+	scoreboard objectives add FrostBurnRaceCP dummy FrostBurnRace Checkpoints
+	scoreboard objectives setdisplay sidebar FrostBurnRace
+	scoreboard teams add FrostBurnR
+	scoreboard teams option FrostBurnR color aqua
+	scoreboard teams option FrostBurnR seeFriendlyInvisibles true
+	scoreboard teams option FrostBurnR collisionRule never
+	scoreboard players set FrostBurnR_Open RS 4
+	scoreboard players reset FrostBurnR_Closed RS
+	summon AreaEffectCloud ~ ~ ~ {Duration:101,Tags:["FrostBurnRaceCD"]}
+	tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"5","color":"yellow","bold":"true"}
+	execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] clear
+	scoreboard players set /warp_fbr FrostBurnRace 0
+	scoreboard teams join FrostBurnR /warp_fbr
+	fill ~-2 ~-1 ~-4 ~-2 ~-1 ~-4 redstone_block
+	fill ~-1 ~-1 ~-2 ~-1 ~-1 ~-2 redstone_block
+
+:MainClock CLOCK 10 10 0		[0 0 0 | 12 5 3]
+	minecraft:weather clear 1000000
+	gamemode 2 @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=0]
+	minecraft:clear @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2]
+	scoreboard teams join FrostBurnR @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,team=!FrostBurnR]
+	effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 14 3 0 true
+	effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 12 3 0 true
+	effect @a[x=-82,y=8,z=293,dx=11,dy=4,dz=11,m=2,team=FrostBurnR] 12 0 0 true
+	scoreboard players add @a[x=-81,y=8,z=252,dx=11,dy=9,dz=12,m=2,team=FrostBurnR] FrostBurnRaceCP 0
+	execute @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] FrostBurnRaceCP 1
+	execute @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] FrostBurnRaceCP 2
+	execute @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
+	scoreboard players set @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] FrostBurnRaceCP 3
+	minecraft:tp @a[x=-79,y=10,z=291,dx=4,dy=4,m=2,team=FrostBurnR] ~ ~ ~1
+	execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add FrostBurnRWaterTP
+	scoreboard players tag @a[x=-81,y=8,z=252,dx=11,dy=9,dz=12,m=2,score_FrostBurnRaceCP_min=1] add FrostBurnRWaterTP
+	minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] -78 9 258 90 0
+	minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] -142 9 283 -90 0
+	minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] -76.0 10 292 0 45
+	minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=3,score_FrostBurnRaceCP=3] -98 19 307 90 20
+	effect @a[tag=FrostBurnRWaterTP] 6 1 100 true
+	effect @a[tag=FrostBurnRWaterTP] 11 1 100 true
+	execute @a[tag=FrostBurnRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=FrostBurnRWaterTP] remove FrostBurnRWaterTP
+
+:Countdown CLOCK 10 10 0		[0 0 2 | 10 5 3]
+	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:20}
+	 | execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	 L tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"4","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:40}
+	 | execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	 L tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"3","color":"yellow","bold":"true"}
+	
+	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:60}
+	 | execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	 L tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"2","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:80}
+	 | execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	 L tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"1","color":"yellow","bold":"true"}
+	
+	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:100}
+	 | execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	 | tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {"text":"GO!","color":"green","bold":"true"}
+	 | title @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] title {"text":"GO!","color":"green"}
+	 | fill -82 6 252 -82 6 264 stonebrick 0 replace redstone_block 0
+	 L fill ~-6 ~-2 ~0 ~-6 ~-2 ~0 stonebrick
+
+:MainEnd PULSE 10 10 0		[0 3 4 | 12 4 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard objectives remove FrostBurnRace
+	scoreboard objectives remove FrostBurnRaceCP
+	scoreboard teams remove FrostBurnR
+	fill ~-5 ~-3 ~-4 ~-5 ~-3 ~-4 stonebrick
+	fill ~-6 ~-3 ~-2 ~-6 ~-3 ~-2 stonebrick
+	scoreboard players set FrostBurnR_Closed RS 4
+	scoreboard players reset FrostBurnR_Open RS
+	minecraft:kill @e[type=AreaEffectCloud,tag=FrostBurnRaceCD]
+	fill -82 6 252 -82 6 264 redstone_block 0 replace stonebrick 0
+	effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] clear
+	minecraft:clear @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2]
+	effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] 6 20 100 true
+	minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] -73 9 258 90 0
+

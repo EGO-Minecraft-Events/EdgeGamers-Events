@@ -1,0 +1,88 @@
+fill -65 18 255 -54 24 261 air
+kill @e[type=!Player,x=-65,y=18,z=255,dx=11,dy=6,dz=6]
+fill -65 18 255 -54 24 261 air
+kill @e[type=!Player,x=-65,y=18,z=255,dx=11,dy=6,dz=6]
+setblock -64 19 256 stonebrick 0
+setblock -64 19 258 stonebrick 0
+setblock -64 19 260 stonebrick 0
+setblock -64 22 260 stonebrick 0
+setblock -63 19 256 repeating_command_block 5 replace {Command:"minecraft:weather clear 1000000",TrackOutput:0b,auto:0b}
+setblock -62 19 256 chain_command_block 5 replace {Command:"gamemode 2 @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=0]",TrackOutput:0b,auto:1b}
+setblock -61 19 256 chain_command_block 5 replace {Command:"minecraft:clear @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2]",TrackOutput:0b,auto:1b}
+setblock -60 19 256 chain_command_block 5 replace {Command:"scoreboard teams join FrostBurnR @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,team=!FrostBurnR]",TrackOutput:0b,auto:1b}
+setblock -59 19 256 chain_command_block 5 replace {Command:"effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 14 3 0 true",TrackOutput:0b,auto:1b}
+setblock -58 19 256 chain_command_block 5 replace {Command:"effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 12 3 0 true",TrackOutput:0b,auto:1b}
+setblock -57 19 256 chain_command_block 5 replace {Command:"effect @a[x=-82,y=8,z=293,dx=11,dy=4,dz=11,m=2,team=FrostBurnR] 12 0 0 true",TrackOutput:0b,auto:1b}
+setblock -56 19 256 chain_command_block 5 replace {Command:"scoreboard players add @a[x=-81,y=8,z=252,dx=11,dy=9,dz=12,m=2,team=FrostBurnR] FrostBurnRaceCP 0",TrackOutput:0b,auto:1b}
+setblock -55 19 256 chain_command_block 1 replace {Command:"execute @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -55 20 256 chain_command_block 4 replace {Command:"execute @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0]\\\"},{\\\"text\\\":\\\" has reached checkpoint 1!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -56 20 256 chain_command_block 4 replace {Command:"scoreboard players set @a[x=-144,y=8,z=282,dx=4,dy=4,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] FrostBurnRaceCP 1",TrackOutput:0b,auto:1b}
+setblock -57 20 256 chain_command_block 4 replace {Command:"execute @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -58 20 256 chain_command_block 4 replace {Command:"execute @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1]\\\"},{\\\"text\\\":\\\" has reached checkpoint 2!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -59 20 256 chain_command_block 4 replace {Command:"scoreboard players set @a[x=-79,y=9,z=292,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] FrostBurnRaceCP 2",TrackOutput:0b,auto:1b}
+setblock -60 20 256 chain_command_block 4 replace {Command:"execute @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -61 20 256 chain_command_block 4 replace {Command:"execute @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"\\\",\\\"extra\\\":[{\\\"selector\\\":\\\"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2]\\\"},{\\\"text\\\":\\\" has reached checkpoint 3!\\\",\\\"color\\\":\\\"yellow\\\"}]}",TrackOutput:0b,auto:1b}
+setblock -62 20 256 chain_command_block 4 replace {Command:"scoreboard players set @a[x=-100,y=19,z=305,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] FrostBurnRaceCP 3",TrackOutput:0b,auto:1b}
+setblock -63 20 256 chain_command_block 4 replace {Command:"minecraft:tp @a[x=-79,y=10,z=291,dx=4,dy=4,m=2,team=FrostBurnR] ~ ~ ~1",TrackOutput:0b,auto:1b}
+setblock -64 20 256 chain_command_block 1 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add FrostBurnRWaterTP",TrackOutput:0b,auto:1b}
+setblock -64 21 256 chain_command_block 5 replace {Command:"scoreboard players tag @a[x=-81,y=8,z=252,dx=11,dy=9,dz=12,m=2,score_FrostBurnRaceCP_min=1] add FrostBurnRWaterTP",TrackOutput:0b,auto:1b}
+setblock -63 21 256 chain_command_block 5 replace {Command:"minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] -78 9 258 90 0",TrackOutput:0b,auto:1b}
+setblock -62 21 256 chain_command_block 5 replace {Command:"minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] -142 9 283 -90 0",TrackOutput:0b,auto:1b}
+setblock -61 21 256 chain_command_block 5 replace {Command:"minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] -76.0 10 292 0 45",TrackOutput:0b,auto:1b}
+setblock -60 21 256 chain_command_block 5 replace {Command:"minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=3,score_FrostBurnRaceCP=3] -98 19 307 90 20",TrackOutput:0b,auto:1b}
+setblock -59 21 256 chain_command_block 5 replace {Command:"effect @a[tag=FrostBurnRWaterTP] 6 1 100 true",TrackOutput:0b,auto:1b}
+setblock -58 21 256 chain_command_block 5 replace {Command:"effect @a[tag=FrostBurnRWaterTP] 11 1 100 true",TrackOutput:0b,auto:1b}
+setblock -57 21 256 chain_command_block 5 replace {Command:"execute @a[tag=FrostBurnRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -56 21 256 chain_command_block 5 replace {Command:"scoreboard players tag @a[tag=FrostBurnRWaterTP] remove FrostBurnRWaterTP",TrackOutput:0b,auto:1b}
+setblock -63 19 258 repeating_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:20}",TrackOutput:0b,auto:0b}
+setblock -62 19 258 chain_command_block 13 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1",TrackOutput:0b,auto:1b}
+setblock -61 19 258 chain_command_block 13 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"4\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -60 19 258 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:40}",TrackOutput:0b,auto:1b}
+setblock -59 19 258 chain_command_block 13 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5",TrackOutput:0b,auto:1b}
+setblock -58 19 258 chain_command_block 13 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"3\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -57 19 258 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock -57 20 258 chain_command_block 4 replace {Command:"testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:60}",TrackOutput:0b,auto:1b}
+setblock -58 20 258 chain_command_block 12 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2",TrackOutput:0b,auto:1b}
+setblock -59 20 258 chain_command_block 12 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"2\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -60 20 258 chain_command_block 4 replace {Command:"testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:80}",TrackOutput:0b,auto:1b}
+setblock -61 20 258 chain_command_block 12 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2",TrackOutput:0b,auto:1b}
+setblock -62 20 258 chain_command_block 12 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"1\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -63 20 258 chain_command_block 1 replace {Command:"",TrackOutput:0b,auto:1b}
+setblock -63 21 258 chain_command_block 5 replace {Command:"testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] {Age:100}",TrackOutput:0b,auto:1b}
+setblock -62 21 258 chain_command_block 13 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]",TrackOutput:0b,auto:1b}
+setblock -61 21 258 chain_command_block 13 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"GO!\\\",\\\"color\\\":\\\"green\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -60 21 258 chain_command_block 13 replace {Command:"title @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] title {\\\"text\\\":\\\"GO!\\\",\\\"color\\\":\\\"green\\\"}",TrackOutput:0b,auto:1b}
+setblock -59 21 258 chain_command_block 13 replace {Command:"fill -82 6 252 -82 6 264 stonebrick 0 replace redstone_block 0",TrackOutput:0b,auto:1b}
+setblock -58 21 258 chain_command_block 13 replace {Command:"fill ~-6 ~-2 ~0 ~-6 ~-2 ~0 stonebrick",TrackOutput:0b,auto:1b}
+setblock -63 19 260 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock -62 19 260 chain_command_block 5 replace {Command:"scoreboard objectives add FrostBurnRace dummy FrostBurn Race",TrackOutput:0b,auto:1b}
+setblock -61 19 260 chain_command_block 5 replace {Command:"scoreboard objectives add FrostBurnRaceCP dummy FrostBurnRace Checkpoints",TrackOutput:0b,auto:1b}
+setblock -60 19 260 chain_command_block 5 replace {Command:"scoreboard objectives setdisplay sidebar FrostBurnRace",TrackOutput:0b,auto:1b}
+setblock -59 19 260 chain_command_block 5 replace {Command:"scoreboard teams add FrostBurnR",TrackOutput:0b,auto:1b}
+setblock -58 19 260 chain_command_block 5 replace {Command:"scoreboard teams option FrostBurnR color aqua",TrackOutput:0b,auto:1b}
+setblock -57 19 260 chain_command_block 5 replace {Command:"scoreboard teams option FrostBurnR seeFriendlyInvisibles true",TrackOutput:0b,auto:1b}
+setblock -56 19 260 chain_command_block 5 replace {Command:"scoreboard teams option FrostBurnR collisionRule never",TrackOutput:0b,auto:1b}
+setblock -55 19 260 chain_command_block 1 replace {Command:"scoreboard players set FrostBurnR_Open RS 4",TrackOutput:0b,auto:1b}
+setblock -55 20 260 chain_command_block 4 replace {Command:"scoreboard players reset FrostBurnR_Closed RS",TrackOutput:0b,auto:1b}
+setblock -56 20 260 chain_command_block 4 replace {Command:"summon AreaEffectCloud ~ ~ ~ {Duration:101,Tags:[\\\"FrostBurnRaceCD\\\"]}",TrackOutput:0b,auto:1b}
+setblock -57 20 260 chain_command_block 4 replace {Command:"tellraw @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] {\\\"text\\\":\\\"5\\\",\\\"color\\\":\\\"yellow\\\",\\\"bold\\\":\\\"true\\\"}",TrackOutput:0b,auto:1b}
+setblock -58 20 260 chain_command_block 4 replace {Command:"execute @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5",TrackOutput:0b,auto:1b}
+setblock -59 20 260 chain_command_block 4 replace {Command:"effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90] clear",TrackOutput:0b,auto:1b}
+setblock -60 20 260 chain_command_block 4 replace {Command:"scoreboard players set /warp_fbr FrostBurnRace 0",TrackOutput:0b,auto:1b}
+setblock -61 20 260 chain_command_block 4 replace {Command:"scoreboard teams join FrostBurnR /warp_fbr",TrackOutput:0b,auto:1b}
+setblock -62 20 260 chain_command_block 4 replace {Command:"fill ~-2 ~-1 ~-4 ~-2 ~-1 ~-4 redstone_block",TrackOutput:0b,auto:1b}
+setblock -63 20 260 chain_command_block 4 replace {Command:"fill ~-1 ~-1 ~-2 ~-1 ~-1 ~-2 redstone_block",TrackOutput:0b,auto:1b}
+setblock -63 22 260 command_block 5 replace {Command:"fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick",TrackOutput:0b,auto:0b}
+setblock -62 22 260 chain_command_block 5 replace {Command:"scoreboard objectives remove FrostBurnRace",TrackOutput:0b,auto:1b}
+setblock -61 22 260 chain_command_block 5 replace {Command:"scoreboard objectives remove FrostBurnRaceCP",TrackOutput:0b,auto:1b}
+setblock -60 22 260 chain_command_block 5 replace {Command:"scoreboard teams remove FrostBurnR",TrackOutput:0b,auto:1b}
+setblock -59 22 260 chain_command_block 5 replace {Command:"fill ~-5 ~-3 ~-4 ~-5 ~-3 ~-4 stonebrick",TrackOutput:0b,auto:1b}
+setblock -58 22 260 chain_command_block 5 replace {Command:"fill ~-6 ~-3 ~-2 ~-6 ~-3 ~-2 stonebrick",TrackOutput:0b,auto:1b}
+setblock -57 22 260 chain_command_block 5 replace {Command:"scoreboard players set FrostBurnR_Closed RS 4",TrackOutput:0b,auto:1b}
+setblock -56 22 260 chain_command_block 5 replace {Command:"scoreboard players reset FrostBurnR_Open RS",TrackOutput:0b,auto:1b}
+setblock -55 22 260 chain_command_block 1 replace {Command:"minecraft:kill @e[type=AreaEffectCloud,tag=FrostBurnRaceCD]",TrackOutput:0b,auto:1b}
+setblock -55 23 260 chain_command_block 4 replace {Command:"fill -82 6 252 -82 6 264 redstone_block 0 replace stonebrick 0",TrackOutput:0b,auto:1b}
+setblock -56 23 260 chain_command_block 4 replace {Command:"effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] clear",TrackOutput:0b,auto:1b}
+setblock -57 23 260 chain_command_block 4 replace {Command:"minecraft:clear @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2]",TrackOutput:0b,auto:1b}
+setblock -58 23 260 chain_command_block 4 replace {Command:"effect @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] 6 20 100 true",TrackOutput:0b,auto:1b}
+setblock -59 23 260 chain_command_block 4 replace {Command:"minecraft:tp @a[x=-159,y=1,z=244,dx=90,dy=50,dz=90,m=2] -73 9 258 90 0",TrackOutput:0b,auto:1b}

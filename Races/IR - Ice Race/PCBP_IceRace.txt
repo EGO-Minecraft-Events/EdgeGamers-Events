@@ -1,0 +1,127 @@
+//#-p stonebrick 0 -b 55 36 -65 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\IR - Ice Race\CBP_IceRace.txt
+
+//<Defines
+DEFINE $CMDName$ IR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 4
+DEFINE $CMDSizeZ$ 8
+
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=34,y=2,z=-64,dx=141,dy=69,dz=43
+
+///	Name
+DEFINE $Name$ Ice
+///	Text display name
+DEFINE $TD$ IR
+///	Hover and scoreboard name
+DEFINE $TDName$ Ice Race
+///	Scoreboard teams color
+DEFINE $Color$ aqua
+///	Place where air is when open
+DEFINE $Dao$ 66 34 -42 66 34 -48
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 49 36 -45 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 1
+
+///	1st Place Select
+DEFINE $Win1S$ x=41,y=36,z=-32,dy=1,dz=1
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 42 33 -31 42 33 -32
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=41,y=36,z=-28,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 42 33 -28 42 33 -28
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=41,y=36,z=-35,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 42 33 -35 42 33 -35
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+PCBPIMPORT PCBPI_PosRX.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//<General Scoreboard Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_EditGeneralScoreboardClock
+	
+END
+//>
+
+//<Countdown Clock
+FUNC Func_EditCountdownClock
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_EditGeneralScoreboardEnd
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+///	fill $Dro$ stonebrick 0 replace redstone_block 0
+END
+
+PCBPIMPORT PCBPI_RegularRace.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

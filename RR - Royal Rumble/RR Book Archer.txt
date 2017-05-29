@@ -1,0 +1,35 @@
+minecraft:give @p[score_EC=0,score_EC_min=0,r=7] written_book 1 0 
+	{pages:[0:
+		"[\"\",
+			{\"text\":\"Archer\",\"bold\":true},
+			{\"text\":\"\nA Brief Overview\",\"italic\":true},
+			{\"text\":\"\n\"},
+			{\"text\":\"The archer class can deal powerful ranged damage, while sacrificing armor and melee ability. Stay away from the main combat and shoot away!\",\"color\":\"dark_gray\"}
+		]",1:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nReinforced Bow:\",\"italic\":true},
+			{\"text\":\"\nThis bow shoots powerful arrows. If the arrow hits the ground, it explodes and deals splash damage. If the arrow directly hits an enemy, it does not explode but deals more damage (power 3).\",\"color\":\"dark_gray\"}
+		]",2:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nReinforced Bow:\",\"italic\":true},
+			{\"text\":\"\nThis weapon has limited ammo, so be wary of your shots. To regain the ammo, stand near a friendly dispenser (pig) or go back to spawn and restock your items.\",\"color\":\"dark_gray\"}
+		]",3:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nRegular Bow:\",\"italic\":true},
+			{\"text\":\"\nUnlike the reinforced bow, this has infinite ammo. Like all regular bows, this deals no explosive damage, and has no power enchantment.\",\"color\":\"dark_gray\"}
+		]",4:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nWooden Knife:\",\"italic\":true},
+			{\"text\":\"\nThis is a pathetic melee weapon that should only be used if you are forced into melee combat.\",\"color\":\"dark_gray\"}
+		]",5:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nScoping Stick:\",\"italic\":true},
+			{\"text\":\"\nThis will give you the ability to scope into far away places, but removes the ability to move when used.\",\"color\":\"dark_gray\"}
+		]"
+	],
+title:Archer Overview,author:french_man}

@@ -1,0 +1,98 @@
+fill 273 13 -68 276 11 -65 air 0
+setblock 274 13 -67 structure_block 0 replace {name:"CMDSave_ER",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:6,sizeY:6,sizeZ:10}
+setblock 274 11 -67 structure_block 0 replace {name:"CMDSave_ER",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 274 13 -68 wooden_button 4
+setblock 274 11 -68 wooden_button 4
+setblock 275 13 -67 redstone_lamp 0
+setblock 275 11 -67 redstone_lamp 0
+setblock 274 13 -66 minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+
+:CBPMainStart PULSE 0 10 10		[0 0 0 | 3 5 12]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 6
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	fill ~0 ~0 ~-6 ~0 ~0 ~-6 stonebrick
+	scoreboard objectives add EmeraldRace dummy Emerald Race
+	scoreboard objectives add EmeraldRaceCD dummy Emerald Race Countdown
+	scoreboard objectives add EmeraldRaceCL dummy Emerald Race Clear
+	scoreboard objectives add EmeraldRaceDE deathCount Emerald Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay sidebar EmeraldRace
+	scoreboard teams add EmeraldR
+	scoreboard teams option EmeraldR color green
+	scoreboard teams option EmeraldR seeFriendlyInvisibles true
+	scoreboard teams option EmeraldR collisionRule never
+	scoreboard teams option EmeraldR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["EmeraldRaceCD"]}
+	scoreboard players set /spawn EmeraldRace 99
+	scoreboard teams join EmeraldR /spawn
+	fill ~4 ~-2 ~0 ~4 ~-2 ~0 redstone_block
+	fill ~4 ~1 ~-1 ~4 ~1 ~-1 redstone_block
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 6
+
+:CBPMainClock CLOCK 0 10 10		[4 0 0 | 3 4 12]
+	scoreboard players add @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] SPid 0
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,score_SPid=-7] SPid 6
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,score_SPid_min=-5] SPid 6
+	minecraft:kill @e[x=219,y=5,z=-121,dx=75,dy=100,dz=51,type=Item]
+	scoreboard players add @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2] EmeraldRaceCL 0
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_EmeraldRaceCL_min=0,score_EmeraldRaceCL=0] EmeraldRaceDE 1
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_EmeraldRaceCL_min=0,score_EmeraldRaceCL=0] EmeraldRaceCL 1
+	effect @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_EmeraldRaceDE_min=1] clear
+	minecraft:clear @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_EmeraldRaceDE_min=1]
+	scoreboard teams join EmeraldR @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,team=!EmeraldR]
+	effect @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,team=EmeraldR] 14 3 0 true
+	scoreboard players add @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,team=EmeraldR] EmeraldRace 0
+	scoreboard players tag @a[x=255,y=17,z=-97,dx=25,dy=10,dz=2,m=2,team=EmeraldR,score_EmeraldRace_min=0,tag=!EmeraldLap] add EmeraldLap
+	scoreboard players add @a[x=255,y=17,z=-94,dx=14,dy=10,dz=1,m=2,team=EmeraldR,score_EmeraldRace_min=0,tag=!EmeraldLap] EmeraldRace 1
+	execute @a[x=255,y=17,z=-94,dx=14,dy=10,dz=1,m=2,team=EmeraldR,score_EmeraldRace_min=1,tag=!EmeraldLap] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=EmeraldR,score_EmeraldRace_min=1,tag=!EmeraldLap]"},{"text":" has finished a lap!","color":"yellow"}]}
+	execute @a[x=255,y=17,z=-94,dx=14,dy=10,dz=1,m=2,team=EmeraldR,score_EmeraldRace_min=1,tag=!EmeraldLap] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a
+	scoreboard players tag @a[x=255,y=17,z=-94,dx=14,dy=10,dz=1,m=2,team=EmeraldR,score_EmeraldRace_min=0,tag=!EmeraldLap] add EmeraldLap
+	scoreboard players tag @a[x=220,y=8,z=-104,dx=1,dy=12,dz=8,m=2,team=EmeraldR,score_EmeraldRace_min=0,tag=EmeraldLap] remove EmeraldLap
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_EmeraldRaceDE_min=1] EmeraldRaceDE 0
+
+:CBPCountdown CLOCK 0 10 10		[4 3 0 | 3 4 12]
+	scoreboard players add @e[type=AreaEffectCloud,tag=EmeraldRaceCD] EmeraldRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=20,score_EmeraldRaceCD=20] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=20,score_EmeraldRaceCD=20] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=40,score_EmeraldRaceCD=40] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=40,score_EmeraldRaceCD=40] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=60,score_EmeraldRaceCD=60] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=60,score_EmeraldRaceCD=60] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=80,score_EmeraldRaceCD=80] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=80,score_EmeraldRaceCD=80] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=100,score_EmeraldRaceCD=100] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=100,score_EmeraldRaceCD=100] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120] ~ ~ ~ title @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] title {"text":"GO!","color":"green"}
+	testfor @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120]
+	 L fill ~0 ~-1 ~-3 ~0 ~-1 ~-3 stonebrick
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120] ~ ~ ~ fill 269 19 -98 255 19 -98 air 0 replace emerald_block 0
+	execute @e[type=AreaEffectCloud,tag=EmeraldRaceCD,score_EmeraldRaceCD_min=120,score_EmeraldRaceCD=120] ~ ~ ~ fill 269 19 -94 255 19 -94 air 0
+
+:CBPMainEnd PULSE 0 10 10		[2 0 0 | 3 5 12]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=6,score_SPgam=6] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	fill ~0 ~0 ~-7 ~0 ~0 ~-7 stonebrick
+	scoreboard objectives remove EmeraldRace
+	scoreboard objectives remove EmeraldRaceCD
+	scoreboard objectives remove EmeraldRaceCL
+	scoreboard objectives remove EmeraldRaceDE
+	scoreboard teams remove EmeraldR
+	scoreboard players tag * remove EmeraldLap
+	minecraft:kill @e[type=AreaEffectCloud,tag=EmeraldRaceCD]
+	effect @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2] clear
+	minecraft:clear @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2]
+	effect @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2] 6 20 100 true
+	scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2] SPtp 6
+	fill 269 19 -98 255 19 -98 emerald_block 0 replace air 0
+	fill 269 19 -94 255 19 -94 emerald_block 0
+	fill ~2 ~-2 ~-1 ~2 ~-2 ~-1 stonebrick
+	fill ~2 ~1 ~-2 ~2 ~1 ~-2 stonebrick
+

@@ -1,0 +1,362 @@
+:CBPOpenDoors PULSE 16 16 0		[0 6 4 | 16 3 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard objectives add BWid dummy Breakaway In Doors
+	scoreboard objectives add BWaf dummy Breakaway Affected Items
+	scoreboard players test Arena BWSave 1 1
+	 | title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {"text":"Arena 1 is open","color":"green"}
+	 L fill 1124 29 -1618 1124 29 -1616 air 0
+	scoreboard players test Arena BWSave 2 2
+	 | title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {"text":"Arena 2 is open","color":"green"}
+	 L fill 1134 29 -1618 1134 29 -1616 air 0
+	scoreboard players test Arena BWSave 3 3
+	 | title @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] title {"text":"Arena 3 is open","color":"green"}
+	 L fill 1128 29 -1614 1130 29 -1614 air 0
+	fill ~-13 ~4 ~0 ~-13 ~4 ~0 redstone_block
+
+:CBPOpenDoorClock CLOCK 16 16 0		[0 10 4 | 15 3 3]
+	scoreboard players set @a[x=1124,y=28,z=-1618,dy=2,dz=2] BWid 1
+	scoreboard players set @a[x=1134,y=28,z=-1618,dy=2,dz=2] BWid 1
+	scoreboard players set @a[x=1128,y=28,z=-1614,dx=2,dy=2] BWid 1
+	minecraft:gamemode 2 @a[score_BWid_min=1,score_BWid=1,m=0]
+	scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] BWaf 0
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] set AffectedItems @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] BWaf
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] clear
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] 18 1000000 10 true
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWid_min=1,score_BWid=1,m=2] 23 1000000 10 true
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[m=2,c=1,r=1,score_BWid_min=1,score_BWid=1,score_EC_min=0,score_EC=0] written_book -1 0
+	minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWid_min=1,score_BWid=1,score_BWaf_min=0,score_BWaf=0]
+	scoreboard players set @a[score_BWid_min=1,score_BWid=1] BWid 0
+
+:CBPCloseDoors PULSE 16 16 0		[0 5 2 | 17 6 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard objectives remove BWid
+	scoreboard objectives remove BWaf
+	fill 1124 29 -1618 1124 29 -1616 glowstone 0
+	fill 1134 29 -1618 1134 29 -1616 glowstone 0
+	fill 1128 29 -1614 1130 29 -1614 glowstone 0
+	minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Item]
+	minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2]
+	scoreboard players test Hunger BWSave 0 1
+	 L scoreboard players set Hunger BWSave 1
+	scoreboard players test Hunger BWSave 2 3
+	 | scoreboard players set Hunger BWSave 3
+	 L replaceitem entity @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] slot.weapon.offhand melon 64 0
+	
+	scoreboard players test Pickaxe BWSave 0 1
+	 L scoreboard players set Pickaxe BWSave 1
+	scoreboard players test Pickaxe BWSave 2 3
+	 | scoreboard players set Pickaxe BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_pickaxe 1 0 {Unbreakable:1}
+	scoreboard players test Pickaxe BWSave 4 5
+	 | scoreboard players set Pickaxe BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	scoreboard players test Shovel BWSave 0 1
+	 L scoreboard players set Shovel BWSave 1
+	scoreboard players test Shovel BWSave 2 3
+	 | scoreboard players set Shovel BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_shovel 1 0 {Unbreakable:1}
+	
+	scoreboard players test Shovel BWSave 4 5
+	 | scoreboard players set Shovel BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	scoreboard players test Axe BWSave 0 1
+	 L scoreboard players set Axe BWSave 1
+	scoreboard players test Axe BWSave 2 3
+	 | scoreboard players set Axe BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_axe 1 0 {Unbreakable:1}
+	scoreboard players test Axe BWSave 4 5
+	 | scoreboard players set Axe BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	scoreboard players test Shears BWSave 0 1
+	 L scoreboard players set Shears BWSave 1
+	
+	scoreboard players test Shears BWSave 2 3
+	 | scoreboard players set Shears BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] shears 1 0 {Unbreakable:1}
+	scoreboard players test Shears BWSave 4 5
+	 | scoreboard players set Shears BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	scoreboard players test SpeedPotion BWSave 0 1
+	 L scoreboard players set SpeedPotion BWSave 1
+	scoreboard players test SpeedPotion BWSave 2 3
+	 | scoreboard players set SpeedPotion BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2] potion 1 0 {Potion:"minecraft:strong_swiftness"}
+	setblock 1141 40 -1631 redstone_block 0
+	fill ~-2 ~2 ~2 ~-2 ~2 ~2 stonebrick
+
+:CBPMainStart PULSE 16 16 0		[0 0 2 | 18 6 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard objectives add BWSave dummy Breakaway Settings Save
+	scoreboard objectives add BWde deathCount Breakaway Deaths
+	scoreboard objectives add BWpl dummy Breakaway Player List
+	scoreboard objectives add BWdi dummy Breakaway
+	scoreboard objectives add BWaf dummy Breakaway Affected Items
+	scoreboard objectives add BWti dummy Breakaway Timer
+	scoreboard objectives setdisplay sidebar BWdi
+	scoreboard teams add BW
+	scoreboard teams option BW color green
+	scoreboard teams option BW collisionRule never
+	scoreboard teams option BW deathMessageVisibility never
+	gamerule keepInventory true
+	gamerule doTileDrops false
+	scoreboard teams join BW @a[x=1096,y=5,z=-1642,dx=22,dy=30,dz=56,m=2] @a[x=1141,y=5,z=-1634,dx=21,dy=30,dz=35,m=2] @a[x=1119,y=5,z=-1606,dx=20,dy=30,dz=20,m=2] @a[x=1096,y=5,z=-1642,dx=22,dy=30,dz=56,m=0] @a[x=1141,y=5,z=-1634,dx=21,dy=30,dz=35,m=0] @a[x=1119,y=5,z=-1606,dx=20,dy=30,dz=20,m=0]
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] clear
+	gamemode 2 @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,team=BW]
+	summon AreaEffectCloud ~ ~ ~ {Tags:["BWEntity","BWCD"],Duration:101}
+	summon ArmorStand ~ ~ ~ {DisabledSlots:2096896,Marker:1,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:1,Invulnerable:1,PersistenceRequired:1,Invisible:1,Tags:["BWEntity","BWAS"]}
+	scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWpl 0
+	scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWti 100
+	scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] BWaf 0
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] ~ ~ ~ stats entity @a[m=2,c=1,r=1,team=BW] set AffectedItems @a[m=2,c=1,r=1,team=BW] BWaf
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,team=BW] 18 5 10 true
+	scoreboard players add @e[type=ArmorStand,tag=BWAS] BWde 0
+	scoreboard players test PVP BWSave 1 1
+	 L scoreboard teams option BW friendlyfire false
+	scoreboard players test PVP BWSave 3 3
+	 L scoreboard teams option BW friendlyfire true
+	
+	scoreboard players test Snowball BWSave 0 1
+	 L scoreboard players set Snowball BWSave 1
+	scoreboard players test Snowball BWSave 2 3
+	 | scoreboard players set Snowball BWSave 3
+	 L fill ~-5 ~7 ~-2 ~-5 ~7 ~-2 redstone_block
+	scoreboard players tag @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	scoreboard players tag @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	scoreboard players tag @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	execute @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0,c=1]"},{"text":" is a derp","color":"red"}]}
+	effect @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 6 1 100 true
+	minecraft:tp @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1107.0 24 -1617
+	minecraft:tp @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1152.0 24 -1616
+	minecraft:tp @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1129 24 -1596
+	scoreboard players tag @a[tag=BreakawayDerp] remove BreakawayDerp
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
+	tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"5","color":"yellow","bold":"true"}
+	fill ~-14 ~-3 ~2 ~-14 ~-3 ~2 redstone_block
+	fill ~-13 ~-3 ~-2 ~-13 ~-3 ~-2 redstone_block
+	fill ~-12 ~7 ~0 ~-12 ~7 ~0 redstone_block
+
+:CBPCountdown CLOCK 16 16 0		[0 0 4 | 18 4 3]
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:20}
+	 | execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
+	 L tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"4","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:40}
+	 | execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
+	 L tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"3","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:60}
+	 | execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
+	 L tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"2","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:80}
+	 | execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
+	 L tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"1","color":"yellow","bold":"true"}
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:95}
+	 L fill ~-14 ~11 ~-4 ~-14 ~11 ~-4 redstone_block
+	
+	testfor @e[type=AreaEffectCloud,tag=BWCD] {Age:100}
+	 | fill ~-14 ~7 ~0 ~-14 ~7 ~0 redstone_block
+	 L fill ~-13 ~-1 ~0 ~-13 ~-1 ~0 stonebrick
+	scoreboard players tag @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	scoreboard players tag @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	scoreboard players tag @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,m=2,score_BWpl_min=0,score_BWpl=0] add BreakawayDerp
+	execute @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0,c=1]"},{"text":" is a derp","color":"red"}]}
+	effect @a[tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 6 1 100 true
+	minecraft:tp @a[x=1096,y=5,z=-1642,dx=22,dy=18,dz=56,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1107.0 24 -1617
+	minecraft:tp @a[x=1141,y=5,z=-1634,dx=21,dy=18,dz=35,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1152.0 24 -1616
+	minecraft:tp @a[x=1119,y=5,z=-1606,dx=20,dy=18,dz=20,tag=BreakawayDerp,m=2,score_BWpl_min=0,score_BWpl=0] 1129 24 -1596
+	scoreboard players tag @a[tag=BreakawayDerp] remove BreakawayDerp
+
+:CBPCountdownSave PULSE 16 16 0		[0 11 0 | 13 3 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	scoreboard players test Arena BWSave 1 1
+	 | fill 1168 6 -1663 1168 5 -1663 redstone_block 0 replace stonebrick 0
+	 L fill 1168 6 -1663 1168 5 -1663 stonebrick 0 replace redstone_block 0
+	scoreboard players test Arena BWSave 2 2
+	 | fill 1187 13 -1642 1187 5 -1642 redstone_block 0 replace stonebrick 0
+	 L fill 1187 13 -1642 1187 5 -1642 stonebrick 0 replace redstone_block 0
+	scoreboard players test Arena BWSave 3 3
+	 | fill 1206 21 -1627 1206 5 -1627 redstone_block 0 replace stonebrick 0
+	 L fill 1206 21 -1627 1206 5 -1627 stonebrick 0 replace redstone_block 0
+
+:CBPCountdownLoad PULSE 16 16 0		[0 8 4 | 16 3 3]
+	fill ~-1 ~0 ~0 ~-1 ~0 ~0 stonebrick
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2 2
+	tellraw @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70] {"text":"Begin!","color":"yellow","bold":"true"}
+	gamemode 0 @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=2,score_BWpl_min=0,score_BWpl=0]
+	scoreboard players test Arena BWSave 1 1
+	 | fill 1093 24 -1640 1093 23 -1640 redstone_block 0 replace stonebrick 0
+	 L fill 1093 24 -1640 1093 23 -1640 stonebrick 0 replace redstone_block 0
+	scoreboard players test Arena BWSave 2 2
+	 | fill 1143 23 -1637 1143 15 -1637 redstone_block 0 replace stonebrick 0
+	 L fill 1143 23 -1637 1143 15 -1637 stonebrick 0 replace redstone_block 0
+	scoreboard players test Arena BWSave 3 3
+	 | fill 1121 23 -1583 1121 7 -1583 redstone_block 0 replace stonebrick 0
+	 L fill 1121 23 -1583 1121 7 -1583 stonebrick 0 replace redstone_block 0
+
+:CBPMainClock CLOCK 16 16 0		[0 0 0 | 18 10 3]
+	minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,type=Item]
+	scoreboard players tag @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] add BWKilled {OnGround:1b}
+	minecraft:kill @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0,tag=BWKilled]
+	kill @a[x=1095,y=4,z=-1655,dx=68,dy=3,dz=70,m=0,score_BWpl_min=0,score_BWpl=0,score_CannotDie_min=0,score_CannotDie=0,tag=BWKilled]
+	scoreboard players set @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0] BWaf 0
+	execute @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] set AffectedItems @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] BWaf
+	execute @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[m=0,c=1,score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] written_book -1 0
+	minecraft:clear @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0,score_BWaf_min=0,score_BWaf=0]
+	scoreboard players reset @a[score_BWde_min=1,score_BWpl_min=0,score_BWpl=0] BWpl
+	scoreboard teams leave @a[score_BWde_min=1,team=BW]
+	gamemode 2 @a[x=1119,y=23,z=-1640,dx=20,dy=16,dz=32,m=0]
+	scoreboard players add @e[type=ArmorStand,tag=BWAS,score_BWde_min=0] BWde 1
+	scoreboard players set @e[type=ArmorStand,tag=BWAS,score_BWde_min=8,score_BWde=8] BWde 1
+	scoreboard players set Players BWpl 0
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] ~ ~ ~ scoreboard players add Players BWpl 1
+	scoreboard players operation Players BWdi = Players BWpl
+	scoreboard players test PVP BWSave 0 0
+	 | scoreboard players set PVP BWSave 1
+	 L scoreboard teams option BW friendlyfire false
+	scoreboard players test PVP BWSave 2 2
+	 | scoreboard players set PVP BWSave 3
+	 L scoreboard teams option BW friendlyfire true
+	scoreboard players test Snowball BWSave 0 0
+	 | scoreboard players set Snowball BWSave 1
+	 L fill ~-6 ~8 ~0 ~-6 ~8 ~0 stonebrick
+	scoreboard players test Snowball BWSave 2 2
+	 | scoreboard players set Snowball BWSave 3
+	 L fill ~-3 ~8 ~0 ~-3 ~8 ~0 redstone_block
+	
+	scoreboard players test Hunger BWSave 0 0
+	 | scoreboard players set Hunger BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] melon
+	scoreboard players test Hunger BWSave 1 1
+	 L effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 23 3 100 true
+	scoreboard players test Hunger BWSave 2 2
+	 | scoreboard players set Hunger BWSave 3
+	 L replaceitem entity @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] slot.weapon.offhand melon 64 0
+	scoreboard players test Invulnerability BWSave 0 0
+	 | scoreboard players set Invulnerability BWSave 1
+	 L effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 11 0 0 true
+	scoreboard players test Invulnerability BWSave 2 2
+	 L effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] 11 3 10 true
+	minecraft:kill @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Item]
+	scoreboard players test Pickaxe BWSave 0 0
+	 | scoreboard players set Pickaxe BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe
+	scoreboard players test Pickaxe BWSave 2 2
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe
+	scoreboard players test Pickaxe BWSave 4 4
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe
+	scoreboard players test Pickaxe BWSave 2 2
+	 | scoreboard players set Pickaxe BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe 1 0 {Unbreakable:1}
+	scoreboard players test Pickaxe BWSave 4 4
+	 | scoreboard players set Pickaxe BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	
+	scoreboard players test Shovel BWSave 0 0
+	 | scoreboard players set Shovel BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel
+	scoreboard players test Shovel BWSave 2 2
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel
+	scoreboard players test Shovel BWSave 4 4
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel
+	scoreboard players test Shovel BWSave 2 2
+	 | scoreboard players set Shovel BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel 1 0 {Unbreakable:1}
+	scoreboard players test Shovel BWSave 4 4
+	 | scoreboard players set Shovel BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	
+	scoreboard players test Axe BWSave 0 0
+	 | scoreboard players set Axe BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe
+	scoreboard players test Axe BWSave 2 2
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe
+	scoreboard players test Axe BWSave 4 4
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe
+	scoreboard players test Axe BWSave 2 2
+	 | scoreboard players set Axe BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe 1 0 {Unbreakable:1}
+	scoreboard players test Axe BWSave 4 4
+	 | scoreboard players set Axe BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	
+	scoreboard players test Shears BWSave 0 0
+	 | scoreboard players set Shears BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears
+	scoreboard players test Shears BWSave 2 2
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears
+	scoreboard players test Shears BWSave 4 4
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears
+	scoreboard players test Shears BWSave 2 2
+	 | scoreboard players set Shears BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears 1 0 {Unbreakable:1}
+	scoreboard players test Shears BWSave 4 4
+	 | scoreboard players set Shears BWSave 5
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+	
+	scoreboard players test SpeedPotion BWSave 0 0
+	 | scoreboard players set SpeedPotion BWSave 1
+	 L minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] potion
+	scoreboard players test SpeedPotion BWSave 2 2
+	 | scoreboard players set SpeedPotion BWSave 3
+	 L minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,m=0,score_BWpl_min=0,score_BWpl=0] potion 1 0 {Potion:"minecraft:strong_swiftness"}
+
+:CBPSnowballClock CLOCK 16 16 0		[0 9 0 | 16 3 3]
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0] ~ ~ ~ minecraft:clear @a[score_BWpl_min=0,score_BWpl=0,m=0,c=1,r=1] snowball -1,0 {display:{Name:"To do list: Rename this to something better"}}
+	scoreboard players add @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=0,score_BWti=99] BWti 1
+	minecraft:give @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=100,score_BWti=100] snowball 1,0 {display:{Name:"To do list: Rename this to something better"}}
+	scoreboard players set @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,m=0,score_BWaf_min=0,score_BWaf=0,score_BWti_min=100,score_BWti=100] BWti 0
+	scoreboard players tag @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=!BreakawaySnowball] add BreakawaySnowball
+	execute @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=BreakawaySnowball] ~ ~ ~ minecraft:kill @e[type=AreaEffectCloud,tag=BreakawaySnowballCloud,c=1,r=5]
+	scoreboard players tag @e[x=1098,y=21,z=-1640,dx=17,dy=5,dz=52,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA
+	scoreboard players tag @e[x=1143,y=15,z=-1632,dx=17,dy=11,dz=31,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA
+	scoreboard players tag @e[x=1121,y=7,z=-1640,dx=16,dy=19,dz=16,type=AreaEffectCloud,tag=BreakawaySnowballCloud] add BreakawaySnowballCloudIA
+	execute @e[type=AreaEffectCloud,tag=BreakawaySnowballCloudIA] ~ ~ ~ say ye
+	execute @e[type=AreaEffectCloud,tag=BreakawaySnowballCloudIA] ~ ~ ~ playsound minecraft:entity.item.pickup voice @a[c=1]
+	minecraft:kill @e[type=AreaEffectCloud,tag=BreakawaySnowballCloud]
+	execute @e[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,type=Snowball,tag=BreakawaySnowball] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:3,Tags:["BreakawaySnowballCloud"]}
+
+:CBPDeathMessages CLOCK 16 16 0		[0 10 2 | 16 3 3]
+	testfor @a[tag=BWKilled]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=1,score_BWde=1] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" didnt bounce"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" spontaneously combusted"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ particle hugeexplosion ~ ~ ~ 0 0 0 0 1 force
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=2,score_BWde=2] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ playsound minecraft:entity.generic.explode voice @a ~ ~ ~ 1 0.75
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=3,score_BWde=3] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" faceplanted the ground"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=4,score_BWde=4] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" did not have feather falling boots"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=5,score_BWde=5] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" couldnt fly"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=6,score_BWde=6] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":" slipped on a banana"}]}
+	execute @e[type=ArmorStand,tag=BWAS,score_BWde_min=7,score_BWde=7] ~ ~ ~ execute @a[tag=BWKilled,score_BWde_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"selector":"@a[c=1,tag=BWKilled,score_BWde_min=1]"},{"text":"'s legs bent the wrong way"}]}
+	scoreboard players tag @a[tag=BWKilled] remove BWKilled
+	scoreboard players set @a[score_BWde_min=1] BWde 0
+
+:CBPMainEnd PULSE 16 16 0		[0 3 4 | 18 4 3]
+	scoreboard teams remove BW
+	minecraft:kill @e[tag=BWEntity]
+	scoreboard players tag * remove BWKilled
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] clear
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 6 1 100 true
+	effect @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 11 5 100 true
+	gamerule keepInventory false
+	scoreboard players set @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] BWaf 0
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ stats entity @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] set AffectedItems @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] BWaf
+	execute @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_EC_min=0,score_EC=0] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_EC_min=0,score_EC=0,score_BWpl_min=0,score_BWpl=0] written_book -1 0
+	minecraft:clear @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0,score_BWaf_min=0,score_BWaf=0]
+	minecraft:tp @a[x=1095,y=4,z=-1655,dx=68,dy=50,dz=70,score_BWpl_min=0,score_BWpl=0] 1129 32 -1630 0 0
+	scoreboard objectives remove BWde
+	scoreboard objectives remove BWpl
+	scoreboard objectives remove BWdi
+	scoreboard objectives remove BWaf
+	scoreboard objectives remove BWti
+	fill 1115 23 -1640 1098 23 -1588 bedrock 0
+	fill 1143 23 -1632 1160 23 -1601 bedrock 0
+	fill 1143 19 -1632 1160 19 -1601 bedrock 0
+	fill 1143 15 -1632 1160 15 -1601 bedrock 0
+	fill 1137 23 -1604 1121 23 -1588 bedrock 0
+	fill 1137 19 -1604 1121 19 -1588 bedrock 0
+	fill 1137 15 -1604 1121 15 -1588 bedrock 0
+	fill 1137 11 -1604 1121 11 -1588 bedrock 0
+	fill 1137 7 -1604 1121 7 -1588 bedrock 0
+	fill ~-4 ~-1 ~0 ~-4 ~-1 ~0 stonebrick
+	fill ~-3 ~-4 ~0 ~-3 ~-4 ~0 stonebrick
+	fill ~-2 ~-4 ~-4 ~-2 ~-4 ~-4 stonebrick
+	fill ~-1 ~6 ~-2 ~-1 ~6 ~-2 stonebrick
+

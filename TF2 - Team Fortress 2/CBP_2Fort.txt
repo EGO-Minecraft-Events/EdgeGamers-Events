@@ -1,0 +1,1038 @@
+//#-p stonebrick 0 -print
+///	-129 79 -593
+
+//<Defines
+DEFINE $s$ minecraft:
+DEFINE $ObjA$ scoreboard objectives add
+DEFINE $Obj$ scoreboard objectives remove
+DEFINE $TeamA$ scoreboard teams add
+DEFINE $TeamO$ scoreboard teams option
+DEFINE $TeamR$ scoreboard teams remove
+DEFINE $Style$ 0 16 16
+DEFINE $SA$ r=1000
+DEFINE $TextStart$ {"text":"","extra"[{"text":"[","color":"ASDF"},{"text":"ASDF","color":"ASDF"},{"text":"]","color":"ASDF"},{"text":": "},
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+DEFINE ScTG scoreboard players tag
+DEFINE ScOP scoreboard players operation
+DEFINE RevST scoreboard players tag @a[|0|] remove |0|
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+DEFINE NumberAdd |0| Number = |0|
+DEFINE NumberObjAdd Number dummy
+
+///	Flag related values
+///Taking red intel
+DEFINE $SFR$ x=-203,y=101,z=-585,dx=2,dy=3,dz=2
+///Taking blue intel
+DEFINE $SFB$ x=-47,y=101,z=-606,dx=2,dy=3,dz=2
+///Block coords
+DEFINE $RedFlagCoords$ -202 103 -584
+DEFINE $BlueFlagCoords$ -46 103 -605
+
+
+///	In-Game Spawns (first 3 are red, last 3 are blue. multiples of 3 are in intel areas)
+DEFINE $SP1$ x=-161,y=112,z=-644,dx=10,dy=7,dz=26
+DEFINE $SPD1$ -159 113 -618 -155 115 -618
+DEFINE $SPD1G$ -158 114 -618 -156 114 -618
+DEFINE $SPD1S1$ x=-159,y=113,z=-619,dx=4,dy=2,dz=2
+DEFINE $SPD1S2$ x=-159,y=113,z=-618,dx=4,dy=2
+/// ~ ~ ~1
+
+DEFINE $SP2$ x=-172,y=112,z=-588,dx=21,dy=8,dz=29
+DEFINE $SPD2$ -151 113 -581 -151 115 -579
+DEFINE $SPD2G$ -151 114 -580 -151 114 -580
+DEFINE $SPD2S1$ x=-152,y=113,z=-581,dx=2,dy=2,dz=2
+DEFINE $SPD2S2$ x=-151,y=113,z=-581,dy=2,dz=2
+/// ~1 ~ ~
+
+DEFINE $SP3$ x=-221,y=101,z=-624,dx=8,dy=7,dz=10
+DEFINE $SPD3$ -213 104 -617 -213 102 -621
+DEFINE $SPD3G$ -213 103 -618 -213 103 -620
+DEFINE $SPD3S1$ x=-214,y=102,z=621,dx=2,dy=2,dz=4
+DEFINE $SPD3S2$ x=-213,y=102,z=621,dy=2,dz=4
+/// ~1 ~ ~
+
+DEFINE $SP4$ x=-97,y=112,z=-571,dx=10,dy=7,dz=26
+DEFINE $SPD4$ -93 113 -571 -89 115 -571
+DEFINE $SPD4G$ -92 114 -571 -90 114 -571
+DEFINE $SPD4S1$ x=-93,y=113,z=-572,dx=4,dy=2,dz=2
+DEFINE $SPD4S2$ x=-93,y=113,z=-571,dx=4,dy=2
+/// ~ ~ ~-1
+
+DEFINE $SP5$ x=-76,y=112,z=-628,dx=-21,dy=8,dz=28
+DEFINE $SPD5$ -97 113 -609 -97 115 -607
+DEFINE $SPD5G$ -97 114 -608 -97 114 -608
+DEFINE $SPD5S1$ x=-98,y=113,z=-609,dx=2,dy=2,dz=2
+DEFINE $SPD5S2$ x=-97,y=113,z=-609,dy=2,dz=2
+/// ~-1 ~ ~
+
+DEFINE $SP6$ x=-27,y=101,z=-565,dx=-8,dy=7,dz=-10
+DEFINE $SPD6$ -35 104 -572 -35 102 -568
+DEFINE $SPD6G$ -35 103 -571 -35 103 -569
+DEFINE $SPD6S1$ x=-36,y=102,z=-572,dx=2,dy=2,dz=4
+DEFINE $SPD6S2$ x=-35,y=102,z=-572,dy=2,dz=4
+/// ~-1 ~ ~
+
+///Select spawn
+DEFINE $SSP$ x=-132,y=25,z=-601,dx=12,dy=2,dz=16
+///Select respawn 
+DEFINE $SRS$ x=-129,y=29,z=-596,dx=5,dy=5,dz=5
+///Spawn coords
+DEFINE $SPC$ -126 25 -593 0 0
+///Respawn coords
+DEFINE $RSC$ -126 29 -593 0 0
+
+///	Health kit locations
+DEFINE $HK1$ -166 111.3 -602
+DEFINE $HK2$ -159 101.3 -611
+DEFINE $HK3$ -181.5 100.3 -612.5
+DEFINE $HK4$ -82 111.3 -587
+DEFINE $HK5$ -89 101.3 -577
+DEFINE $HK6$ -66 100.3 -576
+
+///	Red/Blue spawns
+DEFINE $RS1$ -157 113 -641 0 0
+DEFINE $RS2$ -167 113 -562 -180 0
+DEFINE $BS1$ -91 113 -548 -180 0
+DEFINE $BS2$ -81 113 -625 0 0
+
+///	Items
+DEFINE CCItem_CarrotStick carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:"Choose: |0|"}}
+DEFINE CCItem_CarrotChoose carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:"Change classes"}}
+DEFINE CCItem_Paper paper 1 0 {display:{Name:"Cannot choose the |0|"}}
+DEFINE DEF_CarrotChoose {SelectedItem:{tag:{display:{Name:"Choose: |0|"}}}}
+
+DEFINE CCItem_Helmet1 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Scout hat",color:65280},ench:[{id:4,lvl:2}]}
+DEFINE CCItem_Helmet2 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Soldier hat",color:8355711},ench:[{id:4,lvl:3},{id:0,lvl:4}]}
+DEFINE CCItem_Helmet3 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Pyro hat",color:16744192},ench:[{id:4,lvl:2},{id:0,lvl:3},{id:1,lvl:5}]}
+DEFINE CCItem_Helmet4 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Demoman hat",color:16645888},ench:[{id:4,lvl:2},{id:0,lvl:3}]}
+DEFINE CCItem_Helmet5 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Heavy hat",color:9127187},ench:[{id:4,lvl:4},{id:0,lvl:7}]}
+DEFINE CCItem_Helmet7 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Medic hat",color:16716947},ench:[{id:4,lvl:2},{id:0,lvl:3}]}
+DEFINE CCItem_Helmet8 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Sniper hat",color:0},ench:[{id:4,lvl:2}]}
+
+DEFINE CCItem_Bow2 bow 1 0 {Unbreakable:1,display:{Name:"Rocket Launcher"},ench:[{id:51,lvl:1},{id:48,lvl:3}]}
+DEFINE CCItem_Bow3 bow 1 0 {Unbreakable:1,display:{Name:"Flare Gun"},ench:[{id:51,lvl:1},{id:50,lvl:1}]}
+DEFINE CCItem_Bow7 bow 1 0 {Unbreakable:1,display:{Name:"Crusader\'s Crossbow"},ench:[{id:51,lvl:1}]}
+DEFINE CCItem_Bow8 bow 1 0 {Unbreakable:1,display:{Name:"Sniper Rifle"},ench:[{id:51,lvl:1},{id:49,lvl:1},{id:48,lvl:4}]}
+
+DEFINE CCItem_ChestplateR leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red shirt",color:16711680}}
+DEFINE CCItem_LeggingsR leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red pants",color:16711680}}
+DEFINE CCItem_BootsR leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red boots",color:16711680}}
+DEFINE CCItem_ChestplateB leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue shirt",color:255}}
+DEFINE CCItem_LeggingsB leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue pants",color:255}}
+DEFINE CCItem_BootsB leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue boots",color:255}}
+DEFINE CCItem_DyeR dye 1 1 {display:{Name:"You are on the red team"}}
+DEFINE CCItem_DyeB dye 1 12 {display:{Name:"You are on the blue team"}}
+	
+DEFINE CCItem_Arrow arrow 1 0 {display:{Name:"This is bullet.",Lore:["I've yet to meet one that","can outsmart bullet."]}}
+DEFINE CCItem_WoodSword wooden_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_IronSword iron_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_DiaSword diamond_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_Airblast blaze_rod 1 0 {display:{Name:"Airblast Stick"},ench:[{id:19,lvl:3}]}
+DEFINE CCItem_GrenadeGive splash_potion |0| 0 {Potion:"minecraft:strong_harming",display:{Name:"Grenade(s)"}}
+DEFINE CCItem_GrenadeClear splash_potion -1 |0| {Potion:"minecraft:strong_harming",display:{Name:"Grenade(s)"}}
+DEFINE CCItem_Sandvich golden_apple 1 0 {display:{Name:"Golden Apple Sandvich",Lore:["Regens in 10s"]}}
+DEFINE CCItem_RegenPotionR splash_potion 1 0 {HideFlags:127,Potion:"minecraft:water_breathing",display:{Name:"Regen II - Red",Lore:["Lasts 5 seconds"]}}
+DEFINE CCItem_RegenPotionB splash_potion 1 0 {HideFlags:127,Potion:"minecraft:water_breathing",display:{Name:"Regen II - Blue",Lore:["Lasts 5 seconds"]}}
+DEFINE CCItem_Hunger effect @a[PARSE($SA$),m=2,2FTcsi=|0|] 17 1000000 100 true
+DEFINE CCItem_Saturation effect @a[PARSE($SA$),m=2,2FTcsi=|0|] 23 1000000 0 true
+
+///	Other
+DEFINE $Firework$ FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}
+
+/// baby i'm ballin
+//>
+
+//<To Do
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-Change all function names
+	-Set 2FTbui to 0 at the end
+	-Change grenade reload timer to give instead of replaceitem
+	
+Bugs:
+	-
+	
+Implemented Changes:
+TDTest	-Changed the TF2ResupplyCabinetClock to a ScOP in the main clock
+TDTest	-Changed the arrow ID / state system for nogravity
+	
+	
+	
+	
+	
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//<Comments
+FUNC Func_Comments
+///	Scout
+	jump boost 2
+	speed 2
+	wooden sword
+	projectile prot 1
+	65280
+
+///	Solly
+	iron sword
+	bow (infinity 1, power 3)
+	no gravity
+	prot 4, projectile prot 2
+	8355711
+
+///	Pyro
+	iron sword
+	flare gun (infinity 1, flame 1)
+	airblast stick
+	prot 3, projectile prot 1, fire prot 5
+	16744192
+
+///	Demo
+	iron sword - eyelander
+	splash potions of harming lvl 2
+	prot 3, projectile prot 1
+	16645888
+
+///	Hoovy
+	dia sword
+	hunger
+	golden apple sandvich
+	prot 7, projectile prot 2
+	9127187
+
+///	Medic
+	lots of regen 2 potions
+	crusader's crossbow (infinity 1)
+	wooden sword
+	prot 3, projectile prot 1
+	16716947
+
+///	Sniper
+	huntsman (infinity 1, punch 1, power 4)
+	prot 2, projectile prot 2
+	0
+
+	Resupply cabinet
+	Teleport into spawn
+END
+
+FUNC TF2ResupplyCabinetClock
+	testfor @a[2FTcsi=10]
+	SetblockTestfor
+	@a[2FTcsi=10,2FTcid=1] 2FTcsi = 1
+	@a[2FTcsi=10,2FTcid=2] 2FTcsi = 2
+	@a[2FTcsi=10,2FTcid=3] 2FTcsi = 3
+	@a[2FTcsi=10,2FTcid=4] 2FTcsi = 4
+	@a[2FTcsi=10,2FTcid=5] 2FTcsi = 5
+	@a[2FTcsi=10,2FTcid=7] 2FTcsi = 7
+	@a[2FTcsi=10,2FTcid=8] 2FTcsi = 8
+END
+//>
+
+
+//<General Select Start
+FUNC Func_GeneralSelectStart
+	USE $ObjA$
+		2FTcos stat.useItem.minecraft.carrot_on_a_stick 2fort Carrot Stick
+		2FTcsi dummy 2fort Class Selection ID
+		2FTcid dummy 2fort Class ID
+		2FTcss dummy 2fort Class Selection State
+		2FTtsi dummy 2fort Team Selection ID
+	UNUSE
+END
+//>
+
+//<General Select Clock
+FUNC Func_GeneralSelectClock
+//* Teams *//
+///State 0: gives hats
+///State 1: during hat mode
+///State 2: class choose
+	@a[$SSP$,m=2] 2FTcss + 0
+	@a[$SSP$,m=2,2FTcss=0] stats entity @a[r=0,c=1,m=2] set AffectedItems @a[r=0,c=1,m=2] 2FTsaf
+	@a[$SSP$,m=2,2FTcss=0] 2FTsaf + 0
+	@a[$SSP$,m=2,2FTcss=0] $s$clear @a[r=0,c=1,m=2] leather_helmet -1 0
+	@a[$SSP$,m=2,2FTsaf>=1,2FTcss=0] 2FTcss = 1
+	replaceitem entity @a[$SSP$,m=2,2FTcss=0] slot.hotbar.0 leather_helmet 1 0 {display:{Name:"Select red (TF2) by wearing this!",color:16711680},Unbreakable:1,HideFlags:127}
+	replaceitem entity @a[$SSP$,m=2,2FTcss=0] slot.hotbar.1 leather_helmet 1 0 {display:{Name:"Select blue (MC) by wearing this!",color:255},Unbreakable:1,HideFlags:127}
+	
+	@a[$SSP$,m=2] 2FTtsi = 1 {Inventory:[{tag:{display:{Name:"Select red (TF2) by wearing this!",color:16711680}},Slot:103b}]}
+	@a[$SSP$,m=2] 2FTtsi = 2 {Inventory:[{tag:{display:{Name:"Select blue (MC) by wearing this!",color:255}},Slot:103b}]}
+	scoreboard teams join TF2R @a[$SSP$,m=2,2FTtsi=1,team=!TF2R]
+	scoreboard teams join TF2B @a[$SSP$,m=2,2FTtsi=2,team=!TF2B]
+	@a[$SSP$,m=2,2FTtsi>=1] 2FTcss = 2
+	@a[$SSP$,m=2,2FTtsi>=1] 2FTtsi = 0
+	
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.0 CCItem_CarrotStick(Scout)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.1 CCItem_CarrotStick(Soldier)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.2 CCItem_CarrotStick(Pyro)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.3 CCItem_CarrotStick(Demoman)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.4 CCItem_CarrotStick(Heavy)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.5 CCItem_Paper(Engineer)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.6 CCItem_CarrotStick(Medic)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.7 CCItem_CarrotStick(Sniper)
+	replaceitem entity @a[$SSP$,m=2,2FTcss=2] slot.hotbar.8 CCItem_Paper(Spy)
+END
+//>
+
+//<General Select End
+FUNC Func_GeneralSelectEnd
+	USE $ObjR$
+		2FTcos
+		2FTcsi
+		2FTcid
+		2FTcss
+		2FTtsi
+	UNUSE
+END
+//>
+
+
+//<Select Team Pulse
+FUNC Func_SelectTeamPulse
+	gamemode 2 @a[$SSP$,m=0]
+	effect @a[$SSP$,m=2] clear
+	$s$clear @a[$SSP$,m=2]
+	title @a[$SSP$] title {"text":"Welcome to Dustbowl!","color":"green"}
+	title @a[$SSP$] subtitle {"text":"Select your teams","color":"yellow"}
+	replaceitem entity @a[$SSP$,m=2] slot.hotbar.0 leather_helmet 1 0 {display:{Name:"Select red (TF2) by wearing this!",color:16711680},Unbreakable:1,HideFlags:127}
+	replaceitem entity @a[$SSP$,m=2] slot.hotbar.1 leather_helmet 1 0 {display:{Name:"Select blue (MC) by wearing this!",color:255},Unbreakable:1,HideFlags:127}
+END
+//>
+
+//<Carrot Stick Testfor Clock
+FUNC Func_CarrotStickTFClock
+	testfor @a[2FTcos>=1]
+	SetblockTestfor
+	@a[2FTcos>=1] 2FTcsi = 0
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 1 DEF_CarrotChoose(Scout)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 2 DEF_CarrotChoose(Soldier)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 3 DEF_CarrotChoose(Pyro)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 4 DEF_CarrotChoose(Demoman)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 5 DEF_CarrotChoose(Heavy)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 7 DEF_CarrotChoose(Medic)
+	@a[$SSP$,m=2,2FTcos>=1] 2FTcsi = 8 DEF_CarrotChoose(Sniper)
+	
+///	Change classes
+	@a[m=2,2FTcos>=1] 2FTrpt = 102 {SelectedItem:{tag:{display:{Name:"Change classes"}}}}
+	@a[2FTcos>=1,2FTrpt=102,2FTfst=2] 2FTfst = 5
+	
+	LOOP 1 6 + 1
+		@a[$SP|0|$,m=2,2FTcos>=1,2FTrpt=102] 2FTrpt = 101
+	END
+	
+	$s$tp @a[$SA$,m=2,2FTcos>=1,2FTrpt=102] $RSC$
+	$s$tp @a[$SA$,m=2,2FTcos>=1,2FTrpt=101] $SPC$
+	@a[$SA$,m=2,2FTcos>=1,2FTrpt>=101<=102] 2FTcid = 0
+	@a[$SA$,m=2,2FTcos>=1,2FTrpt=102] 2FTrpt = 100
+	@a[$SA$,m=2,2FTcos>=1,2FTrpt=101] 2FTrpt = 0
+	@a[2FTcos>=1] 2FTcos = 0
+END
+//>
+
+//<Start Game Pulse
+FUNC Func_StartGamePulse
+	title @a[$SA$] title {"text":"The game is starting!","color":"green"}
+	title @a[$SA$] subtitle {"text":"20 seconds remain","color":"yellow"}
+	@e[type=ArmorStand,2FTASB] 2FTcdt + 0
+END
+//>
+
+//<Countdown Testfor Clock
+FUNC Func_CountdownTFClock
+///Countdown timer
+	testfor @e[type=ArmorStand,2FTASB,2FTcdt>=0<=20]
+	SetblockTestfor
+	@e[type=ArmorStand,2FTASB,2FTcdt>=0<=19] 2FTcdt + 1
+	@e[type=ArmorStand,2FTASB,2FTcdt=20] @e[type=ArmorStand,2FTASR,2FTcdt>=1<=20] 2FTcdt - 1
+	scoreboard players operation Countdown 2FTdsp = @e[type=ArmorStand,2FTASR,2FTcdt>=1<=20] 2FTcdt
+	@e[type=ArmorStand,2FTASR,2FTcdt=10] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"10 seconds remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=5] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"5","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=5] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+	@e[type=ArmorStand,2FTASR,2FTcdt=4] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"4","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=4] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+	@e[type=ArmorStand,2FTASR,2FTcdt=3] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"3","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=3] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+	@e[type=ArmorStand,2FTASR,2FTcdt=2] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"2","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=2] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+	@e[type=ArmorStand,2FTASR,2FTcdt=1] @e[type=ArmorStand,2FTASB,2FTcdt=20] tellraw @a[$SA$] {"text":"1","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=1] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+	@e[type=ArmorStand,2FTASR,2FTcdt=0] @e[type=ArmorStand,2FTASB,2FTcdt=20] title @a[$SA$] title {"text":"Begin!","color":"green"}
+	@e[type=ArmorStand,2FTASR,2FTcdt=0] @e[type=ArmorStand,2FTASB,2FTcdt=20] @a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2 2
+	@e[type=ArmorStand,2FTASR,2FTcdt=0] @e[type=ArmorStand,2FTASB,2FTcdt=20] 2FTgmt + 0
+	@e[type=ArmorStand,2FTASR,2FTcdt=0] @e[type=ArmorStand,2FTASB,2FTcdt=20] scoreboard players reset Countdown 2FTdsp
+	@e[type=ArmorStand,2FTASR,2FTcdt=0] @e[type=ArmorStand,2FTASB,2FTcdt=20] 2FTcdt = -1
+	@e[type=ArmorStand,2FTASB,2FTcdt=20] 2FTcdt = 0
+END
+//>
+
+//<End Game Testfor Clock
+FUNC Func_EndGameTFClock
+	testfor @e[type=ArmorStand,2FTASR,2FTgmt=0]
+	SetblockTestfor
+	scoreboard players operation @e[type=ArmorStand,2FTASR,2FTgmt=0] 2FTscl = Red 2FTdsp
+	scoreboard players operation @e[type=ArmorStand,2FTASR,2FTgmt=0] 2FTscl -= Blue 2FTdsp
+///Pos: Red wins
+///Neg: Blue wins
+///0: Stalemate
+	title @a[$SA$] title {"text":"Time!","color":"green"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=0,2FTscl=0] title @a[$SA$] subtitle {"text":"Stalemate! You\'re all losers :)","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=0,2FTscl>=1] title @a[$SA$] subtitle {"text":"Red wins!","color":"red"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=0,2FTscl<=-1] title @a[$SA$] subtitle {"text":"Blue wins!","color":"blue"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=0,2FTscl>=1] @a[team=TF2R] summon $Firework$
+	@e[type=ArmorStand,2FTASR,2FTgmt=0,2FTscl<=-1] @a[team=TF2B] summon $Firework$
+	@e[type=ArmorStand,2FTASR,2FTgmt=0] 2FTgmt = -1
+END
+//>
+
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		2FTsaf dummy 2fort Stats Affected Items
+		2FTpid dummy 2fort Player ID
+		2FTrpt dummy 2fort Respawn Timer
+		2FTcdt dummy 2fort Countdown Timer
+		2FTgmt dummy 2fort Game Timer
+		2FThkt dummy 2fort Health Kit Timer
+		2FTspn dummy 2fort Spawn
+		2FTscl dummy 2fort Score Calc
+	UNUSE
+	
+	USE $TeamA$ 
+		TF2R
+		TF2B
+	UNUSE
+	
+	USE $TeamO$ TF2R
+		color red
+		seeFriendlyInvisibles true
+		collisionRule pushOwnTeam
+		deathMessageVisibility false
+		nametagVisibility hideForOtherTeams
+		friendlyfire false
+	UNUSE
+	
+	USE $TeamO$ TF2B
+		color blue
+		seeFriendlyInvisibles true
+		collisionRule pushOwnTeam
+		deathMessageVisibility false
+		nametagVisibility hideForOtherTeams
+		friendlyfire false
+	UNUSE
+	
+	gamerule keepInventory true
+	gamerule naturalRegeneration false
+	
+///	General armor stands
+	summon ArmorStand ~ ~ ~ {NoGravity:1,Invisible:1,Marker:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTAS","2FTASR"]}
+	summon ArmorStand ~ ~ ~ {NoGravity:1,Invisible:1,Marker:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTAS","2FTASB"]}
+	@e[type=ArmorStand,2FTAS] 2FThfl = 0
+	@e[type=ArmorStand,2FTASR] 2FTspn + 0
+	@e[type=ArmorStand,2FTASR] 2FTcdt = 20
+	@e[type=ArmorStand,2FTASR] 2FTgmt = 900
+	
+///	Health kit placements
+	summon ArmorStand $HK1$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLS"],ArmorItems:[{},{},{},{id:"minecraft:porkchop",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	summon ArmorStand $HK2$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLM"],ArmorItems:[{},{},{},{id:"minecraft:bread",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	summon ArmorStand $HK3$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLM"],ArmorItems:[{},{},{},{id:"minecraft:bread",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	summon ArmorStand $HK4$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLS"],ArmorItems:[{},{},{},{id:"minecraft:porkchop",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	summon ArmorStand $HK5$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLM"],ArmorItems:[{},{},{},{id:"minecraft:bread",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	summon ArmorStand $HK6$ {NoGravity:1,DisabledSlots:2096896,Invisible:1,Invulnerable:1,PersistenceRequired:1,Tags:["2FTHL","2FTHLM"],ArmorItems:[{},{},{},{id:"minecraft:bread",Count:1b,Damage:0s,tag:{ench:[{id:0,lvl:1}]}}]}
+	@e[type=ArmorStand,2FTHL] 2FThkt + 0
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+///	General AF
+	minecraft:weather clear 1000000
+	$s$kill @e[$SA$,type=Item]
+	
+///Player ID
+	@a[2FTpid=0,c=1] PlayerNumber 2FTpid + 1
+	scoreboard players operation @a[2FTpid=0,c=1] 2FTpid = PlayerNumber 2FTpid
+	
+///Respawn on Death
+	@a[2FTdea>=1] 2FTcsi = 10
+	@a[2FTdea>=1] 2FTdea = 0
+	
+///Respawn timer
+	$s$tp @a[m=2,$SSP$,2FTrpt>=1] $RSC$
+	$s$clear @a[m=2,$SRS$,2FTrpt>=1] carrot_on_a_stick
+	@a[m=2,2FTrpt>=1] 2FTrpt - 1
+	$s$tp @a[m=2,$SRS$,2FTrpt=0] $SPC$
+	
+///Game timer
+	@e[type=ArmorStand,2FTASB,2FTgmt>=0<=19] 2FTgmt + 1
+	@e[type=ArmorStand,2FTASB,2FTgmt=20] @e[type=ArmorStand,2FTASR,2FTgmt>=1<=900] 2FTgmt - 1
+	@e[type=ArmorStand,2FTASR,2FTgmt=600] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"10 minutes remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=300] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"5 minutes remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=60] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"60 seconds remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=30] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"30 seconds remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=10] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"10 seconds remain!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=5] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"5!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=4] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"4!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=3] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"3!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=2] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"2!","color":"yellow"}
+	@e[type=ArmorStand,2FTASR,2FTgmt=1] @e[type=ArmorStand,2FTASB,2FTgmt=20] tellraw @a[$SA$] {"text":"1!","color":"yellow"}
+	scoreboard players operation Time 2FTdsp = @e[type=ArmorStand,2FTASR,2FTgmt>=0<=900,2FTcdt=0] 2FTgmt
+	@e[type=ArmorStand,2FTASB,2FTgmt=20] 2FTgmt = 0
+	
+///Doors
+	LOOP 1 3 + 1
+		fill $SPD|0|$ stonebrick 0
+		fill $SPD|0|G$ stained_glass 7
+		@e[type=ArmorStand,2FTASR,2FTcdt=0] @a[$SPD|0|S1$,team=TF2R] fill $SPD|0|$ air 0
+	END
+	
+	LOOP 4 6 + 1
+		fill $SPD|0|$ stonebrick 0
+		fill $SPD|0|G$ stained_glass 7
+		@e[type=ArmorStand,2FTASR,2FTcdt=0] @a[$SPD|0|S1$,team=TF2B] fill $SPD|0|$ air 0
+	END
+	
+	$s$tp @a[$SPD1S2$,m=2,team=TF2B] ~ ~ ~1
+	$s$tp @a[$SPD2S2$,m=2,team=TF2B] ~1 ~ ~
+	$s$tp @a[$SPD3S2$,m=2,team=TF2B] ~1 ~ ~
+	$s$tp @a[$SPD4S2$,m=2,team=TF2R] ~ ~ ~-1
+	$s$tp @a[$SPD5S2$,m=2,team=TF2R] ~-1 ~ ~
+	$s$tp @a[$SPD6S2$,m=2,team=TF2R] ~-1 ~ ~
+	
+///Health kits
+	@a[$SA$,Health<=19,m=2] ~ ~-1.8 ~ @e[type=ArmorStand,2FTHL,r=1,c=1,2FThkt=0] 2FThkt = -1
+	@e[type=ArmorStand,2FTHLS,2FThkt=-1] effect @a[c=1,r=5,m=2,Health<=19] 6 1 0 true
+	@e[type=ArmorStand,2FTHLM,2FThkt=-1] effect @a[c=1,r=5,m=2,Health<=19] 6 1 1 true
+	@e[type=ArmorStand,2FTHL,2FThkt=-1] @a[c=1,r=5,m=2,Health<=19] playsound minecraft:entity.item.pickup voice @a[c=1]
+	replaceitem entity @e[type=ArmorStand,2FTHL,2FThkt=-1] slot.armor.head air 1 0
+	@e[type=ArmorStand,2FTHL,2FThkt=-1] 2FThkt = 200
+	@e[type=ArmorStand,2FTHL,2FThkt>=1<=200] 2FThkt - 1
+	replaceitem entity @e[type=ArmorStand,2FTHLS,2FThkt=1] slot.armor.head porkchop 1 0 {ench:[{id:0,lvl:1}]}
+	replaceitem entity @e[type=ArmorStand,2FTHLM,2FThkt=1] slot.armor.head bread 1 0 {ench:[{id:0,lvl:1}]}
+	$s$tp @e[type=ArmorStand,2FTHL,2FThkt=0] ~ ~ ~ ~5 ~
+	
+///Spawn randomizer
+	@e[type=ArmorStand,2FTASR,2FTspn>=0<=1] 2FTspn + 1
+	@e[type=ArmorStand,2FTASR,2FTspn=2] 2FTspn = 0
+	
+///	Resupply cabinet
+	@a[2FTcsi=10] ScOP @a[c=1,r=1,2FTcsi=10] 2FTcsi = @a[c=1,r=1,2FTcsi=10] 2FTcid
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		2FTsaf
+		2FTpid
+		2FTrpt
+		2FTcdt
+		2FTgmt
+		2FThkt
+		2FTspn
+		2FTscl
+	UNUSE
+	
+	USE $TeamR$ 
+		TF2R
+		TF2B
+	UNUSE
+	
+	gamerule keepInventory false
+	gamerule naturalRegeneration true
+	
+	$s$kill @e[$SA$,type=ArmorStand,2FTAS]
+	$s$kill @e[$SA$,type=ArmorStand,2FTHL]
+	$s$kill @e[$SA$,type=AreaEffectCloud,TF2Medibeam]
+	$s$kill @e[$SA$,type=Arrow]
+	
+	$s$clear @a[$SA$,m=2]
+	effect @a[$SA$,m=2] clear
+	$s$tp @a[$SA$,m=2] $SPC$
+END
+//>
+
+
+//<Class Specials Start
+FUNC Func_ClassAbilityStart
+	USE $ObjA$
+		2FTast dummy 2fort Arrow State
+		2FTati dummy 2fort Arrow Timer
+		2FTbui stat.useItem.minecraft.bow 2fort Bow Use Item
+		2FThti dummy 2fort Hunger Timer
+		2FTgti dummy 2fort Grenade Timer
+		2FTgrs dummy 2fort Grenade Reload State
+		2FTpui stat.useItem.minecraft.splash_potion 2fort Potion Use Item
+		2FTsti dummy 2fort Sandvich Timer
+		2FTgui stat.useItem.minecraft.golden_apple 2fort Golden Apple Use Item
+		2FTmti dummy 2fort Medibeam Timer
+		2FTmst dummy 2fort Medibeam State
+		2FTmcl dummy 2fort Medibeam Calc
+		2FTrti dummy 2fort Regen Timer
+	UNUSE
+END
+//>
+
+//<Class Specials Clock
+FUNC Func_ClassSpecialsClock
+///Soldier and Sniper NoGravity (also kills any arrows in the ground, and arrows that lasted for 10s+)
+	@e[$SA$,type=Arrow] 2FTast + 0
+	@a[$SA$,2FTcid=8,2FTbui>=1] entitydata @e[type=Arrow,2FTast=0,r=3,c=1] {NoGravity:1}
+	@a[$SA$,2FTcid=2,2FTbui>=1] entitydata @e[type=Arrow,2FTast=0,r=3,c=1] {NoGravity:1}
+	@e[$SA$,type=Arrow,2FTast=0] 2FTast = 1
+	@e[$SA$,type=Arrow,2FTast>=0] 2FTast = 2 {inGround:1b}
+	@e[$SA$,type=Arrow,2FTast=2] 2FTati + 1
+	$s$kill @e[$SA$,type=Arrow,2FTast=2]
+	$s$kill @e[$SA$,type=Arrow,2FTati>=200]
+
+///Grenade timer
+	@a[$SA$,2FTcid=4] $s$clear @a[c=1,r=1,2FTcid=4] ClassGiveGrenade(-1;0)
+	@a[$SA$,2FTcid=4,2FTgti>=0<=24,2FTsaf<=3] 2FTgti + 1
+	@a[$SA$,2FTcid=4,2FTpui>=1] 2FTgti = 0
+	@a[$SA$,2FTcid=4,2FTpui>=1] 2FTgrs = 0
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=25,2FTgrs=0,2FTsaf=0] slot.hotbar.0 ClassGiveGrenade(1;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=25,2FTgrs=0,2FTsaf=1] slot.hotbar.0 ClassGiveGrenade(2;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=25,2FTgrs=0,2FTsaf=2] slot.hotbar.0 ClassGiveGrenade(3;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=25,2FTgrs=0,2FTsaf=3] slot.hotbar.0 ClassGiveGrenade(4;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=12,2FTgrs=1,2FTsaf=1] slot.hotbar.0 ClassGiveGrenade(2;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=12,2FTgrs=1,2FTsaf=2] slot.hotbar.0 ClassGiveGrenade(3;0)
+	replaceitem entity @a[$SA$,2FTcid=4,2FTgti=12,2FTgrs=1,2FTsaf=3] slot.hotbar.0 ClassGiveGrenade(4;0)
+	@a[$SA$,2FTcid=4] $s$clear @a[c=1,r=1,2FTcid=4] ClassGiveGrenade(-1;0)
+	$s$clear @a[$SA$,m=2,2FTcid=4,2FTsaf=7] ClassGiveGrenade(-1;3)
+	$s$clear @a[$SA$,m=2,2FTcid=4,2FTsaf=6] ClassGiveGrenade(-1;2)
+	$s$clear @a[$SA$,m=2,2FTcid=4,2FTsaf=5] ClassGiveGrenade(-1;1)
+	@a[$SA$,2FTcid=4,2FTgti=25,2FTgrs=0,2FTsaf<=3] 2FTgrs = 1
+	@a[$SA$,2FTcid=4,2FTpui>=1] 2FTpui = 0
+	@a[$SA$,2FTcid=4,2FTgti=25] 2FTgti = 0
+	@a[$SA$,2FTcid=4,2FTgti=12,2FTgrs=1] 2FTgti = 0
+	
+///Saturation given to both the solly and the heavy
+	@a[$SA$,2FTcid=5,2FThti>=0<=39] 2FThti + 1
+	@a[$SA$,2FTcid=2,2FThti>=0<=39] 2FThti + 1
+	effect @a[$SA$,2FThti>=40] 23 1 0 true
+	@a[$SA$,2FThti>=40] 2FThti = 0
+
+///Sandvich timer
+	@a[$SA$,2FTcid=5,2FTgui>=1] 2FTsti + 1
+	@a[$SA$,2FTcid=5,2FTsti>=1<=599] 2FTsti + 1
+	$s$give @a[$SA$,2FTcid=5,2FTsti=600] ClassGiveSandvich
+	@a[$SA$,2FTcid=5,2FTsti=600] 2FTsti = 0
+	@a[$SA$,2FTcid=5,2FTgui>=1] 2FTgui = 0
+	
+///Regen potion timer
+	@a[$SA$,2FTcid=7] $s$clear @a[c=1,r=1,2FTcid=7] splash_potion -1 0 {Potion:"minecraft:water_breathing"}
+	@a[$SA$,2FTcid=7,2FTsaf=0,2FTmti>=0<=19] 2FTmti + 1
+	$s$give @a[$SA$,2FTcid=7,2FTsaf=0,2FTmti=15,team=TF2R] ClassGiveRegenPotionR
+	$s$give @a[$SA$,2FTcid=7,2FTsaf=0,2FTmti=15,team=TF2B] ClassGiveRegenPotionB
+	@a[$SA$,2FTcid=7,2FTmti=15] 2FTmti = 0
+	
+///Medibeam ID and effects
+	@e[$SA$,type=ThrownPotion] 2FTmst + 0 {Potion:{tag:{Potion:"minecraft:water_breathing"}}}
+	@e[$SA$,type=ThrownPotion,2FTmst=0] 2FTmst = 1 {Potion:{tag:{display:{Name:"Regen II - Red"},Potion:"minecraft:water_breathing"}}}
+	@e[$SA$,type=ThrownPotion,2FTmst=0] 2FTmst = 2 {Potion:{tag:{display:{Name:"Regen II - Blue"},Potion:"minecraft:water_breathing"}}}
+	@a[$SA$,2FTpui>=1,2FTcid=7,team=TF2R] scoreboard players operation @e[type=ThrownPotion,2FTmst=1,r=5,c=1] 2FTpid = @a[r=1,c=1,2FTpui>=1,2FTcid=7,team=TF2R] 2FTpid
+	@a[$SA$,2FTpui>=1,2FTcid=7,team=TF2B] scoreboard players operation @e[type=ThrownPotion,2FTmst=2,r=5,c=1] 2FTpid = @a[r=1,c=1,2FTpui>=1,2FTcid=7,team=TF2B] 2FTpid
+	@e[$SA$,type=ThrownPotion,2FTmst=1] 2FTmst = 3
+	@e[$SA$,type=ThrownPotion,2FTmst=2] 2FTmst = 4
+	@e[$SA$,type=ThrownPotion,2FTmst=3] $s$kill @e[type=AreaEffectCloud,TF2MedibeamR,r=2,c=1]
+	@e[$SA$,type=ThrownPotion,2FTmst=4] $s$kill @e[type=AreaEffectCloud,TF2MedibeamB,r=2,c=1]
+	@e[$SA$,type=AreaEffectCloud,TF2MedibeamR] @a[m=2,r=3,team=TF2R] scoreboard players operation @a[m=2,r=1,c=1,team=TF2R] 2FTmcl = @a[m=2,r=1,c=1,team=TF2R] 2FTpid
+	@e[$SA$,type=AreaEffectCloud,TF2MedibeamR] scoreboard players operation @a[m=2,r=3,team=TF2R] 2FTmcl -= @e[r=1,c=1,type=AreaEffectCloud,TF2MedibeamR] 2FTpid
+	@e[$SA$,type=AreaEffectCloud,TF2MedibeamB] @a[m=2,r=3,team=TF2B] scoreboard players operation @a[m=2,r=1,c=1,team=TF2B] 2FTmcl = @a[m=2,r=1,c=1,team=TF2B] 2FTpid
+	@e[$SA$,type=AreaEffectCloud,TF2MedibeamB] scoreboard players operation @a[m=2,r=3,team=TF2B] 2FTmcl -= @e[r=1,c=1,type=AreaEffectCloud,TF2MedibeamB] 2FTpid
+	effect @a[$SA$,m=2,2FTmcl>=1] 10 5 1 true
+	effect @a[$SA$,m=2,2FTmcl<=-1] 10 5 1 true
+	@a[$SA$,m=2,2FTmcl>=1] 2FTrti = -100
+	@a[$SA$,m=2,2FTmcl<=-1] 2FTrti = -100
+	$s$kill @e[$SA$,type=AreaEffectCloud,TF2Medibeam]
+	scoreboard players reset @a[$SA$,m=2,2FTmcl<=100000] 2FTmcl
+	@e[$SA$,type=ThrownPotion,2FTmst=3] summon AreaEffectCloud ~ ~ ~ {Tags:["TF2Medibeam","TF2MedibeamR"],Duration:3}
+	@e[$SA$,type=ThrownPotion,2FTmst=4] summon AreaEffectCloud ~ ~ ~ {Tags:["TF2Medibeam","TF2MedibeamB"],Duration:3}
+	@e[$SA$,type=AreaEffectCloud,TF2Medibeam] 2FTpid + 0
+	@e[$SA$,type=ThrownPotion,2FTmst=3] scoreboard players operation @e[type=AreaEffectCloud,TF2MedibeamR,2FTpid=0,r=1,c=1] 2FTpid = @e[type=ThrownPotion,2FTmst=3,c=1,r=1] 2FTpid
+	@e[$SA$,type=ThrownPotion,2FTmst=4] scoreboard players operation @e[type=AreaEffectCloud,TF2MedibeamB,2FTpid=0,r=1,c=1] 2FTpid = @e[type=ThrownPotion,2FTmst=4,c=1,r=1] 2FTpid
+	@a[$SA$,2FTcid=7,2FTpui>=1] 2FTpui = 0
+	effect @a[$SA$] 13 0 0 true
+	
+///Regen timer for medics
+	@a[$SA$,m=2,2FTcid=7,2FTrti>=-100<=59] 2FTrti + 1
+	effect @a[$SA$,m=2,2FTcid=7,2FTrti=59] 10 1 10 true
+	effect @a[$SA$,m=2,2FTcid=7,2FTrti=60] 10 0 0 true
+	@a[$SA$,m=2,2FTcid=7,2FTrti=60] 2FTrti = 0
+	
+END
+//>
+
+//<Class Specials End
+FUNC Func_ClassSpecialsEnd
+	USE $ObjR$
+		2FTast
+		2FTati
+		2FTbui
+		2FThti
+		2FTgti
+		2FTgrs
+		2FTpui
+		2FTsti
+		2FTgui
+		2FTmti
+		2FTmst
+		2FTmcl
+		2FTrti
+	UNUSE
+END
+//>
+
+
+//<Flag Start
+FUNC Func_FlagStart
+	USE $ObjA$
+		2FTdsp dummy 2fort
+		2FTfst dummy 2fort Flag State
+		2FTlgm stat.leaveGame 2fort Leave Game
+		2FTdea deathCount 2fort Deaths
+		2FThfl dummy 2fort Has Flag
+		2FTfch dummy 2fort Flag Check
+	UNUSE
+	Red 2FTdsp + 0
+	Blue 2FTdsp + 0
+	scoreboard teams join TF2R Red
+	scoreboard teams join TF2B Blue
+	scoreboard objectives setdisplay sidebar 2FTdsp
+END
+//>
+
+//<Flag Clock
+FUNC Func_FlagClock
+///Taking the flag: 0 --> 1 --> 2
+	@e[type=ArmorStand,2FTASR,2FThfl=0] @a[$SFB$,m=2,team=TF2R,2FTfst=0] 2FTfst = 1
+	@e[type=ArmorStand,2FTASB,2FThfl=0] @a[$SFR$,m=2,team=TF2B,2FTfst=0] 2FTfst = 1
+	@a[$SA$,m=2,team=TF2R,2FTfst=1] setblock $BlueFlagCoords$ air 0
+	@a[$SA$,m=2,team=TF2B,2FTfst=1] setblock $RedFlagCoords$ air 0
+	@a[$SA$,m=2,team=TF2R,2FTfst=1] tellraw @a {"text":"","extra":[{"selector":"@p[c=1,r=1,2FTfst=1]"},{"text":" has taken the "},{"text":"blue","color":"blue"},{"text":" intel!"}]}
+	@a[$SA$,m=2,team=TF2B,2FTfst=1] tellraw @a {"text":"","extra":[{"selector":"@p[c=1,r=1,2FTfst=1]"},{"text":" has taken the "},{"text":"red","color":"red"},{"text":" intel!"}]}
+	@a[$SA$,m=2,2FTfst=1] playsound minecraft:entity.item.pickup voice @a[c=1]
+	@a[$SA$,m=2,team=TF2R,2FTfst=1] @e[type=ArmorStand,2FTASR,2FThfl=0] 2FThfl = 1
+	@a[$SA$,m=2,team=TF2B,2FTfst=1] @e[type=ArmorStand,2FTASB,2FThfl=0] 2FThfl = 1
+	@a[$SA$,m=2,2FTfst=1] 2FTdsp + 0
+	effect @a[$SA$,2FTfst=1] 24 1000000 0 true
+	@a[$SA$,2FTfst=1] 2FTfst = 2
+	
+///Capping the flag: 2 --> 3 --> 0
+	@a[$SFR$,m=2,team=TF2R,2FTfst=2] 2FTfst = 3
+	@a[$SFB$,m=2,team=TF2B,2FTfst=2] 2FTfst = 3
+	@a[$SA$,m=2,team=TF2R,2FTfst=3] tellraw @a {"text":"","extra":[{"selector":"@p[c=1,r=1,2FTfst=3]"},{"text":" has captured the "},{"text":"blue","color":"blue"},{"text":" intel!"}]}
+	@a[$SA$,m=2,team=TF2B,2FTfst=3] tellraw @a {"text":"","extra":[{"selector":"@p[c=1,r=1,2FTfst=3]"},{"text":" has captured the "},{"text":"red","color":"red"},{"text":" intel!"}]}
+	@a[$SA$,m=2,2FTfst=3] summon $Firework$
+	@a[$SA$,m=2,2FTfst=3] playsound minecraft:entity.player.levelup voice @a[c=1] ~ ~ ~ 2
+	@a[$SA$,m=2,team=TF2R,2FTfst=3] Red 2FTdsp + 1
+	@a[$SA$,m=2,team=TF2B,2FTfst=3] Blue 2FTdsp + 1
+	effect @a[$SA$,m=2,2FTfst=3] 24 0 0 true
+	
+///Dying with the flag: 2 --> 4 --> 0
+	@a[2FTfst=2,2FTdea>=1] 2FTfst = 4
+	@a[team=TF2R,2FTfst=4] tellraw @a {"text":"","extra":[{"selector":"@a[c=1,2FTfst=4]"},{"text":" has lost the "},{"text":"blue","color":"blue"},{"text":" intel!"}]}
+	@a[team=TF2B,2FTfst=4] tellraw @a {"text":"","extra":[{"selector":"@a[c=1,2FTfst=4]"},{"text":" has lost the "},{"text":"red","color":"red"},{"text":" intel!"}]}
+	
+///Changing classes with the flag: 2 --> 5 --> 0
+	@a[team=TF2R,2FTfst=5] tellraw @a {"text":"","extra":[{"selector":"@a[c=1,2FTfst=5]"},{"text":" changed classes and lost the "},{"text":"blue","color":"blue"},{"text":" intel!"}]}
+	@a[team=TF2B,2FTfst=5] tellraw @a {"text":"","extra":[{"selector":"@a[c=1,2FTfst=5]"},{"text":" changed classes and lost the "},{"text":"red","color":"red"},{"text":" intel!"}]}
+	@a[team=TF2R,2FTfst>=3<=5] setblock $BlueFlagCoords$ wool 11
+	@a[team=TF2B,2FTfst>=3<=5] setblock $RedFlagCoords$ wool 14
+	@a[team=TF2B,2FTfst>=4<=5] playsound minecraft:entity.zombie_villager.cure voice @a[c=1]
+	@a[team=TF2R,2FTfst>=3<=5] @e[type=ArmorStand,2FTASR,2FThfl=1] 2FThfl = 0
+	@a[team=TF2B,2FTfst>=3<=5] @e[type=ArmorStand,2FTASB,2FThfl=1] 2FThfl = 0
+	scoreboard players reset @a[2FTfst>=3<=5] 2FTdsp
+	@a[2FTfst>=3<=5] 2FTfst = 0
+	
+///Disconnecting: 2 --> Failed set --> 0
+	@e[$SA$,type=ArmorStand,2FTAS,2FThfl=1] 2FTfch = 0
+	@a[$SA$,team=TF2R,2FTfst=2] @e[$SA$,type=ArmorStand,2FTASR,2FThfl=1] 2FTfch = 1
+	@a[$SA$,team=TF2B,2FTfst=2] @e[$SA$,type=ArmorStand,2FTASB,2FThfl=1] 2FTfch = 1
+	@e[$SA$,type=ArmorStand,2FTASR,2FThfl=1,2FTfch=0] {"text":"","extra":[{"text"The flag owner disconnected and has lost the "},{"text":"blue","color":"blue"},{"text":" intel!"}]}
+	@e[$SA$,type=ArmorStand,2FTASB,2FThfl=1,2FTfch=0] {"text":"","extra":[{"text"The flag owner disconnected and has lost the "},{"text":"red","color":"red"},{"text":" intel!"}]}
+	@e[$SA$,type=ArmorStand,2FTASR,2FThfl=1,2FTfch=0] setblock $BlueFlagCoords$ wool 11
+	@e[$SA$,type=ArmorStand,2FTASB,2FThfl=1,2FTfch=0] setblock $RedFlagCoords$ wool 14
+	@e[$SA$,type=ArmorStand,2FTASR,2FThfl=1,2FTfch=0] @a[team=TF2R,2FTfst=2] 2FTlgm = 1
+	@e[$SA$,type=ArmorStand,2FTASB,2FThfl=1,2FTfch=0] @a[team=TF2B,2FTfst=2] 2FTlgm = 1
+	@e[$SA$,type=ArmorStand,2FTAS,2FThfl=1,2FTfch=0] 2FThfl = 0
+	
+	scoreboard players reset @a[2FTfst=2,2FTlgm>=1] 2FTdsp
+	@a[2FTfst=2,2FTlgm>=1] 2FTfst = 0
+	@a[2FTlgm>=1] 2FTlgm = 0
+END
+//>
+
+//<Flag End
+FUNC Func_FlagEnd
+	USE $ObjR$
+		2FTdsp
+		2FTfst
+		2FTlgm
+		2FTdea
+		2FThfl
+		2FTfch
+	UNUSE
+	setblock $BlueFlagCoords$ wool 11
+	setblock $RedFlagCoords$ wool 14
+END
+//>
+
+
+//<Universal Give Start
+FUNC Func_UniversalGiveStart
+	$s$clear @a[$SA$,m=2,2FTcsi=|0|]
+	effect @a[$SA$,m=2,2FTcsi=|0|] clear
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTcid = |0|
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTpid + 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTfst + 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTbui = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FThti = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTgti = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTgrs = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTpui = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTsti = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTgui = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTmti = 0
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTrti = 0
+END
+//>
+
+//<Universal Give End
+FUNC Func_UniversalGiveEnd
+	replaceitem entity @a[$SA$,m=2,2FTcsi=|0|] slot.hotbar.7 CCItem_CarrotChoose
+	replaceitem entity @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] slot.hotbar.8 CCItem_DyeR
+	replaceitem entity @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] slot.hotbar.8 CCItem_DyeB
+	replaceitem entity @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] CCItem_ChestplateR
+	replaceitem entity @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] CCItem_LeggingsR
+	replaceitem entity @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] CCItem_BootsR
+	replaceitem entity @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] CCItem_ChestplateB
+	replaceitem entity @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] CCItem_LeggingsB
+	replaceitem entity @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] CCItem_BootsB
+	effect @a[$SA$,m=2,2FTcsi=|0|] 6 1 100 true
+	@a[$SP1$,m=2,team=TF2R,2FTcsi=|0|] 2FTcsi = 0
+	@a[$SP2$,m=2,team=TF2R,2FTcsi=|0|] 2FTcsi = 0
+	@a[$SP4$,m=2,team=TF2B,2FTcsi=|0|] 2FTcsi = 0
+	@a[$SP5$,m=2,team=TF2B,2FTcsi=|0|] 2FTcsi = 0
+	@e[type=ArmorStand,2FTASR,2FTspn=0] $s$tp @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] $RS1$
+	@e[type=ArmorStand,2FTASR,2FTspn=1] $s$tp @a[$SA$,m=2,team=TF2R,2FTcsi=|0|] $RS2$
+	@e[type=ArmorStand,2FTASR,2FTspn=0] $s$tp @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] $BS1$
+	@e[type=ArmorStand,2FTASR,2FTspn=1] $s$tp @a[$SA$,m=2,team=TF2B,2FTcsi=|0|] $BS2$
+	@a[$SA$,m=2,2FTcsi=|0|] 2FTcsi = 0
+END
+//>
+
+//<Class # Give
+FUNC Func_Class1Give
+	CCItem_Saturation(1)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=1] slot.armor.head CCItem_Helmet1
+	replaceitem entity @a[$SA$,m=2,2FTcsi=1] slot.hotbar.0 CCItem_WoodSword
+	effect @a[$SA$,m=2,2FTcsi=1] 1 1000000 1 true
+	effect @a[$SA$,m=2,2FTcsi=1] 8 1000000 1 true
+END
+
+FUNC Func_Class2Give
+	CCItem_Hunger(2)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.armor.head CCItem_Helmet2
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.hotbar.0 CCItem_Bow2
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.hotbar.1 CCItem_IronSword
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.inventory.8 CCItem_Arrow
+	effect @a[$SA$,m=2,2FTcsi=2] 1 1000000 0 true
+	effect @a[$SA$,m=2,2FTcsi=2] 23 1 0 true
+END
+
+FUNC Func_Class3Give
+	CCItem_Saturation(3)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=3] slot.armor.head CCItem_Helmet3
+	replaceitem entity @a[$SA$,m=2,2FTcsi=3] slot.hotbar.0 CCItem_Bow3
+	replaceitem entity @a[$SA$,m=2,2FTcsi=3] slot.hotbar.1 CCItem_IronSword
+	replaceitem entity @a[$SA$,m=2,2FTcsi=3] slot.hotbar.3 CCItem_Airblast
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.inventory.8 CCItem_Arrow
+END
+
+FUNC Func_Class4Give
+	CCItem_Saturation(4)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=4] slot.armor.head CCItem_Helmet4
+	replaceitem entity @a[$SA$,m=2,2FTcsi=4] slot.hotbar.0 CCItem_GrenadeGive(4)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=4] slot.hotbar.1 CCItem_WoodSword
+END
+
+FUNC Func_Class5Give
+	CCItem_Hunger(5)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=5] slot.armor.head CCItem_Helmet5
+	replaceitem entity @a[$SA$,m=2,2FTcsi=5] slot.hotbar.0 CCItem_DiaSword
+	replaceitem entity @a[$SA$,m=2,2FTcsi=5] slot.hotbar.1 CCItem_Sandvich
+	effect @a[$SA$,m=2,2FTcsi=5] 23 1 0 true
+END
+
+FUNC Func_Class7Give
+	CCItem_Saturation(7)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=7] slot.armor.head CCItem_Helmet7
+	replaceitem entity @a[$SA$,m=2,2FTcsi=7] slot.hotbar.0 CCItem_Bow7
+	replaceitem entity @a[$SA$,m=2,2FTcsi=7,team=TF2R] slot.hotbar.1 CCItem_RegenPotionR
+	replaceitem entity @a[$SA$,m=2,2FTcsi=7,team=TF2B] slot.hotbar.1 CCItem_RegenPotionB
+	replaceitem entity @a[$SA$,m=2,2FTcsi=7,team=TF2B] slot.hotbar.2 CCItem_WoodSword
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.inventory.8 CCItem_Arrow
+	effect @a[$SA$,m=2,2FTcsi=7] 1 1000000 0 true
+END
+
+FUNC Func_Class8Give
+	CCItem_Saturation(8)
+	replaceitem entity @a[$SA$,m=2,2FTcsi=8] slot.armor.head CCItem_Helmet8
+	replaceitem entity @a[$SA$,m=2,2FTcsi=8] slot.hotbar.0 CCItem_Bow8
+	replaceitem entity @a[$SA$,m=2,2FTcsi=2] slot.inventory.8 CCItem_Arrow
+END
+//>
+
+
+//<Groups
+///	:CBPTF2Randomizer CLOCK $Style$
+///	TF2RandomizerClock
+
+:CBPSelectTeamPulse PULSE $Style$
+Deactivate(CBPSelectTeamPulse)
+Func_SelectTeamPulse
+
+:CBPStartGamePulse PULSE $Style$
+Deactivate(CBPStartGamePulse)
+Func_StartGamePulse
+
+:CBPCountdownTFClock CLOCK $Style$
+Func_CountdownTFClock
+
+:CBPCarrotStickTFClock CLOCK $Style$
+Func_CarrotStickTFClock
+
+/// :CBPResupplyCabinet CLOCK $Style$
+/// TF2ResupplyCabinetClock
+
+:CBPEndGameTFClock CLOCK $Style$
+Func_EndGameTFClock
+
+
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart
+Func_GeneralSelectStart
+Func_ClassSpecialsStart
+Func_FlagStart
+Activate(CBPScout)
+Activate(CBPSoldier)
+Activate(CBPPyro)
+Activate(CBPDemo)
+Activate(CBPHeavy)
+Activate(CBPMedic)
+Activate(CBPSniper)
+Activate(CBPCarrotStickTFClock)
+Activate(CBPCountdownTFClock)
+Activate(CBPEndGameTFClock)
+Activate(CBPMainClock)
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+Func_GeneralSelectClock
+Func_ClassSpecialsClock
+Func_FlagStart
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd
+Func_GeneralSelectEnd
+Func_ClassSpecialsClock
+Func_FlagStart
+Deactivate(CBPScout)
+Deactivate(CBPSoldier)
+Deactivate(CBPPyro)
+Deactivate(CBPDemo)
+Deactivate(CBPHeavy)
+Deactivate(CBPMedic)
+Deactivate(CBPSniper)
+Deactivate(CBPCarrotStickTFClock)
+Deactivate(CBPCountdownTFClock)
+Deactivate(CBPEndGameTFClock)
+Deactivate(CBPMainClock)
+
+
+:CBPScout CLOCK $Style$
+testfor @a[2FTcsi=1]
+SetblockTestfor
+Func_UniversalGiveStart(1)
+Func_Class1Give
+Func_UniversalGiveEnd(1)
+
+:CBPSoldier CLOCK $Style$
+testfor @a[2FTcsi=2]
+SetblockTestfor
+Func_UniversalGiveStart(2)
+Func_Class2Give
+Func_UniversalGiveEnd(2)
+
+:CBPPyro CLOCK $Style$
+testfor @a[2FTcsi=3]
+SetblockTestfor
+Func_UniversalGiveStart(3)
+Func_Class3Give
+Func_UniversalGiveEnd(3)
+
+:CBPDemo CLOCK $Style$
+testfor @a[2FTcsi=4]
+SetblockTestfor
+Func_UniversalGiveStart(4)
+Func_Class4Give
+Func_UniversalGiveEnd(4)
+
+:CBPHeavy CLOCK $Style$
+testfor @a[2FTcsi=5]
+SetblockTestfor
+Func_UniversalGiveStart(5)
+Func_Class5Give
+Func_UniversalGiveEnd(5)
+
+:CBPMedic CLOCK $Style$
+testfor @a[2FTcsi=7]
+SetblockTestfor
+Func_UniversalGiveStart(7)
+Func_Class7Give
+Func_UniversalGiveEnd(7)
+
+:CBPSniper CLOCK $Style$
+testfor @a[2FTcsi=8]
+SetblockTestfor
+Func_UniversalGiveStart(8)
+Func_Class8Give
+Func_UniversalGiveEnd(8)
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

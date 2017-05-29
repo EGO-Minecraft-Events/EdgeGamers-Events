@@ -1,0 +1,16 @@
+summon ArmorStand -7.6 7.05 448.35 {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:0,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[-90f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:jungle_stairs,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}
+
+
+summon ArmorStand -7.75 8.1 448.825  {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:1,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[0f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:stone_button,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}
+
+
+summon ArmorStand -7.5 7.3 448.275 {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:0,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[75f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:glass_pane,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}
+
+
+summon ArmorStand -7.4733 7.1 448.2625 {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:0,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[75f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:lever,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}
+
+
+summon ArmorStand -7.495 7.3 448.725 {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:0,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[105f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:glass_pane,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}
+
+
+summon ArmorStand -7.4733 7.1 448.7375 {DisabledSlots:2096896,Marker:0,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:0,Invulnerable:1,PersistenceRequired:1,Invisible:1,Rotation:[105f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f]},ArmorItems:[{},{},{},{id:lever,Count:1}],HandItems:[{},{}],Tags:["RRComputer"]}

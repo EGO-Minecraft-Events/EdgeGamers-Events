@@ -1,0 +1,50 @@
+//<Teams Randomizer Start
+FUNC Func_TeamsRandomizerStart
+	USE $ObjA$
+		WLrnd dummy The Pit Randomizer
+	UNUSE
+	
+	USE $TeamA$
+		WLd Darkness
+		WLc Corruption
+		WLe Death
+		WLf Fear
+		darkness, corruption, death, fear
+	UNUSE
+	
+	USE $TeamO$
+		WLd color black
+		WLc color gold
+		WLe color yellow
+		WLf color red
+	UNUSE
+END
+//>
+
+//<Teams Randomizer Clock
+FUNC Func_TeamsRandomizerClock
+///	A number is preset as "Teams" under WallsSave
+///	Normally 2, 3, or 4
+	
+///	There is no team balance thing, because making that with four teams takes too much effort
+///	I have a python team balance thing in python, but it isn't ported over to MC yet
+	@a[$SP$,m=2] WLrnd + 0
+	@r[$SP$,m=2,WLrnd=0] WLrnd = 1
+	@r[$SP$,m=2,WLrnd=0] WLrnd = 2
+	@r[$SP$,m=2,WLrnd=0] WLrnd = 3
+	@r[$SP$,m=2,WLrnd=0] WLrnd = 4
+	ScTJ WLd @a[$SP$,m=2,WLrnd=1]
+	ScTJ WLc @a[$SP$,m=2,WLrnd=2]
+	ScTJ WLe @a[$SP$,m=2,WLrnd=3]
+	ScTJ WLf @a[$SP$,m=2,WLrnd=4]
+END
+//>
+
+//<Teams Randomizer End
+FUNC Func_TeamsRandomizerEnd
+	USE $ObjR$
+		WLrnd
+	UNUSE
+	
+END
+//>

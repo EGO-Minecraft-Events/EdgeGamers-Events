@@ -1,0 +1,130 @@
+//#-p stonebrick 0 -print
+///	
+
+//<Defines
+DEFINE $s$ minecraft:
+DEFINE $ObjA$ scoreboard objectives add
+DEFINE $ObjR$ scoreboard objectives remove
+DEFINE $TeamA$ scoreboard teams add
+DEFINE $TeamO$ scoreboard teams option
+DEFINE $TeamR$ scoreboard teams remove
+DEFINE $Style$ 16 16 0
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOF"}}},{"text":"]","color":"gray"},{"text":": "},
+
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+DEFINE ScTG scoreboard players tag
+DEFINE ScOP scoreboard players operation
+DEFINE RevST scoreboard players tag @a[|0|] remove |0|
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+DEFINE NumberAdd |0| Number = |0|
+DEFINE NumberObjAdd Number dummy
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	fill -42 4 -377 17 35 -377 air 0
+	Switch Colors
+	
+	Fill Canvas
+	
+	Clear Canvas
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		NumberObjAdd
+		PRti dummy Pictionary Timer
+		PRti2 dummy Pictionary Timer
+		PRcs stat.useItem.minecraft.carrot_on_a_stick Pictionary Carrot Stick
+	UNUSE
+	
+	USE $TeamA$
+		
+	UNUSE
+	
+	USE $TeamO$
+		
+	UNUSE
+	
+	summon ArmorStand ~ ~ ~ {}
+	
+	NumberAdd(20)
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+	
+END
+//>
+
+//<General End Clock
+FUNC Func_GeneralEndClock
+	
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		
+	UNUSE
+	
+	USE $TeamR$
+		
+	UNUSE
+	
+END
+//>
+
+
+//<Groups
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart
+Activate(CBPMainClock)
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+Func_GeneralEndClock
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd
+Deactivate(CBPMainClock)
+//>
+
+
+
+
+
+
+
+
