@@ -1873,9 +1873,6 @@ https://www.youtube.com/watch?v=_94kO_o9Gjg test
 https://www.youtube.com/watch?v=6J4tJ_YylQ0 test
 https://www.youtube.com/watch?v=TKqhUGLKRo4 Custom spawners
 
-
-https://thoughtmaybe.com/life-and-debt/
-
 WORLDEDIT:
 //set
 //replace
