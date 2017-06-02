@@ -3,6 +3,7 @@ DEFINE $SA$ x=-188,y=24,z=78,dx=36,dy=30,dz=36
 DEFINE $SPid$ 29
 DEFINE $SPpvp$ 1
 DEFINE $SPsat$ 0
+DEFINE $Style$ 16 10 0
 DEFINE $CMDName$ DP
 DEFINE $CMDSizeX$ 16
 DEFINE $CMDSizeY$ 14
@@ -46,7 +47,7 @@ summon AreaEffectCloud $SpawnMobSE$ {Tags:["DPEntity","DPDonut"],Duration:100000
 summon AreaEffectCloud $SpawnMobSW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
 CONEND
 END
-DEFINE DEF_Spawn @e[type=ArmorStand,DPStand,DPmo=|0|] @e[type=AreaEffectCloud,DPDonut] summon |1| ~ ~ ~
+DEFINE DEF_Spawn @e[PARSE($SA$),type=ArmorStand,DPStand,DPmo=|0|] @e[type=AreaEffectCloud,DPDonut] summon |1| ~ ~ ~
 DEFINE DEF_MidSpawn @e[type=ArmorStand,DPStand,DPmo=|0|] summon |1| PARSE($Middle$)
 DEFINE $ComplexReg$ ArmorDropChances:[0f,0f,0f,0f],HandDropChances:[0f,0f],Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
 DEFINE $SimpleReg$ Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
@@ -68,7 +69,6 @@ DEFINE $ObjR$ scoreboard objectives remove
 DEFINE $TeamA$ scoreboard teams add
 DEFINE $TeamO$ scoreboard teams option
 DEFINE $TeamR$ scoreboard teams remove
-DEFINE $Style$ 16 16 0
 DEFINE Deactivate fill |0| stonebrick 0
 DEFINE Activate fill |0| redstone_block 0
 DEFINE ColorFillWool fill |0| wool |1|
@@ -82,21 +82,10 @@ DEFINE ScRE scoreboard players reset
 DEFINE ScTJ scoreboard teams join
 DEFINE ScTL scoreboard teams leave
 DEFINE RevST scoreboard players tag @a[|0|] remove |0|
-DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
 DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
 DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
 DEFINE NumberAdd |0| Number = |0|
 DEFINE NumberObjAdd Number dummy
-FUNC Func_CMDSave
-fill 0x -1y 0z 3x -3y 3z air 0
-setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
-setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
-setblock 0x -1y 1z wooden_button 2
-setblock 0x -3y 1z wooden_button 2
-setblock 1x -1y 2z redstone_lamp 0
-setblock 1x -3y 2z redstone_lamp 0
-setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
-END
 FUNC Func_SpawnIDSetting
 @a[$SA$] SPid + 0
 @a[$SA$,SPid<-$SPid$] SPid = $SPid$
@@ -125,7 +114,17 @@ FUNC Func_SpawnStandEdit
 @e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
 @e[type=ArmorStand,SpawnStand] SPwea = |4|
 END
-DEFINE $Style$ 16 10 0
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+FUNC Func_CMDSave
+fill 0x -1y 0z 3x -3y 3z air 0
+setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 0x -1y 1z wooden_button 2
+setblock 0x -3y 1z wooden_button 2
+setblock 1x -1y 2z redstone_lamp 0
+setblock 1x -3y 2z redstone_lamp 0
+setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+END
 FUNC Func_Stats
 @e[type=AreaEffectCloud,|0|] tellraw @e[$SA$,type=!AreaEffectCloud,|0|] baby i\'m ballin
 ScTE |1| DP 0 0
@@ -140,9 +139,15 @@ FUNC Func_Update
 END
 FUNC Func_ToDoThings
 Mandatory:
-Finalize defines (AFTER)
-Make a book template
-Finish books (AFTER)
+Additional:
+Zombie toggle
+Display all people alive / zombie / spectate
+Features:
+-Lingering health potions are customized to last longer
+-Resurrection zombie that matches the player's equipment when a player dies
+-Lava toggle
+END
+FUNC Func_Comments
 MobID DPSave = 1
 Melee DPSave = 1
 Bow DPSave = 1
@@ -153,13 +158,6 @@ Food DPSave = 2
 Lapis DPSave = 1
 Snowballs DPSave = 0
 Bones DPSave = 0
-Additional:
-Add / change mobs in mob clock (AFTER)
-Lava floor toggle
-Zombie toggle
-Display all people alive / zombie / spectate
-Features:
--Lingering health potions are customized to last longer
 END
 FUNC Func_GeneralScoreboardStart
 USE $ObjA$
@@ -179,6 +177,8 @@ DPdo dummy Death Pit In door
 DPcs stat.useItem.minecraft.carrot_on_a_stick Death Pit Carrot Stick
 DPhi dummy Death Pit Holding Item
 DPcd dummy Death Pit Countdown
+DPrs dummy Death Pit Regen State
+DPrt dummy Death Pit Regen Timer
 NumberObjAdd
 UNUSE
 USE $TeamA$
@@ -208,16 +208,23 @@ DPnm + 0
 $s$xp -2147483648L @a[$SA$]
 END
 FUNC Func_GeneralScoreboardClock
-Func_SpawnIDSetting()
 ScTJ DPp @a[$SA$,team=!DPp]
-@a[DPde>=1,DPpl=1] summon AreaEffectCloud ~ ~ ~ {Tags:["DPEntity","DPResurrection"],Duration:50}
-@a[DPde>=1,DPpl=1] DPpl = 4
+@e[$SA$,type=Arrow] DPmo = 0 {inGround:1b}
+$s$kill @e[$SA$,type=Arrow,DPmo=0]
+@a[DPde>=1,m=2,DPpl=1] summon AreaEffectCloud ~ ~ ~ {Tags:["DPEntity","DPResurrection"],Duration:50}
+@a[DPde>=1,m=2,DPpl>=1<=3] DPpl = 4
+@a[DPde>=1,m=2,DPpl=4,EC=0] SPbk = $SPid$
 @a[DPde>=1] DPde = 0
-@a[$SelectSpawn$,DPpl>=1<=3] DPpl = 4
+@a[$SelectSpawn$,m=2] DPpl + 0
+@a[$SelectSpawn$,m=2,DPpl>=0<=3] DPpl = 4
+$s$clear @a[$SelectSpawn$,m=2,DPpl=4]
+give @a[$SelectSpawn$,m=2,DPpl=4] carrot_on_a_stick 1 0 {display:{Name:"Turn into a support zombie"}}
+@a[$SelectSpawn$,m=2,DPpl=4] SPbk = $SPid$
+@a[$SA$,m=2,DPpl=4] DPpl = 5
 Players DPpl = 0
 H_Zombies DPpl = 0
 @a[$SA$,m=2,DPpl>=0<=1] Players DPpl + 1
-@a[$SA$,m=2,DPpl>=9<=10] H_Zombies DPpl + 1
+@a[$SA$,m=2,DPpl>=2<=3] H_Zombies DPpl + 1
 ScOP Players DP = Players DPpl
 ScOP H_Zombies DP = H_Zombies DPpl
 @e[$SA$,type=Item] DPmo + 0
@@ -232,19 +239,31 @@ entitydata @e[$SA$,type=Item,DPmo=10,DPmo2=0] {Invulnerable:1,Age:-32768s}
 @e[$SA$,type=Item,DPmo=1,DPmo2=2] summon Creeper ~ ~ ~ {Fuse:0s,ExplosionRadius:2.5,CustomName:"BOOMSHAKALAKA",CustomNameVisible:1}
 @e[$SA$,type=Item,DPmo=2,DPmo2=2] particle smoke ~ ~ ~ 1 0 1 0 200
 @e[$SA$,type=Item,DPmo=2,DPmo2=2] playsound minecraft:entity.wither.ambient voice @a
-@e[$SA$,type=Item,DPmo=2,DPmo2=2] $s$kill @e[tag=DPMob,r=3]
-@e[$SA$,type=Item,DPmo=2,DPmo2=2] effect @a[m=2,r=5] 10 5 4 true
+@e[$SA$,type=Item,DPmo=2,DPmo2=2] $s$kill @e[DPMob,r=3]
+@e[$SA$,type=Item,DPmo=2,DPmo2=2] @a[m=2,r=5,DPpl>=1] DPrs = 2
+@e[$SA$,type=Item,DPmo=2,DPmo2=2] @a[m=2,r=5,DPpl>=1] DPrt = 0
+effect @a[$SA$,m=2,DPpl>=1,DPrs=2,DPrt=0] 10 5 4 true
 $s$kill @e[$SA$,type=Item,DPmo=0]
 $s$kill @e[$SA$,type=Item,DPmo>=1<=2,DPmo2=2]
-@e[$SA$,type=AreaEffectCloud] DPmo + 0 {Potion:"minecraft:strong_healing"}
-entitydata @e[$SA$,type=AreaEffectCloud,DPmo=0] {Duration:400,RadiusPerTick:0,RadiusOnUse:0}
+@e[$SA$,type=AreaEffectCloud] DPmo + 0 {Potion:"minecraft:healing"}
+entitydata @e[$SA$,type=AreaEffectCloud,DPmo=0] {Tags:["DPEntity"],Radius:3,Duration:300,RadiusPerTick:0f,RadiusOnUse:0f,ReapplicationDelay:10000,WaitTime:0}
 @e[$SA$,type=AreaEffectCloud,DPmo=0] DPmo = 1
-@a[$SA$,m=2,DPpl=4] DPhi = 1 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Turn into a support zombie"}}}}
-@a[$SA$,m=2,DPpl=4] DPhi = 1 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Turn into a support zombie"}}}]}
-@a[$SA$,m=2,DPpl=4,DPhi=1,DPcs>=1] DPpl = 2
+@e[$SA$,type=AreaEffectCloud,DPmo=1] @a[r=3,m=2,DPpl>=0,DPrs=0] DPrs = 1
+@a[$SA$,m=2,DPpl>=1] DPrs + 0
+@a[$SA$,m=2,DPpl>=1,DPrs>=1<=2] DPrt + 1
+effect @a[$SA$,m=2,DPpl>=1,DPrs=1,DPrt=9] 10 1 10 true
+effect @a[$SA$,m=2,DPpl>=1,DPrs=1,DPrt=10] 10 0 0 true
+@a[$SA$,m=2,DPpl>=1,DPrs=1,DPrt=10] DPrt = 0
+@a[$SA$,m=2,DPpl>=1,DPrs=1] DPrs = 0
+effect @a[$SA$,m=2,DPpl=2,DPrs>=1,DPrt=100] 10 0 0 true
+@a[$SA$,m=2,DPpl>=1,DPrs=2,DPrt=100] DPrs = 0
+@a[$SA$,m=2,DPpl>=1,DPrt=100] DPrt = 0
+@a[$SA$,m=2,DPpl=5] DPhi = 1 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Turn into a support zombie"}}}}
+@a[$SA$,m=2,DPpl=5] DPhi = 1 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Turn into a support zombie"}}}]}
+@a[$SA$,m=2,DPpl=5,DPhi=1,DPcs>=1] DPpl = 2
 @a[DPhi>=1] DPhi = 0
 @a[DPcs>=1] DPcs = 0
-$s$tp @a[$SA$,m=2,DPpl=2] $Middle$
+$s$tp @a[$SA$,m=2,DPpl=2] $TPMiddle$
 @a[$SA$,m=2,DPpl=2] DPwe = 8
 @a[DPpl=2] DPpl = 3
 Func_Update(DPM_Z;Zombies)
@@ -289,6 +308,8 @@ DPdo
 DPcs
 DPhi
 DPcd
+DPrs
+DPrt
 UNUSE
 USE $TeamR$
 DPp
@@ -312,9 +333,8 @@ FUNC Func_OpenDoorsClock
 @a[$SA$,m=2] DPdo = 0
 particle happyVillager $MidDoor$ 0.1 1.5 2 0 1 force @a
 @a[$SelectDoor$,m=2,DPdo=0] DPpl + 0
-@a[$SelectDoor$,m=2,DPdo=0,DPpl=4] DPpl = 0
+@a[$SelectDoor$,m=2,DPdo=0,DPpl=5] DPpl = 0
 @a[$SelectDoor$,m=2,DPdo=0,DPpl=0] DPwe = 1
-@a[$SelectDoor$,m=2,DPdo=0] DPwe = 1
 @a[$SA$,m=2,DPdo=0,DPpl=0] DPpl = 1
 @a[$SelectDoor$,m=2] DPdo = 1
 END
@@ -392,7 +412,7 @@ SetblockTestfor
 @e[type=AreaEffectCloud,DPCountdown,DPti=126] @a playsound entity.experience_orb.touch voice @a[c=1]
 @e[type=AreaEffectCloud,DPCountdown,DPti>=120] @e[$SA$,DPMob] DPcd + 0
 @e[type=AreaEffectCloud,DPCountdown,DPti>=120] entitydata @e[$SA$,DPMob,DPcd=0] {Silent:0,Invulnerable:0}
-@e[type=AreaEffectCloud,DPCountdown,DPti>=120] effect @e[$SA$,tag=DPMob,DPcd=0] 8 3 255 true
+@e[type=AreaEffectCloud,DPCountdown,DPti>=120] effect @e[$SA$,DPMob,DPcd=0] 8 3 255 true
 @e[$SA$,DPMob,DPcd=0] DPcd = 1
 @e[type=AreaEffectCloud,DPCountdown,DPti=220] setblock $DonutBlock$ redstone_block 0
 END
@@ -418,7 +438,7 @@ DEF_Spawn(52;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],$IronArmor$,$HasBow$,
 DEF_Spawn(53;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],$IronArmor$,$HasPunchBow$,$ComplexReg$}
 DEF_Spawn(54;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],SkeletonType:2,$NoArmor$,$HasBow$,$ComplexReg$}
 DEF_Spawn(60;Skeleton) {Tags:["DPEntity","DPMob","DPM_WS"],SkeletonType:1,$NoArmor$,$HasStoneSword$,$ComplexReg$}
-DEF_Spawn(61;Skeleton) {Tags:["DPEntity","DPMob","DPM_WS"],SkeletonType:1,ArmorItems:[{id:iron_boots,Count:1b},{id:iron_leggings,Count:1b},{id:iron_chestplate,Count:1b},{id:skull,Count:1b,Damage:1s,tag:{display:{Name:"MobBeGone Miracle Spray"}}}],$HasIronSword$,ArmorDropChances:[0f,0f,0f,0.5f],HandDropChances:[0f,0f],$SimpleReg$}
+DEF_Spawn(61;Skeleton) {Tags:["DPEntity","DPMob","DPM_WS"],SkeletonType:1,ArmorItems:[{id:iron_boots,Count:1b},{id:iron_leggings,Count:1b},{id:iron_chestplate,Count:1b},{id:skull,Count:1b,Damage:1s,tag:{display:{Name:"MobBeGone Miracle Spray"}}}],$HasIronSword$,ArmorDropChances:[0f,0f,0f,0.35f],HandDropChances:[0f,0f],$SimpleReg$}
 DEF_MidSpawn(70;Chicken) {Tags:["DPEntity","DPMob","DPChicken"],ActiveEffects:[$FireRes$,$Invis$],$SimpleReg$,Passengers:[{id:Zombie,IsBaby:1,Tags:["DPEntity","DPMob","DPS_Z"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},{id:Zombie,IsBaby:1,Tags:["DPEntity","DPMob","DPS_Z"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},{id:Zombie,IsBaby:1,Tags:["DPEntity","DPMob","DPS_Z"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},{id:Zombie,IsBaby:1,Tags:["DPEntity","DPMob","DPS_Z"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},{id:Guardian,Tags:["DPEntity","DPMob","DPS_G"],ActiveEffects:[$FireRes$],$SimpleReg$,Passengers:[{id:Skeleton,Tags:["DPEntity","DPMob","DPS_KS"],ActiveEffects:[$FireRes$],CustomName:"King Skeleton",CustomNameVisible:1,$ComplexReg$,ArmorItems:[{id:diamond_boots,Count:1b},{id:diamond_leggings,Count:1b},{id:diamond_chestplate,Count:1b},{id:diamond_helmet,Count:1b}],HandItems:[{id:bow,Count:1b,tag:{ench:[{id:48,lvl:2}]}},{}]}]}]}
 DEF_Spawn(100;Spider) {Tags:["DPEntity","DPMob","DPM_Sp"],$SimpleReg$}
 DEF_Spawn(101;Spider) {Tags:["DPEntity","DPMob","DPM_Sp"],ActiveEffects:[$Invis$],$SimpleReg$}
@@ -429,7 +449,7 @@ DEF_Spawn(110;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CS"],$SimpleReg$}
 DEF_Spawn(111;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CS"],ActiveEffects:[$Invis$],$SimpleReg$}
 DEF_Spawn(112;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CSJ"],$SimpleReg$,Passengers:[{id:Skeleton,Tags:["DPEntity","DPMob","DPM_CSJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
 DEF_Spawn(113;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CSJ"],ActiveEffects:[$Invis$],$SimpleReg$,Passengers:[{id:Skeleton,Tags:["DPEntity","DPMob","DPM_CSJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
-DEF_Spawn(114;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CJ"],$SimpleReg$Passengers:[{id:Creeper,Tags:["DPM_CJ"],$SimpleReg$}]}
+DEF_Spawn(114;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CJ"],$SimpleReg$,Passengers:[{id:Creeper,Tags:["DPEntity","DPMob","DPM_CJ"],$SimpleReg$}]}
 DEF_Spawn(150;Witch) {Tags:["DPEntity","DPMob","DPM_Wi"],$SimpleReg$}
 DEF_Spawn(151;Witch) {Tags:["DPEntity","DPMob","DPM_Wi"],ActiveEffects:[$Resistance$],$SimpleReg$}
 DEF_Spawn(200;Wolf) {Tags:["DPEntity","DPMob","DPM_Wo"],$SimpleReg$}
@@ -449,7 +469,7 @@ DEF_Spawn(452;PigZombie) {Tags:["DPEntity","DPMob","DPM_ZP"],CustomName:"Zisteau
 @e[type=ArmorStand,DPStand,DPmo>=1] DPmo = 0
 END
 FUNC Func_EqupimentTFClock
-testfor @a[DPwe>=1<=7]
+testfor @a[DPwe>=1<=8]
 SetblockTestfor
 $s$clear @a[$SA$,m=2,DPwe=1]
 LOOP (golden;iron;diamond)
@@ -492,7 +512,7 @@ ScOP @e[type=ArmorStand,DPStand] DPwe = Bow DPSave
 @e[type=ArmorStand,DPStand,DPwe=2] $s$give @a[$SA$,m=2,DPwc=1] bow 1 0 {ench:[{id:51,lvl:1}],Unbreakable:1,HideFlags:8}
 @e[type=ArmorStand,DPStand,DPwe=2] replaceitem entity @a[$SA$,m=2,DPwc=1] slot.inventory.8 arrow 1 0 {HideFlags:8}
 ScOP @e[type=ArmorStand,DPStand] DPwe = Shield DPSave
-@e[type=ArmorStand,DPStand,DPwe=1] eplaceitem entity @a[$SA$,m=2,DPwe=1] slot.weapon.offhand shield 1 0 {Unbreakable:1,HideFlags:8}
+@e[type=ArmorStand,DPStand,DPwe=1] replaceitem entity @a[$SA$,m=2,DPwe=1] slot.weapon.offhand shield 1 0 {Unbreakable:1,HideFlags:8}
 ScOP @e[type=ArmorStand,DPStand] DPwe = Armor DPSave
 LOOP 1 3 + 1 (golden;iron;diamond)
 @e[type=ArmorStand,DPStand,DPwe=|0|] replaceitem entity @a[$SA$,m=2,DPwc=1] slot.armor.head |1|_helmet 1 0 {Unbreakable:1,HideFlags:8}
@@ -505,7 +525,7 @@ ScOP @e[type=ArmorStand,DPStand] DPwe = Potion DPSave
 @a[$SA$,m=2,DPwe=1] DPwc = 1
 @a[$SA$,m=2,DPwe=3] DPwc = 1
 @e[type=ArmorStand,DPStand,DPwe=1] $s$give @a[$SA$,m=2,DPwc=1] potion 4 0 {Potion:"healing",HideFlags:8}
-@e[type=ArmorStand,DPStand,DPwe=2] $s$give @a[$SA$,m=2,DPwc=1] lingering_potion 2 0 {Potion:"strong_healing",HideFlags:8}
+@e[type=ArmorStand,DPStand,DPwe=2] $s$give @a[$SA$,m=2,DPwc=1] lingering_potion 2 0 {Potion:"healing",HideFlags:8}
 ScOP @e[type=ArmorStand,DPStand] DPwe = Food DPSave
 @a[$SA$,m=2,DPwe>=2] DPwc = 0
 @a[$SA$,m=2,DPwe=1] DPwc = 1
@@ -519,7 +539,7 @@ ScOP @e[type=ArmorStand,DPStand] DPwe = Lapis DPSave
 @a[$SA$,m=2,DPwe>=2] DPwc = 0
 @a[$SA$,m=2,DPwe=1] DPwc = 1
 @a[$SA$,m=2,DPwe=5] DPwc = 1
-@e[type=ArmorStand,DPStand,DPwe=1] $s$give @a[$SA$,m=2,DPwc=1] lapis 64 0 {HideFlags:8}
+@e[type=ArmorStand,DPStand,DPwe=1] $s$give @a[$SA$,m=2,DPwc=1] dye 64 4 {HideFlags:8}
 ScOP @e[type=ArmorStand,DPStand] DPwe = Snowballs DPSave
 @a[$SA$,m=2,DPwe>=2] DPwc = 0
 @a[$SA$,m=2,DPwe=1] DPwc = 1
@@ -543,14 +563,16 @@ replaceitem entity @a[$SA$,m=2,DPwc=1] slot.weapon.offhand rotten_flesh 64 0 {di
 @a[$SA$,m=2,DPwe>=1] SPbk = $SPid$
 @e[type=ArmorStand,DPStand] DPwe = 0
 @a[DPwe>=1] DPwe = 0
+@a[DPwc>=1] DPwc = 0
 END
 FUNC Func_MobTFClock_Resurrection
 testfor @e[type=AreaEffectCloud,DPResurrection]
 SetblockTestfor
-@e[type=AreaEffectCloud,DPResurrection] summon Zombie ~ ~ ~ {Tags:["DPResurrection","DPM_Z","DPMob"],CustomName:"The Resurrection",ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b,Damage:2s}],Attributes:[{Name:"generic.movementSpeed",Base:0.25},$NoHandItems$,$ComplexReg$}
+@e[type=AreaEffectCloud,DPResurrection] summon Zombie ~ ~ ~ {Tags:["DPEntity","DPMob","DPM_Z","DPResurrection"],CustomName:"The Resurrection",CustomNameVisible:1,ActiveEffects:[$FireRes$],Attributes:[{Name:"generic.movementSpeed",Base:0.35},$NoArmor$,$NoHandItems$,$ComplexReg$}
 @e[type=AreaEffectCloud,DPResurrection] playsound minecraft:entity.wither.spawn voice @a ~ ~ ~ 0.5
 @e[type=AreaEffectCloud,DPResurrection] Zombies DP 1
 @e[type=Zombie,DPResurrection] DPmo + 0
+ScOP @e[type=ArmorStand,DPStand] DPwe = Armor DPSave
 LOOP 1 3 + 1 (golden;iron;diamond)
 @e[type=ArmorStand,DPStand,DPwe=|0|] replaceitem entity @e[type=Zombie,DPResurrection,DPmo=0] slot.armor.chest |1|_chestplate 1 0 {Unbreakable:1,HideFlags:8}
 @e[type=ArmorStand,DPStand,DPwe=|0|] replaceitem entity @e[type=Zombie,DPResurrection,DPmo=0] slot.armor.legs |1|_leggings 1 0 {Unbreakable:1,HideFlags:8}
@@ -569,6 +591,7 @@ ScOP @e[type=ArmorStand,DPStand] DPwe = Shield DPSave
 @e[type=ArmorStand,DPStand,DPwe=1] replaceitem entity @e[type=Zombie,DPResurrection,DPmo=0] slot.weapon.offhand shield 1 0
 @e[type=ArmorStand,DPStand] DPwe = 0
 @e[type=Zombie,DPResurrection,DPmo=0] DPmo = 1
+$s$kill @e[type=AreaEffectCloud,DPResurrection]
 END
 FUNC Func_MobTFClock_Jade
 testfor @e[type=Zombie,DPJade]
@@ -595,24 +618,24 @@ END
 FUNC Func_MobTFClock_Fire
 testfor @e[DPFire]
 SetblockTestfor
-@e[$SelectFloor$,type=Zombie,DPFire] particle flame ~ ~1 ~ 0.1 0.7 0.1 0.05 1 force @a
-@e[$SelectFloor$,type=Blaze,DPFire] particle flame ~ ~1 ~ 0.1 0.5 0.1 0.03 1 force @a
-@e[$SelectFloor$,type=Creeper,DPFire] particle flame ~ ~1 ~ 0.1 0.7 0.1 0.05 1 force @a
-@e[$SelectFloor$,type=Spider,DPFire] particle flame ~ ~ ~ 0.1 0 0.1 0.05 1 force @a
+@e[$SelectArena$,type=Zombie,DPFire] particle flame ~ ~1 ~ 0.1 0.7 0.1 0.05 1 force @a
+@e[$SelectArena$,type=Blaze,DPFire] particle flame ~ ~1 ~ 0.1 0.5 0.1 0.03 1 force @a
+@e[$SelectArena$,type=Creeper,DPFire] particle flame ~ ~1 ~ 0.1 0.7 0.1 0.05 1 force @a
+@e[$SelectArena$,type=Spider,DPFire] particle flame ~ ~ ~ 0.1 0 0.1 0.05 1 force @a
 END
 FUNC Func_MobTFClock_BlazeTurret
 testfor @e[type=Blaze,DPFire]
 SetblockTestfor
-@e[$SelectFloor$,type=Blaze,DPFire] DPmo + 0 {OnGround:1b}
+@e[$SelectArena$,type=Blaze,DPFire] DPmo + 0 {OnGround:1b}
 @e[$SelectArena$,type=Blaze,DPFire] DPmo2 + 0
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo>=0<=4] DPmo + 1
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo=4] summon SmallFireball ~ ~ ~1 {direction:[0d,0d,0.15d],power:[0d,0d,0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo=4] summon SmallFireball ~ ~ ~-1 {direction:[0d,0d,-0.15d],power:[0d,0d,-0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo=5] summon SmallFireball ~ ~1 ~1 {direction:[0d,0d,0.15d],power:[0d,0d,0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo=5] summon SmallFireball ~ ~1 ~-1 {direction:[0d,0d,-0.15d],power:[0d,0d,-0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
-@e[$SelectFloor$,type=Blaze,DPFire] ~ ~ ~ effect @a[DPpl>=1,dy=1] 7 1 0 true
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo=5] DPmo = 0
-@e[$SelectFloor$,type=Blaze,DPFire,DPmo>=1] fill $FireZ$ fire 0 replace air 0
+@e[$SelectArena$,type=Blaze,DPFire,DPmo>=0<=4] DPmo + 1
+@e[$SelectArena$,type=Blaze,DPFire,DPmo=4] summon SmallFireball ~ ~ ~1 {direction:[0d,0d,0.15d],power:[0d,0d,0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
+@e[$SelectArena$,type=Blaze,DPFire,DPmo=4] summon SmallFireball ~ ~ ~-1 {direction:[0d,0d,-0.15d],power:[0d,0d,-0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
+@e[$SelectArena$,type=Blaze,DPFire,DPmo=5] summon SmallFireball ~ ~1 ~1 {direction:[0d,0d,0.15d],power:[0d,0d,0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
+@e[$SelectArena$,type=Blaze,DPFire,DPmo=5] summon SmallFireball ~ ~1 ~-1 {direction:[0d,0d,-0.15d],power:[0d,0d,-0.1d],Tags:["DPMob","DPBlazeTurretFireball"]}
+@e[$SelectArena$,type=Blaze,DPFire] ~ ~ ~ effect @a[DPpl>=1,dy=1] 7 1 0 true
+@e[$SelectArena$,type=Blaze,DPFire,DPmo=5] DPmo = 0
+@e[$SelectArena$,type=Blaze,DPFire,DPmo>=1] fill $FireZ$ fire 0 replace air 0
 @e[$SelectArena$,type=Blaze,DPFire,DPmo2>=0<=71] DPmo2 + 1
 @e[$SelectArena$,type=Blaze,DPFire,DPmo2>=72] DPmo2 = 1
 LOOP 1 36 + 1 () 5 360 + 10.0 () 185 540 + 10.0
@@ -649,6 +672,7 @@ Deactivate(CBPOpenDoorsEnd)
 Func_OpenDoorsEnd()
 Deactivate(CBPOpenDoorsClock)
 :CBPMainClock CLOCK $Style$
+Func_SpawnIDSetting()
 Func_GeneralScoreboardClock()
 :CBPGeneralOptionsTFClock CLOCK $Style$
 Func_GeneralOptionsTFClock()

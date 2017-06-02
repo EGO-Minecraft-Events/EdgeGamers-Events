@@ -1,0 +1,114 @@
+//#-p stonebrick 0 -b -65 69 -81 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus2.cbp
+
+//<Defines
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
+
+DEFINE $SA$ x=-107,y=2,z=-130,dx=193,dy=100,dz=241
+DEFINE $CMDName$ V2
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VRPARSE($VType$)","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+///	Teleport virus to above mid
+DEFINE $VirusBeg$ -61.0 64 -69.0
+/// Mid tube
+DEFINE $VirusEnd$ -61.0 40 -69.0
+///	Select Spawn
+DEFINE $SP$ x=-77,y=56,z=-85,dx=31,dy=5,dz=31
+///	Select Virus
+DEFINE $SV$ x=-62,y=64,z=-70,dx=1,dy=3,dz=1
+///	Open mid door
+DEFINE $DoorMid$ -65 60 -66 -58 60 -73
+///	Open virus door
+DEFINE $DoorVirus$ -64 63 -67 -59 63 -72
+///	Spawn ID
+DEFINE $SPid$ 16
+/// Virus Type
+DEFINE $VType$ 2
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+//<Comments: To do
+FUNC Func_ToDoThings
+Mandatory:
+	
+Additional:
+	-Make it not a player number when there are more than 10 people
+	-Last person standing gets 16 snowballs and a speed boost
+	
+Features:
+	-XP bar and scoreboard display timer
+END
+//>
+
+//<Main Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<Main Clock
+FUNC Func_EditGeneralScoreboardClock
+	
+END
+//>
+
+//<Open Doors Pulse
+FUNC Func_EditOpenDoorsPulse
+	fill $DoorMid$ stonebrick 0 replace redstone_block 0
+END
+//>
+
+//<Release Virus Testfor Clock
+FUNC Func_EditReleaseVirusTFClock
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
+	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<End Game Testfor Clock
+FUNC Func_EditEndGameTFClock
+	
+END
+//>
+
+//<Main End
+FUNC Func_EditGeneralScoreboardEnd
+	
+END
+
+PCBPIMPORT PCBPI_Virus.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

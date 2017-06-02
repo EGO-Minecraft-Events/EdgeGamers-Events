@@ -1,0 +1,118 @@
+
+///	General race system
+///	PCBPB_RaceSystem.cbp
+
+//<Main Start
+FUNC Func_GeneralScoreboardStart
+///	Scoreboards
+	USE $ObjA$
+		$Name$Race dummy $TDName$
+		$Name$RaceCD dummy $TDName$ Countdown
+		$Name$RaceCL dummy $TDName$ Clear
+		$Name$RaceDE deathCount $TDName$ Deaths
+	UNUSE
+	ExecuteSpawnStand scoreboard objectives setdisplay sidebar $Name$Race
+	
+	scoreboard teams add $Name$R
+	scoreboard teams option $Name$R color $Color$
+	scoreboard teams option $Name$R seeFriendlyInvisibles true
+	scoreboard teams option $Name$R collisionRule never
+	scoreboard teams option $Name$R friendlyfire false
+	
+///	Countdown start
+	ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
+	
+///	Other
+	\/spawn $Name$Race = 99
+	ScTJ $Name$R \/spawn
+	
+	Func_EditGeneralScoreboardStart()
+	Func_RaceSpecificStart()
+END
+//>
+
+//<Main Clock
+FUNC Func_GeneralScoreboardClock
+	$s$kill @e[$SA$,type=Item]
+	
+	@a[$SA$,m=2] $Name$RaceCL + 0
+	@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
+	@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
+	effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
+	$s$clear @a[$SA$,m=2,$Name$RaceDE>=1]
+	ScTJ $Name$R @a[$SA$,team=!$Name$R]
+	effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+	
+	Func_RaceSpecificClock()
+	Func_EditGeneralScoreboardClock()
+	
+	@a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
+	Func_RaceSpecificEndClock()
+END
+//>
+
+//<Countdown
+FUNC Func_CountdownTFClock
+	testfor @e[type=AreaEffectCloud,$Name$RaceCD]
+	SetblockTestfor
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD] $Name$RaceCD + 1
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"GO!","color":"green"}
+	
+	Func_EditCountdownTFClock()
+END
+//>
+
+//<Main End
+FUNC Func_GeneralScoreboardEnd
+///	Scoreboard
+	USE $ObjR$
+		$Name$Race
+		$Name$RaceCD
+		$Name$RaceCL
+		$Name$RaceDE
+	UNUSE
+	scoreboard teams remove $Name$R
+	
+///	Countdown reset
+	$s$kill @e[type=AreaEffectCloud,$Name$RaceCD]
+	
+///	General reset
+	effect @a[$SA$,m=2] clear
+	$s$clear @a[$SA$,m=2]
+	effect @a[$SA$,m=2] 6 20 100 true
+	@a[$SA$,m=2] SPtp = $SPid$
+	
+	Func_EditGeneralScoreboardEnd()
+	Func_RaceSpecificStart()
+END
+//>
+
+
+
+
+
+
+
+
+
+
+

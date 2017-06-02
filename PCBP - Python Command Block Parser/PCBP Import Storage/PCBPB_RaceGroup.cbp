@@ -1,0 +1,29 @@
+
+///	All groups and their corresponding functions
+///	PCBPB_RaceGroup.cbp
+
+
+//<Groups
+Func_CMDSave()
+:CBPMainStart PULSE $Style$
+Func_SpawnStandStart()
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart()
+Activate(CBPMainClock)
+Activate(CBPCountdown)
+FinalSpawnStand
+
+:CBPMainClock CLOCK $Style$
+Func_SpawnIDSetting()
+Func_GeneralScoreboardClock()
+
+:CBPCountdown CLOCK $Style$
+Func_CountdownTFClock()
+
+:CBPMainEnd PULSE $Style$
+Func_SpawnStandEnd()
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd()
+Deactivate(CBPMainClock)
+Deactivate(CBPCountdown)
+//>

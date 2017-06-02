@@ -1,0 +1,62 @@
+
+///	Regular races
+///	PCBPB_RegularRace.cbp
+
+//<Race Specific Start
+FUNC Func_RaceSpecificStart
+///	Scoreboards
+	USE $ObjA$
+		$Name$RaceBC dummy $TDName$ Broadcast
+	UNUSE
+END
+//>
+
+//<Race Specific Clock
+FUNC Func_RaceSpecificClock
+	@a[$SA$,team=!$Name$R] $Name$RaceBC + 0
+	
+	LOOP 1 3 + 1
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |0|
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" $Win|0|M$","color":"green"}]}
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] playsound minecraft:entity.player.levelup voice @a
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] fill $Win|0|F$ $Win|0|B$ 0
+	END
+	@a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
+END
+//>
+
+//<Race Specific End Clock
+FUNC Func_RaceSpecificEndClock
+	ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
+	ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
+END
+//>
+
+//<Race Specific End
+FUNC Func_RaceSpecificEnd
+///	Scoreboard
+	USE $ObjR$
+		$Name$RaceBC
+	UNUSE
+	
+///	General reset
+	LOOP 1 3 + 1
+		fill $Win|0|F$ air 0
+	END
+END
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
