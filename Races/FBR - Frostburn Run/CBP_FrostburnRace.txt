@@ -1,81 +1,52 @@
 //#-p stonebrick 0 -b 527 20 -831 -print
-/// C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\FBR - Frostburn Race\CBP_FrostburnRace.txt
-//<Defines
 DEFINE $CMDName$ FBR
 DEFINE $CMDSizeX$ 10
 DEFINE $CMDSizeY$ 8
 DEFINE $CMDSizeZ$ 6
 DEFINE $Style$ 10 10 0
 DEFINE $SA$ x=433,y=3,z=-841,dx=90,dy=50,dz=90
-///	Name
-DEFINE $Name$ FrostBurn
-///	Text display name
+DEFINE $Name$ Frostburn
 DEFINE $TD$ FBR
-///	Hover and scoreboard name
-DEFINE $TDName$ FrostBurn Run
-///	Scoreboard teams color
+DEFINE $TDName$ Frostburn Run
 DEFINE $Color$ aqua
-///	Place where air is when open
 DEFINE $Dao$ 510 8 -833 510 8 -821
-///	Place where redstone blocks are there when open
 DEFINE $Dro$ 
-///	Spawn Coords for teleporting
 DEFINE $SC$ 517 11 -827 90 0
-///	Spawn Coords ID
 DEFINE $SPid$ 19
-///	Checkpoint number
 DEFINE $CPn$ 3
-///	Block for teleporting
 DEFINE $Block$ hay_block -1
-///	Spawn area
 DEFINE $Spn$ x=511,y=10,z=-833,dx=11,dy=9,dz=12
-///	Portal
 DEFINE $Ptl$ x=514,y=13,z=-794,dx=3,dy=3
-///	Magma Maze
 DEFINE $MM$ x=510,y=10,z=-792,dx=11,dy=5,dz=11
-///	Checkpoints for detection of players
 DEFINE $CPdp1$ x=448,y=10,z=-803,dx=4,dy=5,dz=2
 DEFINE $CPdp2$ x=513,y=11,z=-793,dx=5,dy=6
+DEFINE $CPdp2$ x=513,y=11,z=-793,dx=5,dy=6
 DEFINE $CPdp3$ x=492,y=21,z=-779,dx=4,dy=5,dz=4
-///	Checkpoint teleports
 DEFINE $CPtp0$ 514 11 -827 90 0
 DEFINE $CPtp1$ 450 11 -802 -90 0
 DEFINE $CPtp2$ 516.0 12 -793 0 45
 DEFINE $CPtp3$ 494 21 -778 90 20
-///	1st Place Select
 DEFINE $Win1S$ x=434,y=13,z=-778,dy=1,dz=1
-///	1st Place Message
 DEFINE $Win1M$ took first place!
-///	1st Place Fill Coords
 DEFINE $Win1F$ 435 10 -778 435 10 -777
-///	1st Place Fill Block
 DEFINE $Win1B$ redstone_block
-///	2nd Place Select
-DEFINE $Win2S$ x=434,y=12,z=-778,dy=1
-///	2nd Place Message
+DEFINE $Win2S$ x=434,y=12,z=-781,dy=1
 DEFINE $Win2M$ took second place!
-///	2nd Place Fill Coords
 DEFINE $Win2F$ 435 9 -781 435 9 -781
-///	2nd Place Fill Block
 DEFINE $Win2B$ redstone_block
-///	3rd Place Select
 DEFINE $Win3S$ x=434,y=11,z=-774,dy=1
-///	3rd Place Message
 DEFINE $Win3M$ took third place!
-///	3rd Place Fill Coords
 DEFINE $Win3F$ 435 8 -774 435 8 -774
-///	3rd Place Fill Block
 DEFINE $Win3B$ redstone_block
-/// Races
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PARSE($TD$)","color":"PARSE($Color$)","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"PARSE($TDName$)","color":"PARSE($Color$)"}}},{"text":"]","color":"gray"},{"text":": "},
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
 DEFINE $s$ minecraft:
 DEFINE $ObjA$ scoreboard objectives add
 DEFINE $ObjR$ scoreboard objectives remove
 DEFINE $TeamA$ scoreboard teams add
 DEFINE $TeamO$ scoreboard teams option
 DEFINE $TeamR$ scoreboard teams remove
-DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PARSE($TD$)","color":"PARSE($Color$)","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"PARSE($TDName$)","color":"PARSE($Color$)"}}},{"text":"]","color":"gray"},{"text":": "},
-DEFINE $SPpvp$ 1
-DEFINE $SPsat$ 1
 DEFINE Deactivate fill |0| stonebrick 0
 DEFINE Activate fill |0| redstone_block 0
 DEFINE ColorFillWool fill |0| wool |1|
@@ -89,21 +60,10 @@ DEFINE ScRE scoreboard players reset
 DEFINE ScTJ scoreboard teams join
 DEFINE ScTL scoreboard teams leave
 DEFINE RevST scoreboard players tag @a[|0|] remove |0|
-DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
 DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
 DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
 DEFINE NumberAdd |0| Number = |0|
 DEFINE NumberObjAdd Number dummy
-FUNC Func_CMDSave
-fill 0x -1y 0z 3x -3y 3z air 0
-setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
-setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
-setblock 0x -1y 1z wooden_button 2
-setblock 0x -3y 1z wooden_button 2
-setblock 1x -1y 2z redstone_lamp 0
-setblock 1x -3y 2z redstone_lamp 0
-setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
-END
 FUNC Func_SpawnIDSetting
 @a[$SA$] SPid + 0
 @a[$SA$,SPid<-$SPid$] SPid = $SPid$
@@ -132,12 +92,19 @@ FUNC Func_SpawnStandEdit
 @e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
 @e[type=ArmorStand,SpawnStand] SPwea = |4|
 END
-//>
-//<Comments
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+FUNC Func_CMDSave
+fill 0x -1y 0z 3x -3y 3z air 0
+setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 0x -1y 1z wooden_button 2
+setblock 0x -3y 1z wooden_button 2
+setblock 1x -1y 2z redstone_lamp 0
+setblock 1x -3y 2z redstone_lamp 0
+setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+END
 FUNC Func_RandomComments
 END
-//>
-//<To Do 
 FUNC Func_ToDoThings
 TDWorks TDTest TDFix
 Mandatory Unimplemented Changes:
@@ -151,65 +118,27 @@ Implemented Changes:
 Bug fixes:
 -
 END
-//>
-//<General Scoreboard Start
 FUNC Func_EditGeneralScoreboardStart
 END
-//>
-//<General Scoreboard Clock
 FUNC Func_EditGeneralScoreboardClock
 effect @a[$SA$,m=2,team=$Name$R] 12 3 0 true
 effect @a[$MM$,m=2,team=$Name$R] 12 0 0 true
 $s$tp @a[$Ptl$,m=2,team=$Name$R] ~ ~ ~1
 END
-//>
-//<Countdown Clock
 FUNC Func_EditCountdownClock
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
-///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
 END
-//>
-//<General Scoreboard End
 FUNC Func_EditGeneralScoreboardEnd
 fill $Dao$ redstone_block 0 replace stonebrick 0
-///	fill $Dro$ stonebrick 0 replace redstone_block 0
 END
-//<Main Start
-FUNC Func_GeneralScoreboardStart
-///	Scoreboards
+FUNC Func_RaceSpecificStart
 USE $ObjA$
-$Name$Race dummy $TDName$
-$Name$RaceCD dummy $TDName$ Countdown
-$Name$RaceCL dummy $TDName$ Clear
-$Name$RaceDE deathCount $TDName$ Deaths
 $Name$RaceBC dummy $TDName$ Broadcast
 $Name$RaceCP dummy $TDName$ Checkpoints
 UNUSE
-ExecuteSpawnStand scoreboard objectives setdisplay sidebar $Name$Race
-scoreboard teams add $Name$R
-scoreboard teams option $Name$R color $Color$
-scoreboard teams option $Name$R seeFriendlyInvisibles true
-scoreboard teams option $Name$R collisionRule never
-scoreboard teams option $Name$R friendlyfire false
-///	Countdown start
-ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
-///	Other
-\/spawn $Name$Race = 0
-ScTJ $Name$R /spawn
 END
-//>
-//<Main Clock
-FUNC Func_GeneralScoreboardClock
-Func_SpawnIDSetting
-$s$kill @e[$SA$,type=Item]
-@a[$SA$,team=!$Name$R] $Name$RaceBC + 0
-@a[$SA$,m=2] $Name$RaceCL + 0
-@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
-@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
-effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
-$s$clear @a[$SA$,m=2,$Name$RaceDE>=1]
-ScTJ $Name$R @a[$SA$,team=!$Name$R]
-effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+FUNC Func_RaceSpecificClock
+@a[$SA$,team=$Name$R] $Name$RaceBC + 0
 LOOP 1 3 + 1
 @a[$Win|0|S$,c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |0|
 @a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" $Win|0|M$","color":"green"}]}
@@ -217,16 +146,12 @@ LOOP 1 3 + 1
 @a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] fill $Win|0|F$ $Win|0|B$ 0
 END
 @a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
-ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
-ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
-///	Checkpoint setups
 @a[$Spn$,m=2,team=$Name$R] $Name$RaceCP + 0
 LOOP 1 $CPn$ + 1 () 0 SUB($CPn$;1) + 1
 @a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
 @a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
 @a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
 END
-///	Teleports
 @a[$SA$,m=2] $Block$ ~ ~-1.3 ~ ScTG @a[r=0,c=1] add $Name$RWaterTP
 ScTG @a[$Spn$,m=2,$Name$RaceCP>=1] add $Name$RWaterTP
 LOOP 0 $CPn$ + 1
@@ -236,12 +161,57 @@ effect @a[$Name$RWaterTP] 6 1 100 true
 effect @a[$Name$RWaterTP] 11 1 100 true
 @a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
 ScTG @a[$Name$RWaterTP] remove $Name$RWaterTP
-Func_EditGeneralScoreboardClock
-@a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
 END
-//>
-//<Countdown
-FUNC Func_CountdownClock
+FUNC Func_RaceSpecificEndClock
+ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
+ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
+END
+FUNC Func_RaceSpecificEnd
+USE $ObjR$
+$Name$RaceBC
+$Name$RaceCP
+UNUSE
+scoreboard teams remove $Name$R
+LOOP 1 3 + 1
+fill $Win|0|F$ air 0
+END
+END
+FUNC Func_GeneralScoreboardStart
+USE $ObjA$
+$Name$Race dummy $TDName$
+$Name$RaceCD dummy $TDName$ Countdown
+$Name$RaceCL dummy $TDName$ Clear
+$Name$RaceDE deathCount $TDName$ Deaths
+UNUSE
+ExecuteSpawnStand scoreboard objectives setdisplay sidebar $Name$Race
+scoreboard teams add $Name$R
+scoreboard teams option $Name$R color $Color$
+scoreboard teams option $Name$R seeFriendlyInvisibles true
+scoreboard teams option $Name$R collisionRule never
+scoreboard teams option $Name$R friendlyfire false
+ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
+\/spawn $Name$Race = 99
+ScTJ $Name$R \/spawn
+Func_EditGeneralScoreboardStart()
+Func_RaceSpecificStart()
+END
+FUNC Func_GeneralScoreboardClock
+$s$kill @e[$SA$,type=Item]
+@a[$SA$,m=2] $Name$RaceCL + 0
+@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
+@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
+effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
+$s$clear @a[$SA$,m=2,$Name$RaceDE>=1]
+ScTJ $Name$R @a[$SA$,team=!$Name$R]
+effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+Func_RaceSpecificClock()
+Func_EditGeneralScoreboardClock()
+@a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
+Func_RaceSpecificEndClock()
+END
+FUNC Func_CountdownTFClock
+testfor @e[type=AreaEffectCloud,$Name$RaceCD]
+SetblockTestfor
 @e[type=AreaEffectCloud,$Name$RaceCD] $Name$RaceCD + 1
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
@@ -256,56 +226,40 @@ FUNC Func_CountdownClock
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
 @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"GO!","color":"green"}
-testfor @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120]
-CONDITION
-Deactivate(CBPCountdown)
+Func_EditCountdownTFClock()
 END
-//>
-//<Main End
 FUNC Func_GeneralScoreboardEnd
-///	Scoreboard
 USE $ObjR$
 $Name$Race
 $Name$RaceCD
 $Name$RaceCL
 $Name$RaceDE
-$Name$RaceBC
-$Name$RaceCP
 UNUSE
 scoreboard teams remove $Name$R
-///	Countdown reset
 $s$kill @e[type=AreaEffectCloud,$Name$RaceCD]
-///	General reset
-LOOP 1 3 + 1
-fill $Win|0|F$ air 0
-END
 effect @a[$SA$,m=2] clear
 $s$clear @a[$SA$,m=2]
 effect @a[$SA$,m=2] 6 20 100 true
 @a[$SA$,m=2] SPtp = $SPid$
+Func_EditGeneralScoreboardEnd()
+Func_RaceSpecificEnd()
 END
-//>
-//<Groups
-Func_CMDSave
+Func_CMDSave()
 :CBPMainStart PULSE $Style$
-Func_SpawnStandStart
+Func_SpawnStandStart()
 Deactivate(CBPMainStart)
-Func_GeneralScoreboardStart
-Func_EditGeneralScoreboardStart
+Func_GeneralScoreboardStart()
 Activate(CBPMainClock)
 Activate(CBPCountdown)
 FinalSpawnStand
 :CBPMainClock CLOCK $Style$
-Func_GeneralScoreboardClock
+Func_SpawnIDSetting()
+Func_GeneralScoreboardClock()
 :CBPCountdown CLOCK $Style$
-Func_CountdownClock
-Func_EditCountdownClock
+Func_CountdownTFClock()
 :CBPMainEnd PULSE $Style$
-Func_SpawnStandEnd
+Func_SpawnStandEnd()
 Deactivate(CBPMainEnd)
-Func_GeneralScoreboardEnd
-Func_EditGeneralScoreboardEnd
+Func_GeneralScoreboardEnd()
 Deactivate(CBPMainClock)
 Deactivate(CBPCountdown)
-//>
-//>

@@ -1,5 +1,5 @@
 //#-p stonebrick 0 -b -97 15 239 -print
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\TP - The Pit\CBP_ThePit3.cbp
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\TP - The Pit\PCBP_ThePit3.cbp
 
 //<Defines
 DEFINE $SA$ x=-122,y=4,z=133,dx=79,dy=50,dz=91
@@ -8,21 +8,13 @@ DEFINE $SPpvp$ 1
 DEFINE $SPsat$ 0
 
 DEFINE $CMDName$ TPL3
-DEFINE $CMDSizeX$ 7
-DEFINE $CMDSizeY$ 32
+DEFINE $CMDSizeX$ 11
+DEFINE $CMDSizeY$ 20
 DEFINE $CMDSizeZ$ 16
 
 DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},
 
-//(Change coords)
-
-FUNC Func_StructureSetblock
-	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
-	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
-	setblock -80 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_180",posX:1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
-	setblock -79 5 173 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"COUNTERCLOCKWISE_90",posX:0,posY:5,posZ:1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
-	setblock -79 5 174 redstone_block 0
-END
+PCBPIMPORT PCBPI_PosZ.cbp
 
 ///	Select spawn
 DEFINE $SP$ x=-107,y=25,z=193,dx=9,dy=5,dz=9
@@ -44,6 +36,10 @@ DEFINE $MidSides$ x=-81,y=6,z=172,dx=4,dy=3,dz=4
 DEFINE $MidFloor$ x=-82,y=10,z=171,dz=6,dz=6
 ///	Teleports all on the middle structure
 DEFINE $TopMidFloor$ x=-81,y=23,z=172,dx=4,dz=4
+///	On the quartz middle pillar
+DEFINE $TopPillar$ x=-82,y=10,z=171,dx=6,dz=6
+///	Select only the arena
+DEFINE $SelectArena$ x=-107,y=6,z=146,dx=56,dy=14,dz=56
 
 ///	Teleporting from the walls
 DEFINE $SelectWallW$ x=-108,y=6,z=146,dy=32,dz=56
@@ -74,116 +70,129 @@ DEFINE CCItem_PorkchopFake porkchop 1 0 {display:{Name:"The Holy Porkchop"},ench
 
 DEFINE CCItem_Snowball snowball 16 0 {display:{Name:"Canadian Bullets"}}
 
-PCBPIMPORT PCBPI_PosZ.txt
+FUNC Func_StructureSetblock
+	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
+	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
+	setblock -80 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_180",posX:1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
+	setblock -79 5 173 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"COUNTERCLOCKWISE_90",posX:0,posY:5,posZ:1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
+	setblock -79 5 174 redstone_block 0
+END
 //>
 
 //<Defines: Mobs
-DEFINE SMob_Regular ;
-	summon Zombie PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],;
-	Tags:["TP","TPMob","TPMobR","TPMobRegular","TPMobRegular|0|"],;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.30},;
-		{Name:generic.maxHealth,Base:100000}],;
-	HandItems:[;
-		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+//-
+DEFINE SMob_Regular 
+	summon Zombie PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],
+	Tags:["TP","TPMob","TPMobR","TPMobRegular","TPMobRegular|0|"],
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.30},
+		{Name:generic.maxHealth,Base:100000}],
+	HandItems:[
+		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:stained_glass,Count:1b,Damage:5s}]}
-	
-	
-DEFINE SMob_Pumpkin ;
-	summon Zombie PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],;
-	Tags:["TP","TPMob","TPMobR","TPMobPumpkin","TPMobPumpkin|0|"],CustomName:"Pumpkin",CustomNameVisible:1,;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.25},;
-		{Name:generic.maxHealth,Base:2}],;
-	HandItems:[;
-		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+
+-/-
+
+DEFINE SMob_Pumpkin 
+	summon Zombie PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],
+	Tags:["TP","TPMob","TPMobR","TPMobPumpkin","TPMobPumpkin|0|"],CustomName:"Pumpkin",CustomNameVisible:1,
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.25},
+		{Name:generic.maxHealth,Base:2}],
+	HandItems:[
+		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:pumpkin,Count:1b,tag:{display:{Name:"Throwing pumpkin grenade"}}}]}
-	
-	
-DEFINE SMob_Porkchop ;
-	summon Zombie PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],;
-	Tags:["TP","TPMob","TPMob|0|","TPMobPorkchop","TPMobPorkchop|0|"],CustomName:"Pumpkin",CustomNameVisible:1,;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.15},;
-		{Name:generic.maxHealth,Base:100000}],;
-	HandItems:[;
-		{id:porkchop,Count:1b,tag:{ench:[{id:19,lvl:10}]}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+
+-/-
+
+DEFINE SMob_Porkchop 
+	summon Zombie PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],
+	Tags:["TP","TPMob","TPMob|0|","TPMobPorkchop","TPMobPorkchop|0|"],CustomName:"Pumpkin",CustomNameVisible:1,
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.15},
+		{Name:generic.maxHealth,Base:100000}],
+	HandItems:[
+		{id:porkchop,Count:1b,tag:{ench:[{id:19,lvl:10}]}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:wool,Count:1b,Damage:6s,tag:{ench:[{id:1,lvl:1}]}}]}
-	
-	
-DEFINE SMob_Thorns ;
-	summon Zombie PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],;
-	Tags:["TP","TPMob","TPMob|0|","TPMobThorns","TPMobThorns|0|"],CustomName:"Thorns",CustomNameVisible:1,;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.35},;
-		{Name:generic.maxHealth,Base:100000}],;
-	HandItems:[;
-		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+
+-/-
+
+DEFINE SMob_Thorns 
+	summon Zombie PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,1f],
+	Tags:["TP","TPMob","TPMob|0|","TPMobThorns","TPMobThorns|0|"],CustomName:"Thorns",CustomNameVisible:1,
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.35},
+		{Name:generic.maxHealth,Base:100000}],
+	HandItems:[
+		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:3}]}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:cactus,Count:1b,tag:{ench:[{id:7,lvl:10}]}}]}
-	
-	
-DEFINE SMob_Knockback5 ;
-	summon Zombie PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],;
-	Tags:["TP","TPMob","TPMobR","TPMobKnockback5","TPMobKnockback5|0|"],;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.30},;
-		{Name:generic.maxHealth,Base:100000}],;
-	HandItems:[;
-		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:5}]}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+
+-/-
+
+DEFINE SMob_Knockback5 
+	summon Zombie PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],
+	Tags:["TP","TPMob","TPMobR","TPMobKnockback5","TPMobKnockback5|0|"],
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.30},
+		{Name:generic.maxHealth,Base:100000}],
+	HandItems:[
+		{id:blaze_rod,Count:1b,tag:{ench:[{id:19,lvl:5}]}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:stained_glass,Count:1b,Damage:13s}]}
-	
-	
-DEFINE SMob_Skeleton ;
-	summon Skeleton PARSE($SummonCoords$) ;
-	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],;
-	Tags:["TP","TPMob","TPMob|0|","TPMobSkeleton","TPMobSkeleton|0|"],CustomName:"Arrow dispenser",CustomNameVisible:1,;
-	Attributes:[;
-		{Name:generic.followRange,Base:100},;
-		{Name:generic.movementSpeed,Base:0.20},;
-		{Name:generic.maxHealth,Base:100000}],;
-	HandItems:[;
-		{id:bow,Count:1b,tag:{ench:[{id:49,lvl:3},{id:50,lvl:1}],Unbreakable:1}},;
-		{}],;
-	ArmorItems:[;
-	{},;
-	{},;
-	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},;
+
+-/-
+
+DEFINE SMob_Skeleton 
+	summon Skeleton PARSE($SummonCoords$) 
+	{DeathLootTable:"minecraft:empty",PersistenceRequired:1,CanPickUpLoot:0,HandDropChances:[0f,0f],ArmorDropChances:[0f,0f,0f,0f],
+	Tags:["TP","TPMob","TPMob|0|","TPMobSkeleton","TPMobSkeleton|0|"],CustomName:"Arrow dispenser",CustomNameVisible:1,
+	Attributes:[
+		{Name:generic.followRange,Base:100},
+		{Name:generic.movementSpeed,Base:0.20},
+		{Name:generic.maxHealth,Base:100000}],
+	HandItems:[
+		{id:bow,Count:1b,tag:{ench:[{id:49,lvl:3},{id:50,lvl:1}],Unbreakable:1}},
+		{}],
+	ArmorItems:[
+	{},
+	{},
+	{id:iron_chestplate,Count:1b,tag:{Unbreakable:1}},
 	{id:dispenser,Count:1b,tag:{ench:[{id:0,lvl:1}]}}]}
+\\-
 //>
 
 //<TPSave comments
@@ -216,6 +225,11 @@ M_Skeleton		0 - 126
 //>
 
 //<Other comments
+///	Teams Calc
+	RBTeam = Red Blue
+	TPTeam = Regular
+	If both = 2, objective is not removed and SPpvp is not set to 0
+
 ///	Arena types
 ///	Degrading:
 	-5% of the existing arena will be replaced with lime stained clay every 4s
@@ -350,12 +364,12 @@ END
 //<To do
 FUNC Func_ToDoThings
 Mandatory:
-	TPwtg number changes
-	Universal change score detection
+///	TPwtg number changes
+///	Universal change score detection
 	change in team score = TPwtg --> 5
 	
-	@e[type=ArmorStand,SpawnStand] SPpvp = 0
-	Integration with teams
+///	@e[type=ArmorStand,SpawnStand] SPpvp = 0
+///	Integration with teams
 	
 Additional:
 	
@@ -458,6 +472,7 @@ FUNC Func_GeneralScoreboardStart
 		TPde deathCount The Pit Deaths
 		TPtp dummy The Pit Teleport
 		TPwe dummy The Pit Weakness
+		TPtcl dummy The Pit Team Calc
 		TPSave dummy The Pit Save
 		TPMobSave dummy The Pit Mob Save
 		NumberObjAdd
@@ -478,6 +493,19 @@ FUNC Func_GeneralScoreboardStart
 		TPd_g color green
 	UNUSE
 	
+///	Team Calc
+	TPTeam TPtcl = 1
+	
+	TeamCalc TPtcl = 0
+	ScTE RBTeam TPtcl 1 1
+	CONDITION
+		TeamCalc TPtcl + 1
+	
+	ScTE TPTeam TPtcl 1 1
+	CONDITION
+		TeamCalc TPtcl + 1
+	
+///	Color Asthetics
 	ScTJ TPd_g Players
 	ScTJ TPd_y Mobs Winner Time_Elapsed Countdown
 	
@@ -623,6 +651,7 @@ FUNC Func_GeneralScoreboardClock
 	$s$kill @a[$KillFloor$,m=2,TPpl=1]
 	$s$kill @a[$MidFloor$,m=2,TPpl=1]
 	$s$kill @a[$MidSides$,m=2,TPpl=1]
+	$s$kill @a[$TopPillar$,m=2,TPpl=1]
 END
 //>
 
@@ -693,9 +722,20 @@ FUNC Func_GeneralScoreboardEnd
 	effect @a[$SA$,m=2,TPpl>=1] 6 1 100 true
 	@a[$SA$,m=2,TPpl>=1,EC=0] SPbk = $SPid$
 	
-	@a[$SA$,m=2,TPpl>=1] SPtp = $SPid$
+	@a[$SelectArena$,m=2,TPpl>=1] SPtp = $SPid$
 	@a[$SA$,m=2,TPpl=1] playsound minecraft:entity.endermen.teleport voice @a[c=1]
 	@a[$SA$,m=2,TPpl=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	
+///	Team Calc
+	ScTE TeamCalc TPtcl 1 1
+	CONDITION
+		$ObjR$ TPtcl
+	
+	ScTE TeamCalc TPtcl 2 2
+	CONSTART
+		TeamCalc TPtcl = 1
+		@e[type=ArmorStand,SpawnStand] SPpvp = 1
+	CONEND
 	
 	USE $ObjR$
 		TP
@@ -865,13 +905,15 @@ END
 
 //<Weapon Edit Pulse
 FUNC Func_WeaponEditPulse
-	tellraw @a[EC=0] $TextStart$;
-	{"text":"Set player: ","color":"gray"},;
-	{"text":"[+]","color":"gold","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Refresh the weapons for a specific player","color":"gold"}},;
-		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set MinecraftName TPwtg 1"};
-	};
+//-
+	tellraw @a[EC=0] $TextStart$
+	{"text":"Set player: ","color":"gray"},
+	{"text":"[+]","color":"gold","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Refresh the weapons for a specific player","color":"gold"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set MinecraftName TPwtg 1"}
+	}
 	]}
+\\-
 END
 //>
 
@@ -1057,18 +1099,20 @@ END
 
 //<Pumpkin Edit Pulse
 FUNC Func_PumpkinEditPulse
-	tellraw @a[EC=0] $TextStart$;
-	{"text":"Choose settings: ","color":"gray"},;
-	{"text":"Pumpkin #","color":"gold","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin number","color":"gold"}},;
-		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Pumpkin TPSave #"};
-	},;
-	{"text":" , ","color":"gray","italic":true},;
-	{"text":"Pumpkin Delay","color":"gold","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin delay","color":"gold"}},;
-		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PumpkinDelay TPSave #"};
-	};
+//-
+	tellraw @a[EC=0] $TextStart$
+	{"text":"Choose settings: ","color":"gray"},
+	{"text":"Pumpkin #","color":"gold","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin number","color":"gold"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Pumpkin TPSave #"}
+	},
+	{"text":" , ","color":"gray","italic":true},
+	{"text":"Pumpkin Delay","color":"gold","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin delay","color":"gold"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PumpkinDelay TPSave #"}
+	}
 	]}
+\\-
 END
 //>
 
@@ -1118,6 +1162,8 @@ END
 FUNC Func_TeamsStart
 	USE $ObjA$
 		TPtid dummy The Pit Team ID
+		TPtop dummy The Pit Team Options
+		TPtcl dummy The Pit Team Calc
 	UNUSE
 	
 	USE $TeamA$
@@ -1135,39 +1181,78 @@ FUNC Func_TeamsStart
 		TPb collisionRule pushOwnTeam
 	UNUSE
 	
+	RBTeam TPtcl = 1
 	Teams TPSave = 1
+	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPTeamStand"]}
+	@e[type=ArmorStand,SpawnStand] SPpvp = 1
+	
+	TeamCalc TPtcl = 0
+	ScTE RBTeam TPtcl 1 1
+	CONDITION
+		TeamCalc TPtcl + 1
+	
+	ScTE TPTeam TPtcl 1 1
+	CONDITION
+		TeamCalc TPtcl + 1
+	
 ///	TPtid = saving the teams if they leave
 END
 //>
 
-//<Teams Redo Pulse
-FUNC Func_TeamsRedoPulse
-	scoreboard teams empty TPr
-	scoreboard teams empty TPb
-	$ObjR$ TPtid
-	$ObjA$ TPtid dummy The Pit Team ID
-END
-//>
-
-//<Teams Edit Pulse
-FUNC Func_TeamsEditPulse
-	tellraw @a[EC=0] $TextStart$;
-	{"text":"Choose team: ","color":"gray"},;
-	{"text":"Red","color":"red","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},;
-		"clickEvent":{"action":"suggest_command","value":"/ScTJ TPr PlayerName"};
-	},;
-	{"text":" , ","color":"gray","italic":true},;
-	{"text":"Blue","color":"blue","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},;
-		"clickEvent":{"action":"suggest_command","value":"/ScTJ TPb PlayerName"};
-	},;
-	{"text":" , ","color":"gray","italic":true},;
-	{"text":"Leave team","color":"dark_gray","italic":true,;
-		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},;
-		"clickEvent":{"action":"suggest_command","value":"/ScTL PlayerName"};
-	};
+//<Teams Option Testfor Clock
+FUNC Func_TeamsOptionTFClock
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop>=1]
+	SetblockTestfor
+	
+/// Empty Teams
+	@e[type=ArmorStand,TPTeamStand,TPtop=1] scoreboard teams empty TPr
+	@e[type=ArmorStand,TPTeamStand,TPtop=1] scoreboard teams empty TPb
+	@e[type=ArmorStand,TPTeamStand,TPtop=1] @a[TPrnd>=1] TPrnd = 0
+	@e[type=ArmorStand,TPTeamStand,TPtop=1] ScRE * TPtid
+	
+///	Edit Teams
+	//-
+	@e[type=ArmorStand,TPTeamStand,TPtop=2] tellraw @a[EC=0] $TextStart$
+	{"text":"Choose team: ","color":"gray"},
+	{"text":"Red","color":"red","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 1"}
+	},
+	{"text":" , ","color":"gray","italic":true},
+	{"text":"Blue","color":"blue","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 2"}
+	},
+	{"text":" , ","color":"gray","italic":true},
+	{"text":"Leave team","color":"dark_gray","italic":true,
+		"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 0"}
+	}
 	]}
+\\-
+	
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop=3]
+	CONDITION
+		Activate(CBPTeamsSelfChooseStart)
+	
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop=4]
+	CONDITION
+		Activate(CBPTeamsSelfChooseEnd)
+
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop=5]
+	CONDITION
+		Activate(CBPTeamsRandomizerStart)
+
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop=6]
+	CONDITION
+		Activate(CBPTeamsRandomizerEnd)
+	
+	testfor @e[type=ArmorStand,TPTeamStand,TPtop=7]
+	CONDITION
+		Activate(CBPTeamsEnd)
+	
+	
+	@e[type=ArmorStand,TPTeamStand,TPtop>=1] TPtop = 0
 END
 //>
 
@@ -1175,8 +1260,8 @@ END
 ///	In main clock
 FUNC Func_TeamsGeneralClock
 	@a[$SA$,m=2] TPtid + 0
-	@a[$SA$,m=2,team=TPr] TPtid = 1
-	@a[$SA$,m=2,team=TPb] TPtid = 2
+	ScTJ TPr @a[$SP$,m=2,TPtid=1,team=!TPr]
+	ScTJ TPb @a[$SP$,m=2,TPtid=2,team=!TPb]
 END
 //>
 
@@ -1184,6 +1269,7 @@ END
 FUNC Func_TeamsEnd
 	USE $ObjR$
 		TPtid
+		TPtop
 	UNUSE
 	
 	USE $TeamR$
@@ -1192,6 +1278,20 @@ FUNC Func_TeamsEnd
 	UNUSE
 	$s$clear @a[$SA$,m=2] stained_glass
 	$s$clear @a[$SA$,m=2] stained_glass_pane
+	
+	$s$kill @e[type=ArmorStand,TPTeamStand]
+	
+///	Team Calc
+	ScTE TeamCalc TPtcl 1 1
+	CONDITION
+		$ObjR$ TPtcl
+		@e[type=ArmorStand,SpawnStand] SPpvp = 0
+	
+	ScTE TeamCalc TPtcl 2 2
+	CONSTART
+		TeamCalc TPtcl = 1
+		@e[type=ArmorStand,SpawnStand] SPpvp = 1
+	CONEND
 	
 	Teams TPSave = 0
 END
@@ -1216,9 +1316,9 @@ FUNC Func_TeamsDisplayClock
 	Red TPt2 = 0
 	Blue TPt2 = 0
 	@a[$SP$,m=2] TPtid + 0
-	@a[$SP$,m=2,team=TPr] TPtid = 1
+	ScTJ TPr @a[$SP$,m=2,TPtid=1,team=!TPr]
 	@a[$SP$,m=2,TPtid=1] Red TPt2 + 1
-	@a[$SP$,m=2,team=TPb] TPtid = 2
+	ScTJ TPb @a[$SP$,m=2,TPtid=2,team=!TPb]
 	@a[$SP$,m=2,TPtid=2] Blue TPt2 + 1
 	
 	ScOP Red TPt = Red TPt2
@@ -1263,8 +1363,8 @@ FUNC Func_TeamsSelfChooseClock
 	@a[$SP$,m=2] TPcsi = 1 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Red"}}}}
 	@a[$SP$,m=2] TPcsi = 2 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Blue"}}}}
 	
-	ScTJ TPr @a[$SP$,m=2,team=!TPr,TPcs>=1,TPcsi=1]
-	ScTJ TPb @a[$SP$,m=2,team=!TPb,TPcs>=1,TPcsi=2]
+	@a[$SP$,m=2,team=!TPr,TPcs>=1,TPcsi=1,TPtid=0] TPtid = 1
+	@a[$SP$,m=2,team=!TPb,TPcs>=1,TPcsi=2,TPtid=0] TPtid = 2
 	tellraw @a[$SP$,m=2,TPcs>=1,TPcsi=1] $TextStart${"text":"You have joined the ","color":"gray"},{"text":"red","color":"red","italic":true},{"text":" team!","color":"gray"}]}
 	tellraw @a[$SP$,m=2,TPcs>=1,TPcsi=2] $TextStart${"text":"You have joined the ","color":"gray"},{"text":"blue","color":"blue","italic":true},{"text":" team!","color":"gray"}]}
 	replaceitem entity @a[$SP$,m=2,TPcs>=1,TPcsi=1] slot.hotbar.8 dye 1 1 {ench:[{id:0,lvl:1}],HideFlags:127}
@@ -1324,9 +1424,10 @@ FUNC Func_TeamsRandomizerClock
 		@r[$SP$,m=2,TPrnd=0] TPrnd = 1
 		@r[$SP$,m=2,TPrnd=0] TPrnd = 2
 	CONEND
-	ScTJ TPr @a[$SP$,m=2,TPrnd=1]
-	ScTJ TPb @a[$SP$,m=2,TPrnd=2]
+	@a[$SP$,m=2,TPrnd=1,team=!TPr] TPtid = 1
+	@a[$SP$,m=2,TPrnd=2,team=!TPb] TPtid = 2
 	
+	@a[$SP$,m=2,TPrnd>=1] TPrnd = 3
 //=
 	Calc2 TPrnd = 0
 	@a[$SP$,m=2,TPrnd=0] Calc TPrnd = 1
@@ -1526,14 +1627,13 @@ FUNC Func_ColorCode
 	ColorFillWood(CBPArenaChangeCalcPulse;4)
 	
 	ColorFillGlass(CBPTeamsStart;0)
-	ColorFillGlass(CBPTeamsRedoPulse;1)
-	ColorFillGlass(CBPTeamsEditPulse;2)
-	ColorFillGlass(CBPTeamsEnd;3)
-	ColorFillGlass(CBPResetOptionsPulse;4)
-	ColorFillGlass(CBPPumpkinEditPulse;5)
+	ColorFillGlass(CBPTeamsOptionTFClock;1)
+	ColorFillGlass(CBPTeamsEnd;2)
+	ColorFillGlass(CBPResetOptionsPulse;3)
+	ColorFillGlass(CBPPumpkinEditPulse;4)
 	
-	ColorFillGlass(CBPCountdownTFClock;6)
-	ColorFillGlass(CBPWeaponTypeTFClock;7)
+	ColorFillGlass(CBPCountdownTFClock;5)
+	ColorFillGlass(CBPWeaponTypeTFClock;6)
 ///	ColorFillGlass(CBPMobsTFClock;8)
 ///	ColorFillGlass(CBPMobSummonPulse;9)
 	
@@ -1570,7 +1670,7 @@ END
 
 
 //<Groups: Arena
-ColorFillGlass(CBPColorCode;15)
+Activate(CBPColorCode)
 Func_CMDSave()
 
 :CBPArenaRegL PULSE $Style$
@@ -1634,6 +1734,8 @@ Activate(CBPCountdownTFClock)
 Activate(CBPWeaponTypeTFClock)
 /// Activate(CBPMobsTFClock)
 Activate(CBPArenaChangeCalcPulse)
+Activate(CBPTeamsSelfChooseEnd)
+Activate(CBPTeamsRandomizerEnd)
 
 :CBPMainClock CLOCK $Style$
 Func_SpawnIDSetting()
@@ -1667,6 +1769,11 @@ Activate(CBPArenaChangeCalcPulse)
 :CBPTeamsStart PULSE $Style$
 Deactivate(CBPTeamsStart)
 Func_TeamsStart()
+Activate(CBPTeamsOptionTFClock)
+
+:CBPTeamsOptionTFClock CLOCK $Style$
+Func_TeamsOptionTFClock()
+
 
 :CBPTeamsSelfChooseStart PULSE $Style$
 Deactivate(CBPTeamsSelfChooseStart)
@@ -1706,21 +1813,12 @@ Func_TeamsRandomizerEnd()
 Deactivate(CBPTeamsRandomizerClock)
 
 
-:CBPTeamsRedoPulse PULSE $Style$
-Deactivate(CBPTeamsRedoPulse)
-Func_TeamsRedoPulse()
-
-:CBPTeamsEditPulse PULSE $Style$
-Deactivate(CBPTeamsEditPulse)
-Func_TeamsEditPulse()
-
-
 :CBPTeamsEnd PULSE $Style$
 Deactivate(CBPTeamsEnd)
 Func_TeamsEnd()
+Deactivate(CBPTeamsOptionTFClock)
 Activate(CBPTeamsSelfChooseEnd)
 Activate(CBPTeamsRandomizerEnd)
-Activate(CBPTeamsDisplayEnd)
 //>
 
 //<Groups: Mobs

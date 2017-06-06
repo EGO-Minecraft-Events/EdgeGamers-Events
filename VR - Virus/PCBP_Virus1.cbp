@@ -29,7 +29,7 @@ DEFINE $SPid$ 17
 /// Virus Type
 DEFINE $VType$ 1
 
-PCBPIMPORT PCBPI_PosX.txt
+PCBPIMPORT PCBPI_PosX.cbp
 //>
 
 //<Comments: To do
@@ -81,7 +81,7 @@ FUNC Func_EditGeneralScoreboardEnd
 	
 END
 
-PCBPIMPORT PCBPI_Virus.txt
+PCBPIMPORT PCBPI_Virus.cbp
 //>
 
 

@@ -31,23 +31,7 @@ DEFINE $SelectMid$ x=-170,y=29,z=96,dy=3
 DEFINE $TPMiddle$ -178 24 96 -90 0
 DEFINE $Middle$ -170 30 96
 DEFINE $FireZ$ -170 24 108 -170 24 84
-FUNC Func_SpawnMobCardinal
-CONSTART
-summon AreaEffectCloud $SpawnMobN$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobS$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-CONEND
-END
-FUNC Func_SpawnMobDiagonal
-CONSTART
-summon AreaEffectCloud $SpawnMobNE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobNW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobSE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-summon AreaEffectCloud $SpawnMobSW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
-CONEND
-END
-DEFINE DEF_Spawn @e[PARSE($SA$),type=ArmorStand,DPStand,DPmo=|0|] @e[type=AreaEffectCloud,DPDonut] summon |1| ~ ~ ~
+DEFINE DEF_Spawn @e[type=ArmorStand,DPStand,DPmo=|0|] @e[type=AreaEffectCloud,DPDonut] summon |1| ~ ~ ~
 DEFINE DEF_MidSpawn @e[type=ArmorStand,DPStand,DPmo=|0|] summon |1| PARSE($Middle$)
 DEFINE $ComplexReg$ ArmorDropChances:[0f,0f,0f,0f],HandDropChances:[0f,0f],Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
 DEFINE $SimpleReg$ Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
@@ -79,6 +63,7 @@ DEFINE ScTG scoreboard players tag
 DEFINE ScOP scoreboard players operation
 DEFINE ScTE scoreboard players test
 DEFINE ScRE scoreboard players reset
+DEFINE ScEN scoreboard players enable
 DEFINE ScTJ scoreboard teams join
 DEFINE ScTL scoreboard teams leave
 DEFINE RevST scoreboard players tag @a[|0|] remove |0|
@@ -86,6 +71,13 @@ DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
 DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
 DEFINE NumberAdd |0| Number = |0|
 DEFINE NumberObjAdd Number dummy
+DEFINE Snd_Pling minecraft:block.note.pling
+DEFINE Snd_XP minecraft:entity.experience_orb.touch
+DEFINE Snd_Item minecraft:entity.item.pickup
+DEFINE Snd_TP minecraft:entity.endermen.teleport
+DEFINE Snd_Wither minecraft:entity.wither.death
+DEFINE Snd_Level minecraft:entity.player.levelup
+DEFINE Snd_Explode minecraft:entity.generic.explode
 FUNC Func_SpawnIDSetting
 @a[$SA$] SPid + 0
 @a[$SA$,SPid<-$SPid$] SPid = $SPid$
@@ -114,6 +106,70 @@ FUNC Func_SpawnStandEdit
 @e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
 @e[type=ArmorStand,SpawnStand] SPwea = |4|
 END
+DEFINE DEF_ExecuteCountdown @e[type=AreaEffectCloud,PARSE($Name$)Countdown,|0|=|1|]
+FUNC Func_UniversalCountdownStart
+ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Tags:["$Name$Entity","$Name$Countdown"],Duration:|0|}
+END
+FUNC Func_UniversalCountdownExtendedClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=1] Countdown |2| = 6
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] Countdown |2| = 5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] Countdown |2| = 4
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] Countdown |2| = 3
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] Countdown |2| = 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] Countdown |2| = 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=120] ScRE Countdown |2|
+END
+FUNC Func_UniversalCountdownClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+END
+FUNC Func_UniversalXPGeneralClock
+$s$kill @e[$SA$,type=XPOrb]
+$s$xp -2147483648L @a[$SA$,m=2]
+END
+FUNC Func_UniversalXPBarClock
+$s$xp 1129L @a[$SA$,m=2,|0|>=0]
+$s$xp 11 @a[$SA$,m=2,|0|>=0]
+LOOP 64 1 / 2 () 6336 99 / 2
+$s$xp |2| @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+$s$xp -1129L @a[$SA$,m=2,|0|>=0]
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
+FUNC Func_UniversalXPNumClock
+LOOP |1| 1 / 2
+$s$xp |0|L @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
 DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
 FUNC Func_CMDSave
 fill 0x -1y 0z 3x -3y 3z air 0
@@ -136,6 +192,22 @@ FUNC Func_Update
 @e[$SA$,type=!ArmorStand,|0|] @e[type=ArmorStand,DPStand] DPmo2 + 1
 @e[type=ArmorStand,DPStand,DPmo2>=1] ScOP |1| DP = @e[type=ArmorStand,DPStand,DPmo2>=1] DPmo2
 @e[type=ArmorStand,DPStand,DPmo2=0] ScRE |1| DP
+END
+FUNC Func_SpawnMobCardinal
+CONSTART
+summon AreaEffectCloud $SpawnMobN$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobS$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+CONEND
+END
+FUNC Func_SpawnMobDiagonal
+CONSTART
+summon AreaEffectCloud $SpawnMobNE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobNW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobSE$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+summon AreaEffectCloud $SpawnMobSW$ {Tags:["DPEntity","DPDonut"],Duration:1000000}
+CONEND
 END
 FUNC Func_ToDoThings
 Mandatory:
@@ -483,6 +555,7 @@ $s$clear @a[$SA$,m=2,DPwe=2] iron_axe
 $s$clear @a[$SA$,m=2,DPwe=2] diamond_sword
 $s$clear @a[$SA$,m=2,DPwe=2] diamond_axe
 $s$clear @a[$SA$,m=2,DPwe=2] bow
+$s$clear @a[$SA$,m=2,DPwe=2] arrow
 $s$clear @a[$SA$,m=2,DPwe=2] shield
 $s$clear @a[$SA$,m=2,DPwe=3] potion
 $s$clear @a[$SA$,m=2,DPwe=3] lingering_potion
@@ -490,7 +563,7 @@ $s$clear @a[$SA$,m=2,DPwe=4] melon
 $s$clear @a[$SA$,m=2,DPwe=4] bread
 $s$clear @a[$SA$,m=2,DPwe=4] cooked_porkchop
 $s$clear @a[$SA$,m=2,DPwe=5] dye
-$s$clear @a[$SA$,m=2,DPwe=6] snowballs
+$s$clear @a[$SA$,m=2,DPwe=6] snowball
 $s$clear @a[$SA$,m=2,DPwe=7] bones
 $s$clear @a[$SA$,m=2,DPwe=8]
 effect @a[$SA$,m=2,DPwe>=1<=8] clear

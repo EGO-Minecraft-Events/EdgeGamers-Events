@@ -13,7 +13,7 @@ END
 
 //<Race Specific Clock
 FUNC Func_RaceSpecificClock
-	@a[$SA$,team=!$Name$R] $Name$RaceBC + 0
+	@a[$SA$,team=$Name$R] $Name$RaceBC + 0
 	
 	LOOP 1 3 + 1
 		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |0|

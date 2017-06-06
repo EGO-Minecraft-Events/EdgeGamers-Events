@@ -1,6 +1,6 @@
-fill ~3 ~4 ~-17 ~3 ~4 ~-17 stained_glass 15
+fill ~3 ~9 ~-17 ~3 ~9 ~-17 redstone_block
 fill -97 14 239 -94 12 242 air 0
-setblock -96 14 240 structure_block 0 replace {name:"CMDSave_TPL3",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:7,sizeY:32,sizeZ:16}
+setblock -96 14 240 structure_block 0 replace {name:"CMDSave_TPL3",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:11,sizeY:20,sizeZ:16}
 setblock -96 12 240 structure_block 0 replace {name:"CMDSave_TPL3",mode:"LOAD",posX:0,posY:4,posZ:0}
 setblock -96 14 239 wooden_button 4
 setblock -96 12 239 wooden_button 4
@@ -8,7 +8,7 @@ setblock -95 14 240 redstone_lamp 0
 setblock -95 12 240 redstone_lamp 0
 setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
 
-:CBPArenaRegL PULSE 0 16 16		[4 17 0 | 3 3 11]
+:CBPArenaRegL PULSE 0 16 16		[6 14 0 | 3 3 11]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegL",showboundingbox:0b}
 	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegL",showboundingbox:0b}
@@ -18,7 +18,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set Arena_Size TPSave 1
 	scoreboard players set Arena_Type TPSave 0
 
-:CBPArenaRegS PULSE 0 16 16		[2 18 0 | 3 3 11]
+:CBPArenaRegS PULSE 0 16 16		[0 15 0 | 3 3 11]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegS",showboundingbox:0b}
 	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegS",showboundingbox:0b}
@@ -28,7 +28,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set Arena_Size TPSave 0
 	scoreboard players set Arena_Type TPSave 0
 
-:CBPArenaDegL PULSE 0 16 16		[0 19 0 | 3 3 11]
+:CBPArenaDegL PULSE 0 16 16		[2 15 0 | 3 3 11]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_DegL",showboundingbox:0b}
 	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_DegL",showboundingbox:0b}
@@ -38,7 +38,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set Arena_Size TPSave 1
 	scoreboard players set Arena_Type TPSave 1
 
-:CBPArenaDegS PULSE 0 16 16		[4 19 0 | 3 3 11]
+:CBPArenaDegS PULSE 0 16 16		[4 16 0 | 3 3 11]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_DegS",showboundingbox:0b}
 	setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_DegS",showboundingbox:0b}
@@ -48,22 +48,22 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set Arena_Size TPSave 0
 	scoreboard players set Arena_Type TPSave 1
 
-:CBPArenaChangeCalcPulse PULSE 0 16 16		[4 13 0 | 3 3 16]
+:CBPArenaChangeCalcPulse PULSE 0 16 16		[6 12 0 | 3 3 16]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players test Arena_Type TPSave 0 0
 	 | scoreboard players test Arena_Size TPSave 0 0
-	 L fill ~-2 ~5 ~-4 ~-2 ~5 ~-4 redstone_block
+	 L fill ~-6 ~3 ~-4 ~-6 ~3 ~-4 redstone_block
 	scoreboard players test Arena_Type TPSave 0 0
 	 | scoreboard players test Arena_Size TPSave 1 1
-	 L fill ~0 ~4 ~-7 ~0 ~4 ~-7 redstone_block
+	 L fill ~0 ~2 ~-7 ~0 ~2 ~-7 redstone_block
 	scoreboard players test Arena_Type TPSave 1 1
 	 | scoreboard players test Arena_Size TPSave 0 0
-	 L fill ~0 ~6 ~-10 ~0 ~6 ~-10 redstone_block
+	 L fill ~-2 ~4 ~-10 ~-2 ~4 ~-10 redstone_block
 	scoreboard players test Arena_Type TPSave 1 1
 	 | scoreboard players test Arena_Size TPSave 1 1
-	 L fill ~-4 ~6 ~-13 ~-4 ~6 ~-13 redstone_block
+	 L fill ~-4 ~3 ~-13 ~-4 ~3 ~-13 redstone_block
 
-:CBPResetOptionsPulse PULSE 0 16 16		[4 15 0 | 3 3 13]
+:CBPResetOptionsPulse PULSE 0 16 16		[2 13 0 | 3 3 13]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players set Arena_Size TPSave 1
 	scoreboard players set Arena_Type TPSave 0
@@ -75,36 +75,35 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set PumpkinDelay TPSave 30
 	scoreboard players set Weapons TPSave 10
 
-:CBPColorCode PULSE 0 16 16		[4 4 0 | 3 4 18]
+:CBPColorCode PULSE 0 16 16		[4 9 0 | 3 4 18]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stained_glass 15
-	fill ~0 ~13 ~-2 ~0 ~13 ~-2 planks
-	fill ~-2 ~14 ~-3 ~-2 ~14 ~-3 planks 1
-	fill ~-4 ~15 ~-4 ~-4 ~15 ~-4 planks 2
-	fill ~0 ~15 ~-5 ~0 ~15 ~-5 planks 3
-	fill ~0 ~9 ~-6 ~0 ~9 ~-6 planks 4
-	fill ~-4 ~11 ~-7 ~-4 ~11 ~-7 stained_glass
-	fill ~-2 ~14 ~2 ~-2 ~14 ~2 stained_glass 1
-	fill ~-4 ~11 ~4 ~-4 ~11 ~4 stained_glass 2
-	fill ~-4 ~13 ~-10 ~-4 ~13 ~-10 stained_glass 3
-	fill ~0 ~11 ~-11 ~0 ~11 ~-11 stained_glass 4
-	fill ~0 ~11 ~0 ~0 ~11 ~0 stained_glass 5
-	fill ~0 ~3 ~-13 ~0 ~3 ~-13 stained_glass 6
-	fill ~-2 ~-4 ~-14 ~-2 ~-4 ~-14 stained_glass 7
-	fill ~-2 ~10 ~-15 ~-2 ~10 ~-15 wool
-	fill ~0 ~-5 ~-15 ~0 ~-5 ~-15 stained_hardened_clay
-	fill ~-2 ~11 ~-14 ~-2 ~11 ~-14 wool
-	fill ~-4 ~8 ~-13 ~-4 ~8 ~-13 wool 1
-	fill ~0 ~5 ~-12 ~0 ~5 ~-12 stained_hardened_clay 1
-	fill ~0 ~12 ~-1 ~0 ~12 ~-1 wool 1
-	fill ~-2 ~0 ~-10 ~-2 ~0 ~-10 wool 3
-	fill ~-4 ~-5 ~-9 ~-4 ~-5 ~-9 stained_hardened_clay 3
-	fill ~-2 ~5 ~-8 ~-2 ~5 ~-8 wool 3
+	fill ~2 ~5 ~-2 ~2 ~5 ~-2 planks
+	fill ~-4 ~6 ~-3 ~-4 ~6 ~-3 planks 1
+	fill ~-2 ~6 ~-4 ~-2 ~6 ~-4 planks 2
+	fill ~0 ~7 ~-5 ~0 ~7 ~-5 planks 3
+	fill ~2 ~3 ~-6 ~2 ~3 ~-6 planks 4
+	fill ~2 ~-9 ~-7 ~2 ~-9 ~-7 stained_glass
+	fill ~2 ~0 ~-8 ~2 ~0 ~-8 stained_glass 1
+	fill ~2 ~-3 ~-9 ~2 ~-3 ~-9 stained_glass 2
+	fill ~-2 ~4 ~-10 ~-2 ~4 ~-10 stained_glass 3
+	fill ~-2 ~4 ~1 ~-2 ~4 ~1 stained_glass 4
+	fill ~-2 ~1 ~-12 ~-2 ~1 ~-12 stained_glass 5
+	fill ~-2 ~-9 ~-13 ~-2 ~-9 ~-13 stained_glass 6
+	fill ~-4 ~4 ~-14 ~-4 ~4 ~-14 wool
+	fill ~0 ~-4 ~-15 ~0 ~-4 ~-15 stained_hardened_clay
+	fill ~0 ~4 ~-15 ~0 ~4 ~-15 wool
+	fill ~0 ~2 ~-14 ~0 ~2 ~-14 wool 1
+	fill ~2 ~-7 ~-13 ~2 ~-7 ~-13 stained_hardened_clay 1
+	fill ~2 ~6 ~-12 ~2 ~6 ~-12 wool 1
+	fill ~-2 ~-5 ~-11 ~-2 ~-5 ~-11 wool 3
+	fill ~-4 ~-10 ~-10 ~-4 ~-10 ~-10 stained_hardened_clay 3
+	fill ~0 ~-10 ~-9 ~0 ~-10 ~-9 wool 3
 
-:CBPPumpkinEditPulse PULSE 0 16 16		[4 15 12 | 3 3 5]
+:CBPPumpkinEditPulse PULSE 0 16 16		[2 13 12 | 3 3 5]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Choose settings: ","color":"gray"},{"text":"Pumpkin #","color":"gold","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin number","color":"gold"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Pumpkin TPSave #"}},{"text":" , ","color":"gray","italic":true},{"text":"Pumpkin Delay","color":"gold","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin delay","color":"gold"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PumpkinDelay TPSave #"}}]}
 
-:CBPCountdownTFClock CLOCK 0 16 16		[4 7 0 | 3 4 18]
+:CBPCountdownTFClock CLOCK 0 16 16		[2 10 0 | 3 4 18]
 	testfor @e[type=ArmorStand,tag=TPStand,score_TPti_min=0]
 	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
 	execute @e[type=ArmorStand,tag=TPStand,score_TPti_min=0] ~ ~ ~ scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1,score_TPwe_min=0,score_TPwe=0] TPwe 1
@@ -203,6 +202,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives add TPde deathCount The Pit Deaths
 	scoreboard objectives add TPtp dummy The Pit Teleport
 	scoreboard objectives add TPwe dummy The Pit Weakness
+	scoreboard objectives add TPtcl dummy The Pit Team Calc
 	scoreboard objectives add TPSave dummy The Pit Save
 	scoreboard objectives add TPMobSave dummy The Pit Mob Save
 	scoreboard objectives add Number dummy
@@ -214,6 +214,12 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard teams option TP friendlyfire true
 	scoreboard teams option TPd_y color yellow
 	scoreboard teams option TPd_g color green
+	scoreboard players set TPTeam TPtcl 1
+	scoreboard players set TeamCalc TPtcl 0
+	scoreboard players test RBTeam TPtcl 1 1
+	 L scoreboard players add TeamCalc TPtcl 1
+	scoreboard players test TPTeam TPtcl 1 1
+	 L scoreboard players add TeamCalc TPtcl 1
 	scoreboard teams join TPd_g Players
 	scoreboard teams join TPd_y Mobs Winner Time_Elapsed Countdown
 	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPStand","TPSummon","TPCount","TPCountPlayers"]}
@@ -235,14 +241,17 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives add TPpu dummy The Pit Pumpkin
 	scoreboard objectives add TPput dummy The Pit Pumpkin Timer
 	scoreboard objectives add TPpuc dummy The Pit Pumpkin Calc
-	fill ~-2 ~-8 ~-14 ~-2 ~-8 ~-14 redstone_block
-	fill ~2 ~-1 ~-13 ~2 ~-1 ~-13 redstone_block
-	fill ~0 ~-8 ~-12 ~0 ~-8 ~-12 redstone_block
-	fill ~2 ~5 ~-11 ~2 ~5 ~-11 redstone_block
+	fill ~-2 ~-8 ~-5 ~-2 ~-8 ~-5 redstone_block
+	fill ~0 ~2 ~-4 ~0 ~2 ~-4 redstone_block
+	fill ~0 ~-8 ~-3 ~0 ~-8 ~-3 redstone_block
+	fill ~4 ~4 ~-2 ~4 ~4 ~-2 redstone_block
+	fill ~2 ~6 ~-1 ~2 ~6 ~-1 redstone_block
+	fill ~4 ~8 ~0 ~4 ~8 ~0 redstone_block
 
 :CBPMainClock CLOCK 0 16 16		[0 0 0 | 3 14 18]
-	minecraft:gamemode 2 @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=0]
-	minecraft:weather clear 1000000
+	scoreboard players add @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91] SPid 0
+	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,score_SPid=-11] SPid 10
+	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,score_SPid_min=-9] SPid 10
 	scoreboard players set @e[x=-122,y=4,z=133,dx=79,dy=50,dz=91,type=Arrow] TPtm 1 {inGround:1b}
 	minecraft:kill @e[x=-122,y=4,z=133,dx=79,dy=50,dz=91,type=Arrow,score_TPtm_min=1,score_TPtm=1]
 	scoreboard players add @e[type=ArmorStand,tag=TPStand,score_TPti_min=0] TPti 1
@@ -291,9 +300,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	minecraft:kill @a[x=-107,y=6,z=146,dx=56,dz=56,m=2,score_TPpl_min=1,score_TPpl=1]
 	minecraft:kill @a[x=-82,y=10,z=171,dz=6,dz=6,m=2,score_TPpl_min=1,score_TPpl=1]
 	minecraft:kill @a[x=-81,y=6,z=172,dx=4,dy=3,dz=4,m=2,score_TPpl_min=1,score_TPpl=1]
-	scoreboard players add @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91] SPid 0
-	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,score_SPid=-11] SPid 10
-	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,score_SPid_min=-9] SPid 10
+	minecraft:kill @a[x=-82,y=10,z=171,dx=6,dz=6,m=2,score_TPpl_min=1,score_TPpl=1]
 	scoreboard players test Arena_Type TPSave 0 0
 	 L scoreboard players set @e[type=ArmorStand,tag=TPStand] TPdg -1
 	scoreboard players test Arena_Type TPSave 1 1
@@ -319,7 +326,6 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 1 0 0 true
 	scoreboard players test Movement TPSave 11 11
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 1 2 0 true
-	
 	scoreboard players test Movement TPSave 12 12
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 1 2 1 true
 	scoreboard players test Movement TPSave 13 13
@@ -333,9 +339,9 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 2 2 0 true
 	scoreboard players test Movement TPSave 22 22
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 2 2 1 true
+	
 	scoreboard players test Movement TPSave 23 23
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 2 2 2 true
-	
 	scoreboard players test Movement TPSave 24 24
 	 L effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] 2 2 3 true
 	scoreboard players test Movement TPSave 25 25
@@ -375,8 +381,8 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	minecraft:kill @e[x=-122,y=4,z=133,dx=79,dy=50,dz=91,type=Item,score_TPpu_min=4,score_TPpu=4,score_TPpuc_min=0,score_TPpuc=0]
 	minecraft:kill @e[x=-122,y=4,z=133,dx=79,dy=50,dz=91,type=Item,score_TPpu_min=0,score_TPpu=0]
 	scoreboard players add @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2] TPtid 0
-	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,team=TPr] TPtid 1
-	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,team=TPb] TPtid 2
+	scoreboard teams join TPr @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=1,score_TPtid=1,team=!TPr]
+	scoreboard teams join TPb @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=2,score_TPtid=2,team=!TPb]
 	effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1,score_TPwe_min=1,score_TPwe=2] 18 3 100 true
 	effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1,score_TPwe_min=0,score_TPwe=0] 18 0 0 true
 	minecraft:kill @e[x=-122,y=4,z=133,dx=79,dy=50,dz=91,type=XPOrb]
@@ -428,7 +434,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set @a[score_TPde_min=1] TPde 0
 	scoreboard teams join NoPVP @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,team=!NoPVP]
 
-:CBPMainEnd PULSE 0 16 16		[2 10 0 | 3 5 18]
+:CBPMainEnd PULSE 0 16 16		[4 0 0 | 3 6 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
@@ -440,9 +446,14 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1] clear
 	effect @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1] 6 1 100 true
 	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_EC_min=0,score_EC=0] SPbk 10
-	scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1] SPtp 10
+	scoreboard players set @a[x=-107,y=6,z=146,dx=56,dy=14,dz=56,m=2,score_TPpl_min=1] SPtp 10
 	execute @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
 	execute @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2,score_TPpl_min=1,score_TPpl=1] ~ ~ ~ particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	scoreboard players test TeamCalc TPtcl 1 1
+	 L scoreboard objectives remove TPtcl
+	scoreboard players test TeamCalc TPtcl 2 2
+	 | scoreboard players set TeamCalc TPtcl 1
+	 L scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
 	scoreboard objectives remove TP
 	scoreboard objectives remove TPtm
 	scoreboard objectives remove TPti
@@ -472,14 +483,16 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives remove TPpu
 	scoreboard objectives remove TPput
 	scoreboard objectives remove TPpuc
-	fill ~-2 ~-12 ~-12 ~-2 ~-12 ~-12 stonebrick
-	fill ~2 ~-5 ~-13 ~2 ~-5 ~-13 stonebrick
-	fill ~0 ~-12 ~-14 ~0 ~-12 ~-14 stonebrick
-	fill ~2 ~1 ~-15 ~2 ~1 ~-15 redstone_block
+	fill ~-4 ~-3 ~-12 ~-4 ~-3 ~-12 stonebrick
+	fill ~-2 ~7 ~-11 ~-2 ~7 ~-11 stonebrick
+	fill ~-2 ~-3 ~-10 ~-2 ~-3 ~-10 stonebrick
+	fill ~2 ~9 ~-9 ~2 ~9 ~-9 redstone_block
 
-:CBPTeamsStart PULSE 0 16 16		[0 15 0 | 3 3 14]
+:CBPTeamsStart PULSE 0 16 16		[6 0 0 | 3 4 18]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard objectives add TPtid dummy The Pit Team ID
+	scoreboard objectives add TPtop dummy The Pit Team Options
+	scoreboard objectives add TPtcl dummy The Pit Team Calc
 	scoreboard teams add TPr The Pit Red
 	scoreboard teams add TPb The Pit Blue
 	scoreboard teams option TPr color red
@@ -488,11 +501,41 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard teams option TPb color blue
 	scoreboard teams option TPb friendlyfire false
 	scoreboard teams option TPb collisionRule pushOwnTeam
+	scoreboard players set RBTeam TPtcl 1
 	scoreboard players set Teams TPSave 1
+	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPTeamStand"]}
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set TeamCalc TPtcl 0
+	scoreboard players test RBTeam TPtcl 1 1
+	 L scoreboard players add TeamCalc TPtcl 1
+	scoreboard players test TPTeam TPtcl 1 1
+	 L scoreboard players add TeamCalc TPtcl 1
+	fill ~0 ~8 ~-9 ~0 ~8 ~-9 redstone_block
 
-:CBPTeamsSelfChooseStart PULSE 0 16 16		[2 14 0 | 3 3 15]
+:CBPTeamsOptionTFClock CLOCK 0 16 16		[6 9 0 | 3 4 17]
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1,score_TPtop=1] ~ ~ ~ scoreboard teams empty TPr
+	execute @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1,score_TPtop=1] ~ ~ ~ scoreboard teams empty TPb
+	execute @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1,score_TPtop=1] ~ ~ ~ scoreboard players set @a[score_TPrnd_min=1] TPrnd 0
+	execute @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1,score_TPtop=1] ~ ~ ~ scoreboard players reset * TPtid
+	execute @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=2,score_TPtop=2] ~ ~ ~ tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Choose team: ","color":"gray"},{"text":"Red","color":"red","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 1"}},{"text":" , ","color":"gray","italic":true},{"text":"Blue","color":"blue","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 2"}},{"text":" , ","color":"gray","italic":true},{"text":"Leave team","color":"dark_gray","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 0"}}]}
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=3,score_TPtop=3]
+	 L fill ~-6 ~4 ~-9 ~-6 ~4 ~-9 redstone_block
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=4,score_TPtop=4]
+	 L fill ~-2 ~5 ~-11 ~-2 ~5 ~-11 redstone_block
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=5,score_TPtop=5]
+	 L fill ~-2 ~3 ~-13 ~-2 ~3 ~-13 redstone_block
+	
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=6,score_TPtop=6]
+	 L fill ~0 ~6 ~-13 ~0 ~6 ~-13 redstone_block
+	testfor @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=7,score_TPtop=7]
+	 L fill ~0 ~-4 ~-11 ~0 ~-4 ~-11 redstone_block
+	scoreboard players set @e[type=ArmorStand,tag=TPTeamStand,score_TPtop_min=1] TPtop 0
+
+:CBPTeamsSelfChooseStart PULSE 0 16 16		[0 13 0 | 3 3 15]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
-	fill ~2 ~-14 ~-2 ~2 ~-14 ~-2 redstone_block
+	fill ~4 ~-8 ~-2 ~4 ~-8 ~-2 redstone_block
 	scoreboard objectives remove TPrnd
 	scoreboard objectives add TPt dummy The Pit Teams
 	scoreboard objectives add TPt2 dummy The Pit Teams 2
@@ -502,9 +545,9 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives add TPtsc dummy The Pit Teams Self Choose
 	scoreboard objectives add TPcs stat.useItem.minecraft.carrot_on_a_stick The Pit Carrot Stick
 	scoreboard objectives add TPcsi dummy The Pit Carrot Stick ID
-	fill ~2 ~-4 ~-12 ~2 ~-4 ~-12 stonebrick
+	fill ~6 ~-10 ~-12 ~6 ~-10 ~-12 stonebrick
 
-:CBPTeamsSelfChooseClock CLOCK 0 16 16		[4 0 0 | 3 5 18]
+:CBPTeamsSelfChooseClock CLOCK 0 16 16		[4 5 0 | 3 5 18]
 	minecraft:gamemode 2 @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=0]
 	scoreboard players add @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPtsc 0
 	minecraft:clear @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtsc_min=0,score_TPtsc=0]
@@ -519,8 +562,8 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPcsi 2 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Blue"}}}]}
 	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPcsi 1 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Red"}}}}
 	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPcsi 2 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Blue"}}}}
-	scoreboard teams join TPr @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=!TPr,score_TPcs_min=1,score_TPcsi_min=1,score_TPcsi=1]
-	scoreboard teams join TPb @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=!TPb,score_TPcs_min=1,score_TPcsi_min=2,score_TPcsi=2]
+	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=!TPr,score_TPcs_min=1,score_TPcsi_min=1,score_TPcsi=1,score_TPtid_min=0,score_TPtid=0] TPtid 1
+	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=!TPb,score_TPcs_min=1,score_TPcsi_min=2,score_TPcsi=2,score_TPtid_min=0,score_TPtid=0] TPtid 2
 	tellraw @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPcs_min=1,score_TPcsi_min=1,score_TPcsi=1] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"You have joined the ","color":"gray"},{"text":"red","color":"red","italic":true},{"text":" team!","color":"gray"}]}
 	tellraw @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPcs_min=1,score_TPcsi_min=2,score_TPcsi=2] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"You have joined the ","color":"gray"},{"text":"blue","color":"blue","italic":true},{"text":" team!","color":"gray"}]}
 	replaceitem entity @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPcs_min=1,score_TPcsi_min=1,score_TPcsi=1] slot.hotbar.8 dye 1 1 {ench:[{id:0,lvl:1}],HideFlags:127}
@@ -534,16 +577,16 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set Red TPt2 0
 	scoreboard players set Blue TPt2 0
 	scoreboard players add @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPtid 0
-	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=TPr] TPtid 1
+	scoreboard teams join TPr @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=1,score_TPtid=1,team=!TPr]
 	execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=1,score_TPtid=1] ~ ~ ~ scoreboard players add Red TPt2 1
-	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=TPb] TPtid 2
+	scoreboard teams join TPb @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=2,score_TPtid=2,team=!TPb]
 	execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=2,score_TPtid=2] ~ ~ ~ scoreboard players add Blue TPt2 1
 	scoreboard players operation Red TPt = Red TPt2
 	scoreboard players operation Blue TPt = Blue TPt2
 
-:CBPTeamsSelfChooseEnd PULSE 0 16 16		[2 16 0 | 3 3 13]
+:CBPTeamsSelfChooseEnd PULSE 0 16 16		[4 14 0 | 3 3 13]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
-	fill ~2 ~-16 ~-2 ~2 ~-16 ~-2 stonebrick
+	fill ~0 ~-9 ~-2 ~0 ~-9 ~-2 stonebrick
 	scoreboard objectives remove TPtsc
 	scoreboard objectives remove TPcs
 	scoreboard objectives remove TPcsi
@@ -553,7 +596,7 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives remove TPt
 	scoreboard objectives remove TPt2
 
-:CBPTeamsRandomizerStart PULSE 0 16 16		[0 13 0 | 3 3 18]
+:CBPTeamsRandomizerStart PULSE 0 16 16		[4 12 0 | 3 3 18]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard objectives remove TPtsc
 	scoreboard objectives remove TPcs
@@ -567,16 +610,16 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard teams join TPr Red
 	scoreboard teams join TPb Blue
 	scoreboard objectives add TPrnd dummy The Pit Randomizer
-	fill ~4 ~-13 ~-14 ~4 ~-13 ~-14 stonebrick
-	fill ~4 ~-3 ~-15 ~4 ~-3 ~-15 redstone_block
+	fill ~0 ~-7 ~-14 ~0 ~-7 ~-14 stonebrick
+	fill ~2 ~-9 ~-15 ~2 ~-9 ~-15 redstone_block
 
-:CBPTeamsRandomizerClock CLOCK 0 16 16		[4 10 0 | 3 4 18]
+:CBPTeamsRandomizerClock CLOCK 0 16 16		[6 3 0 | 3 4 18]
 	scoreboard players set Red TPt2 0
 	scoreboard players set Blue TPt2 0
 	scoreboard players add @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2] TPtid 0
-	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=TPr] TPtid 1
+	scoreboard teams join TPr @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=1,score_TPtid=1,team=!TPr]
 	execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=1,score_TPtid=1] ~ ~ ~ scoreboard players add Red TPt2 1
-	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,team=TPb] TPtid 2
+	scoreboard teams join TPb @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=2,score_TPtid=2,team=!TPb]
 	execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid_min=2,score_TPtid=2] ~ ~ ~ scoreboard players add Blue TPt2 1
 	scoreboard players operation Red TPt = Red TPt2
 	scoreboard players operation Blue TPt = Blue TPt2
@@ -594,36 +637,34 @@ setblock -96 14 241 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players test Calc TPrnd 0 0
 	 | scoreboard players set @r[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=0,score_TPrnd=0] TPrnd 1
 	 L scoreboard players set @r[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=0,score_TPrnd=0] TPrnd 2
-	scoreboard teams join TPr @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=1,score_TPrnd=1]
-	scoreboard teams join TPb @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=2,score_TPrnd=2]
+	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=1,score_TPrnd=1,team=!TPr] TPtid 1
+	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=2,score_TPrnd=2,team=!TPb] TPtid 2
+	scoreboard players set @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPrnd_min=1] TPrnd 3
 
-:CBPTeamsRandomizerEnd PULSE 0 16 16		[4 17 10 | 3 3 8]
+:CBPTeamsRandomizerEnd PULSE 0 16 16		[6 16 0 | 3 3 8]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard objectives remove TPt
 	scoreboard objectives remove TPt2
 	scoreboard objectives remove TPrnd
-	fill ~0 ~-7 ~-15 ~0 ~-7 ~-15 stonebrick
+	fill ~0 ~-13 ~-5 ~0 ~-13 ~-5 stonebrick
 
-:CBPTeamsRedoPulse PULSE 0 16 16		[2 18 10 | 3 3 8]
-	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
-	scoreboard teams empty TPr
-	scoreboard teams empty TPb
-	scoreboard objectives remove TPtid
-	scoreboard objectives add TPtid dummy The Pit Team ID
-
-:CBPTeamsEditPulse PULSE 0 16 16		[0 15 13 | 3 3 5]
-	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
-	tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Choose team: ","color":"gray"},{"text":"Red","color":"red","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard teams join TPr PlayerName"}},{"text":" , ","color":"gray","italic":true},{"text":"Blue","color":"blue","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard teams join TPb PlayerName"}},{"text":" , ","color":"gray","italic":true},{"text":"Leave team","color":"dark_gray","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard teams leave PlayerName"}}]}
-
-:CBPTeamsEnd PULSE 0 16 16		[0 17 0 | 3 3 13]
+:CBPTeamsEnd PULSE 0 16 16		[6 6 0 | 3 4 18]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard objectives remove TPtid
+	scoreboard objectives remove TPtop
 	scoreboard teams remove TPr
 	scoreboard teams remove TPb
 	minecraft:clear @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2] stained_glass
 	minecraft:clear @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91,m=2] stained_glass_pane
+	minecraft:kill @e[type=ArmorStand,tag=TPTeamStand]
+	scoreboard players test TeamCalc TPtcl 1 1
+	 L scoreboard objectives remove TPtcl
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players test TeamCalc TPtcl 2 2
+	 | scoreboard players set TeamCalc TPtcl 1
+	 L scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
 	scoreboard players set Teams TPSave 0
-	fill ~2 ~-1 ~-8 ~2 ~-1 ~-8 redstone_block
-	fill ~4 ~0 ~1 ~4 ~0 ~1 redstone_block
-	fill CBPTeamsDisplayEnd redstone_block 0
+	fill ~0 ~2 ~-15 ~0 ~2 ~-15 stonebrick
+	fill ~-2 ~7 ~-14 ~-2 ~7 ~-14 redstone_block
+	fill ~0 ~9 ~-13 ~0 ~9 ~-13 redstone_block
 

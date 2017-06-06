@@ -29,9 +29,9 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard teams join ECR /spawn
 	scoreboard objectives add ECRaceDS dummy Ever Changing Race Delay State
 	scoreboard objectives add ECRaceTI dummy Ever Changing Race Delay Timer
-	scoreboard objectives add ECRaceDE2 deathCount Deaths
+	scoreboard objectives add ECRaceFA deathCount Falls
 	scoreboard objectives add ECRSave dummy ECR Settings Save
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay belowName ECRaceDE2
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay belowName ECRaceFA
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRRaceTimer"]}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRDeathMessages"]}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon ArmorStand 467 3 -335 {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure1"]}
@@ -40,7 +40,7 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players add @e[type=ArmorStand,tag=ECRDeathMessages] ECRaceTI 0
 	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,score_EC_min=0,score_EC=0] SPbk 20
 	fill ~2 ~-2 ~0 ~2 ~-2 ~0 redstone_block
-	fill ~0 ~2 ~-1 ~0 ~2 ~-1 redstone_block
+	fill ~4 ~-2 ~-1 ~4 ~-2 ~-1 redstone_block
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 20
 
 :CBPMainClock CLOCK 0 16 16		[2 0 0 | 3 5 18]
@@ -69,12 +69,13 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
 	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ~ ~ ~ particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
 	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] 8 5 255 true
+	scoreboard players add @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ECRaceFA 1
 	scoreboard players tag @a[tag=ECRKilled] remove ECRKilled
 	scoreboard players remove @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=1] ECRaceTI 1
 	testfor @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=0,score_ECRaceTI=0,score_ECRaceDS_min=1,score_ECRaceDS=1]
 	 | scoreboard players operation @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=0,score_ECRaceTI=0,score_ECRaceDS_min=1,score_ECRaceDS=1] ECRaceTI = Delay2 ECRSave
 	 | scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceDS_min=1,score_ECRaceDS=1] ECRaceDS 2
-	 L fill ~2 ~-2 ~-7 ~2 ~-2 ~-7 redstone_block
+	 L fill ~2 ~1 ~-6 ~2 ~1 ~-6 redstone_block
 	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=0,score_ECRaceTI=0,score_ECRaceDS_min=2,score_ECRaceDS=2] ~ ~ ~ fill 467 2 -329 562 2 -333 air 0 replace gold_block 0
 	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=0,score_ECRaceTI=0,score_ECRaceDS_min=2,score_ECRaceDS=2] ~ ~ ~ fill 467 2 -329 562 2 -333 gold_block 0 replace stained_glass 3
 	testfor @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=0,score_ECRaceTI=0,score_ECRaceDS_min=2,score_ECRaceDS=2]
@@ -82,7 +83,9 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	 L scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceDS_min=2,score_ECRaceDS=2] ECRaceDS 1
 	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceDE_min=1] ECRaceDE 0
 
-:CBPCountdown CLOCK 0 16 16		[0 4 0 | 3 4 17]
+:CBPCountdown CLOCK 0 16 16		[4 0 0 | 3 4 18]
+	testfor @e[type=AreaEffectCloud,tag=ECRaceCD]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
 	scoreboard players add @e[type=AreaEffectCloud,tag=ECRaceCD] ECRaceCD 1
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=20,score_ECRaceCD=20] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=20,score_ECRaceCD=20] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
@@ -97,13 +100,12 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ title @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] title {"text":"GO!","color":"green"}
-	testfor @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120]
-	 L fill ~0 ~-1 ~-13 ~0 ~-1 ~-13 stonebrick
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer] ECRaceDS 1
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer] ECRaceTI 0
 	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ fill 466 4 -329 466 4 -333 air 0
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD_min=120,score_ECRaceCD=120] ~ ~ ~ fill 466 6 -333 466 6 -329 air 0
 
-:CBPStructureBlockPulse PULSE 0 16 16		[4 0 0 | 3 4 18]
+:CBPStructureBlockPulse PULSE 0 16 16		[4 3 0 | 3 4 18]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players operation @e[type=ArmorStand,tag=ECRRaceTimer] ECRSave = Percent ECRSave
 	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave_min=5,score_ECRSave=5] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ structure_block 0 replace {mode:"LOAD",posZ:2,name:"ECRPlatform1",integrity:0.05d}
@@ -121,7 +123,7 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~ ~ air 0
 	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[c=1] ~ ~ ~ 0.4
 
-:CBPMainEnd PULSE 0 16 16		[4 3 0 | 3 4 18]
+:CBPMainEnd PULSE 0 16 16		[0 4 0 | 3 4 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
@@ -134,7 +136,6 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard objectives remove ECRaceCL
 	scoreboard objectives remove ECRaceDE
 	scoreboard teams remove ECR
-	scoreboard players tag * remove ECLap
 	minecraft:kill @e[type=AreaEffectCloud,tag=ECRaceCD]
 	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2] clear
 	minecraft:clear @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2]
@@ -142,12 +143,14 @@ setblock 444 9 -319 minecraft:command_block 3 replace {TrackOutput:0b,Command:"s
 	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2] SPtp 20
 	scoreboard objectives remove ECRaceDS
 	scoreboard objectives remove ECRaceTI
-	scoreboard objectives remove ECRaceDE2
+	scoreboard objectives remove ECRaceFA
 	scoreboard players tag * remove ECRKilled
 	scoreboard players set @a[score_EC_min=0,score_EC=0] SPbk 20
 	minecraft:kill @e[type=ArmorStand,tag=ECRAS]
 	fill 466 4 -329 466 4 -333 skull 4 replace {SkullType:3,Owner:{Name:"Smiley0_1",Id:"15f83218-25b3-4936-873e-20fd1aede94c"}}
+	fill 466 6 -333 466 6 -329 barrier 0
 	fill 467 2 -329 562 2 -333 air 0
-	fill ~-2 ~-4 ~-4 ~-2 ~-4 ~-4 stonebrick
-	fill ~-4 ~0 ~-3 ~-4 ~0 ~-3 stonebrick
+	scoreboard players tag * remove ECLap
+	fill ~2 ~-5 ~-3 ~2 ~-5 ~-3 stonebrick
+	fill ~4 ~-5 ~-2 ~4 ~-5 ~-2 stonebrick
 

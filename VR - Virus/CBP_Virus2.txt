@@ -1,6 +1,4 @@
 //#-p stonebrick 0 -b -65 69 -81 -print
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus2.txt
-//<Defines
 DEFINE $SPpvp$ 1
 DEFINE $SPsat$ 1
 DEFINE $SA$ x=-107,y=2,z=-130,dx=193,dy=100,dz=241
@@ -9,29 +7,21 @@ DEFINE $CMDSizeX$ 16
 DEFINE $CMDSizeY$ 16
 DEFINE $CMDSizeZ$ 16
 DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VRPARSE($VType$)","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
-///	Teleport virus to above mid
 DEFINE $VirusBeg$ -61.0 64 -69.0
-/// Mid tube
 DEFINE $VirusEnd$ -61.0 40 -69.0
-///	Select Spawn
 DEFINE $SP$ x=-77,y=56,z=-85,dx=31,dy=5,dz=31
-///	Select Virus
 DEFINE $SV$ x=-62,y=64,z=-70,dx=1,dy=3,dz=1
-///	Open mid door
 DEFINE $DoorMid$ -65 60 -66 -58 60 -73
-///	Open virus door
 DEFINE $DoorVirus$ -64 63 -67 -59 63 -72
-///	Spawn ID
 DEFINE $SPid$ 16
-/// Virus Type
 DEFINE $VType$ 2
+DEFINE $Style$ 16 16 0
 DEFINE $s$ minecraft:
 DEFINE $ObjA$ scoreboard objectives add
 DEFINE $ObjR$ scoreboard objectives remove
 DEFINE $TeamA$ scoreboard teams add
 DEFINE $TeamO$ scoreboard teams option
 DEFINE $TeamR$ scoreboard teams remove
-DEFINE $Style$ 16 16 0
 DEFINE Deactivate fill |0| stonebrick 0
 DEFINE Activate fill |0| redstone_block 0
 DEFINE ColorFillWool fill |0| wool |1|
@@ -42,24 +32,21 @@ DEFINE ScTG scoreboard players tag
 DEFINE ScOP scoreboard players operation
 DEFINE ScTE scoreboard players test
 DEFINE ScRE scoreboard players reset
+DEFINE ScEN scoreboard players enable
 DEFINE ScTJ scoreboard teams join
 DEFINE ScTL scoreboard teams leave
 DEFINE RevST scoreboard players tag @a[|0|] remove |0|
-DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
 DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
 DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
 DEFINE NumberAdd |0| Number = |0|
 DEFINE NumberObjAdd Number dummy
-FUNC Func_CMDSave
-fill 0x -1y 0z 3x -3y 3z air 0
-setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
-setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
-setblock 0x -1y 1z wooden_button 2
-setblock 0x -3y 1z wooden_button 2
-setblock 1x -1y 2z redstone_lamp 0
-setblock 1x -3y 2z redstone_lamp 0
-setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
-END
+DEFINE Snd_Pling minecraft:block.note.pling
+DEFINE Snd_XP minecraft:entity.experience_orb.touch
+DEFINE Snd_Item minecraft:entity.item.pickup
+DEFINE Snd_TP minecraft:entity.endermen.teleport
+DEFINE Snd_Wither minecraft:entity.wither.death
+DEFINE Snd_Level minecraft:entity.player.levelup
+DEFINE Snd_Explode minecraft:entity.generic.explode
 FUNC Func_SpawnIDSetting
 @a[$SA$] SPid + 0
 @a[$SA$,SPid<-$SPid$] SPid = $SPid$
@@ -88,8 +75,81 @@ FUNC Func_SpawnStandEdit
 @e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
 @e[type=ArmorStand,SpawnStand] SPwea = |4|
 END
-//>
-//<Comments: To do
+DEFINE DEF_ExecuteCountdown @e[type=AreaEffectCloud,PARSE($Name$)Countdown,|0|=|1|]
+FUNC Func_UniversalCountdownStart
+ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Tags:["$Name$Entity","$Name$Countdown"],Duration:|0|}
+END
+FUNC Func_UniversalCountdownExtendedClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=1] Countdown |2| = 6
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] Countdown |2| = 5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] Countdown |2| = 4
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] Countdown |2| = 3
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] Countdown |2| = 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] Countdown |2| = 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=120] ScRE Countdown |2|
+END
+FUNC Func_UniversalCountdownClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+END
+FUNC Func_UniversalXPGeneralClock
+$s$kill @e[$SA$,type=XPOrb]
+$s$xp -2147483648L @a[$SA$,m=2]
+END
+FUNC Func_UniversalXPBarClock
+$s$xp 1129L @a[$SA$,m=2,|0|>=0]
+$s$xp 11 @a[$SA$,m=2,|0|>=0]
+LOOP 64 1 / 2 () 6336 99 / 2
+$s$xp |2| @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+$s$xp -1129L @a[$SA$,m=2,|0|>=0]
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
+FUNC Func_UniversalXPNumClock
+LOOP |1| 1 / 2
+$s$xp |0|L @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+FUNC Func_CMDSave
+fill 0x -1y 0z 3x -3y 3z air 0
+setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 0x -1y 1z wooden_button 2
+setblock 0x -3y 1z wooden_button 2
+setblock 1x -1y 2z redstone_lamp 0
+setblock 1x -3y 2z redstone_lamp 0
+setblock 2x -1y 1z minecraft:command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+END
 FUNC Func_ToDoThings
 Mandatory:
 Additional:
@@ -98,34 +158,21 @@ Additional:
 Features:
 -XP bar and scoreboard display timer
 END
-//>
-//<Main Start
 FUNC Func_EditGeneralScoreboardStart
 END
-//>
-//<Main Clock
 FUNC Func_EditGeneralScoreboardClock
 END
-//>
-//<Open Doors Pulse
 FUNC Func_EditOpenDoorsPulse
 fill $DoorMid$ stonebrick 0 replace redstone_block 0
 END
-//>
-//<Release Virus Testfor Clock
 FUNC Func_EditReleaseVirusTFClock
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
 END
-//>
-//<End Game Testfor Clock
 FUNC Func_EditEndGameTFClock
 END
-//>
-//<Main End
 FUNC Func_EditGeneralScoreboardEnd
 END
-//<General Scoreboard Start
 FUNC Func_GeneralScoreboardStart
 USE $ObjA$
 V$VType$ dummy Virus $VType$
@@ -143,18 +190,18 @@ ExecuteSpawnStand scoreboard objectives setdisplay sidebar V$VType$
 NumberAdd(60)
 NumberAdd(100)
 NumberAdd(600)
-scoreboard teams add VRh Virus $VType$ Hiders
-scoreboard teams add VRv Virus $VType$ Virus
-scoreboard teams add VRd_y V$VType$ Display Yellow
-scoreboard teams add VRd_g V$VType$ Display Green
+USE $TeamA$
+VRh Virus $VType$ Hiders
+VRv Virus $VType$ Virus
+VRd_y V$VType$ Display Yellow
+VRd_g V$VType$ Display Green
+UNUSE
 USE $TeamO$
 VRv friendlyfire false
 VRv collisionRule never
-///		VRv deathMessageVisibility false
 VRv color yellow
 VRh friendlyfire false
 VRh collisionRule never
-///		VRv deathMessageVisibility false
 VRh color green
 VRh nametagVisibility hideForOtherTeams
 VRd_y color yellow
@@ -166,41 +213,29 @@ ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["VRtimer"],Invulnerable:1,Persi
 @e[type=ArmorStand,VRtimer] VRti + 0
 ExecuteSpawnStand @e[type=ArmorStand,VRtimer] VRti3 = -1
 END
-//>
-//<Open Doors Pulse
 FUNC Func_OpenDoorsPulse
 ScOP @e[type=ArmorStand,VRtimer] VRti2 = V$VType$Countdown VirusSave
 @e[type=ArmorStand,VRtimer] VRti3 = 0
 title @a title {"text":""}
-//(Change this to above hotbar in 1.11)
 title @a subtitle {"text":"The doors are now open","color":"green"}
 @a playsound minecraft:entity.player.levelup voice @a[c=1]
 END
-//>
-//<Random Virus Select Pulse
 FUNC Func_RandomVirusSelectPulse
 @r[$SP$,m=2,VRpl=1] VRpl = 2
 END
-//>
-//<Tellraw Setting Pulse
 FUNC Func_TellrawSettingPulse
 tellraw @a[EC=0] $TextStart${"text":"Choose team: ","color":"gray"},{"text":"Hider","color":"green","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the hiders","color":"green"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 1"}},{"text":", ","color":"gray","italic":true},{"text":"Virus","color":"yellow","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 2"}}]}
 END
-//>
-//<Release Virus Testfor Clock
 FUNC Func_ReleaseVirusTFClock
 testfor @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0]
 SetblockTestfor
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] ScRE Countdown V$VType$
-//(Change this to above hotbar in 1.11)
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] title @a title {"text":"The virus has","color":"yellow"}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] title @a subtitle {"text":"been released!","color":"yellow"}
 Func_EditReleaseVirusTFClock
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] VRti3 = 1
 ScOP @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=1] VRti2 = V$VType$GameTime VirusSave
 END
-//>
-//<End Game Testfor Clock
 FUNC Func_EndGameTFClock
 testfor @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=1]
 SetblockTestfor
@@ -211,32 +246,17 @@ SetblockTestfor
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=1] ScRE Minutes V$VType$
 Func_EditReleaseVirusTFClock
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=1] VRti = -1
-///	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=1] VRti3 = 2
 END
-//>
-//<Reset Settings Pulse
 FUNC Func_ResetSettingsPulse
 V$VType$GameTime VirusSave = 600
 V$VType$Countdown VirusSave = 60
 END
-//>
-//<General Scoreboard Clock
 FUNC Func_GeneralScoreboardClock
-/// baby i'm ballin
-///	ArmorStand VRpl -- -1 = Before countdown, 0 = Doors open, 1 = Regular game, 2 = stop
-///	Player VRpl -- 0 = Start, 1 = Hiding, 2 = Dead and will turn to the virus, 3 = Virus
-///	Other
 $s$kill @e[$SA$,type=Item]
-$s$weather clear 1000000
-///	Spawnpoint
-Func_SpawnIDSetting
-///	Timer
 @e[type=ArmorStand,VRtimer,VRti>=0<=19,VRti2>=1,VRti3>=0] VRti + 1
 @e[type=ArmorStand,VRtimer,VRti=20,VRti2>=1,VRti3>=0] VRti2 - 1
 @e[type=ArmorStand,VRtimer,VRti=20,VRti2>=0,VRti3>=0] VRti = 0
-///	Countdown stuff
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=30,VRti3=0] tellraw @a $TextStart${"text":"30 seconds until the virus is released!","color":"yellow"}]}
-///	@e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1<=5,VRti3=0] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,VRtimer,VRti=0,VRti2>=5<=1,VRti3=0,c=1,r=1]","objective":"VRti2","color":"yellow"},{"text":"!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=5,VRti3=0] tellraw @a $TextStart${"text":"5!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=4,VRti3=0] tellraw @a $TextStart${"text":"4!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=3,VRti3=0] tellraw @a $TextStart${"text":"3!","color":"yellow"}]}
@@ -248,16 +268,14 @@ Func_SpawnIDSetting
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=240,VRti3=1] tellraw @a $TextStart${"text":"4 minutes remain!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=180,VRti3=1] tellraw @a $TextStart${"text":"3 minutes remain!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=120,VRti3=1] tellraw @a $TextStart${"text":"2 minutes remain!","color":"yellow"}]}
-@e[type=ArmorStand,VRtimer,VRti=0,VRti2=60,VRti3=1] tellraw @a $TextStart${"text":"1 minutes remain!","color":"yellow"}]}
+@e[type=ArmorStand,VRtimer,VRti=0,VRti2=60,VRti3=1] tellraw @a $TextStart${"text":"1 minute remain!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=30,VRti3=1] tellraw @a $TextStart${"text":"30 seconds remain!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=15,VRti3=1] tellraw @a $TextStart${"text":"15 seconds remain!","color":"yellow"}]}
-///	@e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1<=5,VRti3=1] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,VRtimer,VRti=0,VRti2=15,VRti3=1,c=1,r=1]","objective":"VRti2","color":"yellow"}},{"text":"!","color":"yellow"}]} 
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=5,VRti3=1] tellraw @a $TextStart${"text":"5!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=4,VRti3=1] tellraw @a $TextStart${"text":"4!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=3,VRti3=1] tellraw @a $TextStart${"text":"3!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=2,VRti3=1] tellraw @a $TextStart${"text":"2!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2=1,VRti3=1] tellraw @a $TextStart${"text":"1!","color":"yellow"}]}
-///	Display times
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] ScOP Seconds VRti = @e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] VRti2
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] ScOP Minutes VRti = @e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] VRti2
 @e[type=ArmorStand,VRtimer,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] ScOP Seconds VRti %= 60 Number
@@ -265,7 +283,6 @@ Func_SpawnIDSetting
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti2>=1,VRti3=0] ScOP Countdown V$VType$ = Seconds VRti
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti2>=1,VRti3=1] ScOP Seconds V$VType$ = Seconds VRti
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti2>=1,VRti3=1] ScOP Minutes V$VType$ = Minutes VRti
-///	General: Adds to hiders
 @e[type=ArmorStand,VRtimer,VRti>=0] $s$gamemode 2 @a[$SP$,m=0]
 @e[type=ArmorStand,VRtimer,VRti>=0] @a[$SP$,m=2] VRpl + 0
 @e[type=ArmorStand,VRtimer,VRti>=0] $s$clear @a[$SP$,m=2,VRpl=0]
@@ -273,32 +290,28 @@ Func_SpawnIDSetting
 @e[type=ArmorStand,VRtimer,VRti>=0] effect @a[$SP$,m=2,VRpl=0] clear
 @e[type=ArmorStand,VRtimer,VRti>=0] @a[$SP$,m=2,VRpl=0] VRpl = 1
 ScTJ VRh @a[$SA$,m=2,VRpl=1,team=!VRh]
-///	Add to virus
 title @a[$SA$,m=2,VRpl=2] title {"text":"You are now","color":"yellow"}
 title @a[$SA$,m=2,VRpl=2] subtitle {"text":"the virus!","color":"yellow"}
+replaceitem entity @a[$SA$,m=2,VRpl=2] slot.armor.head golden_helmet 1 0 {Unbreakable:1}
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3=1] $s$tp @a[$SP$,m=2,VRpl=2] $VirusEnd$
 @e[type=ArmorStand,VRtimer,VRti3>=-1<=0] $s$tp @a[$SP$,m=2,VRpl=2] $VirusBeg$
 @a[$SA$,m=2,VRpl=2] VRpl = 3
 ScTJ VRv @a[$SA$,m=2,VRpl=3,team=!VRv]
-///	Effects
 @e[type=ArmorStand,VRtimer,VRti>=0] effect @a[$SA$,m=2,VRpl=3] 5 3 90 true
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti2>=302,VRti3=1] effect @a[$SA$,m=2,VRpl=3] 24 3 0 true
 @e[type=ArmorStand,VRtimer,VRti3=0] effect @a[$SA$,m=2,VRpl=3] 24 3 0 true
 effect @a[$SA$,m=2,VRpl>=1<=3] 11 3 3 true
 @e[type=ArmorStand,VRtimer,VRti=-1] effect @a[$SA$,m=2,VRpl=1] 11 3 9 true
 effect @a[$SA$,m=2,VRpl>=1<=3] 6 100 100 true
-///	Player list (Hiders and Virus)
 @e[type=ArmorStand,VRtimer,VRti>=0] VRpl = 0
 @a[$SA$,m=2,VRpl=1] @e[type=ArmorStand,VRtimer,VRti>=0] VRpl + 1
 @e[type=ArmorStand,VRtimer,VRti>=0] VRpl2 = 0
 @a[$SA$,m=2,VRpl=3] @e[type=ArmorStand,VRtimer,VRti>=0] VRpl2 + 1
 ScOP Hiders V$VType$ = @e[type=ArmorStand,VRtimer,VRti>=0] VRpl
 ScOP Virus V$VType$ = @e[type=ArmorStand,VRtimer,VRti>=0] VRpl2
-///	Detection if the virus won
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3>=0,VRpl=0] title @a title {"text":"The virus won!","color":"yellow"}
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3>=0,VRpl=0] tellraw @a $TextStart${"text":"The virus won!","color":"yellow"}]}
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3>=0,VRpl=0] VRti = -1
-///	XP
 $s$kill @e[$SA$,type=XPOrb]
 $s$xp -2147483648L @a[$SA$]
 ScOP @a[$SA$,m=2] VRxp = @e[type=ArmorStand,VRtimer,VRti>=0,VRti2>=0] VRti2
@@ -313,13 +326,10 @@ $s$xp |2| @a[$SA$,VRxp>=|0|,m=2]
 END
 $s$xp -1129L @a[$SA$,VRxp>=0,m=2]
 @a[$SA$,VRxp>=0] VRxp = 0
-///	Deaths
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3>=0<=1] @a[m=2,VRpl=1,VRde>=1] SPbk = $SPid$
 @e[type=ArmorStand,VRtimer,VRti>=0,VRti3>=0<=1] @a[m=2,VRpl=1,VRde>=1] VRpl = 2
 @a[VRde>=1] VRde = 0
 END
-//>
-//<General Scoreboard End
 FUNC Func_GeneralScoreboardEnd
 $s$clear @a[$SA$,m=2,VRpl>=0]
 @a[$SA$,EC=0] SPbk = $SPid$
@@ -345,45 +355,42 @@ $s$kill @e[type=ArmorStand,VRtimer]
 fill $DoorMid$ redstone_block 0 replace stonebrick 0
 fill $DoorVirus$ redstone_block 0 replace stonebrick 0
 END
-//>
-//<Groups
-Func_CMDSave
+Func_CMDSave()
 :CBPMainStart PULSE $Style$
-Func_SpawnStandStart
+Func_SpawnStandStart()
 Deactivate(CBPMainStart)
-Func_GeneralScoreboardStart
-Func_EditGeneralScoreboardStart
+Func_GeneralScoreboardStart()
+Func_EditGeneralScoreboardStart()
 Activate(CBPMainClock)
 Activate(CBPReleaseVirusTFClock)
 Activate(CBPEndGameTFClock)
 FinalSpawnStand
 :CBPMainClock CLOCK $Style$
-Func_GeneralScoreboardClock
-Func_EditGeneralScoreboardClock
+Func_SpawnIDSetting()
+Func_GeneralScoreboardClock()
+Func_EditGeneralScoreboardClock()
 :CBPMainEnd PULSE $Style$
-Func_SpawnStandEnd
+Func_SpawnStandEnd()
 Deactivate(CBPMainEnd)
-Func_GeneralScoreboardEnd
-Func_EditGeneralScoreboardEnd
+Func_GeneralScoreboardEnd()
+Func_EditGeneralScoreboardEnd()
 Deactivate(CBPMainClock)
 Deactivate(CBPReleaseVirusTFClock)
 Deactivate(CBPEndGameTFClock)
 :CBPOpenDoorsPulse PULSE $Style$
 Deactivate(CBPOpenDoorsPulse)
-Func_OpenDoorsPulse
-Func_EditOpenDoorsPulse
+Func_OpenDoorsPulse()
+Func_EditOpenDoorsPulse()
 :CBPReleaseVirusTFClock CLOCK $Style$
-Func_ReleaseVirusTFClock
+Func_ReleaseVirusTFClock()
 :CBPEndGameTFClock CLOCK $Style$
-Func_EndGameTFClock
+Func_EndGameTFClock()
 :CBPTellrawSettingPulse PULSE $Style$
 Deactivate(CBPTellrawSettingPulse)
-Func_TellrawSettingPulse
+Func_TellrawSettingPulse()
 :CBPResetSettingsPulse PULSE $Style$
 Deactivate(CBPResetSettingsPulse)
-Func_ResetSettingsPulse
+Func_ResetSettingsPulse()
 :CBPRandomVirusSelectPulse PULSE $Style$
 Deactivate(CBPRandomVirusSelectPulse)
-Func_RandomVirusSelectPulse
-//>
-//>
+Func_RandomVirusSelectPulse()

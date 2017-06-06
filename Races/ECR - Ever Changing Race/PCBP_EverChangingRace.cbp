@@ -1,5 +1,5 @@
 //#-p stonebrick 0 -b 443 10 -321 -print
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\ECR - Ever Changing Race\CBP_EverChangingRace.cbp
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\ECR - Ever Changing Race\PCBP_EverChangingRace.cbp
 
 //<Defines
 DEFINE $CMDName$ ECR
@@ -34,6 +34,8 @@ DEFINE $lapAF$ x=497,y=0,z=-333,dy=4,dz=4
 ///	Area where laps are disabled in spawn
 DEFINE $lapSP$ x=454,y=2,z=-334,dx=12,dy=9,dz=6
 
+PCBPIMPORT PCBPI_PosRZ.cbp
+
 DEFINE DEF_SBlock structure_block 0 replace {mode:"LOAD",posZ:2,name:"ECRPlatform1",integrity:|0|}
 
 ///	Smiley Heads coordinates
@@ -67,7 +69,8 @@ DEFINE $ECRPercent11$ 100
 ///	Portal
 DEFINE $Portal$ x=569,y=3,z=-333,dy=4,dz=4
 
-PCBPIMPORT PCBPI_PosRZ.txt
+///	Barriers
+DEFINE $BarrierFill$ 466 6 -333 466 6 -329
 //>
 
 //<Comments
@@ -111,10 +114,10 @@ FUNC Func_EditGeneralScoreboardStart
 	USE $ObjA$
 		$Name$RaceDS dummy $TDName$ Delay State
 		$Name$RaceTI dummy $TDName$ Delay Timer
-		$Name$RaceDE2 deathCount Deaths
+		$Name$RaceFA deathCount Falls
 		ECRSave dummy ECR Settings Save
 	UNUSE
-	ExecuteSpawnStand scoreboard objectives setdisplay belowName $Name$RaceDE2
+	ExecuteSpawnStand scoreboard objectives setdisplay belowName $Name$RaceFA
 	
 ///	ECR Armor Stands
 	ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRRaceTimer"]}
@@ -145,6 +148,7 @@ FUNC Func_EditGeneralScoreboardClock
 	@a[$SA$,m=2,team=ECR,ECRKilled] playsound minecraft:entity.endermen.teleport voice @a[c=1]
 	@a[$SA$,m=2,team=ECR,ECRKilled] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
 	effect @a[$SA$,m=2,team=ECR,ECRKilled] 8 5 255 true
+	@a[$SA$,m=2,team=ECR,ECRKilled] $Name$RaceFA + 1
 	RevST(ECRKilled)
 	
 ///	Fills stuff
@@ -204,10 +208,11 @@ END
 //>
 
 //<Countdown Clock
-FUNC Func_EditCountdownClock
+FUNC Func_EditCountdownTFClock
 	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @e[type=ArmorStand,ECRRaceTimer] $Name$RaceDS = 1
 	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @e[type=ArmorStand,ECRRaceTimer] $Name$RaceTI = 0
 	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $SHead$ air 0
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $BarrierFill$ air 0
 END
 //>
 
@@ -217,7 +222,7 @@ FUNC Func_EditGeneralScoreboardEnd
 	USE $ObjR$
 		$Name$RaceDS
 		$Name$RaceTI
-		$Name$RaceDE2
+		$Name$RaceFA
 	UNUSE
 	ScTG * remove ECRKilled
 	@a[EC=0] SPbk = $SPid$
@@ -225,10 +230,12 @@ FUNC Func_EditGeneralScoreboardEnd
 ///	Other
 	$s$kill @e[type=ArmorStand,tag=ECRAS]
 	fill $SHead$ skull 4 replace {SkullType:3,Owner:{Name:"Smiley0_1",Id:"15f83218-25b3-4936-873e-20fd1aede94c"}}
+	fill $BarrierFill$ barrier 0
 	fill $ECRPlatform$ air 0
 END
 
-PCBPIMPORT PCBPI_LapRaceGroup.txt
+PCBPIMPORT PCBPB_LapRace.cbp
+PCBPIMPORT PCBPB_RaceSystem.cbp
 //>
 
 //<Groups
@@ -238,7 +245,6 @@ Func_CMDSave()
 Func_SpawnStandStart()
 Deactivate(CBPMainStart)
 Func_GeneralScoreboardStart()
-Func_EditGeneralScoreboardStart()
 Activate(CBPMainClock)
 Activate(CBPCountdown)
 FinalSpawnStand
@@ -248,8 +254,7 @@ Func_SpawnIDSetting()
 Func_GeneralScoreboardClock()
 
 :CBPCountdown CLOCK $Style$
-Func_CountdownClock()
-Func_EditCountdownClock()
+Func_CountdownTFClock()
 
 :CBPStructureBlockPulse PULSE $Style$
 Deactivate(CBPStructureBlockPulse)
@@ -259,7 +264,6 @@ Func_StructureBlockPulse()
 Func_SpawnStandEnd()
 Deactivate(CBPMainEnd)
 Func_GeneralScoreboardEnd()
-Func_EditGeneralScoreboardEnd()
 Deactivate(CBPMainClock)
 Deactivate(CBPCountdown)
 //>

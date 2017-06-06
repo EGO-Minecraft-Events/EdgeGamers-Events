@@ -52,11 +52,10 @@ setblock -79 57 -234 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 17
 
 :CBPMainClock CLOCK 16 16 0		[0 0 0 | 18 8 3]
-	minecraft:kill @e[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,type=Item]
-	minecraft:weather clear 1000000
 	scoreboard players add @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181] SPid 0
 	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_SPid=-18] SPid 17
 	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_SPid_min=-16] SPid 17
+	minecraft:kill @e[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,type=Item]
 	scoreboard players add @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=19,score_VRti2_min=1,score_VRti3_min=0] VRti 1
 	scoreboard players remove @e[type=ArmorStand,tag=VRtimer,score_VRti_min=20,score_VRti=20,score_VRti2_min=1,score_VRti3_min=0] VRti2 1
 	scoreboard players set @e[type=ArmorStand,tag=VRtimer,score_VRti_min=20,score_VRti=20,score_VRti2_min=0,score_VRti3_min=0] VRti 0
@@ -72,7 +71,7 @@ setblock -79 57 -234 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=240,score_VRti2=240,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4 minutes remain!","color":"yellow"}]}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=180,score_VRti2=180,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3 minutes remain!","color":"yellow"}]}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=120,score_VRti2=120,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2 minutes remain!","color":"yellow"}]}
-	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=60,score_VRti2=60,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1 minutes remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=60,score_VRti2=60,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1 minute remain!","color":"yellow"}]}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=30,score_VRti2=30,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"30 seconds remain!","color":"yellow"}]}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=15,score_VRti2=15,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"15 seconds remain!","color":"yellow"}]}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti=0,score_VRti2_min=5,score_VRti2=5,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5!","color":"yellow"}]}
@@ -96,6 +95,7 @@ setblock -79 57 -234 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	scoreboard teams join VRh @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=1,score_VRpl=1,team=!VRh]
 	title @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=2,score_VRpl=2] title {"text":"You are now","color":"yellow"}
 	title @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=2,score_VRpl=2] subtitle {"text":"the virus!","color":"yellow"}
+	replaceitem entity @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=2,score_VRpl=2] slot.armor.head golden_helmet 1 0 {Unbreakable:1}
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti_min=0,score_VRti3_min=1,score_VRti3=1] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl_min=2,score_VRpl=2] -69.0 38 -225.0
 	execute @e[type=ArmorStand,tag=VRtimer,score_VRti3_min=-1,score_VRti3=0] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl_min=2,score_VRpl=2] -69.0 53 -225.0
 	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=2,score_VRpl=2] VRpl 3

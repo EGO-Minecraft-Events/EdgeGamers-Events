@@ -14,21 +14,21 @@ setblock 529 19 -830 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
 	fill ~-6 ~0 ~0 ~-6 ~0 ~0 stonebrick
-	scoreboard objectives add FrostBurnRace dummy FrostBurn Run
-	scoreboard objectives add FrostBurnRaceCD dummy FrostBurn Run Countdown
-	scoreboard objectives add FrostBurnRaceCL dummy FrostBurn Run Clear
-	scoreboard objectives add FrostBurnRaceDE deathCount FrostBurn Run Deaths
-	scoreboard objectives add FrostBurnRaceBC dummy FrostBurn Run Broadcast
-	scoreboard objectives add FrostBurnRaceCP dummy FrostBurn Run Checkpoints
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay sidebar FrostBurnRace
-	scoreboard teams add FrostBurnR
-	scoreboard teams option FrostBurnR color aqua
-	scoreboard teams option FrostBurnR seeFriendlyInvisibles true
-	scoreboard teams option FrostBurnR collisionRule never
-	scoreboard teams option FrostBurnR friendlyfire false
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["FrostBurnRaceCD"]}
-	scoreboard players set /spawn FrostBurnRace 0
-	scoreboard teams join FrostBurnR /spawn
+	scoreboard objectives add FrostburnRace dummy Frostburn Run
+	scoreboard objectives add FrostburnRaceCD dummy Frostburn Run Countdown
+	scoreboard objectives add FrostburnRaceCL dummy Frostburn Run Clear
+	scoreboard objectives add FrostburnRaceDE deathCount Frostburn Run Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ scoreboard objectives setdisplay sidebar FrostburnRace
+	scoreboard teams add FrostburnR
+	scoreboard teams option FrostburnR color aqua
+	scoreboard teams option FrostburnR seeFriendlyInvisibles true
+	scoreboard teams option FrostburnR collisionRule never
+	scoreboard teams option FrostburnR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["FrostburnRaceCD"]}
+	scoreboard players set /spawn FrostburnRace 99
+	scoreboard teams join FrostburnR /spawn
+	scoreboard objectives add FrostburnRaceBC dummy Frostburn Run Broadcast
+	scoreboard objectives add FrostburnRaceCP dummy Frostburn Run Checkpoints
 	fill ~-2 ~-2 ~-2 ~-2 ~-2 ~-2 redstone_block
 	fill ~-3 ~-2 ~2 ~-3 ~-2 ~2 redstone_block
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=0,score_SPgam=0] SPgam 19
@@ -38,72 +38,71 @@ setblock 529 19 -830 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,score_SPid=-20] SPid 19
 	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,score_SPid_min=-18] SPid 19
 	minecraft:kill @e[x=433,y=3,z=-841,dx=90,dy=50,dz=90,type=Item]
-	scoreboard players add @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,team=!FrostBurnR] FrostBurnRaceBC 0
-	scoreboard players add @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] FrostBurnRaceCL 0
-	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceCL_min=0,score_FrostBurnRaceCL=0] FrostBurnRaceDE 1
-	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceCL_min=0,score_FrostBurnRaceCL=0] FrostBurnRaceCL 1
-	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceDE_min=1] clear
-	minecraft:clear @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceDE_min=1]
-	scoreboard teams join FrostBurnR @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,team=!FrostBurnR]
-	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 14 3 0 true
-	scoreboard players set @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostBurnRaceBC_min=0,score_FrostBurnRaceBC=0] FrostBurnRaceBC 1
-	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostBurnRaceBC_min=1,score_FrostBurnRaceBC=1] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
-	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostBurnRaceBC_min=1,score_FrostBurnRaceBC=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
-	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostBurnRaceBC_min=1,score_FrostBurnRaceBC=1] ~ ~ ~ fill 435 10 -778 435 10 -777 redstone_block 0
-	scoreboard players set @a[x=434,y=12,z=-778,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=0,score_FrostBurnRaceBC=0] FrostBurnRaceBC 2
-	execute @a[x=434,y=12,z=-778,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=2,score_FrostBurnRaceBC=2] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
-	execute @a[x=434,y=12,z=-778,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=2,score_FrostBurnRaceBC=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
-	execute @a[x=434,y=12,z=-778,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=2,score_FrostBurnRaceBC=2] ~ ~ ~ fill 435 9 -781 435 9 -781 redstone_block 0
-	scoreboard players set @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=0,score_FrostBurnRaceBC=0] FrostBurnRaceBC 3
-	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=3,score_FrostBurnRaceBC=3] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
-	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=3,score_FrostBurnRaceBC=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
-	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostBurnRaceBC_min=3,score_FrostBurnRaceBC=3] ~ ~ ~ fill 435 8 -774 435 8 -774 redstone_block 0
-	execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_FrostBurnRaceBC_min=1] FrostBurnRace = @a[r=1,c=1,m=2,score_FrostBurnRaceBC_min=1] FrostBurnRaceBC
-	scoreboard players operation @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceBC_min=1] FrostBurnRace *= -1 Number
-	scoreboard players operation @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceBC_min=1] FrostBurnRaceBC *= -1 Number
-	scoreboard players add @a[x=511,y=10,z=-833,dx=11,dy=9,dz=12,m=2,team=FrostBurnR] FrostBurnRaceCP 0
-	execute @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
-	execute @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
-	scoreboard players set @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] FrostBurnRaceCP 1
-	execute @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
-	execute @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
-	scoreboard players set @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] FrostBurnRaceCP 2
-	execute @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
-	execute @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
-	scoreboard players set @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostBurnR,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] FrostBurnRaceCP 3
-	execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add FrostBurnRWaterTP
-	scoreboard players tag @a[x=511,y=10,z=-833,dx=11,dy=9,dz=12,m=2,score_FrostBurnRaceCP_min=1] add FrostBurnRWaterTP
-	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=0,score_FrostBurnRaceCP=0] 514 11 -827 90 0
-	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=1,score_FrostBurnRaceCP=1] 450 11 -802 -90 0
-	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=2,score_FrostBurnRaceCP=2] 516.0 12 -793 0 45
-	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostBurnRWaterTP,score_FrostBurnRaceCP_min=3,score_FrostBurnRaceCP=3] 494 21 -778 90 20
-	effect @a[tag=FrostBurnRWaterTP] 6 1 100 true
-	effect @a[tag=FrostBurnRWaterTP] 11 1 100 true
-	execute @a[tag=FrostBurnRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
-	scoreboard players tag @a[tag=FrostBurnRWaterTP] remove FrostBurnRWaterTP
-	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,team=FrostBurnR] 12 3 0 true
-	effect @a[x=510,y=10,z=-792,dx=11,dy=5,dz=11,m=2,team=FrostBurnR] 12 0 0 true
-	minecraft:tp @a[x=514,y=13,z=-794,dx=3,dy=3,m=2,team=FrostBurnR] ~ ~ ~1
-	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostBurnRaceDE_min=1] FrostBurnRaceDE 0
+	scoreboard players add @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] FrostburnRaceCL 0
+	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceCL_min=0,score_FrostburnRaceCL=0] FrostburnRaceDE 1
+	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceCL_min=0,score_FrostburnRaceCL=0] FrostburnRaceCL 1
+	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceDE_min=1] clear
+	minecraft:clear @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceDE_min=1]
+	scoreboard teams join FrostburnR @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,team=!FrostburnR]
+	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,team=FrostburnR] 14 3 0 true
+	scoreboard players add @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,team=FrostburnR] FrostburnRaceBC 0
+	scoreboard players set @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostburnRaceBC_min=0,score_FrostburnRaceBC=0] FrostburnRaceBC 1
+	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostburnRaceBC_min=1,score_FrostburnRaceBC=1] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostburnRaceBC_min=1,score_FrostburnRaceBC=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=434,y=13,z=-778,dy=1,dz=1,c=1,m=2,score_FrostburnRaceBC_min=1,score_FrostburnRaceBC=1] ~ ~ ~ fill 435 10 -778 435 10 -777 redstone_block 0
+	scoreboard players set @a[x=434,y=12,z=-781,dy=1,c=1,m=2,score_FrostburnRaceBC_min=0,score_FrostburnRaceBC=0] FrostburnRaceBC 2
+	execute @a[x=434,y=12,z=-781,dy=1,c=1,m=2,score_FrostburnRaceBC_min=2,score_FrostburnRaceBC=2] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=434,y=12,z=-781,dy=1,c=1,m=2,score_FrostburnRaceBC_min=2,score_FrostburnRaceBC=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=434,y=12,z=-781,dy=1,c=1,m=2,score_FrostburnRaceBC_min=2,score_FrostburnRaceBC=2] ~ ~ ~ fill 435 9 -781 435 9 -781 redstone_block 0
+	scoreboard players set @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostburnRaceBC_min=0,score_FrostburnRaceBC=0] FrostburnRaceBC 3
+	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostburnRaceBC_min=3,score_FrostburnRaceBC=3] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostburnRaceBC_min=3,score_FrostburnRaceBC=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=434,y=11,z=-774,dy=1,c=1,m=2,score_FrostburnRaceBC_min=3,score_FrostburnRaceBC=3] ~ ~ ~ fill 435 8 -774 435 8 -774 redstone_block 0
+	execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_FrostburnRaceBC_min=1] FrostburnRace = @a[r=1,c=1,m=2,score_FrostburnRaceBC_min=1] FrostburnRaceBC
+	scoreboard players add @a[x=511,y=10,z=-833,dx=11,dy=9,dz=12,m=2,team=FrostburnR] FrostburnRaceCP 0
+	execute @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostburnR,score_FrostburnRaceCP_min=0,score_FrostburnRaceCP=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostburnR,score_FrostburnRaceCP_min=0,score_FrostburnRaceCP=0] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostburnR,score_FrostburnRaceCP_min=0,score_FrostburnRaceCP=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=448,y=10,z=-803,dx=4,dy=5,dz=2,m=2,team=FrostburnR,score_FrostburnRaceCP_min=0,score_FrostburnRaceCP=0] FrostburnRaceCP 1
+	execute @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostburnR,score_FrostburnRaceCP_min=1,score_FrostburnRaceCP=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostburnR,score_FrostburnRaceCP_min=1,score_FrostburnRaceCP=1] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostburnR,score_FrostburnRaceCP_min=1,score_FrostburnRaceCP=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=513,y=11,z=-793,dx=5,dy=6,m=2,team=FrostburnR,score_FrostburnRaceCP_min=1,score_FrostburnRaceCP=1] FrostburnRaceCP 2
+	execute @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostburnR,score_FrostburnRaceCP_min=2,score_FrostburnRaceCP=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostburnR,score_FrostburnRaceCP_min=2,score_FrostburnRaceCP=2] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=FrostburnR,score_FrostburnRaceCP_min=2,score_FrostburnRaceCP=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
+	scoreboard players set @a[x=492,y=21,z=-779,dx=4,dy=5,dz=4,m=2,team=FrostburnR,score_FrostburnRaceCP_min=2,score_FrostburnRaceCP=2] FrostburnRaceCP 3
+	execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add FrostburnRWaterTP
+	scoreboard players tag @a[x=511,y=10,z=-833,dx=11,dy=9,dz=12,m=2,score_FrostburnRaceCP_min=1] add FrostburnRWaterTP
+	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostburnRWaterTP,score_FrostburnRaceCP_min=0,score_FrostburnRaceCP=0] 514 11 -827 90 0
+	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostburnRWaterTP,score_FrostburnRaceCP_min=1,score_FrostburnRaceCP=1] 450 11 -802 -90 0
+	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostburnRWaterTP,score_FrostburnRaceCP_min=2,score_FrostburnRaceCP=2] 516.0 12 -793 0 45
+	minecraft:tp @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,tag=FrostburnRWaterTP,score_FrostburnRaceCP_min=3,score_FrostburnRaceCP=3] 494 21 -778 90 20
+	effect @a[tag=FrostburnRWaterTP] 6 1 100 true
+	effect @a[tag=FrostburnRWaterTP] 11 1 100 true
+	execute @a[tag=FrostburnRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=FrostburnRWaterTP] remove FrostburnRWaterTP
+	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,team=FrostburnR] 12 3 0 true
+	effect @a[x=510,y=10,z=-792,dx=11,dy=5,dz=11,m=2,team=FrostburnR] 12 0 0 true
+	minecraft:tp @a[x=514,y=13,z=-794,dx=3,dy=3,m=2,team=FrostburnR] ~ ~ ~1\\FrostburnRaceDE_min=1] FrostburnRaceDE 0
+	scoreboard players operation @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceBC_min=1] FrostburnRace *= -1 Number
+	scoreboard players operation @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2,score_FrostburnRaceBC_min=1] FrostburnRaceBC *= -1 Number
 
 :CBPCountdown CLOCK 10 10 0		[0 0 4 | 12 4 3]
-	scoreboard players add @e[type=AreaEffectCloud,tag=FrostBurnRaceCD] FrostBurnRaceCD 1
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=20,score_FrostBurnRaceCD=20] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=20,score_FrostBurnRaceCD=20] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=40,score_FrostBurnRaceCD=40] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=40,score_FrostBurnRaceCD=40] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=60,score_FrostBurnRaceCD=60] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=60,score_FrostBurnRaceCD=60] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=80,score_FrostBurnRaceCD=80] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=80,score_FrostBurnRaceCD=80] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=100,score_FrostBurnRaceCD=100] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=100,score_FrostBurnRaceCD=100] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=120,score_FrostBurnRaceCD=120] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=120,score_FrostBurnRaceCD=120] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"FrostBurn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=120,score_FrostBurnRaceCD=120] ~ ~ ~ title @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] title {"text":"GO!","color":"green"}
-	testfor @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=120,score_FrostBurnRaceCD=120]
-	 L fill ~-3 ~-1 ~0 ~-3 ~-1 ~0 stonebrick
-	execute @e[type=AreaEffectCloud,tag=FrostBurnRaceCD,score_FrostBurnRaceCD_min=120,score_FrostBurnRaceCD=120] ~ ~ ~ fill 510 8 -833 510 8 -821 stonebrick 0 replace redstone_block 0
+	testfor @e[type=AreaEffectCloud,tag=FrostburnRaceCD]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=FrostburnRaceCD] FrostburnRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=20,score_FrostburnRaceCD=20] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=20,score_FrostburnRaceCD=20] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=40,score_FrostburnRaceCD=40] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=40,score_FrostburnRaceCD=40] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=60,score_FrostburnRaceCD=60] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=60,score_FrostburnRaceCD=60] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=80,score_FrostburnRaceCD=80] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=80,score_FrostburnRaceCD=80] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=100,score_FrostburnRaceCD=100] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=100,score_FrostburnRaceCD=100] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=120,score_FrostburnRaceCD=120] ~ ~ ~ execute @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=120,score_FrostburnRaceCD=120] ~ ~ ~ tellraw @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"FBR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Frostburn Run","color":"aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=FrostburnRaceCD,score_FrostburnRaceCD_min=120,score_FrostburnRaceCD=120] ~ ~ ~ title @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90] title {"text":"GO!","color":"green"}
+	Func_EditCountdownTFClock()
 
 :CBPMainEnd PULSE 10 10 0		[0 4 2 | 12 5 3]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
@@ -113,22 +112,23 @@ setblock 529 19 -830 minecraft:command_block 5 replace {TrackOutput:0b,Command:"
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=19,score_SPgam=19] SPgam 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
 	fill ~-7 ~0 ~0 ~-7 ~0 ~0 stonebrick
-	scoreboard objectives remove FrostBurnRace
-	scoreboard objectives remove FrostBurnRaceCD
-	scoreboard objectives remove FrostBurnRaceCL
-	scoreboard objectives remove FrostBurnRaceDE
-	scoreboard objectives remove FrostBurnRaceBC
-	scoreboard objectives remove FrostBurnRaceCP
-	scoreboard teams remove FrostBurnR
-	minecraft:kill @e[type=AreaEffectCloud,tag=FrostBurnRaceCD]
-	fill 435 10 -778 435 10 -777 air 0
-	fill 435 9 -781 435 9 -781 air 0
-	fill 435 8 -774 435 8 -774 air 0
+	scoreboard objectives remove FrostburnRace
+	scoreboard objectives remove FrostburnRaceCD
+	scoreboard objectives remove FrostburnRaceCL
+	scoreboard objectives remove FrostburnRaceDE
+	scoreboard teams remove FrostburnR
+	minecraft:kill @e[type=AreaEffectCloud,tag=FrostburnRaceCD]
 	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] clear
 	minecraft:clear @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2]
 	effect @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] 6 20 100 true
 	scoreboard players set @a[x=433,y=3,z=-841,dx=90,dy=50,dz=90,m=2] SPtp 19
 	fill 510 8 -833 510 8 -821 redstone_block 0 replace stonebrick 0
-	fill ~-4 ~-6 ~-2 ~-4 ~-6 ~-2 stonebrick
-	fill ~-5 ~-6 ~2 ~-5 ~-6 ~2 stonebrick
+	scoreboard objectives remove FrostburnRaceBC
+	scoreboard objectives remove FrostburnRaceCP
+	scoreboard teams remove FrostburnR
+	fill 435 10 -778 435 10 -777 air 0
+	fill 435 9 -781 435 9 -781 air 0
+	fill 435 8 -774 435 8 -774 air 0
+	fill ~-5 ~-6 ~-2 ~-5 ~-6 ~-2 stonebrick
+	fill ~-6 ~-6 ~2 ~-6 ~-6 ~2 stonebrick
 

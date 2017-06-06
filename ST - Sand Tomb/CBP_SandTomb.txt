@@ -8,13 +8,13 @@ DEFINE $CMDSizeX$ 16
 DEFINE $CMDSizeY$ 16
 DEFINE $CMDSizeZ$ 16
 DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ST","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Sand Tomb","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+DEFINE $Style$ 0 16 16
 DEFINE $s$ minecraft:
 DEFINE $ObjA$ scoreboard objectives add
 DEFINE $ObjR$ scoreboard objectives remove
 DEFINE $TeamA$ scoreboard teams add
 DEFINE $TeamO$ scoreboard teams option
 DEFINE $TeamR$ scoreboard teams remove
-DEFINE $Style$ 0 16 16
 DEFINE Deactivate fill |0| stonebrick 0
 DEFINE Activate fill |0| redstone_block 0
 DEFINE ColorFillWool fill |0| wool |1|
@@ -28,21 +28,10 @@ DEFINE ScRE scoreboard players reset
 DEFINE ScTJ scoreboard teams join
 DEFINE ScTL scoreboard teams leave
 DEFINE RevST scoreboard players tag @a[|0|] remove |0|
-DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
 DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
 DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
 DEFINE NumberAdd |0| Number = |0|
 DEFINE NumberObjAdd Number dummy
-FUNC Func_CMDSave
-fill 0x -1y 0z 3x -3y 3z air 0
-setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
-setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
-setblock 1x -1y 0z wooden_button 4
-setblock 1x -3y 0z wooden_button 4
-setblock 2x -1y 1z redstone_lamp 0
-setblock 2x -3y 1z redstone_lamp 0
-setblock 1x -1y 2z minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
-END
 FUNC Func_SpawnIDSetting
 @a[$SA$] SPid + 0
 @a[$SA$,SPid<-$SPid$] SPid = $SPid$
@@ -71,7 +60,18 @@ FUNC Func_SpawnStandEdit
 @e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
 @e[type=ArmorStand,SpawnStand] SPwea = |4|
 END
-DEFINE CCItem_Potion potion 1 0 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+FUNC Func_CMDSave
+fill 0x -1y 0z 3x -3y 3z air 0
+setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 1x -1y 0z wooden_button 4
+setblock 1x -3y 0z wooden_button 4
+setblock 2x -1y 1z redstone_lamp 0
+setblock 2x -3y 1z redstone_lamp 0
+setblock 1x -1y 2z minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+END
+DEFINE CCItem_Potion potion |0| |1| {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 DEFINE $SAAF$ x=-272,y=4,z=35,dx=44,dy=45,dz=6
 DEFINE $SACL$ x=-222,y=4,z=12,dx=20,dy=40,dz=13
 DEFINE $TpParticleAF$ -252 26.25 27
@@ -168,7 +168,7 @@ ScTG * remove STtp
 BothArenas STcl = 0
 END
 FUNC Func_GeneralScoreboardStart
-@e[type=ArmorStand,SpawnStand,=$SPid$] SPgac = 0
+@e[type=ArmorStand,SpawnStand,SPgam=$SPid$] SPgac = 0
 USE $ObjA$
 NumberObjAdd
 ST|2|de deathCount Sand Tomb Deaths
@@ -206,8 +206,7 @@ ScTJ ST|2|d_g (|2|_1st_place) (|2|_2nd_place) (|2|_3rd_place)
 ScTJ ST|2|d_y |2|Players:
 ScTE Potions|2| STSave 3 3
 CONSTART
-Activate(AntFarmPotionClock)
-$s$give @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion
+$s$give @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion(1;0)
 CONEND
 ScTE Collisions|2| STSave 3 3
 CONDITION
@@ -237,7 +236,6 @@ CONDITION
 Deactivate(CountdownClock|2|)
 END
 FUNC Func_GeneralScoreboardClock
-Func_SpawnIDSetting
 $s$clear @a[$SA$,m=2,ST|2|pl>=0] sand
 effect @a[$SpawnArea$,m=2] 23 2 0 true
 $s$kill @e[$SA|2|$,type=Item]
@@ -270,9 +268,9 @@ effect @a[$WinPreSelect|2|$,m=2,ST|2|pl>=0] 11 2 10 true
 @a[ST|2|pl=0,STdi=-ADD(|4|;2)] ST|2|pl = 1
 @e[type=ArmorStand,ST|3|AS,ST|3|as>=1,STba=2] @e[type=ArmorStand,ST|2|AS,ST|2|as>=1,STba=2] scoreboard players set'  'STdi -4
 $s$tp @a[$WinSelect|2|$,m=2] $SpawnCoords$
-$s$clear @a[$SpawnArea$,m=2,ST|2|pl=1] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+$s$clear @a[$SpawnArea$,m=2] CCItem_Potion(-1;-1)
+ScTJ NoPVP @a[$SpawnArea$,m=2,team=!NoPVP]
 @a[$SpawnArea$,m=2,ST|2|pl=1] summon $Firework$
-ScTJ NoPVP @a[$SpawnArea$,m=2,ST|2|pl=1,team=!NoPVP]
 @a[$SpawnArea$,m=2,ST|2|pl=1] ST|2|pl = 2
 @a[$SA|2|$,m=2,STki>=0] sand 0 ~ ~1 ~ @a[r=0,c=1] STki + 1
 @a[$SA|2|$,m=2,STki>=0] air 0 ~ ~2 ~ @a[r=0,c=1] STki = 0
@@ -306,18 +304,23 @@ ScRE @a[$SA|2|$,m=2,ST|2|pl=0,ST|2|ti>=0] ST|2|ti
 effect @a[$SA|2|$,m=2,ST|2|pl=0] 17 0 0 true
 CONEND
 ScTE Potions|2| STSave 2 2
+CONDITION
+$s$clear @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion(-1;-1)
+ScTE Potions|2| STSave 2 2
 CONSTART
 Potions|2| STSave = 3
-$s$give @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion
+$s$give @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion(1;0)
 CONEND
-ScTE Potions|2| STSave 0 0
-CONSTART
-effect @a[$SA|2|$,m=2,ST|2|pl=0,m=2] 8 0 0 true
-CONEND
+/// //=
+/// ScTE Potions|2| STSave 0 0
+/// CONSTART
+/// effect @a[$SA|2|$,m=2,ST|2|pl=0,m=2] 8 0 0 true
+/// CONEND
+/// \\=
 ScTE Potions|2| STSave 0 0
 CONSTART
 Potions|2| STSave = 1
-$s$clear @a[$SA|2|$,m=2,ST|2|pl=0] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+$s$clear @a[$SA|2|$,m=2,ST|2|pl=0] CCItem_Potion(-1;-1)
 CONEND
 ScTE Collisions|2| STSave 2 2
 CONSTART
@@ -385,7 +388,7 @@ $s$tp @a[$SA|2|$,m=2] -250 25 18 -90 0
 effect @a[$SA$] 10 10 100 true
 ScTG * remove STtp
 END
-Func_CMDSave
+Func_CMDSave()
 :CBPPortalStartAF PULSE $Style$
 Deactivate(CBPPortalStartAF)
 Func_PortalStart(Ant Farm;Ant_Farm;AF;CL;5)
@@ -397,7 +400,7 @@ Deactivate(CBPPortalEndAF)
 Func_PortalEnd(Ant Farm;Ant_Farm;AF;CL;5)
 Deactivate(CBPPortalClockAF)
 :CBPMainStartAF PULSE $Style$
-Func_SpawnStandEdit($SPid$;$SPpvp$;$SPsat$;1;0;0)
+Func_SpawnStandStart()
 Deactivate(CBPMainStartAF)
 Func_GeneralScoreboardStart(Ant Farm;Ant_Farm;AF;CL;5)
 Activate(CBPCountdownClockAF)
@@ -407,6 +410,7 @@ Activate(CBPPotionTFClockAF)
 :CBPCountdownClockAF CLOCK $Style$
 Func_CountdownClock(Ant Farm;Ant_Farm;AF;CL;5)
 :CBPMainClockAF CLOCK $Style$
+Func_SpawnIDSetting()
 Func_GeneralScoreboardClock(Ant Farm;Ant_Farm;AF;CL;5)
 :CBPPotionTFClockAF CLOCK $Style$
 Func_PotionTFClock(Ant Farm;Ant_Farm;AF;CL;5)
@@ -432,7 +436,7 @@ Deactivate(CBPPortalEndCL)
 Func_PortalEnd(Classic;Classic;CL;AF;1)
 Deactivate(CBPPortalClockCL)
 :CBPMainStartCL PULSE $Style$
-Func_SpawnStandEdit($SPid$;$SPpvp$;$SPsat$;1;0;0)
+Func_SpawnStandStart()
 Deactivate(CBPMainStartCL)
 Func_GeneralScoreboardStart(Classic;Classic;CL;AF;1)
 Activate(CBPCountdownClockCL)
@@ -442,6 +446,7 @@ Activate(CBPPotionTFClockCL)
 :CBPCountdownClockCL CLOCK $Style$
 Func_CountdownClock(Classic;Classic;CL;AF;1)
 :CBPMainClockCL CLOCK $Style$
+Func_SpawnIDSetting()
 Func_GeneralScoreboardClock(Classic;Classic;CL;AF;1)
 :CBPPotionTFClockCL CLOCK $Style$
 Func_PotionTFClock(Classic;Classic;CL;AF;1)

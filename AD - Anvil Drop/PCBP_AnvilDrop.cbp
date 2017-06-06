@@ -2,19 +2,23 @@
 ///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\AD - Anvil Drop\CBP_AnvilDrop.cbp
 
 //<Defines
+DEFINE $SA$ x=-38,y=0,z=76,dx=22,dy=35,dz=22
+DEFINE $SPid$ 21
 DEFINE $SPpvp$ 1
 DEFINE $SPsat$ 1
 
-DEFINE $SA$ x=-38,y=0,z=76,dx=22,dy=35,dz=22
 DEFINE $CMDName$ AD
 DEFINE $CMDSizeX$ 16
-DEFINE $CMDSizeY$ 16
-DEFINE $CMDSizeZ$ 16
+DEFINE $CMDSizeY$ 10
+DEFINE $CMDSizeZ$ 9
+
 DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"AD","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Anvil Drop","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},
+
+PCBPIMPORT PCBPI_PosX.cbp
 
 ///	Spawn
 DEFINE $SP$ x=-19,y=4,z=85,dx=7,dy=5,dz=4
-DEFINE $SPid$ 21
+DEFINE $SelectArena$ x=-33,y=2,z=81,dx=12,dy=5,dz=12
 
 ///	Redstone Block for the structure block coords
 DEFINE $RBlock1$ -36 15 80
@@ -29,8 +33,6 @@ DEFINE $SBlock3$ -36 13 79
 ///	Other
 DEFINE $Door$ -20 7 88 -20 5 86
 DEFINE $ArenaFill$ -33 15 93 -21 3 81
-
-PCBPIMPORT PCBPI_PosX.txt
 //>
 
 //<Comments
@@ -48,7 +50,7 @@ FUNC Func_RandomComments
 END
 //>
 
-//<To Do 
+//<To Do
 FUNC Func_ToDoThings
 Mandatory:
 	-Open / close door pulse
@@ -274,6 +276,9 @@ FUNC Func_GeneralScoreboardStart
 	ScTJ ADd_y Countdown Players Time_Elapsed
 	ScTJ AD Players
 	
+	@a[$SelectArena$,m=2,ADpl=0] ADpl = 1
+	@a[$SA$,m=2,ADpl=0] ADpl = 2
+	
 	NumberAdd(x)
 	ExecuteSpawnStand scoreboard objectives setdisplay sidebar AD
 	
@@ -287,7 +292,6 @@ END
 //<General Scoreboard Clock
 FUNC Func_GeneralScoreboardClock
 ///	General Players
-	@a[$SA$,m=2,ADpl=0] ADpl = 1
 	$s$clear @a[$SA$] anvil
 	$s$kill @e[$SA$,type=Item]
 	

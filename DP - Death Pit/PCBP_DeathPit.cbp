@@ -792,6 +792,7 @@ FUNC Func_EqupimentTFClock
 	$s$clear @a[$SA$,m=2,DPwe=2] diamond_sword
 	$s$clear @a[$SA$,m=2,DPwe=2] diamond_axe
 	$s$clear @a[$SA$,m=2,DPwe=2] bow
+	$s$clear @a[$SA$,m=2,DPwe=2] arrow
 	$s$clear @a[$SA$,m=2,DPwe=2] shield
 	
 	$s$clear @a[$SA$,m=2,DPwe=3] potion
@@ -800,7 +801,7 @@ FUNC Func_EqupimentTFClock
 	$s$clear @a[$SA$,m=2,DPwe=4] bread
 	$s$clear @a[$SA$,m=2,DPwe=4] cooked_porkchop
 	$s$clear @a[$SA$,m=2,DPwe=5] dye
-	$s$clear @a[$SA$,m=2,DPwe=6] snowballs
+	$s$clear @a[$SA$,m=2,DPwe=6] snowball
 	$s$clear @a[$SA$,m=2,DPwe=7] bones
 	$s$clear @a[$SA$,m=2,DPwe=8]
 	

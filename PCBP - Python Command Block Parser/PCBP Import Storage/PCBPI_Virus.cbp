@@ -188,6 +188,7 @@ FUNC Func_GeneralScoreboardClock
 ///	Add to virus
 	title @a[$SA$,m=2,VRpl=2] title {"text":"You are now","color":"yellow"}
 	title @a[$SA$,m=2,VRpl=2] subtitle {"text":"the virus!","color":"yellow"}
+	replaceitem entity @a[$SA$,m=2,VRpl=2] slot.armor.head golden_helmet 1 0 {Unbreakable:1}
 	@e[type=ArmorStand,VRtimer,VRti>=0,VRti3=1] $s$tp @a[$SP$,m=2,VRpl=2] $VirusEnd$
 	@e[type=ArmorStand,VRtimer,VRti3>=-1<=0] $s$tp @a[$SP$,m=2,VRpl=2] $VirusBeg$
 	@a[$SA$,m=2,VRpl=2] VRpl = 3

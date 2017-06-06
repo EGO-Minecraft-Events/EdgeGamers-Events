@@ -29,9 +29,9 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set AF STcl 1
 	scoreboard players test CL STcl 1 1
 	 L scoreboard players set BothArenas STcl 1
-	fill ~8 ~2 ~-9 ~8 ~2 ~-9 redstone_block
+	fill ~4 ~3 ~0 ~4 ~3 ~0 redstone_block
 
-:CBPPortalClockAF CLOCK 0 16 16		[8 10 0 | 3 3 9]
+:CBPPortalClockAF CLOCK 0 16 16		[4 11 9 | 3 3 9]
 	particle enchantmenttable -252 26.25 27 0 0 0 1 4 force
 	minecraft:gamemode 2 @a[x=-253,y=25,z=27,dx=2,dy=2,m=0]
 	scoreboard players tag @a[x=-253,y=25,z=27,dx=2,dy=2,m=2] add STtp
@@ -39,7 +39,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	execute @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,tag=STtp] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[tag=STtp,r=0,c=1]
 	scoreboard players tag @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,tag=STtp] remove STtp
 
-:CBPPortalEndAF PULSE 0 16 16		[8 6 0 | 3 3 16]
+:CBPPortalEndAF PULSE 0 16 16		[0 10 0 | 3 3 16]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players test BothArenas STcl 0 0
 	 | scoreboard objectives remove ST
@@ -47,22 +47,21 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard teams remove STd_dg
 	 | scoreboard teams remove STd_g
 	 | scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
-	 L fill ~0 ~2 ~-8 ~0 ~2 ~-8 redstone_block
+	 L fill ~2 ~0 ~-8 ~2 ~0 ~-8 redstone_block
 	scoreboard players reset Ant_Farm ST
 	fill -251 26 27 -253 26 27 stone_slab 1
 	scoreboard players tag * remove STtp
 	scoreboard players set BothArenas STcl 0
-	fill ~0 ~4 ~-13 ~0 ~4 ~-13 stonebrick
+	fill ~4 ~1 ~-4 ~4 ~1 ~-4 stonebrick
 
-:CBPMainStartAF PULSE 0 16 16		[4 0 0 | 3 6 18]
+:CBPMainStartAF PULSE 0 16 16		[4 0 0 | 3 5 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 14
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
-	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
-	fill ~0 ~0 ~-7 ~0 ~0 ~-7 stonebrick
-	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score__min=14,score_score__min=14,score_score_=14] SPgac 0
+	fill ~0 ~0 ~-6 ~0 ~0 ~-6 stonebrick
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=14,score_SPgam=14] SPgac 0
 	scoreboard objectives add Number dummy
 	scoreboard objectives add STAFde deathCount Sand Tomb Deaths
 	scoreboard objectives add STAFpl dummy Sand Tomb Player List
@@ -93,19 +92,18 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard teams join STAFd_g (AF_1st_place) (AF_2nd_place) (AF_3rd_place)
 	scoreboard teams join STAFd_y AFPlayers:
 	scoreboard players test PotionsAF STSave 3 3
-	 | fill AntFarmPotionClock redstone_block 0
 	 L minecraft:give @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] potion 1 0 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	scoreboard players test CollisionsAF STSave 3 3
 	 L scoreboard teams option STAFp collisionRule pushOtherTeams
 	scoreboard players test CollisionsAF STSave 1 1
 	 L scoreboard teams option STAFp collisionRule never
 	scoreboard players set @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44,score_EC_min=0,score_EC=0] SPbk 14
-	fill ~4 ~-2 ~-14 ~4 ~-2 ~-14 redstone_block
-	fill ~-4 ~-2 ~-15 ~-4 ~-2 ~-15 redstone_block
-	fill ~4 ~3 ~-15 ~4 ~3 ~-15 redstone_block
-	fill ~0 ~6 ~-14 ~0 ~6 ~-14 redstone_block
+	fill ~0 ~6 ~-12 ~0 ~6 ~-12 redstone_block
+	fill ~-4 ~-2 ~-13 ~-4 ~-2 ~-13 redstone_block
+	fill ~-4 ~8 ~-14 ~-4 ~8 ~-14 redstone_block
+	fill ~0 ~9 ~-15 ~0 ~9 ~-15 redstone_block
 
-:CBPCountdownClockAF CLOCK 0 16 16		[8 0 0 | 3 4 17]
+:CBPCountdownClockAF CLOCK 0 16 16		[4 8 0 | 3 4 17]
 	scoreboard players add @e[type=AreaEffectCloud,tag=STAFCD] STAFti 1
 	execute @e[type=AreaEffectCloud,tag=STAFCD,score_STAFti_min=20,score_STAFti=20] ~ ~ ~ execute @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
 	execute @e[type=AreaEffectCloud,tag=STAFCD,score_STAFti_min=20,score_STAFti=20] ~ ~ ~ tellraw @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ST","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Sand Tomb","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
@@ -159,9 +157,9 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set @a[score_STAFpl_min=0,score_STAFpl=0,score_STdi_min=-7,score_STdi=-7] STAFpl 1
 	execute @e[type=ArmorStand,tag=STCLAS,score_STCLas_min=1,score_STba_min=2,score_STba=2] ~ ~ ~ execute @e[type=ArmorStand,tag=STAFAS,score_STAFas_min=1,score_STba_min=2,score_STba=2] ~ ~ ~ scoreboard players set  STdi -4
 	minecraft:tp @a[x=-272,y=40,z=40,dx=44,m=2] -250 25 18 -90 0
-	minecraft:clear @a[x=-250,y=25,z=18,r=1,m=2,score_STAFpl_min=1,score_STAFpl=1] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+	minecraft:clear @a[x=-250,y=25,z=18,r=1,m=2] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+	scoreboard teams join NoPVP @a[x=-250,y=25,z=18,r=1,m=2,team=!NoPVP]
 	execute @a[x=-250,y=25,z=18,r=1,m=2,score_STAFpl_min=1,score_STAFpl=1] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}
-	scoreboard teams join NoPVP @a[x=-250,y=25,z=18,r=1,m=2,score_STAFpl_min=1,score_STAFpl=1,team=!NoPVP]
 	scoreboard players set @a[x=-250,y=25,z=18,r=1,m=2,score_STAFpl_min=1,score_STAFpl=1] STAFpl 2
 	execute @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STki_min=0] ~ ~ ~ detect ~ ~1 ~ sand 0 scoreboard players add @a[r=0,c=1] STki 1
 	execute @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STki_min=0] ~ ~ ~ detect ~ ~2 ~ air 0 scoreboard players set @a[r=0,c=1] STki 0
@@ -189,13 +187,13 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard players reset @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0,score_STAFti_min=0] STAFti
 	 L effect @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] 17 0 0 true
 	scoreboard players test PotionsAF STSave 2 2
+	 L minecraft:clear @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+	scoreboard players test PotionsAF STSave 2 2
 	 | scoreboard players set PotionsAF STSave 3
 	 L minecraft:give @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] potion 1 0 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	scoreboard players test PotionsAF STSave 0 0
-	 L effect @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0,m=2] 8 0 0 true
-	scoreboard players test PotionsAF STSave 0 0
 	 | scoreboard players set PotionsAF STSave 1
-	 L minecraft:clear @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+	 L minecraft:clear @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	
 	scoreboard players test CollisionsAF STSave 2 2
 	 | scoreboard players set CollisionsAF STSave 3
@@ -204,7 +202,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard players set CollisionsAF STSave 1
 	 L scoreboard teams option STAFp collisionRule never
 
-:CBPPotionTFClockAF CLOCK 0 16 16		[4 9 0 | 3 3 10]
+:CBPPotionTFClockAF CLOCK 0 16 16		[4 11 0 | 3 3 10]
 	scoreboard players test PotionsAF STSave 3 3
 	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
 	scoreboard players set @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] STAFpo 1 {ActiveEffects:[{Amplifier:6b,Id:8b}]}
@@ -213,7 +211,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2,score_STAFpl_min=0,score_STAFpl=0] STAFju 0
 	minecraft:clear @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44,m=2] glass_bottle
 
-:CBPMainEndAF PULSE 0 16 16		[4 5 0 | 3 5 18]
+:CBPMainEndAF PULSE 0 16 16		[4 4 0 | 3 5 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
@@ -252,12 +250,12 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	minecraft:tp @a[x=-272,y=4,z=35,dx=44,dy=45,dz=6,m=2] -250 25 18 -90 0
 	effect @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] 10 10 100 true
 	scoreboard players tag * remove STtp
-	fill ~4 ~-7 ~-7 ~4 ~-7 ~-7 stonebrick
-	fill ~-4 ~-7 ~-8 ~-4 ~-7 ~-8 stonebrick
-	fill ~4 ~-1 ~-9 ~4 ~-1 ~-9 stonebrick
-	fill ~0 ~2 ~-10 ~0 ~2 ~-10 stonebrick
+	fill ~0 ~2 ~-7 ~0 ~2 ~-7 stonebrick
+	fill ~-4 ~-6 ~-8 ~-4 ~-6 ~-8 stonebrick
+	fill ~-4 ~4 ~-9 ~-4 ~4 ~-9 stonebrick
+	fill ~0 ~5 ~-10 ~0 ~5 ~-10 stonebrick
 
-:CBPResetOptionsAF PULSE 0 16 16		[6 9 0 | 3 3 10]
+:CBPResetOptionsAF PULSE 0 16 16		[6 11 0 | 3 3 10]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players set JumpBoostAF STSave 0
 	scoreboard players set BlindnessAF STSave 0
@@ -288,9 +286,9 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set CL STcl 1
 	scoreboard players test AF STcl 1 1
 	 L scoreboard players set BothArenas STcl 1
-	fill ~2 ~1 ~0 ~2 ~1 ~0 redstone_block
+	fill ~-2 ~4 ~0 ~-2 ~4 ~0 redstone_block
 
-:CBPPortalClockCL CLOCK 0 16 16		[4 9 9 | 3 3 9]
+:CBPPortalClockCL CLOCK 0 16 16		[0 12 9 | 3 3 9]
 	particle enchantmenttable -237 26.25 18 0 0 0 1 4 force
 	minecraft:gamemode 2 @a[x=-237,y=25,z=17,dy=2,dz=2,m=0]
 	scoreboard players tag @a[x=-237,y=25,z=17,dy=2,dz=2,m=2] add STtp
@@ -298,7 +296,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	execute @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,tag=STtp] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[tag=STtp,r=0,c=1]
 	scoreboard players tag @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,tag=STtp] remove STtp
 
-:CBPPortalEndCL PULSE 0 16 16		[8 8 0 | 3 3 16]
+:CBPPortalEndCL PULSE 0 16 16		[2 10 0 | 3 3 16]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players test BothArenas STcl 0 0
 	 | scoreboard objectives remove ST
@@ -306,22 +304,21 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard teams remove STd_dg
 	 | scoreboard teams remove STd_g
 	 | scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
-	 L fill ~0 ~-2 ~-8 ~0 ~-2 ~-8 redstone_block
+	 L fill ~-2 ~0 ~-8 ~-2 ~0 ~-8 redstone_block
 	scoreboard players reset Classic ST
 	fill -237 26 17 -237 26 19 stone_slab 1
 	scoreboard players tag * remove STtp
 	scoreboard players set BothArenas STcl 0
-	fill ~-4 ~1 ~-4 ~-4 ~1 ~-4 stonebrick
+	fill ~-2 ~2 ~-4 ~-2 ~2 ~-4 stonebrick
 
-:CBPMainStartCL PULSE 0 16 16		[6 0 0 | 3 6 18]
+:CBPMainStartCL PULSE 0 16 16		[6 0 0 | 3 5 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 14
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
-	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
-	fill ~0 ~0 ~-7 ~0 ~0 ~-7 stonebrick
-	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score__min=14,score_score__min=14,score_score_=14] SPgac 0
+	fill ~0 ~0 ~-6 ~0 ~0 ~-6 stonebrick
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=14,score_SPgam=14] SPgac 0
 	scoreboard objectives add Number dummy
 	scoreboard objectives add STCLde deathCount Sand Tomb Deaths
 	scoreboard objectives add STCLpl dummy Sand Tomb Player List
@@ -352,19 +349,18 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard teams join STCLd_g (CL_1st_place) (CL_2nd_place) (CL_3rd_place)
 	scoreboard teams join STCLd_y CLPlayers:
 	scoreboard players test PotionsCL STSave 3 3
-	 | fill AntFarmPotionClock redstone_block 0
 	 L minecraft:give @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] potion 1 0 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	scoreboard players test CollisionsCL STSave 3 3
 	 L scoreboard teams option STCLp collisionRule pushOtherTeams
 	scoreboard players test CollisionsCL STSave 1 1
 	 L scoreboard teams option STCLp collisionRule never
 	scoreboard players set @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44,score_EC_min=0,score_EC=0] SPbk 14
-	fill ~2 ~1 ~-14 ~2 ~1 ~-14 redstone_block
-	fill ~-4 ~-2 ~-15 ~-4 ~-2 ~-15 redstone_block
-	fill ~2 ~5 ~-15 ~2 ~5 ~-15 redstone_block
-	fill ~-6 ~7 ~-14 ~-6 ~7 ~-14 redstone_block
+	fill ~0 ~6 ~-12 ~0 ~6 ~-12 redstone_block
+	fill ~-4 ~-2 ~-13 ~-4 ~-2 ~-13 redstone_block
+	fill ~-4 ~8 ~-14 ~-4 ~8 ~-14 redstone_block
+	fill ~-6 ~10 ~-15 ~-6 ~10 ~-15 redstone_block
 
-:CBPCountdownClockCL CLOCK 0 16 16		[8 3 0 | 3 4 17]
+:CBPCountdownClockCL CLOCK 0 16 16		[6 8 0 | 3 4 17]
 	scoreboard players add @e[type=AreaEffectCloud,tag=STCLCD] STCLti 1
 	execute @e[type=AreaEffectCloud,tag=STCLCD,score_STCLti_min=20,score_STCLti=20] ~ ~ ~ execute @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1]
 	execute @e[type=AreaEffectCloud,tag=STCLCD,score_STCLti_min=20,score_STCLti=20] ~ ~ ~ tellraw @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ST","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Sand Tomb","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
@@ -418,9 +414,9 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set @a[score_STCLpl_min=0,score_STCLpl=0,score_STdi_min=-3,score_STdi=-3] STCLpl 1
 	execute @e[type=ArmorStand,tag=STAFAS,score_STAFas_min=1,score_STba_min=2,score_STba=2] ~ ~ ~ execute @e[type=ArmorStand,tag=STCLAS,score_STCLas_min=1,score_STba_min=2,score_STba=2] ~ ~ ~ scoreboard players set  STdi -4
 	minecraft:tp @a[x=-207,y=11,z=16,dy=1,dz=3,m=2] -250 25 18 -90 0
-	minecraft:clear @a[x=-250,y=25,z=18,r=1,m=2,score_STCLpl_min=1,score_STCLpl=1] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+	minecraft:clear @a[x=-250,y=25,z=18,r=1,m=2] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+	scoreboard teams join NoPVP @a[x=-250,y=25,z=18,r=1,m=2,team=!NoPVP]
 	execute @a[x=-250,y=25,z=18,r=1,m=2,score_STCLpl_min=1,score_STCLpl=1] ~ ~ ~ summon FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:"fireworks",Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}
-	scoreboard teams join NoPVP @a[x=-250,y=25,z=18,r=1,m=2,score_STCLpl_min=1,score_STCLpl=1,team=!NoPVP]
 	scoreboard players set @a[x=-250,y=25,z=18,r=1,m=2,score_STCLpl_min=1,score_STCLpl=1] STCLpl 2
 	execute @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STki_min=0] ~ ~ ~ detect ~ ~1 ~ sand 0 scoreboard players add @a[r=0,c=1] STki 1
 	execute @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STki_min=0] ~ ~ ~ detect ~ ~2 ~ air 0 scoreboard players set @a[r=0,c=1] STki 0
@@ -448,13 +444,13 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard players reset @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0,score_STCLti_min=0] STCLti
 	 L effect @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] 17 0 0 true
 	scoreboard players test PotionsCL STSave 2 2
+	 L minecraft:clear @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+	scoreboard players test PotionsCL STSave 2 2
 	 | scoreboard players set PotionsCL STSave 3
 	 L minecraft:give @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] potion 1 0 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	scoreboard players test PotionsCL STSave 0 0
-	 L effect @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0,m=2] 8 0 0 true
-	scoreboard players test PotionsCL STSave 0 0
 	 | scoreboard players set PotionsCL STSave 1
-	 L minecraft:clear @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] potion -1 -1 {display:{Name:"Kangaroo potion"}}
+	 L minecraft:clear @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] potion -1 -1 {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 	
 	scoreboard players test CollisionsCL STSave 2 2
 	 | scoreboard players set CollisionsCL STSave 3
@@ -463,7 +459,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	 | scoreboard players set CollisionsCL STSave 1
 	 L scoreboard teams option STCLp collisionRule never
 
-:CBPPotionTFClockCL CLOCK 0 16 16		[0 10 0 | 3 3 10]
+:CBPPotionTFClockCL CLOCK 0 16 16		[0 12 0 | 3 3 10]
 	scoreboard players test PotionsCL STSave 3 3
 	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
 	scoreboard players set @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] STCLpo 1 {ActiveEffects:[{Amplifier:6b,Id:8b}]}
@@ -472,7 +468,7 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	scoreboard players set @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2,score_STCLpl_min=0,score_STCLpl=0] STCLju 0
 	minecraft:clear @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44,m=2] glass_bottle
 
-:CBPMainEndCL PULSE 0 16 16		[6 5 0 | 3 5 18]
+:CBPMainEndCL PULSE 0 16 16		[6 4 0 | 3 5 18]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
@@ -511,12 +507,12 @@ setblock -219 4 33 minecraft:command_block 3 replace {TrackOutput:0b,Command:"se
 	minecraft:tp @a[x=-222,y=4,z=12,dx=20,dy=40,dz=13,m=2] -250 25 18 -90 0
 	effect @a[x=-279,y=4,z=5,dx=83,dy=50,dz=44] 10 10 100 true
 	scoreboard players tag * remove STtp
-	fill ~2 ~-4 ~-7 ~2 ~-4 ~-7 stonebrick
-	fill ~-4 ~-7 ~-8 ~-4 ~-7 ~-8 stonebrick
-	fill ~2 ~1 ~-9 ~2 ~1 ~-9 stonebrick
-	fill ~-6 ~3 ~-10 ~-6 ~3 ~-10 stonebrick
+	fill ~0 ~2 ~-7 ~0 ~2 ~-7 stonebrick
+	fill ~-4 ~-6 ~-8 ~-4 ~-6 ~-8 stonebrick
+	fill ~-4 ~4 ~-9 ~-4 ~4 ~-9 stonebrick
+	fill ~-6 ~6 ~-10 ~-6 ~6 ~-10 stonebrick
 
-:CBPResetOptionsCL PULSE 0 16 16		[2 10 0 | 3 3 10]
+:CBPResetOptionsCL PULSE 0 16 16		[2 12 0 | 3 3 10]
 	fill ~0 ~0 ~-1 ~0 ~0 ~-1 stonebrick
 	scoreboard players set JumpBoostCL STSave 0
 	scoreboard players set BlindnessCL STSave 0

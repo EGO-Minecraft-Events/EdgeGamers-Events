@@ -102,7 +102,7 @@ FUNC Func_GeneralScoreboardEnd
 	@a[$SA$,m=2] SPtp = $SPid$
 	
 	Func_EditGeneralScoreboardEnd()
-	Func_RaceSpecificStart()
+	Func_RaceSpecificEnd()
 END
 //>
 

@@ -14,7 +14,7 @@ DEFINE $CMDSizeZ$ 16
 
 DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ST","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Sand Tomb","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
 
-PCBPIMPORT PCBPI_PosZ.txt
+PCBPIMPORT PCBPI_PosZ.cbp
 
 DEFINE CCItem_Potion potion |0| |1| {CustomPotionEffects:[{Id:8,Amplifier:6,Duration:72000}],Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
 
