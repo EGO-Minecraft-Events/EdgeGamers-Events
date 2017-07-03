@@ -38,11 +38,12 @@ FUNC Func_GeneralScoreboardStart
 		NumberObjAdd
 		PVPSave dummy PVP Save
 		PVP dummy PVP Display
+		PVPrd dummy PVP Rand Calc
+		PVPab dummy PVP Affected Blocks
 		PVPde deathCount PVP Deaths
 		PVPki playerKillCount PVP Kills
 		PVPkc playerKillCount PVP Kill Calc
 		PVPtp dummy PVP Teleport
-		PVPtc dummy PVP Teleport Calc
 		PVPcl dummy PVP Calc
 		PVPmd dummy PVP Mode
 		PVPwe dummy PVP Weapon
@@ -112,6 +113,22 @@ FUNC Func_GeneralScoreboardStart
 END
 //>
 
+//<Randomized Location Start Testfor Clock
+FUNC Func_RandomizedLocationStartTFClock
+///	Analyzes blocks, and then teleports
+	summon ArmorStand ~ ~ ~ {Tags:["PVPEntity","PVPRand","PVPRandChild","PVPRandCalc"],Invulnerable:1,PersistenceRequired:1,NoGravity:1}
+///	@e[type=ArmorStand,PVPRandChild] PVPrd + 0
+	stats entity @e[type=ArmorStand,PVPRandCalc] set AffectedBlocks @e[type=ArmorStand,PVPRandCalc] PVPab
+	@e[type=ArmorStand,PVPRandCalc] fill ~	~ ~ ~ ~ ~$ZDistance$ stone 4 replace stone 2
+	$s$kill @e[type=ArmorStand,PVPRandCalc,PVPab=0]
+	ScOP @e[type=ArmorStand,PVPRandCalc] PVPrd = @e[type=ArmorStand,PVPRandCalc] PVPab
+	ScOP @e[type=ArmorStand,PVPRandCalc] PVPrd += Sum PVPrd
+	ScOP Sum PVPrd = @e[type=ArmorStand,PVPRandCalc] PVPrd
+	
+	
+END
+//>
+
 //<Countdown Testfor Clock
 FUNC Func_CountdownTFClock
 	testfor @e[PVPStand,PVPti>=0]
@@ -156,25 +173,41 @@ END
 
 //<Initial Teleport Testfor Clock
 FUNC Func_InitialTeleportTFClock
+//(Unnecessary with randomized teleportation)
+	
+	
 	testfor @e[type=ArmorStand,PVPStand,PVPtp=1]
 	SetblockTestfor
-	ScOP @e[type=ArmorStand,PVPStand,PVPtp=1] PVPcl = $TPNumber$ Number
+///	Does not do initial teleports if the gamemode is TDM (Unnecessary)
 	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] PVPcl = 0
-	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] @a[$SP$,m=2] PVPtp = 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] @a[$SP$,m=2] PVPtp = 1
 	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd=2] PVPtp = 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPmd>=0<=1] PVPtp = 0
 	
+	LOOP 1 $TPNumber$ + 1
+		$s$tp
+	END
+	
+	@a[$SA$,m=2,PVPtp>=0] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	@a[$SA$,m=2,PVPtp>=0] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	
+	ScOP @e[type=ArmorStand,PVPStand,PVPtp=1] PVPcl = $TPNumber$ Number
 	ScOP @a[$SP$,m=2] PVPtp = @e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl>=1] PVPcl
 	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl>=1] PVPcl - 1
-	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl=0] @a[$SA$,m=2] PVPtp + 0
+	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl=0] @a[$SA$,m=2] PVPtp = 1
 	@e[type=ArmorStand,PVPStand,PVPtp=1,PVPcl=0] PVPtp = 0
 END
 //>
 
 //<Teleport Testfor Clock
 FUNC Func_TeleportTFClock
-	testfor @a[$SA$,m=2,PVPtp>=0]
+///	Teleports:
+///	1 = regular with weapon updates, 2 = knight, 3 = ranger
+///	TODO
+	testfor @a[$SA$,m=2,PVPtp=0]
 	SetblockTestfor
 	
+//=
 ///	RNG
 	@a[$SA$,m=2,PVPtp=0] ScOP @a[c=1,r=1,m=2,PVPtp=0] PVPcl = @r[type=AreaEffectCloud,PVPTeleport] PVPtp
 	ScOP @a[$SA$,m=2,PVPtp=0] PVPcl *= 10 Number
@@ -184,6 +217,7 @@ FUNC Func_TeleportTFClock
 	ScOP @a[$SA$,m=2,PVPtp=0,team=PVPb] PVPcl %= $TPNumberB$ Number
 	@a[$SA$,m=2,PVPtp=0] PVPcl + 1
 	@a[$SA$,m=2,PVPtp=0] ScOP @a[c=1,r=1,m=2,PVPtp=0] PVPtp = @a[c=1,r=1,m=2,PVPtp=0] PVPcl
+	
 	
 ///	Teleports
 	LOOP 1 $TPNumber$ + 1
@@ -195,6 +229,12 @@ FUNC Func_TeleportTFClock
 	LOOP 1 $TPNumberB$ + 1
 		$s$tp @a[$SA$,m=2,PVPtp=|0|,team=PVPb] $TPCoordsB|0|$
 	END
+\\=
+	
+///	Randomized 3D teleportation using affectedblocks
+	
+	
+	
 	
 ///	Teleport effects
 	effect @a[$SA$,m=2,PVPtp>=0,PVPtc=0] 11 2 10 true
@@ -266,7 +306,8 @@ FUNC Func_GeneralScoreboardClock
 	@e[type=ArmorStand,PVPStand,PVPti=-1,PVPti2=1,PVPti3=-1] tellraw @a $TextStart${"text":"1!","color":"yellow}]}
  	
 ///	Teleport from spawn
-	@a[$SP$,m=2,PVPtp=-1] PVPtp = 0
+///	Only active if not KVR
+	@e[type=ArmorStand,PVPStand,PVPwe<=7] @a[$SP$,m=2,PVPtp=-1] PVPtp = 0
 	
 ///	OITC
 	@e[type=ArmorStand,PVPStand,PVPmd=1] give @a[$SA$,m=2,PVPtp=-1,PVPkc>=1] arrow 1 0
@@ -352,7 +393,9 @@ FUNC Func_GeneralScoreboardEnd
 	
 	$s$kill @e[PVPEntity]
 	effect @a[$SA$] 6 1 100 true
-	@a[$SA$,m=2] SPtp = $SPid$
+	
+	
+	fill $SelectFillStone$ stone 2 replace stone 4
 END
 //>
 
