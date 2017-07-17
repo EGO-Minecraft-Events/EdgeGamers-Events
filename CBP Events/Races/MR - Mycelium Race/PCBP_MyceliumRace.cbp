@@ -1,0 +1,183 @@
+//#-p stonebrick 0 -print
+//447 47 -689
+
+DEFINE $SA$ x=433,y=5,z=-739,dx=40,dy=80,dz=100
+DEFINE $server$ minecraft:
+DEFINE $Name$ Mycelium
+DEFINE $Style$ 10 10 0
+
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+
+//Race Status Number
+DEFINE $RSn$ 3
+//Warp name
+DEFINE $WN$ mr
+//Scoreboard teams color
+DEFINE $Color$ dark_purple
+//Place where air is when open
+DEFINE $Dao$ 450 65 -674 459 65 -674
+//Place where redstone blocks are there when open
+DEFINE $Dro$ 
+//Spawn Coords
+DEFINE $SC$ 445 68 -669.0 -90 0
+
+
+//Checkpoint number
+DEFINE $CPn$ 5
+//Spawn area
+DEFINE $Spn$ x=442,y=67,z=-673,dx=17,dy=5,dz=7
+
+//Checkpoints for detection of players
+DEFINE $CPdp1$ x=452,y=58,z=-720,dx=4,dy=3,dz=2
+DEFINE $CPdp11$ x=449,y=67,z=-727,dx=8,dz=6
+DEFINE $CPdp2$ x=447,y=14,z=-725,dx=4,dy=3,dz=2
+DEFINE $CPdp21$ 
+DEFINE $CPdp3$ x=447,y=15,z=-700,dx=4,dy=3,dz=2
+DEFINE $CPdp4$ x=450,y=19,z=-685,dx=4,dy=3,dz=2
+DEFINE $CPdp41$ x=451,y=19,z=-686,dx=2,dy=3,dz=4
+DEFINE $CPdp5$ x=443,y=40,z=-657,dx=4,dy=3,dz=2
+
+//Checkpoint teleports
+DEFINE $CPtp0$ 455.0 68 -672 -180 0
+DEFINE $CPtp1$ 454 59 -719 180 45
+DEFINE $CPtp2$ 449 15 -724 0 15
+DEFINE $CPtp3$ 449 16 -699 -45 15
+DEFINE $CPtp4$ 452 20 -684 45 15
+DEFINE $CPtp5$ 445 41 -656 -160 15
+
+
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+//Scoreboard
+scoreboard objectives add $Name$Race dummy $Name$ Race
+scoreboard objectives add $Name$RaceCP dummy $Name$Race Checkpoints
+scoreboard objectives setdisplay sidebar $Name$Race
+scoreboard teams add $Name$R
+scoreboard teams option $Name$R color $Color$
+scoreboard teams option $Name$R seeFriendlyInvisibles true
+scoreboard teams option $Name$R collisionRule never
+
+//Race Status
+$Name$R_Open RS = $RSn$
+scoreboard players reset $Name$R_Closed RS
+
+//Countdown startup
+summon AreaEffectCloud ~ ~ ~ {Duration:101,Tags:["$Name$RaceCD"]}
+tellraw @a[$SA$] {"text":"5","color":"yellow","bold":"true"}
+@a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+
+//Other
+effect @a[$SA$] clear
+\/warp_$WN$ $Name$Race = 0
+scoreboard teams join $Name$R /warp_$WN$
+Activate(CBPMainClock)
+Activate(CBPCountdown)
+
+
+:CBPMainClock CLOCK $Style$
+$server$weather clear 1000000
+gamemode 2 @a[$SA$,m=0]
+$server$clear @a[$SA$,m=2]
+scoreboard teams join $Name$R @a[$SA$,team=!$Name$R]
+effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+
+
+//Checkpoint setups
+@a[$Spn$,m=2,team=$Name$R] $Name$RaceCP + 0
+LOOP 1 $CPn$ + 1 () 0 SUB($CPn$;1) + 1
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+	@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+	IF |0|=1
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+	END
+	IF |0|=2
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+	END
+	IF |0|=4
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+		@a[$CPdp|0|1$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+	END
+END
+
+
+//Teleports
+@a[$SA$,m=2] hay_block -1 ~ ~-1.3 ~ scoreboard players tag @a[r=0,c=1] add $Name$RWaterTP
+scoreboard players tag @a[$Spn$,m=2,$Name$RaceCP>=1] add $Name$RWaterTP
+LOOP 0 $CPn$ + 1
+	$server$tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] $CPtp|0|$
+END
+effect @a[$Name$RWaterTP] 6 1 100 true
+effect @a[$Name$RWaterTP] 11 1 100 true
+@a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+scoreboard players tag @a[$Name$RWaterTP] remove $Name$RWaterTP
+
+
+:CBPCountdown CLOCK $Style$
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:20}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	tellraw @a[$SA$] {"text":"4","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:40}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	tellraw @a[$SA$] {"text":"3","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:60}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	tellraw @a[$SA$] {"text":"2","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:80}
+CONSTART
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	tellraw @a[$SA$] {"text":"1","color":"yellow","bold":"true"}
+CONEND
+testfor @e[type=AreaEffectCloud,$Name$RaceCD] {Age:100}
+CONSTART
+	@a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
+	tellraw @a[$SA$] {"text":"GO!","color":"green","bold":"true"}
+	title @a[$SA$] title {"text":"GO!","color":"green"}
+	fill $Dao$ stonebrick 0 replace redstone_block 0
+//	fill $Dro$ redstone_block 0 replace stonebrick 0
+	Deactivate(CBPCountdown)
+CONEND
+
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+scoreboard objectives remove $Name$Race
+scoreboard objectives remove $Name$RaceCP
+scoreboard teams remove $Name$R
+
+Deactivate(CBPMainClock)
+Deactivate(CBPCountdown)
+
+$Name$R_Closed RS = $RSn$
+scoreboard players reset $Name$R_Open RS
+
+$server$kill @e[type=AreaEffectCloud,$Name$RaceCD]
+fill $Dao$ redstone_block 0 replace stonebrick 0
+//fill $Dro$ stonebrick 0 replace redstone_block 0
+
+effect @a[$SA$,m=2] clear
+$server$clear @a[$SA$,m=2]
+effect @a[$SA$,m=2] 6 20 100 true
+$server$tp @a[$SA$,m=2] $SC$
+
+
+
+
+
+
+
+
+
+

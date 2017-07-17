@@ -1,0 +1,397 @@
+//#-p stonebrick 0 -b 443 10 -321 -print
+DEFINE $CMDName$ ECR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 6
+DEFINE $CMDSizeZ$ 16
+DEFINE $Style$ 0 16 16
+DEFINE $SA$ x=450,y=0,z=-353,dx=124,dy=30,dz=45
+DEFINE $Name$ EC
+DEFINE $TD$ ECR
+DEFINE $TDName$ Ever Changing Race
+DEFINE $Color$ yellow
+DEFINE $Dao$ 
+DEFINE $Dro$ 
+DEFINE $SC$ 460 3 -331 -90 0
+DEFINE $SPid$ 20
+DEFINE $lap$ x=565,y=3,z=-333,dy=3,dz=4
+DEFINE $lapAF$ x=497,y=0,z=-333,dy=4,dz=4
+DEFINE $lapSP$ x=454,y=2,z=-334,dx=12,dy=9,dz=6
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PARSE($TD$)","color":"PARSE($Color$)","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"PARSE($TDName$)","color":"PARSE($Color$)"}}},{"text":"]","color":"gray"},{"text":": "},
+DEFINE $SPpvp$ 1
+DEFINE $SPsat$ 1
+DEFINE $s$ minecraft:
+DEFINE $ObjA$ scoreboard objectives add
+DEFINE $ObjR$ scoreboard objectives remove
+DEFINE $TeamA$ scoreboard teams add
+DEFINE $TeamO$ scoreboard teams option
+DEFINE $TeamR$ scoreboard teams remove
+DEFINE Deactivate fill |0| stonebrick 0
+DEFINE Activate fill |0| redstone_block 0
+DEFINE ColorFillWool fill |0| wool |1|
+DEFINE ColorFillClay fill |0| stained_hardened_clay |1|
+DEFINE ColorFillGlass fill |0| stained_glass |1|
+DEFINE ColorFillWood fill |0| planks |1|
+DEFINE ScTG scoreboard players tag
+DEFINE ScOP scoreboard players operation
+DEFINE ScTE scoreboard players test
+DEFINE ScRE scoreboard players reset
+DEFINE ScEN scoreboard players enable
+DEFINE ScTJ scoreboard teams join
+DEFINE ScTL scoreboard teams leave
+DEFINE RevST scoreboard players tag @a[|0|] remove |0|
+DEFINE ExecuteSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0]
+DEFINE FinalSpawnStand @e[type=ArmorStand,SpawnStand,SPgam=0] SPgam = PARSE($SPid$)
+DEFINE NumberAdd |0| Number = |0|
+DEFINE NumberObjAdd Number dummy
+DEFINE Snd_Pling minecraft:block.note.pling
+DEFINE Snd_XP minecraft:entity.experience_orb.touch
+DEFINE Snd_Item minecraft:entity.item.pickup
+DEFINE Snd_TP minecraft:entity.endermen.teleport
+DEFINE Snd_Wither minecraft:entity.wither.death
+DEFINE Snd_Level minecraft:entity.player.levelup
+DEFINE Snd_Explode minecraft:entity.generic.explode
+FUNC Func_SpawnIDSetting
+@a[$SA$] SPid + 0
+@a[$SA$,SPid<-$SPid$] SPid = $SPid$
+@a[$SA$,SPid>-$SPid$] SPid = $SPid$
+END
+FUNC Func_SpawnStandStart
+@e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+@e[type=ArmorStand,SpawnStand] SPpvp = $SPpvp$
+@e[type=ArmorStand,SpawnStand] SPsat = $SPsat$
+@e[type=ArmorStand,SpawnStand] SPgmd = 1
+@e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
+END
+FUNC Func_SpawnStandEnd
+@e[type=ArmorStand,SpawnStand] SPtp = 0
+@e[type=ArmorStand,SpawnStand] SPpvp = 0
+@e[type=ArmorStand,SpawnStand] SPsat = 1
+@e[type=ArmorStand,SpawnStand] SPgmd = 1
+@e[type=ArmorStand,SpawnStand,SPgam=$SPid$] SPgam = 0
+@e[type=ArmorStand,SpawnStand] SPwea = 0
+END
+FUNC Func_SpawnStandEdit
+@e[type=ArmorStand,SpawnStand] SPtp = |0|
+@e[type=ArmorStand,SpawnStand] SPpvp = |1|
+@e[type=ArmorStand,SpawnStand] SPsat = |2|
+@e[type=ArmorStand,SpawnStand] SPgmd = |3|
+@e[type=ArmorStand,SpawnStand,SPgam>=1] SPgac = 1
+@e[type=ArmorStand,SpawnStand] SPwea = |4|
+END
+DEFINE DEF_ExecuteCountdown @e[type=AreaEffectCloud,PARSE($Name$)Countdown,|0|=|1|]
+FUNC Func_UniversalCountdownStart
+ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Tags:["$Name$Entity","$Name$Countdown"],Duration:|0|}
+END
+FUNC Func_UniversalCountdownExtendedClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=1] Countdown |2| = 6
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] Countdown |2| = 5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] Countdown |2| = 4
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] Countdown |2| = 3
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] Countdown |2| = 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] Countdown |2| = 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=120] ScRE Countdown |2|
+END
+FUNC Func_UniversalCountdownClock
+testfor @e[type=AreaEffectCloud,$Name$Countdown]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$Countdown] |1| + 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$Countdown,|1|=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"|0|!","color":"green"}
+END
+FUNC Func_UniversalXPGeneralClock
+$s$kill @e[$SA$,type=XPOrb]
+$s$xp -2147483648L @a[$SA$,m=2]
+END
+FUNC Func_UniversalXPBarClock
+$s$xp 1129L @a[$SA$,m=2,|0|>=0]
+$s$xp 11 @a[$SA$,m=2,|0|>=0]
+LOOP 64 1 / 2 () 6336 99 / 2
+$s$xp |2| @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+$s$xp -1129L @a[$SA$,m=2,|0|>=0]
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
+FUNC Func_UniversalXPNumClock
+LOOP |1| 1 / 2
+$s$xp |0|L @a[$SA$,m=2,|0|1|>=|0|]
+@a[$SA$,m=2,|0|1|>=|0|] |0|1| - |0|
+END
+@a[$SA$,m=2,|0|>=0] |0| = 0
+END
+DEFINE SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+FUNC Func_CMDSave
+fill 0x -1y 0z 3x -3y 3z air 0
+setblock 1x -1y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+setblock 1x -3y 1z structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+setblock 1x -1y 0z wooden_button 4
+setblock 1x -3y 0z wooden_button 4
+setblock 2x -1y 1z redstone_lamp 0
+setblock 2x -3y 1z redstone_lamp 0
+setblock 1x -1y 2z minecraft:command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+END
+DEFINE DEF_SBlock structure_block 0 replace {mode:"LOAD",posZ:2,name:"ECRPlatform1",integrity:|0|}
+DEFINE $SHead$ 466 4 -329 466 4 -333
+DEFINE $ECRStructure1$ 467 3 -335
+DEFINE $ECRStructure2$ 499 3 -335
+DEFINE $ECRStructure3$ 531 3 -335
+DEFINE $ECRKill$ x=467,y=0,z=-333,dx=95,dy=-5,dz=4
+DEFINE $ECRPlatform$ 467 2 -329 562 2 -333
+DEFINE $DeathMessages$ 13
+DEFINE $ECRPercent1$ 5
+DEFINE $ECRPercent2$ 10
+DEFINE $ECRPercent3$ 15
+DEFINE $ECRPercent4$ 20
+DEFINE $ECRPercent5$ 25
+DEFINE $ECRPercent6$ 30
+DEFINE $ECRPercent7$ 35
+DEFINE $ECRPercent8$ 40
+DEFINE $ECRPercent9$ 45
+DEFINE $ECRPercent10$ 50
+DEFINE $ECRPercent11$ 100
+DEFINE $Portal$ x=569,y=3,z=-333,dy=4,dz=4
+DEFINE $BarrierFill$ 466 6 -333 466 6 -329
+FUNC Func_Comments
+Delay 1
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+4
+4.5
+5
+Delay 2
+0.5
+1
+1.5
+2
+2.5
+On/off lever
+Text on/off lever
+EVERYONE LINE UP bcast button
+Delay 1 sign (x2)
+Delay 2 sign (x2)
+Percentage sign (x2)
+Display sign
+ECRSave: Delay1, Delay2, Percent
+END
+FUNC Func_EditGeneralScoreboardStart
+USE $ObjA$
+$Name$RaceDS dummy $TDName$ Delay State
+$Name$RaceTI dummy $TDName$ Delay Timer
+$Name$RaceFA deathCount Falls
+ECRSave dummy ECR Settings Save
+UNUSE
+ExecuteSpawnStand scoreboard objectives setdisplay belowName $Name$RaceFA
+ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRRaceTimer"]}
+ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRDeathMessages"]}
+LOOP 1 3 + 1
+ExecuteSpawnStand summon ArmorStand $ECRStructure|0|$ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure|0|"]}
+END
+@e[type=ArmorStand,ECRDeathMessages] $Name$RaceTI + 0
+@a[$SA$,EC=0] SPbk = $SPid$
+END
+FUNC Func_EditGeneralScoreboardClock
+@a[$SA$,m=2,$Name$RaceDE>=1,EC=0] SPbk = $SPid$
+ScTG @a[$Portal$,m=2,team=ECR] add ECRKilled
+ScTG @a[$ECRKill$,m=2,team=ECR,!ECRKilled] add ECRKilled
+$s$tp @a[$SA$,m=2,team=ECR,ECRKilled] $SC$
+@a[$SA$,m=2,team=ECR,ECRKilled] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+@a[$SA$,m=2,team=ECR,ECRKilled] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+effect @a[$SA$,m=2,team=ECR,ECRKilled] 8 5 255 true
+@a[$SA$,m=2,team=ECR,ECRKilled] $Name$RaceFA + 1
+RevST(ECRKilled)
+@e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI>=1] $Name$RaceTI - 1
+testfor @e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=1]
+CONSTART
+ScOP @e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=1] $Name$RaceTI = Delay2 ECRSave
+@e[type=ArmorStand,ECRRaceTimer,$Name$RaceDS=1] $Name$RaceDS = 2
+Activate(CBPStructureBlockPulse)
+CONEND
+@e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=2] fill $ECRPlatform$ air 0 replace gold_block 0
+@e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=2] fill $ECRPlatform$ gold_block 0 replace stained_glass 3
+testfor @e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=2]
+CONSTART
+ScOP @e[type=ArmorStand,ECRRaceTimer,$Name$RaceTI=0,$Name$RaceDS=2] $Name$RaceTI = Delay1 ECRSave
+@e[type=ArmorStand,ECRRaceTimer,$Name$RaceDS=2] $Name$RaceDS = 1
+CONEND
+END
+FUNC Func_DeathMessagesTFClock
+testfor @a[m=2,team=ECR,ECRKilled]
+SetblockTestfor
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=1] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" experienced Smiley\'s wrath and spontaneously combusted"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=2] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" accidentally dropped their car keys and jumped for it"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=3] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" slipped on a banana"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=4] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" realized they had lost some potential, but gained kinetic energy"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=5] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" thought there was water underneath"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=6] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" ignored the wet floor sign"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=7] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" figured out what happens if you can\'t fly"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=8] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" heard one of MisterBoy\'s puns"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=9] @a[m=2,team=ECR,ECRKilled,name=!Sooperhampster] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" had a fear of heights and looked down"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=9] @a[m=2,team=ECR,ECRKilled,name=Sooperhampster] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" realized he was not so sooper after all"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=10] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" tried to be a gold block, but suddenly remembered they cannot float"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=11] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" was banned from the server"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=12] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" heard a panda roar"}]}
+@e[type=ArmorStand,ECRDeathMessages,$Name$RaceTI=13] @a[m=2,team=ECR,ECRKilled] tellraw @a $TextStart${"selector":"@a[c=1,m=2,ECRKilled]"},{"text":" thought they were playing a dropper map"}]}
+ScTG @a[ECRKilled] remove ECRKilled
+END
+FUNC Func_StructureBlockPulse
+ScOP @e[type=ArmorStand,ECRRaceTimer] ECRSave = Percent ECRSave
+LOOP 1 11 + 1
+@e[type=ArmorStand,ECRRaceTimer,ECRSave=$ECRPercent|0|$] @e[type=ArmorStand,ECRStructure] setblock ~ ~-1 ~ DEF_SBlock(DIV($ECRPercent|0|$;100.0))
+END
+@e[type=ArmorStand,ECRStructure] setblock ~ ~ ~ redstone_block 0
+@e[type=ArmorStand,ECRStructure] setblock ~ ~ ~ air 0
+@a[$SA$] playsound minecraft:entity.experience_orb.touch voice @a[c=1] ~ ~ ~ 0.4
+END
+FUNC Func_EditCountdownTFClock
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @e[type=ArmorStand,ECRRaceTimer] $Name$RaceDS = 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @e[type=ArmorStand,ECRRaceTimer] $Name$RaceTI = 0
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $SHead$ air 0
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $BarrierFill$ air 0
+END
+FUNC Func_EditGeneralScoreboardEnd
+USE $ObjR$
+$Name$RaceDS
+$Name$RaceTI
+$Name$RaceFA
+UNUSE
+ScTG * remove ECRKilled
+@a[EC=0] SPbk = $SPid$
+$s$kill @e[type=ArmorStand,tag=ECRAS]
+fill $SHead$ skull 4 replace {SkullType:3,Owner:{Name:"Smiley0_1",Id:"15f83218-25b3-4936-873e-20fd1aede94c"}}
+fill $BarrierFill$ barrier 0
+fill $ECRPlatform$ air 0
+END
+FUNC Func_RaceSpecificStart
+END
+FUNC Func_RaceSpecificClock
+@a[$SA$,m=2,team=$Name$R] $Name$Race + 0
+ScTG @a[$lapSP$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] add $Name$Lap
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] $Name$Race + 1
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap]"},{"text":" has finished a lap!","color":"yellow"}]}
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] playsound minecraft:entity.experience_orb.touch voice @a
+ScTG @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] add $Name$Lap
+ScTG @a[$lapAF$,m=2,team=$Name$R,$Name$Race>=0,$Name$Lap] remove $Name$Lap
+END
+FUNC Func_RaceSpecificEndClock
+END
+FUNC Func_RaceSpecificEnd
+ScTG * remove $Name$Lap
+END
+FUNC Func_GeneralScoreboardStart
+USE $ObjA$
+$Name$Race dummy $TDName$
+$Name$RaceCD dummy $TDName$ Countdown
+$Name$RaceCL dummy $TDName$ Clear
+$Name$RaceDE deathCount $TDName$ Deaths
+UNUSE
+ExecuteSpawnStand scoreboard objectives setdisplay sidebar $Name$Race
+scoreboard teams add $Name$R
+scoreboard teams option $Name$R color $Color$
+scoreboard teams option $Name$R seeFriendlyInvisibles true
+scoreboard teams option $Name$R collisionRule never
+scoreboard teams option $Name$R friendlyfire false
+ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
+\/spawn $Name$Race = 99
+ScTJ $Name$R \/spawn
+Func_EditGeneralScoreboardStart()
+Func_RaceSpecificStart()
+END
+FUNC Func_GeneralScoreboardClock
+$s$kill @e[$SA$,type=Item]
+@a[$SA$,m=2] $Name$RaceCL + 0
+@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
+@a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
+effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
+$s$clear @a[$SA$,m=2,$Name$RaceDE>=1]
+ScTJ $Name$R @a[$SA$,team=!$Name$R]
+effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+Func_RaceSpecificClock()
+Func_EditGeneralScoreboardClock()
+@a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
+Func_RaceSpecificEndClock()
+END
+FUNC Func_CountdownTFClock
+testfor @e[type=AreaEffectCloud,$Name$RaceCD]
+SetblockTestfor
+@e[type=AreaEffectCloud,$Name$RaceCD] $Name$RaceCD + 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] @a[$SA$] playsound block.note.pling voice @a[c=1] ~ ~ ~ 2
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"GO!","color":"green"}
+Func_EditCountdownTFClock()
+END
+FUNC Func_GeneralScoreboardEnd
+USE $ObjR$
+$Name$Race
+$Name$RaceCD
+$Name$RaceCL
+$Name$RaceDE
+UNUSE
+scoreboard teams remove $Name$R
+$s$kill @e[type=AreaEffectCloud,$Name$RaceCD]
+effect @a[$SA$,m=2] clear
+$s$clear @a[$SA$,m=2]
+effect @a[$SA$,m=2] 6 20 100 true
+@a[$SA$,m=2] SPtp = $SPid$
+Func_EditGeneralScoreboardEnd()
+Func_RaceSpecificEnd()
+END
+Func_CMDSave()
+:CBPMainStart PULSE $Style$
+Func_SpawnStandStart()
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart()
+Activate(CBPMainClock)
+Activate(CBPCountdown)
+FinalSpawnStand
+:CBPMainClock CLOCK $Style$
+Func_SpawnIDSetting()
+Func_GeneralScoreboardClock()
+:CBPCountdown CLOCK $Style$
+Func_CountdownTFClock()
+:CBPStructureBlockPulse PULSE $Style$
+Deactivate(CBPStructureBlockPulse)
+Func_StructureBlockPulse()
+:CBPMainEnd PULSE $Style$
+Func_SpawnStandEnd()
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd()
+Deactivate(CBPMainClock)
+Deactivate(CBPCountdown)

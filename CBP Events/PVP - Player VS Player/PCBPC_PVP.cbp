@@ -1,0 +1,116 @@
+//#-p stonebrick 0 -b x y z -print
+///	
+//<Defines
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEFINE $SPpvp$ 0
+DEFINE $SPsat$ 1
+DEFINE $SPid$ 23
+
+DEFINE $CMDName$ PVP_OldCTF
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOF"}}},{"text":"]","color":"gray"},{"text":": "},
+
+///	Default Spawn selection
+DEFINE $SP$ 
+
+///	Number of teleports
+DEFINE $TPNumber$ 
+
+DEFINE $TPCoords1$ 
+DEFINE $TPCoords2$ 
+DEFINE $TPCoords3$ 
+DEFINE $TPCoords4$ 
+DEFINE $TPCoords5$ 
+DEFINE $TPCoords6$ 
+DEFINE $TPCoords7$ 
+DEFINE $TPCoords8$ 
+
+///	Number of blue teleports
+DEFINE $TPNumberB$ 
+
+DEFINE $TPNumberB1$ 
+DEFINE $TPNumberB2$ 
+DEFINE $TPNumberB3$ 
+DEFINE $TPNumberB4$ 
+DEFINE $TPNumberB5$ 
+
+///	Number of red teleports
+DEFINE $TPNumberR$ 
+
+DEFINE $TPNumberR1$ 
+DEFINE $TPNumberR2$ 
+DEFINE $TPNumberR3$ 
+DEFINE $TPNumberR4$ 
+DEFINE $TPNumberR5$ 
+
+
+///	Red Spawn Selection
+DEFINE $SPR$ 
+
+///	Number of Red Force Fields
+DEFINE $FieldNumberR$ 
+///	Red Force Fields
+DEFINE $FieldR1$ 
+DEFINE $FieldRTP1$ 
+
+DEFINE $FieldR2$ 
+DEFINE $FieldRTP2$ 
+
+
+///	Blue Spawn Selection
+DEFINE $SPB$ 
+
+///	Number of Blue Force Fields
+DEFINE $FieldNumberB$ 
+///	Blue Force Fields
+DEFINE $FieldB1$ 
+DEFINE $FieldBTP1$ 
+
+DEFINE $FieldB2$ 
+DEFINE $FieldBTP2$ 
+
+PCBPIMPORT PCBPI_Pos X OR Z .txt
+//>
+
+
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,160 @@
+//#-p stonebrick 0 -b 431 7 -135 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\EpicR - Epic Race\CBP_EpicRace.txt
+
+//<Defines
+DEFINE $CMDName$ EpicR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 8
+DEFINE $CMDSizeZ$ 6
+
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=416,y=4,z=-135,dx=60,dy=29,dz=65
+
+///	Name
+DEFINE $Name$ Epic
+///	Text display name
+DEFINE $TD$ EpicR
+///	Hover and scoreboard name
+DEFINE $TDName$ Epic Race
+///	Scoreboard teams color
+DEFINE $Color$ gold
+///	Place where air is when open
+DEFINE $Dao$ 427 9 -126 427 9 -118
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 424 12 -122 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 12
+
+///	Checkpoint number
+DEFINE $CPn$ 8
+///	Block for teleporting
+DEFINE $Block$ hay_block -1
+///	Spawn area
+DEFINE $Spn$ x=420,y=11,z=-126,dx=6,dy=5,dz=8
+
+///	Checkpoints for detection of players
+DEFINE $CPdp1$ x=425,y=10,z=-116,dx=2,dy=3,dz=2
+DEFINE $CPdp2$ x=456,y=11,z=-93,dx=2,dy=3,dz=2
+DEFINE $CPdp3$ x=469,y=10,z=-76,dx=2,dy=3,dz=2
+DEFINE $CPdp4$ x=465,y=10,z=-123,dx=2,dy=3,dz=2
+DEFINE $CPdp5$ x=466,y=26,z=-111,dx=2,dy=3,dz=2
+DEFINE $CPdp6$ x=442,y=24,z=-94,dx=2,dy=3,dz=2
+DEFINE $CPdp7$ x=458,y=25,z=-104,dx=2,dy=3,dz=2
+DEFINE $CPdp8$ x=458,y=21,z=-112,dx=2,dy=3,dz=2
+
+///	Checkpoint teleports
+DEFINE $CPtp0$ 424 12 -122 -90 20
+DEFINE $CPtp1$ 426 11 -115 -90 0
+DEFINE $CPtp2$ 457 12 -92 50 0
+DEFINE $CPtp3$ 470 11 -75 90 20
+DEFINE $CPtp4$ 466 11 -122 180 0
+DEFINE $CPtp5$ 467 27 -110 0 20
+DEFINE $CPtp6$ 443 25 -93 -90 20
+DEFINE $CPtp7$ 459 26 -103 90 20
+DEFINE $CPtp8$ 459 22 -111 180 20
+
+///	1st Place Select
+DEFINE $Win1S$ x=429,y=22,z=-123,dy=2,dz=2
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 430 19 -123 430 19 -121
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=429,y=22,z=-126,dy=2,dz=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 430 19 -125 430 19 -126
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=429,y=22,z=-118,dy=2,dz=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 430 19 -119 430 19 -118
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+DEFINE $EpDis1$ 472 12 -102
+DEFINE $EpDis2$ 472 12 -104
+DEFINE $EpDis3$ 472 12 -106
+DEFINE $EpDis4$ 472 12 -108
+
+PCBPIMPORT PCBPI_PosRX.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//<General Scoreboard Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_EditGeneralScoreboardClock
+	LOOP 1 4 + 1
+		replaceitem block $EpDis|0|$ slot.container.4 arrow 64
+	END
+	ScTG @e[$SA$,type=Arrow] add EpicRinGround {inGround:1b}
+	$server$kill @e[$SA$,type=Arrow,EpicRinGround]
+END
+//>
+
+//<Countdown Clock
+FUNC Func_EditCountdownClock
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_EditGeneralScoreboardEnd
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+///	fill $Dro$ stonebrick 0 replace redstone_block 0
+END
+
+PCBPIMPORT PCBPI_CheckpointRace.txt
+//>
+
+
+
+
+
+
+
+
+
+

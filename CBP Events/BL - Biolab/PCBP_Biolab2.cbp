@@ -1,0 +1,1868 @@
+//#-p coal_block -b X Y Z -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\BL - Biolab\PCBP_Biolab2.cbp
+
+
+//<Comments
+FUNC Func_Comments
+///	Minecraft Planetside 2 Biolab Engine
+	Made by Icohedron
+	Because we're putting up credits here for some reason, this has been heavily edited by Aquafina with PCBP
+	Also check out Planetside 2 since it's cool lol
+	Icohedron's github repositories listed below
+	https://github.com/Icohedron/Biolab-CBP
+	https://github.com/Icohedron/CommArray-CBP
+
+//* Notes *//
+Notification format: ["",{"text":"[","color":"yellow"},{"text":"Biolab","color":"green"},{"text":"]","color":"yellow"},": ",
+
+The following commands need to have the "minecraft:" prefix to them
+	/xp
+	/kill
+	/tp
+	/give
+	/clear
+
+	Chestplate colors
+	 255  , 16711680, 16711935
+	 blue ,    red  ,  purple
+
+//* Class Selection *//
+Infiltrator
+replaceitem entity @p[Target] slot.hotbar.3 carrot_on_a_stick 1 0 {display:{Name:"Cloaking Device",Lore:["Right-click me to cloak!","Select another slot in your hotbar to uncloak."]}}
+
+Light Assault
+replaceitem entity @p[Target] slot.hotbar.3 paper 1 0 {display:{Name:"Jump Jets",Lore:["Hold your sneak key to activate your jump jets!","Reach heights that no other classes can!"]}}
+replaceitem entity @p[Target] slot.armor.chest leather_chestplate 1 0 {display:{color:8421504},Unbreakable:1,ench:[{id:"protection",lvl:7}]}
+
+Engineer
+replaceitem entity @p[Target] slot.hotbar.3 stone_slab 1 0 {display:{Name:"Ammo Pack",Lore:["I give players ammo.","Drop me on the ground to use!"]}}
+replaceitem entity @p[Target] slot.armor.chest leather_chestplate 1 0 {display:{color:16776960},Unbreakable:1,ench:[{id:"protection",lvl:7}]}
+
+Combat Medic
+replaceitem entity @p[Target] slot.hotbar.3 carrot_on_a_stick 1 0 {display:{Name:"Nano Regen Device",Lore:["Right-click me to toggle an area of effect Regeneration!"]}}
+replaceitem entity @p[Target] slot.armor.chest leather_chestplate 1 0 {display:{color:16777215},Unbreakable:1,ench:[{id:"protection",lvl:7}]}
+
+Heavy Assault
+replaceitem entity @p[Target] slot.hotbar.3 carrot_on_a_stick 1 0 {display:{Name:"Nanite Shield Activator",Lore:["Right-click me to toggle your shield!"]}}
+replaceitem entity @p[Target] slot.armor.chest leather_chestplate 1 0 {display:{color:172311},Unbreakable:1,ench:[{id:"protection",lvl:10}]}
+
+MAX
+replaceitem entity @p[Target] slot.armor.chest leather_chestplate 1 0 {display:{color:0},Unbreakable:1,ench:[{id:"protection",lvl:14}]}
+effect @p[Target] 1 1000000 0
+effect @p[Target] 21 1000000 2
+
+//* Weapon order *//
+	-Knife		0
+	-Bullets	1
+	-Magazine	2
+	-Ability	3
+	-[BLANK]	4
+	-Glass 1	5
+	-Glass 2	6
+	-Glass 3	7
+	-Glass 4	8
+	
+//* Class ID system *//
+1 = Infiltrator
+2 = Light Assault
+3 = Engineer
+4 = Combat Medic
+5 = Heavy Assault
+6 = MAX
+END
+//>
+
+//<To Do List
+FUNC Func_ToDo
+Mandatory:
+	-Player contesting points
+		-Also change to use one scoreboard objective rather than tags
+	-Possibly make the teleportation effects similar to RR, where the detection of blocks is key (AFTER)
+	-Give information packages of what each class
+		-A sheet of paper for a brief summary, and a book for all classes to have
+	-Universal particle effects?
+	-Teleporter effects
+	-Make the lift compatable with light assault
+	-Add teleport rotations
+	
+Additional:
+	-XP bar for the point they are capping
+	-Have point transfers from neutral to a different team so a team has to revert another team's original progress
+	-Have blinking so it flashes at neutral --> light color when capping, or original color --> light color when reverting
+	-Resistance in spawn - Change to defines maybe, or rework resistance in general if possible
+	
+Features/Changes:
+	-Removed BLcpis
+	-Changed up pretty much all objective and team names
+	-Display for team scores show a percent value rather than the actual value
+	-The majority of ScoreCalc has been moved to (func) gameEnd
+	-Changed the entirity of the jetpack system to remove tags but retain the same number of objectives lol
+	-Also changed the regen timer and the nanite shield systems to be similar to the jetpack system
+	-Change the snowball system entirely (specifically the objectives)
+	-Class is transfered to an objective
+	-Teams / PID is slightly edited - PID is added to universal class change
+	-Force field particles have been edited
+	-Infiltrator has been edited; a new SetblockTestfor has been added to restore the inventory
+		-Inventory slot change is detected regardless of where the carrot on a stick is
+	-Combined force fields and teleporters into one section
+	-Added a new objective to enable / disable teleporters
+	-Class selection has been edited a little
+	-Team balancing has been fully reworked
+		-RNG for selecting the first and second team to balance
+		-RNG, Update counter, balance 1&2, update, balance 1&3, update, balance 2&3, update, update on scoreboard
+		-If mod all div by 3
+	-Edit lift system to have less cmd blocks (AreaEffectCloud at bases, execute with dy=alot)
+	-Change the overall style of the groups to be in line with my own style
+		-Combine multiple clocks that always run throughout the game
+		-Have the class change similar to RR - Pretty much done
+	-Fix consistency of melee weapons to make them better than snowballs - SHARPNESS II
+END
+//>
+
+//<Defines: General
+DEFINE $SA$ x=-3,y=150,z=-1085,dx=-202,dy=-150,dz=-210
+DEFINE $SPid$ #
+DEFINE $SPpvp$ 0
+DEFINE $SPsat$ 0
+
+DEFINE $CMDName$ BL
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BL","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Biolab","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+//>
+
+//<Defines: Other
+/// Stained glass in the inventory
+DEFINE CCItem_Glass4 replaceitem entity @a[PARSE($SA$)] slot.hotbar.4 stained_glass 1 |0|
+DEFINE CCItem_Glass5 replaceitem entity @a[PARSE($SA$)] slot.hotbar.5 stained_glass 1 |0|
+DEFINE CCItem_Glass6 replaceitem entity @a[PARSE($SA$)] slot.hotbar.6 stained_glass 1 |0|
+DEFINE CCItem_Glass7 replaceitem entity @a[PARSE($SA$)] slot.hotbar.7 stained_glass 1 |0|
+
+///	Color data values for stained glass
+DEFINE $GlassB$ 11
+DEFINE $GlassR$ 14
+DEFINE $GlassP$ 10
+DEFINE $GlassLB$ 3
+DEFINE $GlassLR$ 6
+DEFINE $GlassLP$ 2
+DEFINE $GlassW$ 0
+
+///	Control Point Options
+DEFINE $CPCoordsA$ 104 67 -1166
+DEFINE $CPCoordsB$ -75 72 -1174
+DEFINE $CPCoordsC$ -119 71 -1219
+DEFINE $CPCoordsD$ -203 44 -1189
+
+DEFINE $CPRange$ 4
+DEFINE $CPInt$ 200
+DEFINE $CPIntDiv2$ DIV(PARSE($CPInt$);2)
+DEFINE $CPScore$ 1680000
+
+///	Team join particles
+DEFINE $ParticleCoordsB1$ -120.0 21 -1198
+DEFINE $ParticleCoordsB2$ -120.0 21 -1196
+DEFINE $ParticleB$ 2.5 2 0 0 30
+DEFINE $JoinB$ x=-117,y=19,z=-1198,dx=-7,dy=4
+
+DEFINE $ParticleCoordsR1$ -128 21 -1205.0
+DEFINE $ParticleCoordsR2$ -130 21 -1205.0
+DEFINE $ParticleR$ 0 2 2.5 0 20
+DEFINE $JoinR$ x=-128,y=19,z=-1202,dy=4,dz=-7
+
+DEFINE $ParticleCoordsP1$ -113 21 -1205.0
+DEFINE $ParticleCoordsP2$ -111 21 -1205.0
+DEFINE $ParticleP$ 0 2 2.5 0 6
+DEFINE $JoinP$ x=-113,y=19,z=-1209,dy=4,dz=7
+
+///	Team Spawns
+DEFINE $SpawnB1$ x=-84,y=43,z=-1276,dx=-5,dy=3,dz=-3
+DEFINE $SpawnB2$ x=-112,y=66,z=-1232,dx=3,dy=4,dz=-5
+DEFINE $SpawnB3$ x=-77,y=66,z=-1216,dx=-5,dy=4,dz=-5
+
+DEFINE $SpawnR1$ x=-109,y=50,z=-1187,dx=9,dy=-8,dz=-9
+DEFINE $SpawnR2$ x=-148,y=70,z=-1197,dx=-3,dy=-4,dz=12
+
+DEFINE $SpawnP1$ x=-104,y=46,z=-1102,dx=5,dy=-3,dz=-3
+DEFINE $SpawnP2$ x=-76,y=66,z=-1156,dx=-4,dy=3,dz=-5
+
+/// Select Spawn
+DEFINE $Spawn$ x=-114,y=19,z=-1212,dx=-13,dy=6,dz=13
+
+///	Teleport to team spawns
+DEFINE $TPToB$ -120.0 19 -1193 0 0
+DEFINE $TPToR$ -133 19 -1205.0 90 0
+DEFINE $TPToP$ -108 19 -1205.0 -90 0
+
+///	Firework summon
+DEFINE $Firework$ {LifeTime:15,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:0,Trail:1,Colors:[65297],FadeColors:[16777215]}]}}}}
+//>
+
+//<Defines: Teleports
+///	Blue_Outside 90.0f 180.0f BLd_b
+DEFINE $TPName1$ Blue Outside
+DEFINE $TPTeamD1$ BLd_b
+DEFINE $TPTeam1$ BLb
+DEFINE $TP1A$ -116 20 -1193
+DEFINE $TPRot1A$ 
+DEFINE $TP1B$ -87 44 -1276
+DEFINE $TPRot1B$ 
+
+///	Blue_Teleporter_1 -54.0f -45.0f BLd_b
+DEFINE $TPName2$ Blue Teleporter 1
+DEFINE $TPTeamD2$ BLd_b
+DEFINE $TPTeam2$ BLb
+DEFINE $TP2A$ -128 20 -1195
+DEFINE $TPRot2A$ 
+DEFINE $TP2B$ -82 67 -1221
+DEFINE $TPRot2B$ 
+
+///	Blue_Teleporter_2 -118.0f 36.0f BLd_b
+DEFINE $TPName3$ Blue Teleporter 2
+DEFINE $TPTeamD3$ BLd_b
+DEFINE $TPTeam3$ BLb
+DEFINE $TP3A$ -128 20 -1191
+DEFINE $TPRot3A$ 
+DEFINE $TP3B$ -109 67 -1237
+DEFINE $TPRot3B$ 
+
+///	Red_Control_Room 180.0f 135.0f BLd_r
+DEFINE $TPName4$ Red Control Room
+DEFINE $TPTeamD4$ BLd_r
+DEFINE $TPTeam4$ BLr
+DEFINE $TP4A$ -133 20 -1201
+DEFINE $TPRot4A$ 
+DEFINE $TP4B$ -100 44 -1187
+DEFINE $TPRot4B$ 
+
+///	Red_Teleporter_1 -135.0f -15.0f BLd_r
+DEFINE $TPName5$ Red Teleporter 1
+DEFINE $TPTeamD5$ BLd_r
+DEFINE $TPTeam5$ BLr
+DEFINE $TP5A$ -109 44 -1187
+DEFINE $TPRot5A$ 
+DEFINE $TP5B$ -151 67 -1197
+DEFINE $TPRot5B$ 
+
+///	Red_Teleporter_2 45.0f 45.0f BLd_r
+DEFINE $TPName6$ Red Teleporter 2
+DEFINE $TPTeamD6$ BLd_r
+DEFINE $TPTeam6$ BLr
+DEFINE $TP6A$ -100 44 -1196
+DEFINE $TPRot6A$ 
+DEFINE $TP6B$ -110 67 -1187
+DEFINE $TPRot6B$ 
+
+///	Purple_Outside 0.0f 0.0f BLd_p
+DEFINE $TPName7$ Purple Outside
+DEFINE $TPTeamD7$ BLd_p
+DEFINE $TPTeam7$ BLp
+DEFINE $TP7A$ -108 20 -1210
+DEFINE $TPRot7A$ 
+DEFINE $TP7B$ -101 44 -1105
+DEFINE $TPRot7B$ 
+
+///	Purple_Teleporter_1 180.0f -36.0f BLd_p
+DEFINE $TPName8$ Purple Teleporter 1
+DEFINE $TPTeamD8$ BLd_p
+DEFINE $TPTeam8$ BLp
+DEFINE $TP8A$ -108 20 -1201
+DEFINE $TPRot8A$ 
+DEFINE $TP8B$ -80 67 -1161
+DEFINE $TPRot8B$ 
+
+///	Control_Point_D -90.0f 180.0f BLd_n
+DEFINE $TPName9$ Control Point D
+DEFINE $TPTeamD9$ BLd_n
+DEFINE $TP9A$ -203 45 -1099
+DEFINE $TPRot9A$ 
+DEFINE $TP9B$ -200 44 -1158
+DEFINE $TPRot9B$ 
+//>
+
+//<Defines: Force Fields
+///	Force fields
+DEFINE $ForceFieldParticleCoordsR1$ reddust 2.5 3 0 0 50
+DEFINE $ForceFieldCoords1$ -104.0 46 -1186
+DEFINE $ForceFieldParticle1$ R1
+
+DEFINE $ForceFieldCoords2$ -104.0 46 -1197
+DEFINE $ForceFieldParticle2$ R1
+
+
+DEFINE $ForceFieldParticleCoordsR2$ reddust 0 3 2.5 0 50
+DEFINE $ForceFieldCoords3$ -99 46 -1191.0
+DEFINE $ForceFieldParticle3$ R2
+
+DEFINE $ForceFieldCoords4$ -110 46 -1191.0
+DEFINE $ForceFieldParticle4$ R2
+
+
+DEFINE $ForceFieldParticleCoordsR3$ reddust 0 0.75 0.75 0 8
+DEFINE $ForceFieldCoords5$ -147 67 -1191
+DEFINE $ForceFieldParticle5$ R3
+
+DEFINE $ForceFieldCoords6$ -152 67 -1190
+DEFINE $ForceFieldParticle6$ R3
+
+DEFINE $ForceFieldParticleCoordsR4$ reddust 1 0.75 0 0 9
+DEFINE $ForceFieldCoords7$ -149.0 67 -1184
+DEFINE $ForceFieldParticle7$ R4
+
+
+DEFINE $ForceFieldParticleCoordsB1$ magicCrit 0 0.75 0.75 0 8
+DEFINE $ForceFieldCoords8$ -90 44 -1278
+DEFINE $ForceFieldParticle8$ B1
+
+DEFINE $ForceFieldCoords9$ -83 44 -1278
+DEFINE $ForceFieldParticle9$ B1
+
+DEFINE $ForceFieldCoords10$ -113 67 -1235
+DEFINE $ForceFieldParticle10$ B1
+
+DEFINE $ForceFieldCoords11$ -76 67 -1220
+DEFINE $ForceFieldParticle11$ B1
+
+
+DEFINE $ForceFieldParticleCoordsB2$ magicCrit 0.75 0.75 0 0 8
+DEFINE $ForceFieldCoords12$ -88 44 -1280
+DEFINE $ForceFieldParticle12$ B2
+
+DEFINE $ForceFieldCoords13$ -110 67 -1231
+DEFINE $ForceFieldParticle13$ B2
+
+DEFINE $ForceFieldCoords14$ -81 67 -1215
+DEFINE $ForceFieldParticle14$ B2
+
+
+DEFINE $ForceFieldParticleCoordsP1$ dragonbreath 0 0.75 0.75 0 4
+DEFINE $ForceFieldCoords15$ -98 44 -1103
+DEFINE $ForceFieldParticle15$ P1
+
+DEFINE $ForceFieldCoords16$ -105 44 -1103
+DEFINE $ForceFieldParticle16$ P1
+
+DEFINE $ForceFieldCoords17$ -75 67 -1159
+DEFINE $ForceFieldParticle17$ P1
+
+
+DEFINE $ForceFieldParticleCoordsP2$ dragonbreath 0.75 0.75 0 0 4
+DEFINE $ForceFieldCoords18$ -100 44 -1101
+DEFINE $ForceFieldParticle18$ P2
+
+DEFINE $ForceFieldCoords19$ -77 67 -1155
+DEFINE $ForceFieldParticle19$ P2
+//>
+
+//<Defines: Items
+DEFINE CCItem_HelmetB leather_helmet 1 0 {display:{color:255},Unbreakable:1}
+DEFINE CCItem_HelmetR leather_helmet 1 0 {display:{color:16711680},Unbreakable:1}
+DEFINE CCItem_HelmetP leather_helmet 1 0 {display:{color:16711935},Unbreakable:1}
+
+DEFINE CCItem_ChestplateB leather_chestplate 1 0 {display:{color:255},Unbreakable:1}
+DEFINE CCItem_ChestplateR leather_chestplate 1 0 {display:{color:16711680},Unbreakable:1}
+DEFINE CCItem_ChestplateP leather_chestplate 1 0 {display:{color:16711935},Unbreakable:1}
+
+DEFINE CCItem_LeggingsB leather_leggings 1 0 {display:{color:255},Unbreakable:1}
+DEFINE CCItem_LeggingsR leather_leggings 1 0 {display:{color:16711680},Unbreakable:1}
+DEFINE CCItem_LeggingsP leather_leggings 1 0 {display:{color:16711935},Unbreakable:1}
+
+DEFINE CCItem_BootsB leather_boots 1 0 {display:{color:255},Unbreakable:1}
+DEFINE CCItem_BootsR leather_boots 1 0 {display:{color:16711680},Unbreakable:1}
+DEFINE CCItem_BootsP leather_boots 1 0 {display:{color:16711935},Unbreakable:1}
+
+//-
+DEFINE CCItem_Knife iron_sword 1 0 {display:{Name:"Knife"},Unbreakable:1,ench:[{id:16,lvl:2},AttributeModifiers:[
+	{AttributeName:"generic.movementSpeed",Name:"anything",Amount:0.25,Operation:1,UUIDLeast:1,UUIDMost:1,Slot:mainhand},
+	{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-2.4,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},
+	{AttributeName:"generic.attackDamage",Name:"anything",Amount:10,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],
+	display:{Lore:["Holding this will","make you run faster"]}}
+\\-
+
+DEFINE CCItem_BulletsGive snowball |0| 0 {display:{Name:"Bullets"}}
+DEFINE CCItem_BulletsClear snowball -1 |0| {display:{Name:"Bullets"}}
+DEFINE CCItem_MagazineGive prismarine_shard |0| 0 {display:{Name:"Magazine"}}
+DEFINE CCItem_MagazineClear prismarine_shard -1 |0| {display:{Name:"Magazine"}}
+
+DEFINE CCItem_Infiltrator_Ability carrot_on_a_stick 1 0 {display:{Name:"Cloaking Device",Lore:["Right-click me to cloak!","Select another slot in your hotbar to uncloak."]},Unbreakable:1}
+
+DEFINE CCItem_LightAssault_Paper paper 1 0 {display:{Name:"Jump Jets",Lore:["Hold your sneak key to activate your jump jets!","Reach heights that no other classes can!"]}}
+DEFINE CCItem_LightAssault_Chestplate leather_chestplate 1 0 {display:{color:8421504},ench:[{id:"protection",lvl:7}],Unbreakable:1}
+
+DEFINE CCItem_Engineer_Ability stone_slab 1 0 {display:{Name:"Ammo Pack",Lore:["I give players ammo.","Drop me on the ground to use!"]},Unbreakable:1}
+DEFINE CCItem_Engineer_Chestplate leather_chestplate 1 0 {display:{color:16776960},ench:[{id:"protection",lvl:7}],Unbreakable:1}
+
+DEFINE CCItem_CombatMedic_Ability carrot_on_a_stick 1 0 {display:{Name:"Nano Regen Device",Lore:["Right-click me to toggle an area of effect Regeneration!"]},Unbreakable:1}
+DEFINE CCItem_CombatMedic_Chestplate leather_chestplate 1 0 {display:{color:16777215},ench:[{id:"protection",lvl:7}],Unbreakable:1}
+
+DEFINE CCItem_HeavyAssault_Ability carrot_on_a_stick 1 0 {display:{Name:"Nanite Shield Activator",Lore:["Right-click me to toggle your shield!"]},Unbreakable:1}
+DEFINE CCItem_HeavyAssault_Chestplate leather_chestplate 1 0 {display:{color:172311},ench:[{id:"protection",lvl:10}],Unbreakable:1}
+
+DEFINE CCItem_MAX_Chestplate leather_chestplate 1 0 {display:{color:0},ench:[{id:"protection",lvl:14}],Unbreakable:1}
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+///	Objectives
+	USE $ObjA$
+		BL dummy Biolab
+		BLcl dummy Biolab Class ID
+		BLtm dummy Biolab Team ID
+		BLpl dummy Biolab Player ID
+		BLcc dummy Biolab Class Change
+		BLaf dummy Biolab Affected Items
+		BLcs stat.useItem.minecraft.carrot_on_a_stick Biolab Carrot Stick
+		BLsn stat.sneakTime Biolab Sneak Time
+		BLxpb dummy Biolab XP Bar
+		BLxpn dummy Biolab XP Number
+		BLtp dummy Biolab Temp
+		NumberObjAdd
+	UNUSE
+	
+	NumberAdd(20)
+	NumberAdd(100)
+	NumberAdd($CPScore$)
+	
+	Blue_Team BL = 0
+	Red_Team BL = 0
+	Purple_Team BL = 0
+	ScoreCalc BLtp = 0
+	scoreboard objectives setdisplay sidebar BL
+	
+///	Teams
+	USE $TeamA$
+		BLb
+		BLr
+		BLp
+		BLd_b
+		BLd_r
+		BLd_p
+		BLd_n
+	UNUSE
+	
+	USE $TeamO$
+		BLb friendlyfire false
+		BLr friendlyfire false
+		BLp friendlyfire false
+		BLb nametagVisibility hideForOtherTeams
+		BLr nametagVisibility hideForOtherTeams
+		BLp nametagVisibility hideForOtherTeams
+		BLb color blue
+		BLr color red
+		BLp color light_purple
+		BLd_b color blue
+		BLd_r color red
+		BLd_p color light_purple
+		BLd_n color white
+	UNUSE
+	
+///	Summons
+	summon ArmorStand ~ ~ ~ {Tags:["BLEntity","BLCounter","BLCounterB","BLScore","BLScoreB","BLCalc","BLCalcA","ScoreCalc","ScoreCalcB"],;
+	CustomName:"Blue",Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	
+	summon ArmorStand ~ ~ ~ {Tags:["BLEntity","BLCounter","BLCounterR","BLScore","BLScoreR","BLCalc","BLCalcB","ScoreCalc","ScoreCalcR"],;
+	CustomName:"Red",Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	
+	summon ArmorStand ~ ~ ~ {Tags:["BLEntity","BLCounter","BLCounterP","BLScore","BLScoreP","BLCalc","BLCalcC","ScoreCalc","ScoreCalcP","ScoreCalcTemp"],;
+	CustomName:"Purple",Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	
+	LOOP {B1;B2;R1;R2;P1;P2} {B;B;R;R;P;P}
+		summon AreaEffectCloud $ParticleCoords|0|$ {Duration:1000000,Tags:["BLEntity","BLParticle","BLParticle|1|","BLParticle|0|"]}
+	END
+	
+	ScTJ BLd_b Blue_Team @e[type=ArmorStand,BLEntity,name=Blue]
+	ScTJ BLd_r Red_Team @e[type=ArmorStand,BLEntity,name=Red]
+	ScTJ BLd_p Purple_Team @e[type=ArmorStand,BLEntity,name=Purple]
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+///	General
+	$s$clear @a[$SA$,m=0]
+	effect @a[$SA$,m=0] clear
+	effect @a[$SA$,m=0] 6 1 100 true
+	$s$gamemode 2 @a[$SA$,m=0]
+	$s$weather clear 1000000
+
+/// PID
+	@a[BLpl=0,c=1] PlayerNumber BLpl + 1
+	ScOP @a[BLpl=0,c=1] BLpl = PlayerNumber BLpl
+	
+///	Regeneration Timer Restart
+	effect @a[$SA$,m=2] 10 0 0 true
+	@a[$SA$,m=2] BLcmrs = 0
+	
+///	Resistance in spawn
+	effect @e[$SpawnB1$,team=BLb] 11 1 10 true
+	effect @e[$SpawnB1$,team=BLb] 11 1 10 true
+	effect @e[$SpawnB1$,team=BLb] 11 1 10 true
+	
+	effect @e[$SpawnR1$,team=BLr] 11 1 10 true
+	effect @e[$SpawnR2$,team=BLr] 11 1 10 true
+
+	effect @e[$SpawnP2$,team=BLp] 11 1 10 true
+	effect @e[$SpawnP2$,team=BLp] 11 1 10 true
+	
+	LOOP {B;R;P} {BLb;BLr;BLp} {Blue;Red;Purple} {blue;red;light_purple}
+		testfor @a[$Join|0|$,m=2]
+		CONSTART
+			tellraw @a[$SA$] $TextStart${"selector":"@a[$Join|0|$,m=2]","color":"gray"},;
+			{"text":" has joined team ","color":"gray"},{"text":"|2|","color":"|3|"},{"text":"!"}]}
+			
+			ScTJ |1| @a[$Join|0|$,m=2]
+			$s$tp @a[$Join|0|$,m=2] $TPTo|0|$
+		CONEND
+		
+		$s$tp @a[$Spawn$,team=|1|,m=2] $TPTo|0|$
+		@e[type=AreaEffectCloud,BLParticle|0|]
+	END
+END
+//>
+
+//<General End Clock
+FUNC Func_GeneralEndClock
+///	FUNC enableExperienceIndicator
+/// CBP: updateExperienceIndicator
+///	FUNC disableExperienceIndicator
+
+///	XP
+	$s$kill @e[$SA$,type=XPOrb]
+	$s$xp -2147483648L @a[$SA$,m=2]
+	
+	$s$xp 1129L @a[$SA$,m=2,BLxpb>=0]
+	$s$xp 11 @a[$SA$,m=2,BLxpb>=0]
+	LOOP 64 1 / 2 () 6336 99 / 2
+		$s$xp |2| @a[$SA$,m=2,BLxpb>=|0|]
+		@a[$SA$,m=2,BLxpb>=|0|] BLxpb - |0|
+	END
+	$s$xp -1129L @a[$SA$,m=2,BLxpb>=0]
+	
+	LOOP 64 1 / 2 () 6336 99 / 2
+		$s$xp |2|L @a[$SA$,m=2,BLxpn>=|0|]
+		@a[$SA$,m=2,BLxpn>=|0|] BLxpn - |0|
+	END
+	
+	@a[BLxpb>=1] BLxpb = 0
+	@a[BLxpn>=1] BLxpn = 0
+	
+///	Universal particle effects
+///	B - particle reddust ~ ~ ~ -1 0 1 -0.05 0 force @a
+///	R - particle reddust ~ ~1 ~ 0 0 0 -0.01 force @a
+///	P - particle reddust ~ ~1 ~ 0 0 1 -0.01 force @a
+///	N - particle reddust ~ ~1 ~ 0 1 1 -0.01 force @a
+	
+///	Resetting the sneak timer
+	@a[BLsn>=1] BLsn = 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		BL
+		BLcl
+		BLtm
+		BLpl
+		BLcc
+		BLaf
+		BLcs
+		BLsn
+		BLxpb
+		BLxpn
+	UNUSE
+	
+	USE $TeamR$
+		BLb
+		BLr
+		BLp
+		BLd_b
+		BLd_r
+		BLd_p
+		BLd_n
+	UNUSE
+	
+	$s$kill @e[BLEntity]
+END
+//>
+
+
+//<Team Balance Start
+//* Team Functions *//
+///	FUNC initializeTeamPlayerCounter
+///	FUNC updateTeamPlayerCounter
+///	CBP: balanceTeams
+
+///	BLCounter
+///	BLCounterB
+///	BLCounterR
+///	BLCounterP
+
+FUNC Func_TeamBalanceStart
+	USE $ObjA$
+		BLtebt dummy Biolab Team Balance Toggle
+		BLtecn dummy Biolab Team Counter
+		BLteab dummy Biolab Team Absolute Value
+		BLteac dummy Biolab Team Absolute Value Calc
+		BLtecl dummy Biolab Team Calc
+		BLterc dummy Biolab Team Rand Calc
+		BLtemx dummy Biolab Team Max Calc
+		BLtesm dummy Biolab Team Sum Calc
+		BLtemt dummy Biolab Team Move To
+	UNUSE
+END
+//>
+
+//<Team Balance Testfor Clock
+FUNC Func_TeamBalanceTestforClock
+	testfor @e[type=ArmorStand,BLCalc,BLtebt>=1]
+	SetblockTestfor
+	
+	@e[type=ArmorStand,BLCounter] BLtecn = 0
+	@a[team=BLb] @e[type=ArmorStand,BLCounterB] BLtecn + 1
+	@a[team=BLr] @e[type=ArmorStand,BLCounterR] BLtecn + 1
+	@a[team=BLp] @e[type=ArmorStand,BLCounterP] BLtecn + 1
+	
+	ScOP @e[type=ArmorStand,BLCalcA,BLtebt>=1] BLtecl = @e[type=ArmorStand,BLCounterB,BLtebt>=1] BLtecn
+	ScOP @e[type=ArmorStand,BLCalcB,BLtebt>=1] BLtecl = @e[type=ArmorStand,BLCounterB,BLtebt>=1] BLtecn
+	ScOP @e[type=ArmorStand,BLCalcC,BLtebt>=1] BLtecl = @e[type=ArmorStand,BLCounterR,BLtebt>=1] BLtecn
+	ScOP @e[type=ArmorStand,BLCalcA,BLtebt>=1] BLtecl -= @e[type=ArmorStand,BLCounterR,BLtebt>=1] BLtecn
+	ScOP @e[type=ArmorStand,BLCalcB,BLtebt>=1] BLtecl -= @e[type=ArmorStand,BLCounterP,BLtebt>=1] BLtecn
+	ScOP @e[type=ArmorStand,BLCalcC,BLtebt>=1] BLtecl -= @e[type=ArmorStand,BLCounterP,BLtebt>=1] BLtecn
+///	BLCalcA = BLb - BLr
+///	BLCalcB = BLb - BLp
+///	BLCalcC = BLr - BLp
+///	BLb = 1, BLr = 2, BLp = 4
+	
+	@e[type=ArmorStand,BLCalc,BLtebt>=1] ScOP @e[c=1,r=1,type=ArmorStand,BLCalc,BLtebt>=1] BLteab = @e[c=1,r=1,type=ArmorStand,BLCalc,BLtebt>=1] BLtecl
+	ScOP @e[type=ArmorStand,BLCalc,BLteab<=0,BLtebt>=1] BLteab *= -1 Number
+	//(-1 Number)
+	
+///	@e[type=ArmorStand,BLCalc] BLtemx = 0
+	ScOP @e[type=ArmorStand,BLCalc,BLtebt>=1] BLtemx < @e[type=ArmorStand,BLCalcA,BLtebt>=1] BLteab
+	ScOP @e[type=ArmorStand,BLCalc,BLtebt>=1] BLtemx < @e[type=ArmorStand,BLCalcB,BLtebt>=1] BLteab
+	ScOP @e[type=ArmorStand,BLCalc,BLtebt>=1] BLtemx < @e[type=ArmorStand,BLCalcC,BLtebt>=1] BLteab
+	
+	@e[type=ArmorStand,BLCalc,BLtebt>=1] BLtesm = 0
+	@e[type=ArmorStand,BLCalc,BLtebt>=1] ScOP @e[c=1,r=1,type=ArmorStand,BLCalc,BLtebt>=1] BLtesm += @e[c=1,r=1,type=ArmorStand,BLCalc,BLtebt>=1] BLtefn
+	
+///	If the sum is greater than three, team balancing is required.
+	@e[type=ArmorStand,BLCalc,BLtemx>=3,BLtebt>=1] ScOP @e[c=1,r=1,type=ArmorStand,BLCalc,BLCalc,BLtemx>=3,BLtebt>=1] BLteac = @e[c=1,r=1,type=ArmorStand,BLCalc,BLCalc,BLtemx>=3,BLtebt>=1] BLteab
+	ScOP @e[type=ArmorStand,BLCalc,BLCalc,BLtemx>=3,BLtebt>=1] BLteac -= @e[type=ArmorStand,BLCalcA,BLCalc,BLtemx>=3,BLtebt>=1] BLtemx
+	
+///	RNG
+	@e[type=ArmorStand,BLCalc,BLtebt>=1] BLterc = 0
+	@r[type=ArmorStand,BLCalc,BLterc=0,BLtebt>=1] BLterc = 3
+	@r[type=ArmorStand,BLCalc,BLterc=0,BLtebt>=1] BLterc = 2
+	@r[type=ArmorStand,BLCalc,BLterc=0,BLtebt>=1] BLterc = 1
+	
+///	Team changes
+	LOOP 3 1 - 1
+		@e[type=ArmorStand,BLCalcA,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl>=1] @a[c=1,team=BLb] BLtemt = 2
+		@e[type=ArmorStand,BLCalcA,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl<=-1] @a[c=1,team=BLr] BLtemt = 1
+		@e[type=ArmorStand,BLCalcA,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0] @e[type=ArmorStand,BLCalc,BLtebt>=1] BLterc = 0
+		
+		@e[type=ArmorStand,BLCalcB,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl>=1] @a[c=1,team=BLb] BLtemt = 4
+		@e[type=ArmorStand,BLCalcB,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl<=-1] @a[c=1,team=BLp] BLtemt = 1
+		@e[type=ArmorStand,BLCalcB,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0] @e[type=ArmorStand,BLCalc,BLtebt>=1] BLterc = 0
+		
+		@e[type=ArmorStand,BLCalcC,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl>=1] @a[c=1,team=BLr] BLtemt = 4
+		@e[type=ArmorStand,BLCalcC,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0,BLtecl<=-1] @a[c=1,team=BLp] BLtemt = 2
+		@e[type=ArmorStand,BLCalcC,BLtemx>=3,BLtebt>=1,BLterc=|0|,BLteac=0] @e[type=ArmorStand,BLCalc,BLtebt>=1] BLterc = 0
+	END
+	@e[type=ArmorStand,BLCalc,BLtebt>=1,BLtemx<=2] BLtebt = 0
+END
+//>
+
+//<Team Balance End
+FUNC Func_TeamBalanceEnd
+	USE $ObjR$
+		BLtebt
+		BLtecn
+		BLteab
+		BLteac
+		BLtecl
+		BLterc
+		BLtemx
+		BLtesm
+		BLtemt
+	UNUSE
+END
+//>
+
+
+//<Weapons Start
+//* Weapons *//
+FUNC Func_WeaponsStart
+	USE $ObjA$
+		BLsbus stat.useItem.minecraft.snowball Biolab Use Snowball
+		BLsbrt dummy Biolab Snowball Reload Timer
+		BLsbrc dummy Biolab Snowball Reload Calc
+		BLsbid dummy Biolab Snowball ID
+	UNUSE
+END
+//>
+
+//<Weapons Clock
+FUNC Func_WeaponsClock
+///	FUNC enableWeapons
+///	CBP: weapons
+///	FUNC disableWeapons
+///	BLsbid in snowballs is for team identification, but BLsbid for players is simply to tell if they've been hit or not
+
+///	Snowball ID
+	@a[$SA$,m=2,BLtm>=0,BLsbus>=1] @e[type=Snowball,c=1,r=3] BLsbid + 0
+	@a[$SA$,m=2,BLtm>=0,BLsbus>=1] ScOP @e[type=Snowball,BLsbid=0,c=1,r=3] BLsbid = @a[BLtm>=0,BLsbus>=1,c=1,r=1] BLtm
+	@a[BLsbus>=1] BLsbus = 0
+	
+///	Snowball Damage
+	@e[type=Snowball,BLtm=1] @a[r=2,m=2,team=!BLb] BLsbid = 1
+	@e[type=Snowball,BLtm=2] @a[r=2,m=2,team=!BLr] BLsbid = 1
+	@e[type=Snowball,BLtm=4] @a[r=2,m=2,team=!BLp] BLsbid = 1
+	
+	effect @a[$SA$,m=2,BLsbid=1] 24 5 0 true
+	effect @a[$SA$,m=2,BLsbid=1] 7 1 0 true
+	@a[$SA$,m=2,BLsbid=1] = 0
+	
+///	Particle effects
+	//(Universal particle effects?)
+	@e[type=Snowball,BLtm=1] particle reddust ~ ~ ~ -1 0 1 -0.05 0 force @a
+	@e[type=Snowball,BLtm=2] particle reddust ~ ~ ~ 0 0 0 -0.05 0 force @a
+	@e[type=Snowball,BLtm=4] particle reddust ~ ~ ~ 0 0 1 -0.05 0 force @a
+
+///	Ammo Reloading System
+	@a[$SA$,m=2,BLcl>=0] $s$clear @a[m=2,c=1,r=1,BLcl>=0] CCItem_BulletsClear(0)
+	@a[$SA$,m=2,BLcl>=0,BLaf=0] BLsbrc + 1 
+	@a[$SA$,m=2,BLcl>=0] $s$clear @a[m=2,c=1,r=1,BLcl>=0] CCItem_MagazineClear(0)
+	@a[$SA$,m=2,BLcl>=0,BLaf>=1] BLsbrc + 1
+	
+	@a[$SA$,m=2,BLcl>=0,BLsbrc=2,BLsbrt>=-1<=29] BLsbrt + 1
+	$s$clear @a[$SA$,m=2,BLcl>=0,BLsbrc=2,BLsbrt=30] CCItem_MagazineClear(1)
+	replaceitem entity @a[$SA$,m=2,BLcl>=0,BLsbrc=2,BLsbrt=30] slot.hotbar.1 CCItem_BulletsGive(16)
+	
+	@a[$SA$,m=2,BLcl>=0,BLsbrc=2,BLsbrt=30] BLsbrt = -1
+	@a[$SA$,m=2,BLcl>=0,BLsbrc=>=0<=1] BLsbrt = -1
+END
+//>
+
+//<Weapons End
+FUNC Func_WeaponsEnd
+	USE $ObjR$
+		BLsbus
+		BLsbrt
+		BLsbrc
+		BLsbid
+	UNUSE
+END
+//>
+
+
+//<Teleporting Start
+//* Teleporters (Two-Way) *//
+///	BLtp at 0 = teleport
+///	Sets all players in a teleporter as 2
+///	Removes 1 from all players BLtp>=1
+///	FUNC enableTeleporters
+///	FUNC teleporters
+///	FUNC disableTeleporters
+///	What's the logic behind rotations? TO TELEPORT PROPERLY FFS
+
+///	FUNC addTeleporter
+///		summon ArmorStand |1| |2| |3| {CustomName:"|0|",CustomNameVisible:1b,Tags:["BiolabTeleporter","|0|1","|9|"],Marker:1b,Invulnerable:1b:,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[|4|,0.0f,0.0f]}
+///		summon ArmorStand |5| |6| |7| {CustomName:"|0|",CustomNameVisible:1b,Tags:["BiolabTeleporter","|0|2","|9|"],Marker:1b,Invulnerable:1b:,NoGravity:1b,Invisible:1b,PersistenceRequired:1b,Rotation:[|8|,0.0f,0.0f]}
+///	END
+FUNC Func_TeleportingStart
+	USE $ObjA$
+		BLtpcl dummy Biolab Teleport Calc
+		BLtpef dummy Biolab Teleport Effect
+		BLtpdi dummy Biolab Teleport Direcion
+		BLtpto dummy Biolab Teleporter Toggle
+	UNUSE
+	
+	LOOP 1 9 + 1
+		summon ArmorStand $TP|0|A$ {CustomName:"$TPName|0|$",CustomNameVisible:1b,Tags:["BLEntity","BLTeleporter","BLTeleporterA","BLTeleporter|0|","BLTeleporter|0|A"],;
+		Team:"$TPTeamD|0|$",Rotation:[$TPRot|0|A$f,0f],Marker:1b,Invulnerable:1b:,NoGravity:1b,Invisible:1b,PersistenceRequired:1b}
+		
+		summon ArmorStand $TP|0|B$ {CustomName:"$TPName|0|$",CustomNameVisible:1b,Tags:["BLEntity","BLTeleporter","BLTeleporterB","BLTeleporter|0|","BLTeleporter|0|B"],;
+		Team:"$TPTeamD|0|$",Rotation:[$TPRot|0|B$f,0f],Marker:1b,Invulnerable:1b:,NoGravity:1b,Invisible:1b,PersistenceRequired:1b}
+	END
+	
+	LOOP 1 19 + 1
+		summon AreaEffectCloud $ForceFieldCoords|0|$ {Duration:1000000,Tags:["BLEntity","BLForceField","BLForceField$ForceFieldParticle|0|$"]}
+	END
+END
+//>
+
+//<Teleporting Clock
+FUNC Func_TeleportingClock
+///	Teleport effects by teleporters
+	@e[type=ArmorStand,BLTeleporter,team=BLd_b,BLtpto=1] @a[r=1,m=2,BLpl>=0,BLtpcl=0,team=BLb] BLtpef = 1
+	@e[type=ArmorStand,BLTeleporter,team=BLd_r,BLtpto=1] @a[r=1,m=2,BLpl>=0,BLtpcl=0,team=BLr] BLtpef = 2
+	@e[type=ArmorStand,BLTeleporter,team=BLd_p,BLtpto=1] @a[r=1,m=2,BLpl>=0,BLtpcl=0,team=BLp] BLtpef = 4
+	@e[type=ArmorStand,BLTeleporter,team=BLd_n,BLtpto=1] @a[r=1,m=2,BLpl>=0,BLtpcl=0] BLtpef = 7
+	
+///	Teleporting
+	LOOP 1 9 + 1
+		IF |0|<=8
+			@e[type=ArmorStand,BLTeleporter|0|A,BLtpto=1] $s$tp @a[r=1,m=2,BLpl>=0,BLtpcl=0,team=$TPTeam|0|$] @e[type=ArmorStand,BLTeleporter|0|B,BLtpto=1]
+		END
+		IF |0|>=9
+			@e[type=ArmorStand,BLTeleporter|0|A,BLtpto=1] $s$tp @a[r=1,m=2,BLpl>=0,BLtpcl=0] @e[type=ArmorStand,BLTeleporter|0|B,BLtpto=1]
+		END
+	END
+	@e[type=ArmorStand,BLTeleporterB] @a[r=1,m=2,BLpl>=0,BLtpto=1] BLtpcl = 2
+	
+	LOOP 1 9 + 1
+		IF |0|<=8
+			@e[type=ArmorStand,BLTeleporter|0|B,BLtpto=1] $s$tp @a[r=1,m=2,BLpl>=0,BLtpcl=0,team=$TPTeam|0|$] @e[type=ArmorStand,BLTeleporter|0|A,BLtpto=1]
+		END
+		IF |0|>=9
+			@e[type=ArmorStand,BLTeleporter|0|B,BLtpto=1] $s$tp @a[r=1,m=2,BLpl>=0,BLtpcl=0] @e[type=ArmorStand,BLTeleporter|0|A,BLtpto=1]
+		END
+	END
+	@e[type=ArmorStand,BLTeleporterA] @a[r=1,m=2,BLpl>=0,BLtpto=1] BLtpcl = 2
+	@a[$SA$,m=2,BLpl>=0,BLtpcl>=1<=2] BLtpcl - 1
+	
+///	Force fields particle effects
+	LOOP (R1;R2;R3;R4;B1;B2;P1;P2)
+		@e[type=AreaEffectCloud,BLForceField|0|] particle $ForceFieldParticleCoords|0|$
+	END
+	
+///	Teleport effects
+	
+	
+	
+///	Teleport direction
+	
+	
+END
+//>
+
+//<Teleporting End
+FUNC Func_TeleportingEnd
+	USE $ObjR$
+		BLtpcl
+		BLtpef
+		BLtpdi
+		BLtpto
+	UNUSE
+END
+//>
+
+
+//<Lift Start
+FUNC Func_LiftStart
+	USE $ObjA$
+		BLli dummy Biolab In Lift
+	UNUSE
+	
+///	North
+	summon AreaEffectCloud $LOL$ {Tags:["BLEntity","BLLift","BLLiftUp"]}
+	summon AreaEffectCloud $LOL$ {Tags:["BLEntity","BLLift","BLLiftDown"]}
+	
+///	South
+	summon AreaEffectCloud $LOL$ {Tags:["BLEntity","BLLift","BLLiftUp"]}
+	summon AreaEffectCloud $LOL$ {Tags:["BLEntity","BLLift","BLLiftDown"]}
+END
+//>
+
+//<Lift Clock
+FUNC Func_LiftClock
+	@a[$SA$,m=2] BLli = 0
+	@e[AreaEffectCloud,BLLiftUp] @a[dy=$LiftHeight$] BLli = 1
+	@e[AreaEffectCloud,BLLiftDown] @a[dy=$LiftHeight$] BLli = 2
+	
+	effect @a[$SA$,m=2,BLli=0] 25 0 0 true
+	effect @a[$SA$,m=2,BLli=1] 25 1 6 true
+	effect @a[$SA$,m=2,BLli=2] 25 1 245 true
+	effect @a[$SA$,m=2,BLli>=1] 8 2 255 true
+	
+	@e[AreaEffectCloud,BLLiftUp] particle reddust $LEL$ 0.25 8 0.25 0 5 force @a
+	@e[AreaEffectCloud,BLLiftUp] particle reddust $LEL$ 0.25 8 0.25 0 5 force @a
+	@e[AreaEffectCloud,BLLiftUp] particle magicCrit $LEL$ -104.0 45 -1126 0.5 8 0.25 0 20 force @a
+END
+//>
+
+//<Lift End
+FUNC Func_LiftEnd
+	USE $ObjR$
+		BLli
+	UNUSE
+
+/// @a[!InLift,x=-101,y=45,z=-1127,dx=-7,dy=$liftMaxClearHeight$,z=2] effect @p[!JetpackEnabled,r=0] minecraft:levitation 0
+
+/// particle reddust -102 45 -1126 0.25 8 0.25 0 5 force @a
+/// particle reddust -107 45 -1126 0.25 8 0.25 0 5 force @a
+/// particle magicCrit -104.0 45 -1126 0.5 8 0.25 0 20 force @a
+
+/// @a[!InLift,x=-108,y=45,z=-1256,dx=7,dy=$liftMaxClearHeight$,dz=-2] effect @p[!JetpackEnabled,r=0] minecraft:levitation 0
+
+/// particle reddust -102 45 -1257 0.25 8 0.25 0 5 None @a Force
+/// particle reddust -107 45 -1257 0.25 8 0.25 0 5 None @a Force
+/// particle magicCrit -104.0 45 -1257 0.5 8 0.25 0 20 None @a Force
+//>
+
+
+//<Control Points Start
+FUNC Func_ControlPointsStart
+	USE $ObjA$
+		BLcpin dummy CP Integrity
+		BLcpbl dummy CP Blink
+		BLcppt dummy CP Player Team
+		BLcpts dummy CP Team Scores
+		BLcptt dummy CP To Team
+	UNUSE
+	
+	LOOP (A;B;C;D)
+		summon Shulker $CPCoords|0|$ {Tags:["BLEntity","BLControlPoint","BLControlPoint|0|"],CustomName:"Control Point |0|",;
+		CustomNameVisible:1,Invulnerable:1,Glowing:1,NoAI:1,PerisistenceRequired:1}
+	END
+	
+	@e[type=Shulker,BLControlPoint] BLcpin = $CPIntDiv2$
+	@e[type=Shulker,BLControlPoint] BLcpts + 0
+	@e[type=Shulker,BLControlPoint] BLcptt + 0
+	@e[type=Shulker,BLControlPoint] setblock ~ ~1 ~ minecraft:stained_glass 0
+	ScTJ BLd_n @e[type=Shulker,BLControlPoint]
+END
+//>
+
+//<Control Points Clock
+FUNC Func_ControlPointsClock
+/// MAX cannot capture the point
+///	Player presence
+	@e[BLControlPoint] BLcppt = 0
+//(ScOP, add for player contests) with BLtm
+	@e[BLControlPoint] @p[r=$CPRange$,team=BLb,m=2,BLcl<=5] @e[BLControlPoint,c=1] BLcppt = 1
+	@e[BLControlPoint] @p[r=$CPRange$,team=BLr,m=2,BLcl<=5] @e[BLControlPoint,c=1] BLcppt = 2
+	@e[BLControlPoint] @p[r=$CPRange$,team=BLp,m=2,BLcl<=5] @e[BLControlPoint,c=1] BLcppt = 4
+
+///	Increasing integrity
+	@e[BLControlPoint,team=BLd_b,BLcppt=1,BLcpin<$CPInt$] BLcpin + 1
+	@e[BLControlPoint,team=BLd_r,BLcppt=2,BLcpin<$CPInt$] BLcpin + 1
+	@e[BLControlPoint,team=BLd_p,BLcppt=4,BLcpin<$CPInt$] BLcpin + 1
+
+///	Decreasing integrity
+	@e[BLControlPoint,team=!BLd_b,BLcppt=1,BLcpin>=1] BLcpin - 1
+	@e[BLControlPoint,team=!BLd_r,BLcppt=2,BLcpin>=1] BLcpin - 1
+	@e[BLControlPoint,team=!BLd_p,BLcppt=4,BLcpin>=1] BLcpin - 1
+	
+///	Transfer to a team
+	@e[team=!BLd_n,BLcppt>=1,BLcpin=0] ScOP @e[c=1,r=1,team=!BLd_n,BLcppt>=1,BLcpin=0] BLcptt = @e[c=1,r=1,team=!BLd_n,BLcppt>=1,BLcpin=0] BLcppt
+	
+	ScTJ BLd_b @e[BLControlPoint,team=BLd_n,BLcptt=1,BLcpin=0]
+	@e[team=BLd_b,BLcptt=1,BLcpin=0] playsound minecraft:entity.experience_orb.touch voice @a[team=BLb]
+	@e[team=BLd_b,BLcptt=1,BLcpin=0] tellraw @a[$SA$] $TextStart${"text":"Blue","color":"blue"},{"text":" team has captured ","color":"gray"},;
+	{"selector":"@e[BLControlPoint,c=1]"},{"text":"!","color":"gray"}]}
+	
+	ScTJ BLd_r @e[BLControlPoint,team=BLd_n,BLcptt=2,BLcpin=0]
+	@e[team=BLd_r,BLcptt=2,BLcpin=0] playsound minecraft:entity.experience_orb.touch voice @a[team=BLr]
+	@e[team=BLd_r,BLcptt=2,BLcpin=0] tellraw @a[$SA$] $TextStart${"text":"Red","color":"red"},{"text":" team has captured ","color":"gray"},;
+	{"selector":"@e[BLControlPoint,c=1]"},{"text":"!","color":"gray"}]}
+	
+	ScTJ BLd_p @e[BLControlPoint,team=BLd_n,BLcptt=4,BLcpin=0]
+	@e[team=BLd_p,BLcptt=4,BLcpin=0] playsound minecraft:entity.experience_orb.touch voice @a[team=BLp]
+	@e[team=BLd_p,BLcptt=4,BLcpin=0] tellraw @a[$SA$] $TextStart${"text":"Purple","color":"light_purple"},{"text":" team has captured ","color":"gray"},;
+	{"selector":"@e[BLControlPoint,c=1]"},{"text":"!","color":"gray"}]}
+	
+	ScTJ BLd_n @e[BLControlPoint,team=!BLd_n,BLcptt=0,BLcpin=0]
+	@e[BLControlPoint,team=BLd_n,BLcptt=0,BLcpin=0] playsound minecraft:entity.experience_orb.touch voice @a ~ ~ ~
+	@e[BLControlPoint,team=BLd_n,BLcptt=0,BLcpin=0] tellraw @a[$SA$] $TextStart${"selector":"@e[BLControlPoint,c=1]"},{"text":" has been lost!"}]}
+	
+	
+	@e[BLControlPoint,BLcpin=0] BLcpin = 1
+	
+///	Setting blink scores
+	@e[BLControlPoint] BLcpbl = 0
+	@e[BLControlPoint,team=!BLd_b,BLcppt=1] BLcpbl = 1
+	@e[BLControlPoint,team=!BLd_r,BLcppt=2] BLcpbl = 1
+	@e[BLControlPoint,team=!BLd_p,BLcppt=4] BLcpbl = 1
+	
+///	Blinking
+///	0 - 19
+///	0	1	2	3	4	5	6	7	8	9
+///	10	11	12	13	14	15	16	17	18	19
+	@e[BLControlPoint,BLcpbl=1] ScOP @e[c=1,r=1,BLControlPoint,BLcpbl=1] BLtp = @e[c=1,r=1,BLControlPoint,BLcpbl=1] BLcpin
+	ScOP @e[BLControlPoint,BLcpbl=1] BLtp %= 20 Number
+	@e[BLControlPoint,BLcpbl=1,BLtp=10] playsound minecraft:block.note.pling voice @a
+	@e[BLControlPoint,BLcpbl=1,BLtp>=10] setblock ~ ~1 ~ stained_glass 0
+	@e[BLControlPoint,BLcpbl=1,BLtp>=10] ScTJ BLd_n @e[BLCapturePoint,r=1,c=1,team=!BLd_n]
+	@e[BLControlPoint,BLcpbl=1,BLtp<=9] BLcpbl = 0
+
+///	11 = blue, 14 = red, 10 = purple
+///	3 = light blue, 6 = pink, 2 = magenta
+	
+///	Reset visuals
+	@e[BLControlPoint,BLcpbl=0,team=BLd_b,BLcpin>$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 11
+	@e[BLControlPoint,BLcpbl=0,team=BLd_b,BLcpin<=$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 3
+	@e[BLControlPoint,BLcpbl=0,team=BLd_b] ScTJ BLd_b @e[BLCapturePoint,r=1,c=1,team=!BLd_b]
+
+	@e[BLControlPoint,BLcpbl=0,team=BLd_r,BLcpin>$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 14
+	@e[BLControlPoint,BLcpbl=0,team=BLd_r,BLcpin<=$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 6
+	@e[BLControlPoint,BLcpbl=0,team=BLd_r] ScTJ BLd_r @e[BLCapturePoint,r=1,c=1,team=!BLd_r]
+
+	@e[BLControlPoint,BLcpbl=0,team=BLd_p,BLcpin>$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 10
+	@e[BLControlPoint,BLcpbl=0,team=BLd_p,BLcpin<=$CPIntDiv2$] setblock ~ ~1 ~ stained_glass 2
+	@e[BLControlPoint,BLcpbl=0,team=BLd_p] ScTJ BLd_p @e[BLCapturePoint,r=1,c=1,team=!BLd_p]
+
+///	Inventory indicators
+	LOOP (A;B;C;D) 4 7 + 1
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_b,BLcpin>$CPIntDiv2$] CCItem_Glass|1|($GlassB$)
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_r,BLcpin>$CPIntDiv2$] CCItem_Glass|1|($GlassR$)
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_p,BLcpin>$CPIntDiv2$] CCItem_Glass|1|($GlassP$)
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_b,BLcpin<=$CPIntDiv2$] CCItem_Glass|1|($GlassLB$)
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_r,BLcpin<=$CPIntDiv2$] CCItem_Glass|1|($GlassLR$)
+		@e[BLControlPoint|0|,BLcpbl=0,team=BLd_p,BLcpin<=$CPIntDiv2$] CCItem_Glass|1|($GlassLP$)
+		@e[BLControlPoint|0|,team=BLd_n,r=0,c=1] CCItem_Glass|1|($GlassW$)
+	END
+	
+//=
+	Incrementing team scores
+	Team scores can all be divided by 5
+	Turns	1680000		10		5
+	to 		336000		2		1
+	Takes 16800 seconds on one point at less than CPIntDiv2
+	Takes 2100 seconds on all points at max
+\\=
+	@e[BLControlPoint,BLcpin>$CPIntDiv2$,team=BLd_b] @e[type=ArmorStand,BLScoreB] BLcpts + 10
+	@e[BLControlPoint,BLcpin<=$CPIntDiv2$,team=BLd_b] @e[type=ArmorStand,BLScoreB] BLcpts + 5
+
+	@e[BLControlPoint,BLcpin>$CPIntDiv2$,team=BLd_r] @e[type=ArmorStand,BLScoreR] BLcpts + 10
+	@e[BLControlPoint,BLcpin<=$CPIntDiv2$,team=BLd_r] @e[type=ArmorStand,BLScoreR] BLcpts + 5
+
+	@e[BLControlPoint,BLcpin>$CPIntDiv2$,team=BLd_p] @e[type=ArmorStand,BLScoreP] BLcpts + 10
+	@e[BLControlPoint,BLcpin<=$CPIntDiv2$,team=BLd_p] @e[type=ArmorStand,BLScoreP] BLcpts + 5
+	
+///	Display
+	@e[type=ArmorStand,BLScore] ScOP @e[type=ArmorStand,BLScore,c=1] BLtp = @e[type=ArmorStand,BLScore,c=1] BLcpts
+	@e[type=ArmorStand,BLScore] ScOP @e[type=ArmorStand,BLScore,c=1] BLtp *= 100 Number
+	@e[type=ArmorStand,BLScore] ScOP @e[type=ArmorStand,BLScore,c=1] BLtp /= $CPScore$ Number
+	Blue_Team BL = @e[type=ArmorStand,BLScoreB] BLtp
+	Red_Team BL = @e[type=ArmorStand,BLScoreR] BLtp
+	Purple_Team BL = @e[type=ArmorStand,BLScoreP] BLtp
+	
+///	Winner check
+	@e[type=ArmorStand,BLScoreB,BLcpts>=$CPScore$] ScoreCalc BLtp + 1
+	@e[type=ArmorStand,BLScoreR,BLcpts>=$CPScore$] ScoreCalc BLtp + 2
+	@e[type=ArmorStand,BLScoreP,BLcpts>=$CPScore$] ScoreCalc BLtp + 4
+	@e[type=ArmorStand,BLScore,BLcpts>=$CPScore$] @e[BLControlPoint] BLcpin = -1
+END
+//>
+
+//<Control Points End
+FUNC Func_ControlPointsEnd
+	USE $ObjR$
+		BLcpin
+		BLcpbl
+		BLcppt
+		BLcpts
+		BLcptt
+	UNUSE
+END
+//>
+
+
+//<Light Assault Start
+FUNC Func_LightAssaultStart
+	USE $ObjA$
+		BLjpam dummy Biolab Jetpack Amount
+		BLjpst dummy Biolab Jetpack State
+	UNUSE
+END
+//>
+
+//<Light Assault Clock
+FUNC Func_LightAssaultClock
+///	Cooldown time, max air ticks, recharge rate and discharge rate can all be divided by 20
+///	Max = 400, Cooldown = 100, Recharge = 5, Discharge = 4
+///	Ticks are not actually "ticks", but rather just a charge increment
+///	Lasts 100 ticks or 5 seconds when at max
+///	Takes 80 ticks or 4 seconds to recharge
+
+///	0 = cooldown, 1 = normal, 2 = enabled, 3 = turns to cooldown, 4 = turns to normal
+
+///	FUNC enableLightAssaultJetpack
+///	CBP: lightAssaultJetpack
+///	FUNC disableLightAssaultJetpack
+
+
+/// Sneaking requires to be shifting AND not on the ground (AKA jump and shift, or fall and shift)
+///	This is to allow sneaking when on ground without flying, and encourage better usage of the jetpack 
+///	Eg. used while jumping to increase jump height or falling to prevent fall damage
+///	Cancels the jetback when not sneaking, hits the ground or runs out of charge
+//(Change this so when the player is in the lift, the jetpack cannot be used)
+	
+///	Adding
+	@a[$SA$,m=2,BLcl=1,BLjpst>=0<=1,BLjpam>=0<=399] BLjpam + 5
+	
+///	Turning on the jetpack
+	@a[$SA$,m=2,BLcl=1,BLjpst=1,BLjpam>=1<=400,BLsn>=1] BLjpst = 2 {OnGround:0b}
+	
+///	Removing jetpack charge
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400] BLjpam - 4
+	
+///	Making it easier to read jetpack charges
+	@a[BLjpam>=401] BLjpam = 400
+	@a[BLjpam<=-1] BLjpam = 0
+	
+///	Turning off the jetpack
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400,BLsn=0] BLjpst = 4
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400] BLjpst = 4 {OnGround:1b}
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam=0] BLjpst = 3
+	
+///	Cooldown change
+	@a[$SA$,m=2,BLcl=1,BLjpst=0,BLjpam>=100] BLjpst = 1
+	
+///	Effects when finishing the jetpack
+	@a[$SA$,m=2,BLcl=1,BLjpst>=3<=4] playsound minecraft:block.lava.extinguish voice @a ~ ~ ~ 0.5
+	effect @a[$SA$,m=2,BLcl=1,BLjpst>=3<=4] 8 2 255 true
+///	@a[$SA$,BLcl=1,BLjpst=3] BLjpst = 0 
+///	@a[$SA$,BLcl=1,BLjpst=4] BLjpst = 1 
+	@a[$SA$,m=2,BLcl=1,BLjpst>=3<=4] BLjpst - 3
+	
+///	Effects during the jetpack phase
+	effect @a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400] 25 3 2 true
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400] playsound minecraft:entity.player.attack.nodamage voice @a ~ ~ ~ 1 0.5
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400,team=BLb] particle reddust ~ ~ ~ -1 0 1 -0.05 0 force @a
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400,team=BLr] particle reddust ~ ~ ~ 0 0 0 -0.05 0 force @a
+	@a[$SA$,m=2,BLcl=1,BLjpst=2,BLjpam>=1<=400,team=BLp] particle reddust ~ ~ ~ 0 0 1 -0.05 0 force @a
+	
+///	Starting XP Calcs
+	//(Add stuff here lol)
+END
+//>
+
+//<Light Assault End
+FUNC Func_LightAssaultEnd
+	USE $ObjR$
+		BLsn
+		BLjpam
+		BLjpst
+	UNUSE
+END
+//>
+
+//<Light Assault Change Class
+FUNC Func_LightAssaultChangeClass
+	@a[$SA$,m=2,BLcc>=1] BLjpam = 0
+	@a[$SA$,m=2,BLcc>=1] BLjpst = 0
+	@a[$SA$,m=2,BLcc=1] BLjpam = 400
+	@a[$SA$,m=2,BLcc=1] BLjpst = 1
+END
+//>
+
+
+//<Infiltrator Start
+FUNC Func_InfiltratorStart
+	USE $ObjA$
+		BLifam dummy Biolab Inf Cloak Amount
+		BLifst dummy Biolab Inf Cloak State
+		BLifiv dummy Biolab Inf Inv Slot
+		BLifis dummy Biolab Inf Inv Save
+		BLific dummy Biolab Inf Inv Calc
+		BLifss dummy Biolab Inf Snowballs Save
+		BLifms dummy Biolab Inf Magazines Save
+	UNUSE
+END
+//>
+
+//<Infiltrator Clock
+FUNC Func_InfiltratorClock
+///	Once again, these aren't real ticks, but it really cannot be simplified further
+///	If everything was divided by 33 - the following are rounded approximates
+///	Max = 242, cooldown = 61, recharge = 3, discharge = 1
+///	Rounding down to this:
+///	Max = 240, cooldown = 60, recharge = 3, discharge = 1
+///	With these modified values, the cloak takes 4 seconds to recharge and lasts 12 seconds
+
+///	playsound entity.donkey.hurt when cloaking or uncloaking
+///	FUNC enableInfiltratorCloaking
+/// CBP: infiltratorCloak
+/// FUNC disableInfiltratorCloaking
+
+///	BLifst:
+///	0 = cooldown, 1 = deactivated, 2 = activated, 3 = turn off & restore (cooldown), 4 = turn off & restore (norm), 5 = restore & cooldown, 6 = restore & deactivated
+
+///	Inventory slots
+	LOOP 0 8 + 1
+		@a[$SA$,m=2,BLcl=2] BLifiv = |0| {SelectedItemSlot:|0|}
+	END
+	@a[$SA$,m=2,BLcl=2,BLcs>=1] ScOP @a[c=1,r=1,m=2,BLcl=2,BLcs>=1] BLifis = @a[c=1,r=1,m=2,BLcl=2,BLcs>=1] BLifiv
+	
+///	Adding
+	@a[$SA$,BLcl=2,BLifst>=0<=1,BLifam>=0<=239] BLifam + 3
+	
+///	Inventory clearing
+	$s$clear @a[$SA$,m=2,BLcl=2,BLifst=1,BLcs>=1] CCItem_BulletsClear(0)
+	@a[$SA$,m=2,BLcl=2,BLifst=1,BLcs>=1] ScOP @a[c=1,r=1,m=2,BLcl=2,BLifst=1,BLcs>=1] BLifss = @a[c=1,r=1,m=2,BLcl=2,BLifst=1,BLcs>=1] BLaf
+	
+	$s$clear @a[$SA$,m=2,BLcl=2,BLifst=1,BLcs>=1] CCItem_MagazineClear(0)
+	@a[$SA$,m=2,BLcl=2,BLifst=1,BLcs>=1] ScOP @a[c=1,r=1,m=2,BLcl=2,BLifst=1,BLcs>=1] BLifms = @a[c=1,r=1,m=2,BLcl=2,BLifst=1,BLcs>=1] BLaf
+	
+	$s$clear @a[$SA$,m=2,BLcl=2,BLifst=1,BLcs>=1]
+	
+///	Turning on the cloak
+	@a[$SA$,m=2,BLcl=2,BLifst=1,BLifam>=1<=240,BLcs>=1] playsound entity.donkey.hurt voice @a ~ ~ ~ 0.5 0.5
+	@a[$SA$,m=2,BLcl=2,BLifst=1,BLifam>=1<=240,BLcs>=1] BLifst = 2
+	
+///	Removing cloak charge
+	@a[$SA$,m=2,BLcl=2,BLifst=2,BLifam>=1<=240] BLifam - 1
+	
+///	Making it easier to read cloak charges
+	@a[BLifam>=401] BLifam = 240
+	
+///	Turning off the cloak
+	@a[$SA$,m=2,BLcl=2,BLifst=2,BLifam=0] BLifst = 3
+	@a[$SA$,m=2,BLcl=2,BLifst=2] ScOP @a[c=1,r=1,m=2,BLcl=2,BLifst=2] BLific = @a[c=1,r=1,m=2,BLcl=2,BLifst=2] BLifis
+	@a[$SA$,m=2,BLcl=2,BLifst=2] ScOP @a[c=1,r=1,m=2,BLcl=2,BLifst=2] BLific -= @a[c=1,r=1,m=2,BLcl=2,BLifst=2] BLifiv
+	@a[$SA$,m=2,BLcl=2,BLifst=2,BLific>=1] BLifst = 4
+	@a[$SA$,m=2,BLcl=2,BLifst=2,RRic<=-1] BLifst = 4
+	
+///	Cooldown change
+	@a[$SA$,m=2,BLcl=2,BLifst=0,BLifam>=60] BLifst = 1
+	
+///	Effects when finishing the cloak
+	@a[$SA$,m=2,BLcl=2,BLifst>=3<=4] playsound entity.donkey.hurt voice @a ~ ~ ~ 0.5 0.5
+	@a[$SA$,m=2,BLcl=2,BLifst>=3<=4] BLifst + 2
+	
+///	Effects during the cloak phase
+	@a[$SA$,m=2,BLcl=2,BLifst=2]
+	
+	
+///	Starting XP Calcs
+	//(Add stuff here lol)
+END
+//>
+
+//<Infiltrator Inventory Restore
+FUNC Func_InfiltratorInventoryRestore
+	testfor @a[BLifst>=5<=6]
+	SetblockTestfor
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLb] slot.armor.head CCItem_HelmetB
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLr] slot.armor.head CCItem_HelmetR
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLp] slot.armor.head CCItem_HelmetP
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLb] slot.armor.chest CCItem_ChestplateB
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLr] slot.armor.chest CCItem_ChestplateR
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLp] slot.armor.chest CCItem_ChestplateP
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLb] slot.armor.legs CCItem_LeggingsB
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLr] slot.armor.legs CCItem_LeggingsR
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLp] slot.armor.legs CCItem_LeggingsP
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLb] slot.armor.feet CCItem_BootsB
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLr] slot.armor.feet CCItem_BootsR
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLp] slot.armor.feet CCItem_BootsP
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLb] slot.armor.feet CCItem_BootsB
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLr] slot.armor.feet CCItem_BootsR
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,team=BLp] slot.armor.feet CCItem_BootsP
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6] slot.hotbar.0 CCItem_Knife
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=1] slot.hotbar.1 CCItem_BulletsGive(1)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=1] BLifss - 1
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=8] CCItem_BulletsGive(8)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=8] BLifss - 8
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=8] CCItem_BulletsGive(4)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=4] BLifss - 4
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=8] CCItem_BulletsGive(2)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=2] BLifss - 2
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=8] CCItem_BulletsGive(1)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifss>=1] BLifss = 0
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] slot.hotbar.2 CCItem_MagazineGive(1)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] BLifsm - 1
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] CCItem_MagazineGive(1)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] BLifsm - 1
+	$s$give @a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] CCItem_MagazineGive(1)
+	@a[$SA$,m=2,BLcl=2,BLifst>=5<=6,BLifsm>=1] BLifsm = 0
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=2,BLifst>=5<=6] slot.hotbar.3 CCItem_Infiltrator_Ability
+	
+	@a[BLifst>=5<=6] BLifst - 5
+END
+//>
+
+//<Infiltrator End
+FUNC Func_InfiltratorEnd
+	USE $ObjR$
+		BLifam
+		BLifst
+		BLifiv
+		BLifis
+		BLific
+		BLifss
+		BLifms
+	UNUSE
+END
+//>
+
+//<Infiltrator Change Class
+FUNC Func_InfiltratorChangeClass
+	@a[$SA$,m=2,BLcc>=1] BLifam = 0
+	@a[$SA$,m=2,BLcc>=1] BLifst = 0
+	@a[$SA$,m=2,BLcc=2] BLifam = 240
+	@a[$SA$,m=2,BLcc=2] BLifst = 1
+END
+//>
+
+
+//<Engineer Start
+FUNC Func_EngineerStart
+	USE $ObjA$
+		BLenpi dummy Biolab Engineer PID
+		BLencl dummy Biolab Engineer Calc
+		BLenst dummy Biolab Engineer State
+	UNUSE
+END
+//>
+
+//<Engineer Clock
+FUNC Func_EngineerClock
+///	FUNC enableEngineerAbilities
+///	CBP: engineerAbilities
+///	FUNC disableEngineerAbilities
+
+///	Clear all dropped items except Ammo Packs
+	@e[$SA$,type=Item] BLenst + 0
+	@e[$SA$,type=Item,BLenst=0] BLenst = 1 {Item:{id:"minecraft:stone_slab"}}
+	$s$kill @e[$SA$,type=Item,BLenst=0]
+	
+	entitydata @e[type=Item,BLenst=1] {PickupDelay:32767,CustomName:"Ammo Pack",CustomNameVisible:1b}
+	@e[$SA$,type=Item,BLenst=1] ScOP @e[type=Item,BLenst=1,c=1] BLenpi = @a[c=1,BLcl=3,m=2] BLpl
+	@a[$SA$,BLcl=3,m=2,team=BLb] ScTJ BLd_b @e[c=1,r=1,type=Item,BLenst=1]
+	@a[$SA$,BLcl=3,m=2,team=BLr] ScTJ BLd_r @e[c=1,r=1,type=Item,BLenst=1]
+	@a[$SA$,BLcl=3,m=2,team=BLp] ScTJ BLd_p @e[c=1,r=1,type=Item,BLenst=1]
+	@e[$SA$,type=Item,BLenst=1] BLenst = 2
+	
+///	Ammo Pack Ownership
+	@r[c=1,type=Item,BLenst=2] BLenst = 3
+	@e[c=1,type=Item,BLenst=3] @e[type=Item,BLenst=4] ScOP @e[c=1,r=1,type=Item,BLenst=4] BLencl = @e[c=1,r=1,type=Item,BLenst=4] BLenpi
+	ScOP @e[$SA$,type=Item,BLenst=4] BLencl -= @e[c=1,type=Item,BLenst=3] BLenpi
+	$s$kill @e[$SA$,type=Item,BLenst=4,BLencl=0]
+	@e[$SA$,type=Item,BLenst=4] BLencl = 0
+	@e[$SA$,type=Item,BLenst=3] BLenst = 4
+	
+///	Ammo Pack Supply
+//(Add stats entity)
+	
+	
+	replaceitem entity @a[$SA$,m=2,BLcl=3] slot.hotbar.3 CCItem_Engineer_Ability
+	@e[BlueAmmoPack] replaceitem entity @a[r=3,team=BLb] slot.hotbar.2 CCItem_MagazineGive
+	@e[RedAmmoPack] replaceitem entity @a[r=3,team=BLr] slot.hotbar.2 CCItem_MagazineGive
+	@e[PurpleAmmoPack] replaceitem entity @a[r=3,team=BLp] slot.hotbar.2 CCItem_MagazineGive
+	
+	
+	
+///	MAX repair
+///	lol this doesn't work btw. Just add it to the regen state
+	@e[Engineer,team=BiolabBlue] effect @p[MAX,team=BiolabBlue,rm=1,r=5] minecraft:regeneration 1 2
+	@e[Engineer,team=BiolabRed] effect @p[MAX,team=BiolabRed,rm=1,r=5] minecraft:regeneration 1 2
+	@e[Engineer,team=BiolabPurple] effect @p[MAX,team=BiolabPurple,rm=1,r=5] minecraft:regeneration 1 2
+
+
+END
+//>
+
+//<Engineer End
+FUNC Func_EngineerEnd
+
+END
+//>
+
+//<Engineer Change Class
+FUNC Func_EngineerChangeClass
+
+END
+//>
+
+
+//<Combat Medic Start
+FUNC Func_CombatMedicStart
+	USE $ObjA$
+		BLcmam dummy Biolab CMedic Amount
+		BLcmst dummy Biolab CMedic State
+		BLcmrt dummy Biolab CMedic Regen Timer
+		BLcmrs dummy Biolab CMedic Regen State
+	UNUSE
+END
+//>
+
+//<Combat Medic Clock
+FUNC Func_CombatMedicClock
+///	Divide everrything by 100 and you get this:
+///	Max = 400, Regen cooldown = 20, Recharge rate = 1, Discharge = 2
+///	Therefore, using it lasts 10 seconds while it takes 20 to recharge
+///	Radius = 5, Particle effect = 2 from the person, Particle count = 2
+
+///	Basically, regens teammates except MAX using a dx,dy,dz rather than a r=#. Easy
+///	The dx,dy,dz method seems originally flawed as it only captures the coords at the negative corner rather than around the medic!
+
+///	FUNC enableCombatMedicNanoRegening
+/// CBP: combatMedicNanoRegen
+/// FUNC disableCombatMedicNanoRegening
+///	0 = cooldown, 1 = normal, 2 = temp enabled, 3 = enabled
+	
+///	Adding
+	@a[$SA$,m=2,BLcl=4,BLcmst>=0<=1,BLcmam>=0<=399] BLcmam + 1
+	
+///	Turning on the regen device
+	@a[$SA$,m=2,BLcl=4,BLcmst=1,BLcmam>=1<=400,BLcs>=1] playsound
+	@a[$SA$,m=2,BLcl=4,BLcmst=1,BLcmam>=1<=400,BLcs>=1] BLcmst = 2
+	
+///	Turning off the regen device based on CS
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400,BLcs=1] playsound
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400,BLcs=1] BLcmst = 1
+	@a[$SA$,m=2,BLcl=4,BLcmst=2] BLcmst = 3
+	
+///	Removing regen charge
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400] BLcmam - 2
+	
+///	Making it easier to read regen charges
+	@a[BLcmam<=-1] BLcmam = 0
+	
+///	Turning off the regen device based on running out of charge
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam=0] playsound
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam=0] BLcmst = 0
+	
+///	Cooldown change
+	@a[$SA$,m=2,BLcl=4,BLcmst=0,BLcmam>=20] BLcmst = 1
+	
+///	Regeneration Timer
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400,team=BLb] @a[r=5,m=2,BLcl<=5,BLcmrs=0,team=BLb] BLcmrs = 1
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400,team=BLr] @a[r=5,m=2,BLcl<=5,BLcmrs=0,team=BLr] BLcmrs = 1
+	@a[$SA$,m=2,BLcl=4,BLcmst=3,BLcmam>=1<=400,team=BLp] @a[r=5,m=2,BLcl<=5,BLcmrs=0,team=BLp] BLcmrs = 1
+	
+	@a[$SA$,m=2,BLcmrs=1,BLcmrt>=0<=34] BLcmrt + 1
+	effect @a[$SA$,m=2,BLcmrs=1,BLcmrt=35] 10 1 10 true
+	@a[$SA$,m=2,BLcmrs=1,BLcmrt=35] BLcmrt = 0
+	
+	@a[$SA$,m=2,BLcmrs=0] BLcmrt = 0
+///	Particles
+	@a[$SA$,m=2,BLcl=4,BLcmst=3] particle happyVillager ~ ~1 ~ 2 2 2 0 2 force @a
+	
+///	Starting XP Calcs
+	//(Add stuff here lol)
+END
+//>
+
+//<Combat Medic End
+FUNC Func_CombatMedicEnd
+	USE $ObjR$
+		BLcmam
+		BLcmst
+		BLcmrt
+		BLcmrs
+	UNUSE
+END
+//>
+
+//<Combat Medic Change Class
+FUNC Func_CombatMedicChangeClass
+	@a[$SA$,m=2,BLcc>=1] BLcmam = 0
+	@a[$SA$,m=2,BLcc>=1] BLcmst = 0
+	@a[$SA$,m=2,BLcc=4] BLcmam = 400
+	@a[$SA$,m=2,BLcc=4] BLcmst = 1
+END
+//>
+
+
+//<Heavy Assault Start
+FUNC Func_HeavyAssaultStart
+	USE $ObjA$
+		BLhaam dummy Biolab HAssault Amount
+		BLhast dummy Biolab HAssault State
+	UNUSE
+END
+//>
+
+//<Heavy Assault Clock
+FUNC Func_HeavyAssaultClock
+/// The ticks still aren't actual ticks. Divide everything by 20 and you get the following:
+///	Max = 1500, Cooldown = 100, Recharge = 5, Discharge = 4
+///	At max, lasts 18.75 seconds (intentional?) and takes 15s to recharge
+///	The actual effects are just resistance lvl 2, glowing lvl 1, slowness lvl 2
+/// baby i'm ballin
+
+///	FUNC enableHeavyAssaultNaniteShielding
+/// CBP: heavyAssaultNaniteShield
+/// FUNC disableHeavyAssaultNaniteShielding
+
+///	0 = cooldown, 1 = normal, 2 = temp enabled, 3 = enabled
+///	Adding
+	@a[$SA$,m=2,BLcl=5,BLhast>=0<=1,BLhaam>=0<=1499] BLhaam + 5
+	
+///	Turning on the nanite shield
+	@a[$SA$,m=2,BLcl=5,BLhast=1,BLhaam>=1<=1500,BLcs>=1] playsound
+	@a[$SA$,m=2,BLcl=5,BLhast=1,BLhaam>=1<=1500,BLcs>=1] BLhast = 2
+	
+///	Turning off the nanite shield based on CS
+	@a[$SA$,m=2,BLcl=5,BLhast=3,BLhaam>=1<=1500,BLcs=1] playsound
+	@a[$SA$,m=2,BLcl=5,BLhast=3,BLhaam>=1<=1500,BLcs=1] BLhast = 1
+	@a[$SA$,m=2,BLcl=5,BLhast=2] BLhast = 3
+	
+///	Removing shield charge
+	@a[$SA$,m=2,BLcl=5,BLhast=3,BLhaam>=1<=1500] BLhaam - 4
+	
+///	Making it easier to read shield charges
+	@a[BLhaam<>=1501] BLhaam = 1500
+	@a[BLhaam<=-1] BLhaam = 0
+	
+///	Turning off the nanite shield based on running out of charge
+	@a[$SA$,m=2,BLcl=5,BLhast=3,BLhaam=0] playsound
+	@a[$SA$,m=2,BLcl=5,BLhast=3,BLhaam=0] BLhast = 0
+	
+///	Cooldown change
+	@a[$SA$,m=2,BLcl=5,BLhast=0,BLhaam>=100] BLhast = 1
+	
+///	Effects
+	effect @a[$SA$,BLcl=5,BLhast>=0<=1] 11 0 0 true
+	effect @a[$SA$,BLcl=5,BLhast>=0<=1] 2 0 0 true
+	effect @a[$SA$,BLcl=5,BLhast>=0<=1] 25 0 0 true
+	effect @a[$SA$,BLcl=5,BLhast=3] 11 2 1 true
+	effect @a[$SA$,BLcl=5,BLhast=3] 2 2 1 true
+	effect @a[$SA$,BLcl=5,BLhast=3] 25 2 2 true
+	
+///	Starting XP Calcs
+	//(Add stuff here lol)
+END
+//>
+
+//<Heavy Assault End
+FUNC Func_HeavyAssaultEnd
+	USE $ObjR$
+		BLhaam
+		BLhast
+	UNUSE
+END
+//>
+
+//<Heavy Assault Change Class
+FUNC Func_HeavyAssaultChangeClass
+	@a[$SA$,m=2,BLcc>=1] BLhaam = 0
+	@a[$SA$,m=2,BLcc>=1] BLhast = 0
+	@a[$SA$,m=2,BLcc=4] BLhaam = 1500
+	@a[$SA$,m=2,BLcc=4] BLhast = 1
+END
+//>
+
+
+//<Class Selection Clock
+FUNC Func_ClassSelectionClock
+///	Chestplate colors
+///	 255  , 16711680, 16711935
+///	 blue ,    red  ,  purple
+	testfor @a[$SA$,BLcc>=1]
+	SetblockTestfor
+	
+///	Clears
+	$s$clear @a[$SA$,m=2,BLcc>=1]
+	effect @a[$SA$,m=2,BLcc>=1] clear
+	
+///	Universal scoreboard setting
+	@a[$SA$,m=2,BLcc>=1] BLpl + 0
+	@a[$SA$,m=2,BLcc>=1] BLtm + 0
+	@a[$SA$,m=2,BLcc>=1] BLaf + 0
+	@a[$SA$,m=2,BLcc>=1] stats entity @a[r=1,c=1,m=2,BLcc>=1] set AffectedItems @a[r=1,c=1] BLaf
+	@a[$SA$,m=2,BLcc>=1] ScOP @a[c=1,r=1,m=2,BLcc>=1] BLcl = @a[c=1,r=1,m=2,BLcc>=1] BLcc
+	
+///	Universal items
+	replaceitem entity @a[$SA$,m=2,BLcc>=1] slot.hotbar.0 CCItem_Knife
+	replaceitem entity @a[$SA$,m=2,BLcc>=1] slot.hotbar.1 CCItem_BulletsGive(16)
+	replaceitem entity @a[$SA$,m=2,BLcc>=1] slot.hotbar.2 CCItem_MagazineGive(3)
+	
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLb] slot.armor.head CCItem_HelmetB
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLr] slot.armor.head CCItem_HelmetR
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLp] slot.armor.head CCItem_HelmetP
+	
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLb] slot.armor.legs CCItem_LeggingsB
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLr] slot.armor.legs CCItem_LeggingsR
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLp] slot.armor.legs CCItem_LeggingsP
+	
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLb] slot.armor.feet CCItem_BootsB
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLr] slot.armor.feet CCItem_BootsR
+	replaceitem entity @a[$SA$,m=2,BLcc>=1,team=BLp] slot.armor.feet CCItem_BootsP
+	
+///	Class Specific - Items
+	replaceitem entity @a[$SA$,m=2,BLcc=1] slot.hotbar.3 CCItem_Infiltrator_Ability
+	replaceitem entity @a[$SA$,m=2,BLcc=1,team=BLb] slot.armor.chest CCItem_ChestplateB
+	replaceitem entity @a[$SA$,m=2,BLcc=1,team=BLr] slot.armor.chest CCItem_ChestplateR
+	replaceitem entity @a[$SA$,m=2,BLcc=1,team=BLp] slot.armor.chest CCItem_ChestplateP
+	
+	replaceitem entity @a[$SA$,m=2,BLcc=2] slot.hotbar.3 CCItem_LightAssault_Paper
+	replaceitem entity @a[$SA$,m=2,BLcc=2] slot.armor.chest CCItem_LightAssault_Chestplate
+	
+	replaceitem entity @a[$SA$,m=2,BLcc=3] slot.hotbar.3 CCItem_Engineer_Ability
+	replaceitem entity @a[$SA$,m=2,BLcc=3] slot.armor.chest CCItem_Engineer_Chestplate
+	
+	replaceitem entity @a[$SA$,m=2,BLcc=4] slot.hotbar.3 CCItem_CombatMedic_Ability
+	replaceitem entity @a[$SA$,m=2,BLcc=4] slot.armor.chest CCItem_CombatMedic_Chestplate
+	
+	replaceitem entity @a[$SA$,m=2,BLcc=5] slot.hotbar.3 CCItem_HeavyAssault_Ability
+	replaceitem entity @a[$SA$,m=2,BLcc=5] slot.armor.chest CCItem_HeavyAssault_Chestplate
+	
+	replaceitem entity @a[$SA$,m=2,BLcc=6] slot.armor.chest CCItem_MAX_Chestplate
+	
+///	Class Specific - Other
+	effect @a[$SA$,m=2,BLcc=6] 1 1000000 0 true
+	effect @a[$SA$,m=2,BLcc=6] 21 1000000 2 true
+	
+	tellraw @a[$SA$,m=2,BLcc=1] $TextStart${"text":"You have chosen the Infiltrator class!"}]}
+	tellraw @a[$SA$,m=2,BLcc=2] $TextStart${"text":"You have chosen the Light Assault class!"}]}
+	tellraw @a[$SA$,m=2,BLcc=3] $TextStart${"text":"You have chosen the Engineer class!"}]}
+	tellraw @a[$SA$,m=2,BLcc=4] $TextStart${"text":"You have chosen the Combat Medic class!"}]}
+	tellraw @a[$SA$,m=2,BLcc=5] $TextStart${"text":"You have chosen the Heavy Assault class!"}]}
+	tellraw @a[$SA$,m=2,BLcc=6] $TextStart${"text":"You have chosen the MAX class!"}]}
+END
+//>
+
+//<Class Selection End Clock
+FUNC Func_ClassSelectionEndClock
+///	End
+	effect @a[$SA$,m=2,BLcc>=1] 6 1 100 true
+	@a[$SA$,BLcc>=1] BLcc = 0
+END
+//>
+
+//<Score Calc
+FUNC Func_ScoreCalc
+	///	Score Calc
+	ScTE ScoreCalc BLtp 1
+	SetblockTestfor
+	
+	ScOP @e[type=ArmorStand,ScoreCalcTemp] BLtp = ScoreCalc BLtp
+	
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=4] @e[type=ArmorStand,ScoreCalcB] BLtp = 1
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=4] @a[team=BLb] summon FireworksRocketEntity ~ ~ ~ $Firework$
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=4] BLtp - 4
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=2] @e[type=ArmorStand,ScoreCalcR] BLtp = 1
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=2] @a[team=BLr] summon FireworksRocketEntity ~ ~ ~ $Firework$
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=2] BLtp - 2
+///	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=1] @e[type=ArmorStand,ScoreCalcP] BLtp = 1
+	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=1] @a[team=BLp] summon FireworksRocketEntity ~ ~ ~ $Firework$
+///	@e[type=ArmorStand,ScoreCalcTemp,BLtp>=1] BLtp - 1
+	
+	title @a[$SA$] title {"text":"","extra":[{"selector":"@e[type=ArmorStand,ScoreCalc]","color":"green"},{"text":" team has won!","color":"green"}]}
+	tellraw @a[$SA$] $TextStart${"Winning Team: ","color":"green"},{"selector":"@e[type=ArmorStand,ScoreCalc]","color":"green"}]}
+
+	tellraw @a[$SA$] $TextStart${"text":"Blue team players: ","color":"gray"},{"selector":"@a[team=BLb,m=2]","color":"gray"}]}
+	tellraw @a[$SA$] $TextStart${"text":"Red team players: ","color":"gray"},{"selector":"@a[team=BLr,m=2]","color":"gray"}]
+	tellraw @a[$SA$] $TextStart${"text":"Purple team players: ","color":"gray"},{"selector":"@a[team=BLp,m=2]","color":"gray"}]
+	
+	ScoreCalc BLtp = 0
+END
+//>
+
+
+//<Groups
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Activate(CBPMainClock)
+Activate(CBPInfiltratorInventoryRestore)
+Activate(CBPClassSelectionClock)
+Func_GeneralScoreboardStart
+Func_TeamBalanceStart
+Func_WeaponsStart
+Func_TeleportingStart
+Func_ControlPointsStart
+Func_LightAssaultStart
+Func_InfiltratorStart
+Func_CombatMedicStart
+Func_HeavyAssaultStart
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+Func_GeneralEndClock
+Func_WeaponsClock
+Func_TeleportingClock
+Func_ControlPointsClock
+Func_LightAssaultClock
+Func_InfiltratorClock
+Func_CombatMedicClock
+Func_HeavyAssaultClock
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Deactivate(CBPMainClock)
+Deactivate(CBPInfiltratorInventoryRestore)
+Deactivate(CBPClassSelectionClock)
+Func_GeneralScoreboardEnd
+Func_TeamBalanceEnd
+Func_WeaponsEnd
+Func_TeleportingEnd
+Func_ControlPointsEnd
+Func_LightAssaultEnd
+Func_InfiltratorEnd
+Func_CombatMedicEnd
+Func_HeavyAssaultEnd
+
+
+:CBPInfiltratorInventoryRestore CLOCK $Style$
+Func_InfiltratorInventoryRestore
+
+:CBPClassSelectionClock CLOCK $Style$
+Func_ClassSelectionClock
+Func_LightAssaultChangeClass
+Func_InfiltratorChangeClass
+Func_EngineerChangeClass
+Func_CombatMedicChangeClass
+Func_HeavyAssaultChangeClass
+Func_ClassSelectionEnbdClock
+
+:CBPTeamBalanceTestforClock CLOCK $Style$
+Func_TeamBalanceTestforClock
+
+:CBPScoreCalc CLOCK $Style$
+Func_ScoreCalc
+//>
+
+
+
+
+
+//<Main Start
+//* Initialization *//
+:initialization PULSE 16 0 1
+gamerule naturalRegeneration false
+scoreboard objectives add BLtp dummy Temporary Biolab Values
+enablePID
+enableExperienceIndicator
+enableLifts
+setTeams
+enableControlPoints
+initializeTeamPlayerCounter
+enableWeapons
+enableLightAssaultJetpack
+enableInfiltratorCloaking
+enableCombatMedicNanoRegening
+enableEngineerAbilities
+enableHeavyAssaultNaniteShielding
+Activate(forceFields)
+Activate(teamJoining)
+//>
+
+//<Teles on
+//* Teleporters On *//
+:teleportersOn PULSE 16 0 1
+enableTeleporters
+Deactivate(teleportersOn)
+//>
+
+//<Game Start
+//* Game Start *//
+:gameStart PULSE 16 0 1
+summon AreaEffectCloud ~ ~ ~ {Duration:1201,Tags:["BiolabCountdown"]}
+tellraw @a[$SA$] $TextStart${"text":"Mission begins in 60 seconds."}]}
+Activate(gameCountdown)
+Deactivate(gameStart)
+//>
+
+//<Countdown
+//* Game Loop *//
+:gameCountdown CLOCK 16 0 1
+testfor @e[BiolabCountdown] {Age:600}
+CONDITION
+	tellraw @a[$SA$] $TextStart${"text":"Mission begins in 30 seconds."}]}
+testfor @e[BiolabCountdown] {Age:800}
+CONDITION
+	tellraw @a[$SA$] $TextStart${"text":"Mission begins in 20 seconds."}]}
+testfor @e[BiolabCountdown] {Age:1000}
+CONDITION
+	tellraw @a[$SA$] $TextStart${"text":"Mission begins in 10 seconds."}]}
+testfor @e[BiolabCountdown] {Age:1100}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"5!"}]}
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+CONEND
+testfor @e[BiolabCountdown] {Age:1120}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"4!"}]}
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+CONEND
+testfor @e[BiolabCountdown] {Age:1140}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"3!"}]}
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+CONEND
+testfor @e[BiolabCountdown] {Age:1160}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"2!"}]}
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+CONEND
+testfor @e[BiolabCountdown] {Age:1180}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"1!"}]}
+	@a[$SA$] playsound minecraft:block.note.pling voice @a[c=1]
+CONEND
+testfor @e[BiolabCountdown] {Age:1200}
+CONSTART
+	tellraw @a[$SA$] $TextStart${"text":"Begin! The teleporters are now enabled!"}]}
+	@a[$SA$] playsound minecraft:entity.wither.death voice @a[c=1]
+	Activate(teleportersOn)
+	Deactivate(gameCountdown)
+CONEND
+//>
+
+//<Game End
+//* Game End *//
+:gameEnd PULSE 16 0 1
+	
+	Deactivate(gameEnd)
+//>
+
+//<Main End
+//* Deinitialization *//
+:deinitialization PULSE 16 0 1
+Deactivate(gameCountdown)
+Deactivate(teamJoining)
+Deactivate(forceFields)
+disableTeleporters
+disableControlPoints
+deinitializeTeamPlayerCounter
+removeTeams
+disableLifts
+disableWeapons
+disableHeavyAssaultNaniteShielding
+disableEngineerAbilities
+disableCombatMedicNanoRegening
+disableInfiltratorCloaking
+disableLightAssaultJetpack
+disableExperienceIndicator
+disablePID
+scoreboard objectives remove BLtp
+effect @a[$SA$,m=2] clear
+clear @a[$SA$,m=2]
+kill @e[$SA$,type=!Player]
+tp @a[$SA$,m=2] -120.0 19 -1205.0 0 0
+gamerule naturalRegeneration true
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

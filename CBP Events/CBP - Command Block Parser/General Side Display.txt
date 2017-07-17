@@ -1,0 +1,2599 @@
+//<ST - Sand Tomb
+
+
+STAFde deathCount Sand Tomb Deaths
+STAFpl dummy Sand Tomb Player List
+STAFas dummy Sand Tomb Armor Stands
+STAFti dummy Sand Tomb Timer
+STAFpo dummy Sand Tomb Potion
+STAFju stat.jump Sand Tomb Jump
+STki dummy Sand Tomb Suffocation
+STdi dummy Sand Tomb
+STba dummy Sand Tomb Both Arenas
+STAFp
+
+SandTomb_CL
+SandTomb_AF 22
+SandTomb_AF2 21
+
+
+$WinSelectAF$
+$WinSelectCL$
+$WinPreSelectAF$
+$WinPreSelectCL$
+$SpawnArea$
+$SpawnCoords$
+$Firework$
+
+
+JumpBoostAF
+BlindnessAF
+NoSprintAF
+PotionsAF
+CollisionsAF
+
+JumpBoostCL
+BlindnessCL
+NoSprintCL
+PotionsCL
+CollisionsCL
+//>
+
+//<BA - Breakaway
+
+
+BWSave Breakaway Settings Save
+
+Arena 1,2,3
+PVP 0-1,2-3
+Snowball 0-1,2-3
+Hunger 0-1,2-3
+Invulnerability 0-1,2
+
+Pickaxe 0-1,2-3,4-5
+Shovel 0-1,2-3,4-5
+Axe 0-1,2-3,4-5
+Shears 0-1,2-3,4-5
+SpeedPotion 0-1,2-3
+
+
+:CBPOpenDoors PULSE $Style$
+:CBPOpenDoorClock CLOCK $Style$
+:CBPCloseDoors PULSE $Style$
+:CBPMainStart PULSE $Style$
+:CBPCountdown CLOCK $Style$
+:CBPCountdownSave PULSE $Style$
+:CBPCountdownLoad PULSE $Style$
+:CBPMainClock CLOCK $Style$
+:CBPDeathMessages CLOCK $Style$
+:CBPSnowballClock CLOCK $Style$
+:CBPMainEnd PULSE $Style$
+
+Func_OpenDoors
+Func_OpenDoorClock
+Func_CloseDoors
+Func_MainStart
+Func_Countdown
+Func_CountdownSave
+Func_CountdownLoad
+Func_MainClock
+Func_DeathMessages
+Func_SnowballClock
+Func_MainEnd
+
+
+DEFINE $PickaxeItemN$ diamond_pickaxe 1 0 {Unbreakable:1}
+DEFINE $ShovelItemN$ diamond_shovel 1 0 {Unbreakable:1}
+DEFINE $AxeItemN$ diamond_axe 1 0 {Unbreakable:1}
+DEFINE $ShearsItemN$ shears 1 0 {Unbreakable:1}
+
+DEFINE $PickaxeItemE$ diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE $ShovelItemE$ diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE $AxeItemE$ diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE $ShearsItemE$ shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+
+DEFINE $PotionItem$ potion 1 0 {Potion:"minecraft:strong_swiftness"}
+DEFINE CCItem_SnowballGive snowball |0| 0 {display:{Name:"To do list: Rename this to something better"}}
+DEFINE CCItem_SnowballClear snowball 0 |0| {display:{Name:"To do list: Rename this to something better"}}
+
+$SnowballItem$
+
+
+DEFINE CCItem_PickaxeN diamond_pickaxe 1 0 {Unbreakable:1}
+DEFINE CCItem_ShovelN diamond_shovel 1 0 {Unbreakable:1}
+DEFINE CCItem_AxeN diamond_axe 1 0 {Unbreakable:1}
+DEFINE CCItem_ShearsN shears 1 0 {Unbreakable:1}
+
+DEFINE CCItem_PickaxeE diamond_pickaxe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE CCItem_ShovelE diamond_shovel 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE CCItem_AxeE diamond_axe 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+DEFINE CCItem_ShearsE shears 1 0 {Unbreakable:1,ench:[{id:32,lvl:9001}]}
+
+DEFINE CCItem_Potion potion 1 0 {Potion:"minecraft:strong_swiftness"}
+DEFINE CCItem_SnowballGive snowball |0| 0 {display:{Name:"To do list: Rename this to something better"}}
+DEFINE CCItem_SnowballClear snowball 0 |0| {display:{Name:"To do list: Rename this to something better"}}
+
+DEFINE CCItem_MelonGive melon |0| 0
+DEFINE CCItem_MelonClear melon 0 |0|
+
+//>
+
+//<RR - Royal Rumble
+:CBPArrowproofGreenSpawn CLOCK $Style$
+Func_ArrowproofGreenSpawn
+
+:CBPArrowproofBlueSpawn CLOCK $Style$
+Func_ArrowproofBlueSpawn
+
+:CBPArrowproofBlueMansion CLOCK $Style$
+Func_ArrowproofBlueMansion
+
+
+:CBPPortalStart PULSE $Style$
+Deactivate(CBPPortalStart)
+Func_PortalStart
+Activate(CBPPortalClock)
+
+:CBPPortalClock CLOCK $Style$
+Func_PortalClock
+
+:CBPPortalEnd PULSE $Style$
+Deactivate(CBPPortalEnd)
+Func_PortalEnd
+Deactivate(CBPPortalClock)
+
+
+:CBPSwitchTeams PULSE $Style$
+Deactivate(CBPSwitchTeams)
+Func_SwitchTeams
+
+:CBPRemoveTeams PULSE $Style$
+Deactivate(CBPRemoveTeams)
+scoreboard teams remove RRg
+scoreboard teams remove RRb
+
+///:CBPRandomCommands PULSE $Style$
+///Func_RandomCommands
+
+
+:CBPCountdownStart PULSE $Style$
+Deactivate(CBPCountdownStart)
+Func_CountdownStart
+
+:CBPCountdownClock CLOCK $Style$
+Func_CountdownClock
+
+
+:CBPParticleClock CLOCK $Style$
+Func_ParticleClock
+
+:CBPSimpleParticleClock CLOCK $Style$
+Func_SimpleParticleClock
+
+
+:CBPStealthInventoryRestore CLOCK $Style$
+Func_StealthInventoryRestore
+
+:CBPDispenserPigAsthetics CLOCK $Style$
+Func_EngineerPigAstheticsClock
+
+
+:CBPMainStart PULSE $Style$
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart
+Func_ControlPointStart
+Func_StealthStart
+Func_WarriorStart
+Func_ArcherStart
+Func_EngineerStart
+Func_TeleporterStart
+Activate(CBPMainClock)
+Activate(CBPDispenserPigAsthetics)
+Activate(CBPStealthInventoryRestore)
+Activate(CBPStealthGive)
+Activate(CBPWarriorGive)
+Activate(CBPArcherGive)
+Activate(CBPEngineerGive)
+
+
+:CBPMainClock CLOCK $Style$
+Func_GeneralScoreboardClock
+Func_ControlPointClock
+Func_StealthClock
+Func_WarriorClock
+Func_ArcherClock
+Func_EngineerClock
+Func_TeleporterClock
+Func_GeneralEndClock
+
+
+:CBPMainEnd PULSE $Style$
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd
+Func_ControlPointEnd
+Func_StealthEnd
+Func_WarriorEnd
+Func_ArcherEnd
+Func_EngineerEnd
+Func_TeleporterEnd
+Deactivate(CBPMainClock)
+Deactivate(CBPParticleClock)
+Deactivate(CBPSimpleParticleClock)
+Deactivate(CBPDispenserPigAsthetics)
+Deactivate(CBPStealthInventoryRestore)
+Deactivate(CBPCountdownClock)
+Deactivate(CBPArrowproofGreenSpawn)
+Deactivate(CBPArrowproofBlueSpawn)
+Deactivate(CBPArrowproofBlueMansion)
+Deactivate(CBPPortalClock)
+Deactivate(CBPStealthGive)
+Deactivate(CBPWarriorGive)
+Deactivate(CBPArcherGive)
+Deactivate(CBPEngineerGive)
+
+
+:CBPStealthGive CLOCK $Style$
+testfor @a[$SA$,RRTarget0]
+SetblockTestfor
+Func_UniversalGive(RRTarget0)
+Func_StealthGive
+Func_WarriorCC(RRTarget0)
+Func_ArcherCC(RRTarget0)
+Func_EngineerCC(RRTarget0)
+ScTG @a[$SA$,RRTarget0] remove RRTarget0
+
+:CBPWarriorGive CLOCK $Style$
+testfor @a[$SA$,RRTarget1]
+SetblockTestfor
+Func_UniversalGive(RRTarget1)
+Func_WarriorGive
+Func_StealthCC(RRTarget1)
+Func_ArcherCC(RRTarget1)
+Func_EngineerCC(RRTarget1)
+ScTG @a[$SA$,RRTarget1] remove RRTarget1
+
+:CBPArcherGive CLOCK $Style$
+testfor @a[$SA$,RRTarget2]
+SetblockTestfor
+Func_UniversalGive(RRTarget2)
+Func_ArcherGive
+Func_StealthCC(RRTarget2)
+Func_WarriorCC(RRTarget2)
+Func_EngineerCC(RRTarget2)
+ScTG @a[$SA$,RRTarget2] remove RRTarget2
+
+:CBPEngineerGive CLOCK $Style$
+testfor @a[$SA$,RRTarget3]
+SetblockTestfor
+Func_UniversalGive(RRTarget3)
+Func_EngineerGive
+Func_StealthCC(RRTarget3)
+Func_WarriorCC(RRTarget3)
+Func_ArcherCC(RRTarget3)
+ScTG @a[$SA$,RRTarget3] remove RRTarget3
+
+
+
+
+Func_GeneralScoreboardStart
+Func_GeneralScoreboardClock
+Func_GeneralEndClock
+Func_GeneralScoreboardEnd
+
+Func_ControlPointStart
+Func_ControlPointClock
+Func_ControlPointEnd
+
+Func_TeleporterStart
+Func_TeleporterClock
+Func_TeleporterEnd
+
+Func_ParticleClock
+Func_ParticleClockReset
+
+Func_UniversalGive
+
+
+Func_StealthStart
+Func_StealthClock
+Func_StealthEnd
+Func_StealthGive
+Func_StealthCC
+
+Func_WarriorStart
+Func_WarriorClock
+Func_WarriorEnd
+Func_WarriorGive
+Func_WarriorCC
+
+Func_ArcherStart
+Func_ArcherClock
+Func_ArcherEnd
+Func_ArcherGive
+Func_ArcherCC
+
+Func_EngineerStart
+Func_EngineerClock
+Func_EngineerPigAstheticsClock
+Func_EngineerEnd
+Func_EngineerGive
+Func_EngineerCC
+
+
+RRhi
+
+
+RRHoldCloak
+RRHoldRestock
+
+RRPigPickup
+RRPigDestruct
+
+$EngiePickupDeath$
+$EngiePickupDestruct$
+
+
+
+RR: Start / Stop
+Countdown: Start
+Particle: On / Off
+S. Particle: On / Off
+Teams: Remove / Switch
+
+B. Mansion: Enable / Disable
+B. Spawn: Enable / Disable
+G. Spawn: Enable / Disable
+
+
+Teleporter 1: On / Off
+Teleporter 2: On / Off
+Teleporter 3: On / Off
+Teleporter 4: On / Off
+Teleporter 5: On / Off
+Teleporter 6: On / Off
+Teleporter 7: On / Off
+Teleporter 8: On / Off
+Teleporter 9: On / Off
+Teleporter 10: On / Off
+
+
+Add / Remove 1 minute
+
+Time: 
+Pause-Resume-Skip
+
+Countdown:
+Pause-Resume-Skip
+
+Point 1: 0% / 95%
+Point 2: 0% / 95%
+
+
+Join: Green / Blue
+Class: 0 / 1 / 2 / 3
+Spawn: Green / Blue
+//>
+
+//<RB - Rabbit Ball
+0 = 1 + 2 + 4 + 16 + 32 + 64 		0 = 119
+1 = 2 + 16							1 = 18
+2 = 1 + 4 + 8 + 16 + 64				2 = 93
+3 = 1 + 4 + 8 + 32 + 64				3 = 109
+4 = 2 + 4 + 8 + 32					4 = 46
+5 = 1 + 2 + 8 + 32 + 64				5 = 107
+6 = 1 + 2 + 8 + 16 + 32 + 64		6 = 123
+7 = 1 + 4 + 32						7 = 37
+8 = 1 + 2 + 4 + 8 + 16 + 32 + 64	8 = 127
+9 = 1 + 2 + 4 + 8 + 32				9 = 47
+//>
+
+//<DP - Death Pit
+
+//<Spawn Mob Testfor Clock
+FUNC Func_SpawnMobTFClock
+	testfor @e[type=ArmorStand,DPStand,DPmo=1]
+	SetblockTestfor
+	
+	ScOP @e[type=ArmorStand,DPStand,DPmo=1] = MobID DPSave
+///	Zombie
+	DEF_Spawn(1;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],$NoArmor$,$NoHandItems$,$ComplexReg$}
+	DEF_Spawn(2;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],$NoArmor$,$HasIronSword$,$ComplexReg$}
+	DEF_Spawn(3;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],$IronArmor$,$NoHandItems$,$ComplexReg$}
+	DEF_Spawn(4;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],$IronArmor$,$HasIronSword$,$ComplexReg$}
+	
+	DEF_Spawn(5;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],IsBaby:1,$NoArmor$,$NoHandItems$,$ComplexReg$}
+	DEF_Spawn(6;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],ZombieType:6,$NoArmor$,$NoHandItems$,$ComplexReg$}
+	
+	
+///	Zombie Jockey
+	//-
+	DEF_Spawn(10;Chicken) {Tags:["DPEntity","DPMob"],$SimpleReg$,Passengers:[
+		{id:Zombie,Tags:["DPEntity","DPMob","DPM_ZJ"],$NoArmor$,$NoHandItems$,$ComplexReg$}]}
+	
+	-/-
+///	Mini Jade
+	DEF_Spawn(11;Zombie) {Tags:["DPEntity","DPMob","DPM_Z","DPJade"],IsBaby:1,CustomName:"Mini Jade",
+	ArmorItems:[{id:leather_boots,Count:1b,tag:{display:{color:16777215}}},
+		{id:leather_leggings,Count:1b,tag:{display:{color:16777215}}},
+		{id:leather_chestplate,Count:1b,tag:{display:{color:15892389}}},
+		{id:skull,Count:1b,Damage:3s,tag:{SkullOwner:Jadeofalltrades}}],
+	$NoHandItems$,$ComplexReg$}
+	
+	-/-
+///	Mini Jade Jockey
+	DEF_Spawn(12;Chicken) {Tags:["DPEntity","DPMob"],$SimpleReg$,Passengers:[
+		{id:Zombie,Tags:["DPEntity","DPMob","DPM_ZJ","DPJade"],IsBaby:1,CustomName:"Mini Jade",
+		ArmorItems:[{id:leather_boots,Count:1b,tag:{display:{color:16777215}}},
+			{id:leather_leggings,Count:1b,tag:{display:{color:16777215}}},
+			{id:leather_chestplate,Count:1b,tag:{display:{color:15892389}}},
+			{id:skull,Count:1b,Damage:3s,tag:{SkullOwner:Jadeofalltrades}}],
+		$NoHandItems$,$ComplexReg$}]}
+	
+	-/-
+///	Creeper Zombie
+	DEF_Spawn(20;Zombie) {Tags:["DPEntity","DPMob","DPM_Z"],
+	ArmorItems:[{id:chainmail_boots,Count:1b},
+		{id:chainmail_leggings,Count:1b},
+		{id:chainmail_chestplate,Count:1b},
+		{id:skull,Count:1b,Damage:4s,tag:{display:{Name:"BOOMSHAKALAKA"}}}],
+	HandItems:[{id:golden_sword,Count:1b,tag:{Unbreakable:1,ench:[{id:19,lvl:2}]}},{}],
+	ArmorDropChances:[0f,0f,0f,0.75f],HandDropChances:[0.35f,0f],$SimpleReg$}
+	
+	-/-
+///	Smelly Savvy
+	DEF_Spawn(21;Zombie) {Tags:["DPEntity","DPMob","DPM_Z","DPSavvy"],CustomName:"Smelly Savvy",
+	ArmorItems:[{id:leather_boots,Count:1b},
+		{id:leather_leggings,Count:1b,tag:{display:{color:6704179}}},
+		{id:leather_chestplate,Count:1b,tag:{display:{color:6717235}}},
+		{id:skull,Count:1b,Damage:3s,tag:{SkullOwner:"savvykms"}}]
+	,$NoHandItems$,$ComplexReg$}
+	
+	-/-
+///	Chars (Fire Zombie)
+	DEF_Spawn(22;Zombie) {Tags:["DPEntity","DPMob","DPM_Z","DPFire"],CustomName:"Chars",Fire:32767s,
+	Attributes:[{Name:"generic.movementSpeed",Base:0.35}],
+	ActiveEffects:[$FireRes$,$Invis$],
+	ArmorItems:[{},{},{},{id:skull,Count:1b,Damage:2s}],
+	$NoHandItems$,$ComplexReg$}
+	\\-
+	
+	//(Rebalance chars to be slow but tanky and hits hard)
+	
+///	Skeleton
+	DEF_Spawn(50;Skeleton) {Tags:["DPEntity","DPMob","DPEntity","DPM_Sk"],$NoArmor$,$HasBow$,$ComplexReg$}
+	DEF_Spawn(51;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],$NoArmor$,$HasPunchBow$,$ComplexReg$}
+	DEF_Spawn(52;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],$IronArmor$,$HasBow$,$ComplexReg$}
+	DEF_Spawn(53;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],$IronArmor$,$HasPunchBow$,$ComplexReg$}
+	
+	DEF_Spawn(54;Skeleton) {Tags:["DPEntity","DPMob","DPM_WS"],SkeletonType:1,$NoArmor$,$HasStoneSword$,$ComplexReg$}
+	
+///	Wither skele with iron gear
+	//-
+	DEF_Spawn(54;Skeleton) {Tags:["DPEntity","DPMob","DPM_WS"],SkeletonType:1,
+	ArmorItems:[{id:iron_boots,Count:1b},
+		{id:iron_leggings,Count:1b},
+		{id:iron_chestplate,Count:1b},
+		{id:skull,Count:1b,Damage:1s,tag:{display:{Name:"MobBeGone Miracle Spray"}}}],
+	$HasIronSword$,ArmorDropChances:[0f,0f,0f,0.5f],HandDropChances:[0f,0f],$SimpleReg$}
+	
+	-/-
+///	Boss Skeleton
+	DEF_MidSpawn(55;Chicken) 
+	{Tags:["DPMob","DPChicken"],ActiveEffects:[$FireRes$,$Invis$],$SimpleReg$,Passengers:[
+	{id:Zombie,IsBaby:1,Tags:["DPS_Z","DPMob"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},
+	{id:Zombie,IsBaby:1,Tags:["DPS_Z","DPMob"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},
+	{id:Zombie,IsBaby:1,Tags:["DPS_Z","DPMob"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},
+	{id:Zombie,IsBaby:1,Tags:["DPS_Z","DPMob"],ActiveEffects:[$FireRes$],ArmorItems:[{},{},{},{id:skull,Count:1b}],$NoHandItems$,$ComplexReg$},
+	{id:Guardian,Tags:["DPMob","DPS_G"],ActiveEffects:[$FireRes$],$SimpleReg$,Passengers:[
+		{id:Skeleton,Tags:["DPMob","DPS_KS"],ActiveEffects:[$FireRes$],CustomName:"King Skeleton",CustomNameVisible:1,$ComplexReg$,
+			ArmorItems:[{id:diamond_boots,Count:1b},
+			{id:diamond_leggings,Count:1b},
+			{id:diamond_chestplate,Count:1b},
+			{id:diamond_helmet,Count:1b}],
+		HandItems:[{id:bow,Count:1b,tag:{ench:[{id:48,lvl:2}]}},{}]
+		}]
+	}]}
+	\\-
+	
+	DEF_Spawn(56;Skeleton) {Tags:["DPEntity","DPMob","DPM_Sk"],SkeletonType:2,$NoArmor$,$HasBow$,$ComplexReg$}
+	
+///	Spiders
+	DEF_Spawn(100;Spider) {Tags:["DPEntity","DPMob","DPM_Sp"],$SimpleReg$}
+	DEF_Spawn(101;Spider) {Tags:["DPEntity","DPMob","DPM_Sp"],ActiveEffects:[$Invis$],$SimpleReg$}
+	
+///	Regular spider jockey
+	//-
+	DEF_Spawn(102;Spider) {Tags:["DPEntity","DPMob","DPM_SJ"],$SimpleReg$,Passengers:[
+		{id:Skeleton,Tags:["DPEntity","DPMob","DPM_SJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
+	
+	-/-
+///	Invis spider jockey
+	DEF_Spawn(103;Spider) {Tags:["DPEntity","DPMob","DPM_SJ"],$SimpleReg$,ActiveEffects:[$Invis$],Passengers:[
+		{id:Skeleton,Tags:["DPEntity","DPMob","DPM_SJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
+	
+	-/-
+///	FlameVenom (Fire Spider)
+	DEF_Spawn(104;Spider) {Tags:["DPEntity","DPMob","DPM_Sp","DPFire"],CustomName:"FlameVenom",Fire:32767s,
+		HandItems:[{id:blaze_rod,Count:1b,tag:{ench:[{id:20,lvl:2}]}},{}],
+		ActiveEffects:[$FireRes$],$ComplexReg$}
+	\\-
+	//(Change spidervenom to have a longer hitting fire attack, but deals minimal damage)
+	
+///	Cave Spiders
+	DEF_Spawn(110;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CS"],$SimpleReg$}
+	DEF_Spawn(111;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CS"],ActiveEffects:[$Invis$],$SimpleReg$}
+	
+///	Cave spider jockey
+	//-
+	DEF_Spawn(112;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CSJ"],$SimpleReg$,Passengers:[
+		{id:Skeleton,Tags:["DPEntity","DPMob","DPM_CSJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
+	
+	-/-
+///	Invis cave spider jockey
+	DEF_Spawn(113;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CSJ"],ActiveEffects:[$Invis$],$SimpleReg$,Passengers:[
+		{id:Skeleton,Tags:["DPEntity","DPMob","DPM_CSJ"],$NoArmor$,$HasBow$,$ComplexReg$}]}
+	
+	-/-
+///	Creeper Jockey
+	DEF_Spawn(114;CaveSpider) {Tags:["DPEntity","DPMob","DPM_CJ"],$SimpleReg$Passengers:[{id:Creeper,Tags:["DPM_CJ"],$SimpleReg$}]}
+	\\-
+	
+///	Witch
+	DEF_Spawn(150;Witch) {Tags:["DPEntity","DPMob","DPM_Wi"],$SimpleReg$}
+	DEF_Spawn(151;Witch) {Tags:["DPEntity","DPMob","DPM_Wi"],ActiveEffects:[$Resistance$],$SimpleReg$}
+///	DEF_Spawn(152;Witch) //(Fire resistance potion drop, resistance 2)
+	
+///	Wolf
+	DEF_Spawn(200;Wolf) {Tags:["DPEntity","DPMob","DPM_Wo"],$SimpleReg$}
+	DEF_Spawn(201;Wolf) {Tags:["DPEntity","DPMob","DPM_Wo"],ActiveEffects:[$FireRes$],$SimpleReg$}
+	DEF_Spawn(202;Wolf) {Tags:["DPEntity","DPMob","DPM_Wo"],ActiveEffects:[$Regen$],$SimpleReg$}
+	DEF_Spawn(203;Wolf) {Tags:["DPEntity","DPMob","DPM_Wo"],ActiveEffects:[$FireRes$,$FireRes$],$SimpleReg$}
+	
+///	Blaze
+	DEF_Spawn(250;Blaze) {Tags:["DPEntity","DPMob","DPM_B"],$SimpleReg$}
+	
+///	Blaze Turret
+	//-	
+	DEF_MidSpawn(251;Blaze) {Tags:["DPEntity","DPMob","DPM_BT"],CustomName:"Blaze Turret",Health:150f,Fire:32767s,
+		Attributes:[{Name:"generic.maxHealth",Base:150d},
+		{Name:"generic.knockbackResistance",Base:1}],
+	NoAI:1,$ComplexReg$}
+	\\-
+///	Guardian
+	DEF_Spawn(300;Guardian) {Tags:["DPEntity","DPMob","DPM_G"],$SimpleReg$}
+	DEF_Spawn(301;Guardian) {Tags:["DPEntity","DPMob","DPM_G"],ActiveEffects:[$FireRes$],$SimpleReg$}
+	
+///	Killer Bunny
+	DEF_Spawn(350;Rabbit) {Tags:["DPEntity","DPMob","DPM_KB"],RabbitType:99,CustomName:"A Harmless Bunny",$SimpleReg$}
+	
+///	Creeper
+	DEF_Spawn(400;Creeper) {Tags:["DPEntity","DPMob","DPM_C"],$SimpleReg$}
+	//(Charged Creeper)
+	///summon Creeper -170 30 96 {Tags:["DPM_CC"],powered:1,ActiveEffects:[{ShowParticles:0b,Duration:1000000,Id:12b,Amplifier:0b,Ambient:0b}],Silent:1,DeathLootTable:"minecraft:empty",$SimpleReg$}
+	//(Fire Explosion)
+	///{CustomName:"Fireball",Fire:32767s,ActiveEffects:[{ShowParticles:0b,Duration:1000000,Id:12b,Amplifier:0b,Ambient:0b}],Tags:["DPM_C","DPMob","DPFire"],Silent:1,DeathLootTable:"minecraft:empty"}
+	///Have it so an invisible armor stand is above it, and once it lands, summons a fireball
+	
+///	Zombie Pigman
+	DEF_Spawn(450;PigZombie) {Tags:["DPEntity","DPMob","DPM_ZP"],$ComplexReg$}
+	
+///	Troll Pigman
+	//-
+	DEF_Spawn(451;PigZombie) {Tags:["DPEntity","DPMob","DPM_ZP"],CustomName:"LOLOLOL",
+		Attributes:[{Name:"generic.attackDamage",Base:0},
+		{Name:"generic.movementSpeed",Base:0.35}],
+	$NoArmor$,HandItems:[{id:sign,Count:1b,tag:{ench:[{id:19,lvl:2}]}},{}],$ComplexReg$}
+	
+	-/-
+///	Zisteau
+	DEF_Spawn(452;PigZombie) {Tags:["DPEntity","DPMob","DPM_ZP"],CustomName:"Zisteau",ArmorItems:[{},{id:leather_leggings,Count:1b,tag:{ench:[{id:0,lvl:3}]}},{},{}],HandItems:[{id:lava_bucket,Count:1b,tag:{ench:[{id:20,lvl:1},{id:16,lvl:1}]}},{}],$ComplexReg$}
+	\\-
+	
+	
+//(Polar bears)
+//(Man Bear Pig)
+//(Baby Polar bear at mid, killed when all polar bears are dead)
+	@e[type=ArmorStand,DPStand,DPmo>=1] $s$kill @e[$SA$,type=AreaEffectCloud,DPDonut]
+	@e[type=ArmorStand,DPStand,DPmo>=1] DPmo = 0
+END
+//>
+
+
+DPS_Z
+DPS_ZJ
+DPS_Sk
+DPS_WS
+DPS_Sp
+DPS_SJ
+DPS_CS
+DPS_CSJ
+DPS_Wi
+DPS_Wo
+DPS_B
+DPS_G
+DPS_KB
+DPS_C
+DPS_CC
+DPS_CJ
+DPS_ZP
+DPS_KS
+
+
+Zombies
+Z_Jockeys
+Skeletons
+W_Skeles
+Spiders
+S_Jockeys
+C_Spiders
+CS_Jockeys
+Witches
+Wolves
+Blazes
+Guardians
+K_Bunnies
+Creepers
+C_Creepers
+C_Jockeys
+Z_Pigmen
+K_Skele
+
+DEFINE DEF_Spawn @e[type=ArmorStand,DPStand,DPmo=|0|] @e[type=AreaEffectCloud,DPDonut] summon |1| ~ ~ ~
+DEFINE DEF_SpawnMid @e[type=ArmorStand,DPStand,DPmo=|0|] summon |1| PARSE($Middle$)
+/// DEFINE $Spawn2$ @e[type=ArmorStand,DPStand,DPmo|0|] |1| DP + 0
+DEFINE $ComplexReg$ ArmorDropChances:[0f,0f,0f,0f],HandDropChances:[0f,0f],Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
+DEFINE $SimpleReg$ Invulnerable:1,Silent:1,DeathLootTable:"minecraft:empty"
+DEFINE $NoArmor$ ArmorItems:[{},{},{},{}]
+DEFINE $NoHandItems$ HandItems:[{},{}]
+DEFINE $HasBow$ HandItems:[{id:bow,Count:1b},{}]
+DEFINE $IronArmor$ ArmorItems:[{id:iron_boots,Count:1b},{id:iron_leggings,Count:1b},{id:iron_chestplate,Count:1b},{id:iron_helmet,Count:1b}]
+
+
+
+Func_GeneralOptionsTFClock
+Func_SummonMobTFClock
+Func_CountdownTFClock
+Func_SpawnMobTFClock
+Func_EqupimentTFClock
+
+Func_MobTFClock_Resurrection
+Func_MobTFClock_Jade
+Func_MobTFClock_SmellySavvy
+Func_MobTFClock_Chicken
+Func_MobTFClock_Fire
+Func_MobTFClock_BlazeTurret
+
+FUNC Func_GeneralOptionsTFClock
+	testfor @e[type=ArmorStand,DPStand,DPop>=1]
+	SetblockTestfor
+
+///	Kill all mobs
+	@e[type=ArmorStand,DPStand,DPop=1] $s$kill @e[$SA$,DPMob]
+		
+///	Lava on
+	@e[type=ArmorStand,DPStand,DPop=2] fill $FillFloor$ lava 0 replace obsidian
+	
+///	Lava off
+	@e[type=ArmorStand,DPStand,DPop=3] fill $FillFloor$ obsidian 0 replace lava
+	
+///	Countdown Start
+	@e[type=ArmorStand,DPStand,DPop=4] summon AreaEffectCloud ~ ~ ~ {Tags:["DPEntity","DPCountdown"],Duration:250}
+	
+///	Open doors
+	testfor @e[type=ArmorStand,DPStand,DPop=5]
+	CONDITION
+		Activate(CBPOpenDoorsStart)
+		
+///	Close doors
+	testfor @e[type=ArmorStand,DPStand,DPop=6]
+	CONDITION
+		Activate(CBPOpenDoorsEnd)
+	
+	USE @e[type=ArmorStand,DPStand,DPop=7]
+		MobID DPSave = 1
+		Melee DPSave = 1
+		Bow DPSave = 1
+		Shield DPSave = 0
+		Armor DPSave = 1
+		Potion DPSave = 1
+		Food DPSave = 2
+		Lapis DPSave = 1
+		Snowballs DPSave = 0
+		Bones DPSave = 0
+	UNUSE
+	
+	@e[type=ArmorStand,DPStand,DPop>=1] DPop = 0
+	
+	
+	
+	
+	
+	
+	$Stats$(DPS_Z;Zombies)
+	$Stats$(DPS_ZJ;Z_Jockeys)
+	$Stats$(DPS_Sk;Skeletons)
+	$Stats$(DPS_WS;W_Skeles)
+	$Stats$(DPS_Sp;Spiders)
+	$Stats$(DPS_SJ;S_Jockeys)
+	$Stats$(DPS_CS;C_Spiders)
+	$Stats$(DPS_CSJ;CS_Jockeys)
+	$Stats$(DPS_Wi;Witches)
+	$Stats$(DPS_Wo;Wolves)
+	$Stats$(DPS_B;Blazes)
+	$Stats$(DPS_G;Guardians)
+	$Stats$(DPS_KB;K_Bunnies)
+	$Stats$(DPS_C;Creepers)
+	$Stats$(DPS_CC;C_Creepers)
+	$Stats$(DPS_CJ;C_Jockeys)
+	$Stats$(DPS_ZP;Z_Pigmen)
+	$Stats$(DPS_KS;K_Skele)
+	
+	
+	
+	
+	MobID DPSave = 1
+	Melee DPSave = 1
+	Bow DPSave = 0
+	Shield DPSave = 0
+	Armor DPSave = 1
+	Potion DPSave = 1
+	Food DPSave = 2
+	Lapis DPSave = 1
+	Snowballs DPSave = 0
+	Bones DPSave = 0
+	
+///	1 = gold, 2 = iron, 3 = dia
+///	1 = Instant Health, 2 = Lingering Instant Health (II)
+///	0 = None, 1 = Melons, 2 = Bread, 3 = Cooked porkchop
+///	0 = None, 1 = 64
+///	0 = None, 1 = 16, 2 = 64
+///	0 = None, 1 = 16, 2 = 64
+
+END
+//>
+
+//<BL - Biolab
+CCItem_HelmetB
+CCItem_HelmetR
+CCItem_HelmetP
+
+CCItem_LeggingsB
+CCItem_LeggingsR
+CCItem_LeggingsP
+
+CCItem_LeggingsB
+CCItem_LeggingsR
+CCItem_LeggingsP
+
+CCItem_BootsB
+CCItem_BootsR
+CCItem_BootsP
+
+CCItem_Knife
+CCItem_BulletsGive snowball |0| 0
+CCItem_BulletsClear snowball 0 |0|
+CCItem_MagazineGive prismarine_shard |0| 0
+CCItem_MagazineClear prismarine_shard 0 |0|
+
+CCItem_Infiltrator_Ability
+
+CCItem_LightAssault_Paper
+CCItem_LightAssault_Chestplate
+
+CCItem_Engineer_Ability
+CCItem_Engineer_Chestplate
+
+CCItem_CombatMedic_Ability
+CCItem_CombatMedic_Chestplate
+
+CCItem_HeavyAssault_Ability
+CCItem_HeavyAssault_Chestplate
+
+CCItem_MAX_Chestplate
+
+
+
+
+	reddust
+	2.5 3 0 0 50 
+	-104.0 46 -1186
+	-104.0 46 -1197
+
+	0 3 2.5 0 50
+	-99 46 -1191.0
+	-110 46 -1191.0
+
+	0 0.75 0.75 0 8
+	-147 67 -1191
+	-152 67 -1190
+
+	1 0.75 0 0 9
+	-149.0 67 -1184
+	
+	
+	
+	magicCrit
+	0 0.75 0.75 0 8
+	-90 44 -1278
+	-83 44 -1278
+	-113 67 -1235
+	-76 67 -1220
+
+	0.75 0.75 0 0 8
+	-88 44 -1280
+	-110 67 -1231
+	-81 67 -1215
+	
+	
+	
+	
+	dragonbreath
+	0 0.75 0.75 0 4
+	-98 44 -1103
+	-105 44 -1103
+	-75 67 -1159
+
+	0.75 0.75 0 0 4
+	-100 44 -1101
+	-77 67 -1155
+	
+	$ForceFieldCoords|0|$
+	$ForceFieldParticle|0|$
+
+Func_WeaponsStart
+Func_WeaponsClock
+Func_WeaponsEnd
+
+Func_TeleportingStart
+Func_TeleportingClock
+Func_TeleportingEnd
+
+Func_ControlPointsStart
+Func_ControlPointsClock
+Func_ControlPointsEnd
+
+Func_LightAssaultStart
+Func_LightAssaultClock
+Func_LightAssaultEnd
+
+Func_InfiltratorStart
+Func_InfiltratorClock
+Func_InfiltratorEnd
+
+Func_CombatMedicStart
+Func_CombatMedicClock
+Func_CombatMedicEnd
+
+Func_HeavyAssaultStart
+Func_HeavyAssaultClock
+Func_HeavyAssaultEnd
+
+
+
+
+Func_InfiltratorInventoryRestore
+Func_ClassSelectionClock
+//>
+
+//<BL Python
+teamValueA = int(input('A : '))
+teamValueB = int(input('B : '))
+teamValueC = int(input('C : '))
+running = 1
+loopCount = 0
+
+while running:
+    functionF1 = abs(teamValueA - teamValueB)
+    functionF2 = abs(teamValueA - teamValueC)
+    functionF3 = abs(teamValueB - teamValueC)
+
+    print('\nF: ', functionF1, functionF2, functionF3, '\nV: ', teamValueA, teamValueB, teamValueC)
+
+    functionSum = functionF1 + functionF2 + functionF3
+    functionMax = max(functionF1,functionF2,functionF3)
+
+    print('FSum: ', functionSum, 'FMax: ', functionMax)
+
+    if functionSum >= 3:
+        loopCount += 1
+        print('Sum is greater than three. Team balancing is required.')
+        functionCalcF1 = abs(functionF1 - functionMax)
+        functionCalcF2 = abs(functionF2 - functionMax)
+        functionCalcF3 = abs(functionF3 - functionMax)
+
+        if functionCalcF1 == 0:
+            functionCalcF1 = teamValueA - teamValueB
+            if functionCalcF1 > 0:
+                teamValueA -= 1
+                teamValueB += 1
+            if functionCalcF1 < 0:
+                teamValueB -= 1
+                teamValueA += 1
+
+            functionCalcF1 = -1
+            functionCalcF2 = -1
+            functionCalcF3 = -1
+
+        if functionCalcF2 == 0:
+            functionCalcF2 = teamValueA - teamValueC
+            if functionCalcF2 > 0:
+                teamValueA -= 1
+                teamValueC += 1
+            if functionCalcF2 < 0:
+                teamValueC -= 1
+                teamValueA += 1
+
+            functionCalcF1 = -1
+            functionCalcF2 = -1
+            functionCalcF3 = -1
+
+        if functionCalcF3 == 0:
+            functionCalcF3 = teamValueB - teamValueC
+            if functionCalcF3 > 0:
+                teamValueB -= 1
+                teamValueC += 1
+            if functionCalcF3 < 0:
+                teamValueC -= 1
+                teamValueB += 1
+
+            functionCalcF1 = -1
+            functionCalcF2 = -1
+            functionCalcF3 = -1
+    else:
+        print('Sum is less than three')
+        running = 0
+
+print('V: ', teamValueA, teamValueB, teamValueC)
+print('Loop Count: ', loopCount)
+//>
+
+//<TP3 - The Pit 3
+Arena_Type		0/1					Small = 0, Large = 1
+Arena_Size		0/1					Reg = 0, Deg = 1
+Weapon			Selected numbers between 10-50
+Pumpkin			-1 - 64				-1 = TNT Tag
+PumpkinDelay	0 - 10000000
+Mob_Mode		0 - 4
+Teams			0/1
+
+Movement		10 - 15 & 20 - 25	10-15 = spd, 20 - 25 = slowness
+NoSprint		0,1,2				No Sprint / Blindness
+NoJump			0,1,2				No Jumping / Jump boost 2
+
+
+M_Regular		0 - 126
+M_Pumpkin		0 - 126
+M_Thorns		0 - 126
+M_Porkchop		0 - 126
+M_Knockback5	0 - 126
+M_Skeleton		0 - 126
+(Cannot be odd)
+
+
+
+
+
+
+
+Players (g)
+OR
+Red (r)
+Blue (b)
+
+Mobs (gold) with mobs
+
+Time_Elapsed (y)
+(blank space) -1
+Winner -2 (y)
+(Name) -3
+
+
+
+
+
+
+
+Mob_Mode
+//* Mobs *//
+-Modes:
+1	-FFA players VS mobs (regular with mobs)
+2	-Players team VS mobs (Death pit pit)
+3	-Red VS Blue with mobs
+4	-Red & mobs VS blue & mobs
+
+-Mob Types
+	-Regular (zombie w/ knockback 3)
+	-Pumpkin (exploding pumpkin upon death)
+	-Thorns (Cactus zombie)
+	-Porkchop (Yep)
+	-Knockback 5 (Zombie w/ knockback 5)
+	-Skeleton
+//>
+
+//<2FT - 2 fort
+TF2ClassSelectStart				Func_GeneralSelectStart
+TF2ClassSelectClock				Func_GeneralSelectClock
+TF2ClassSelectEnd				Func_GeneralSelectEnd
+TF2TeamSelectGive				Func_SelectTeamPulse
+TF2CarrotStickClock				Func_CarrotStickTFClock
+TF2ResupplyCabinetClock			N/A
+
+
+TF2ClassStart					Func_ClassSpecialsStart
+TF2ClassClock					Func_ClassSpecialsClock
+TF2ClassEnd						Func_ClassSpecialsEnd
+
+TF2FlagStart					Func_FlagStart
+TF2FlagClock					Func_FlagClock
+TF2FlagEnd						Func_FlagEnd
+
+TF2OtherStart					Func_GeneralScoreboardStart
+TF2OtherClock					Func_GeneralScoreboardClock
+TF2StartGamePulse				Func_StartGamePulse
+TF2CountdownTimerClock			Func_CountdownTFClock
+TF2EndGameClock					Func_EndGameTFClock
+TF2OtherEnd						Func_GeneralScoreboardEnd
+
+TF2ClassUniversalGiveBeg		Func_UniversalGiveStart
+TF2ClassUniversalGiveEnd		Func_UniversalGiveEnd
+TF2Class1Give					Func_Class1Give
+TF2Class2Give					Func_Class2Give
+TF2Class3Give					Func_Class3Give
+TF2Class4Give					Func_Class4Give
+TF2Class5Give					Func_Class5Give
+TF2Class7Give					Func_Class7Give
+TF2Class8Give					Func_Class8Give
+
+TF2RandomizerClock				Func_DankMemes
+
+
+DEFINE CCItem_CarrotStick carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:"Choose: |0|"}}
+DEFINE CCItem_CarrotChoose carrot_on_a_stick 1 0 {Unbreakable:1,display:{Name:"Change classes"}}
+DEFINE CCItem_Paper paper 1 0 {display:{Name:"Cannot choose the |0|"}}
+DEFINE DEF_CarrotChoose {SelectedItem:{tag:{display:{Name:"Choose: |0|"}}}}
+
+DEFINE CCItem_Helmet1 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Scout hat",color:65280},ench:[{id:4,lvl:2}]}
+DEFINE CCItem_Helmet2 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Soldier hat",color:8355711},ench:[{id:4,lvl:3},{id:0,lvl:4}]}
+DEFINE CCItem_Helmet3 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Pyro hat",color:16744192},ench:[{id:4,lvl:2},{id:0,lvl:3},{id:1,lvl:5}]}
+DEFINE CCItem_Helmet4 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Demoman hat",color:16645888},ench:[{id:4,lvl:2},{id:0,lvl:3}]}
+DEFINE CCItem_Helmet5 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Heavy hat",color:9127187},ench:[{id:4,lvl:4},{id:0,lvl:7}]}
+DEFINE CCItem_Helmet7 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Medic hat",color:16716947},ench:[{id:4,lvl:2},{id:0,lvl:3}]}
+DEFINE CCItem_Helmet8 leather_helmet 1 0 {Unbreakable:1,display:{Name:"Sniper hat",color:0},ench:[{id:4,lvl:2}]}
+
+DEFINE CCItem_Bow2 bow 1 0 {Unbreakable:1,display:{Name:"Rocket Launcher"},ench:[{id:51,lvl:1},{id:48,lvl:3}]}
+DEFINE CCItem_Bow3 bow 1 0 {Unbreakable:1,display:{Name:"Flare Gun"},ench:[{id:51,lvl:1},{id:50,lvl:1}]}
+DEFINE CCItem_Bow7 bow 1 0 {Unbreakable:1,display:{Name:"Crusader\'s Crossbow"},ench:[{id:51,lvl:1}]}
+DEFINE CCItem_Bow8 bow 1 0 {Unbreakable:1,display:{Name:"Sniper Rifle"},ench:[{id:51,lvl:1},{id:49,lvl:1},{id:48,lvl:4}]}
+
+DEFINE CCItem_ChestplateR leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red shirt",color:16711680}}
+DEFINE CCItem_LeggingsR leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red pants",color:16711680}}
+DEFINE CCItem_BootsR leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Red boots",color:16711680}}
+DEFINE CCItem_ChestplateB leather_chestplate 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue shirt",color:255}}
+DEFINE CCItem_LeggingsB leather_leggings 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue pants",color:255}}
+DEFINE CCItem_BootsB leather_boots 1 0 {HideFlags:127,Unbreakable:1,display:{Name:"Blue boots",color:255}}
+DEFINE CCItem_DyeR dye 1 1 {display:{Name:"You are on the red team"}}
+DEFINE CCItem_DyeB dye 1 12 {display:{Name:"You are on the blue team"}}
+	
+DEFINE CCItem_Arrow arrow 1 0 {display:{Name:"This is bullet.",Lore:["I've yet to meet one that","can outsmart bullet."]}}
+DEFINE CCItem_WoodSword wooden_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_IronSword iron_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_DiaSword diamond_sword 1 0 {Unbreakable:1}
+DEFINE CCItem_Airblast blaze_rod 1 0 {display:{Name:"Airblast Stick"},ench:[{id:19,lvl:3}]}
+DEFINE CCItem_GrenadeGive splash_potion |0| 0 {Potion:"minecraft:strong_harming",display:{Name:"Grenade(s)"}}
+DEFINE CCItem_GrenadeClear splash_potion -1 |0| {Potion:"minecraft:strong_harming",display:{Name:"Grenade(s)"}}
+DEFINE CCItem_Sandvich golden_apple 1 0 {display:{Name:"Golden Apple Sandvich",Lore:["Regens in 10s"]}}
+DEFINE CCItem_RegenPotionR splash_potion 1 0 {HideFlags:127,Potion:"minecraft:water_breathing",display:{Name:"Regen II - Red",Lore:["Lasts 5 seconds"]}}
+DEFINE CCItem_RegenPotionB splash_potion 1 0 {HideFlags:127,Potion:"minecraft:water_breathing",display:{Name:"Regen II - Blue",Lore:["Lasts 5 seconds"]}}
+DEFINE CCItem_Hunger effect @a[PARSE($SA$),m=2,2FTcsi=|0|] 17 1000000 100 true
+DEFINE CCItem_Saturation effect @a[PARSE($SA$),m=2,2FTcsi=|0|] 23 1000000 0 true
+//>
+
+//<MM - Mastermind 1
+FUNC Func_SouthCheck
+/// Summons all armor stands (temporary)
+	@a[$SR|0|$,MMrs=|0|] summon ArmorStand ~-2 ~ ~ {Tags:["MM","MMA","MM1"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon ArmorStand ~-3 ~ ~ {Tags:["MM","MMA","MM2"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon ArmorStand ~-4 ~ ~ {Tags:["MM","MMA","MM3"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon ArmorStand ~-5 ~ ~ {Tags:["MM","MMA","MM4"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon Item ~-7 ~ ~ $ArmorStandBeg$
+	
+/// Sets a score for the MMA armor stands corresponding to the color
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA] $WoolD|0|$ @e[MMA,r=0,c=1] MMpa = |0|
+	END
+	
+/// Sets the correct answer to the MMA armor stands
+	LOOP 1 4 + 1
+		@a[$SR|0||1|$,MMrs=|0|] ScOP @e[dx=-5,dy=1,MM|0|] MMca = @e[MMCA|0|] MMca
+	END
+	
+/// Counts the number of white and red
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMca=|0|] @e[r=3,rm=1,MMpa=|0|] @e[dx=-6,dy=1,MMAW] MMsd + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=|0|,MMca=|0|] @e[dx=-6,dy=1,MMAR] MMsd + 1
+	END
+	
+/// Adds everything to 0 (to display 0 red/white, and to detect if there isn't a wool block placed)
+	@e[MMRW] MMsd + 0
+	@e[MMA] MMpa + 0
+	
+/// Detects any repeating blocks
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=|0|] @e[dx=-5,dy=1,MMRA|0|] MMra + 1
+	END
+	@a[$SR|0|$,MMrs=|0|] @e[dx=-7,dy=1,MMRA,MMra>=2] @a[dx=7,dy=1,c=1,MMrs=|0|] MMra = 1
+	@a[$SR|0|$,MMrs=|0|] MMra + 0
+	
+/// Detects any non-wool blocks
+	@a[$SR|0|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=0] @a[MMrs=|0|,dx=5,dy=1,c=1] MMna = 1
+	@a[$SR|0|$,MMrs=|0|] MMna + 0
+	
+/// Sets the sign if the guess is filled and has no repeating blocks
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~-7 ~ ~ standing_sign 10 replace $SignRegular$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~ ~ ~ tripwire 0 replace stone_button
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] fill ~7 ~4 ~ ~7 ~6 ~ sea_lantern 0 replace redstone_lamp
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-2 ~
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~ ~5 ~ redstone_block 0
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] setblock ~ ~ ~ standing_sign 10 replace $SignWin$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd>=1<=3] @e[r=1,c=1,MMAW,MMsd=0] setblock ~ ~ ~ standing_sign 10 replace $SignRed$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAW,MMsd>=1<=4] @e[r=1,c=1,MMAR,MMsd=0] setblock ~ ~ ~ standing_sign 10 replace $SignWhite$
+	
+/// Shows the warning
+	tellraw @a[$SR|0||1|$,MMrs=|0|,MMra=1] {"text":"","extra":[{"text":"Warning: ","color":"red","bold":"true"},{"text":"There are repeated colors. Please redo your guess.","color":"gold"}]}
+	tellraw @a[$SR|0||1|$,MMrs=|0|,MMna=1] {"text":"","extra":[{"text":"Warning: ","color":"red","bold":"true"},{"text":"There is at least one missing block. Please redo your guess.","color":"gold"}]}
+	
+/// Kills all temporary armor stands, sets the selected player's scores to 0
+	@a[$SR|0|$,MMrs=|0|] $s$kill @e[type=ArmorStand,MM,dx=-7,dy=1]
+	@a[$SR|0|$,MMrs=|0|] MMna = 0
+	@a[$SR|0|$,MMrs=|0|] MMra = 0
+	@a[$SR|0|$,MMrs=|0|] MMrs = 0
+END
+
+
+
+
+
+
+FUNC Func_SouthCheck
+	testfor @e[type=ArmorStand,MMRoom|0|,MMgn>=1]
+	SetblockTestfor
+	
+///	Summons AreaEffectClouds at wherever the button was pressed
+	LOOP 1 5 + 1 () 0 8 + 2
+		@e[type=ArmorStand,MMRoom|0||1|] summon AreaEffectCloud ~7 ~2 ~SUB(10;|2|) {Tags:["MM","MMRoomS","MMRoomS|0|"],Duration:5}
+	END
+	
+	@e[type=ArmorStand,MMRoom|0|] ScOP @a[$SR|0|$] MMrs = @e[type=ArmorStand,MMRoom|0|] MMrs
+	@e[type=AreaEffectCloud,MMRoomS|0|] ScOP @p[r=5,MMrs=-|0|] MMrs *= -1 Number
+	$s$tp @a[$SR|0|$,MMrs=|0|] @e[type=AreaEffectCloud,MMRoomS|0|]
+
+///	Summons all armor stands (temporary)
+	@a[$SR|0|$,MMrs=|0|] summon AreaEffectCloud ~-2 ~ ~ {Tags:["MM","MMA","MMA1"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon AreaEffectCloud ~-3 ~ ~ {Tags:["MM","MMA","MMA2"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon AreaEffectCloud ~-4 ~ ~ {Tags:["MM","MMA","MMA3"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon AreaEffectCloud ~-5 ~ ~ {Tags:["MM","MMA","MMA4"],Invulnerable:1,Invisible:1}
+	@a[$SR|0|$,MMrs=|0|] summon Item ~-7 ~ ~ $AreaEffectCloudBeg$
+
+/// Sets a score for the MMA armor stands corresponding to the color
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA] $WoolD|0|$ @e[MMA,r=0,c=1] MMpa = |0|
+	END
+	
+/// Sets the correct answer to the MMA armor stands
+	LOOP 1 4 + 1
+		@a[$SR|0||1|$,MMrs=|0|] ScOP @e[dx=-5,dy=1,MMA|0|] MMca = @e[MMCA|0|] MMca
+	END
+	
+/// Counts the number of white and red
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMca=|0|] @e[r=3,rm=1,MMpa=|0|] @e[dx=-6,dy=1,MMAW] MMsd + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=|0|,MMca=|0|] @e[dx=-6,dy=1,MMAR] MMsd + 1
+	END
+	
+/// Adds everything to 0 (to display 0 red/white, and to detect if there isn't a wool block placed)
+	@e[MMRW] MMsd + 0
+	@e[MMA] MMpa + 0
+	
+/// Detects any repeating blocks
+	LOOP 1 6 + 1
+		@a[$SR|0||1|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=|0|] @e[dx=-5,dy=1,MMRA|0|] MMra + 1
+	END
+	@a[$SR|0|$,MMrs=|0|] @e[dx=-7,dy=1,MMRA,MMra>=2] @a[dx=7,dy=1,c=1,MMrs=|0|] MMra = 1
+	@a[$SR|0|$,MMrs=|0|] MMra + 0
+	
+/// Detects any non-wool blocks
+	@a[$SR|0|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=0] @a[MMrs=|0|,dx=5,dy=1,c=1] MMna = 1
+	@a[$SR|0|$,MMrs=|0|] MMna + 0
+
+/// Sets the sign if the guess is filled and has no repeating blocks
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~-7 ~ ~ standing_sign 10 replace $SignRegular$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~ ~ ~ tripwire 0 replace stone_button
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] fill ~7 ~4 ~ ~7 ~6 ~ sea_lantern 0 replace redstone_lamp
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~ ~5 ~ redstone_block 0
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] setblock ~ ~ ~ standing_sign 10 replace $SignWin$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd>=1<=3] @e[r=1,c=1,MMAW,MMsd=0] setblock ~ ~ ~ standing_sign 10 replace $SignRed$
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAW,MMsd>=1<=4] @e[r=1,c=1,MMAR,MMsd=0] setblock ~ ~ ~ standing_sign 10 replace $SignWhite$
+	
+/// Shows the warning
+	tellraw @a[$SR|0||1|$,MMrs=|0|,MMra=1] $TextStart$;
+		{"text":"Warning: ","color":"red","bold":"true"},;
+		{"text":"There are repeated colors. Please redo your guess.","color":"gold"}]}
+	tellraw @a[$SR|0||1|$,MMrs=|0|,MMna=1] $TextStart$;
+		{"text":"Warning: ","color":"red","bold":"true"},;
+		{"text":"There is at least one missing block. Please redo your guess.","color":"gold"}]}
+	
+/// Kills all temporary armor stands, sets the selected player's scores to 0
+	$s$kill @e[$SR|0|$,type=AreaEffectCloud,MM]
+	@a[$SR|0|$,MMrs=|0|] MMna = 0
+	@a[$SR|0|$,MMrs=|0|] MMra = 0
+	@a[$SR|0|$,MMrs=|0|] MMrs = 0
+END
+//>
+
+//<ST - Sand Tomb
+:TeleportStartAF PULSE $Style$
+Deactivate(TeleportStartAF)
+Activate(TeleportClockAF)
+TpStartAF
+
+:TeleportClockAF CLOCK $Style$
+TpClockAF
+
+:TeleportEndAF PULSE $Style$
+Deactivate(TeleportEndAF)
+Deactivate(TeleportClockAF)
+TpEndAF
+
+
+:AntFarmStart PULSE $Style$
+Deactivate(AntFarmStart)
+AFStart
+
+:AntFarmCountdownClock CLOCK $Style$
+AFCountdownClock
+
+:AntFarmMainClock CLOCK $Style$
+AFMainClock
+
+:AntFarmPotionClock CLOCK $Style$
+AFPotionClock
+
+:AntFarmEnd PULSE $Style$
+Deactivate(AntFarmEnd)
+AFEnd
+
+
+
+
+:TeleportStartCL PULSE $Style$
+Deactivate(TeleportStartCL)
+Activate(TeleportClockCL)
+TpStartCL
+
+:TeleportClockCL CLOCK $Style$
+TpClockCL
+
+:TeleportEndCL PULSE $Style$
+Deactivate(TeleportEndCL)
+Deactivate(TeleportClockCL)
+TpEndCL
+
+
+:ClassicStart PULSE $Style$
+Deactivate(ClassicStart)
+CLStart
+
+:ClassicCountdownClock CLOCK $Style$
+CLCountdownClock
+
+:ClassicMainClock CLOCK $Style$
+CLMainClock
+
+:ClassicPotionClock CLOCK $Style$
+CLPotionClock
+
+:ClassicEnd PULSE $Style$
+Deactivate(ClassicEnd)
+CLEnd
+
+
+
+
+
+
+///	Select Arenas
+DEFINE $SAAF$ x=-272,y=4,z=35,dx=44,dy=45,dz=6
+DEFINE $SACL$ x=-222,y=4,z=12,dx=20,dy=40,dz=13
+
+///	Particle coordinates
+DEFINE $TpParticleAF$ -252 26.25 27
+DEFINE $TpParticleCL$ -237 26.25 18
+///	Select for the portal
+DEFINE $TpSelectAF$ x=-253,y=25,z=27,dx=2,dy=2
+DEFINE $TpSelectCL$ x=-237,y=25,z=17,dy=2,dz=2
+///	Door bar
+DEFINE $TpDoorAF$ -251 26 27 -253 26 27
+DEFINE $TpDoorCL$ -237 26 17 -237 26 19
+///	Teleport to the arena
+DEFINE $TpToAF$ -249 5 37.0
+DEFINE $TpToCL$ -216 4 18
+
+///	Select winners
+DEFINE $WinSelectAF$ x=-272,y=40,z=40,dx=44
+DEFINE $WinSelectCL$ x=-207,y=11,z=16,dy=1,dz=3
+///	Pre select winners
+DEFINE $WinPreSelectAF$ x=-272,y=41,z=40,dx=44,dy=1
+DEFINE $WinPreSelectCL$ x=-207,y=13,z=16,dy=21,dz=3
+
+///	Sand block area
+DEFINE $SBlockAreaAF$ -273 42 36 -273 42 37
+DEFINE $SBlockAreaCL$ -207 40 18 -207 40 18
+
+///	Clearing the sand in the arena
+DEFINE $SandAreaAF$ -229 41 36 -271 5 37
+DEFINE $SandAreaCL$ -211 4 13 -221 33 23
+
+///	Select spawn
+DEFINE $SpawnArea$ x=-250,y=25,z=18,r=1
+///	Teleport to spawn
+DEFINE $SpawnCoords$ -250 25 18 -90 0
+///	Firework
+DEFINE $Firework$ FireworksRocketEntity ~ ~ ~ {LifeTime:20,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}
+///	Book coords
+DEFINE $Book$ -197 5 51
+
+
+
+	|0| = Ant Farm or Classic
+	|1| = Ant_Farm or Classic
+	|2| = AF or CL
+//>
+
+//<VR1 - Virus 1
+//#-p stonebrick 0 -b -81 58 -235 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus1.txt
+
+//<Defines
+DEFINE $SA$ x=-130,y=4,z=-315,dx=121,dy=60,dz=181
+DEFINE $CMDName$ V1
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+///	Teleport virus to above mid
+DEFINE $VirusBeg$ -69.0 53 -225.0
+/// Mid tube
+DEFINE $VirusEnd$ -69.0 38 -225.0
+///	Select Spawn
+DEFINE $SP$ x=-85,y=45,z=-241,dx=31,dy=5,dz=31
+///	Select Virus
+DEFINE $SV$ x=-70,y=53,z=-226,dx=1,dy=3,dz=1
+///	Open mid door
+DEFINE $DoorMid$ -73 49 -229 -66 49 -222
+///	Open virus door
+DEFINE $DoorVirus$ -73 52 -222 -66 52 -229
+///	Spawn ID
+DEFINE $SPid$ 17
+/// Virus Type
+DEFINE $VType$ 1
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+//>
+
+//<VR2 - Virus 2
+//#-p stonebrick 0 -b -65 69 -81 -print
+///	C:\\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus2.txt
+
+//<Defines
+DEFINE $SA$ x=-107,y=2,z=-130,dx=193,dy=100,dz=241
+DEFINE $CMDName$ V2
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+PCBPIMPORT PCBPI_PosX.txt
+
+///	Spawn coords
+DEFINE $Spawn$ -77 56 -85 -45 0
+///	Teleport virus to above mid
+DEFINE $AboveMid$ -61.0 64 -69.0
+/// Mid tube
+DEFINE $Middle$ -61.0 40 -69.0
+///	Select Spawn
+DEFINE $SP$ x=-77,y=56,z=-85,dx=31,dy=5,dz=31
+///	Select Virus
+DEFINE $SV$ x=-62,y=64,z=-70,dx=1,dy=3,dz=1
+///	Open mid door
+DEFINE $DoorMid$ -65 60 -66 -58 60 -73
+///	Open virus door
+DEFINE $DoorVirus$ -64 63 -67 -59 63 -72
+///	Spawn ID
+DEFINE $SPid$ 16
+///	Spawn Name
+DEFINE $SPna$ virus2
+/// Virus Type
+DEFINE $VType$ 2
+
+//>
+//>
+
+
+//<R_Lap
+@a[$SA$,m=2,team=$Name$R] $Name$Race + 0
+scoreboard players tag @a[$lapSP$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] add $Name$Lap
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] $Name$Race + 1
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap]"},{"text":" has finished a lap!","color":"yellow"}]}
+@a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] playsound minecraft:entity.experience_orb.touch voice @a
+scoreboard players tag @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] add $Name$Lap
+scoreboard players tag @a[$lapAF$,m=2,team=$Name$R,$Name$Race>=0,$Name$Lap] remove $Name$Lap
+
+scoreboard players tag * remove $Name$Lap
+//>
+
+//<R_IR - Ice Race
+//#-p stonebrick 0 -b 55 36 -65 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - Reg\CBP_IceRace.txt
+
+//<Defines
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=34,y=2,z=-64,dx=141,dy=69,dz=43
+
+///	Name
+DEFINE $Name$ Ice
+///	Race Status Number
+DEFINE $RSn$ 8
+///	Warp name
+DEFINE $WN$ ir
+///	Text display name
+DEFINE $TD$ IR
+///	Scoreboard teams color
+DEFINE $Color$ aqua
+///	Place where air is when open
+DEFINE $Dao$ 66 34 -42 66 34 -48
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 49 36 -45 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 1
+
+///	1st Place Select
+DEFINE $Win1S$ x=41,y=36,z=-32,dy=1,dz=1
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 42 33 -31 42 33 -32
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=41,y=36,z=-28,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 42 33 -28 42 33 -28
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=41,y=36,z=-35,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 42 33 -35 42 33 -35
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_RegularRace.txt
+//>
+//>
+
+//<R_SR - Slow Race
+//#-p stonebrick 0 -b 73 5 -63 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - Reg\CBP_SlowRace.txt
+
+//<Defines
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=21,y=4,z=-88,dx=61,dy=100,dz=21
+
+///	Name
+DEFINE $Name$ Slow
+///	Race Status Number
+DEFINE $RSn$ 7
+///	Warp name
+DEFINE $WN$ sr
+///	Text display name
+DEFINE $TD$ SR
+///	Scoreboard teams color
+DEFINE $Color$ gray
+///	Place where air is when open
+DEFINE $Dao$ 71 5 -82 71 5 -78
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 75 7 -80 90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 2
+
+///	1st Place Select
+DEFINE $Win1S$ x=70,y=13,z=-80,dy=1
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill
+DEFINE $Win1F$ 70 11 -80 70 11 -80
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=70,y=13,z=-78,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill
+DEFINE $Win2F$ 70 11 -80 70 11 -78
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=70,y=13,z=-82,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill
+DEFINE $Win3F$ 70 11 -80 70 11 -82
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_RegularRace.txt
+//>
+//>
+
+//<R_NR - Nether Race
+//#-p stonebrick 0 -b 83 19 -103 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - Reg\CBP_NetherRace.txt
+
+//<Defines
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=32,y=4,z=-108,dx=48,dy=100,dz=15
+
+///	Name
+DEFINE $Name$ Nether
+///	Race Status Number
+DEFINE $RSn$ 5
+///	Warp name
+DEFINE $WN$ nr
+///	Text display name
+DEFINE $TD$ NR
+///	Scoreboard teams color
+DEFINE $Color$ red
+///	Place where air is when open
+DEFINE $Dao$ 68 5 -100 68 5 -104
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 73 7 -102 90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 3
+
+///	1st Place Select
+DEFINE $Win1S$ x=73,y=14,z=-102,dy=1
+///	1st Place Message
+DEFINE $Win1M$ has defeated the Nether Race and took 1st place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 73 12 -102 73 12 -102
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=73,y=14,z=-100,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ has defeated the Nether Race and took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 73 12 -100 73 12 -100
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=73,y=14,z=-104,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ has defeated the Nether Race and took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 73 12 -104 73 12 -104
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+/// Spawn teleport
+DEFINE $CPtp$ 73 7 -102 90 15
+
+IMPORT CBPI_RegularRace.txt
+//>
+
+	effect @a[$SA$,m=2] 12 3 0 true
+	execute @a[$SA$,m=2] ~ ~ ~ detect ~ ~-0.3 ~  magma 0 ScTG @a[r=0,c=1] add $Name$RWaterTP
+	$s$tp @a[$SA$,m=2,$Name$RWaterTP] $CPtp$
+	effect @a[$Name$RWaterTP] 6 1 100 true
+	effect @a[$Name$RWaterTP] 11 1 100 true
+	@a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	ScTG @a[$Name$RWaterTP] remove $Name$RWaterTP
+//>
+
+//<R_EvilR - Evil Race
+//#-p stonebrick 0 -b 19 8 -115 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\EvilR - Evil Race\CBP_EvilRace.txt
+
+//<Defines
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=19,y=6,z=-147,dx=88,dy=100,dz=27
+
+///	Name
+DEFINE $Name$ Evil
+///	Race Status Number
+DEFINE $RSn$ 6
+///	Text display name
+DEFINE $TD$ EvilR
+///	Scoreboard teams color
+DEFINE $Color$ gray
+///	Place where air is when open
+DEFINE $Dao$ 31 5 -129 31 5 -137
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 23 7 -133 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 4
+
+///	1st Place Select
+DEFINE $Win1S$ x=36,y=16,z=-133,dy=2
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 36 16 -133 36 16 -133
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=36,y=16,z=-130,dy=2
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 36 16 -130 36 16 -130
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=36,y=16,z=-136,dy=2
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 36 16 -136 36 16 -136
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_RegularRace.txt
+//>
+
+@a[$SA$,m=2] lava 0 ~ ~0.3 ~ $s$kill @a[c=1,m=2]
+//>
+
+//<R_DR - Diamond Race
+//#-p stonebrick 0 -print
+///	215 17 -21
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=206,y=4,z=-57,dx=49,dy=100,dz=39
+
+///	Name
+DEFINE $Name$ Diamond
+///	Race Status Number
+DEFINE $RSn$ 11
+///	Warp name
+DEFINE $WN$ dr
+///	Text display name
+DEFINE $TD$ DR
+///	Scoreboard teams color
+DEFINE $Color$ aqua
+///	Place where air is when open
+DEFINE $Dao$ 224 16 -34 230 16 -40
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 224 14 -38 230 14 -36
+///	Spawn Coords for teleporting
+DEFINE $SC$ 218 18 -37 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 5
+
+///	Where laps are completed
+DEFINE $lap$ x=224,y=18,z=-42,dx=6,dy=10,dz=1
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ x=249,y=4,z=-28,dx=1,dy=15,dz=6
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=214,y=16,z=-38,dx=16,dy=5,dz=3
+
+///	Countdown end
+fill 223 17 -38 222 17 -36 stonebrick 3
+
+///	General end
+fill 223 17 -36 223 17 -38 air 0
+fill 222 17 -36 222 17 -38 stone_slab 5
+//>
+
+//<R_ER - Emerald Race
+//#-p stonebrick 0 -b 273 14 -68 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - Lap\ER - Emerald Race\CBP_EmeraldRace.txt
+
+//<Defines
+DEFINE $CMDName$ ER
+DEFINE $CMDSizeX$ 6
+DEFINE $CMDSizeY$ 6
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=219,y=5,z=-121,dx=75,dy=100,dz=51
+
+PCBPIMPORT PCBPI_PosRZ.txt
+
+///	Name
+DEFINE $Name$ Emerald
+///	Race Status Number
+DEFINE $RSn$ 12
+///	Warp name
+DEFINE $WN$ er
+///	Text display name
+DEFINE $TD$ ER
+///	Scoreboard teams color
+DEFINE $Color$ green
+///	Place where air is when open
+DEFINE $Dao$ 269 19 -98 255 19 -98
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 276 17 -96 90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 6
+
+///	Where laps are completed
+DEFINE $lap$ x=255,y=17,z=-94,dx=14,dy=10,dz=1
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ x=220,y=8,z=-104,dx=1,dy=12,dz=8
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=255,y=17,z=-97,dx=25,dy=10,dz=2
+
+PCBPIMPORT PCBPI_LapRace.txt
+//>
+
+
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ air 0 replace emerald_block 0
+@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill 269 19 -94 255 19 -94 air 0
+
+fill $Dao$ emerald_block 0 replace air 0
+fill 269 19 -94 255 19 -94 emerald_block 0
+//>
+
+//<R_QR - Quartz Race
+//#-p stonebrick 0 -b 223 5 -140 -print
+///	C:\\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - Lap\QR - Quartz Race\CBP_QuartzRace.txt
+
+//<Defines
+DEFINE $CMDName$ QR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 10
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=219,y=4,z=-177,dx=77,dy=100,dz=38
+
+PCBPIMPORT PCBPI_PosRZ.txt
+
+///	Name
+DEFINE $Name$ Quartz
+///	Race Status Number
+DEFINE $RSn$ 13
+///	Warp name
+DEFINE $WN$ qr
+///	Text display name
+DEFINE $TD$ QR
+///	Scoreboard teams color
+DEFINE $Color$ white
+///	Place where air is when open
+DEFINE $Dao$ 240 6 -160 232 6 -154
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 232 4 -156 240 4 -158
+///	Spawn Coords for teleporting
+DEFINE $SC$ 229 8 -157 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 8
+
+///	Where laps are completed
+DEFINE $lap$ x=232,y=7,z=-163,dx=8,dy=5,dz=2
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ x=241,y=8,z=-142,dy=3,dz=2
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=226,y=6,z=-158,dx=14,dy=6,dz=2
+
+PCBPIMPORT PCBPI_LapRace.txt
+//>
+
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill 231 7 -158 231 7 -156 quartz_block 0
+	
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+	fill $Dro$ stonebrick 0 replace redstone_block 0
+	fill 231 7 -158 231 7 -156 quartz_stairs 1
+//>
+
+//<R_18R - 1.8 Race
+//#-p stonebrick 0 -b 232 26 -200 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\1.8R - 1.8 Race\CBP_18Race.txt
+
+//<Defines
+DEFINE $CMDName$ 18R
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=212,y=7,z=-241,dx=129,dy=100,dz=50
+
+///	Name
+DEFINE $Name$ 18
+///	Race Status Number
+DEFINE $RSn$ 10
+///	Warp name
+DEFINE $WN$ 18r
+///	Text display name
+DEFINE $TD$ 1.8R
+///	Scoreboard teams color
+DEFINE $Color$ gold
+///	Place where air is when open
+DEFINE $Dao$ 249 24 -225 255 24 -219
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 248 22 -221 255 22 -223
+///	Spawn Coords for teleporting
+DEFINE $SC$ 242 26 -222 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 11
+
+///	Where laps are completed
+DEFINE $lap$ x=249,y=25,z=-229,dx=6,dy=5,dz=2
+///	Area where laps are reset inside the races
+DEFINE $lapAF$ x=269,y=16,z=-227,dx=8,dy=2,dz=4
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=240,y=24,z=-223,dx=31,dy=4,dz=2
+//>
+//>
+
+//<R_EpicR - Epic Race
+//#-p stonebrick 0 -b 431 7 -135 -print
+///	C:\\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - CP\EpicR - Epic Race\CBP_EpicRace.txt
+
+//<Defines
+DEFINE $CMDName$ EpicR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 10
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=416,y=4,z=-135,dx=60,dy=29,dz=65
+
+PCBPIMPORT PCBPI_PosRX.txt
+
+///	Name
+DEFINE $Name$ Epic
+///	Race Status Number
+DEFINE $RSn$ 14
+///	Warp name
+DEFINE $WN$ EpicR
+///	Text display name
+DEFINE $TD$ EpicR
+///	Scoreboard teams color
+DEFINE $Color$ gold
+///	Place where air is when open
+DEFINE $Dao$ 427 9 -126 427 9 -118
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 424 12 -122 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 12
+
+///	Checkpoint number
+DEFINE $CPn$ 8
+///	Block for teleporting
+DEFINE $Block$ hay_block -1
+///	Spawn area
+DEFINE $Spn$ x=420,y=11,z=-126,dx=6,dy=5,dz=8
+
+///	Checkpoints for detection of players
+DEFINE $CPdp1$ x=425,y=10,z=-116,dx=2,dy=3,dz=2
+DEFINE $CPdp2$ x=456,y=11,z=-93,dx=2,dy=3,dz=2
+DEFINE $CPdp3$ x=469,y=10,z=-76,dx=2,dy=3,dz=2
+DEFINE $CPdp4$ x=465,y=10,z=-123,dx=2,dy=3,dz=2
+DEFINE $CPdp5$ x=466,y=26,z=-111,dx=2,dy=3,dz=2
+DEFINE $CPdp6$ x=442,y=24,z=-94,dx=2,dy=3,dz=2
+DEFINE $CPdp7$ x=458,y=25,z=-104,dx=2,dy=3,dz=2
+DEFINE $CPdp8$ x=458,y=21,z=-112,dx=2,dy=3,dz=2
+
+///	Checkpoint teleports
+DEFINE $CPtp0$ 424 12 -122 -90 20
+DEFINE $CPtp1$ 426 11 -115 -90 0
+DEFINE $CPtp2$ 457 12 -92 50 0
+DEFINE $CPtp3$ 470 11 -75 90 20
+DEFINE $CPtp4$ 466 11 -122 180 0
+DEFINE $CPtp5$ 467 27 -110 0 20
+DEFINE $CPtp6$ 443 25 -93 -90 20
+DEFINE $CPtp7$ 459 26 -103 90 20
+DEFINE $CPtp8$ 459 22 -111 180 20
+
+///	1st Place Select
+DEFINE $Win1S$ x=429,y=22,z=-123,dy=2,dz=2
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 430 19 -123 430 19 -121
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=429,y=22,z=-126,dy=2,dz=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 430 19 -125 430 19 -126
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=429,y=22,z=-118,dy=2,dz=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 430 19 -119 430 19 -118
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_CheckpointRace.txt
+//>
+
+//Dispenser coordinates
+DEFINE $EpDis1$ 472 12 -102
+DEFINE $EpDis2$ 472 12 -104
+DEFINE $EpDis3$ 472 12 -106
+DEFINE $EpDis4$ 472 12 -108
+
+
+//Dispensers
+	LOOP 1 4 + 1
+		replaceitem block $EpDis|0|$ slot.container.4 arrow 64
+	END
+	ScTG @e[$SA$,type=Arrow] add EpicRinGround {inGround:1b}
+	$server$kill @e[$SA$,type=Arrow,EpicRinGround]
+//>
+
+//<R_SaltR - Salt Race
+//#-p stonebrick 0 -b 473 8 -27 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\SaltR - Salt Race\CBP_SaltRace.txt
+
+//<Defines
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=419,y=4,z=-47,dx=79,dy=40,dz=32
+
+///	Name
+DEFINE $Name$ Salt
+///	Race Status Number
+DEFINE $RSn$ 15
+///	Warp name
+DEFINE $WN$ SaltR
+///	Text display name
+DEFINE $TD$ SaltR
+///	Scoreboard teams color
+DEFINE $Color$ gray
+///	Place where air is when open
+DEFINE $Dao$ 468 6 -31 468 6 -35
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 467 8 -33 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 13
+
+///	Checkpoint number
+DEFINE $CPn$ 3
+///	Block for teleporting
+DEFINE $Block$ hay_block -1
+///	Spawn area
+DEFINE $Spn$ x=460,y=7,z=-35,dx=8,dy=3,dz=4
+
+///	Checkpoints for detection of players
+DEFINE $CPdp1$ x=489,y=10,z=-34,dx=2,dy=3,dz=2
+DEFINE $CPdp2$ x=450,y=15,z=-44,dx=2,dy=3,dz=2
+DEFINE $CPdp3$ x=422,y=11,z=-34,dx=2,dy=4,dz=2
+
+///	Checkpoint teleports
+DEFINE $CPtp0$ 472 8 -33 -90 20
+DEFINE $CPtp1$ 490 11 -33 180 20
+DEFINE $CPtp2$ 451 16 -43 90 20
+DEFINE $CPtp3$ 423 12 -33 -90 20
+
+///	1st Place Select
+DEFINE $Win1S$ x=459,y=13,z=-35,dy=1
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 459 11 -35 459 11 -35
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=459,y=13,z=-33,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 459 11 -33 459 11 -33
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=459,y=13,z=-31,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 459 11 -31 459 11 -31
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_CheckpointRace.txt
+//>
+
+//>
+
+//<R_FBR - Frost Burn Race
+//#-p stonebrick 0 -b 527 20 -831 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races - CP\CBP_FrostburnRace.txt
+
+//<Defines
+DEFINE $Style$ 10 10 0
+DEFINE $SA$ x=433,y=3,z=-841,dx=90,dy=50,dz=90
+
+///	Name
+DEFINE $Name$ FrostBurn
+///	Race Status Number
+DEFINE $RSn$ 4
+///	Warp name
+DEFINE $WN$ fbr
+///	Text display name
+DEFINE $TD$ FBR
+///	Scoreboard teams color
+DEFINE $Color$ aqua
+///	Place where air is when open
+DEFINE $Dao$ 510 8 -833 510 8 -821
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 517 11 -827 90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 19
+
+///	Checkpoint number
+DEFINE $CPn$ 3
+///	Block for teleporting
+ DEFINE $Block$ hay_block -1
+///	Spawn area
+DEFINE $Spn$ x=511,y=10,z=-833,dx=11,dy=9,dz=12
+///	Portal
+DEFINE $Ptl$ x=514,y=13,z=-794,dx=3,dy=3
+///	Magma Maze
+DEFINE $MM$ x=510,y=10,z=-792,dx=11,dy=5,dz=11
+
+///	Checkpoints for detection of players
+DEFINE $CPdp1$ x=448,y=10,z=-803,dx=4,dy=5,dz=2
+DEFINE $CPdp2$ x=513,y=11,z=-793,dx=5,dy=6
+DEFINE $CPdp3$ x=492,y=21,z=-779,dx=4,dy=5,dz=4
+
+///	Checkpoint teleports
+DEFINE $CPtp0$ 514 11 -827 90 0
+DEFINE $CPtp1$ 450 11 -802 -90 0
+DEFINE $CPtp2$ 516.0 12 -793 0 45
+DEFINE $CPtp3$ 494 21 -778 90 20
+
+///	1st Place Select
+DEFINE $Win1S$ x=434,y=13,z=-778,dy=1,dz=1
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 435 10 -778 435 10 -777
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=434,y=12,z=-778,dy=1
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 435 9 -781 435 9 -781
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=434,y=11,z=-774,dy=1
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 435 8 -774 435 8 -774
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+IMPORT CBPI_CheckpointRace.txt
+//>
+
+effect @a[$SA$,m=2,team=$Name$R] 12 3 0 true
+effect @a[$MM$,m=2,team=$Name$R] 12 0 0 true
+$s$tp @a[$Ptl$,m=2,team=$Name$R] ~ ~ ~1
+//>
+
+//<R_ECR - EverChanging Race
+DEFINE $CMDName$ ECR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 10
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 0 16 16
+DEFINE $SA$ x=450,y=0,z=-353,dx=124,dy=30,dz=45
+
+PCBPIMPORT PCBPI_PosRZ.txt
+
+DEFINE DEF_SBlock structure_block 0 replace {mode:"LOAD",posZ:2,name:"ECRPlatform1",integrity:|0|}
+
+///	Race Status Number
+DEFINE $RSn$ 9
+///	Warp name
+DEFINE $WN$ ecr
+///	Text display name
+DEFINE $TD$ ECR
+///	Scoreboard teams color
+DEFINE $Color$ yellow
+///	Spawn Coords for teleporting
+DEFINE $SC$ 460 3 -331 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 20
+
+///	Where laps are completed
+DEFINE $lap$ x=565,y=3,z=-333,dy=3,dz=4
+///	Area where laps are disabled in spawn
+DEFINE $lapSP$ x=454,y=2,z=-334,dx=12,dy=9,dz=6
+
+
+///	Smiley Heads coordinates
+DEFINE $SHead$ 466 4 -329 466 4 -333
+
+///	ECR Armor Stand placement for structure blocks
+DEFINE $ECRStructure1$ 467 3 -335
+DEFINE $ECRStructure2$ 499 3 -335
+DEFINE $ECRStructure3$ 531 3 -335
+
+///	Select Death
+DEFINE $ECRKill$ x=467,y=0,z=-333,dx=95,dy=-5,dz=4
+///	Coordinates of the platform
+DEFINE $ECRPlatform$ 467 2 -329 562 2 -333
+///	Number of custom death messages
+DEFINE $DeathMessages$ 13
+
+///	Percent list
+DEFINE $ECRPercent1$ 5
+DEFINE $ECRPercent2$ 10
+DEFINE $ECRPercent3$ 15
+DEFINE $ECRPercent4$ 20
+DEFINE $ECRPercent5$ 25
+DEFINE $ECRPercent6$ 30
+DEFINE $ECRPercent7$ 35
+DEFINE $ECRPercent8$ 40
+DEFINE $ECRPercent9$ 45
+DEFINE $ECRPercent10$ 50
+DEFINE $ECRPercent11$ 100
+
+///	Portal
+DEFINE $Portal$ x=569,y=3,z=-333,dy=4,dz=4
+//>
+
+//<R_DeathR - Death Run
+//#-p stonebrick 0 -b 9 19 -241 -print
+///	C:\\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\DeathR - Death Run\CBP_DeathRun.txt
+
+//<Defines
+DEFINE $CMDName$ DeathR
+DEFINE $CMDSizeX$ 10
+DEFINE $CMDSizeY$ 10
+DEFINE $CMDSizeZ$ 10
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=13,y=12,z=-260,dx=135,dy=50,dz=55
+
+///	Name
+DEFINE $Name$ Death
+///	Race Status Number
+DEFINE $RSn$ 16
+///	Text display name
+DEFINE $TD$ DeathR
+///	Scoreboard teams color
+DEFINE $Color$ red
+///	Place where air is when open
+DEFINE $Dao$ 41 17 -246 41 17 -237
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 31 20 -240 -45 0
+///	Spawn Coords ID
+DEFINE $SPid$ 22
+
+///	1st Place Select
+DEFINE $Win1S$ x=26,y=19,z=-224,dx=1,dy=2,dz=2
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 28 16 -222 28 16 -224
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block 0
+///	1st Place Iron Bars
+DEFINE $WinIron1B$ 28 20 -222 28 20 -224
+
+///	2nd Place Select
+DEFINE $Win2S$ x=27,y=19,z=-219,dy=2,dz=2
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 28 16 -217 28 16 -219
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+///	2nd Place Iron Bars
+DEFINE $WinIron2B$ 28 20 -217 28 20 -219
+
+///	3rd Place Select
+DEFINE $Win3S$ x=27,y=19,z=-229,dy=2,dz=2
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 28 16 -229 28 16 -227
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block 0
+///	3rd Place Iron Bars
+DEFINE $WinIron3B$ 28 20 -229 28 20 -227
+
+///	Iron bar reset
+DEFINE $IronBarReset$ 28 20 -229 28 20 -217
+
+///	Other
+DEFINE $RBlock$ 44 15 -246
+DEFINE $ObsidianLoad$ 44 19 -246
+DEFINE $FillStructure$ 44 17 -246 56 17 -237
+DEFINE $Blindness$ x=42,y=19,z=-246,dx=23,dy=9,dz=9
+DEFINE $Dispenser$ 80 20 -230
+DEFINE $SP$ x=25,y=20,z=-247,dx=11,dy=5,dz=14
+DEFINE $Checkpoint$ x=128,y=19,z=-229,dy=5,dz=12
+DEFINE $CheckpointTP$ 127 19 -223 90 0
+
+DEFINE CCItem_Potion potion 1 0 {HideFlags:127,Potion:"healing",CustomPotionEffects:[{Id:22b,Amplifier:0b,Duration:1800}]}
+PCBPIMPORT PCBPI_PosRZ.txt
+//>
+//>
+
+
+//<Apparently CBP Notes
+PCBPIMPORT PCBPI_PosX.txt
+Func_CMDSave
+	@e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+	@e[type=ArmorStand,SpawnStand] SPpvp = 1
+	@e[type=ArmorStand,SpawnStand] SPsat = 0
+
+//-
+-/-
+\\-
+
+C:\\
+
+All filenames to PCBP_
+
+@e[type=ArmorStand,SpawnStand,SPgam=$SPid$]
+
+//>
+
+//<PCBP Import List
+PCBPIMPORT PCBPI_PosX.txt
+PCBPIMPORT PCBPI_PosZ.txt
+
+PCBPIMPORT PCBPI_Virus.txt
+
+PCBPIMPORT PCBPI_PosRX.txt
+PCBPIMPORT PCBPI_PosRZ.txt
+PCBPIMPORT PCBPI_LapRace.txt
+PCBPIMPORT PCBPI_RegularRace.txt
+PCBPIMPORT PCBPI_CheckpointRace.txt
+//>
+
+//<CBP Defines (Positive X)
+//#-p stonebrick 0 -print
+///	
+
+//<Defines
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEFINE $SPid$ #
+DEFINE $SPpvp$ 0
+DEFINE $SPsat$ 0
+
+DEFINE $CMDName$ NAME
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOR"}}},{"text":"]","color":"gray"},{"text":": "},
+
+PCBPIMPORT PCBPI_PosX.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//>
+
+//<CBP Defines (Positive Z)
+//#-p stonebrick 0 -print
+///	
+
+//<Defines
+DEFINE $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEFINE $SPid$ #
+DEFINE $SPpvp$ 0
+DEFINE $SPsat$ 0
+
+DEFINE $CMDName$ NAME
+DEFINE $CMDSizeX$ 16
+DEFINE $CMDSizeY$ 16
+DEFINE $CMDSizeZ$ 16
+
+DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOR"}}},{"text":"]","color":"gray"},{"text":": "},
+
+PCBPIMPORT PCBPI_PosZ.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//>
+
+//<SpawnStand Defines
+FUNC Func_SpawnStandStart
+	@e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+	@e[type=ArmorStand,SpawnStand] SPpvp = 1
+	@e[type=ArmorStand,SpawnStand] SPsat = 0
+	@e[type=ArmorStand,SpawnStand] SPgmd = 1
+END
+
+FUNC Func_SpawnStandEnd
+	@e[type=ArmorStand,SpawnStand] SPtp = 0
+	@e[type=ArmorStand,SpawnStand] SPpvp = 0
+	@e[type=ArmorStand,SpawnStand] SPsat = 1
+	@e[type=ArmorStand,SpawnStand] SPgmd = 1
+END
+
+FUNC Func_SpawnStandEdit
+	@e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+	@e[type=ArmorStand,SpawnStand] SPpvp = |0|
+	@e[type=ArmorStand,SpawnStand] SPsat = |0|
+	@e[type=ArmorStand,SpawnStand] SPgmd = 1
+END
+
+FUNC Func_SpawnStandFullEdit
+	@e[type=ArmorStand,SpawnStand] SPtp = |0|
+	@e[type=ArmorStand,SpawnStand] SPpvp = |0|
+	@e[type=ArmorStand,SpawnStand] SPsat = |0|
+	@e[type=ArmorStand,SpawnStand] SPgmd = |0|
+END
+//>
+
+
+//<CBP Start/Clock/End
+//<NAME Start
+FUNC Func_NAMEStart
+	USE $ObjA$
+		
+	UNUSE
+	
+END
+//>
+
+//<NAME Clock
+FUNC Func_NAMEClock
+	
+END
+//>
+
+//<NAME End
+FUNC Func_NAMEEnd
+	USE $ObjR$
+		
+	UNUSE
+	
+END
+//>
+//>
+
+//<CBP General Scoreboard
+//<General Scoreboard Start
+FUNC Func_GeneralScoreboardStart
+	USE $ObjA$
+		NumberObjAdd
+		Name dummy Name
+		NameSave dummy Name Save
+	UNUSE
+	
+	USE $TeamA$
+		
+	UNUSE
+	
+	USE $TeamO$
+		
+	UNUSE
+	
+	NumberAdd(x)
+	
+	ExecuteSpawnStand summon ArmorStand ~ ~ ~
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_GeneralScoreboardClock
+	$s$clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$,m=2] clear
+	
+	$s$kill @e[$SA$,type=Item]
+END
+//>
+
+//<General End Clock
+FUNC Func_GeneralEndClock
+	
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_GeneralScoreboardEnd
+	USE $ObjR$
+		
+	UNUSE
+	
+	USE $TeamR$
+		
+	UNUSE
+	
+	effect @a[$SA$,m=2] clear
+	$s$clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$] 6 1 100 true
+	@a[$SA$,m=2] SPtp = $SPid$
+END
+//>
+//>
+
+//<CBP Group Main
+//<Groups
+Func_CMDSave()
+
+:CBPMainStart PULSE $Style$
+Func_SpawnStandStart()
+Deactivate(CBPMainStart)
+Func_GeneralScoreboardStart()
+Activate(CBPMainClock)
+FinalSpawnStand
+
+:CBPMainClock CLOCK $Style$
+Func_SpawnIDSetting()
+Func_GeneralScoreboardClock()
+Func_GeneralEndClock()
+
+:CBPMainEnd PULSE $Style$
+Func_SpawnStandEnd()
+Deactivate(CBPMainEnd)
+Func_GeneralScoreboardEnd()
+Deactivate(CBPMainClock)
+//>
+//>
+
+
+//<TI Basic
+
+√
+≠
+≥
+≤
+→
+
+B#   1 2 3 4 5 6
+$$1  A B C D E F
+B%   G H I J K L
+$$2  M N O P Q R
+//>
+
+//<MC Version History
+1.11.2	December 21, 2016
+1.11.1	December 20, 2016
+1.11	November 14, 2016
+1.10.2	June 23, 2016
+1.10.1	June 22, 2016
+1.10	June 8, 2016
+1.9.4	May 10, 2016
+1.9.3	May 10, 2016
+1.9.2	March 30, 2016
+1.9.1	March 30, 2016
+1.9.0	February 29, 2016
+1.8.9	December 9, 2015
+1.8.8	July 28, 2015
+1.8.7	June 5, 2015
+1.8.6	May 25, 2015
+1.8.5	May 22, 2015
+1.8.4	April 17, 2015
+1.8.3	February 20, 2015
+1.8.2	February 19, 2015
+1.8.1	November 24, 2014
+1.8.0	September 2, 2014
+1.7.10	June 26, 2014
+1.7.9	April 14, 2014
+1.7.8	April 11, 2014
+1.7.7	April 9, 2014
+1.7.6	April 9, 2014
+1.7.5	February 26, 2014
+1.7.4	December 10, 2013
+1.7.2	October 25, 2013
+//>
+
+
+
+
+

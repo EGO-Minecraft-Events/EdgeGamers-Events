@@ -1,0 +1,134 @@
+FUNC Func_SignComments
+///	Regular
+	{
+	Text1:"{\"text\":\"-=-\"}",
+	Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=ArmorStand,MMAR,r=1]\",\"objective\":\"MMpa2\"}},{\"text\":\" red\"}]}",
+	Text3:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=ArmorStand,MMAW,r=1]\",\"objective\":\"MMpa2\"}},{\"text\":\" white\"}]}",
+	Text4:"{\"text\":\"-=-\"}"
+	}
+	
+	{
+	Text1:"ESCAPE({"text":"-=-"})",
+	Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",
+	Text3:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",
+	Text4:"ESCAPE({"text":"-=-"})"
+	}
+	
+	{Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",Text3:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",Text4:"ESCAPE({"text":"-=-"})"}
+	
+///	4 red winning
+	{
+	Text1:"{\"text\":\"--=--\"}",
+	Text2:"{\"text\":\"4 red\",\"bold\":\"true\"}",
+	Text3:"{\"text\":\"You win!\",\"bold\":\"true\"}",
+	Text4:"{\"text\":\"--=--\"}"
+	}
+	
+	{
+	Text1:"ESCAPE({"text":"--=--"})",
+	Text2:"ESCAPE({"text":"4 red","bold":"true"})",
+	Text3:"ESCAPE({"text":"You win!","bold":"true"})",
+	Text4:"ESCAPE({"text":"--=--"})"
+	}
+	
+	{Text1:"ESCAPE({"text":"--=--"})",Text2:"ESCAPE({"text":"4 red","bold":"true"})",Text3:"ESCAPE({"text":"You win!","bold":"true"})",Text4:"ESCAPE({"text":"--=--"})"}
+	
+///	Just red
+	{
+	Text1:"{\"text\":\"-=-\"}",
+	Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=ArmorStand,MMAR,r=1]\",\"objective\":\"MMpa2\"}},{\"text\":\" red\"}]}",
+	Text3:"{\"text\":\"-=-\"}",
+	Text4:"{\"text\":\"\"}"
+	}
+	
+	{
+	Text1:"ESCAPE({"text":"-=-"})",
+	Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",
+	Text3:"ESCAPE({"text":"-=-"})",
+	Text4:"ESCAPE({"text":""})"
+	}
+	
+	{Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",Text3:"ESCAPE({"text":"-=-"})",Text4:"ESCAPE({"text":""})"}
+	
+///	Just white
+	{
+	Text1:"{\"text\":\"-=-\"}",
+	Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=ArmorStand,MMAW,r=1]\",\"objective\":\"MMpa2\"}},{\"text\":\" white\"}]}",
+	Text3:"{\"text\":\"-=-\"}",
+	Text4:"{\"text\":\"\"}"
+	}
+	
+	{
+	Text1:"ESCAPE({"text":"-=-"})",
+	Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",
+	Text3:"ESCAPE({"text":"-=-"})",
+	Text4:"ESCAPE({"text":""})"
+	}
+	
+	{Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",Text3:"ESCAPE({"text":"-=-"})",Text4:"ESCAPE({"text":""})"}
+	
+///	Fix
+
+
+
+
+///	Summon: Beginning
+	{Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA1"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA2"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA3"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA4"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA5"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMRA","MMRA6"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMAW"],Invulnerable:1,Invisible:1},
+		{id:ArmorStand,Tags:["MM","MMAR"],Invulnerable:1,Invisible:1}
+	]}
+	
+	{Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[{id:ArmorStand,Tags:["MM","MMRA","MMRA1"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA2"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA3"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA4"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA5"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA6"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMAW"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMAR"],Invulnerable:1,Invisible:1}]}
+	
+///	Summon: Randomizer
+	{Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN1","MMRANred"]},
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN2","MMRANlime"]},
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN3","MMRANcyan"]},
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN4","MMRANmagenta"]},
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN5","MMRANpink"]},
+		{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN6","MMRANorange"]}
+	]}
+	
+{Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN1","MMRANred"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN2","MMRANlime"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN3","MMRANcyan"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN4","MMRANmagenta"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN5","MMRANpink"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN6","MMRANorange"]}]}
+
+///	Correct Combo
+	$TextStart$
+	{"text":" The correct combo is "},
+	{"selector":"@e[type=ArmorStand,MMCA1]"},
+	{"text":", "},
+	{"selector":"@e[type=ArmorStand,MMCA2]"},
+	{"text":", "},
+	{"selector":"@e[type=ArmorStand,MMCA3]"},
+	{"text":" and "},
+	{"selector":"@e[type=ArmorStand,MMCA4]"},
+	{"text":"!"}
+	]}
+	
+$TextStart${"text":"The correct combo is "},{"selector":"@e[type=ArmorStand,MMCA1]"},{"text":", "},{"selector":"@e[type=ArmorStand,MMCA2]"},{"text":", "},{"selector":"@e[type=ArmorStand,MMCA3]"},{"text":" and "},{"selector":"@e[type=ArmorStand,MMCA4]"},{"text":"!"}]}
+END
+
+DEFINE $SignRegular$ {Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",Text3:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",Text4:"ESCAPE({"text":"-=-"})"}
+DEFINE $SignWin$ {Text1:"ESCAPE({"text":"--=--"})",Text2:"ESCAPE({"text":"4 red","bold":"true"})",Text3:"ESCAPE({"text":"You win!","bold":"true"})",Text4:"ESCAPE({"text":"--=--"})"}
+DEFINE $SignRed$ {Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAR,r=1]","objective":"MMpa2"}},{"text":" red"}]})",Text3:"ESCAPE({"text":"-=-"})",Text4:"ESCAPE({"text":""})"}
+DEFINE $SignWhite$ {Text1:"ESCAPE({"text":"-=-"})",Text2:"ESCAPE({"text":"","extra":[{"score":{"name":"@e[type=ArmorStand,MMAW,r=1]","objective":"MMpa2"}},{"text":" white"}]})",Text3:"ESCAPE({"text":"-=-"})",Text4:"ESCAPE({"text":""})"}
+/// DEFINE $SignFix$ 
+DEFINE $ArmorStandBeg$ {Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[{id:ArmorStand,Tags:["MM","MMRA","MMRA1"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA2"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA3"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA4"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA5"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMRA","MMRA6"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMAW"],Invulnerable:1,Invisible:1},{id:ArmorStand,Tags:["MM","MMAR"],Invulnerable:1,Invisible:1}]}
+DEFINE $ArmorStandRand$ {Age:6000s,Item:{id:"minecraft:stone",Count:1b},Passengers:[{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN1","MMRANred"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN2","MMRANlime"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN3","MMRANcyan"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN4","MMRANmagenta"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN5","MMRANpink"]},{id:ArmorStand,Invisible:1,Invulnerable:1,Tags:["MMRAN","MMRAN6","MMRANorange"]}]}
+DEFINE $FakeBroadcast$ {"text":"","color":"green","extra":[{"text":"[","color":"gold"},{"text":"Broadcast","color":"dark_red"},{"text":"]","color":"gold"},{"text":" The correct combo is "},{"selector":"@e[type=ArmorStand,MMCA1]"},{"text":", "},{"selector":"@e[type=ArmorStand,MMCA2]"},{"text":", "},{"selector":"@e[type=ArmorStand,MMCA3]"},{"text":" and "},{"selector":"@e[type=ArmorStand,MMCA4]"},{"text":"!"}]}
+
+
+
+
+
+
+
+
+
+

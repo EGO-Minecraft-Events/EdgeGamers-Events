@@ -1,0 +1,79 @@
+
+///	Checkpoint races
+///	PCBPB_CheckpointRace.cbp
+
+//<Race Specific Start
+FUNC Func_RaceSpecificStart
+///	Scoreboards
+	USE $ObjA$
+		$Name$RaceBC dummy $TDName$ Broadcast
+		$Name$RaceCP dummy $TDName$ Checkpoints
+	UNUSE
+END
+//>
+
+//<Race Specific Clock
+FUNC Func_RaceSpecificClock
+	@a[$SA$,team=$Name$R] $Name$RaceBC + 0
+	
+	LOOP 1 3 + 1
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |0|
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" $Win|0|M$","color":"green"}]}
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] playsound minecraft:entity.player.levelup voice @a
+		@a[$Win|0|S$,c=1,m=2,$Name$RaceBC=|0|] fill $Win|0|F$ $Win|0|B$ 0
+	END
+	@a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
+	
+///	Checkpoint setups
+	@a[$Spn$,m=2,team=$Name$R] $Name$RaceCP + 0
+	LOOP 1 $CPn$ + 1 () 0 SUB($CPn$;1) + 1
+		@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] playsound minecraft:entity.player.levelup voice @a[c=1]
+		@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|2|]"},{"text":" has reached checkpoint |0|!","color":"yellow"}]}
+		@a[$CPdp|0|$,m=2,team=$Name$R,$Name$RaceCP=|2|] $Name$RaceCP = |0|
+	END
+	
+///	Teleports
+	@a[$SA$,m=2] $Block$ ~ ~-1.3 ~ ScTG @a[r=0,c=1] add $Name$RWaterTP
+	ScTG @a[$Spn$,m=2,$Name$RaceCP>=1] add $Name$RWaterTP
+	LOOP 0 $CPn$ + 1
+		$s$tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] $CPtp|0|$
+	END
+	effect @a[$Name$RWaterTP] 6 1 100 true
+	effect @a[$Name$RWaterTP] 11 1 100 true
+	@a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	ScTG @a[$Name$RWaterTP] remove $Name$RWaterTP
+END
+//>
+
+//<Race Specific End Clock
+FUNC Func_RaceSpecificEndClock
+	ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
+	ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
+END
+//>
+
+//<Race Specific End
+FUNC Func_RaceSpecificEnd
+///	Scoreboard
+	USE $ObjR$
+		$Name$RaceBC
+		$Name$RaceCP
+	UNUSE
+	scoreboard teams remove $Name$R
+	
+///	General reset
+	LOOP 1 3 + 1
+		fill $Win|0|F$ air 0
+	END
+END
+//>
+
+
+
+
+
+
+
+
+
+

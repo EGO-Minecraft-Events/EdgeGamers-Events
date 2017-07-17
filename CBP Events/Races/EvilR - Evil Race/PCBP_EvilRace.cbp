@@ -1,0 +1,137 @@
+//#-p stonebrick 0 -b 19 8 -115 -print
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\Races\EvilR - Evil Race\CBP_EvilRace.txt
+
+//<Defines
+DEFINE $CMDName$ EvilR
+DEFINE $CMDSizeX$ 6
+DEFINE $CMDSizeY$ 7
+DEFINE $CMDSizeZ$ 10
+
+DEFINE $Style$ 0 10 10
+DEFINE $SA$ x=19,y=6,z=-147,dx=88,dy=100,dz=27
+
+///	Name
+DEFINE $Name$ Evil
+///	Text display name
+DEFINE $TD$ EvilR
+///	Hover and scoreboard name
+DEFINE $TDName$ Evil Race
+///	Scoreboard teams color
+DEFINE $Color$ gray
+///	Place where air is when open
+DEFINE $Dao$ 31 5 -129 31 5 -137
+///	Place where redstone blocks are there when open
+DEFINE $Dro$ 
+///	Spawn Coords for teleporting
+DEFINE $SC$ 23 7 -133 -90 0
+///	Spawn Coords ID
+DEFINE $SPid$ 4
+
+///	1st Place Select
+DEFINE $Win1S$ x=36,y=16,z=-133,dy=2
+///	1st Place Message
+DEFINE $Win1M$ took first place!
+///	1st Place Fill Coords
+DEFINE $Win1F$ 36 16 -133 36 16 -133
+///	1st Place Fill Block
+DEFINE $Win1B$ redstone_block
+
+///	2nd Place Select
+DEFINE $Win2S$ x=36,y=16,z=-130,dy=2
+///	2nd Place Message
+DEFINE $Win2M$ took second place!
+///	2nd Place Fill Coords
+DEFINE $Win2F$ 36 16 -130 36 16 -130
+///	2nd Place Fill Block
+DEFINE $Win2B$ redstone_block
+
+///	3rd Place Select
+DEFINE $Win3S$ x=36,y=16,z=-136,dy=2
+///	3rd Place Message
+DEFINE $Win3M$ took third place!
+///	3rd Place Fill Coords
+DEFINE $Win3F$ 36 16 -136 36 16 -136
+///	3rd Place Fill Block
+DEFINE $Win3B$ redstone_block
+
+/// Spawn teleport
+DEFINE $CPtp$ 23 7 -133 -90 0
+
+PCBPIMPORT PCBPI_PosRZ.txt
+//>
+
+//<Comments
+FUNC Func_RandomComments
+	
+END
+//>
+
+//<To Do 
+FUNC Func_ToDoThings
+TDWorks TDTest TDFix
+Mandatory Unimplemented Changes:
+	-
+	
+General Unimplemented Changes:
+	-
+	
+Bugs:
+	-
+	
+Implemented Changes:
+	-
+	
+Bug fixes:
+	-
+	
+END
+//>
+
+//<General Scoreboard Start
+FUNC Func_EditGeneralScoreboardStart
+	
+END
+//>
+
+//<General Scoreboard Clock
+FUNC Func_EditGeneralScoreboardClock
+	@a[$SA$,m=2] lava 0 ~ ~0.3 ~ $s$kill @a[c=1,m=2]
+	
+	execute @a[$SA$,m=2] ~ ~ ~ detect ~ ~-0.3 ~  magma 0 ScTG @a[r=0,c=1] add $Name$RWaterTP
+	$s$tp @a[$SA$,m=2,$Name$RWaterTP] $CPtp$
+	effect @a[$Name$RWaterTP] 6 1 100 true
+	effect @a[$Name$RWaterTP] 11 1 100 true
+	@a[$Name$RWaterTP] playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	ScTG @a[$Name$RWaterTP] remove $Name$RWaterTP
+END
+//>
+
+//<Countdown Clock
+FUNC Func_EditCountdownClock
+	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+END
+//>
+
+//<General Scoreboard End
+FUNC Func_EditGeneralScoreboardEnd
+	fill $Dao$ redstone_block 0 replace stonebrick 0
+///	fill $Dro$ stonebrick 0 replace redstone_block 0
+END
+
+PCBPIMPORT PCBPI_RegularRace.txt
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

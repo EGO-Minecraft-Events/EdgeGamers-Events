@@ -1,0 +1,7 @@
+
+///	Includes $Style$
+///	PCBPI_PosX.cbp
+
+DEFINE $Style$ 16 16 0
+PCBPIMPORT PCBPB_Universal.cbp
+PCBPIMPORT PCBPB_PosX.cbp
