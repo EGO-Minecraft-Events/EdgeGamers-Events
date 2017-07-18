@@ -136,7 +136,7 @@ LOOP {1 2 + 1}:
 				mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
 				*/
 		
-		@e[type=ArmorStand,ADStand|0;2|,ADps=1] ADps = 0
+		@e[type=ArmorStand,ADStand|0;1|,ADps=1] ADps = 0
 //>
 
 //<Change Percent Testfor Clock 3

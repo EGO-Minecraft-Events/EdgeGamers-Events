@@ -1,0 +1,19 @@
+63 15 79 71 25 96
+Grp_MainStart;64 16 80;64 21 95
+Grp_MainClock;64 23 80;64 23 95
+Grp_GeneralOptionsTFClock;66 16 80;66 21 95
+Grp_RefreshRoomsTFClock;66 23 80;66 23 95
+Grp_GuessCheckTFClock1;68 16 80;68 21 95
+Grp_GuessCheckTFClock2;70 16 80;70 21 95
+Grp_GuessCheckTFClock3;72 16 80;72 21 95
+Grp_GuessCheckTFClock4;74 16 80;74 21 95
+Grp_GuessCheckTFClock5;76 16 80;76 21 95
+Grp_GuessCheckTFClock6;78 16 80;78 21 95
+Grp_GuessCheckTFClock7;80 16 80;80 21 95
+Grp_GuessCheckTFClock8;82 16 80;82 21 95
+Grp_GuessCheckTFClock9;84 16 80;84 21 95
+Grp_GuessCheckTFClock10;86 16 80;86 21 95
+Grp_GuessCheckTFClock11;88 16 80;88 21 95
+Grp_GuessCheckTFClock12;90 16 80;90 21 95
+Grp_MainEnd;92 16 80;92 19 95
+Grp_cmdSave;68 23 80;68 23 95

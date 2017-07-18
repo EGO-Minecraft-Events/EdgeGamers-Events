@@ -376,7 +376,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	ARRAY {ACTIVATE CCU.iterateNumbers ARGS}:
 		-1
 	
-	LOOP {0 Arr_Spawnpoint[L] + 1} {1 (Arr_Spawnpoint[L] + 1) + 1}:
+	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		Arr_Spawnpoint[|0|][5] SPna = |1|
 	
 	kill @e[type=ArmorStand,SpawnStand]
@@ -558,7 +558,7 @@ FUNC {Func_SpawnpointTFClock}:
 	testfor @a[SPid>=1]
 	CCU_SetblockTestfor
 	
-	LOOP {0 Arr_Spawnpoint[L] + 1} {1 (Arr_Spawnpoint[L] + 1) + 1}:
+	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		spawnpoint @a[SPid=|1|] Arr_Spawnpoint[|0|][0]
 		
 		/*
@@ -588,7 +588,7 @@ FUNC {Func_TeleportTFClock}:
 	testfor @a[SPtp>=1]
 	CCU_SetblockTestfor
 	
-	LOOP {0 Arr_Spawnpoint[L] + 1} {1 (Arr_Spawnpoint[L] + 1) + 1}:
+	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		tp @a[SPtp=|1|] Arr_Spawnpoint[|0|][1]
 		
 		/*
@@ -619,7 +619,7 @@ FUNC {Func_GameStartTellrawTFClock}:
 	testfor @e[type=ArmorStand,SpawnStand,SPgac>=1]
 	CCU_SetblockTestfor
 	
-	LOOP {0 Arr_Spawnpoint[L] + 1} {1 (Arr_Spawnpoint[L] + 1) + 1}:
+	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		/*
 		@e[type=ArmorStand,SpawnStand,SPgac>=1,SPgam=|1|] tellraw @a[EC=0] $TextStart$
 		{"text":"Warning: ","color":"red"},;

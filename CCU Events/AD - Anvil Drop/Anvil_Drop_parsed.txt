@@ -256,7 +256,7 @@ GROUP | Grp_ChangePercentTFClock1 | CLOCK		[-50 19 92 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=ADStand1,score_ADps=1,score_ADps_min=1,score_ADpe=98,score_ADpe_min=98] ~ ~ ~ setblock -36 15 79 structure_block 0 replace {integrity:0.98f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=ADStand1,score_ADps=1,score_ADps_min=1,score_ADpe=99,score_ADpe_min=99] ~ ~ ~ setblock -36 15 79 structure_block 0 replace {integrity:0.99f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=ADStand1,score_ADps=1,score_ADps_min=1,score_ADpe=100,score_ADpe_min=100] ~ ~ ~ setblock -36 15 79 structure_block 0 replace {integrity:1.0f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
-	scoreboard players set @e[type=ArmorStand,tag=ADStand|0;2|,score_ADps=1,score_ADps_min=1] ADps 0
+	scoreboard players set @e[type=ArmorStand,tag=ADStand1,score_ADps=1,score_ADps_min=1] ADps 0
 
 GROUP | Grp_ChangePercentTFClock2 | CLOCK		[-50 16 90 | stonebrick 0]
 	testfor @e[type=ArmorStand,tag=ADStand2,score_ADps=1,score_ADps_min=1]
@@ -362,7 +362,7 @@ GROUP | Grp_ChangePercentTFClock2 | CLOCK		[-50 16 90 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=ADStand2,score_ADps=1,score_ADps_min=1,score_ADpe=98,score_ADpe_min=98] ~ ~ ~ setblock -36 14 79 structure_block 0 replace {integrity:0.98f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=ADStand2,score_ADps=1,score_ADps_min=1,score_ADpe=99,score_ADpe_min=99] ~ ~ ~ setblock -36 14 79 structure_block 0 replace {integrity:0.99f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=ADStand2,score_ADps=1,score_ADps_min=1,score_ADpe=100,score_ADpe_min=100] ~ ~ ~ setblock -36 14 79 structure_block 0 replace {integrity:1.0f,mode:"LOAD",posX:3,posY:-3,posZ:2,name:"AnvilDrop",showboundingbox:0b}
-	scoreboard players set @e[type=ArmorStand,tag=ADStand|0;2|,score_ADps=1,score_ADps_min=1] ADps 0
+	scoreboard players set @e[type=ArmorStand,tag=ADStand2,score_ADps=1,score_ADps_min=1] ADps 0
 
 GROUP | Grp_ChangePercentTFClock3 | CLOCK		[-50 24 90 | stonebrick 0]
 	testfor @e[type=ArmorStand,tag=ADStand3,score_ADps=1,score_ADps_min=1]
