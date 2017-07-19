@@ -1,8 +1,0 @@
-
-/// Races
-///	PCBPI_PosRZ.cbp
-
-PCBPIMPORT PCBPB_UniversalRace.cbp
-PCBPIMPORT PCBPB_Universal.cbp
-PCBPIMPORT PCBPB_PosZ.cbp
-

@@ -1,7 +1,0 @@
-
-/// Races
-///	PCBPB_UniversalRace.cbp
-DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PARSE($TD$)","color":"PARSE($Color$)","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"PARSE($TDName$)","color":"PARSE($Color$)"}}},{"text":"]","color":"gray"},{"text":": "},
-
-DEFINE $SPpvp$ 1
-DEFINE $SPsat$ 1

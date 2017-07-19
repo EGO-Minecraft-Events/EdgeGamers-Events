@@ -1,7 +1,0 @@
-
-///	Includes $Style$
-///	PCBPI_PosZ.cbp
-
-DEFINE $Style$ 0 16 16
-PCBPIMPORT PCBPB_Universal.cbp
-PCBPIMPORT PCBPB_PosZ.cbp
