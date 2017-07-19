@@ -897,7 +897,7 @@ tellraw @a[r=5]
 	},
 	{"text":" "},
 	{"text":"Link 3","color":"green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"https://www.minestatus.net/102341-edgegamers-minecraft/vote"},
+		"clickEvent":{"action":"open_url","value":"https://minecraftservers.biz/servers/2511/"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #3","color":"green"}}
 	},
 	{"text":" "},
@@ -943,6 +943,81 @@ tellraw @a[r=5]
 scoreboard players tag @e[x=-150,y=65,z=-576,dx=10,dy=3,dz=10,type=Item] add AnvilDrop {Item:{id:"minecraft:anvil"}}
 kill @e[type=Item,tag=AnvilDrop]
 effect @a[x=-150,y=65,z=-576,dx=10,dy=3,dz=10,m=0] 8 3 250 true
+//>
+
+//<Twerking Leadership - 1.10
+/summon ArmorStand ~ ~0.15 ~ 
+{Tags:["TwerkLeadership"],
+DisabledSlots:2096896,
+NoGravity:0,
+NoBasePlate:1,
+ShowArms:1,
+Small:0,
+Invulnerable:1,
+PersistenceRequired:1,
+Invisible:0,
+Marker:0,
+Rotation:[0f,0f],
+Pose:{
+	Body:[15f,0f,-10f],
+	Head:[0f,0f,0f],
+	LeftArm:[0f,0f,0f],
+	RightArm:[0f,0f,0f],
+	LeftLeg:[0f,0f,0f],
+	RightLeg:[0f,0f,0f]
+	},
+ArmorItems:
+[
+	{id:leather_boots,Count:1,tag:{display:{color:16738740}}},
+	{id:leather_leggings,Count:1,tag:{display:{color:16738740}}},
+	{id:leather_chestplate,Count:1,tag:{display:{color:16738740}}},
+	{id:skull,Damage:3,Count:1,tag:{SkullOwner:"FirezFury"}}
+],
+HandItems:
+[
+	{},
+	{}
+]
+}
+
+
+@e[TwerkLeadership] Timer + 1
+
+entitydata @e[TwerkLeadership,Timer=5] {Pose:{Body:[15f,0f,-10f],LeftLeg:[-7f,0f,10f],RightLeg:[-7f,0f,10f],LeftArm:[200f,0f,2f],RightArm:[200f,0f,-9f],Head:[-5f,5f,0f]}}
+
+entitydata @e[TwerkLeadership,Timer=10] {Pose:{Body:[15f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f],LeftArm:[200f,0f,5f],RightArm:[200f,0f,-5f],Head:[0f,0f,0f]}}
+
+entitydata @e[TwerkLeadership,Timer=15] {Pose:{Body:[15f,0f,10f],LeftLeg:[-7f,0f,-10f],RightLeg:[-7f,0f,-10f],LeftArm:[200f,0f,9f],RightArm:[200f,0f,-1f],Head:[-5f,-5f,0f]}}
+
+entitydata @e[TwerkLeadership,Timer=20] {Pose:{Body:[15f,0f,0f],LeftLeg:[0f,0f,0f],RightLeg:[0f,0f,0f],LeftArm:[200f,0f,5f],RightArm:[200f,0f,-5f],Head:[0f,0f,0f]}}
+
+@e[TwerkLeadership,Timer=20] Timer = 0
+//>
+
+//<Tree
+execute french_man ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:log",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~-0.6 ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:log",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~-1.2 ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:log",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~-1.8 ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:log",Count:1}]}
+
+
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~0.2 ~ {CustomName:"A Tree",CustomNameVisible:1,Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:leaves",Count:1}]}
+
+
+execute french_man ~ ~ ~ summon ArmorStand ~0.4 ~ ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:leaves",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~-0.4 ~ ~ {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:leaves",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~ ~0.4 {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:leaves",Count:1}]}
+
+execute french_man ~ ~ ~ summon ArmorStand ~ ~ ~-0.4 {Tags:["VRTree"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:0,NoGravity:1,ArmorItems:[{},{},{},{id:"minecraft:leaves",Count:1}]}
+
+
+
 //>
 
 
@@ -2136,6 +2211,7 @@ HandItems:
 //<Armor Stand Examples 1.9 & 1.10
 summon ArmorStand ~ ~ ~ {Tags:[""],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 
+summon AreaEffectCloud ~ ~ ~ {Tags:[""],Rotation:[0f,0f],Duration:1000000}
 
 /summon ArmorStand ~-0.3 ~0.5 ~0.4 
 {DisabledSlots:2096896,
@@ -2474,6 +2550,14 @@ Text3:"
 ",
 Text4:"{\"text\":\"\"}"}
 
+setblock ~ ~3 ~ wall_sign 3 replace 
+{Text1:"{\"text\":\"\"}",
+Text2:"{\"text\":\"Dirt Race\",\"italic\":true}",
+Text3:"
+	{\"text\":\"\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @p SPtp = dirtr SPna\"}}
+",
+Text4:"{\"text\":\"\"}"}
+
 setblock ~ ~2 ~ wall_sign 1 replace 
 {Text1:"{\"text\":\"\"}",
 Text2:"{\"text\":\"Sand Tomb\",\"italic\":true}",
@@ -2495,6 +2579,14 @@ setblock ~ ~2 ~ wall_sign 1 replace
 Text2:"{\"text\":\"The Pit 3\",\"italic\":true}",
 Text3:"
 	{\"text\":\"\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @p SPtp = tpl3 SPna\"}}
+",
+Text4:"{\"text\":\"\"}"}
+
+setblock ~ ~3 ~ wall_sign 1 replace 
+{Text1:"{\"text\":\"\"}",
+Text2:"{\"text\":\"Pictionary\",\"italic\":true}",
+Text3:"
+	{\"text\":\"\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @p SPtp = pc SPna\"}}
 ",
 Text4:"{\"text\":\"\"}"}
 
@@ -2546,7 +2638,35 @@ Text3:"
 ",
 Text4:"{\"text\":\"\"}"}
 
+setblock ~ ~1 ~ wall_sign 3 replace 
+{Text1:"{\"text\":\"\"}",
+Text2:"{\"text\":\"Capture the flag\",\"italic\":true}",
+Text3:"
+	{\"text\":\"\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @p SPtp = ctf SPna\"}}
+",
+Text4:"{\"text\":\"\"}"}
 
+
+
+
+
+
+setblock ~ ~1 ~ standing_sign 10 replace 
+{Text1:"{\"text\":\"\"}",
+Text2:"{\"text\":\"Right click for\",\"italic\":true}",
+Text3:"
+	{\"text\":\"Survival\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/execute @p ~ ~ ~ sudo @a[name=french_man] c:say test\"}}
+",
+Text4:"{\"text\":\"\"}"}
+
+
+setblock ~ ~1 ~ wall_sign 5 replace 
+{Text1:"{\"text\":\"\"}",
+Text2:"{\"text\":\"test\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/say testasdf\"}}",
+Text3:"
+	{\"text\":\"\",\"italic\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/execute @a[r=5] ~ ~ ~ sudo @p[r=0] \"}}
+",
+Text4:"{\"text\":\"\"}"}
 
 
 

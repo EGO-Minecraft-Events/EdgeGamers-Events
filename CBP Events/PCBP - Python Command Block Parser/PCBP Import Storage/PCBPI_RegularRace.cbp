@@ -1,8 +1,0 @@
-
-/// Races
-///	PCBPI_RegularRace.cbp
-
-PCBPIMPORT PCBPB_RegularRace.cbp
-PCBPIMPORT PCBPB_RaceSystem.cbp
-PCBPIMPORT PCBPB_RaceGroup.cbp
-
