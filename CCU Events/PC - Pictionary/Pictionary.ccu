@@ -127,8 +127,8 @@ FUNC {Func_GeneralScoreboardStart}:
 		CCU_ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {$Duration$,CustomName:"|0|",Tags:["PCEntity","PCGuess"]}
 	
 ///	Joins the PTJ team
-	CCU_ExecuteSpawnStand PC J> @e[type=AreaEffectCloud,PCGuess]
-	CCU_ExecuteSpawnStand PCd_y J> Time_Elapsed
+	CCU_ExecuteSpawnStand J> PC @e[type=AreaEffectCloud,PCGuess]
+	CCU_ExecuteSpawnStand J> PCd_y Time_Elapsed
 	
 ///	Initialize area effect clouds
 	CCU_ExecuteSpawnStand @e[type=AreaEffectCloud,PCGuess] PCpl + 0
@@ -168,6 +168,11 @@ FUNC {Func_SelectsPlayerTFClock}:
 	
 ///	Selects a random area effect cloud
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @r[type=AreaEffectCloud,PCGuess,PCpl=0] PCpl = 1
+
+/// Sets the area effect cloud as the answer
+	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~0.001 ~
+	@e[type=AreaEffectCloud,PCGuess,PCpl=1] pictionary set entity @e[r=0]
+	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~-0.001 ~
 	
 ///	Gives wool
 	clear @a[$SA$,m=2,PCpl=2]
@@ -204,7 +209,7 @@ FUNC {Func_GeneralScoreboardClock}:
 	clear @a[$SA$,m=2,PCpl=0]
 	@a[$SA$,m=2,PCpl=0,EC=0] SPbk = $SPid$
 	effect @a[$SA$,m=2,PCpl=0] clear
-	PC J> @a[$SA$,m=2,PCpl=0]
+	J> PC @a[$SA$,m=2,PCpl=0]
 	@a[$SA$,m=2,PCpl=0] stats entity @a[r=0,c=1,m=2,PCpl=0] set AffectedItems @a[r=0,c=1] PCaf
 	@a[$SA$,m=2,PCpl=0] PCss = 0
 	@a[$SA$,m=2,PCpl=0] PCaf = 0
@@ -248,6 +253,9 @@ FUNC {Func_TimerTFClock}:
 ///	Display message
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Time's up!","color":"dark_aqua","underlined":true}
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
+	
+/// Clear answer
+	pictionary clear
 	
 ///	General reset: clear, reset score, etc.
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] clear @a[$SA$,m=2,PCpl=3]
