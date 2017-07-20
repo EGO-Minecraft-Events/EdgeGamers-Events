@@ -12,6 +12,7 @@ DEF $CMDSizeX$ 32
 DEF $CMDSizeY$ 16
 DEF $CMDSizeZ$ 16
 
+DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 63 15 79
 
@@ -20,7 +21,7 @@ DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MM","co
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 9
 	parseOption true

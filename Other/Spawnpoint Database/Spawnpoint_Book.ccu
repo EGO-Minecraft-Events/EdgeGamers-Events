@@ -22,6 +22,7 @@ DEF $TextStart$
 },{"text":"]","color":"gray"},{"text":": "},
 */
 
+DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 29 111
 
@@ -31,7 +32,7 @@ IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Even
 IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\MM - Mastermind\Mastermind_dat.txt}
 
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 16
 	parseOption true

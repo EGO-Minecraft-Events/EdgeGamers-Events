@@ -24,14 +24,14 @@ GROUP | Grp_MainStart | PULSE		[-50 16 94 | stonebrick 0]
 	scoreboard teams add ADd_y
 	scoreboard teams option ADd_y color yellow
 	scoreboard players add @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2] ADpl 0
-	scoreboard teams join AD @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0]
+	AD J> execute @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0]
 	minecraft:clear @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0]
 	scoreboard players set @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0,score_EC=0,score_EC_min=0] SPbk 21
 	replaceitem entity @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0] slot.armor.head stained_glass 1 5 {AttributeModifiers:[{AttributeName:"generic.knockbackResistance",Name:"anything",Amount:1,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:"head"}]}
 	effect @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0] clear
 	effect @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0] 6 1 100 true
 	minecraft:xp -1000L @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0]
-	scoreboard teams join ADd_y Countdown Players Time_Elapsed
+	ADd_y scoreboard teams join Countdown Players Time_Elapsed
 	scoreboard players set @a[x=-33,y=2,z=81,dx=12,dy=5,dz=12,m=2,score_ADpl=0,score_ADpl_min=0] ADpl 1
 	scoreboard players set @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=0,score_ADpl_min=0] ADpl 2
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar AD
@@ -40,13 +40,13 @@ GROUP | Grp_MainStart | PULSE		[-50 16 94 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["ADEntity","ADStand","ADStand3"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Tags:["ADEntity","ADCountdown"],Duration:150}
 	setblock -50 21 94 redstone_block 0
-	blockdata -52 16 90 {auto:1b}
+	blockdata Grp_ChangePercentTFClock1[x - 2, y, z] {auto:1b}
 	setblock -50 16 90 redstone_block 0
-	blockdata -52 16 88 {auto:1b}
+	blockdata Grp_ChangePercentTFClock2[x - 2, y, z] {auto:1b}
 	setblock -50 16 88 redstone_block 0
-	blockdata -52 25 94 {auto:1b}
+	blockdata Grp_ChangePercentTFClock3[x - 2, y, z] {auto:1b}
 	setblock -50 25 94 redstone_block 0
-	blockdata -52 20 92 {auto:1b}
+	blockdata Grp_CountdownTFClock[x - 2, y, z] {auto:1b}
 	setblock -50 20 92 redstone_block 0
 	setblock -50 25 92 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 21
@@ -63,7 +63,7 @@ GROUP | Grp_MainClock | CLOCK		[-50 21 94 | stonebrick 0]
 	scoreboard players set @a[m=2,score_ADpl=2,score_ADpl_min=2,score_EC=0,score_EC_min=0] SPbk 21
 	scoreboard players set @a[score_ADde_min=1] ADde 0
 	scoreboard players set @a[score_ADpl=2,score_ADpl_min=2] ADpl 3
-	scoreboard teams join NoPVP @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,team=!NoPVP,score_ADpl=3,score_ADpl_min=3]
+	NoPVP J> execute @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,team=!NoPVP,score_ADpl=3,score_ADpl_min=3]
 	scoreboard players set Players ADpl 0
 	execute @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22,m=2,score_ADpl=1,score_ADpl_min=1] ~ ~ ~ scoreboard players add Players ADpl 1
 	scoreboard players operation Players AD = Players ADpl
@@ -120,13 +120,13 @@ GROUP | Grp_MainEnd | PULSE		[-50 16 92 | stonebrick 0]
 	fill -33 15 93 -21 3 81 air 0
 	effect @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22] 6 1 100 true
 	setblock -50 21 94 stonebrick 0
-	blockdata -52 16 90 {auto:0b}
+	blockdata Grp_ChangePercentTFClock1[x - 2, y, z] {auto:0b}
 	setblock -50 16 90 stonebrick 0
-	blockdata -52 16 88 {auto:0b}
+	blockdata Grp_ChangePercentTFClock2[x - 2, y, z] {auto:0b}
 	setblock -50 16 88 stonebrick 0
-	blockdata -52 25 94 {auto:0b}
+	blockdata Grp_ChangePercentTFClock3[x - 2, y, z] {auto:0b}
 	setblock -50 25 94 stonebrick 0
-	blockdata -52 20 92 {auto:0b}
+	blockdata Grp_CountdownTFClock[x - 2, y, z] {auto:0b}
 	setblock -50 20 92 stonebrick 0
 
 GROUP | Grp_CountdownTFClock | CLOCK		[-50 20 92 | stonebrick 0]

@@ -1,5 +1,5 @@
 //(Royal Rumble)
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\RR - Royal Rumble\Royal_Rumble.ccu
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\RR - Royal Rumble\Royal_Rumble.ccu
 ///	Royal Rumble. God damn this document is outdated
 
 //<General Definitions
@@ -15,6 +15,7 @@ DEF $CMDSizeZ$ 16
 
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray","bold":true},{"text":"R","color":"blue","bold":true},{"text":"R","color":"dark_green","bold":true},{"text":"]:","color":"gray","bold":true},{"text":" "},
 
+DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ -65 64 399
 
@@ -23,7 +24,7 @@ IMPORT {LIBRARY GETDIR General}
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$ 0
 	coordsOption $CoordsOption$
 ///	Style
 ///	Avaliable options: +X -X +Z -Z (and) height in y
@@ -644,14 +645,14 @@ DEF CCItem_EngieDestruct carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanD
 /*
 DEF CCItem_EngieEggG spawn_egg 1 0 {HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Dispenser Pig",Lore:["Oink"]},
 	EntityTag:{id:"Pig",Invulnerable:1,Health:4.0f,CustomName:"Dispenser Pig - Green",CustomNameVisible:0,Tags:["RRPigDispenser","RRPig","RRPigGreen"],
-	NoAI:1,DeathLootTable:"",ActiveEffects:[{Ambient:0b,ShowParticles:0b,Duration:1000000,Id:10b,Amplifier:1b}],Attributes:[{Name:"generic.knockbackResistance",Base:1}]},
+	NoAI:1,$NoLoot$,ActiveEffects:[{Ambient:0b,ShowParticles:0b,Duration:1000000,Id:10b,Amplifier:1b}],Attributes:[{Name:"generic.knockbackResistance",Base:1}]},
 	CanPlaceOn:[$PlaceOn$]}
 
 -/-
 
 DEF CCItem_EngieEggB spawn_egg 1 0 {HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Dispenser Pig",Lore:["Oink"]},
 	EntityTag:{id:"Pig",Invulnerable:1,Health:4.0f,CustomName:"Dispenser Pig - Blue",CustomNameVisible:0,Tags:["RRPigDispenser","RRPig","RRPigBlue"],
-	NoAI:1,DeathLootTable:"",ActiveEffects:[{Ambient:0b,ShowParticles:0b,Duration:1000000,Id:10b,Amplifier:1b}],Attributes:[{Name:"generic.knockbackResistance",Base:1}]},
+	NoAI:1,$NoLoot$,ActiveEffects:[{Ambient:0b,ShowParticles:0b,Duration:1000000,Id:10b,Amplifier:1b}],Attributes:[{Name:"generic.knockbackResistance",Base:1}]},
 	CanPlaceOn:[$PlaceOn$]}
 
 -/-
@@ -2370,7 +2371,6 @@ FUNC {Func_EngineerClock}:
 
 //>
 
-
 //<Engineer Asthetics Clock
 FUNC {Func_EngineerPigAstheticsClock}:
 ///	Teleporting armor stands. Can be disabled if causing lag
@@ -2731,11 +2731,18 @@ FUNC {Func_SummonAstheticsPulse}:
 		/*
 		summon EntityHorse $TempCoords$ 
 			{Tags:["RREntity","RRDisplay","RRDisplayAnimal","RRDisplayHorse","RRDisplayInvis"],ActiveEffects:[{Id:14b,Duration:10000000,ShowParticles:0b}],
-			Rotation:[90f,0f],NoAI:1,NoGravity:1,Invulnerable:1,Silent:1,PersistenceRequired:1}
+			Rotation:[90f,0f],NoAI:1,NoGravity:1,Invulnerable:1,Silent:1,PersistenceRequired:1,$NoLoot$}
 		*/
 		
 		UNASSIGN {DEF $TempCoords$}
 		UNASSIGN {ARRAY Arr_Temp}
+//>
+
+//<Summon Asthetics Pulse - Armor Stand Asthetics
+	
+	
+	
+	
 		
 ///	-0.5 for x and z
 ///	- 0.9 for y

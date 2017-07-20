@@ -12,6 +12,7 @@ DEF $CMDSizeX$ 16
 DEF $CMDSizeY$ 10
 DEF $CMDSizeZ$ 9
 
+DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ -X
 DEF COORDS $CoordsOption$ -65 15 79
 
@@ -22,7 +23,7 @@ IMPORT {LIBRARY GETDIR General}
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 10
 	parseOption true

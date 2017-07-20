@@ -1,4 +1,4 @@
-351 7 111 368 24 126
+351 7 111 368 24 118
 Grp_MainStart;352 8 112;367 13 112
 Grp_AddingScoreboardsPulse;352 15 112;367 22 112
 Grp_SpawnpointTFClock;352 8 114;367 12 114

@@ -22,6 +22,7 @@ DEF $TextStart$
 },{"text":"]","color":"gray"},{"text":": "},
 */
 
+DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 7 111
 
@@ -29,7 +30,7 @@ IMPORT {LIBRARY GETDIR General}
 IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Other\Spawnpoint Database\Spawnpoint_Book_dat.txt}
 
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 16
 	parseOption true
@@ -323,6 +324,7 @@ ARRAY {Arr_Spawnpoint}:
 		Royal; ;Rumble
 		blue;white;dark_green
 		rr
+	
 	}
 //>
 
@@ -654,7 +656,7 @@ FUNC {Func_SpawnTFClock}:
 	
 	testfor @e[type=ArmorStand,SpawnStand,SPpvp=0]
 	COND:
-		NoPVP J> @a[$SPTree$,m=2]
+		J> NoPVP @a[$SPTree$,m=2]
 	
 	@a[$SPTree$,m=!3] SPti + 1
 	@a[$SPNotTree$,m=!3] SPti = 0
@@ -839,7 +841,7 @@ FUNC {Func_OtherClock}:
 ///	PVP
 	testfor @e[type=ArmorStand,SpawnStand,SPpvp=0]
 	COND:
-		NoPVP J> @a[team=!NoPVP,SPdim=6]
+		J> NoPVP @a[team=!NoPVP,SPdim=6]
 	
 ///	Saturation
 	testfor @e[type=ArmorStand,SpawnStand,SPsat=1]
@@ -1038,20 +1040,3 @@ GROUP {Grp_MainEnd}:
 
 CCU.cmdSave()
 //>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
