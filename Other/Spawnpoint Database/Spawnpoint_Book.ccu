@@ -1142,6 +1142,11 @@ FUNC {Func_Book_DeathPit}:
 */
 //>
 
+//<Book: Capture the Flag
+// You can prettify it if you want
+give @e[type=Player,EC=0,SPbk=33] written_book 1 0 {pages:["[\"\",{\"text\":\"Capture the Flag\",\"bold\":true},{\"text\":\"\\n\",\"bold\":false},{\"text\":\"Commands:\"},{\"text\":\" \"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 162 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Game:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 59 162 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Teams:\",\"color\":\"none\"},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Assign Teams]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 53 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[+Red]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 52 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+Blue]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 54 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Shuffle Teams]\",\"color\":\"dark_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Auto-Join:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 stonebrick 0\"}},{\"text\":\"\\n\\n\",\"color\":\"none\"},{\"text\":\"Win Score:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add Win_Score CTFscore 1\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove Win_Score CTFscore 1\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Time:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+min]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-min]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 50 160 redstone_block 0\"}}]"],title:"Capture the Flag",author:"Icohedron"}
+//>
+
 //<Book: Pictionary
 FUNC {Func_Book_Pictionary}:
 /*
@@ -1186,7 +1191,6 @@ FUNC {Func_Book_Pictionary}:
 	]}
 */
 //>
-
 
 //<Book Testfor Clock
 FUNC {Func_BookTFClock}:

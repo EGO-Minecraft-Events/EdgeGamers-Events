@@ -1,0 +1,562 @@
+GROUP | Grp_AddMinute | PULSE		[560 48 160 | stonebrick 0]
+	scoreboard players add Time CTFgen 1200
+	scoreboard players operation time_left CTFgen = Time CTFgen
+	scoreboard players operation minutes CTFgen = time_left CTFgen
+	scoreboard players operation minutes CTFgen /= ticks_per_minute CTFgen
+	scoreboard players operation Minutes CTFscore = minutes CTFgen
+	scoreboard players operation seconds CTFgen = time_left CTFgen
+	scoreboard players operation seconds CTFgen %= ticks_per_minute CTFgen
+	scoreboard players operation seconds CTFgen /= ticks_per_second CTFgen
+	scoreboard players operation Seconds CTFscore = seconds CTFgen
+	setblock 560 48 160 stonebrick 0
+
+GROUP | Grp_RemoveMinute | PULSE		[560 50 160 | stonebrick 0]
+	scoreboard players remove Time CTFgen 1200
+	scoreboard players operation time_left CTFgen = Time CTFgen
+	scoreboard players operation minutes CTFgen = time_left CTFgen
+	scoreboard players operation minutes CTFgen /= ticks_per_minute CTFgen
+	scoreboard players operation Minutes CTFscore = minutes CTFgen
+	scoreboard players operation seconds CTFgen = time_left CTFgen
+	scoreboard players operation seconds CTFgen %= ticks_per_minute CTFgen
+	scoreboard players operation seconds CTFgen /= ticks_per_second CTFgen
+	scoreboard players operation Seconds CTFscore = seconds CTFgen
+	setblock 560 50 160 stonebrick 0
+
+GROUP | Grp_MoveOneToRed | PULSE		[560 52 160 | stonebrick 0]
+	scoreboard players tag @r[team=CTFBlue] add CTFMoveTeam
+	minecraft:tp @a[tag=CTFMoveTeam] 558 107 159
+	execute @a[tag=CTFMoveTeam] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @p
+	scoreboard players set @a[tag=CTFMoveTeam] CTFflag 0
+	minecraft:clear @a[tag=CTFMoveTeam]
+	scoreboard teams join CTFRed @a[tag=CTFMoveTeam]
+	scoreboard players tag @a[tag=CTFMoveTeam] remove CTFMoveTeam
+	setblock 560 52 160 stonebrick 0
+
+GROUP | Grp_MoveOneToBlue | PULSE		[560 54 160 | stonebrick 0]
+	scoreboard players tag @r[team=CTFRed] add CTFMoveTeam
+	minecraft:tp @a[tag=CTFMoveTeam] 558 107 159
+	execute @a[tag=CTFMoveTeam] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @p
+	scoreboard players set @a[tag=CTFMoveTeam] CTFflag 0
+	minecraft:clear @a[tag=CTFMoveTeam]
+	scoreboard teams join CTFBlue @a[tag=CTFMoveTeam]
+	scoreboard players tag @a[tag=CTFMoveTeam] remove CTFMoveTeam
+	setblock 560 54 160 stonebrick 0
+
+GROUP | Grp_Shuffle | PULSE		[560 56 160 | stonebrick 0]
+	scoreboard players tag @a[team=CTFRed,m=2] add CTFShuffle
+	scoreboard players tag @a[team=CTFBlue,m=2] add CTFShuffle
+	scoreboard teams leave @a[tag=CTFShuffle]
+	minecraft:tp @a[tag=CTFShuffle] 558 107 159
+	execute @a[tag=CTFShuffle] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @p
+	scoreboard players set @a[tag=CTFShuffle] CTFflag 0
+	minecraft:clear @a[tag=CTFShuffle]
+	setblock 560 53 166 redstone_block 0
+	scoreboard players tag @a[tag=CTFShuffle] remove CTFShuffle
+	setblock 560 56 160 stonebrick 0
+
+GROUP | Grp_AutoJoinGame | CLOCK		[560 58 160 | stonebrick 0]
+	setblock 560 53 166 redstone_block 0
+
+GROUP | Grp_Book | PULSE		[560 60 160 | stonebrick 0]
+	give @p written_book 1 0 {pages:["[\"\",{\"text\":\"Capture the Flag\",\"bold\":true},{\"text\":\"\\n\",\"bold\":false},{\"text\":\"Commands:\"},{\"text\":\" \"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 162 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Game:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 59 162 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Teams:\",\"color\":\"none\"},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Assign Teams]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 53 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[+Red]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 52 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+Blue]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 54 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Shuffle Teams]\",\"color\":\"dark_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Auto-Join:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 stonebrick 0\"}},{\"text\":\"\\n\\n\",\"color\":\"none\"},{\"text\":\"Win Score:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add Win_Score CTFscore 1\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove Win_Score CTFscore 1\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Time:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+min]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-min]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 50 160 redstone_block 0\"}}]"],title:"Capture the Flag",author:"Icohedron"}
+	setblock 560 60 160 stonebrick 0
+
+GROUP | Grp_Install | PULSE		[560 48 162 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 33
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	scoreboard teams add CTFRed Red Team
+	scoreboard teams option CTFRed color red
+	scoreboard teams option CTFRed friendlyFire false
+	scoreboard teams option CTFRed nametagVisibility hideForOtherTeams
+	scoreboard teams add CTFBlue Blue Team
+	scoreboard teams option CTFBlue color Blue
+	scoreboard teams option CTFBlue friendlyFire false
+	scoreboard teams option CTFBlue nametagVisibility hideForOtherTeams
+	scoreboard teams add CTFVRed Non-Player Red
+	scoreboard teams option CTFVRed color red
+	scoreboard teams add CTFVBlue Non-Player Blue
+	scoreboard teams option CTFVBlue color blue
+	scoreboard objectives add CTFscore dummy Score
+	scoreboard objectives add CTFgen dummy General Purpose Registry
+	scoreboard objectives add CTFinv dummy Inventory
+	scoreboard objectives add CTFres dummy Resupply
+	scoreboard objectives add CTFflag dummy Flag Holders
+	scoreboard objectives add CTFdeath deathCount Death Count
+	scoreboard objectives add CTFleave stat.leaveGame Leave Game
+	scoreboard objectives add CTFEC dummy EC
+	scoreboard players set ticks_per_second CTFgen 20
+	scoreboard players set ticks_per_minute CTFgen 1200
+	scoreboard teams join CTFVRed Red
+	scoreboard teams join CTFVBlue Blue
+	scoreboard players set Win_Score CTFscore 5
+	scoreboard players set Red CTFscore 0
+	scoreboard players set Blue CTFscore 0
+	scoreboard players set Minutes CTFscore 0
+	scoreboard players set Seconds CTFscore 0
+	scoreboard players set Time CTFgen 12000
+	scoreboard players operation time_left CTFgen = Time CTFgen
+	scoreboard players add time_left CTFgen 0
+	scoreboard players add minutes CTFgen 0
+	scoreboard players add seconds CTFgen 0
+	scoreboard players operation minutes CTFgen = time_left CTFgen
+	scoreboard players operation minutes CTFgen /= ticks_per_minute CTFgen
+	scoreboard players operation Minutes CTFscore = minutes CTFgen
+	scoreboard players operation seconds CTFgen = time_left CTFgen
+	scoreboard players operation seconds CTFgen %= ticks_per_minute CTFgen
+	scoreboard players operation seconds CTFgen /= ticks_per_second CTFgen
+	scoreboard players operation Seconds CTFscore = seconds CTFgen
+	scoreboard objectives setdisplay sidebar CTFscore
+	summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,Tags:["CTFEntity","CTFGame"]}
+	summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,Tags:["CTFEntity","CTFRedAoE","CTFTeamAoE"]}
+	summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,Tags:["CTFEntity","CTFBlueAoE","CTFTeamAoE"]}
+	summon AreaEffectCloud 546 85 138 {Rotation:[-45f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 549 85 142 {Rotation:[0f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 551 85 140 {Rotation:[0f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 548 82 137 {Rotation:[-90f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 545 77 136 {Rotation:[0f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 544 79 140 {Rotation:[-90f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 548 81 141 {Rotation:[0f,0f],Duration:2147483647,Tags:["CTFEntity","CTFRedSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 574 88 175 {Rotation:[135f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 569 86 175 {Rotation:[180f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 572 86 179 {Rotation:[90f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 576 83 172 {Rotation:[135f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 577 83 178 {Rotation:[180f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 573 83 182 {Rotation:[90f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 569 83 182 {Rotation:[90f,0f],Duration:2147483647,Tags:["CTFEntity","CTFBlueSpawn","CTFSpawnPoint"]}
+	summon AreaEffectCloud 563 73 137 {Duration:2147483647,Tags:["CTFEntity","CTFResupply"]}
+	summon AreaEffectCloud 571 71 152 {Duration:2147483647,Tags:["CTFEntity","CTFResupply"]}
+	summon AreaEffectCloud 545 71 152 {Duration:2147483647,Tags:["CTFEntity","CTFResupply"]}
+	summon AreaEffectCloud 553 73 182 {Duration:2147483647,Tags:["CTFEntity","CTFResupply"]}
+	setblock 560 54 162 redstone_block 0
+	setblock 560 62 160 redstone_block 0
+	gamerule naturalRegeneration false
+
+GROUP | Grp_Main | CLOCK		[560 54 162 | stonebrick 0]
+	scoreboard players operation minutes CTFgen = time_left CTFgen
+	scoreboard players operation minutes CTFgen /= ticks_per_minute CTFgen
+	scoreboard players operation Minutes CTFscore = minutes CTFgen
+	scoreboard players operation seconds CTFgen = time_left CTFgen
+	scoreboard players operation seconds CTFgen %= ticks_per_minute CTFgen
+	scoreboard players operation seconds CTFgen /= ticks_per_second CTFgen
+	scoreboard players operation Seconds CTFscore = seconds CTFgen
+	scoreboard players add regeneration CTFgen 0
+	scoreboard players test regeneration CTFgen -2147483648 0
+	 | effect @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] minecraft:regeneration 3 0 true
+	 L scoreboard players set regeneration CTFgen 50
+	scoreboard players remove regeneration CTFgen 1
+	particle reddust 549 85.8 140 1 0 0 1 0
+	particle reddust 574 88.8 177 0.001 0 1 1 0
+	scoreboard players add @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] CTFinv 0
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] ~ ~ ~ stats entity @p set AffectedItems @p CTFinv
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed] ~ ~ ~ minecraft:clear @p minecraft:iron_sword -1 0
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue] ~ ~ ~ minecraft:clear @p minecraft:iron_sword -1 0
+	give @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,score_CTFinv=0,score_CTFinv_min=0,team=CTFRed] minecraft:iron_sword 1 0 {Unbreakable:1}
+	give @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,score_CTFinv=0,score_CTFinv_min=0,team=CTFBlue] minecraft:iron_sword 1 0 {Unbreakable:1}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed] ~ ~ ~ minecraft:clear @p minecraft:bow -1 0
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue] ~ ~ ~ minecraft:clear @p minecraft:bow -1 0
+	give @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,score_CTFinv=0,score_CTFinv_min=0,team=CTFRed] minecraft:bow 1 0 {Unbreakable:1}
+	give @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,score_CTFinv=0,score_CTFinv_min=0,team=CTFBlue] minecraft:bow 1 0 {Unbreakable:1}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed] ~ ~ ~ minecraft:clear @p minecraft:wool 14 0
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,score_CTFinv=0,score_CTFinv_min=0] slot.hotbar.8 minecraft:wool 1 14 {display:{Name:"Your Team"}}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue] ~ ~ ~ minecraft:clear @p minecraft:wool 11 0
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,score_CTFinv=0,score_CTFinv_min=0] slot.hotbar.8 minecraft:wool 1 11 {display:{Name:"Your Team"}}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,score_CTFflag=0,score_CTFflag_min=0] ~ ~ ~ minecraft:clear @p minecraft:wool 11
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,score_CTFflag=1,score_CTFflag_min=1] ~ ~ ~ minecraft:clear @p minecraft:wool 11 0
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,score_CTFinv=0,score_CTFinv_min=0,score_CTFflag=1,score_CTFflag_min=1] slot.hotbar.4 minecraft:wool 1 11 {display:{Name:"Enemy Flag"},ench:[{id:19,lvl:1}]}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,score_CTFflag=0,score_CTFflag_min=0] ~ ~ ~ minecraft:clear @p minecraft:wool 14
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,score_CTFflag=1,score_CTFflag_min=1] ~ ~ ~ minecraft:clear @p minecraft:wool 14 0
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,score_CTFinv=0,score_CTFinv_min=0,score_CTFflag=1,score_CTFflag_min=1] slot.hotbar.4 minecraft:wool 1 14 {display:{Name:"Enemy Flag"},ench:[{id:19,lvl:1}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasRedHelm {Inventory:[{id:"minecraft:leather_helmet",Slot:103b,tag:{display:{color:16711680},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasRedChest {Inventory:[{id:"minecraft:leather_chestplate",Slot:102b,tag:{display:{color:16711680},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasRedLegs {Inventory:[{id:"minecraft:leather_leggings",Slot:101b,tag:{display:{color:16711680},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasRedFeet {Inventory:[{id:"minecraft:leather_boots",Slot:100b,tag:{display:{color:16711680},Unbreakable:1}}]}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,tag=!CTFHasRedHelm] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,tag=!CTFHasRedChest] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,tag=!CTFHasRedLegs] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:16711680},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed,tag=!CTFHasRedFeet] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:16711680},Unbreakable:1}
+	scoreboard players tag @a[tag=CTFHasRedHelm] remove CTFHasRedHelm
+	scoreboard players tag @a[tag=CTFHasRedChest] remove CTFHasRedChest
+	scoreboard players tag @a[tag=CTFHasRedLegs] remove CTFHasRedLegs
+	scoreboard players tag @a[tag=CTFHasRedFeet] remove CTFHasRedFeet
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasBlueHelm {Inventory:[{id:"minecraft:leather_helmet",Slot:103b,tag:{display:{color:255},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasBlueChest {Inventory:[{id:"minecraft:leather_chestplate",Slot:102b,tag:{display:{color:255},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasBlueLegs {Inventory:[{id:"minecraft:leather_leggings",Slot:101b,tag:{display:{color:255},Unbreakable:1}}]}
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFHasBlueFeet {Inventory:[{id:"minecraft:leather_boots",Slot:100b,tag:{display:{color:255},Unbreakable:1}}]}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,tag=!CTFHasBlueHelm] slot.armor.head minecraft:leather_helmet 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,tag=!CTFHasBlueChest] slot.armor.chest minecraft:leather_chestplate 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,tag=!CTFHasBlueLegs] slot.armor.legs minecraft:leather_leggings 1 0 {display:{color:255},Unbreakable:1}
+	replaceitem entity @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue,tag=!CTFHasBlueFeet] slot.armor.feet minecraft:leather_boots 1 0 {display:{color:255},Unbreakable:1}
+	scoreboard players tag @a[tag=CTFHasBlueHelm] remove CTFHasBlueHelm
+	scoreboard players tag @a[tag=CTFHasBlueChest] remove CTFHasBlueChest
+	scoreboard players tag @a[tag=CTFHasBlueLegs] remove CTFHasBlueLegs
+	scoreboard players tag @a[tag=CTFHasBlueFeet] remove CTFHasBlueFeet
+	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"Capture the Flag",author:"Icohedron"}}]}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:"Capture the Flag",author:"Icohedron"}
+	give @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1,score_CTFinv=0,score_CTFinv_min=0] written_book 1 0 {pages:["[\"\",{\"text\":\"Capture the Flag\",\"bold\":true},{\"text\":\"\\n\",\"bold\":false},{\"text\":\"Commands:\"},{\"text\":\" \"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 162 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Game:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 59 162 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Teams:\",\"color\":\"none\"},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Assign Teams]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 53 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[+Red]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 52 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+Blue]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 54 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Shuffle Teams]\",\"color\":\"dark_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Auto-Join:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 stonebrick 0\"}},{\"text\":\"\\n\\n\",\"color\":\"none\"},{\"text\":\"Win Score:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add Win_Score CTFscore 1\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove Win_Score CTFscore 1\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Time:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+min]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-min]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 50 160 redstone_block 0\"}}]"],title:"Capture the Flag",author:"Icohedron"}
+
+GROUP | Grp_Lobby | CLOCK		[560 62 160 | stonebrick 0]
+	scoreboard players add @a[x=548,y=106,z=148,dx=20,dy=5,dz=21] SPid 0
+	scoreboard players set @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,score_SPid=-34] SPid 33
+	scoreboard players set @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,score_SPid_min=-32] SPid 33
+	minecraft:kill @e[x=548,y=106,z=148,dx=20,dy=5,dz=21,type=Item]
+	effect @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2] minecraft:weakness 1 100 true
+	effect @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2] minecraft:instant_health 1 2 true
+	minecraft:clear @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2] minecraft:arrow
+	minecraft:kill @e[x=542,y=100,z=136,dx=32,dy=5,dz=45,type=Item]
+	scoreboard teams leave @a[x=542,y=100,z=136,dx=32,dy=5,dz=45]
+	effect @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:weakness 1 100 true
+	effect @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:instant_health 1 2 true
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:iron_sword
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:bow
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:arrow
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:leather_helmet
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:leather_chestplate
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:leather_leggings
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:leather_boots
+	minecraft:clear @a[x=542,y=100,z=136,dx=32,dy=5,dz=45,m=2] minecraft:wool
+
+GROUP | Grp_Start | PULSE		[560 59 162 | stonebrick 0]
+	scoreboard players set @a[score_CTFflag=1,score_CTFflag_min=1] CTFflag 0
+	scoreboard players set Red CTFscore 0
+	scoreboard players set $red_base CTFflag 1
+	summon ArmorStand 549 85 140 {Tags:["CTFEntity","CTFRedFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:14}],HandItems:[{},{}],CustomName:"Red Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	scoreboard teams join CTFVRed @e[tag=CTFRedFlag]
+	scoreboard players set Blue CTFscore 0
+	scoreboard players set $blue_base CTFflag 1
+	summon ArmorStand 574 88 177 {Tags:["CTFEntity","CTFBlueFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:11}],HandItems:[{},{}],CustomName:"Blue Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	scoreboard teams join CTFVBlue @e[tag=CTFBlueFlag]
+	scoreboard players operation time_left CTFgen = Time CTFgen
+	scoreboard players set countdown CTFgen 200
+	scoreboard players operation minutes CTFgen = time_left CTFgen
+	scoreboard players operation minutes CTFgen /= ticks_per_minute CTFgen
+	scoreboard players operation Minutes CTFscore = minutes CTFgen
+	scoreboard players operation seconds CTFgen = time_left CTFgen
+	scoreboard players operation seconds CTFgen %= ticks_per_minute CTFgen
+	scoreboard players operation seconds CTFgen /= ticks_per_second CTFgen
+	scoreboard players operation Seconds CTFscore = seconds CTFgen
+	setblock 560 48 164 redstone_block 0
+	setblock 560 59 162 stonebrick 0
+
+GROUP | Grp_Warmup | CLOCK		[560 48 164 | stonebrick 0]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Item]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=XPOrb]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Arrow]
+	minecraft:clear @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] minecraft:arrow
+	give @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] minecraft:arrow 32
+	execute @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] ~ ~ ~ minecraft:tp @p @r[type=AreaEffectCloud,tag=CTFRedSpawn]
+	minecraft:clear @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] minecraft:arrow
+	give @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] minecraft:arrow 32
+	execute @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] ~ ~ ~ minecraft:tp @p @r[type=AreaEffectCloud,tag=CTFBlueSpawn]
+	execute @e[tag=CTFSpawnPoint] ~ ~ ~ scoreboard players tag @a[r=5] add CTFInSpawn
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=!CTFInSpawn,team=CTFRed,m=2] ~ ~ ~ minecraft:tp @p @e[tag=CTFRedSpawn,c=1]
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=!CTFInSpawn,team=CTFRed,m=2] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @p
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=!CTFInSpawn,team=CTFBlue,m=2] ~ ~ ~ minecraft:tp @p @e[tag=CTFBlueSpawn,c=1]
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=!CTFInSpawn,team=CTFBlue,m=2] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @p
+	scoreboard players tag @a[tag=CTFInSpawn] remove CTFInSpawn
+	scoreboard players test countdown CTFgen 200 200
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","Capture the flag begins in 10 seconds"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	scoreboard players test countdown CTFgen 100 100
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","5"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	scoreboard players test countdown CTFgen 80 80
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","4"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	scoreboard players test countdown CTFgen 60 60
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","3"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	scoreboard players test countdown CTFgen 40 40
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","2"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	
+	scoreboard players test countdown CTFgen 20 20
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","1"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.pling voice @p
+	scoreboard players test countdown CTFgen 0 0
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["","Begin!"]
+	 | execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.wither.death voice @p
+	 | setblock 560 52 164 redstone_block 0
+	 L setblock 560 48 164 stonebrick 0
+	scoreboard players remove countdown CTFgen 1
+
+GROUP | Grp_Play | CLOCK		[560 52 164 | stonebrick 0]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Item]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=XPOrb]
+	scoreboard players tag @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Arrow] add CTFInGround {inGround:1b}
+	minecraft:kill @e[tag=CTFInGround]
+	minecraft:clear @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] minecraft:arrow
+	give @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] minecraft:arrow 32
+	execute @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFRed] ~ ~ ~ minecraft:tp @p @r[type=AreaEffectCloud,tag=CTFRedSpawn]
+	minecraft:clear @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] minecraft:arrow
+	give @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] minecraft:arrow 32
+	execute @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=CTFBlue] ~ ~ ~ minecraft:tp @p @r[type=AreaEffectCloud,tag=CTFBlueSpawn]
+	scoreboard players add @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFres 0
+	execute @e[tag=CTFResupply] ~ ~ ~ effect @a[score_CTFres=0,score_CTFres_min=0,r=1,m=2] minecraft:instant_health 1 0
+	execute @e[tag=CTFResupply] ~ ~ ~ minecraft:clear @a[score_CTFres=0,score_CTFres_min=0,r=1,m=2] minecraft:arrow
+	execute @e[tag=CTFResupply] ~ ~ ~ give @a[score_CTFres=0,score_CTFres_min=0,r=1,m=2] minecraft:arrow 32
+	execute @e[tag=CTFResupply] ~ ~ ~ scoreboard players set @a[score_CTFres=0,score_CTFres_min=0,r=1,m=2] CTFres 60
+	scoreboard players remove @a[score_CTFres_min=1] CTFres 1
+	effect @a[score_CTFflag=1,score_CTFflag_min=1] minecraft:glowing 1
+	effect @a[score_CTFflag=1,score_CTFflag_min=1] minecraft:slowness 1 1
+	scoreboard players tag @a[score_CTFflag=1,score_CTFflag_min=1,score_CTFdeath_min=1] add CTFDropFlag
+	scoreboard players set @a[tag=CTFDropFlag] CTFflag 0
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["CTFEntity","CTFBlueFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:11}],HandItems:[{},{}],CustomName:"Blue Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ scoreboard teams join CTFVBlue @e[tag=CTFBlueFlag]
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@a[tag=CTFDropFlag,team=CTFRed]"}, " has dropped the ", {"text":"Blue","color":"blue"}, " flag!"]
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ scoreboard players set $blue_base CTFflag 1
+	execute @a[tag=CTFDropFlag,team=CTFRed] ~ ~ ~ scoreboard players set blue_flag_reset CTFgen 1200
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["CTFEntity","CTFRedFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:14}],HandItems:[{},{}],CustomName:"Red Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ scoreboard teams join CTFVRed @e[tag=CTFRedFlag]
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@a[tag=CTFDropFlag,team=CTFBlue]"}, " has dropped the ", {"text":"Red","color":"red"}, " flag!"]
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ scoreboard players set $red_base CTFflag 1
+	execute @a[tag=CTFDropFlag,team=CTFBlue] ~ ~ ~ scoreboard players set red_flag_reset CTFgen 1200
+	scoreboard players tag @a[tag=CTFDropFlag] remove CTFDropFlag
+	scoreboard players set @a[score_CTFdeath_min=1] CTFdeath 0
+	scoreboard players set @a[score_CTFflag=1,score_CTFflag_min=1,score_CTFleave_min=1] CTFflag 0
+	scoreboard players set @a[score_CTFleave_min=1] CTFleave 0
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] add CTFGoodGM
+	scoreboard players set @a[score_CTFflag=1,score_CTFflag_min=1,tag=!CTFGoodGM] CTFflag 0
+	scoreboard players tag @a[tag=CTFGoodGM] remove CTFGoodGM
+	scoreboard players tag @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] add CTFInArena
+	scoreboard players set @a[score_CTFflag=1,score_CTFflag_min=1,tag=!CTFInArena] CTFflag 0
+	scoreboard players tag @a[tag=CTFInArena] remove CTFInArena
+	execute @e[tag=CTFRedFlag] ~ ~ ~ scoreboard players tag @p[team=CTFBlue,r=1,m=2] add CTFPickupRedFlag
+	execute @a[tag=CTFPickupRedFlag] ~ ~ ~ minecraft:kill @e[tag=CTFRedFlag]
+	execute @a[tag=CTFPickupRedFlag] ~ ~ ~ scoreboard players set $red_base CTFflag 0
+	execute @a[tag=CTFPickupRedFlag] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@a[tag=CTFPickupRedFlag]"}, " has taken the ", {"text":"Red","color":"red"}, " flag!"]
+	execute @a[tag=CTFPickupRedFlag] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:entity.item.pickup voice @p
+	execute @a[tag=CTFPickupRedFlag] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	scoreboard players set @a[tag=CTFPickupRedFlag] red_flag_reset -1
+	scoreboard players set @a[tag=CTFPickupRedFlag] CTFflag 1
+	scoreboard players tag @a[tag=CTFPickupRedFlag] remove CTFPickupRedFlag
+	execute @e[tag=CTFBlueFlag] ~ ~ ~ scoreboard players tag @p[team=CTFRed,r=1,m=2] add CTFPickupBlueFlag
+	execute @a[tag=CTFPickupBlueFlag] ~ ~ ~ minecraft:kill @e[tag=CTFBlueFlag]
+	execute @a[tag=CTFPickupBlueFlag] ~ ~ ~ scoreboard players set $blue_base CTFflag 0
+	execute @a[tag=CTFPickupBlueFlag] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@a[tag=CTFPickupBlueFlag]"}, " has taken the ", {"text":"Blue","color":"blue"}, " flag!"]
+	execute @a[tag=CTFPickupBlueFlag] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:entity.item.pickup voice @p
+	execute @a[tag=CTFPickupBlueFlag] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	scoreboard players set @a[tag=CTFPickupBlueFlag] blue_flag_reset -1
+	scoreboard players set @a[tag=CTFPickupBlueFlag] CTFflag 1
+	scoreboard players tag @a[tag=CTFPickupBlueFlag] remove CTFPickupBlueFlag
+	scoreboard players add $red_base CTFflag 0
+	scoreboard players set red_flag_verify CTFgen 0
+	scoreboard players test $red_base CTFflag 1 2147483647
+	 L scoreboard players set red_flag_verify CTFgen 1
+	scoreboard players test $red_base CTFflag 0 0
+	 L execute @a[score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players set red_flag_verify CTFgen 1
+	scoreboard players test red_flag_verify CTFgen 0 0
+	 | scoreboard players set $red_base CTFflag 1
+	 | scoreboard players set red_flag_reset CTFgen -1
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Red","color":"red"}, " flag has been returned to its base!"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p
+	scoreboard players add $blue_base CTFflag 0
+	scoreboard players set blue_flag_verify CTFgen 0
+	scoreboard players test $blue_base CTFflag 1 2147483647
+	 L scoreboard players set blue_flag_verify CTFgen 1
+	
+	scoreboard players test $blue_base CTFflag 0 0
+	 L execute @a[score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players set blue_flag_verify CTFgen 1
+	scoreboard players test blue_flag_verify CTFgen 0 0
+	 | scoreboard players set $blue_base CTFflag 1
+	 | scoreboard players set blue_flag_reset CTFgen -1
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Blue","color":"blue"}, " flag has been returned to its base!"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p
+	scoreboard players test red_flag_reset CTFgen 0 0
+	 | minecraft:kill @e[tag=CTFRedFlag]
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Red","color":"red"}, " flag has been returned to its base!"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p
+	scoreboard players remove red_flag_reset CTFgen 1
+	scoreboard players test blue_flag_reset CTFgen 0 0
+	 | minecraft:kill @e[tag=CTFBlueFlag]
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Blue","color":"blue"}, " flag has been returned to its base!"]
+	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p
+	scoreboard players remove blue_flag_reset CTFgen 1
+	scoreboard players set create_flag CTFgen 0
+	scoreboard players test $red_base CTFflag 1 2147483647
+	 L scoreboard players set create_flag CTFgen 1
+	scoreboard players set red_flag_exists CTFgen 0
+	execute @e[tag=CTFRedFlag] ~ ~ ~ scoreboard players set red_flag_exists CTFgen 1
+	scoreboard players test red_flag_exists CTFgen 0 0
+	 | scoreboard players test create_flag CTFgen 1 2147483647
+	 | summon ArmorStand 549 85 140 {Tags:["CTFEntity","CTFRedFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:14}],HandItems:[{},{}],CustomName:"Red Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	 L scoreboard teams join CTFVRed @e[tag=CTFRedFlag]
+	scoreboard players set create_flag CTFgen 0
+	scoreboard players test $blue_base CTFflag 1 2147483647
+	 L scoreboard players set create_flag CTFgen 1
+	scoreboard players set blue_flag_exists CTFgen 0
+	execute @e[tag=CTFBlueFlag] ~ ~ ~ scoreboard players set blue_flag_exists CTFgen 1
+	scoreboard players test blue_flag_exists CTFgen 0 0
+	 | scoreboard players test create_flag CTFgen 1 2147483647
+	 | summon ArmorStand 574 88 177 {Tags:["CTFEntity","CTFBlueFlag","CTFFlag"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:"wool",Count:1b,Damage:11}],HandItems:[{},{}],CustomName:"Blue Flag",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}
+	 L scoreboard teams join CTFVBlue @e[tag=CTFBlueFlag]
+	effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:glowing 0
+	effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:slowness 0
+	execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@p"}, " has successfully captured the ", {"text":"Blue","color":"blue"}, " flag!"]
+	execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p
+	execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players set $blue_base CTFflag 1
+	execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players add Red CTFscore 1
+	scoreboard players set @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] CTFflag 0
+	effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:glowing 0
+	effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:slowness 0
+	execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{"selector":"@p"}, " has successfully captured the ", {"text":"Red","color":"red"}, " flag!"]
+	execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p
+	execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:block.note.hat voice @p
+	execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players set $red_base CTFflag 1
+	execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players add Blue CTFscore 1
+	scoreboard players set @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] CTFflag 0
+	scoreboard players add score_reached CTFgen 0
+	scoreboard players add red_score_check CTFgen 0
+	scoreboard players operation red_score_check CTFgen = Red CTFscore
+	scoreboard players operation red_score_check CTFgen -= Win_Score CTFscore
+	scoreboard players test red_score_check CTFgen 0 2147483647
+	 L scoreboard players set score_reached CTFgen 1
+	scoreboard players add blue_score_check CTFgen 0
+	scoreboard players operation blue_score_check CTFgen = Blue CTFscore
+	scoreboard players operation blue_score_check CTFgen -= Win_Score CTFscore
+	scoreboard players test blue_score_check CTFgen 0 2147483647
+	 L scoreboard players set score_reached CTFgen 1
+	scoreboard players test score_reached CTFgen 1 2147483647
+	 | scoreboard players set score_reached CTFgen 0
+	 | setblock 560 62 162 redstone_block 0
+	 | scoreboard players set finish_timer CTFgen 200
+	 | setblock 560 48 166 redstone_block 0
+	 L setblock 560 52 164 stonebrick 0
+	scoreboard players test time_left CTFgen 0 0
+	 | setblock 560 62 162 redstone_block 0
+	 | scoreboard players set finish_timer CTFgen 200
+	 | setblock 560 48 166 redstone_block 0
+	 L setblock 560 52 164 stonebrick 0
+	scoreboard players remove time_left CTFgen 1
+
+GROUP | Grp_Evaluation | PULSE		[560 62 162 | stonebrick 0]
+	scoreboard players set winner_evaluation CTFgen 0
+	scoreboard players operation winner_evaluation CTFgen = Red CTFscore
+	scoreboard players operation winner_evaluation CTFgen -= Blue CTFscore
+	scoreboard players test winner_evaluation CTFgen 0 0
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["Stalemate!"]
+	 L title @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] subtitle ["Stalemate!"]
+	scoreboard players test winner_evaluation CTFgen 1 2147483647
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["", {"text":"Red","color":"red"}, " team has won!"]
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["", "Players on ", {"text":"Red","color":"red"}, " team: ", {"selector":"@a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFRed]"}]
+	 L title @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] subtitle ["", {"text":"Red","color":"red"}, " team has won!"]
+	scoreboard players test winner_evaluation CTFgen -2147483648 -1
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["", {"text":"Blue","color":"blue"}, " team has won!"]
+	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["", "Players on ", {"text":"Blue","color":"blue"}, " team: ", {"selector":"@a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2,team=CTFBlue]"}]
+	 L title @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] subtitle ["", {"text":"Blue","color":"blue"}, " team has won!"]
+	title @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] title [""]
+	setblock 560 62 162 stonebrick 0
+
+GROUP | Grp_Finish | CLOCK		[560 48 166 | stonebrick 0]
+	scoreboard players add firework_timer CTFgen 0
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Item]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=XPOrb]
+	minecraft:kill @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,type=Arrow]
+	effect @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] minecraft:weakness 1 100 true
+	effect @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] minecraft:instant_health 1 2 true
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,m=2] minecraft:arrow
+	scoreboard players test winner_evaluation CTFgen 1 2147483647
+	 | scoreboard players test firework_timer CTFgen 0 0
+	 | execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ summon FireworksRocketEntity ~ ~3 ~ {LifeTime:20,Tags:["CTFEntity"]}
+	 L scoreboard players set firework_timer CTFgen 20
+	
+	scoreboard players test winner_evaluation CTFgen -2147483648 -1
+	 | scoreboard players test firework_timer CTFgen 0 0
+	 | execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ summon FireworksRocketEntity ~ ~3 ~ {LifeTime:20,Tags:["CTFEntity"]}
+	 L scoreboard players set firework_timer CTFgen 20
+	scoreboard players test finish_timer CTFgen 0 0
+	 | setblock 560 51 166 redstone_block 0
+	 L setblock 560 48 166 stonebrick 0
+	scoreboard players remove firework_timer CTFgen 1
+	scoreboard players remove finish_timer CTFgen 1
+
+GROUP | Grp_Reset | PULSE		[560 51 166 | stonebrick 0]
+	minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] 558 107 159
+	minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] 558 107 159
+	scoreboard players set red_flag_reset CTFgen -1
+	scoreboard players set blue_flag_reset CTFgen -1
+	minecraft:kill @e[tag=CTFFlag]
+	setblock 560 51 166 stonebrick 0
+
+GROUP | Grp_Teams | CLOCK		[560 53 166 | stonebrick 0]
+	scoreboard teams leave @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,team=NoPVP]
+	scoreboard players add red_minus_blue_count CTFgen 0
+	scoreboard players set red_count CTFgen 0
+	scoreboard players set blue_count CTFgen 0
+	execute @a[team=CTFRed,m=2] ~ ~ ~ scoreboard players add red_count CTFgen 1
+	execute @a[team=CTFBlue,m=2] ~ ~ ~ scoreboard players add blue_count CTFgen 1
+	scoreboard players operation red_minus_blue_count CTFgen = red_count CTFgen
+	scoreboard players operation red_minus_blue_count CTFgen -= blue_count CTFgen
+	scoreboard players test red_minus_blue_count CTFgen 0 0
+	 L scoreboard players tag @r[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=] add CTFJoinRandom
+	scoreboard players tag @r[type=AreaEffectCloud,tag=CTFTeamAoE,c=1] add CTFRandTeamAoE
+	execute @e[tag=CTFRandTeamAoE] ~ ~ ~ execute @e[tag=CTFRedAoE,r=0,c=1] ~ ~ ~ scoreboard teams join CTFRed @a[tag=CTFJoinRandom]
+	execute @e[tag=CTFRandTeamAoE] ~ ~ ~ execute @e[tag=CTFBlueAoE,r=0,c=1] ~ ~ ~ scoreboard teams join CTFBlue @a[tag=CTFJoinRandom]
+	scoreboard players tag @e[tag=CTFRandTeamAoE] remove CTFRandTeamAoE
+	scoreboard players tag @a[tag=CTFJoinRandom] remove CTFJoinRandom
+	scoreboard players test red_minus_blue_count CTFgen 1 2147483647
+	 L scoreboard teams join CTFBlue @r[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=]
+	scoreboard players test red_minus_blue_count CTFgen -2147483648 -1
+	 L scoreboard teams join CTFRed @r[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=]
+	setblock 560 53 166 stonebrick 0
+	testfor @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,m=2,team=]
+	 L setblock 560 53 166 redstone_block 0
+
+GROUP | Grp_Uninstall | PULSE		[560 56 166 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=33,score_SPgam_min=33] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	scoreboard teams remove CTFRed
+	scoreboard teams remove CTFBlue
+	scoreboard teams remove CTFVRed
+	scoreboard teams remove CTFVBlue
+	scoreboard objectives remove CTFscore
+	scoreboard objectives remove CTFgen
+	scoreboard objectives remove CTFinv
+	scoreboard objectives remove CTFres
+	scoreboard objectives remove CTFflag
+	scoreboard objectives remove CTFdeath
+	scoreboard objectives remove CTFleave
+	scoreboard objectives remove CTFEC
+	minecraft:kill @e[tag=CTFEntity]
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:iron_sword
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:bow
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:arrow
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_helmet
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_chestplate
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_leggings
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_boots
+	minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:wool
+	setblock 560 48 162 stonebrick 0
+	setblock 560 54 162 stonebrick 0
+	setblock 560 62 160 stonebrick 0
+	setblock 560 59 162 stonebrick 0
+	setblock 560 48 164 stonebrick 0
+	setblock 560 52 164 stonebrick 0
+	setblock 560 48 166 stonebrick 0
+	setblock 560 58 160 stonebrick 0
+	setblock 560 53 166 stonebrick 0
+	setblock 560 56 166 stonebrick 0
+	gamerule naturalRegeneration true
+
+GROUP | Grp_cmdSave | CLOCK		[560 60 166 | redstone_block 0]
+	fill 559 46 159 562 44 162 air 0
+	setblock 560 46 160 structure_block 0 replace {name:"CMDSave_CTF",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:16,sizeY:16,sizeZ:16}
+	setblock 560 44 160 structure_block 0 replace {name:"CMDSave_CTF",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 559 46 160 wooden_button 2
+	setblock 559 44 160 wooden_button 2
+	setblock 560 46 161 redstone_lamp 0
+	setblock 560 44 161 redstone_lamp 0
+	setblock 561 46 160 command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+	fill 560 60 166 575 60 166 air 0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

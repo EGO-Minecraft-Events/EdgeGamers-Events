@@ -244,6 +244,10 @@ FUNC {Func_TimerTFClock}:
 	testfor @e[type=ArmorStand,PCStand,PCti>=0]
 	CCU_SetblockTestfor
 	
+	pictionary status
+	COND:
+		@e[type=ArmorStand,tag=PCStand] PCti2 = 0
+	
 	@e[type=ArmorStand,PCStand,PCti>=0] PCti + 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti2 - 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti = 0
@@ -256,7 +260,7 @@ FUNC {Func_TimerTFClock}:
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
 	
 /// Clear answer
-	pictionary clear
+	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] pictionary clear
 	
 ///	General reset: clear, reset score, etc.
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] clear @a[$SA$,m=2,PCpl=3]
