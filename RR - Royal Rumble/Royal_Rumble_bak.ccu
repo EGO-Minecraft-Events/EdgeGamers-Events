@@ -24,7 +24,7 @@ IMPORT {LIBRARY GETDIR General}
 
 //<Options
 OPTIONS:
-	blockOption $BlockOption$
+	blockOption $BlockOption$ 0
 	coordsOption $CoordsOption$
 ///	Style
 ///	Avaliable options: +X -X +Z -Z (and) height in y
@@ -845,12 +845,12 @@ FUNC {Func_UniversalGive}:
 FUNC {Func_SwitchTeamsPulse}:
 	ScTA RRs_g Switch to green
 	ScTA RRs_b Switch to blue
-	J> RRs_b @a[team=RRg]
-	J> RRs_g @a[team=RRb]
-	E> RRg
-	E> RRb
-	J> RRb @a[team=RRs_b]
-	J> RRg @a[team=RRs_g]
+	RRs_b J> @a[team=RRg]
+	RRs_g J> @a[team=RRb]
+	RRg E>
+	RRb E>
+	RRb J> @a[team=RRs_b]
+	RRg J> @a[team=RRs_g]
 	clear @a[m=2,RRpi>=0]
 	effect @a[m=2,RRpi>=0] clear
 	ScTR RRs_g
@@ -869,8 +869,8 @@ FUNC {Func_PortalStart}:
 	
 	Green RRdi + 0
 	Blue RRdi + 0
-	J> Rg Green
-	J> RRb Blue
+	RRg J> Green
+	RRb J> Blue
 //>
 
 //<Portal Clock
@@ -881,8 +881,8 @@ FUNC {Func_PortalClock}:
 	gamemode 2 @a[RRsl>=1,m=0]
 	clear @a[RRsl>=1,m=2]
 	effect @a[RRsl>=1,m=2] clear
-	J> RRg @a[RRsl=1,m=2]
-	J> RRb @a[RRsl=2,m=2]
+	RRg J> @a[RRsl=1,m=2]
+	RRb J> @a[RRsl=2,m=2]
 	tp @a[team=RRg,RRsl=1] $SpawnG$
 	tp @a[team=RRb,RRsl=2] $SpawnB$
 	
@@ -1292,9 +1292,9 @@ FUNC {Func_ControlPointStart}:
 	@e[type=ArmorStand,RRPoint1] RRcpc + 0
 	@e[type=ArmorStand,RREasterEgg] RRec + 0
 	
-	J> RRd_y Countdown Minutes Seconds
-	J> RRd_g Green
-	J> RRd_b Blue Point1% Point2%
+	RRd_y J> Countdown Minutes Seconds
+	RRd_g J> Green
+	RRd_b J> Blue Point1% Point2%
 //>
 
 //<Control Point Comments
@@ -1445,8 +1445,8 @@ FUNC {Func_ControlPointClock}:
 	ScOP Point2% RR = @e[type=ArmorStand,RRPoint2,RRcpt>=0<=2000,RRcpo=1] RRcpc3
 	
 ///	Display during overtime
-	@e[type=ArmorStand,RRPoint,RRcpot=2,RRcpc=0] L> Seconds Minutes
-	@e[type=ArmorStand,RRPoint,RRcpot=2,RRcpc=3] J> RRd_y Seconds Minutes
+	@e[type=ArmorStand,RRPoint,RRcpot=2,RRcpc=0] RRd_y L> Seconds Minutes
+	@e[type=ArmorStand,RRPoint,RRcpot=2,RRcpc=3] RRd_y J> Seconds Minutes
 	
 ///	RRcpc is set at 3 to show the blue for longer
 ///	Sets team display score	
@@ -1467,12 +1467,12 @@ FUNC {Func_ControlPointClock}:
 ///	Team joining for point 1
 ///	Sets what happens when point 1 is captured
 	@e[type=ArmorStand,RRPoint,RRcpc2<=-1] RRcpc2 = 1
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=1] J> RRd_b Point1%
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=2] J> RRd_da Point1%
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=3] J> RRd_a Point1%
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=4] J> RRd_g Point1%
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=1] RRd_b J> Point1%
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=2] RRd_da J> Point1%
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=3] RRd_a J> Point1%
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=4] RRd_g J> Point1%
 	///	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5]
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] J> RRd_dg Point1%
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] RRd_dg J> Point1%
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] title @a title {"text":"The first point","color":"green"}
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] title @a subtitle {"text":"has been captured!","color":"green"}
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] tellraw @a $TextStart${"text":"The ","color":"gray"},{"text":"first Capture Point","color":"green"},{"text":" has been captured by ","color":"gray"},{"text":"Green!","color":"green"},{"text":"\\n10 minutes have been added!","color":"yellow"}]}
@@ -1486,15 +1486,15 @@ FUNC {Func_ControlPointClock}:
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] @e[type=ArmorStand,RRTimer] RRti = 0
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] @e[type=ArmorStand,RRTimer] RRcpot = 0
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] @e[type=ArmorStand,RRPoint2] RRcpc + 0
-	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] J> RRd_y Seconds Minutes
+	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] RRd_y J> Seconds Minutes
 	@e[type=ArmorStand,RRPoint1,RRcpc2>=1,RRcptd=5] @e[type=AreaEffectCloud,RRFirework1] summon $Firework$
 	
 ///	Team joining for point 2
 ///	Sets what happens when point 2 is captured
-	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=1] J> RRd_b Point2%
-	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=2] J> RRd_da Point2%
-	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=3] J> RRd_a Point2%
-	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=4] J> RRd_g Point2%
+	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=1] RRd_b J> Point2%
+	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=2] RRd_da J> Point2%
+	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=3] RRd_a J> Point2%
+	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=4] RRd_g J> Point2%
 	///	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=5]
 	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=5] RRd_dg Point2%
 	@e[type=ArmorStand,RRPoint2,RRcpc2>=1,RRcptd=5] setblock $CPBlock2$ glass 0
@@ -1555,7 +1555,7 @@ FUNC {Func_TeleporterStart}:
 	@e[type=AreaEffectCloud,RRTeleporter] RRtpo + 0
 	@e[type=AreaEffectCloud,RRTeleporter] RRpa + 0
 	@e[type=AreaEffectCloud,RRTeleporter] RRpat = 0
-	J> RRd_b @e[type=AreaEffectCloud,RRParticle,RRtpo=3,RRtpi>=9<=10]
+	RRd_b J> @e[type=AreaEffectCloud,RRParticle,RRtpo=3,RRtpi>=9<=10]
 //>
 
 //<Teleporter Clock
@@ -1576,7 +1576,7 @@ FUNC {Func_TeleporterClock}:
 	COND:
 		tellraw @a $TextStart${"selector":"@e[type=AreaEffectCloud,RRParticle,RRtpo=1]"},{"text":" has been enabled!","color":"gray"}]}
 		
-	J> RRd_g @e[type=AreaEffectCloud,RRParticle,RRtpo=1,RRtpi>=1<=8]
+	RRd_g J> @e[type=AreaEffectCloud,RRParticle,RRtpo=1,RRtpi>=1<=8]
 	LOOP {1 (Arr_TPGlass[L] + 1) + 1} {Arr_TPGlass[S]}:
 		@e[type=AreaEffectCloud,RRParticle,RRtpo=1,RRtpi=|0|] setblock |1| stained_glass 5
 	
@@ -1602,7 +1602,7 @@ FUNC {Func_TeleporterClock}:
 	testfor @e[type=AreaEffectCloud,RRtpo=3]
 	COND:
 		tellraw @a $TextStart${"selector":"@e[type=AreaEffectCloud,RRParticle,RRtpo=3]"},{"text":" has been disabled!","color":"gray"}]}
-	J> RRd_b @e[type=AreaEffectCloud,RRParticle,RRtpo=3,RRtpi>=1<=8]
+	RRd_b J> @e[type=AreaEffectCloud,RRParticle,RRtpo=3,RRtpi>=1<=8]
 	LOOP {1 (Arr_TPGlass[L] + 1) + 1} {Arr_TPGlass[S]}:
 		@e[type=AreaEffectCloud,RRParticle,RRtpo=3,RRtpi=|0|] setblock |1| stained_glass 3
 	
@@ -2122,8 +2122,8 @@ FUNC {Func_EngineerClock}:
 ///	Setting up the dispenser
 	@a[$SA$,m=2,RRci=3] RRpt + 0
 	@e[$SA$,type=Pig,RRPig] RRns + 0
-	J> RRd_b @e[$SA$,type=Pig,RRns=0,RRPigBlue]
-	J> RRd_g @e[$SA$,type=Pig,RRns=0,RRPigGreen]
+	RRd_b J> @e[$SA$,type=Pig,RRns=0,RRPigBlue]
+	RRd_g J> @e[$SA$,type=Pig,RRns=0,RRPigGreen]
 	
 ///	Rotation of the pig
 	@a[$SA$,m=2,RRci=3,RRpt=0,RRue=1,ry=224,rym=135] @e[type=Pig,RRPig,RRns=0,r=6,c=1] + RRPigRotationS

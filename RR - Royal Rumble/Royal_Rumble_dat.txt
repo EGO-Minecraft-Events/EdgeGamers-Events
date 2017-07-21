@@ -1,3 +1,24 @@
--65 64 399 -48 81 405
-Grp_SummonAstheticsPulse;-64 65 400;-49 68 400
-Grp_cmdSave;-64 70 400;-49 70 400
+-65 64 399 -48 81 413
+Grp_ArrowproofGreenSpawnClock;-64 65 400;-49 65 400
+Grp_ArrowproofBlueSpawnClock;-64 67 400;-49 67 400
+Grp_ArrowproofBlueMansionClock;-64 69 400;-49 69 400
+Grp_PortalStart;-64 71 400;-49 71 400
+Grp_PortalClock;-64 73 400;-49 74 400
+Grp_PortalEnd;-64 76 400;-49 76 400
+Grp_SwitchTeamsPulse;-64 78 400;-49 78 400
+Grp_RemoveTeamsPulse;-64 80 400;-49 80 400
+Grp_CountdownStart;-64 65 402;-49 65 402
+Grp_CountdownClock;-64 67 402;-49 69 402
+Grp_ParticleTFClock;-64 71 402;-49 80 402
+Grp_SimpleParticleTFClock;-64 65 404;-49 65 404
+Grp_StealthInventoryRestoreTFClock;-64 67 404;-49 67 404
+Grp_EngineerPigAstheticsClock;-64 69 404;-49 69 404
+Grp_MainStart;-64 65 406;-49 77 406
+Grp_MainClock;-64 65 408;-49 80 410
+Grp_MainEnd;-64 71 404;-49 80 404
+Grp_StealthGiveTFClock;-64 69 411;-49 71 411
+Grp_WarriorGiveTFClock;-64 73 411;-49 75 411
+Grp_ArcherGiveTFClock;-64 77 411;-49 79 411
+Grp_EngineerGiveTFClock;-64 65 412;-49 67 412
+Grp_SummonAstheticsPulse;-64 69 413;-49 74 413
+Grp_cmdSave;-64 79 406;-49 79 406
