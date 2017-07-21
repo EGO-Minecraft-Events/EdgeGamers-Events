@@ -108,7 +108,7 @@ GROUP | Grp_TimerTFClock | CLOCK		[94 21 190 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti_min=0] ~ ~ ~ scoreboard players operation Time_Elapsed PC = @e[type=ArmorStand,tag=PCStand,score_PCti_min=0] PCti2
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ title @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] title {"text":"Time's up!","color":"dark_aqua","underlined":true}
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,tag=PCGuess,score_PCpl=1,score_PCpl_min=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
-	pictionary clear
+	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ pictionary clear
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ minecraft:clear @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3]
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_EC=0,score_EC_min=0] SPbk 34
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ minecraft:tp @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] 137 4 180 90 -30
