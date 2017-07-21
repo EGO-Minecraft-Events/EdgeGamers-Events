@@ -101,6 +101,8 @@ GROUP | Grp_SelectsPlayerTFClock | CLOCK		[94 17 190 | stonebrick 0]
 GROUP | Grp_TimerTFClock | CLOCK		[94 21 190 | stonebrick 0]
 	testfor @e[type=ArmorStand,tag=PCStand,score_PCti_min=0]
 	setblock ~ ~ ~ repeating_command_block 12 replace {TrackOutput:0b,auto:1b}
+	pictionary status
+	 L scoreboard players set @e[type=ArmorStand,tag=PCStand] PCti2 0
 	scoreboard players add @e[type=ArmorStand,tag=PCStand,score_PCti_min=0] PCti 1
 	scoreboard players remove @e[type=ArmorStand,tag=PCStand,score_PCti=20,score_PCti_min=20] PCti2 1
 	scoreboard players set @e[type=ArmorStand,tag=PCStand,score_PCti=20,score_PCti_min=20] PCti 0

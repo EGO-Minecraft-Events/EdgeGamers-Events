@@ -244,6 +244,10 @@ FUNC {Func_TimerTFClock}:
 	testfor @e[type=ArmorStand,PCStand,PCti>=0]
 	CCU_SetblockTestfor
 	
+	pictionary status
+	COND:
+		@e[type=ArmorStand,tag=PCStand] PCti2 = 0
+	
 	@e[type=ArmorStand,PCStand,PCti>=0] PCti + 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti2 - 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti = 0
