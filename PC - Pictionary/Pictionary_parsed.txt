@@ -210,4 +210,3 @@ FINALIZE
 	setblock 94 10 188 stonebrick 0
 	setblock 94 24 190 stonebrick 0
 	setblock 94 14 188 redstone_block 0
-

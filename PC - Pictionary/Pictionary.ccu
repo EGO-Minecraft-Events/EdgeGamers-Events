@@ -51,25 +51,48 @@ DEF CCItem_Wool wool 64 |0|
 
 ///	Actual guess list
 ARRAY {Arr_GuessList}:
-	Dog
-	Cat
-	Lips
-	Watermelon
-	Apple
-	Ocean
-	Sword
-	Castle
-	Car *Vroom Vroom Machine*
-	eGO Logo
-	Cake
-	Corgi
-	Winnie the Pooh
-	Waffle
-	Person
-	T-Shirt
-	Computer
-	Airplane
-	Microphone
+	Grass
+	Cobblestone
+	Bedrock
+	Lava
+	Sand
+	Gold Ore
+	Iron Ore
+	Sponge
+	Bed
+	Piston
+	Bricks
+	TNT
+	Obsidian
+	Diamond Ore
+	Diamond Block
+	Crafting Table
+	Furnace
+	Oak Door
+	Redstone Torch
+	Command Block
+	Cactus
+	Jukebox
+	Jack o'Lantern
+	Soul Sand
+	Glowstone
+	Cake "NOM NOM NOM"
+	Mushroom
+	Enchantment Table
+	End Portal
+	The All-Mighty Dragon Egg
+	Ender Chest
+	Redstone Block
+	Barrier
+	Prismarine
+	Hay Bale
+	Block Of Coal
+	PurPur
+	Cool Banner
+	Shulker Box
+	Bread "Needs Butter @Mojang"
+	Slimy Ball
+
 	
 ARRAY {Arr_WoolIDs}:
 	14
@@ -171,7 +194,6 @@ FUNC {Func_SelectsPlayerTFClock}:
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @r[type=AreaEffectCloud,PCGuess,PCpl=0] PCpl = 1
 
 /// Sets the area effect cloud as the answer
-	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~0.001 ~
 	@e[type=AreaEffectCloud,PCGuess,PCpl=1] pictionary set entity @e[r=0]
 	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~-0.001 ~
 	
