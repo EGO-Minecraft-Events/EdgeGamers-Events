@@ -1,4 +1,4 @@
-95 9 191 78 26 188
+95 9 191 78 26 187
 Grp_MainStart;94 10 190;79 13 190
 Grp_FillBoardPulse;94 15 190;79 15 190
 Grp_SelectsPlayerTFClock;94 17 190;79 19 190

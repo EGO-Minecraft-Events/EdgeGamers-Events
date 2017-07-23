@@ -206,7 +206,7 @@ LOOP {1 12 + 1} {0 121 + 11}:
 		DEF GLOBAL COORDS $MMRoom|0;1|$ $RoomN$[x + |1;1|, y, z]
 		
 	IF {|0| > 6}:
-		DEF GLOBAL COORDS $MMRoom|0;1|$ $RoomN$[x + |1;1| - 66, y, z]
+		DEF GLOBAL COORDS $MMRoom|0;1|$ $RoomS$[x + |1;1| - 66, y, z]
 
 LOOP {1 12 + 1}:
 	DEF GLOBAL $SR|0;1|$ x=$MMRoom|0;1|$[x],y=$MMRoom|0;1|$[y],z=$MMRoom|0;1|$[z],$RoomSD$
@@ -389,8 +389,8 @@ FUNC {Func_GeneralScoreboardClock}:
 ///	Player List
 	@a[$SA$] MMpl + 0
 	@a[$SA$,MMpl=0] MMre = -100
-	NoPVP J> @a[$SA$,MMpl=0,team=!NoPVP]
-	MMwhite J> @a[$SA$,MMpl=0,EC=0,team=!MMwhite]
+	J> NoPVP @a[$SA$,MMpl=0,team=!NoPVP]
+	J> MMwhite @a[$SA$,MMpl=0,EC=0,team=!MMwhite]
 	@a[$SA$,MMpl=0] MMpl = 1
 	
 ///	Item Clock - Doesn't have a pickup delay of 0 when the player is crouching

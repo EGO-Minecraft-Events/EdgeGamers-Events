@@ -30,6 +30,8 @@ IMPORT {LIBRARY GETDIR General}
 IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\PC - Pictionary\Pictionary_dat.txt}
 IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\AD - Anvil Drop\Anvil_Drop_dat.txt}
 IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\MM - Mastermind\Mastermind_dat.txt}
+IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\RR - Royal Rumble\Royal_Rumble_dat.txt}
+IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\CTF - Capture the Flag\Capture_the_Flag_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -47,7 +49,7 @@ OPTIONS:
 FUNC {Func_Book_Mastermind}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=9] slot.weapon.offhand written_book 1 0 
-	{title:MM Book,author:french_man,pages:[0:
+	{title:"MM Book,author":french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"MM Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -121,7 +123,7 @@ FUNC {Func_Book_Mastermind}:
 FUNC {Func_Book_ThePit3}:
 /*
 	give @e[type=Player,EC=0,SPbk=10] written_book 1 0 
-	{title:TPL3 Book,author:french_man,pages:[0:
+	{title:"TPL3 Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"TPL3 Settings\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -400,7 +402,7 @@ FUNC {Func_Book_ThePit3}:
 FUNC {Func_Book_SandTomb}:
 /*
 	give @e[type=Player,EC=0,SPbk=14] written_book 1 0 
-	{title:ST: Ant Farm Book,author:french_man,pages:[0:
+	{title:"ST: Ant Farm Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Ant Farm Settings\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -472,7 +474,7 @@ FUNC {Func_Book_SandTomb}:
 -/-
 
 	give @e[type=Player,EC=0,SPbk=14] written_book 1 0 
-	{title:ST: Classic Book,author:french_man,pages:[0:
+	{title:"ST: Classic Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Classic Settings\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -547,7 +549,7 @@ FUNC {Func_Book_SandTomb}:
 FUNC {Func_Book_Virus2}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=16] slot.weapon.offhand written_book 1 0 
-	{title:Virus 2 Book,author:french_man,pages:[0:
+	{title:"Virus 2 Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Virus 2 Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -583,7 +585,7 @@ FUNC {Func_Book_Virus2}:
 FUNC {Func_Book_Virus1}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=17] slot.weapon.offhand written_book 1 0 
-	{title:Virus 1 Book,author:french_man,pages:[0:
+	{title:"Virus 1 Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Virus 1 Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -622,7 +624,7 @@ FUNC {Func_Book_TSToken}:
 ///	Opposite selection		SPtss 2
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=18] slot.weapon.offhand written_book 1 0 
-	{title:TSToken Book,author:french_man,pages:[0:
+	{title:"TSToken Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"TSToken Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -688,7 +690,7 @@ FUNC {Func_Book_TSToken}:
 FUNC {Func_Book_EverChangingRace}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=20] slot.weapon.offhand written_book 1 0 
-	{title:ECR Book,author:french_man,pages:[0:
+	{title:"ECR Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Delay 1 (s)\",\"bold\":true,\"color\":\"black\"},
 			{\"text\":\"\n[0.5]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set Delay1 ECRSave 10\"}},
@@ -753,7 +755,7 @@ FUNC {Func_Book_EverChangingRace}:
 FUNC {Func_Book_AnvilDrop}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=21] slot.weapon.offhand written_book 1 0 
-	{title:AD Book,author:french_man,pages:[0:
+	{title:"AD Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"AD Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -793,7 +795,7 @@ FUNC {Func_Book_AnvilDrop}:
 FUNC {Func_Book_CMD}:
 /*
 	replaceitem entity @e[type=Player,EC=0,SPbk=27] slot.weapon.offhand written_book 1 0 
-	{title:CMD Book,author:french_man,pages:[0:
+	{title:"CMD Book",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Timer Settings\n\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -827,7 +829,7 @@ FUNC {Func_Book_CMD}:
 FUNC {Func_Book_DeathPit}:
 /*
 	give @e[type=Player,EC=0,SPbk=29] written_book 1 0 
-	{title:DP: General,author:french_man,pages:[0:
+	{title:"DP: General",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Death Pit Settings\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -944,7 +946,7 @@ FUNC {Func_Book_DeathPit}:
 -/-
 
 	give @e[type=Player,EC=0,SPbk=29] written_book 1 0 
-	{title:DP: Mobs,author:french_man,pages:[0:
+	{title:"DP: Mobs",author:french_man,pages:[0:
 		"[\"\",
 			{\"text\":\"Death Pit Mobs\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -1143,15 +1145,73 @@ FUNC {Func_Book_DeathPit}:
 //>
 
 //<Book: Capture the Flag
-// You can prettify it if you want
-give @e[type=Player,EC=0,SPbk=33] written_book 1 0 {pages:["[\"\",{\"text\":\"Capture the Flag\",\"bold\":true},{\"text\":\"\\n\",\"bold\":false},{\"text\":\"Commands:\"},{\"text\":\" \"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 162 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Game:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 59 162 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Teams:\",\"color\":\"none\"},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Assign Teams]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 53 166 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[+Red]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 52 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+Blue]\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 54 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"[Shuffle Teams]\",\"color\":\"dark_purple\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 56 160 redstone_block 0\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Auto-Join:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"/\",\"color\":\"black\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"Off\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 58 160 stonebrick 0\"}},{\"text\":\"\\n\\n\",\"color\":\"none\"},{\"text\":\"Win Score:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add Win_Score CTFscore 1\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove Win_Score CTFscore 1\"}},{\"text\":\"\\n\",\"color\":\"none\"},{\"text\":\"Time:\",\"color\":\"none\"},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[+min]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 48 160 redstone_block 0\"}},{\"text\":\" \",\"color\":\"none\"},{\"text\":\"[-min]\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock 560 50 160 redstone_block 0\"}}]"],title:"Capture the Flag",author:"Icohedron"}
+FUNC {Func_Book_CapturetheFlag}:
+/*
+	give @e[type=Player,EC=0,SPbk=33] written_book 1 0 
+		{title:"CTF Book",author:Icohedron,pages:[0:
+		"[\"\",
+			{\"text\":\"Capture the Flag\",\"bold\":true},
+			{\"text\":\"\n\"},
+			
+			{\"text\":\"Arena: \",\"color\":\"black\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_Install redstone_block 0\"}},
+			{\"text\":\" / \",\"color\":\"black\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_Uninstall redstone_block 0\"}},
+			
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\n\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_Start redstone_block 0\"}},
+			
+			{\"text\":\"Teams: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_Teams redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Assigns teams\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_purple\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_Shuffle redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Shuffles teams\",\"color\":\"dark_purple\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[1]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_MoveOneToRed redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds a player to red\",\"color\":\"red\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[1]\n\",\"color\":\"blue\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_MoveOneToBlue redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds a player to blue\",\"color\":\"blue\"}}
+			},
+			
+			{\"text\":\"Auto-Join: \",\"color\":\"dark_gray\"},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_AutoJoinGame redstone_block 0\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_AutoJoinGame stonebrick 0\"}},
+			
+			{\"text\":\"Win score: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add Win_Score CTFscore 1\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[-]\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove Win_Score CTFscore 1\"}},
+			
+			{\"text\":\"Time: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+1]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_AddMinute redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds one minute\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[-1]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Capture_the_Flag.Grp_RemoveMinute redstone_block 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes one minute\",\"color\":\"red\"}}
+			}
+		]"
+	]}
+*/
 //>
 
 //<Book: Pictionary
 FUNC {Func_Book_Pictionary}:
 /*
 	give @e[type=Player,EC=0,SPbk=34] written_book 1 0 
-	{title:PC Book,author:french_man,pages:[0:
+	{title:"PC Book",author:CMDZane,pages:[0:
 		"[\"\",
 			{\"text\":\"Pictionary\",\"bold\":true},
 			{\"text\":\"\n\"},
@@ -1192,6 +1252,181 @@ FUNC {Func_Book_Pictionary}:
 */
 //>
 
+//<Book: Royal Rumble
+FUNC {Func_Book_RoyalRumble}:
+/*
+	give @e[type=Player,EC=0,SPbk=35] written_book 1 0 
+///	give @p written_book 1 0 
+	{title:"RR Book",author:french_man,pages:[0:
+		"[\"\",
+			{\"text\":\"General Settings\n\",\"bold\":true},
+			{\"text\":\"\n\"},
+			
+			{\"text\":\"RR: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Royal_Rumble.Grp_MainStart redstone_block 0\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 4097\"}},
+			
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 2048\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 4096\"}},
+			
+			{\"text\":\"Particle: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 512\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Activates complex particles (default)\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[+]\n\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 1024\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Activates simple particles\",\"color\":\"gold\"}}
+			},
+			
+			{\"text\":\"Arrowproof:\n\",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 8192\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns on arrow spawn protection for the green spawn\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\"/\",\"color\":\"gray\"},
+			{\"text\":\"[-]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 16384\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns of arrow spawn protection for the green spawn\",\"color\":\"red\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 32768\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns on arrow spawn protection for the blue spawn\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\"/\",\"color\":\"gray\"},
+			{\"text\":\"[-]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 65536\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns of arrow spawn protection for the blue spawn\",\"color\":\"red\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 131072\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns on arrow spawn protection for the blue mansion\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\"/\",\"color\":\"gray\"},
+			{\"text\":\"[-]\n\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 262144\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Turns of arrow spawn protection for the blue mansion\",\"color\":\"red\"}}
+			},
+			
+			{\"text\":\"Time:\",\"color\":\"dark_gray\"},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 8\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds one minute\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 16\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes one minute\",\"color\":\"red\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[0]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 32\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Pause\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[>]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRStand] RRop 64\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resume\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[>>]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,RRTimer] RRti2 2\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Skips time\",\"color\":\"gold\"}}
+			},
+			
+			{\"text\":\"Countdown: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[0]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRCountdown] RRti -1\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Pause\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[>]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRCountdown] RRti 0\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resume\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[>>]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRCountdown] RRti2 6\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Skips time\",\"color\":\"gold\"}}
+			}
+			
+			
+		]",1:
+		"[\"\",
+			{\"text\":\"Tele. settings\",\"bold\":true},
+			{\"text\":\"\n\n\"},;
+			*/
+			
+	LOOP {1 9 + 2} {2 10 + 2}:
+		/*
+		{\"text\":\"|0|: \",\"color\":\"dark_gray\"},
+		{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=AreaEffectCloud,RRtpi=|0|] RRtpo 1\"}},
+		{\"text\":\" \",\"color\":\"gray\"},
+		{\"text\":\"[-] \",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=AreaEffectCloud,RRtpi=|0|] RRtpo 3\"}},
+		
+		{\"text\":\"|1|: \",\"color\":\"dark_gray\"},
+		{\"text\":\"[+]\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=AreaEffectCloud,RRtpi=|1|] RRtpo 1\"}},
+		{\"text\":\" \",\"color\":\"gray\"},
+		{\"text\":\"[-]\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=AreaEffectCloud,RRtpi=|1|] RRtpo 3\"}},;
+		*/
+		
+	/*
+	{\"text\":\"\n \",\"color\":\"dark_gray\"}
+		]",2:
+		"[\"\",
+			{\"text\":\"Other Settings\",\"bold\":true},
+			{\"text\":\"\n\n\"},
+			
+			{\"text\":\"Point 1:\n\",\"color\":\"dark_gray\"},
+			{\"text\":\"0%\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRPoint1] RRcpt 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"99%\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRPoint1] RRcpt 1980\"}},
+			{\"text\":\" - \",\"color\":\"gray\"},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -42 22 337 redstone_block 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -42 22 337 air 0\"}},
+			
+			{\"text\":\"Point 2:\n\",\"color\":\"dark_gray\"},
+			{\"text\":\"0%\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRPoint2] RRcpt 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"99%\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,tag=RRPoint2] RRcpt 1980\"}},
+			{\"text\":\" - \",\"color\":\"gray\"},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -117 16 330 redstone_block 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -117 16 330 air 0\"}},
+			
+			{\"text\":\"\n\"},
+			
+			{\"text\":\"Class: \",\"color\":\"dark_gray\"},
+			{\"text\":\"0\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players tag @a[c=1] add RRTarget0\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"1\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players tag @a[c=1] add RRTarget1\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"2\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players tag @a[c=1] add RRTarget2\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"3\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players tag @a[c=1] add RRTarget3\"}},
+			
+			{\"text\":\"Join: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Green\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard teams join RRg @a[c=1]\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Blue\n\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard teams join RRb @a[c=1]\"}},
+			
+			{\"text\":\"Spawn: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Green\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/minecraft:tp @a[c=1] -64 17 431\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Blue\n\",\"color\":\"blue\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/minecraft:tp @a[c=1] -138 26 330\"}}
+		]"
+	]}
+*/
+//>
+
 //<Book Testfor Clock
 FUNC {Func_BookTFClock}:
 	testfor @e[type=Player,SPbk>=1]
@@ -1208,7 +1443,9 @@ FUNC {Func_BookTFClock}:
 	Func_Book_AnvilDrop()
 	Func_Book_CMD()
 	Func_Book_DeathPit()
+	Func_Book_CapturetheFlag()
 	Func_Book_Pictionary()
+	Func_Book_RoyalRumble()
 	
 	@e[type=Player,SPbk>=1] SPbk = 0
 //>

@@ -1,4 +1,4 @@
-fill 95 9 191 78 26 188 air 0
+fill 95 9 191 78 26 187 air 0
 setblock 93 10 190 command_block 4 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 34",TrackOutput:0b,auto:0b}
 setblock 92 10 190 chain_command_block 4 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1",TrackOutput:0b,auto:1b}
 setblock 91 10 190 chain_command_block 4 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1",TrackOutput:0b,auto:1b}

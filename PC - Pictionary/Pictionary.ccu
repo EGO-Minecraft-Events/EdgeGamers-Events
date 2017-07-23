@@ -314,7 +314,6 @@ GROUP {Grp_TimerTFClock}:
 GROUP {Grp_MainClock}:
 	CCU.spawnIDSetting()
 	Func_GeneralScoreboardClock()
-	Func_GeneralEndClock()
 
 GROUP {Grp_MainEnd}:
 	CCU.spawnStandEnd()
