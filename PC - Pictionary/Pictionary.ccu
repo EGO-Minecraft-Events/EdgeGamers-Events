@@ -94,10 +94,6 @@ ARRAY {Arr_GuessList}:
 	Slimy Ball
 
 	
-
-	
-	
-	
 ARRAY {Arr_WoolIDs}:
 	14
 	1
@@ -198,8 +194,7 @@ FUNC {Func_SelectsPlayerTFClock}:
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @r[type=AreaEffectCloud,PCGuess,PCpl=0] PCpl = 1
 
 /// Sets the area effect cloud as the answer
-	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~0.001 ~
-	execute @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~ ~ pictionary set entity @e[r=0]
+	@e[type=AreaEffectCloud,PCGuess,PCpl=1] pictionary set entity @e[r=0]
 	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~-0.001 ~
 	
 ///	Gives wool
@@ -341,7 +336,6 @@ GROUP {Grp_TimerTFClock}:
 GROUP {Grp_MainClock}:
 	CCU.spawnIDSetting()
 	Func_GeneralScoreboardClock()
-	Func_GeneralEndClock()
 
 GROUP {Grp_MainEnd}:
 	CCU.spawnStandEnd()
