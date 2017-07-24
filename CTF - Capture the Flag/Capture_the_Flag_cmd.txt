@@ -1,4 +1,5 @@
 fill 559 47 159 576 64 166 air 0
+fill 559 47 159 576 64 167 air 0
 setblock 561 48 160 command_block 5 replace {Command:"scoreboard players add Time CTFgen 1200",TrackOutput:0b,auto:0b}
 setblock 562 48 160 chain_command_block 5 replace {Command:"scoreboard players operation time_left CTFgen = Time CTFgen",TrackOutput:0b,auto:1b}
 setblock 563 48 160 chain_command_block 5 replace {Command:"scoreboard players operation minutes CTFgen = time_left CTFgen",TrackOutput:0b,auto:1b}
@@ -177,8 +178,8 @@ setblock 568 57 162 chain_command_block 4 replace {Command:"scoreboard players t
 setblock 567 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueChest] remove CTFHasBlueChest",TrackOutput:0b,auto:1b}
 setblock 566 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueLegs] remove CTFHasBlueLegs",TrackOutput:0b,auto:1b}
 setblock 565 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueFeet] remove CTFHasBlueFeet",TrackOutput:0b,auto:1b}
-setblock 564 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:\"minecraft:written_book\",tag:{title:\"Capture the Flag\",author:\"Icohedron\"}}]}",TrackOutput:0b,auto:1b}
-setblock 563 57 162 chain_command_block 4 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:\"Capture the Flag\",author:\"Icohedron\"}",TrackOutput:0b,auto:1b}
+setblock 564 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:\"minecraft:written_book\",tag:{title:\"CTF Book\",author:\"Icohedron\"}}]}",TrackOutput:0b,auto:1b}
+setblock 563 57 162 chain_command_block 4 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:\"CTF Book\",author:\"Icohedron\"}",TrackOutput:0b,auto:1b}
 setblock 562 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1,score_CTFinv=0,score_CTFinv_min=0] SPbk 33",TrackOutput:0b,auto:1b}
 setblock 561 62 160 repeating_command_block 5 replace {Command:"scoreboard players add @a[x=548,y=106,z=148,dx=20,dy=5,dz=21] SPid 0",TrackOutput:0b,auto:0b}
 setblock 562 62 160 chain_command_block 5 replace {Command:"scoreboard players set @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,score_SPid=-34] SPid 33",TrackOutput:0b,auto:1b}

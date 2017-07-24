@@ -294,8 +294,8 @@ FUNC {Func_RefreshInventory}:
 	Func_RefreshArmor(Blue;$BlueArmorColor$)
 	
 	// EC
-	@a[$ArenaArea$] CTFEC = 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"Capture the Flag",author:"Icohedron"}}]}
-	@a[$ArenaArea$,CTFEC=1] clear @p minecraft:written_book -1 0 {title:"Capture the Flag",author:"Icohedron"}
+	@a[$ArenaArea$] CTFEC = 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"CTF Book",author:"Icohedron"}}]}
+	@a[$ArenaArea$,CTFEC=1] clear @p minecraft:written_book -1 0 {title:"CTF Book",author:"Icohedron"}
 	@a[$ArenaArea$,CTFEC=1,CTFinv=0] SPbk = $SPid$
 	
 GROUP {CLOCK Grp_Main}:

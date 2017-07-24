@@ -1,3 +1,7 @@
+INITIALIZE
+	fill 559 47 159 576 64 166 air 0
+	fill 559 47 159 576 64 167 air 0
+
 GROUP | Grp_AddMinute | PULSE		[560 48 160 | stonebrick 0]
 	scoreboard players add Time CTFgen 1200
 	scoreboard players operation time_left CTFgen = Time CTFgen
@@ -193,8 +197,8 @@ GROUP | Grp_Main | CLOCK		[560 54 162 | stonebrick 0]
 	scoreboard players tag @a[tag=CTFHasBlueChest] remove CTFHasBlueChest
 	scoreboard players tag @a[tag=CTFHasBlueLegs] remove CTFHasBlueLegs
 	scoreboard players tag @a[tag=CTFHasBlueFeet] remove CTFHasBlueFeet
-	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"Capture the Flag",author:"Icohedron"}}]}
-	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:"Capture the Flag",author:"Icohedron"}
+	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"CTF Book",author:"Icohedron"}}]}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:"CTF Book",author:"Icohedron"}
 	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1,score_CTFinv=0,score_CTFinv_min=0] SPbk 33
 
 GROUP | Grp_Lobby | CLOCK		[560 62 160 | stonebrick 0]
@@ -558,5 +562,24 @@ GROUP | Grp_cmdSave | CLOCK		[560 60 166 | redstone_block 0]
 	setblock 561 46 160 command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
 	fill 560 60 166 575 60 166 air 0
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+FINALIZE
+	setblock 560 48 160 stonebrick 0
+	setblock 560 50 160 stonebrick 0
+	setblock 560 52 160 stonebrick 0
+	setblock 560 54 160 stonebrick 0
+	setblock 560 56 160 stonebrick 0
+	setblock 560 58 160 stonebrick 0
+	setblock 560 60 160 stonebrick 0
+	setblock 560 48 162 stonebrick 0
+	setblock 560 54 162 stonebrick 0
+	setblock 560 62 160 stonebrick 0
+	setblock 560 59 162 stonebrick 0
+	setblock 560 48 164 stonebrick 0
+	setblock 560 52 164 stonebrick 0
+	setblock 560 62 162 stonebrick 0
+	setblock 560 48 166 stonebrick 0
+	setblock 560 51 166 stonebrick 0
+	setblock 560 53 166 stonebrick 0
+	setblock 560 56 166 stonebrick 0
+	setblock 560 60 166 redstone_block 0
 
