@@ -1,5 +1,4 @@
 INITIALIZE
-	fill 559 47 159 576 64 166 air 0
 	fill 559 47 159 576 64 167 air 0
 
 GROUP | Grp_AddMinute | PULSE		[560 48 160 | stonebrick 0]
@@ -197,8 +196,8 @@ GROUP | Grp_Main | CLOCK		[560 54 162 | stonebrick 0]
 	scoreboard players tag @a[tag=CTFHasBlueChest] remove CTFHasBlueChest
 	scoreboard players tag @a[tag=CTFHasBlueLegs] remove CTFHasBlueLegs
 	scoreboard players tag @a[tag=CTFHasBlueFeet] remove CTFHasBlueFeet
-	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"CTF Book",author:"Icohedron"}}]}
-	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:"CTF Book",author:"Icohedron"}
+	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"CTF Book",author:"eGO"}}]}
+	execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:"CTF Book",author:"eGO"}
 	scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1,score_CTFinv=0,score_CTFinv_min=0] SPbk 33
 
 GROUP | Grp_Lobby | CLOCK		[560 62 160 | stonebrick 0]
@@ -370,6 +369,10 @@ GROUP | Grp_Play | CLOCK		[560 52 164 | stonebrick 0]
 	 | scoreboard players set blue_flag_reset CTFgen -1
 	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Blue","color":"blue"}, " flag has been returned to its base!"]
 	 L execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p
+	scoreboard players tag @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=CTFFlag] add CTFInBounds
+	execute @e[tag=CTFFlag] ~ ~ ~ execute @e[type=ArmorStand,tag=!CTFInBounds,r=0,c=1] ~ ~ ~ execute @e[type=ArmorStand,tag=CTFRedFlag,r=0,c=1] ~ ~ ~ scoreboard players set red_flag_reset CTFgen 0
+	execute @e[tag=CTFFlag] ~ ~ ~ execute @e[type=ArmorStand,tag=!CTFInBounds,r=0,c=1] ~ ~ ~ execute @e[type=ArmorStand,tag=CTFBlueFlag,r=0,c=1] ~ ~ ~ scoreboard players set blue_flag_reset CTFgen 0
+	scoreboard players tag @e[tag=CTFInBounds] remove CTFInBounds
 	scoreboard players test red_flag_reset CTFgen 0 0
 	 | minecraft:kill @e[tag=CTFRedFlag]
 	 | tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ["The ", {"text":"Red","color":"red"}, " flag has been returned to its base!"]
@@ -518,6 +521,8 @@ GROUP | Grp_Uninstall | PULSE		[560 56 166 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=33,score_SPgam_min=33] SPgam 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed,m=2] 558 107 159
+	minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue,m=2] 558 107 159
 	scoreboard teams remove CTFRed
 	scoreboard teams remove CTFBlue
 	scoreboard teams remove CTFVRed

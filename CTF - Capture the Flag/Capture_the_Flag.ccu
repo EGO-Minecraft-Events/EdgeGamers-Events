@@ -5,6 +5,7 @@ DEF $SA$ x=548,y=106,z=148,dx=20,dy=5,dz=21
 DEF $ArenaArea$ x=535,y=0,z=129,dx=50,dy=256,dz=64
 DEF $SpectatorArea$ x=542,y=100,z=136,dx=32,dy=5,dz=45
 DEF COORDS $SpawnPoint$ 558 107 159 
+DEF $ECBookIdentifier$ {title:"CTF Book",author:"eGO"}
 
 DEF $DefaultTime$ 12000
 DEF $DefaultWinScore$ 5
@@ -294,8 +295,8 @@ FUNC {Func_RefreshInventory}:
 	Func_RefreshArmor(Blue;$BlueArmorColor$)
 	
 	// EC
-	@a[$ArenaArea$] CTFEC = 1 {Inventory:[{id:"minecraft:written_book",tag:{title:"CTF Book",author:"Icohedron"}}]}
-	@a[$ArenaArea$,CTFEC=1] clear @p minecraft:written_book -1 0 {title:"CTF Book",author:"Icohedron"}
+	@a[$ArenaArea$] CTFEC = 1 {Inventory:[{id:"minecraft:written_book",tag:$ECBookIdentifier$}]}
+	@a[$ArenaArea$,CTFEC=1] clear @p minecraft:written_book -1 0 $ECBookIdentifier$
 	@a[$ArenaArea$,CTFEC=1,CTFinv=0] SPbk = $SPid$
 	
 GROUP {CLOCK Grp_Main}:
@@ -534,6 +535,12 @@ FUNC {Func_UpdateFlags}:
 				tellraw @a[$ArenaArea$] ["The ", {"text":"Blue","color":"blue"}, " flag has been returned to its base!"]
 			@a[$ArenaArea$] playsound Snd_XP voice @p
 	
+	// Immediately reset out of bounds flags
+	@e[$ArenaArea$,CTFFlag] + CTFInBounds
+	@e[CTFFlag] @e[type=ArmorStand,!CTFInBounds,r=0,c=1] @e[type=ArmorStand,CTFRedFlag,r=0,c=1] red_flag_reset CTFgen = 0
+	@e[CTFFlag] @e[type=ArmorStand,!CTFInBounds,r=0,c=1] @e[type=ArmorStand,CTFBlueFlag,r=0,c=1] blue_flag_reset CTFgen = 0
+	@e[CTFInBounds] - CTFInBounds
+	
 	// Flag reset timers
 	LOOP {red;blue}:
 		|0|_flag_reset CTFgen ? 0 0
@@ -755,6 +762,9 @@ GROUP {CLOCK Grp_Teams}:
 
 GROUP {PULSE Grp_Uninstall}:
 	CCU.spawnStandEnd()
+	
+	tp @a[$ArenaArea$,team=CTFRed,m=2] $SpawnPoint$
+	tp @a[$ArenaArea$,team=CTFBlue,m=2] $SpawnPoint$
 	
 	CCU.teamRemove(Teams)
 	CCU.objectiveRemove(Arr_ScoreboardObjectives)
