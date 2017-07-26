@@ -767,7 +767,7 @@ GROUP {PULSE Grp_Uninstall}:
 		minecraft:arrow
 		minecraft:leather_helmet
 		minecraft:leather_chestplate
-		minecraft:leather_leggings
+		minecraft:
 		minecraft:leather_boots
 		minecraft:wool
 	
@@ -778,4 +778,9 @@ GROUP {PULSE Grp_Uninstall}:
 
 //// Command Save ////
 
-CCU.cmdSave()
+FINALIZE:
+	CCU.cmdSave()
+
+
+
+

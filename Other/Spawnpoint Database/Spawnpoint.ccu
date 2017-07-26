@@ -318,8 +318,8 @@ ARRAY {Arr_Spawnpoint}:
 		light_purple;red;gold;yellow;green;dark_green;blue;dark_aqua;aqua;white
 		pc
 	} {
-		-103 19 480
-		-103 19 480 -180 0
+		-103 19 482
+		-103 19 482 -180 0
 		Royal Rumble
 		Royal; ;Rumble
 		blue;white;dark_green
@@ -460,6 +460,7 @@ FUNC {Func_AddingScoreboardsPulse}:
 		APPS TheDarkOne239
 		APPS DELHI123
 		APPS Pikaslack
+		APPS Soupyahtzee
 		
 		AT BUTTERLOVER7683
 		
@@ -467,6 +468,7 @@ FUNC {Func_AddingScoreboardsPulse}:
 		EC french_man
 		EC jamboree_lee
 		EC CynRyn
+		EC CMDZane
 		
 		LE FoxyTheBoomQueen
 		LE idk_lobsters
@@ -474,7 +476,6 @@ FUNC {Func_AddingScoreboardsPulse}:
 		LE FirezFury
 		
 		APWBS Witch_Doctor
-		APWBS CMDZane
 		APWBS Kilgore90
 		APWBS Icohedron
 	
@@ -934,7 +935,7 @@ SPst	Specialty teams		Players
 	@a[SPlg>=1] SPlg = 0
 	
 ///	For voting
-	@a enable SPvot
+	* enable SPvot
 	/*
 	tellraw @a[SPvot>=1] $TextStart$
 	{"text":"Vote here: ","color":"gray"},
@@ -1038,5 +1039,6 @@ GROUP {Grp_MainEnd}:
 	CCU_Deactivate(Grp_OtherClock)
 	CCU_Deactivate(Spawnpoint_Book.Grp_BookTFClock)
 
-CCU.cmdSave()
+FINALIZE:
+	CCU.cmdSave()
 //>

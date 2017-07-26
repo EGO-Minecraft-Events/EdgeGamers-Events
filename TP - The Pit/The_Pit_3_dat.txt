@@ -1,0 +1,16 @@
+-97 15 239 -89 32 256
+Grp_MainStart;-96 16 240;-96 21 255
+Grp_MainEnd;-96 23 240;-96 27 255
+Grp_RefreshArenaPulse;-96 29 240;-96 30 255
+Grp_MainClock;-94 16 240;-94 22 255
+Grp_CountdownTFClock;-94 24 240;-94 25 255
+Grp_GeneralOptionsTFClock;-94 27 240;-94 29 255
+Grp_PlayerJoinTFClock;-94 31 240;-94 31 255
+Grp_RoundStartTFClock;-92 16 240;-92 16 255
+Grp_RoundTFClock;-92 18 240;-92 19 255
+Grp_RoundEndTFClock;-92 21 240;-92 22 255
+Grp_DegArenaTFClock;-92 24 240;-92 25 255
+Grp_WeaponTypeTFClock;-92 27 240;-92 30 255
+Grp_TeamsSettingTFClock;-90 16 240;-90 17 255
+Grp_TeamsSelfChooseTFClock;-90 19 240;-90 20 255
+Grp_TeamsRandomizerTFClock;-90 22 240;-90 22 255
