@@ -1464,8 +1464,7 @@ FUNC {Func_BookTFClock}:
 GROUP {Grp_BookTFClock}:
 	Func_BookTFClock()
 
-FINALIZE:
-	CCU.cmdSave()
+CCU.cmdSave()
 //>
 
 

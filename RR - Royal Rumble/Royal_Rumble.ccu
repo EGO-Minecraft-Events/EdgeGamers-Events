@@ -4308,9 +4308,8 @@ LOOP {Stealth;Warrior;Archer;Engineer} {0;1;2;3}:
 			Func_EngineerCC(|1|)
 		
 		@a[RRsa=1,RRgi=|1|] reset RRgi
-	
-FINALIZE:
-	CCU.cmdSave()
+
+CCU.cmdSave()
 //>
 
 

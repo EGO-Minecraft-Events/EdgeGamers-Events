@@ -1566,8 +1566,7 @@ GROUP {Grp_TeamsSelfChooseTFClock}:
 GROUP {Grp_TeamsRandomizerTFClock}:
 	Func_TeamsRandomizerTFClock()
 
-FINALIZE:
-	CCU.cmdSave()
+CCU.cmdSave()
 //>
 
 

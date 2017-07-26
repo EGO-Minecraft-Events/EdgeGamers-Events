@@ -386,8 +386,7 @@ GROUP {Grp_ChangeSettings}:
 	say GSELF
 	Func_ChangeSettings()
 
-FINALIZE:
-	CCU.cmdSave()
+CCU.cmdSave()
 //>
 
 

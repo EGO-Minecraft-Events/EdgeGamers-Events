@@ -787,6 +787,5 @@ GROUP {PULSE Grp_Uninstall}:
 	gamerule naturalRegeneration true
 
 //// Command Save ////
-	
-FINALIZE:
-	CCU.cmdSave()
+
+CCU.cmdSave()

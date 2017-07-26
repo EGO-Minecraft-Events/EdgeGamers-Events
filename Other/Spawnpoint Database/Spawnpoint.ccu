@@ -1039,6 +1039,5 @@ GROUP {Grp_MainEnd}:
 	CCU_Deactivate(Grp_OtherClock)
 	CCU_Deactivate(Spawnpoint_Book.Grp_BookTFClock)
 
-FINALIZE:
-	CCU.cmdSave()
+CCU.cmdSave()
 //>

@@ -762,9 +762,8 @@ GROUP {Grp_MainEnd}:
 	CCU_Deactivate(Grp_RefreshRoomsTFClock)
 	LOOP {1 12 + 1}:
 		CCU_Deactivate(Grp_GuessCheckTFClock|0|)
-	
-FINALIZE:
-	CCU.cmdSave()
+
+CCU.cmdSave()
 //>
 
 
