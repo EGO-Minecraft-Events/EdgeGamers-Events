@@ -1,4 +1,4 @@
-fill 559 47 159 576 64 166 air 0
+fill 559 47 159 576 64 167 air 0
 setblock 561 48 160 command_block 5 replace {Command:"scoreboard players add Time CTFgen 1200",TrackOutput:0b,auto:0b}
 setblock 562 48 160 chain_command_block 5 replace {Command:"scoreboard players operation time_left CTFgen = Time CTFgen",TrackOutput:0b,auto:1b}
 setblock 563 48 160 chain_command_block 5 replace {Command:"scoreboard players operation minutes CTFgen = time_left CTFgen",TrackOutput:0b,auto:1b}
@@ -177,8 +177,8 @@ setblock 568 57 162 chain_command_block 4 replace {Command:"scoreboard players t
 setblock 567 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueChest] remove CTFHasBlueChest",TrackOutput:0b,auto:1b}
 setblock 566 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueLegs] remove CTFHasBlueLegs",TrackOutput:0b,auto:1b}
 setblock 565 57 162 chain_command_block 4 replace {Command:"scoreboard players tag @a[tag=CTFHasBlueFeet] remove CTFHasBlueFeet",TrackOutput:0b,auto:1b}
-setblock 564 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:\"minecraft:written_book\",tag:{title:\"Capture the Flag\",author:\"Icohedron\"}}]}",TrackOutput:0b,auto:1b}
-setblock 563 57 162 chain_command_block 4 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:\"Capture the Flag\",author:\"Icohedron\"}",TrackOutput:0b,auto:1b}
+setblock 564 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] CTFEC 1 {Inventory:[{id:\"minecraft:written_book\",tag:{title:\"CTF Book\",author:\"eGO\"}}]}",TrackOutput:0b,auto:1b}
+setblock 563 57 162 chain_command_block 4 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1] ~ ~ ~ minecraft:clear @p minecraft:written_book -1 0 {title:\"CTF Book\",author:\"eGO\"}",TrackOutput:0b,auto:1b}
 setblock 562 57 162 chain_command_block 4 replace {Command:"scoreboard players set @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,score_CTFEC=1,score_CTFEC_min=1,score_CTFinv=0,score_CTFinv_min=0] SPbk 33",TrackOutput:0b,auto:1b}
 setblock 561 62 160 repeating_command_block 5 replace {Command:"scoreboard players add @a[x=548,y=106,z=148,dx=20,dy=5,dz=21] SPid 0",TrackOutput:0b,auto:0b}
 setblock 562 62 160 chain_command_block 5 replace {Command:"scoreboard players set @a[x=548,y=106,z=148,dx=20,dy=5,dz=21,score_SPid=-34] SPid 33",TrackOutput:0b,auto:1b}
@@ -342,59 +342,63 @@ setblock 571 57 164 chain_command_block 12 replace {Command:"scoreboard players 
 setblock 570 57 164 chain_command_block 12 replace {Command:"scoreboard players set blue_flag_reset CTFgen -1",TrackOutput:0b,auto:1b}
 setblock 569 57 164 chain_command_block 12 replace {Command:"tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [\"The \", {\"text\":\"Blue\",\"color\":\"blue\"}, \" flag has been returned to its base!\"]",TrackOutput:0b,auto:1b}
 setblock 568 57 164 chain_command_block 12 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p",TrackOutput:0b,auto:1b}
-setblock 567 57 164 chain_command_block 4 replace {Command:"scoreboard players test red_flag_reset CTFgen 0 0",TrackOutput:0b,auto:1b}
-setblock 566 57 164 chain_command_block 12 replace {Command:"minecraft:kill @e[tag=CTFRedFlag]",TrackOutput:0b,auto:1b}
-setblock 565 57 164 chain_command_block 12 replace {Command:"tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [\"The \", {\"text\":\"Red\",\"color\":\"red\"}, \" flag has been returned to its base!\"]",TrackOutput:0b,auto:1b}
-setblock 564 57 164 chain_command_block 12 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p",TrackOutput:0b,auto:1b}
-setblock 563 57 164 chain_command_block 1 replace {Command:"scoreboard players remove red_flag_reset CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 563 58 164 chain_command_block 5 replace {Command:"scoreboard players test blue_flag_reset CTFgen 0 0",TrackOutput:0b,auto:1b}
-setblock 564 58 164 chain_command_block 13 replace {Command:"minecraft:kill @e[tag=CTFBlueFlag]",TrackOutput:0b,auto:1b}
-setblock 565 58 164 chain_command_block 13 replace {Command:"tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [\"The \", {\"text\":\"Blue\",\"color\":\"blue\"}, \" flag has been returned to its base!\"]",TrackOutput:0b,auto:1b}
-setblock 566 58 164 chain_command_block 13 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p",TrackOutput:0b,auto:1b}
-setblock 567 58 164 chain_command_block 5 replace {Command:"scoreboard players remove blue_flag_reset CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 568 58 164 chain_command_block 5 replace {Command:"scoreboard players set create_flag CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 569 58 164 chain_command_block 5 replace {Command:"scoreboard players test $red_base CTFflag 1 2147483647",TrackOutput:0b,auto:1b}
-setblock 570 58 164 chain_command_block 13 replace {Command:"scoreboard players set create_flag CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 571 58 164 chain_command_block 5 replace {Command:"scoreboard players set red_flag_exists CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 572 58 164 chain_command_block 1 replace {Command:"execute @e[tag=CTFRedFlag] ~ ~ ~ scoreboard players set red_flag_exists CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 572 59 164 chain_command_block 4 replace {Command:"scoreboard players test red_flag_exists CTFgen 0 0",TrackOutput:0b,auto:1b}
-setblock 571 59 164 chain_command_block 12 replace {Command:"scoreboard players test create_flag CTFgen 1 2147483647",TrackOutput:0b,auto:1b}
-setblock 570 59 164 chain_command_block 12 replace {Command:"summon ArmorStand 549 85 140 {Tags:[\"CTFEntity\",\"CTFRedFlag\",\"CTFFlag\"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:\"wool\",Count:1b,Damage:14}],HandItems:[{},{}],CustomName:\"Red Flag\",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}",TrackOutput:0b,auto:1b}
-setblock 569 59 164 chain_command_block 12 replace {Command:"scoreboard teams join CTFVRed @e[tag=CTFRedFlag]",TrackOutput:0b,auto:1b}
-setblock 568 59 164 chain_command_block 4 replace {Command:"scoreboard players set create_flag CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 567 59 164 chain_command_block 4 replace {Command:"scoreboard players test $blue_base CTFflag 1 2147483647",TrackOutput:0b,auto:1b}
-setblock 566 59 164 chain_command_block 12 replace {Command:"scoreboard players set create_flag CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 565 59 164 chain_command_block 4 replace {Command:"scoreboard players set blue_flag_exists CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 564 59 164 chain_command_block 1 replace {Command:"execute @e[tag=CTFBlueFlag] ~ ~ ~ scoreboard players set blue_flag_exists CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 564 60 164 chain_command_block 5 replace {Command:"scoreboard players test blue_flag_exists CTFgen 0 0",TrackOutput:0b,auto:1b}
-setblock 565 60 164 chain_command_block 13 replace {Command:"scoreboard players test create_flag CTFgen 1 2147483647",TrackOutput:0b,auto:1b}
-setblock 566 60 164 chain_command_block 13 replace {Command:"summon ArmorStand 574 88 177 {Tags:[\"CTFEntity\",\"CTFBlueFlag\",\"CTFFlag\"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:\"wool\",Count:1b,Damage:11}],HandItems:[{},{}],CustomName:\"Blue Flag\",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}",TrackOutput:0b,auto:1b}
-setblock 567 60 164 chain_command_block 13 replace {Command:"scoreboard teams join CTFVBlue @e[tag=CTFBlueFlag]",TrackOutput:0b,auto:1b}
-setblock 568 60 164 chain_command_block 5 replace {Command:"effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:glowing 0",TrackOutput:0b,auto:1b}
-setblock 569 60 164 chain_command_block 5 replace {Command:"effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:slowness 0",TrackOutput:0b,auto:1b}
-setblock 570 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{\"selector\":\"@p\"}, \" has successfully captured the \", {\"text\":\"Blue\",\"color\":\"blue\"}, \" flag!\"]",TrackOutput:0b,auto:1b}
-setblock 571 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p",TrackOutput:0b,auto:1b}
-setblock 572 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:block.note.hat voice @p",TrackOutput:0b,auto:1b}
-setblock 573 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players set $blue_base CTFflag 1",TrackOutput:0b,auto:1b}
-setblock 574 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players add Red CTFscore 1",TrackOutput:0b,auto:1b}
-setblock 575 60 164 chain_command_block 1 replace {Command:"scoreboard players set @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] CTFflag 0",TrackOutput:0b,auto:1b}
-setblock 575 61 164 chain_command_block 4 replace {Command:"effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:glowing 0",TrackOutput:0b,auto:1b}
-setblock 574 61 164 chain_command_block 4 replace {Command:"effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:slowness 0",TrackOutput:0b,auto:1b}
-setblock 573 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{\"selector\":\"@p\"}, \" has successfully captured the \", {\"text\":\"Red\",\"color\":\"red\"}, \" flag!\"]",TrackOutput:0b,auto:1b}
-setblock 572 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p",TrackOutput:0b,auto:1b}
-setblock 571 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:block.note.hat voice @p",TrackOutput:0b,auto:1b}
-setblock 570 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players set $red_base CTFflag 1",TrackOutput:0b,auto:1b}
-setblock 569 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players add Blue CTFscore 1",TrackOutput:0b,auto:1b}
-setblock 568 61 164 chain_command_block 4 replace {Command:"scoreboard players set @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] CTFflag 0",TrackOutput:0b,auto:1b}
-setblock 567 61 164 chain_command_block 4 replace {Command:"scoreboard players add score_reached CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 566 61 164 chain_command_block 4 replace {Command:"scoreboard players add red_score_check CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 565 61 164 chain_command_block 4 replace {Command:"scoreboard players operation red_score_check CTFgen = Red CTFscore",TrackOutput:0b,auto:1b}
-setblock 564 61 164 chain_command_block 4 replace {Command:"scoreboard players operation red_score_check CTFgen -= Win_Score CTFscore",TrackOutput:0b,auto:1b}
-setblock 563 61 164 chain_command_block 4 replace {Command:"scoreboard players test red_score_check CTFgen 0 2147483647",TrackOutput:0b,auto:1b}
-setblock 562 61 164 chain_command_block 12 replace {Command:"scoreboard players set score_reached CTFgen 1",TrackOutput:0b,auto:1b}
-setblock 561 61 164 chain_command_block 4 replace {Command:"scoreboard players add blue_score_check CTFgen 0",TrackOutput:0b,auto:1b}
-setblock 560 61 164 chain_command_block 1 replace {Command:"scoreboard players operation blue_score_check CTFgen = Blue CTFscore",TrackOutput:0b,auto:1b}
-setblock 560 62 164 chain_command_block 5 replace {Command:"scoreboard players operation blue_score_check CTFgen -= Win_Score CTFscore",TrackOutput:0b,auto:1b}
+setblock 567 57 164 chain_command_block 4 replace {Command:"scoreboard players tag @e[x=535,y=0,z=129,dx=50,dy=256,dz=64,tag=CTFFlag] add CTFInBounds",TrackOutput:0b,auto:1b}
+setblock 566 57 164 chain_command_block 4 replace {Command:"execute @e[tag=CTFFlag] ~ ~ ~ execute @e[type=ArmorStand,tag=!CTFInBounds,r=0,c=1] ~ ~ ~ execute @e[type=ArmorStand,tag=CTFRedFlag,r=0,c=1] ~ ~ ~ scoreboard players set red_flag_reset CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 565 57 164 chain_command_block 4 replace {Command:"execute @e[tag=CTFFlag] ~ ~ ~ execute @e[type=ArmorStand,tag=!CTFInBounds,r=0,c=1] ~ ~ ~ execute @e[type=ArmorStand,tag=CTFBlueFlag,r=0,c=1] ~ ~ ~ scoreboard players set blue_flag_reset CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 564 57 164 chain_command_block 1 replace {Command:"scoreboard players tag @e[tag=CTFInBounds] remove CTFInBounds",TrackOutput:0b,auto:1b}
+setblock 564 58 164 chain_command_block 5 replace {Command:"scoreboard players test red_flag_reset CTFgen 0 0",TrackOutput:0b,auto:1b}
+setblock 565 58 164 chain_command_block 13 replace {Command:"minecraft:kill @e[tag=CTFRedFlag]",TrackOutput:0b,auto:1b}
+setblock 566 58 164 chain_command_block 13 replace {Command:"tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [\"The \", {\"text\":\"Red\",\"color\":\"red\"}, \" flag has been returned to its base!\"]",TrackOutput:0b,auto:1b}
+setblock 567 58 164 chain_command_block 13 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p",TrackOutput:0b,auto:1b}
+setblock 568 58 164 chain_command_block 5 replace {Command:"scoreboard players remove red_flag_reset CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 569 58 164 chain_command_block 5 replace {Command:"scoreboard players test blue_flag_reset CTFgen 0 0",TrackOutput:0b,auto:1b}
+setblock 570 58 164 chain_command_block 13 replace {Command:"minecraft:kill @e[tag=CTFBlueFlag]",TrackOutput:0b,auto:1b}
+setblock 571 58 164 chain_command_block 13 replace {Command:"tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [\"The \", {\"text\":\"Blue\",\"color\":\"blue\"}, \" flag has been returned to its base!\"]",TrackOutput:0b,auto:1b}
+setblock 572 58 164 chain_command_block 13 replace {Command:"execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @p",TrackOutput:0b,auto:1b}
+setblock 573 58 164 chain_command_block 5 replace {Command:"scoreboard players remove blue_flag_reset CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 574 58 164 chain_command_block 1 replace {Command:"scoreboard players set create_flag CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 574 59 164 chain_command_block 4 replace {Command:"scoreboard players test $red_base CTFflag 1 2147483647",TrackOutput:0b,auto:1b}
+setblock 573 59 164 chain_command_block 12 replace {Command:"scoreboard players set create_flag CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 572 59 164 chain_command_block 4 replace {Command:"scoreboard players set red_flag_exists CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 571 59 164 chain_command_block 4 replace {Command:"execute @e[tag=CTFRedFlag] ~ ~ ~ scoreboard players set red_flag_exists CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 570 59 164 chain_command_block 4 replace {Command:"scoreboard players test red_flag_exists CTFgen 0 0",TrackOutput:0b,auto:1b}
+setblock 569 59 164 chain_command_block 12 replace {Command:"scoreboard players test create_flag CTFgen 1 2147483647",TrackOutput:0b,auto:1b}
+setblock 568 59 164 chain_command_block 12 replace {Command:"summon ArmorStand 549 85 140 {Tags:[\"CTFEntity\",\"CTFRedFlag\",\"CTFFlag\"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:\"wool\",Count:1b,Damage:14}],HandItems:[{},{}],CustomName:\"Red Flag\",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}",TrackOutput:0b,auto:1b}
+setblock 567 59 164 chain_command_block 12 replace {Command:"scoreboard teams join CTFVRed @e[tag=CTFRedFlag]",TrackOutput:0b,auto:1b}
+setblock 566 59 164 chain_command_block 4 replace {Command:"scoreboard players set create_flag CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 565 59 164 chain_command_block 4 replace {Command:"scoreboard players test $blue_base CTFflag 1 2147483647",TrackOutput:0b,auto:1b}
+setblock 564 59 164 chain_command_block 12 replace {Command:"scoreboard players set create_flag CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 563 59 164 chain_command_block 4 replace {Command:"scoreboard players set blue_flag_exists CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 562 59 164 chain_command_block 1 replace {Command:"execute @e[tag=CTFBlueFlag] ~ ~ ~ scoreboard players set blue_flag_exists CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 562 60 164 chain_command_block 5 replace {Command:"scoreboard players test blue_flag_exists CTFgen 0 0",TrackOutput:0b,auto:1b}
+setblock 563 60 164 chain_command_block 13 replace {Command:"scoreboard players test create_flag CTFgen 1 2147483647",TrackOutput:0b,auto:1b}
+setblock 564 60 164 chain_command_block 13 replace {Command:"summon ArmorStand 574 88 177 {Tags:[\"CTFEntity\",\"CTFBlueFlag\",\"CTFFlag\"],Invulnerable:1b,NoBasePlate:1b,Small:1b,Marker:1b,ArmorItems:[{},{},{},{id:\"wool\",Count:1b,Damage:11}],HandItems:[{},{}],CustomName:\"Blue Flag\",DisabledSlots:0,Glowing:1b,CustomNameVisible:1b,Invisible:1b}",TrackOutput:0b,auto:1b}
+setblock 565 60 164 chain_command_block 13 replace {Command:"scoreboard teams join CTFVBlue @e[tag=CTFBlueFlag]",TrackOutput:0b,auto:1b}
+setblock 566 60 164 chain_command_block 5 replace {Command:"effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:glowing 0",TrackOutput:0b,auto:1b}
+setblock 567 60 164 chain_command_block 5 replace {Command:"effect @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] minecraft:slowness 0",TrackOutput:0b,auto:1b}
+setblock 568 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{\"selector\":\"@p\"}, \" has successfully captured the \", {\"text\":\"Blue\",\"color\":\"blue\"}, \" flag!\"]",TrackOutput:0b,auto:1b}
+setblock 569 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p",TrackOutput:0b,auto:1b}
+setblock 570 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:block.note.hat voice @p",TrackOutput:0b,auto:1b}
+setblock 571 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players set $blue_base CTFflag 1",TrackOutput:0b,auto:1b}
+setblock 572 60 164 chain_command_block 5 replace {Command:"execute @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] ~ ~ ~ scoreboard players add Red CTFscore 1",TrackOutput:0b,auto:1b}
+setblock 573 60 164 chain_command_block 5 replace {Command:"scoreboard players set @a[x=549,y=85,z=140,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFRed] CTFflag 0",TrackOutput:0b,auto:1b}
+setblock 574 60 164 chain_command_block 5 replace {Command:"effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:glowing 0",TrackOutput:0b,auto:1b}
+setblock 575 60 164 chain_command_block 1 replace {Command:"effect @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] minecraft:slowness 0",TrackOutput:0b,auto:1b}
+setblock 575 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ tellraw @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] [{\"selector\":\"@p\"}, \" has successfully captured the \", {\"text\":\"Red\",\"color\":\"red\"}, \" flag!\"]",TrackOutput:0b,auto:1b}
+setblock 574 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue] ~ ~ ~ playsound minecraft:entity.player.levelup voice @p",TrackOutput:0b,auto:1b}
+setblock 573 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ execute @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed] ~ ~ ~ playsound minecraft:block.note.hat voice @p",TrackOutput:0b,auto:1b}
+setblock 572 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players set $red_base CTFflag 1",TrackOutput:0b,auto:1b}
+setblock 571 61 164 chain_command_block 4 replace {Command:"execute @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] ~ ~ ~ scoreboard players add Blue CTFscore 1",TrackOutput:0b,auto:1b}
+setblock 570 61 164 chain_command_block 4 replace {Command:"scoreboard players set @a[x=574,y=88,z=177,dy=1,score_CTFflag=1,score_CTFflag_min=1,team=CTFBlue] CTFflag 0",TrackOutput:0b,auto:1b}
+setblock 569 61 164 chain_command_block 4 replace {Command:"scoreboard players add score_reached CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 568 61 164 chain_command_block 4 replace {Command:"scoreboard players add red_score_check CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 567 61 164 chain_command_block 4 replace {Command:"scoreboard players operation red_score_check CTFgen = Red CTFscore",TrackOutput:0b,auto:1b}
+setblock 566 61 164 chain_command_block 4 replace {Command:"scoreboard players operation red_score_check CTFgen -= Win_Score CTFscore",TrackOutput:0b,auto:1b}
+setblock 565 61 164 chain_command_block 4 replace {Command:"scoreboard players test red_score_check CTFgen 0 2147483647",TrackOutput:0b,auto:1b}
+setblock 564 61 164 chain_command_block 12 replace {Command:"scoreboard players set score_reached CTFgen 1",TrackOutput:0b,auto:1b}
+setblock 563 61 164 chain_command_block 4 replace {Command:"scoreboard players add blue_score_check CTFgen 0",TrackOutput:0b,auto:1b}
+setblock 562 61 164 chain_command_block 4 replace {Command:"scoreboard players operation blue_score_check CTFgen = Blue CTFscore",TrackOutput:0b,auto:1b}
+setblock 561 61 164 chain_command_block 1 replace {Command:"scoreboard players operation blue_score_check CTFgen -= Win_Score CTFscore",TrackOutput:0b,auto:1b}
 setblock 561 62 164 chain_command_block 5 replace {Command:"scoreboard players test blue_score_check CTFgen 0 2147483647",TrackOutput:0b,auto:1b}
 setblock 562 62 164 chain_command_block 13 replace {Command:"scoreboard players set score_reached CTFgen 1",TrackOutput:0b,auto:1b}
 setblock 563 62 164 chain_command_block 5 replace {Command:"scoreboard players test score_reached CTFgen 1 2147483647",TrackOutput:0b,auto:1b}
@@ -480,38 +484,40 @@ setblock 563 56 166 chain_command_block 5 replace {Command:"scoreboard players s
 setblock 564 56 166 chain_command_block 5 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1",TrackOutput:0b,auto:1b}
 setblock 565 56 166 chain_command_block 5 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=33,score_SPgam_min=33] SPgam 0",TrackOutput:0b,auto:1b}
 setblock 566 56 166 chain_command_block 5 replace {Command:"scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0",TrackOutput:0b,auto:1b}
-setblock 567 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFRed",TrackOutput:0b,auto:1b}
-setblock 568 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFBlue",TrackOutput:0b,auto:1b}
-setblock 569 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFVRed",TrackOutput:0b,auto:1b}
-setblock 570 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFVBlue",TrackOutput:0b,auto:1b}
-setblock 571 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFscore",TrackOutput:0b,auto:1b}
-setblock 572 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFgen",TrackOutput:0b,auto:1b}
-setblock 573 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFinv",TrackOutput:0b,auto:1b}
-setblock 574 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFres",TrackOutput:0b,auto:1b}
-setblock 575 56 166 chain_command_block 1 replace {Command:"scoreboard objectives remove CTFflag",TrackOutput:0b,auto:1b}
-setblock 575 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFdeath",TrackOutput:0b,auto:1b}
-setblock 574 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFleave",TrackOutput:0b,auto:1b}
-setblock 573 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFEC",TrackOutput:0b,auto:1b}
-setblock 572 57 166 chain_command_block 4 replace {Command:"minecraft:kill @e[tag=CTFEntity]",TrackOutput:0b,auto:1b}
-setblock 571 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:iron_sword",TrackOutput:0b,auto:1b}
-setblock 570 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:bow",TrackOutput:0b,auto:1b}
-setblock 569 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:arrow",TrackOutput:0b,auto:1b}
-setblock 568 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_helmet",TrackOutput:0b,auto:1b}
-setblock 567 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_chestplate",TrackOutput:0b,auto:1b}
-setblock 566 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_leggings",TrackOutput:0b,auto:1b}
-setblock 565 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_boots",TrackOutput:0b,auto:1b}
-setblock 564 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:wool",TrackOutput:0b,auto:1b}
-setblock 563 57 166 chain_command_block 4 replace {Command:"setblock 560 48 162 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 562 57 166 chain_command_block 4 replace {Command:"setblock 560 54 162 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 561 57 166 chain_command_block 4 replace {Command:"setblock 560 62 160 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 560 57 166 chain_command_block 1 replace {Command:"setblock 560 59 162 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 560 58 166 chain_command_block 5 replace {Command:"setblock 560 48 164 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 561 58 166 chain_command_block 5 replace {Command:"setblock 560 52 164 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 562 58 166 chain_command_block 5 replace {Command:"setblock 560 48 166 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 563 58 166 chain_command_block 5 replace {Command:"setblock 560 58 160 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 564 58 166 chain_command_block 5 replace {Command:"setblock 560 53 166 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 565 58 166 chain_command_block 5 replace {Command:"setblock 560 56 166 stonebrick 0",TrackOutput:0b,auto:1b}
-setblock 566 58 166 chain_command_block 5 replace {Command:"gamerule naturalRegeneration true",TrackOutput:0b,auto:1b}
+setblock 567 56 166 chain_command_block 5 replace {Command:"minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFRed,m=2] 558 107 159",TrackOutput:0b,auto:1b}
+setblock 568 56 166 chain_command_block 5 replace {Command:"minecraft:tp @a[x=535,y=0,z=129,dx=50,dy=256,dz=64,team=CTFBlue,m=2] 558 107 159",TrackOutput:0b,auto:1b}
+setblock 569 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFRed",TrackOutput:0b,auto:1b}
+setblock 570 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFBlue",TrackOutput:0b,auto:1b}
+setblock 571 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFVRed",TrackOutput:0b,auto:1b}
+setblock 572 56 166 chain_command_block 5 replace {Command:"scoreboard teams remove CTFVBlue",TrackOutput:0b,auto:1b}
+setblock 573 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFscore",TrackOutput:0b,auto:1b}
+setblock 574 56 166 chain_command_block 5 replace {Command:"scoreboard objectives remove CTFgen",TrackOutput:0b,auto:1b}
+setblock 575 56 166 chain_command_block 1 replace {Command:"scoreboard objectives remove CTFinv",TrackOutput:0b,auto:1b}
+setblock 575 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFres",TrackOutput:0b,auto:1b}
+setblock 574 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFflag",TrackOutput:0b,auto:1b}
+setblock 573 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFdeath",TrackOutput:0b,auto:1b}
+setblock 572 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFleave",TrackOutput:0b,auto:1b}
+setblock 571 57 166 chain_command_block 4 replace {Command:"scoreboard objectives remove CTFEC",TrackOutput:0b,auto:1b}
+setblock 570 57 166 chain_command_block 4 replace {Command:"minecraft:kill @e[tag=CTFEntity]",TrackOutput:0b,auto:1b}
+setblock 569 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:iron_sword",TrackOutput:0b,auto:1b}
+setblock 568 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:bow",TrackOutput:0b,auto:1b}
+setblock 567 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:arrow",TrackOutput:0b,auto:1b}
+setblock 566 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_helmet",TrackOutput:0b,auto:1b}
+setblock 565 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_chestplate",TrackOutput:0b,auto:1b}
+setblock 564 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_leggings",TrackOutput:0b,auto:1b}
+setblock 563 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:leather_boots",TrackOutput:0b,auto:1b}
+setblock 562 57 166 chain_command_block 4 replace {Command:"minecraft:clear @a[x=535,y=0,z=129,dx=50,dy=256,dz=64] minecraft:wool",TrackOutput:0b,auto:1b}
+setblock 561 57 166 chain_command_block 4 replace {Command:"setblock 560 48 162 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 560 57 166 chain_command_block 1 replace {Command:"setblock 560 54 162 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 560 58 166 chain_command_block 5 replace {Command:"setblock 560 62 160 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 561 58 166 chain_command_block 5 replace {Command:"setblock 560 59 162 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 562 58 166 chain_command_block 5 replace {Command:"setblock 560 48 164 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 563 58 166 chain_command_block 5 replace {Command:"setblock 560 52 164 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 564 58 166 chain_command_block 5 replace {Command:"setblock 560 48 166 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 565 58 166 chain_command_block 5 replace {Command:"setblock 560 58 160 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 566 58 166 chain_command_block 5 replace {Command:"setblock 560 53 166 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 567 58 166 chain_command_block 5 replace {Command:"setblock 560 56 166 stonebrick 0",TrackOutput:0b,auto:1b}
+setblock 568 58 166 chain_command_block 5 replace {Command:"gamerule naturalRegeneration true",TrackOutput:0b,auto:1b}
 setblock 561 60 166 repeating_command_block 5 replace {Command:"fill 559 46 159 562 44 162 air 0",TrackOutput:0b,auto:0b}
 setblock 562 60 166 chain_command_block 5 replace {Command:"setblock 560 46 160 structure_block 0 replace {name:\"CMDSave_CTF\",mode:\"SAVE\",posX:0,posY:2,posZ:0,sizeX:16,sizeY:16,sizeZ:16}",TrackOutput:0b,auto:1b}
 setblock 563 60 166 chain_command_block 5 replace {Command:"setblock 560 44 160 structure_block 0 replace {name:\"CMDSave_CTF\",mode:\"LOAD\",posX:0,posY:4,posZ:0}",TrackOutput:0b,auto:1b}
