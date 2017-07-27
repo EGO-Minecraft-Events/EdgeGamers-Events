@@ -465,7 +465,10 @@ FUNC {Func_GeneralScoreboardClock}:
 	@a TPsa = 0
 	@a[$SA$] TPsa = 1
 	
-	clear @a[$SPEC$,m=2]
+	clear @a[$SPEC$,m=2] stained_glass
+	clear @a[$SPEC$,m=2] stained_glass_pane
+	clear @a[$SPEC$,m=2] carrot_on_a_stick
+	clear @a[$SPEC$,m=2] dye
 	@e[type=Arrow] TPtm = 1 {inGround:1b}
 	kill @e[type=Arrow,TPtm=1]
 	
@@ -525,17 +528,30 @@ FUNC {Func_GeneralScoreboardClock}:
 	@e[type=ArmorStand,TPStand,TPtst>=1] J> TPr @a[TPsa=1,m=2,TPpl>=0,team=!TPr,TPtid=1]
 	@e[type=ArmorStand,TPStand,TPtst>=1] J> TPb @a[TPsa=1,m=2,TPpl>=0,team=!TPb,TPtid=2]
 	
+///	counts only in arena
+	@e[type=ArmorStand,TPCount,TPst=2] TPpl = 0
+	@e[type=ArmorStand,TPStand,TPst=2] @a[$SelectArena$,m=2,TPtid=1,TPpl=1] @e[type=ArmorStand,TPCountRed] TPpl + 1
+	@e[type=ArmorStand,TPStand,TPst=2] @a[$SelectArena$,m=2,TPtid=2,TPpl=1] @e[type=ArmorStand,TPCountBlue] TPpl + 1
+	
+///	counts all
+	@e[type=ArmorStand,TPCount,TPst=0] TPpl = 0
+	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=1] @e[type=ArmorStand,TPCountRed] TPpl + 1
+	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=2] @e[type=ArmorStand,TPCountBlue] TPpl + 1
+	
+	@e[type=ArmorStand,TPStand,TPtst>=1] Players reset TP
+	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Red TP = @e[type=ArmorStand,TPCountRed] TPpl
+	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Blue TP = @e[type=ArmorStand,TPCountBlue] TPpl
+	
 ///	Display
 	@e[type=ArmorStand,TPCount] TPpl = 0
 	
-	@a[TPsa=1,m=2,TPpl=1] @e[type=ArmorStand,TPCountPlayers] TPpl + 1
-	@a[TPsa=1,m=2,TPpl=1,TPtid=1] @e[type=ArmorStand,TPCountRed] TPpl + 1
-	@a[TPsa=1,m=2,TPpl=1,TPtid=2] @e[type=ArmorStand,TPCountBlue] TPpl + 1
+	@a[$SP$,m=2,TPpl=3] @e[type=ArmorStand,TPStand,TPtst=0,TPst=0] TPpl + 1
+	@a[$SelectArena$,m=2,TPpl=1] @e[type=ArmorStand,TPStand,TPtst=0,TPst=2] TPpl + 1
 ///	@e[TPMob] @e[type=ArmorStand,TPCountMobs] TPpl + 1
 	
 	@e[type=ArmorStand,TPStand,TPtst=0] Red reset TP
 	@e[type=ArmorStand,TPStand,TPtst=0] Blue reset TP
-	@e[type=ArmorStand,TPStand,TPtst=0] ScOP Players TP = @e[type=ArmorStand,TPCountPlayers,TPpl>=1] TPpl
+	@e[type=ArmorStand,TPStand,TPtst=0] ScOP Players TP = @e[type=ArmorStand,TPStand,TPtst=0] TPpl
 	
 //=
 	ScOP @e[type=ArmorStand,TPStand] TPtm = Mob_Mode TPMobSave
@@ -586,14 +602,9 @@ FUNC {Func_GeneralEndClock}:
 	@a[TPxp>=0] TPxp = 0
 	=//
 	
-///	Reset anyone in spawn after countdown
-	@e[type=ArmorStand,TPStand,TPti<=-1] @a[$SP$,TPpl=1] TPpl = 2
-	
 ///	Sets it during round off
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2] TPpl + 0
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPpl=0] TPaf + 0
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPpl=0] TPtid + 0
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPpl=0] stats entity @a[r=0,c=1,m=2,TPpl=0] set AffectedItems @a[r=0,c=1] TPaf
+	@a[$SP$,m=2] TPpl + 0
+	@e[type=ArmorStand,TPStand,TPti<=-1] @a[$SP$,m=2,TPpl>=0<=1] TPpl = 2
 	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPpl>=0<=1] TPpl = 2
 	
 ///	Deaths
@@ -601,6 +612,11 @@ FUNC {Func_GeneralEndClock}:
 	clear @a[TPpl=2]
 	@a[TPpl=2,EC=0] SPbk = $SPid$
 	@a[TPpl=2] TPwe = 0
+	
+	@a[m=2,TPpl=2] TPaf + 0
+	@a[m=2,TPpl=2] TPtid + 0
+	@a[m=2,TPpl=2] stats entity @a[r=0,c=1,m=2,TPpl=2] set AffectedItems @a[r=0,c=1] TPaf
+	
 	@a[$SP$] TPwe = 1
 	@a[TPpl=2] TPpl = 3
 	@a[TPde>=1] TPde = 0
@@ -786,6 +802,7 @@ FUNC {Func_RoundEndTFClock}:
 	@e[type=ArmorStand,TPStand] reset TPti2
 	Countdown reset TP
 	Time_Elapsed reset TP
+	Players reset TP
 	
 	@e[type=ArmorStand,TPStand,TPst=3] CCU_Activate(Grp_RefreshArenaPulse)
 	@e[type=ArmorStand,TPStand,TPst=4] CCU_Activate(Grp_MainEnd)
@@ -1079,7 +1096,6 @@ FUNC {Func_TeamsStart}:
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_TeamsStart) Obj_TeamsStart}:
 		TPtid dummy The Pit Team ID
 		TPtst dummy The Pit Team Settings
-		TPtdl dummy The Pit Team Display Calc
 		TPtcl dummy The Pit Team Calc
 		
 		TPtsc dummy The Pit Teams Self Choose
@@ -1100,26 +1116,14 @@ FUNC {Func_TeamsStart}:
 		
 	J> TPr Red
 	J> TPb Blue
+	
+	@e[type=ArmorStand,TPStand] TPtst = 0
 //>
 
 //<Teams Setting Testfor Clock
 FUNC {Func_TeamsSettingTFClock}:
 	testfor @e[type=ArmorStand,TPStand,TPst=0,TPtst>=1]
 	CCU_SetblockTestfor
-	
-	@e[type=ArmorStand,TPCount] TPtdl = 0
-	
-///	counts all
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=1] @e[type=ArmorStand,TPCountRed] TPtdl + 1
-	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=2] @e[type=ArmorStand,TPCountBlue] TPtdl + 1
-	
-///	counts only in arena
-	@e[type=ArmorStand,TPStand,TPst=2] @a[$SP$,m=2,TPtid=1,TPpl=1] @e[type=ArmorStand,TPCountRed] TPtdl + 1
-	@e[type=ArmorStand,TPStand,TPst=2] @a[$SP$,m=2,TPtid=2,TPpl=1] @e[type=ArmorStand,TPCountBlue] TPtdl + 1
-	
-	@e[type=ArmorStand,TPStand,TPtst>=1] Players reset TP
-	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Red TP = @e[type=ArmorStand,TPCountRed] TPtdl
-	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Blue TP = @e[type=ArmorStand,TPCountBlue] TPtdl
 	
 ///	gives glass panes
 	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3,TPtid=1] stained_glass_pane 14 0
