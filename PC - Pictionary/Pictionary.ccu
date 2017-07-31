@@ -18,8 +18,10 @@ DEF COORDS $CoordsOption$ 79 9 175
 
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
 
+///Theme
+DEF $Theme$ MC Leadership!
 ///	Filling the board
-DEF COORDS $FillBoard$ 130 6 168 130 18 192
+DEF COORDS $FillBoard$ 130 4 168 133 18 192
 
 ///	Teleport player to drawing board
 DEF TELE $DrawingTP$ 132 4 180 90 0
@@ -51,49 +53,49 @@ DEF CCItem_Wool wool 64 |0|
 
 ///	Actual guess list
 ARRAY {Arr_GuessList}:
-	Grass
-	Cobblestone
-	Bedrock
-	Lava
-	Sand
-	Gold Ore
-	Iron Ore
-	Sponge
-	Bed
-	Piston
-	Bricks
+	Car
+	Horse
+	Corgi
+	Bus
 	TNT
-	Obsidian
-	Diamond Ore
-	Diamond Block
-	Crafting Table
-	Furnace
-	Oak Door
-	Redstone Torch
-	Command Block
-	Cactus
-	Jukebox
-	Jack o'Lantern
-	Soul Sand
-	Glowstone
-	Cake "NOM NOM NOM"
-	Mushroom
-	Enchantment Table
-	End Portal
-	The All-Mighty Dragon Egg
-	Ender Chest
-	Redstone Block
-	Barrier
-	Prismarine
-	Hay Bale
-	Block Of Coal
-	PurPur
-	Cool Banner
-	Shulker Box
-	Bread "Needs Butter @Mojang"
-	Slimy Ball
-
+	Eraser
+	Cat
+	Hammer
+	Cup
+	Minecraft Logo
+	Queen
+	Lighthouse
+	Guitar
+	Key
+	Penguin
+	Chicken
+	Swimming Pool
+	Balloon
+	Diamond Ring
+	Cotton Candy
+	Balloon
+	Diamond Ring
+	Cotton Candy
+	Flower
+	Ball 
+	Taco
+	Ferret
+	Meeting
+	Ban
+	Volcano
+	Round
+	Fox
+	French Fries
+	Puppy
+	Bomb
+	Lobster
+	Corn
+	Potato
+	Fishing
+	Trumpet
+	Dinosaur
 	
+
 ARRAY {Arr_WoolIDs}:
 	14
 	1
@@ -160,6 +162,13 @@ FUNC {Func_GeneralScoreboardStart}:
 	
 ///	Removes redstone block at iron door
 	setblock $OpenDoorBlock$ air 0
+	
+///Says the Nights' Theme In Title and In Chat
+	title @a title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
+	title @a[$SA$] subtitle ["",{"text":"$Theme$","color":"gold","bold":true,"italic":true}]
+	tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"}]}
+	tellraw @a[$SA$] $TextStart${"text":"$Theme$","color":"gold"}]}
+	
 //>
 
 //<Fills Board Pulse
@@ -194,7 +203,8 @@ FUNC {Func_SelectsPlayerTFClock}:
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @r[type=AreaEffectCloud,PCGuess,PCpl=0] PCpl = 1
 
 /// Sets the area effect cloud as the answer
-	@e[type=AreaEffectCloud,PCGuess,PCpl=1] pictionary set entity @e[r=0]
+	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~0.001 ~
+	execute @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~ ~ pictionary set entity @e[r=0]
 	tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~-0.001 ~
 	
 ///	Gives wool
@@ -208,10 +218,13 @@ FUNC {Func_SelectsPlayerTFClock}:
 	
 ///	Teleports
 	tp @a[$SA$,m=2,PCpl=2] $DrawingTP$
+	execute @a[m=2,PCpl=2,$SA$] ~ ~ ~ pictionary set artist @p[$SA$]
+	execute @p[x=130,y=4,z=152,dx=3,dy=50,dz=43] ~ ~ ~ pictionary set artist @p[r=0]
 	
 ///	Says who's the artist
 	@e[type=ArmorStand,PCStand,PCcl=0] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" is the artist.","color":"gray"}]}
 	@e[type=ArmorStand,PCStand,PCcl>=1] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" are the artists.","color":"gray"}]}
+	
 	
 ///	Says what the topic name is
 	tellraw @a[$SA$,m=2,PCpl=2] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
@@ -221,6 +234,8 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	General reset
 	@a[$SA$,m=2,PCpl=2] PCpl = 3
 	@e[type=ArmorStand,PCStand,PCcl>=1] PCcl = 0
+	
+	
 	
 //>
 
@@ -278,7 +293,7 @@ FUNC {Func_TimerTFClock}:
 	@e[type=ArmorStand,PCStand,PCti>=0] ScOP Time_Elapsed PC = @e[type=ArmorStand,PCStand,PCti>=0] PCti2
 	
 ///	Display message
-	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Time's up!","color":"dark_aqua","underlined":true}
+	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Round Over!","color":"dark_aqua","underlined":true}
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
 	
 /// Clear answer
@@ -336,6 +351,7 @@ GROUP {Grp_TimerTFClock}:
 GROUP {Grp_MainClock}:
 	CCU.spawnIDSetting()
 	Func_GeneralScoreboardClock()
+	Func_GeneralEndClock()
 
 GROUP {Grp_MainEnd}:
 	CCU.spawnStandEnd()
