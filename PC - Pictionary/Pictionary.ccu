@@ -45,7 +45,7 @@ DEF CCItem_Shears shears 1 0
 
 DEF CCItem_Wool wool 64 |0| 
 	{display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},
-	CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
+	CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 
 */
 
@@ -97,14 +97,21 @@ ARRAY {Arr_GuessList}:
 	
 
 ARRAY {Arr_WoolIDs}:
-	14
+	0
 	1
+	2
+	3
 	4
 	5
-	3
+	6
+	7
+	8
+	9
 	10
-	0
+	11
 	12
+	13
+	14
 	15
 
 IMPORT {LIBRARY GETDIR General}

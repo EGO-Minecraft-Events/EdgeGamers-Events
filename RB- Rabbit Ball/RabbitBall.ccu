@@ -1,0 +1,78 @@
+//(RabbitBall)
+//C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\RB- Rabbit Ball\RabbitBall.ccu
+
+//<General Definitions
+
+DEF $SA$ x=206,y=73,z=262,dx=114,dy=-17,dz=153
+DEF $SPid$ 36
+DEF $SPpvp$ 0
+DEF $SPsat$ 1
+
+DEF $GSpawn$ 224 24 334
+DEF $RPit$ 237 27 330
+DEF $Bpit$ 237 27 338
+DEF $BPit1$ x=237,y=27,z=324,dx=0,dy=0,dz=6
+DEF $Rpit1$ x=237,y=27,z=338,dx=0,dy=0,dz=6
+DEF $BPort$ x=213,y=26,z=333,dx=0,dy=3,dz=-2
+DEF $RPort$ x=213,y=26,z=337,dx=0,dy=3,dz=-2
+DEF $BportP$ 213 27 336
+DEF $RportP$ 213 27 336`	
+DEF $RGS$ 259 27 367
+DEF $BGS$ 259 27 301
+
+DEF $CMDName$ RB
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $BlockOption$ stonebrick 0
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ 312 34 331
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"RB","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"RabbitBall","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEF $CF$ 259 27 334
+
+DEF $RBall$ {ArmorItems:[{},{},{},{id:leather_helmet,tag:{display:{color:5233919,Name:Cute Little Helmet!}}}],Attributes:[{Name:generic.maxHealth,Base:100},{Name:generic.attackDamage,Base:0},{Name:generic.followRange,Base:0},{Name:generic.knockbackResistance,Base:.25}],Invulnerable:1,NoAI:1,Glowing:1,RabbitType:3,Health:100.0f}
+//>
+
+//<Imports
+
+IMPORT {LIBRARY GETDIR General}
+
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	keepCoordsOption false
+	
+//>
+
+//<ScoreboardStart
+FUNC {Func_GeneralScoreboardStart}:	
+	scoreboard objectives add RB dummy Rabbit Ball
+	scoreboard teams add RBR 
+	scoreboard teams add RBB
+	scoreboard teams options RBR color red
+	scoreboard teams options RBB color blue
+	
+	
+
+//>
+
+//<Scoreboard Remove
+FUNC {Func_ScoreboardEnd}:
+	scoreboard objectives remove RB
+	scoreboard teams remove 
+//<General Start
+FUNC {Func_GeneralStart}:
+	summon $CF$ $RBall$
+	tp @a[$Rpit1$] $RGS$
+	tp @a[$BPit1$] $BGS$
+

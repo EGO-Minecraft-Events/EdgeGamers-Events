@@ -1,5 +1,5 @@
 INITIALIZE
-	fill 95 9 191 78 24 187 air 0
+	fill 95 9 191 78 26 187 air 0
 
 GROUP | Grp_MainStart | PULSE		[94 10 190 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 34
@@ -75,24 +75,31 @@ GROUP | Grp_MainStart | PULSE		[94 10 190 | stonebrick 0]
 	tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Tonight's Theme:","color":"gray"}]}
 	tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"MC Leadership!","color":"gold"}]}
 	setblock 94 10 188 redstone_block 0
-	setblock 94 22 190 redstone_block 0
-	setblock 94 18 190 redstone_block 0
+	setblock 94 23 190 redstone_block 0
+	setblock 94 19 190 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 34
 
 GROUP | Grp_FillBoardPulse | PULSE		[94 16 190 | stonebrick 0]
 	setblock 94 16 190 stonebrick 0
-	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 14 fill 130 4 168 133 18 192 wool 14
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 0 fill 130 4 168 133 18 192 wool 0
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 1 fill 130 4 168 133 18 192 wool 1
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 2 fill 130 4 168 133 18 192 wool 2
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 3 fill 130 4 168 133 18 192 wool 3
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 4 fill 130 4 168 133 18 192 wool 4
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 5 fill 130 4 168 133 18 192 wool 5
-	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 3 fill 130 4 168 133 18 192 wool 3
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 6 fill 130 4 168 133 18 192 wool 6
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 7 fill 130 4 168 133 18 192 wool 7
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 8 fill 130 4 168 133 18 192 wool 8
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 9 fill 130 4 168 133 18 192 wool 9
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 10 fill 130 4 168 133 18 192 wool 10
-	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 0 fill 130 4 168 133 18 192 wool 0
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 11 fill 130 4 168 133 18 192 wool 11
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 12 fill 130 4 168 133 18 192 wool 12
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 13 fill 130 4 168 133 18 192 wool 13
+	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 14 fill 130 4 168 133 18 192 wool 14
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 wool 15 fill 130 4 168 133 18 192 wool 15
 	execute @e[type=ArmorStand,tag=PCStand] ~ ~ ~ detect 129 6 165 air 0 fill 130 4 168 133 18 192 air 0
 
-GROUP | Grp_SelectsPlayerTFClock | CLOCK		[94 18 190 | stonebrick 0]
+GROUP | Grp_SelectsPlayerTFClock | CLOCK		[94 19 190 | stonebrick 0]
 	testfor @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2]
 	setblock ~ ~ ~ repeating_command_block 12 replace {TrackOutput:0b,auto:1b}
 	scoreboard players set @e[type=ArmorStand,tag=PCStand] PCcl 0
@@ -108,15 +115,22 @@ GROUP | Grp_SelectsPlayerTFClock | CLOCK		[94 18 190 | stonebrick 0]
 	minecraft:tp @e[type=AreaEffectCloud,tag=PCGuess,score_PCpl=1,score_PCpl_min=1] ~ ~-0.001 ~
 	minecraft:clear @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2]
 	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.weapon.offhand shears 1 0 {display:{Name:"Special Shears!",Lore:["Destroys wool... Destroy ALL THE WOOL MUAHAHAHA"]},Unbreakable:1,CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.0 wool 64 14 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.1 wool 64 1 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.2 wool 64 4 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.3 wool 64 5 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.4 wool 64 3 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.5 wool 64 10 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.6 wool 64 0 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.7 wool 64 12 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.8 wool 64 15 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.0 wool 64 0 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.1 wool 64 1 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.2 wool 64 2 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.3 wool 64 3 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.4 wool 64 4 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.5 wool 64 5 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.6 wool 64 6 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.7 wool 64 7 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar.8 wool 64 8 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 9 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 10 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 11 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 12 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 13 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 14 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	replaceitem entity @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] slot.hotbar. wool 64 15 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 	scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_EC=0,score_EC_min=0,score_PCpl=2,score_PCpl_min=2] SPbk 34
 	minecraft:tp @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] 132 4 180 90 0
 	execute @a[m=2,score_PCpl=2,score_PCpl_min=2,x=110,y=3,z=148,dx=64,dy=15,dz=64] ~ ~ ~ pictionary set artist @p[x=110,y=3,z=148,dx=64,dy=15,dz=64]
@@ -129,7 +143,7 @@ GROUP | Grp_SelectsPlayerTFClock | CLOCK		[94 18 190 | stonebrick 0]
 	scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=2,score_PCpl_min=2] PCpl 3
 	scoreboard players set @e[type=ArmorStand,tag=PCStand,score_PCcl_min=1] PCcl 0
 
-GROUP | Grp_TimerTFClock | CLOCK		[94 22 190 | stonebrick 0]
+GROUP | Grp_TimerTFClock | CLOCK		[94 23 190 | stonebrick 0]
 	testfor @e[type=ArmorStand,tag=PCStand,score_PCti_min=0]
 	setblock ~ ~ ~ repeating_command_block 12 replace {TrackOutput:0b,auto:1b}
 	pictionary status
@@ -164,24 +178,38 @@ GROUP | Grp_MainClock | CLOCK		[94 10 188 | stonebrick 0]
 	scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=0,score_PCpl_min=0] PCaf 0
 	scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=0,score_PCpl_min=0] PCpl 1
 	minecraft:kill @e[x=110,y=3,z=148,dx=64,dy=15,dz=64,type=Item]
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 14 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 14 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 1 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 1 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 4 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 4 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 5 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 5 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 3 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 3 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
-	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 10 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 10 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
 	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 0 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 0 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 0 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 1 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 1 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 2 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 2 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 3 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 3 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 4 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 4 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 5 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 5 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 6 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 6 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 7 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 7 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 8 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 8 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 9 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 9 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 10 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 10 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 11 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 11 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 12 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 12 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 12 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 13 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 13 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
+	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 14 0
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 14 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] wool 15 0
-	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 15 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
+	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] wool 64 15 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 	execute @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] ~ ~ ~ minecraft:clear @a[c=1,r=1,score_PCpl=3,score_PCpl_min=3] shears -1 0
 	give @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_PCaf=0,score_PCaf_min=0] shears 1 0 {display:{Name:"Special Shears!",Lore:["Destroys wool... Destroy ALL THE WOOL MUAHAHAHA"]},Unbreakable:1,CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}
 	execute @a[score_PCss=100,score_PCss_min=100] ~ ~ ~ scoreboard players set @r[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=1,score_PCpl_min=1,score_PCss=0,score_PCss_min=0] PCpl 2
@@ -190,14 +218,14 @@ GROUP | Grp_MainClock | CLOCK		[94 10 188 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=PCStand,score_PCss=100,score_PCss_min=100] PCss 0
 	Func_GeneralEndClock()
 
-GROUP | Grp_MainEnd | PULSE		[94 14 188 | stonebrick 0]
+GROUP | Grp_MainEnd | PULSE		[94 15 188 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=34,score_SPgam_min=34] SPgam 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
-	setblock 94 14 188 stonebrick 0
+	setblock 94 15 188 stonebrick 0
 	scoreboard objectives remove PC
 	scoreboard objectives remove PCti
 	scoreboard objectives remove PCti2
@@ -216,8 +244,8 @@ GROUP | Grp_MainEnd | PULSE		[94 14 188 | stonebrick 0]
 	fill 130 4 168 133 18 192 air 0
 	setblock 158 1 180 redstone_block 0
 	setblock 94 10 188 stonebrick 0
-	setblock 94 22 190 stonebrick 0
-	setblock 94 18 190 stonebrick 0
+	setblock 94 23 190 stonebrick 0
+	setblock 94 19 190 stonebrick 0
 
 FINALIZE
 	fill 95 8 191 92 6 188 air 0
@@ -230,8 +258,8 @@ FINALIZE
 	setblock 93 8 190 command_block 4 replace {TrackOutput:0b,Command:"setblock ~ ~ ~-1 redstone_block 0"}
 	setblock 94 10 190 stonebrick 0
 	setblock 94 16 190 stonebrick 0
-	setblock 94 18 190 stonebrick 0
-	setblock 94 22 190 stonebrick 0
+	setblock 94 19 190 stonebrick 0
+	setblock 94 23 190 stonebrick 0
 	setblock 94 10 188 stonebrick 0
-	setblock 94 14 188 stonebrick 0
+	setblock 94 15 188 stonebrick 0
 
