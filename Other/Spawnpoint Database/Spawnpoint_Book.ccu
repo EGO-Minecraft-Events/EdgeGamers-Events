@@ -1258,7 +1258,7 @@ FUNC {Func_Book_RoyalRumble}:
 			{\"text\":\"RR: \",\"color\":\"dark_gray\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Royal_Rumble.Grp_MainStart redstone_block 0\"}},
 			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,RRStand] RRop 4097\"}},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,RRStand] RRop 1\"}},
 			
 			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,RRStand] RRop 2048\"}},
