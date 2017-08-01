@@ -2,7 +2,6 @@
 //C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\RB- Rabbit Ball\RabbitBall.ccu
 
 //<General Definitions
-
 DEF $SA$ x=206,y=73,z=262,dx=114,dy=-17,dz=153
 DEF $SPid$ 36
 DEF $SPpvp$ 0
@@ -16,7 +15,7 @@ DEF $Rpit1$ x=237,y=27,z=338,dx=0,dy=0,dz=6
 DEF $BPort$ x=213,y=26,z=333,dx=0,dy=3,dz=-2
 DEF $RPort$ x=213,y=26,z=337,dx=0,dy=3,dz=-2
 DEF $BportP$ 213 27 336
-DEF $RportP$ 213 27 336`	
+DEF $RportP$ 213 27 336
 DEF $RGS$ 259 27 367
 DEF $BGS$ 259 27 301
 
@@ -39,6 +38,30 @@ DEF $RBall$ {ArmorItems:[{},{},{},{id:leather_helmet,tag:{display:{color:5233919
 
 IMPORT {LIBRARY GETDIR General}
 
+//>
+
+//<Comments
+//=
+-Blue Score Chords:
+-B1=289 43 327
+-B2=289 43 331
+-B3=289 43 335
+-B4=289 43 339
+-B5=289 43 343
+-
+-Red Score Chords:
+-R1=289 43 325
+-R2=289 43 329
+-R3=289 43 333
+-R4=289 43 337
+-R5=289 43 341
+-
+-Spawns:
+-RB=224 24 334 -90 0
+-B= 237 27 330
+-R= 237 27 338
+-/summon Rabbit 259 27 334 {ArmorItems:[{},{},{},{id:leather_helmet,tag:{display:{color:5233919,Name:Cute Little Helmet!}}}],Attributes:[{Name:generic.maxHealth,Base:100},{Name:generic.attackDamage,
+=//
 //>
 
 //<Options
