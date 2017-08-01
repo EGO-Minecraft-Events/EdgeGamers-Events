@@ -916,6 +916,7 @@ FUNC {Func_EffectsStart}:
 
 //<Effects Clock
 FUNC {Func_EffectsClock}:
+	say test
 	effect @a[TPsa=1,m=2,TPpl=1] 1 0 0 true
 	effect @a[TPsa=1,m=2,TPpl=1] 2 0 0 true
 	

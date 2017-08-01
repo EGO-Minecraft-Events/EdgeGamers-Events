@@ -254,6 +254,7 @@ GROUP | Grp_MainClock | CLOCK		[-94 16 240 | stonebrick 0]
 	minecraft:kill @a[x=-82,y=10,z=171,dz=6,dz=6,m=2,score_TPpl=1,score_TPpl_min=1]
 	minecraft:kill @a[x=-81,y=6,z=172,dx=4,dy=3,dz=4,m=2,score_TPpl=1,score_TPpl_min=1]
 	minecraft:kill @a[x=-82,y=10,z=171,dx=6,dz=6,m=2,score_TPpl=1,score_TPpl_min=1]
+	say test
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] 1 0 0 true
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] 2 0 0 true
 	execute @e[type=ArmorStand,tag=TPStand,score_TPomo=11,score_TPomo_min=11] ~ ~ ~ effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] 1 2 0 true
