@@ -325,7 +325,13 @@ ARRAY {Arr_Spawnpoint}:
 		blue;white;dark_green
 		rr
 	
-	}
+	} {
+		224 24 334
+		224 24 334 -90 0
+		Rabbit Ball
+		Rabbit; ;Ball
+		red;white;blue
+		rb
 //>
 
 
