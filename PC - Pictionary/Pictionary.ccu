@@ -142,7 +142,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		PCss dummy Pictionary Stop Selection
 		PCcl dummy Pictionary Stop Selection
 		PCaf dummy Pictionary Affected Items
-	
+		PCtm dummy Pictionary Temp
 	
 	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
 		PC Pictionary
@@ -152,6 +152,9 @@ FUNC {Func_GeneralScoreboardStart}:
 	
 		PCd_y PC display yellow
 		OPT color yellow
+		
+	ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
+		4
 		
 	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	CCU_ExecuteSpawnStand ScSS PC
@@ -183,7 +186,6 @@ FUNC {Func_FillBoardPulse}:
 	LOOP {Arr_WoolIDs[S]}:
 		@e[type=ArmorStand,PCStand] wool |0| $DetectBlock$ fill $FillBoard$ wool |0|
 	@e[type=ArmorStand,PCStand] air 0 $DetectBlock$ fill $FillBoard$ air 0
-
 //>
 
 //<Selects Player Testfor Clock
@@ -198,9 +200,13 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	Fills board
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] fill $FillBoard$ air 0
 	
-///	Prevents the player from going again for the next 3 guesses
+///	Prevents the player from going again for the next x number of guesses according to PCtm (number of players divided by 4 round down)
+	@e[type=ArmorStand,PCStand] PCtm = 0
+	@a[$SA$,m=2,PCpl>=0] @e[type=ArmorStand,PCStand] PCtm + 1
+	ScOP @e[type=ArmorStand,PCStand] PCtm /= 4 Number
+	
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @a[$SA$,m=2,PCss>=1] PCss - 1
-	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] PCss = 3
+	@e[type=ArmorStand,PCStand,PCcl=0] ScOP @a[$SA$,m=2,PCpl=2] PCss = @e[type=ArmorStand,PCStand] PCtm
 	
 ///	Activates the timer
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @e[type=ArmorStand,PCStand] PCti2 = 120
@@ -241,9 +247,6 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	General reset
 	@a[$SA$,m=2,PCpl=2] PCpl = 3
 	@e[type=ArmorStand,PCStand,PCcl>=1] PCcl = 0
-	
-	
-	
 //>
 
 //<General Scoreboard Clock
@@ -336,6 +339,15 @@ FUNC {Func_GeneralScoreboardEnd}:
 //>
 
 //<Groups
+///	puts end before start to prevent the changing of redstone block position
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU_Deactivate(Grp_TimerTFClock)
+	CCU_Deactivate(Grp_SelectsPlayerTFClock)
+
 GROUP {Grp_MainStart}:
 	CCU.spawnStandStart()
 	CCU_Deactivate(GSELF)
@@ -359,14 +371,6 @@ GROUP {Grp_MainClock}:
 	CCU.spawnIDSetting()
 	Func_GeneralScoreboardClock()
 	Func_GeneralEndClock()
-
-GROUP {Grp_MainEnd}:
-	CCU.spawnStandEnd()
-	CCU_Deactivate(GSELF)
-	Func_GeneralScoreboardEnd()
-	CCU_Deactivate(Grp_MainClock)
-	CCU_Deactivate(Grp_TimerTFClock)
-	CCU_Deactivate(Grp_SelectsPlayerTFClock)
 
 CCU.cmdSave()
 //>
