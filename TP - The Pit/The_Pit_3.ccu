@@ -28,7 +28,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 	
 ///	Select spawn
 DEF $SP$ x=-107,y=25,z=193,dx=9,dy=5,dz=9

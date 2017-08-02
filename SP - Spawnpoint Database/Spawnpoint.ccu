@@ -37,7 +37,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 
 DEF $SP$ x=350,y=14,z=13,dx=90,dy=30,dz=90
 DEF $SpawnStand$ 397 17 61

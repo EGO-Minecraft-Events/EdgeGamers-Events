@@ -1,0 +1,13 @@
+-49 15 95 -66 26 86
+Grp_MainStart;-50 16 94;-65 19 94
+Grp_MainClock;-50 21 94;-65 23 94
+Grp_MainEnd;-50 16 92;-65 18 92
+Grp_CountdownTFClock;-50 20 92;-65 21 92
+Grp_ChangePercentTFClock1;-50 16 90;-65 22 90
+Grp_ChangePercentTFClock2;-50 16 88;-65 22 88
+Grp_ChangePercentTFClock3;-50 25 94;-65 25 94
+Grp_OpenDoors;-50 23 92;-65 23 92
+Grp_CloseDoors;-50 25 92;-65 25 92
+Grp_ResetSettings;-50 24 90;-65 24 90
+Grp_ChangeSettings;-50 24 88;-65 24 88
+Grp_cmdSave;-50 16 86;-65 16 86
