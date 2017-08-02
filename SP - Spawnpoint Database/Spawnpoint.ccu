@@ -27,7 +27,7 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 7 111
 
 IMPORT {LIBRARY GETDIR General}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Other\Spawnpoint Database\Spawnpoint_Book_dat.txt}
+IMPORT {GETCOORDS WITHIN Spawnpoint_Book_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -37,7 +37,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 
 DEF $SP$ x=350,y=14,z=13,dx=90,dy=30,dz=90
 DEF $SpawnStand$ 397 17 61
@@ -332,6 +332,7 @@ ARRAY {Arr_Spawnpoint}:
 		Rabbit; ;Ball
 		red;white;blue
 		rb
+	}
 //>
 
 

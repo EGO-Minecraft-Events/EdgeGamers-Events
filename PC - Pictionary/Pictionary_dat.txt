@@ -1,0 +1,7 @@
+95 9 191 78 26 187
+Grp_MainEnd;94 10 190;79 11 190
+Grp_MainStart;94 13 190;79 17 190
+Grp_FillBoardPulse;94 19 190;79 20 190
+Grp_SelectsPlayerTFClock;94 22 190;79 24 190
+Grp_TimerTFClock;94 10 188;79 11 188
+Grp_MainClock;94 13 188;79 16 188

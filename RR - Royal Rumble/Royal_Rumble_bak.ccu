@@ -36,7 +36,7 @@ OPTIONS:
 	filePathFuncOption 
 ///	Filepath to MCFunctions
 /// Preserve coordinates for each group
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<Random comments

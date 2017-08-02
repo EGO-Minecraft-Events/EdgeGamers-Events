@@ -35,11 +35,18 @@ OPTIONS:
 	filePathFuncOption 
 ///	Filepath to MCFunctions
 /// Preserve coordinates for each group
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<Random comments
 //=
+	-kill pigs on point
+	-teleport pigs from point
+	-if tickspeed is slow, set to 60 --> 100%
+	-nerf knockback
+	-speed 3 instead of speed 4
+	-respawn delay of 5s
+	-class limit of 4 on stealth
 
 TODO:
 -General settings:
