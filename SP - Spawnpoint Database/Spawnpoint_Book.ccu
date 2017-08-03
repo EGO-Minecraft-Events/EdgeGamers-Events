@@ -1212,7 +1212,7 @@ FUNC {Func_Book_Pictionary}:
 			{\"text\":\"Arena: \",\"color\":\"black\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Pictionary.Grp_MainStart redstone_block 0\"}},
 			{\"text\":\" / \",\"color\":\"black\"},
-			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Pictionary.Grp_MainEnd redstone_block 0\"}},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Pictionary.Grp_ActivateMainEnd redstone_block 0\"}},
 			
 			{\"text\":\"Time: \",\"color\":\"dark_gray\"},
 			{\"text\":\"[+]\",\"color\":\"dark_green\",

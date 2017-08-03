@@ -21,7 +21,7 @@ DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","co
 ///Theme
 DEF $Theme$ MC Leadership!
 ///	Filling the board
-DEF COORDS $FillBoard$ 130 4 168 133 18 192
+DEF COORDS $FillBoard$ 130 6 168 130 18 192
 
 ///	Teleport player to drawing board
 DEF TELE $DrawingTP$ 132 4 180 90 0
@@ -34,6 +34,9 @@ DEF COORDS $DetectBlock$ 129 6 165
 
 ///	Redstone block to open the door with
 DEF COORDS $OpenDoorBlock$ 158 1 180
+
+///	Sets the cmd block for filling the board with wool
+DEF COORDS $FillBoardBlock$ 128 6 164
 
 /// Item list
 /*
@@ -52,67 +55,43 @@ DEF CCItem_Wool wool 64 |0|
 /// Arr_Test[asdf]
 
 ///	Actual guess list
-ARRAY {Arr_GuessList}:
-	Car
-	Horse
-	Corgi
-	Bus
-	TNT
-	Eraser
-	Cat
-	Hammer
-	Cup
-	Minecraft Logo
-	Queen
-	Lighthouse
-	Guitar
-	Key
-	Penguin
-	Chicken
-	Swimming Pool
-	Balloon
-	Diamond Ring
-	Cotton Candy
-	Balloon
-	Diamond Ring
-	Cotton Candy
-	Flower
-	Ball 
-	Taco
-	Ferret
-	Meeting
-	Ban
-	Volcano
-	Round
-	Fox
-	French Fries
-	Puppy
-	Bomb
-	Lobster
-	Corn
-	Potato
-	Fishing
-	Trumpet
-	Dinosaur
+ARRAY {Arr_GuessListCalc}:
+	IMPORT {WITHIN GuessList.ccu}
 	
+///	Detects duplicates
+///	Using 2 identical arrays, if the strings match and the index aren't equal --> prints
+///	Otherwise it just displays the word so it is parsed inside the array
 
+ARRAY {Arr_GuessList}:
+	LOOP {0 Arr_GuessListCalc[-1] + 1}:
+		DEF GLOBAL $FoundDuplicate$ -1
+		LOOP {0 Arr_GuessListCalc[-1] + 1}:
+			IF {Arr_GuessListCalc[|0|] = Arr_GuessListCalc[|0;1|]}:
+				IF {|0| != |0;1|}:
+					DEF GLOBAL $FoundDuplicate$ |0;1|
+		IF {$FoundDuplicate$ = -1}:
+			Arr_GuessListCalc[|0|]
+		ELSE:
+			PRINT Found Duplicate 'Arr_GuessListCalc[$FoundDuplicate$]' at index $FoundDuplicate$ (will not be included)
+		
+///	These are arranged in this order so they have full access to most colors on the hotbar
+///	Any remaining colors will be in their inv
 ARRAY {Arr_WoolIDs}:
-	0
+	14
 	1
-	2
-	3
 	4
 	5
-	6
-	7
-	8
-	9
+	3
 	10
-	11
+	0
 	12
-	13
-	14
 	15
+	2
+	6
+	8
+	7
+	9
+	11
 
 IMPORT {LIBRARY GETDIR General}
 //>
@@ -130,6 +109,9 @@ OPTIONS:
 //>
 
 //<General Scoreboard Start
+INITIALIZE:
+	setblock $FillBoardBlock$ command_block 0 replace {Command:"CCU_Activate(Grp_FillBoardPulse)"}
+
 FUNC {Func_GeneralScoreboardStart}:
 	USE {ScOA}:
 		CCU_NumberObjAdd
@@ -143,7 +125,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		PCcl dummy Pictionary Stop Selection
 		PCaf dummy Pictionary Affected Items
 		PCtm dummy Pictionary Temp
-	
+		
 	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
 		PC Pictionary
 		OPT color green
@@ -174,7 +156,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	setblock $OpenDoorBlock$ air 0
 	
 ///Says the Nights' Theme In Title and In Chat
-	title @a title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
+	title @a[$SA$] title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
 	title @a[$SA$] subtitle ["",{"text":"$Theme$","color":"gold","bold":true,"italic":true}]
 	tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"}]}
 	tellraw @a[$SA$] $TextStart${"text":"$Theme$","color":"gold"}]}
@@ -224,8 +206,12 @@ FUNC {Func_SelectsPlayerTFClock}:
 	clear @a[$SA$,m=2,PCpl=2]
 	
 	replaceitem entity @a[$SA$,m=2,PCpl=2] slot.weapon.offhand CCItem_Shears
-	LOOP {0 8 + 1} {Arr_WoolIDs[S]}:
-		replaceitem entity @a[$SA$,m=2,PCpl=2] slot.hotbar.|0| CCItem_Wool(|1|)
+	LOOP {0 Arr_WoolIDs[-1] + 1}:
+		IF {|0| >= 8}:
+			replaceitem entity @a[$SA$,m=2,PCpl=2] slot.hotbar.|0| CCItem_Wool(|1|)
+		ELSE:
+			give @a[$SA$,m=2,PCpl=2] CCItem_Wool(|1|)
+		
 		
 	@a[$SA$,m=2,EC=0,PCpl=2] SPbk = $SPid$
 	
@@ -237,7 +223,6 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	Says who's the artist
 	@e[type=ArmorStand,PCStand,PCcl=0] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" is the artist.","color":"gray"}]}
 	@e[type=ArmorStand,PCStand,PCcl>=1] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" are the artists.","color":"gray"}]}
-	
 	
 ///	Says what the topic name is
 	tellraw @a[$SA$,m=2,PCpl=2] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
@@ -293,7 +278,7 @@ FUNC {Func_TimerTFClock}:
 	
 	pictionary status
 	COND:
-		@e[type=ArmorStand,tag=PCStand] PCti2 = 0
+		@e[type=ArmorStand,PCStand] PCti2 = 0
 	
 	@e[type=ArmorStand,PCStand,PCti>=0] PCti + 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti2 - 1
@@ -304,7 +289,7 @@ FUNC {Func_TimerTFClock}:
 	
 ///	Display message
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Round Over!","color":"dark_aqua","underlined":true}
-	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
+	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
 	
 /// Clear answer
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] pictionary clear
@@ -339,15 +324,10 @@ FUNC {Func_GeneralScoreboardEnd}:
 //>
 
 //<Groups
-///	puts end before start to prevent the changing of redstone block position
-GROUP {Grp_MainEnd}:
-	CCU.spawnStandEnd()
+GROUP {Grp_ActivateMainEnd}:
 	CCU_Deactivate(GSELF)
-	Func_GeneralScoreboardEnd()
-	CCU_Deactivate(Grp_MainClock)
-	CCU_Deactivate(Grp_TimerTFClock)
-	CCU_Deactivate(Grp_SelectsPlayerTFClock)
-
+	CCU_Activate(Grp_MainEnd)
+	
 GROUP {Grp_MainStart}:
 	CCU.spawnStandStart()
 	CCU_Deactivate(GSELF)
@@ -371,6 +351,14 @@ GROUP {Grp_MainClock}:
 	CCU.spawnIDSetting()
 	Func_GeneralScoreboardClock()
 	Func_GeneralEndClock()
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU_Deactivate(Grp_TimerTFClock)
+	CCU_Deactivate(Grp_SelectsPlayerTFClock)
 
 CCU.cmdSave()
 //>
