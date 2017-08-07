@@ -114,6 +114,8 @@ OPTIONS:
 	parseOption true
 	commandOption true
 	combinerOption true
+	
+	parseChangesOption false
 
 FUNC {Func_UpdateTime}:
 	ScOP minutes CTFgen = time_left CTFgen

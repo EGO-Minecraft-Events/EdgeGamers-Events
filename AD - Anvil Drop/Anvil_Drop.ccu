@@ -30,7 +30,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<Definitions
@@ -237,7 +237,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		OPT color yellow
 	
 	@a[$SA$,m=2] ADpl + 0
-	AD J> @a[$SA$,m=2,ADpl=0]
+	J> AD @a[$SA$,m=2,ADpl=0]
 	
 	clear @a[$SA$,m=2,ADpl=0]
 	@a[$SA$,m=2,ADpl=0,EC=0] SPbk = $SPid$
@@ -250,7 +250,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	effect @a[$SA$,m=2,ADpl=0] clear
 	effect @a[$SA$,m=2,ADpl=0] 6 1 100 true
 	xp -1000L @a[$SA$,m=2,ADpl=0]
-	ADd_y J> Countdown Players Time_Elapsed
+	J> ADd_y Countdown Players Time_Elapsed
 	
 	@a[$SelectArena$,m=2,ADpl=0] ADpl = 1
 	@a[$SA$,m=2,ADpl=0] ADpl = 2
@@ -275,7 +275,7 @@ FUNC {Func_GeneralScoreboardClock}:
 	@a[m=2,ADpl=2,EC=0] SPbk = $SPid$
 	@a[ADde>=1] ADde = 0
 	@a[ADpl=2] ADpl = 3
-	NoPVP J> @a[$SA$,m=2,team=!NoPVP,ADpl=3]
+	J> NoPVP @a[$SA$,m=2,team=!NoPVP,ADpl=3]
 	
 ///	Display
 	Players ADpl = 0

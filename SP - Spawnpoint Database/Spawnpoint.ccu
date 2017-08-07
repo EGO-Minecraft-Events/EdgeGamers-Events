@@ -27,7 +27,7 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 7 111
 
 IMPORT {LIBRARY GETDIR General}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Other\Spawnpoint Database\Spawnpoint_Book_dat.txt}
+IMPORT {GETCOORDS WITHIN Spawnpoint_Book_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -37,7 +37,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 
 DEF $SP$ x=350,y=14,z=13,dx=90,dy=30,dz=90
 DEF $SpawnStand$ 397 17 61
@@ -318,13 +318,20 @@ ARRAY {Arr_Spawnpoint}:
 		light_purple;red;gold;yellow;green;dark_green;blue;dark_aqua;aqua;white
 		pc
 	} {
-		-103 19 480
-		-103 19 480 -180 0
+		-103 19 482
+		-103 19 482 -180 0
 		Royal Rumble
 		Royal; ;Rumble
 		blue;white;dark_green
 		rr
 	
+	} {
+		224 24 334
+		224 24 334 -90 0
+		Rabbit Ball
+		Rabbit; ;Ball
+		red;white;blue
+		rb
 	}
 //>
 
@@ -390,7 +397,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		SPsat = 1
 		SPgmd = 1
 		SPgam = 0
-		SPaff = 7
+		SPaff = 23
 //>
 
 //<Adding Scoreboards Pulse
@@ -458,8 +465,8 @@ FUNC {Func_AddingScoreboardsPulse}:
 	ARRAY {ACTIVATE Func_AddUsersToScoreboard Arr_Usernames}:
 		APPS Coopdog55
 		APPS TheDarkOne239
-		APPS DELHI123
 		APPS Pikaslack
+		APPS Soupyahtzee
 		
 		AT BUTTERLOVER7683
 		
@@ -467,6 +474,7 @@ FUNC {Func_AddingScoreboardsPulse}:
 		EC french_man
 		EC jamboree_lee
 		EC CynRyn
+		EC CMDZane
 		
 		LE FoxyTheBoomQueen
 		LE idk_lobsters
@@ -474,7 +482,6 @@ FUNC {Func_AddingScoreboardsPulse}:
 		LE FirezFury
 		
 		APWBS Witch_Doctor
-		APWBS CMDZane
 		APWBS Kilgore90
 		APWBS Icohedron
 	
@@ -659,8 +666,8 @@ FUNC {Func_SpawnTFClock}:
 		J> NoPVP @a[$SPTree$,m=2]
 	
 	@a[$SPTree$,m=!3] SPti + 1
-	@a[$SPNotTree$,m=!3] SPti = 0
-	ScOP @a[$SPTree$,m=!3,SPti>=10] SPtp = @e[type=ArmorStand,SpawnStand,SPtp>=1] SPtp 
+	@a[$SPNotTree$,m=!3,SPti<10] SPti = 0
+	ScOP @a[$SPTree$,m=!3,SPti>=10] SPtp = @e[type=ArmorStand,SpawnStand,SPtp>=1] SPtp
 	
 	@a[$SPPortal$,m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = mghub SPna
 	@a[$SPPortal$,m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = pvphub SPna
@@ -822,6 +829,10 @@ FUNC {Func_TSTokenOptionsTFClock}:
 
 //<Other Clock
 FUNC {Func_OtherClock}:
+///	Continuing the spawnpoint clock
+	@a[m=!3,SPti>=10] SPti + 1
+	@a[$SPNotTree$,m=!3,SPti>=20] SPti = 0
+	
 ///	Dimension
 	@a SPdim = 0
 	@a SPdim = 6 {$Dim$}
@@ -934,7 +945,7 @@ SPst	Specialty teams		Players
 	@a[SPlg>=1] SPlg = 0
 	
 ///	For voting
-	@a enable SPvot
+	* enable SPvot
 	/*
 	tellraw @a[SPvot>=1] $TextStart$
 	{"text":"Vote here: ","color":"gray"},

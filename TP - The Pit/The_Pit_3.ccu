@@ -1,4 +1,4 @@
-//#-p stonebrick 0 -b -97 15 239 -print
+//(The Pit 3)
 ///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\TP - The Pit\PCBP_ThePit3.cbp
 
 //<Defines
@@ -8,12 +8,28 @@ DEF $SPpvp$ 1
 DEF $SPsat$ 0
 
 DEF $CMDName$ TPL3
-DEF $CMDSizeX$ 11
-DEF $CMDSizeY$ 20
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
 DEF $CMDSizeZ$ 16
 
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TP3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},
 
+DEF $BlockOption$ stonebrick 0
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ -97 15 239
+
+IMPORT {LIBRARY GETDIR General}
+
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+	
 ///	Select spawn
 DEF $SP$ x=-107,y=25,z=193,dx=9,dy=5,dz=9
 ///	Select spectator area upon entering
@@ -69,9 +85,14 @@ DEF CCItem_PorkchopFake porkchop 1 0 {display:{Name:"The Holy Porkchop"},ench:[{
 DEF CCItem_Snowball snowball 16 0 {display:{Name:"Canadian Bullets"}}
 
 DEF CCItem_CarrotStickRed carrot_on_a_stick 1 0 {display:{Name:"Join Red",Lore:["Right click!"]},Unbreakable:1,HideFlags:127}
-DEF CCItem_RedDye dye 1 1 {HideFlags:127}
+DEF CCItem_DyeRed dye 1 1 {HideFlags:127}
+DEF CCItem_GlassRed stained_glass 1 14
+DEF CCItem_GlassPaneRed stained_glass_pane 1 14 {display:{Name:"You are on red"}}
+
 DEF CCItem_CarrotStickBlue carrot_on_a_stick 1 0 {display:{Name:"Join Blue",Lore:["Right click!"]},Unbreakable:1,HideFlags:127}
-DEF CCItem_BlueDye dye 4 1 {HideFlags:127}
+DEF CCItem_DyeBlue dye 1 4 {HideFlags:127}
+DEF CCItem_GlassBlue stained_glass 1 11
+DEF CCItem_GlassPaneBlue stained_glass_pane 1 11 {display:{Name:"You are on blue"}}
 
 FUNC {Func_StructureSetblock}:
 	setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_|0|",showboundingbox:0b}
@@ -379,10 +400,10 @@ FUNC {Func_GeneralScoreboardStart}:
 	USE {ScOA}:
 		CCU_NumberObjAdd
 		TPSave dummy The Pit Save
-		TPMobSave dummy The Pit Mob Save
 	
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
 		TP dummy The Pit
+		TPsa dummy The Pit Select All
 		TPtm dummy The Pit Temp Calcs
 		TPti dummy The Pit Timer - Ticks
 		TPti2 dummy The Pit Timer - Seconds
@@ -396,10 +417,15 @@ FUNC {Func_GeneralScoreboardStart}:
 		TPst dummy The Pit State
 		
 		TPop dummy The Pit Option
-		TPocl dummy The Pit Option Calc
-		TPocl2 dummy The Pit Option Calc 2
+		TPoas dummy TP Arena Size
+		TPoat dummy TP Arena Type
+		TPowe dummy TP Weapon
+		TPoju dummy TP Jump
+		TPomo dummy TP Movement
+		TPons dummy TP NoSprint
 		
-		
+	///	Degrading arena
+		TPdg dummy The Pit Degrading Arena
 	
 	ScSS TP
 	
@@ -415,84 +441,58 @@ FUNC {Func_GeneralScoreboardStart}:
 		OPT color green
 	
 ///	Color Asthetics
-	ScTJ TPd_g Players
-	ScTJ TPd_y Mobs Winner Time_Elapsed Countdown
+	J> TPd_g Players
+	J> TPd_y Mobs Winner Time_Elapsed Countdown
 	
 	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPStand","TPCount","TPCountPlayers"]}
 	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPSummon","TPCount","TPCountRed"]}
 	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPSummon","TPCount","TPCountBlue"]}
 ///	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPCount","TPCountMobs"]}
-///	@e[type=ArmorStand,TPStand] TPti = 0
-///	@e[type=ArmorStand,TPStand] TPti2 = 17
 	@e[type=ArmorStand,TPStand] TPst = 0
 	
-	/*
-	tellraw @a $TextStart$
-	{"text":"Head back to the lobby in","color":"gray","italic":true},
-	{"text":" 10 seconds ","color":"yellow","italic":"true"},
-	{"text":"unless you want to spectate!","color":"gray","italic":true}]}
-	*/
+	ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
+		40
+		100
 	
-	NumberAdd(40)
-	NumberAdd(100)
+	@e[type=ArmorStand,TPStand] TPop = 1
 	
 /// baby i'm ballin
 //>
 
-//<Countdown Testfor Clock
-FUNC Func_CountdownTFClock
-	testfor @e[type=ArmorStand,TPStand,TPti>=0]
-	SetblockTestfor
-	
-	@e[type=ArmorStand,TPStand,TPti>=0] @a[$SA$,m=2,TPpl=1,TPwe=0] TPwe = 1
-	
-///	Countdown
-///	@e[type=ArmorStand,TPStand,TPti=0,TPti2>=1<=5] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,TPStand,c=1]","objective":"TPti2"},"color":"yellow"},{"text":"!","color":"yellow"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=5] tellraw @a $TextStart${"text":"5","color":"yellow","bold":"true"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=4] tellraw @a $TextStart${"text":"4","color":"yellow","bold":"true"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=3] tellraw @a $TextStart${"text":"3","color":"yellow","bold":"true"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=2] tellraw @a $TextStart${"text":"2","color":"yellow","bold":"true"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=1] tellraw @a $TextStart${"text":"1","color":"yellow","bold":"true"}]}
-	
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=5] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=4] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=3] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2>=1<=2] @a playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
-	
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] @a playsound minecraft:entity.wither.death voice @a[c=1]
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] tellraw @a $TextStart${"text":"Begin!","color":"green","bold":"true"}]}
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] ScRE Countdown TP
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] TPdg + 0
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] fill $MiddleAir$ air 0
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] TPti = -1
-END
-//>
-
 //<General Scoreboard Clock
-FUNC Func_GeneralScoreboardClock
+FUNC {Func_GeneralScoreboardClock}:
+///	General
+	@a TPsa = 0
+	@a[$SA$] TPsa = 1
 	
+	clear @a[$SPEC$,m=2] stained_glass
+	clear @a[$SPEC$,m=2] stained_glass_pane
+	clear @a[$SPEC$,m=2] carrot_on_a_stick
+	clear @a[$SPEC$,m=2] dye
+	@e[type=Arrow] TPtm = 1 {inGround:1b}
+	kill @e[type=Arrow,TPtm=1]
 	
+///	Option: Arena Size
+	testfor @e[type=ArmorStand,TPStand,TPoas>=1000]
+	COND:
+		@e[type=ArmorStand,TPStand,TPoas>=1000] CCU_Activate(Grp_RefreshArenaPulse)
+		@e[type=ArmorStand,TPStand,TPoas>=1000] TPoas - 1000
 	
+///	Option: Arena Type
+	testfor @e[type=ArmorStand,TPStand,TPoat>=1000]
+	COND:
+		@e[type=ArmorStand,TPStand,TPoat>=1000] CCU_Activate(Grp_RefreshArenaPulse)
+		@e[type=ArmorStand,TPStand,TPoat>=1000] TPoat - 1000
+		
+///	Option: Weapon type
+	testfor @e[type=ArmorStand,TPStand,TPowe>=1000]
+	COND:
+		@e[type=ArmorStand,TPStand,TPowe>=1000,TPst=2] @a[TPsa=1,m=2,TPpl=1] TPwtg = 1
+		@e[type=ArmorStand,TPStand,TPowe>=1000] TPowe - 1000
 	
-	
-	
-///	Book
-	@a[$SP$,m=2,TPpl=1,EC=0] clear @a[r=1,c=1,m=2,TPpl=1,EC=0] written_book 0 0
-	@a[$SP$,m=2,TPpl=1,EC=0]
-	
-	
-	
-	
-	
-	clear @a[$SPEC$,m=2]
-	@a[$SPEC$,m=2]
-	
-	
-	
-	
-	@e[$SA$,type=Arrow] TPtm = 1 {inGround:1b}
-	kill @e[$SA$,type=Arrow,TPtm=1]
-	
+///	Degrading arena
+	@e[type=ArmorStand,TPStand,TPst=2,TPoat=0] TPdg = 0
+		
 ///	Timer
 	@e[type=ArmorStand,TPStand,TPti>=0] TPti + 1
 	@e[type=ArmorStand,TPStand,TPti=20,TPti2>=1] TPti2 - 1
@@ -505,189 +505,133 @@ FUNC Func_GeneralScoreboardClock
 	@e[type=ArmorStand,TPStand,TPti=-21] TPti = -1
 	
 ///	Removing initial weakness
-	@e[type=ArmorStand,TPStand,TPti=-15,TPti2=0] @a[$SA$,m=2,TPpl=1] TPwe = 0
+	@e[type=ArmorStand,TPStand,TPti=-15,TPti2=0] @a[TPsa=1,m=2,TPpl=1] TPwe = 0
 	
 ///	Beginning
 	@e[type=ArmorStand,TPStand,TPti>=0,TPti2>=7] @a[$SP$,m=2] TPpl + 0
-	
-	@a[$SA$,m=2,TPpl=0] TPaf + 0
-	@a[$SA$,m=2,TPpl=0] TPwe + 0
-	@a[$SA$,m=2,TPpl=0] TPtp = 10
-	@a[$SA$,m=2,TPpl=0] TPwtg = 1
-	clear @a[$SA$,m=2,TPpl=0]
-	effect @a[$SA$,m=2,TPpl=0] 6 1 100 true
-///	@a[$SA$,m=2,TPpl=0] stats entity @a[r=0,c=1,m=2,TPpl=0] set AffectedItems @a[r=0,c=1] TPaf
-	@a[$SA$,m=2,TPpl=0] TPpl = 1
+	@e[type=ArmorStand,TPStand,TPti>=0,TPti2>=7] @a[$SP$,m=2,TPpl=3] TPpl = 0
 	
 //=	
 	ScTE Mob_Mode TPMobSave 0 1
 	CONSTART
 		ScTE Teams TPSave 0 0
-		@a[$SA$,m=2,TPpl=0] TPpl = 1
+		@a[TPsa=1,m=2,TPpl=0] TPpl = 1
 	CONEND
 =//
 	
 ///	End of waiting period
 	@e[type=ArmorStand,TPStand,TPti=0,TPti2=7] TPwtr = 1
-	@e[type=ArmorStand,TPStand,TPti=0,TPti2=7] @a playsound minecraft:entity.player.levelup voice @a[c=1]
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=7] @a playsound Snd_Level voice @a[c=1]
+	
+///	Scoreboard teams
+	@e[type=ArmorStand,TPStand,TPtst=0] J> TP @a[TPsa=1,m=2,TPpl>=0,team=!TP,TPtid=0]
+	@e[type=ArmorStand,TPStand,TPtst>=1] J> TPr @a[TPsa=1,m=2,TPpl>=0,team=!TPr,TPtid=1]
+	@e[type=ArmorStand,TPStand,TPtst>=1] J> TPb @a[TPsa=1,m=2,TPpl>=0,team=!TPb,TPtid=2]
+	
+///	counts only in arena
+	@e[type=ArmorStand,TPCount,TPst=2] TPpl = 0
+	@e[type=ArmorStand,TPStand,TPst=2] @a[$SelectArena$,m=2,TPtid=1,TPpl=1] @e[type=ArmorStand,TPCountRed] TPpl + 1
+	@e[type=ArmorStand,TPStand,TPst=2] @a[$SelectArena$,m=2,TPtid=2,TPpl=1] @e[type=ArmorStand,TPCountBlue] TPpl + 1
+	
+///	counts all
+	@e[type=ArmorStand,TPCount,TPst=0] TPpl = 0
+	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=1] @e[type=ArmorStand,TPCountRed] TPpl + 1
+	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPtid=2] @e[type=ArmorStand,TPCountBlue] TPpl + 1
+	
+	@e[type=ArmorStand,TPStand,TPtst>=1] Players reset TP
+	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Red TP = @e[type=ArmorStand,TPCountRed] TPpl
+	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Blue TP = @e[type=ArmorStand,TPCountBlue] TPpl
 	
 ///	Display
 	@e[type=ArmorStand,TPCount] TPpl = 0
 	
-	@a[$SA$,m=2,TPpl=1] @e[type=ArmorStand,TPCountPlayers] TPpl + 1
-	@a[$SA$,m=2,TPpl=1,team=TPr] @e[type=ArmorStand,TPCountRed] TPpl + 1
-	@a[$SA$,m=2,TPpl=1,team=TPb] @e[type=ArmorStand,TPCountBlue] TPpl + 1
-	@e[$SA$,TPMob] @e[type=ArmorStand,TPCountMobs] TPpl + 1
+	@a[$SP$,m=2,TPpl=3] @e[type=ArmorStand,TPStand,TPtst=0,TPst=0] TPpl + 1
+	@a[$SelectArena$,m=2,TPpl=1] @e[type=ArmorStand,TPStand,TPtst=0,TPst=2] TPpl + 1
+///	@e[TPMob] @e[type=ArmorStand,TPCountMobs] TPpl + 1
 	
-	ScOP @e[type=ArmorStand,TPStand] TPtm = Teams TPSave
-	@e[type=ArmorStand,TPStand,TPtm=0] ScRE Red TP
-	@e[type=ArmorStand,TPStand,TPtm=0] ScRE Blue TP 
-	@e[type=ArmorStand,TPStand,TPtm=1] ScRE Players TP
-	
-///	Scoreboard teams
-	@e[type=ArmorStand,TPStand,TPtm=0] ScTJ TP @a[$SA$,m=2,TPpl=1,team=!TP]
-	@e[type=ArmorStand,TPStand,TPtm=1] ScTJ TPr @a[$SA$,m=2,TPpl=1,team=!TPr,TPtid=1]
-	@e[type=ArmorStand,TPStand,TPtm=1] ScTJ TPb @a[$SA$,m=2,TPpl=1,team=!TPb,TPtid=2]
-	
-///	More display
-	@e[type=ArmorStand,TPCountPlayers,TPpl=0] ScRE Players TP
-	@e[type=ArmorStand,TPCountRed,TPpl=0] ScRE Red TP
-	@e[type=ArmorStand,TPCountBlue,TPpl=0] ScRE Blue TP
-		
-	@e[type=ArmorStand,TPStand,TPtm=0] ScOP Players TP = @e[type=ArmorStand,TPCountPlayers,TPpl>=1] TPpl
-	@e[type=ArmorStand,TPStand,TPtm=1] ScOP Red TP = @e[type=ArmorStand,TPCountRed,TPpl>=1] TPpl
-	@e[type=ArmorStand,TPStand,TPtm=1] ScOP Blue TP = @e[type=ArmorStand,TPCountBlue,TPpl>=1] TPpl
+	@e[type=ArmorStand,TPStand,TPtst=0] Red reset TP
+	@e[type=ArmorStand,TPStand,TPtst=0] Blue reset TP
+	@e[type=ArmorStand,TPStand,TPtst=0] ScOP Players TP = @e[type=ArmorStand,TPStand,TPtst=0] TPpl
 	
 //=
 	ScOP @e[type=ArmorStand,TPStand] TPtm = Mob_Mode TPMobSave
-	@e[type=ArmorStand,TPStand,TPtm=0] ScRE Mobs TP
+	@e[type=ArmorStand,TPStand,TPtst=0] Mobs reset TP
 	
-	@e[type=ArmorStand,TPCountMobs,TPpl=0] ScRE Mobs TP
-	@e[type=ArmorStand,TPStand,TPtm=1,TPpl>=1] ScOP Mobs TP = @e[type=ArmorStand,TPCountMobs,TPtm=1,TPpl>=1] TPpl
+	@e[type=ArmorStand,TPCountMobs,TPpl=0] Mobs reset TP
+	@e[type=ArmorStand,TPStand,TPtst>=1,TPpl>=1] ScOP Mobs TP = @e[type=ArmorStand,TPCountMobs,TPtst>=1,TPpl>=1] TPpl
 =//
-	
-	@e[type=ArmorStand,TPStand,TPtm=1] TPtm = 0
 	
 ///	Middle structure reset
 	@e[type=ArmorStand,TPStand,TPti=-1,TPti2=7] setblock $MiddleStructure$ redstone_block 0
 	@e[type=ArmorStand,TPStand,TPti=-1,TPti2=7] setblock $MiddleStructure$ air 0
+	
+	//=
 	testfor @e[type=ArmorStand,TPStand,TPti=-1,TPti2=7]
-	CONDITION
+	COND:
 		Activate(CBPMobSummonPulse)
+	=//
 	
 ///	General
-	effect @a[$SA$,m=2] 11 3 10 true
+	effect @a[TPsa=1,m=2] 11 3 10 true
 	kill @a[$KillFloor$,m=2,TPpl=1]
 	kill @a[$MidFloor$,m=2,TPpl=1]
 	kill @a[$MidSides$,m=2,TPpl=1]
 	kill @a[$TopPillar$,m=2,TPpl=1]
-END
 //>
 
 //<General End Clock
-FUNC Func_GeneralEndClock
-	
-	
-	
-	
-	@a[TPcs>=1] TPcs = 0
-	
-	
-	
-///	Weakness
-	effect @a[$SA$,m=2,TPpl=1,TPwe>=1<=2] 18 3 100 true
-	effect @a[$SA$,m=2,TPpl=1,TPwe=0] 18 0 0 true
-
+FUNC {Func_GeneralEndClock}:
 ///	XP related things
-	kill @e[$SA$,type=XPOrb]
-	xp -2147483648L @a[$SA$,m=2,TPpl=1]
+	kill @e[type=XPOrb]
+	xp -2147483648L @a[TPsa=1,m=2,TPpl=1]
 	
-	@a[$SA$,m=2,TPpl=1] TPxpo = 0
-	@e[type=ArmorStand,TPStand,TPti<=-1] @a[$SA$,m=2,TPpl=1,TPxpo=0] TPxpo = 1
-	@a[$SA$,m=2,TPpl=1,TPsbo=1,TPxpo=0] ScOP @a[m=2,TPpl=1,TPsbo=1,TPxpo=0,c=1,r=1] TPxp = @a[m=2,TPpl=1,TPsbo=1,TPxpo=0,c=1,r=1] TPsb
+	//=
+	@a[TPsa=1,m=2,TPpl=1] TPxpo = 0
+	@e[type=ArmorStand,TPStand,TPti<=-1] @a[TPsa=1,m=2,TPpl=1,TPxpo=0] TPxpo = 1
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPxpo=0] ScOP @a[m=2,TPpl=1,TPsbo=1,TPxpo=0,c=1,r=1] TPxp = @a[m=2,TPpl=1,TPsbo=1,TPxpo=0,c=1,r=1] TPsb
 	ScOP @a[TPxp>=0] TPxp *= 100 Number
-	ScOP @a[$SA$,m=2,TPpl=1,TPxp>=0,TPsbo=1,TPxpo=0] TPxp /= 40 Number
+	ScOP @a[TPsa=1,m=2,TPpl=1,TPxp>=0,TPsbo=1,TPxpo=0] TPxp /= 40 Number
 	
-	xp 1129L @a[$SA$,m=2,TPpl=1,TPxp>=0]
-	xp 11 @a[$SA$,m=2,TPpl=1,TPxp>=0]
-	LOOP 64 1 / 2 () 6336 99 / 2
-		xp |2| @a[$SA$,m=2,TPpl=1,TPxp>=|0|]
-		@a[$SA$,m=2,TPpl=1,TPxp>=|0|] TPxp - |0|
-	END
-	xp -1129L @a[$SA$,m=2,TPpl=1,TPxp>=0]
+	xp 1129L @a[TPsa=1,m=2,TPpl=1,TPxp>=0]
+	xp 11 @a[TPsa=1,m=2,TPpl=1,TPxp>=0]
+	LOOP {64 1 / 2} {6336 99 / 2}:
+		xp |1| @a[TPsa=1,m=2,TPpl=1,TPxp>=|0|]
+		@a[TPsa=1,m=2,TPpl=1,TPxp>=|0|] TPxp - |0|
+	xp -1129L @a[TPsa=1,m=2,TPpl=1,TPxp>=0]
 	
 	@a[TPxp>=0] TPxp = 0
+	=//
 	
-///	Teleport-related stuff
-	@a[$SA$,m=2,TPpl=1,TPtp=1]
-	
-	@a[$SelectWallW$,m=2,TPpl=1] TPtp = 1
-	@a[$SelectWallE$,m=2,TPpl=1] TPtp = 3
-	@a[$SelectWallN$,m=2,TPpl=1] TPtp = 2
-	@a[$SelectWallS$,m=2,TPpl=1] TPtp = 4
-	
-	@a[$TopMidFloor$,m=2,TPpl=1] TPtp = 5
-	
-	tp @a[$SA$,m=2,TPpl=1,TPtp=1] ~1 ~ ~
-	tp @a[$SA$,m=2,TPpl=1,TPtp=2] ~ ~ ~1
-	tp @a[$SA$,m=2,TPpl=1,TPtp=3] ~-1 ~ ~
-	tp @a[$SA$,m=2,TPpl=1,TPtp=4] ~ ~ ~-1
-	tp @a[$SA$,m=2,TPpl=1,TPtp=5] ~ ~-10 ~
-	tp @a[$SA$,m=2,TPpl=1,TPtp=10] $Middle$
-	
-	@a[$SA$,m=2,TPpl=1,TPtp>=1] playsound minecraft:entity.endermen.teleport voice @a[c=1]
-	@a[$SA$,m=2,TPpl=1,TPtp>=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
-	@a[TPtp>=1] TPtp = 0
+///	Sets it during round off
+	@a[$SP$,m=2] TPpl + 0
+	@e[type=ArmorStand,TPStand,TPti<=-1] @a[$SP$,m=2,TPpl>=0<=1] TPpl = 2
+	@e[type=ArmorStand,TPStand,TPst=0] @a[$SP$,m=2,TPpl>=0<=1] TPpl = 2
 	
 ///	Deaths
 	@a[TPpl=1,TPde>=1] TPpl = 2
-	@a[$SP$,TPpl=1] TPpl = 2
 	clear @a[TPpl=2]
 	@a[TPpl=2,EC=0] SPbk = $SPid$
 	@a[TPpl=2] TPwe = 0
+	
+	@a[m=2,TPpl=2] TPaf + 0
+	@a[m=2,TPpl=2] TPtid + 0
+	@a[m=2,TPpl=2] stats entity @a[r=0,c=1,m=2,TPpl=2] set AffectedItems @a[r=0,c=1] TPaf
+	
+	@a[$SP$] TPwe = 1
 	@a[TPpl=2] TPpl = 3
 	@a[TPde>=1] TPde = 0
 	
-	ScTJ NoPVP @a[$SP$,team=!NoPVP]
-END
+///	Weakness
+	effect @a[TPsa=1,m=2,TPwe>=1<=2] 18 3 100 true
+	effect @a[TPsa=1,m=2,TPwe=0] 18 0 0 true
 //>
 
 //<General Scoreboard End
-FUNC Func_GeneralScoreboardEnd
-	clear @a[$SA$,m=2,TPpl>=1]
-	effect @a[$SA$,m=2,TPpl>=1] clear
-	effect @a[$SA$,m=2,TPpl>=1] 6 1 100 true
-	@a[$SA$,m=2,TPpl>=1,EC=0] SPbk = $SPid$
-	
-	@a[$SelectArena$,m=2,TPpl>=1] SPtp = $SPid$
-	@a[$SA$,m=2,TPpl=1] playsound minecraft:entity.endermen.teleport voice @a[c=1]
-	@a[$SA$,m=2,TPpl=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
-	
-	USE $ObjR$
-		TP
-		TPtm
-		TPti
-		TPti2
-		TPpl
-		TPaf
-		TPxp
-		TPde
-		TPtp
-		TPwe
-	UNUSE
-	
-	USE $TeamR$
-		TP
-		TPd_y
-		TPd_g
-	UNUSE
+FUNC {Func_GeneralScoreboardEnd}:
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
 	
 	kill @e[TPEntity]
-	
-///	Middle structure set
-	setblock $MiddleStructure$ redstone_block 0
-	setblock $MiddleStructure$ air 0
-END
 //>
 
 
@@ -698,141 +642,235 @@ FUNC {Func_GeneralOptionsTFClock}:
 
 //=	Options
 	
-	512 = emptying teams
-	256 = turn on team rnd
-	128 = turn on team self choose
-	64 =
-	32 =
-	16 = update arena
+	64 = emptying teams
+	32 = turn on team rnd
+	16 = turn on team self choose
 	8 = team edit
 	4 = weapon edit
 	2 = Pumpkin Edit
 	1 = Reset Options
 =//
 	
-///	Reset teams
-	USE {@e[type=ArmorStand,TPStand,TPop>=512]}:
-		TPr E>
-		TPb E>
-		clear @a[$SA$,m=2] stained_glass
-		clear @a[$SA$,m=2] stained_glass_pane
-	
-	@e[type=ArmorStand,TPStand,TPop>=512] TPtst = 0
-	@e[type=ArmorStand,TPStand,TPop>=512] TPop - 512
-	
-///	Turn on team randomizer
-	@e[type=ArmorStand,TPStand,TPop>=256] TPtst = 1
-	@e[type=ArmorStand,TPStand,TPop>=256] TPop - 256
-	
-///	Turn on team self choose
-	@e[type=ArmorStand,TPStand,TPop>=128] TPtst = 2
-	@e[type=ArmorStand,TPStand,TPop>=128] TPop - 128
-	
-///	Arena edit
-	USE {@e[type=ArmorStand,TPStand,TPop>=16]}:
-		ScOP @e[type=ArmorStand,TPStand] TPocl = Arena_Type TPSave
-		ScOP @e[type=ArmorStand,TPStand] TPocl2 = Arena_Size TPSave
-	
-		USE {@e[type=AreaEffectCloud,TPTemp,TPocl=0,TPocl2=0]}:
-			Func_StructureSetblock(RegS)
-	
-		USE {@e[type=AreaEffectCloud,TPTemp,TPocl=0,TPocl2=1]}:
-			Func_StructureSetblock(RegL)
-	
-		USE {@e[type=AreaEffectCloud,TPTemp,TPocl=1,TPocl2=0]}:
-			Func_StructureSetblock(DegS)
-	
-		USE {@e[type=AreaEffectCloud,TPTemp,TPocl=1,TPocl2=1]}:
-			Func_StructureSetblock(DegL)
+	ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=ArmorStand,TPStand,TPop>=$TempScore$];TPop) ARGS}:
+		{
+		///	Reset settings
+		///	Refreshes, removes 1000
+		///	Arena_Size Arena_Type Weapons
+			@e[type=ArmorStand,TPStand] TPoas = 1001
+			@e[type=ArmorStand,TPStand] TPoat = 1000
+			@e[type=ArmorStand,TPStand] TPowe = 1010
 			
-	@e[type=ArmorStand,TPStand,TPop>=16] reset TPocl
-	@e[type=ArmorStand,TPStand,TPop>=16] reset TPocl2
-	@e[type=ArmorStand,TPStand,TPop>=16] TPop - 16
+		///	Stays
+		///	Jump NoSprint Movement
+			@e[type=ArmorStand,TPStand] TPoju = 1
+			@e[type=ArmorStand,TPStand] TPons = 0
+			@e[type=ArmorStand,TPStand] TPomo = 0
+			
+		///	Purely storage purposes
+			Pumpkin TPop = 0
+			PumpkinDelay TPop = 30
+			
+		} {
+		///	Pumpkin edit
+			/*
+			tellraw @a[EC=0] $TextStart$
+			{"text":"Choose settings: ","color":"gray"},
+			{"text":"Pumpkin #","color":"gold","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin number","color":"gold"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Pumpkin TPop #"}
+			},
+			{"text":" , ","color":"gray","italic":true},
+			{"text":"Pumpkin Delay","color":"gold","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin delay","color":"gold"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PumpkinDelay TPop #"}
+			}]}
+			*/
+		} {
+		///	Refresh weapons
+			/*
+			tellraw @a[EC=0] $TextStart$
+			{"text":"Set player: ","color":"gray"},
+			{"text":"[+]","color":"gold","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Refresh the weapons for a specific player","color":"gold"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set MinecraftName TPwtg 1"}
+			}]}
+			*/
+		} {
+		///	Set teams
+			/*
+			tellraw @a[EC=0] $TextStart$
+			{"text":"Choose team: ","color":"gray"},
+			{"text":"Red","color":"red","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 1"}
+			},
+			{"text":" , ","color":"gray","italic":true},
+			{"text":"Blue","color":"blue","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 2"}
+			},
+			{"text":" , ","color":"gray","italic":true},
+			{"text":"Leave team","color":"dark_gray","italic":true,
+				"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},
+				"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 0"}
+			}]}
+			*/
+		} {
+		///	Turn on team self choose
+			@e[type=ArmorStand,TPStand] TPtst = 1
+		} {
+		///	Turn on team randomizer
+			@e[type=ArmorStand,TPStand] TPtst = 2
+		} {
+		///	reset teams
+			E> TPr
+			E> TPb
+			J> TPr Red
+			J> TPb Blue
+			clear @a[TPsa=1,m=2] stained_glass
+			clear @a[TPsa=1,m=2] stained_glass_pane
+			clear @a[TPsa=1,m=2] carrot_on_a_stick
+			clear @a[TPsa=1,m=2] dye
+			@e[type=ArmorStand,TPStand] TPtst = 0
+			@a TPtid = 0
+		}
+//>
+
+//<Round Start Testfor Clock
+FUNC {Func_RoundStartTFClock}:
+	testfor @e[type=ArmorStand,TPStand,TPst=1]
+	CCU_SetblockTestfor
 	
-///	Team edit
-	USE {@e[type=ArmorStand,TPStand,TPop>=8]}:
-		/*
-		tellraw @a[EC=0] $TextStart$
-		{"text":"Choose team: ","color":"gray"},
-		{"text":"Red","color":"red","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join red","color":"red"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 1"}
-		},
-		{"text":" , ","color":"gray","italic":true},
-		{"text":"Blue","color":"blue","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join blue","color":"blue"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 2"}
-		},
-		{"text":" , ","color":"gray","italic":true},
-		{"text":"Leave team","color":"dark_gray","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Force someone to leave their team","color":"dark_gray"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName TPtid 0"}
-		}]}
-		*/
-		
-	@e[type=ArmorStand,TPStand,TPop>=8] TPop - 8
+	/*
+	@e[type=ArmorStand,TPStand,TPst=1] tellraw @a $TextStart$
+		{"text":"Head back to the lobby in","color":"gray","italic":true},
+		{"text":" 10 seconds ","color":"yellow","italic":"true"},
+		{"text":"unless you want to spectate!","color":"gray","italic":true}]}
+	*/
 	
-///	Weapons
-	USE {@e[type=ArmorStand,TPStand,TPop>=4]}:
-		/*
-		tellraw @a[EC=0] $TextStart$
-		{"text":"Set player: ","color":"gray"},
-		{"text":"[+]","color":"gold","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Refresh the weapons for a specific player","color":"gold"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set MinecraftName TPwtg 1"}
-		}]}
-		*/
-	@e[type=ArmorStand,TPStand,TPop>=4] TPop - 4
+	@e[type=ArmorStand,TPStand] TPti = 0
+	@e[type=ArmorStand,TPStand] TPti2 = 17
 	
-///	Pumpkins
-	USE {@e[type=ArmorStand,TPStand,TPop>=2]}:
-		/*
-		tellraw @a[EC=0] $TextStart$
-		{"text":"Choose settings: ","color":"gray"},
-		{"text":"Pumpkin #","color":"gold","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin number","color":"gold"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Pumpkin TPSave #"}
-		},
-		{"text":" , ","color":"gray","italic":true},
-		{"text":"Pumpkin Delay","color":"gold","italic":true,
-			"hoverEvent":{"action":"show_text","value":{"text":"Set the pumpkin delay","color":"gold"}},
-			"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PumpkinDelay TPSave #"}
-		}]}
-		*/
-	@e[type=ArmorStand,TPStand,TPop>=2] TPop - 2
+	@e[type=ArmorStand,TPStand,TPst=1] TPst = 2
+//>
+
+//<Round Testfor Clock
+FUNC {Func_RoundTFClock}:
+	testfor @e[type=ArmorStand,TPStand,TPst=2]
+	CCU_SetblockTestfor
 	
-///	Reset settings
-	USE {@e[type=ArmorStand,TPStand,TPop>=1]}:
-		Arena_Size TPSave = 1
-		Arena_Type TPSave = 0
-		
-		Jump TPSave = 1
-		NoSprint TPSave = 0
-		Movement TPSave = 0
-		Teams TPSave = 0
-		
-		Pumpkin TPSave = 0
-		PumpkinDelay TPSave = 30
-		Weapons TPSave = 10
-	@e[type=ArmorStand,TPStand,TPop>=1] TPop = 0
+///	Teleport-related stuff
+	@a[$SelectWallW$,m=2,TPpl=1] TPtp = 1
+	@a[$SelectWallE$,m=2,TPpl=1] TPtp = 3
+	@a[$SelectWallN$,m=2,TPpl=1] TPtp = 2
+	@a[$SelectWallS$,m=2,TPpl=1] TPtp = 4
+	
+	@a[$TopMidFloor$,m=2,TPpl=1] TPtp = 5
+	
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=1] ~1 ~ ~
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=2] ~ ~ ~1
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=3] ~-1 ~ ~
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=4] ~ ~ ~-1
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=5] ~ ~-10 ~
+	tp @a[TPsa=1,m=2,TPpl=1,TPtp=10] $Middle$
+	
+	@a[TPsa=1,m=2,TPpl=1,TPtp>=1] playsound Snd_TP voice @a[c=1]
+	@a[TPsa=1,m=2,TPpl=1,TPtp>=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	@a[TPtp>=1] TPtp = 0
+//>
+
+//<Round End Testfor Clock
+FUNC {Func_RoundEndTFClock}:
+	testfor @e[type=ArmorStand,TPStand,TPst>=3]
+	CCU_SetblockTestfor
+	
+	clear @a[TPsa=1,m=2,TPpl>=1]
+	effect @a[TPsa=1,m=2,TPpl>=1] clear
+	effect @a[TPsa=1,m=2,TPpl>=1] 6 1 100 true
+	@a[TPsa=1,m=2,TPpl>=1,EC=0] SPbk = $SPid$
+	
+	@a[$SelectArena$,m=2,TPpl>=1] SPtp = $SPid$
+	@a[TPsa=1,m=2,TPpl=1] playsound Snd_TP voice @a[c=1]
+	@a[TPsa=1,m=2,TPpl=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	
+///	Middle structure set
+	setblock $MiddleStructure$ redstone_block 0
+	setblock $MiddleStructure$ air 0
+	
+///	Time reset
+	@e[type=ArmorStand,TPStand] reset TPti
+	@e[type=ArmorStand,TPStand] reset TPti2
+	Countdown reset TP
+	Time_Elapsed reset TP
+	Players reset TP
+	
+	@e[type=ArmorStand,TPStand,TPst=3] CCU_Activate(Grp_RefreshArenaPulse)
+	@e[type=ArmorStand,TPStand,TPst=4] CCU_Activate(Grp_MainEnd)
+	@e[type=ArmorStand,TPStand,TPst>=3] TPst = 0
 //>
 
 
-//<Degrading Arena Start
-FUNC Func_DegArenaStart
-	USE $ObjA$
-		TPdg dummy The Pit Degrading Arena
-		TPdgt dummy The Pit Degrading Arena Toggle
+//<Player Join Testfor Clock
+FUNC {Func_PlayerJoinTFClock}:
+	testfor @a[TPsa=1,m=2,TPpl=0]
+	CCU_SetblockTestfor
+	
+	@a[TPsa=1,m=2,TPpl=0] TPaf + 0
+	@a[TPsa=1,m=2,TPpl=0] stats entity @a[r=0,c=1,m=2,TPpl=0] set AffectedItems @a[r=0,c=1] TPaf
+	@a[TPsa=1,m=2,TPpl=0] TPwe = 0
+	@a[TPsa=1,m=2,TPpl=0] TPtp = 10
+	@a[TPsa=1,m=2,TPpl=0] TPwtg = 1
+	clear @a[TPsa=1,m=2,TPpl=0]
+	effect @a[TPsa=1,m=2,TPpl=0] 6 1 100 true
+	@a[TPsa=1,m=2,TPpl=0] TPpl = 1
 //>
 
-//<Updating Arena
+//<Countdown Testfor Clock
+FUNC {Func_CountdownTFClock}:
+	testfor @e[type=ArmorStand,TPStand,TPti>=0]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,TPStand,TPti>=0] @a[TPsa=1,m=2,TPpl=1,TPwe=0] TPwe = 1
+	
+///	Countdown
+///	@e[type=ArmorStand,TPStand,TPti=0,TPti2>=1<=5] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,TPStand,c=1]","objective":"TPti2"},"color":"yellow"},{"text":"!","color":"yellow"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=5] tellraw @a $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=4] tellraw @a $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=3] tellraw @a $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=2] tellraw @a $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=1] tellraw @a $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=5] @a playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=4] @a playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=3] @a playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2>=1<=2] @a playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+	
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] @a playsound Snd_Wither voice @a[c=1]
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] tellraw @a $TextStart${"text":"Begin!","color":"green","bold":"true"}]}
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] Countdown reset TP
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] TPdg + 0
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] fill $MiddleAir$ air 0
+	@e[type=ArmorStand,TPStand,TPti=0,TPti2=0] TPti = -1
+//>
 
+//<Refresh Arena Pulse
+FUNC {Func_RefreshArenaPulse}:
+	USE {@e[type=ArmorStand,TPStand,TPoat=0,TPoas=0]}:
+		Func_StructureSetblock(RegS)
 
+	USE {@e[type=ArmorStand,TPStand,TPoat=0,TPoas=1]}:
+		Func_StructureSetblock(RegL)
+
+	USE {@e[type=ArmorStand,TPStand,TPoat=1,TPoas=0]}:
+		Func_StructureSetblock(DegS)
+
+	USE {@e[type=ArmorStand,TPStand,TPoat=1,TPoas=1]}:
+		Func_StructureSetblock(DegL)
 //>
 
 //<Degrading Arena Testfor Clock
-FUNC Func_DegArenaTFClock
-	testfor @e[type=ArmorStand,TPStand,TPst=1,TPdgt=1]
+FUNC {Func_DegArenaTFClock}:
+	testfor @e[type=ArmorStand,TPStand,TPst=2,TPoat=1]
 	CCU_SetblockTestfor
 	
 	@e[type=ArmorStand,TPStand,TPdg>=0<=199,TPti<=-1,TPti2>=5] TPdg + 1
@@ -856,7 +894,6 @@ FUNC Func_DegArenaTFClock
 	@e[type=ArmorStand,TPStand,TPdg=80] fill $ArenaPlatform$ stained_hardened_clay 1 replace stained_hardened_clay 4
 	@e[type=ArmorStand,TPStand,TPdg=80] fill $ArenaPlatform$ air 0 replace stained_hardened_clay 14
 	@e[type=ArmorStand,TPStand,TPdg=80] TPdg = 0
-END
 
 //=
 With only fill and structure block commands:
@@ -869,87 +906,55 @@ With only fill and structure block commands:
 =//
 //>
 
-//<Degrading Arena End
-FUNC Func_DegArenaEnd
-	USE $ObjR$
-		TPdg
-	UNUSE
-	
-END
-//>
-
 
 //<Effects Start
-FUNC Func_EffectsStart
-	USE $ObjA$
-		TPes dummy The Pit Effect Sprint
-		TPesc dummy The Pit Effect Sprint Calc
-	UNUSE
-END
+FUNC {Func_EffectsStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_EffectsStart) Obj_EffectsStart}:
+		TPef dummy The Pit Effect
+		TPefc dummy The Pit Effect Calc
 //>
 
 //<Effects Clock
-FUNC Func_EffectsClock
-	effect @a[$SA$,m=2,TPpl=1] 1 0 0 true
-	LOOP 11 15 + 1 () 0 4 + 1
-		ScTE Movement TPSave |0| |0|
-		CONDITION
-			effect @a[$SA$,m=2,TPpl=1] 1 2 |2| true
-	END
+FUNC {Func_EffectsClock}:
+	say test
+	effect @a[TPsa=1,m=2,TPpl=1] 1 0 0 true
+	effect @a[TPsa=1,m=2,TPpl=1] 2 0 0 true
 	
-	effect @a[$SA$,m=2,TPpl=1] 2 0 0 true
-	LOOP 21 25 + 1 () 0 4 + 1
-		ScTE Movement TPSave |0| |0|
-		CONDITION
-			effect @a[$SA$,m=2,TPpl=1] 2 2 |2| true
-	END
+	LOOP {11 15 + 1} {0 4 + 1}:
+		@e[type=ArmorStand,TPStand,TPomo=|0|] effect @a[TPsa=1,m=2,TPpl=1] 1 2 |1| true
 	
-	ScOP @e[type=ArmorStand,TPStand] TPes = NoSprint TPSave
-	@e[type=ArmorStand,TPStand,TPes=0] effect @a[$SA$,m=2,TPpl=1] 23 5 0 true
-	@e[type=ArmorStand,TPStand,TPes=1] effect @a[$SA$,m=2,TPpl=1] 17 2 200 true
-	@e[type=ArmorStand,TPStand,TPes=1] TPesc + 1
-	@e[type=ArmorStand,TPStand,TPes=1,TPesc=39] effect @a[$SA$,m=2,TPpl=1] 23 0 0 true
-	@e[type=ArmorStand,TPStand,TPes=1,TPesc=40] effect @a[$SA$,m=2,TPpl=1] 23 1 0 true
-	@e[type=ArmorStand,TPStand,TPes=1,TPesc=40] TPesc = 0
-	@e[type=ArmorStand,TPStand,TPes=2] effect @a[$SA$,m=2,TPpl=1] 15 2 0 true
-	@e[type=ArmorStand,TPStand,TPes=2] effect @a[$SA$,m=2,TPpl=1] 23 5 0 true
+	LOOP {21 25 + 1} {0 4 + 1}:
+		@e[type=ArmorStand,TPStand,TPomo=|0|] effect @a[TPsa=1,m=2,TPpl=1] 2 2 |1| true
 	
-	effect @a[$SA$,m=2,TPpl=1] 8 0 0 true
-	ScTE Jump TPSave 0 0
-	CONDITION
-		effect @a[$SA$,m=2,TPpl=1] 8 2 1 true
+	@e[type=ArmorStand,TPStand,TPons=0] effect @a[TPsa=1,m=2,TPpl=1] 23 5 0 true
+	@e[type=ArmorStand,TPStand,TPons=1] effect @a[TPsa=1,m=2,TPpl=1] 17 2 200 true
+	@e[type=ArmorStand,TPStand,TPons=1] TPefc + 1
+	@e[type=ArmorStand,TPStand,TPons=1,TPefc=39] effect @a[TPsa=1,m=2,TPpl=1] 23 0 0 true
+	@e[type=ArmorStand,TPStand,TPons=1,TPefc=40] effect @a[TPsa=1,m=2,TPpl=1] 23 1 0 true
+	@e[type=ArmorStand,TPStand,TPons=1,TPefc=40] TPefc = 0
+	@e[type=ArmorStand,TPStand,TPons=2] effect @a[TPsa=1,m=2,TPpl=1] 15 2 0 true
+	@e[type=ArmorStand,TPStand,TPons=2] effect @a[TPsa=1,m=2,TPpl=1] 23 5 0 true
 	
-	ScTE Jump TPSave 2 2
-	CONDITION
-		effect @a[$SA$,m=2,TPpl=1] 8 2 250 true
-END
+	effect @a[TPsa=1,m=2,TPpl=1] 8 0 0 true
+	@e[type=ArmorStand,TPStand,TPoju=0] effect @a[TPsa=1,m=2,TPpl=1] 8 2 1 true
+	@e[type=ArmorStand,TPStand,TPoju=2] effect @a[TPsa=1,m=2,TPpl=1] 8 2 250 true
 //>
 
 //<Effects End
-FUNC Func_EffectsEnd
-	USE $ObjR$
-		TPes
-		TPesc
-		TPej
-	UNUSE
-END
+FUNC {Func_EffectsEnd}:
+	CCU.objectiveRemove(Obj_EffectsStart)
 //>
 
 
 //<Weapon Types Start
-FUNC Func_WeaponTypesStart
-	USE $ObjA$
-		TPwt dummy TP Weapon Type
-		TPwtc dummy TP Weapon Type Calc
-		TPwtc2 dummy TP Weapon Type Calc 2
-		TPwtc3 dummy TP Weapon Type Calc 3
+FUNC {Func_WeaponTypesStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_WeaponTypesStart) Obj_WeaponTypesStart}:
+		TPwtc dummy TP Weapon Type Calc 2
 		TPwtg dummy TP Weapon Type Give
-	
-///	ScOP @e[type=ArmorStand,TPStand] TPwtc = Weapon TPSave
 //>
 
 //<Weapon Type Testfor Clock
-FUNC Func_WeaponTypeTFClock
+FUNC {Func_WeaponTypeTFClock}:
 //=	TPwtg TODO
 	1 = all
 	2 = weapons
@@ -957,215 +962,133 @@ FUNC Func_WeaponTypeTFClock
 	4 = teams
 =//
 	
-	testfor @a[$SA$,m=2,TPpl=1,TPwtg>=1]
+	testfor @a[TPsa=1,m=2,TPpl=1,TPwtg>=1]
 	CCU_SetblockTestfor
 	
+	@e[type=ArmorStand,TPStand,TPowe>=1000] TPowe - 1000
+	
 ///	Weapons
-	@a[$SA$,m=2,TPpl=1,TPwtg>=1] TPwtc2 = 0
-	@a[$SA$,m=2,TPpl=1,TPwtg=1] TPwtc2 = 1
-	@a[$SA$,m=2,TPpl=1,TPwtg=2] TPwtc2 = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg>=1] TPwtc = 0
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=1] TPwtc = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=2] TPwtc = 1
 	
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] blaze_rod
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] bow
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] arrow
-	@a[$SA$,m=2,TPpl=1,TPwtc2=1,TPwe=2] TPwe = 0
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] porkchop
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] blaze_rod
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] bow
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] arrow
+	@a[TPsa=1,m=2,TPpl=1,TPwtc=1,TPwe=2] TPwe = 0
 	
-	@e[type=ArmorStand,TPStand,TPwt=10] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Reg
-	@e[type=ArmorStand,TPStand,TPwt=11] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Swift
-	@e[type=ArmorStand,TPStand,TPwt=12] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Slow
-	@e[type=ArmorStand,TPStand,TPwt=15] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze5Reg
-	@e[type=ArmorStand,TPStand,TPwt=16] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze5Swift
-	@e[type=ArmorStand,TPStand,TPwt=17] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze5Slow
+	@e[type=ArmorStand,TPStand,TPowe=10] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Reg
+	@e[type=ArmorStand,TPStand,TPowe=11] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Swift
+	@e[type=ArmorStand,TPStand,TPowe=12] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Slow
+	@e[type=ArmorStand,TPStand,TPowe=15] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze5Reg
+	@e[type=ArmorStand,TPStand,TPowe=16] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze5Swift
+	@e[type=ArmorStand,TPStand,TPowe=17] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze5Slow
 	
-	@e[type=ArmorStand,TPStand,TPwt>=20<=22] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.weapon.offhand CCItem_Bow
-	@e[type=ArmorStand,TPStand,TPwt=20] @a[$SA$,m=2,TPpl=1,TPwtc2=1] TPwe = 2
-	@e[type=ArmorStand,TPStand,TPwt=22] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Reg
-	@e[type=ArmorStand,TPStand,TPwt>=20<=22] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2>=1<=2] slot.inventory.8 CCItem_Arrow
+	@e[type=ArmorStand,TPStand,TPowe>=20<=22] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.weapon.offhand CCItem_Bow
+	@e[type=ArmorStand,TPStand,TPowe=20] @a[TPsa=1,m=2,TPpl=1,TPwtc=1] TPwe = 2
+	@e[type=ArmorStand,TPStand,TPowe=22] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Reg
+	@e[type=ArmorStand,TPStand,TPowe>=20<=22] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc>=1<=2] slot.inventory.8 CCItem_Arrow
 	
-	@e[type=ArmorStand,TPStand,TPwt=30] @a[$SA$,m=2,TPpl=1,TPwtc2=1] TPwe = 2
-	@e[type=ArmorStand,TPStand,TPwt>=30<=32] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.offhand CCItem_Snowball
-	@e[type=ArmorStand,TPStand,TPwt=32] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Reg
-	@e[type=ArmorStand,TPStand,TPwt=35] @a[$SA$,m=2,TPpl=1,TPwtc2=1] TPwe = 2
-	@e[type=ArmorStand,TPStand,TPwt=37] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_Blaze3Reg
+	@e[type=ArmorStand,TPStand,TPowe=30] @a[TPsa=1,m=2,TPpl=1,TPwtc=1] TPwe = 2
+	@e[type=ArmorStand,TPStand,TPowe>=30<=32] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.offhand CCItem_Snowball
+	@e[type=ArmorStand,TPStand,TPowe=32] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Reg
+	@e[type=ArmorStand,TPStand,TPowe=35] @a[TPsa=1,m=2,TPpl=1,TPwtc=1] TPwe = 2
+	@e[type=ArmorStand,TPStand,TPowe=37] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_Blaze3Reg
 	
-	@e[type=ArmorStand,TPStand,TPwt=40] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_PorkchopReg
-	@e[type=ArmorStand,TPStand,TPwt=41] replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1] slot.hotbar.0 CCItem_PorkchopFake
+	@e[type=ArmorStand,TPStand,TPowe=40] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_PorkchopReg
+	@e[type=ArmorStand,TPStand,TPowe=41] replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1] slot.hotbar.0 CCItem_PorkchopFake
 	
 ///	Pumpkins
-	@a[$SA$,m=2,TPpl=1,TPwtg>=1] TPwtc2 = 0
-	@a[$SA$,m=2,TPpl=1,TPwtg=1] TPwtc2 = 1
-	@a[$SA$,m=2,TPpl=1,TPwtg=3] TPwtc2 = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg>=1] TPwtc = 0
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=1] TPwtc = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=3] TPwtc = 1
 	
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] pumpkin
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] pumpkin
 	
-	ScTE Pumpkin TPSave 1
+	Pumpkin TPop ? 1
 	COND:
-		@e[type=ArmorStand,TPStand] ScOP @a[$SA$,m=2,TPpl=1,TPwtc2=1] TPpu = Pumpkin TPSave
+		@e[type=ArmorStand,TPStand] ScOP @a[TPsa=1,m=2,TPpl=1,TPwtc=1] TPpu = Pumpkin TPop
 	@e[type=ArmorStand,TPStand,TPpu>=65] TPpu = 64
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPpu>=1,TPwtc2=1] slot.hotbar.1 pumpkin 1 0 {display:{Name:"Throwing Pumpkin Grenade"}}
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPpu>=1,TPwtc=1] slot.hotbar.1 pumpkin 1 0 {display:{Name:"Throwing Pumpkin Grenade"}}
 	
-	@a[$SA$,m=2,TPpl=1,TPpu>=1,TPwtc2=1] TPpu - 1
-	LOOP 32 1 / 2
-		give @a[$SA$,m=2,TPpl=1,TPpu>=|0|,TPwtc2=1] pumpkin |0| 0 {display:{Name:"Throwing Pumpkin Grenade"}}
-		IF |0|>1
-			@a[$SA$,m=2,TPpl=1,TPpu>=|0|,TPwtc2=1] TPpu - |0|
-		END
-		IF |0|=1
-			@a[$SA$,m=2,TPpl=1,TPpu>=1,TPwtc2=1] TPpu = 0
-		END
-	END
+	@a[TPsa=1,m=2,TPpl=1,TPpu>=1,TPwtc=1] TPpu - 1
+	LOOP {32 1 / 2}:
+		give @a[TPsa=1,m=2,TPpl=1,TPpu>=|0|,TPwtc=1] pumpkin |0| 0 {display:{Name:"Throwing Pumpkin Grenade"}}
+		IF {|0| = 1}:
+			@a[TPsa=1,m=2,TPpl=1,TPpu>=1,TPwtc=1] TPpu = 0
+		ELSE:
+			@a[TPsa=1,m=2,TPpl=1,TPpu>=|0|,TPwtc=1] TPpu - |0|
 	
 ///	Teams
-	@a[$SA$,m=2,TPpl=1,TPwtg>=1] TPwtc2 = 0
-	@a[$SA$,m=2,TPpl=1,TPwtg=1] TPwtc2 = 1
-	@a[$SA$,m=2,TPpl=1,TPwtg=4] TPwtc2 = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg>=1] TPwtc = 0
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=1] TPwtc = 1
+	@a[TPsa=1,m=2,TPpl=1,TPwtg=4] TPwtc = 1
 	
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] stained_glass
-	clear @a[$SA$,m=2,TPpl=1,TPwtc2=1] stained_glass_pane
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] stained_glass
+	clear @a[TPsa=1,m=2,TPpl=1,TPwtc=1] stained_glass_pane
 	
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1,team=TPr] slot.armor.head stained_glass 1 14
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1,team=TPb] slot.armor.head stained_glass 1 11
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1,team=TPr] slot.hotbar.8 stained_glass_pane 1 14 {display:{Name:"You are on red"}}
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPwtc2=1,team=TPb] slot.hotbar.8 stained_glass_pane 1 11 {display:{Name:"You are on blue"}}
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1,team=TPr] slot.armor.head CCItem_GlassRed
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1,team=TPb] slot.armor.head CCItem_GlassBlue
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1,team=TPr] slot.hotbar.8 CCItem_GlassPaneRed
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPwtc=1,team=TPb] slot.hotbar.8 CCItem_GlassPaneBlue
 	
 ///	General
-	@a[$SA$,m=2,TPpl=1,TPwtg>=1,EC=0] SPbk = $SPid$
+	@a[TPsa=1,m=2,TPpl=1,TPwtg>=1,EC=0] SPbk = $SPid$
 	
-	@e[$SA$,type=Item] TPpu + 0 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}}}
-	kill @e[$SA$,type=Item,TPpu=0]
+	@e[type=Item] TPpu + 0 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}}}
+	kill @e[type=Item,TPpu=0]
 	
-	@a[$SA$,m=2,TPpl=1,TPwtg>=1] TPwtg = 0
-	
-///	@e[$SA$,type=Item,TPpu=0] TPpu = 1 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}}}
-///	kill @e[type=Item,]
-END
-//>
-
-//<Weapon Types Clock
-FUNC Func_WeaponTypesClock
-	ScOP @e[type=ArmorStand,TPStand] TPwtc = @e[c=1,type=ArmorStand,TPStand] TPwt
-	
-	ScOP @e[type=ArmorStand,TPStand] TPwt = Weapon TPSave
-	ScOP @e[type=ArmorStand,TPStand] TPwtc -= @e[c=1,type=ArmorStand,TPStand] TPwt
-	
-	@e[type=ArmorStand,TPStand,TPwtc<=-1] @a[$SA$,m=2,TPpl=1] TPwtg = 1
-	@e[type=ArmorStand,TPStand,TPwtc>=1] @a[$SA$,m=2,TPpl=1] TPwtg = 1
-END
+	@a[TPsa=1,m=2,TPpl=1,TPwtg>=1] TPwtg = 0
 //>
 
 //<Weapon Types End
-FUNC Func_WeaponTypesEnd
-	USE $ObjR$
-		TPwt
-		TPwtc
-		TPwtc2
-		TPwtc3
-		TPwtg
-	UNUSE
-	
-END
-//>
-
-
-//<Snowball Start
-FUNC Func_SnowballStart
-	USE $ObjA$
-		TPsb dummy The Pit Snowball
-		TPsba dummy The Pit Snowball Amount
-		TPsbc dummy The Pit Snowball Calc
-		TPsbo dummy The Pit Snowball Toggle
-	UNUSE
-	
-END
-//>
-
-//<Snowball Clock
-FUNC Func_SnowballClock
-///	TPsbo in player: 0 = inf (reg off), 1 = reg (on)
-	@a[$SA$,m=2,TPpl=1] TPsbo = 0
-	@e[type=ArmorStand,TPStand,TPwt>=30<=32] @a[$SA$,m=2,TPpl=1] TPsbo = 1
-	@e[type=ArmorStand,TPStand,TPwt>=35<=37] @a[$SA$,m=2,TPpl=1] TPsbo = 2
-	
-	@a[$SA$,m=2,TPpl=1,TPsbo=1] ScOP @a[$SA$,m=2,TPpl=1,TPsbo=1] TPsbc = @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba
-	@a[$SA$,m=2,TPpl=1,TPsbo=1] clear @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] snowball -1 0
-	@a[$SA$,m=2,TPpl=1,TPsbo=1] ScOP @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba = @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPaf
-	@a[$SA$,m=2,TPpl=1,TPsbo=1] ScOP @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsbc - @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba
-	
-	@a[$SA$,m=2,TPpl=1,TPsbo=1,TPsba=16] TPsb = 41
-	@a[$SA$,m=2,TPpl=1,TPsbo=1,TPsbc>=1,TPsba>=0<=15] TPsb = 41
-	@a[$SA$,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb>=0] TPsb - 1
-	@e[type=ArmorStand,TPStand,TPwt>=30<=32,TPsb=0,TPwtc>=1] @a[$SA$,m=2,TPpl=1,TPsbo=1] TPsb = 0
-	
-	clear @a[$SA$,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] snowball
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] slot.weapon.offhand CCItem_Snowball
-	@a[$SA$,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] playsound minecraft:entity.experience_orb.touch voice @a[c=1]
-	
-	replaceitem entity @a[$SA$,m=2,TPpl=1,TPsbo=2] slot.weapon.offhand snowball 16 0 {display:{Name:"Infinite Snowballs"}}
-END
-//>
-
-//<Snowball End
-FUNC Func_SnowballEnd
-	USE $ObjR$
-		TPsb
-		TPsba
-		TPsbc
-		TPsbo
-	UNUSE
-	
-END
+FUNC {Func_WeaponTypesEnd}:
+	CCU.objectiveRemove(Obj_WeaponTypesStart)
 //>
 
 
 //<Pumpkin Start
-FUNC Func_PumpkinStart
-	USE $ObjA$
+FUNC {Func_PumpkinStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_PumpkinStart) Obj_PumpkinStart}:
 		TPpu dummy The Pit Pumpkin
 		TPput dummy The Pit Pumpkin Timer
 		TPpuc dummy The Pit Pumpkin Calc
-	UNUSE
-	
-END
 //>
 
 //<Pumpkin Clock
-FUNC Func_PumpkinClock
+FUNC {Func_PumpkinClock}:
 ///	Thrown Pumpkin
-	@e[$SA$,type=Item] TPpu + 0
+	@e[type=Item] TPpu + 0
 	
 ///	Jump to 2 as an artifact for me trying to fix pumpkins dropping
-	@e[$SA$,type=Item,TPpu=0] TPpu = 2 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}}}
+	@e[type=Item,TPpu=0] TPpu = 2 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}}}
 	
 ///	TNT Tag
-	entitydata @e[$SA$,type=Item,TPpu=2] {PickupDelay:32767,Invulnerable:1,Age:5800s}
-	@e[$SA$,type=Item,TPpu=2] TPput = -1
-	@e[$SA$,type=Item,TPpu=2] TPpu = 3
-	@e[$SA$,type=Item,TPpu=3] TPpu = 4 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}},OnGround:1b}
+	entitydata @e[type=Item,TPpu=2] {PickupDelay:32767,Invulnerable:1,Age:5800s}
+	@e[type=Item,TPpu=2] TPput = -1
+	@e[type=Item,TPpu=2] TPpu = 3
+	@e[type=Item,TPpu=3] TPpu = 4 {Item:{id:"minecraft:pumpkin",tag:{display:{Name:"Throwing Pumpkin Grenade"}}},OnGround:1b}
 	
 ///	Thrown Pumpkin Delay
-	@e[$SA$,type=Item,TPpu=4] TPput + 1
-	ScOP @e[$SA$,type=Item,TPpu=4] TPpuc = PumpkinDelay TPSave
-	@e[$SA$,type=Item,TPpu=4] ScOP @e[c=1,r=1,type=Item,TPpu=4] TPpuc -= @e[c=1,r=1,type=Item,TPpu=4] TPput
+	@e[type=Item,TPpu=4] TPput + 1
+	ScOP @e[type=Item,TPpu=4] TPpuc = PumpkinDelay TPop
+	@e[type=Item,TPpu=4] ScOP @e[c=1,r=1,type=Item,TPpu=4] TPpuc -= @e[c=1,r=1,type=Item,TPpu=4] TPput
 	
 ///	Explosion
-	entitydata @e[$SA$,type=Item,TPpu=4,TPput=0] {Item:{id:"minecraft:lit_pumpkin",Count:1b,tag:{ench:[{id:0,lvl:1}]}},Age:-32768s}
-	@e[$SA$,type=Item,TPpu=4,TPput=0,TPpuc>=10] playsound minecraft:entity.tnt.primed voice @a
-	@e[$SA$,type=Item,TPpu=4,TPpuc=0] summon Creeper ~ ~ ~ {Fuse:0s,ExplosionRadius:3,CustomName:"BOOMSHAKALAKA",CustomNameVisible:1,Invulnerable:1}
-	@e[$SA$,type=Item,TPpu=4,TPpuc=0] summon Creeper ~ ~ ~ {Fuse:0s,ExplosionRadius:3,CustomName:"BOOMSHAKALAKA",CustomNameVisible:1,Invulnerable:1}
-	kill @e[$SA$,type=Item,TPpu=4,TPpuc=0]
+	entitydata @e[type=Item,TPpu=4,TPput=0] {Item:{id:"minecraft:lit_pumpkin",Count:1b,tag:{ench:[{id:0,lvl:1}]}},Age:-32768s}
+	@e[type=Item,TPpu=4,TPput=0,TPpuc>=10] playsound minecraft:entity.tnt.primed voice @a
+	@e[type=Item,TPpu=4,TPpuc=0] summon Creeper ~ ~ ~ {Fuse:0s,ExplosionRadius:3,CustomName:"BOOMSHAKALAKA",CustomNameVisible:1,Invulnerable:1}
+	@e[type=Item,TPpu=4,TPpuc=0] summon Creeper ~ ~ ~ {Fuse:0s,ExplosionRadius:3,CustomName:"BOOMSHAKALAKA",CustomNameVisible:1,Invulnerable:1}
+	kill @e[type=Item,TPpu=4,TPpuc=0]
 	
-	kill @e[$SA$,type=Item,TPpu=0]
+	kill @e[type=Item,TPpu=0]
 //>
 
 //<Pumpkin End
-FUNC Func_PumpkinEnd
+FUNC {Func_PumpkinEnd}:
 	kill @e[type=Item,TPpu>=0]
-	USE $ObjR$
-		TPpu
-		TPput
-		TPpuc
-	UNUSE
-END
+	CCU.objectiveRemove(Obj_PumpkinStart)
 //>
 
 
@@ -1174,7 +1097,6 @@ FUNC {Func_TeamsStart}:
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_TeamsStart) Obj_TeamsStart}:
 		TPtid dummy The Pit Team ID
 		TPtst dummy The Pit Team Settings
-		TPtdl dummy The Pit Team Display Calc
 		TPtcl dummy The Pit Team Calc
 		
 		TPtsc dummy The Pit Teams Self Choose
@@ -1195,6 +1117,8 @@ FUNC {Func_TeamsStart}:
 		
 	J> TPr Red
 	J> TPb Blue
+	
+	@e[type=ArmorStand,TPStand] TPtst = 0
 //>
 
 //<Teams Setting Testfor Clock
@@ -1202,36 +1126,45 @@ FUNC {Func_TeamsSettingTFClock}:
 	testfor @e[type=ArmorStand,TPStand,TPst=0,TPtst>=1]
 	CCU_SetblockTestfor
 	
-	@a[$SP$,m=2] TPtid + 0
-	@e[type=ArmorStand,TPCount] TPtdl = 0
-	@a[$SP$,m=2,TPtid=1] @e[type=ArmorStand,TPCountRed] TPtdl + 1
-	@a[$SP$,m=2,TPtid=2] @e[type=ArmorStand,TPCountBlue] TPtdl + 1
+///	gives glass panes
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3,TPtid=1] stained_glass_pane 14 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=2] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=1] slot.hotbar.8 CCItem_GlassPaneRed
 	
-	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Red TP = Red TPtdl
-	@e[type=ArmorStand,TPStand,TPtst>=1] ScOP Blue TP = Blue TPtdl
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3,TPtid=2] stained_glass_pane 11 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=2] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=2] slot.hotbar.8 CCItem_GlassPaneBlue
+	
+///	Gives glass
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] @a[$SP$,m=2,TPpl=3,TPtid=1] TPaf = 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] @a[$SP$,m=2,TPpl=3,TPtid=1] TPaf = 1 {Inventory:[{Slot:103b,id:"minecraft:stained_glass",Count:1b,Damage:14s}]}
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] clear @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=1] stained_glass
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=1] slot.armor.head CCItem_GlassRed
+	
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] @a[$SP$,m=2,TPpl=3,TPtid=2] TPaf = 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] @a[$SP$,m=2,TPpl=3,TPtid=2] TPaf = 1 {Inventory:[{Slot:103b,id:"minecraft:stained_glass",Count:1b,Damage:11s}]}
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] clear @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=2] stained_glass
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst>=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0,TPtid=2] slot.armor.head CCItem_GlassBlue
 //>
 
-
 //<Teams Self Choose Testfor Clock
-FUNC {Func_TeamsSelfChooseClock}:
+FUNC {Func_TeamsSelfChooseTFClock}:
 	testfor @e[type=ArmorStand,TPStand,TPst=0,TPtst=1]
 	CCU_SetblockTestfor
 	
 ///	Carrot stick to choose red
-	@a[$SP$,m=2,TPpl=1] clear @a[r=1,c=1,m=2,TPpl=1] carrot_on_a_stick 0 0 {display:{Name:"Join Red"}}
-	replaceitem entity @a[$SP$,m=2,TPpl=1,TPaf=0] slot.hotbar.0 CCItem_CarrotStickRed
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3] carrot_on_a_stick 0 0 {display:{Name:"Join Red"}}
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0] slot.hotbar.2 CCItem_CarrotStickRed
 	
 ///	Red dye
-	@a[$SP$,m=2,TPpl=1] clear @a[r=1,c=1,m=2,TPpl=1] dye 1 0
-	replaceitem entity @a[$SP$,m=2,TPpl=1,TPaf=0] slot.hotbar.1 CCItem_RedDye
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3] dye 1 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0] slot.hotbar.3 CCItem_DyeRed
 	
 ///	Carrot stick to choose blue
-	@a[$SP$,m=2,TPpl=1] clear @a[r=1,c=1,m=2,TPpl=1] carrot_on_a_stick 0 0 {display:{Name:"Join Blue"}}
-	replaceitem entity @a[$SP$,m=2,TPpl=1,TPaf=0] slot.hotbar.3 CCItem_CarrotStick
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3] carrot_on_a_stick 0 0 {display:{Name:"Join Blue"}}
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0] slot.hotbar.5 CCItem_CarrotStickBlue
 	
 ///	Blue dye
-	@a[$SP$,m=2,TPpl=1] clear @a[r=1,c=1,m=2,TPpl=1] dye 4 0
-	replaceitem entity @a[$SP$,m=2,TPpl=1,TPaf=0] slot.hotbar.4 CCItem_RedDye
+	@a[$SP$,m=2,TPpl=3] clear @a[r=1,c=1,m=2,TPpl=3] dye 4 0
+	@e[type=ArmorStand,TPStand,TPst=0,TPtst=1] replaceitem entity @a[$SP$,m=2,TPpl=3,TPaf=0] slot.hotbar.6 CCItem_DyeBlue
 	
 	@a[$SP$,m=2] TPcsi = 0
 	@a[$SP$,m=2] TPcsi = 1 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Join Red"}}}]}
@@ -1243,14 +1176,9 @@ FUNC {Func_TeamsSelfChooseClock}:
 	@a[$SP$,m=2,TPcs>=1,TPcsi=2] TPtid = 2
 	tellraw @a[$SP$,m=2,TPcs>=1,TPcsi=1] $TextStart${"text":"You have joined the ","color":"gray"},{"text":"red","color":"red","italic":true},{"text":" team!","color":"gray"}]}
 	tellraw @a[$SP$,m=2,TPcs>=1,TPcsi=2] $TextStart${"text":"You have joined the ","color":"gray"},{"text":"blue","color":"blue","italic":true},{"text":" team!","color":"gray"}]}
-	clear @a[$SP$,m=2,TPcs>=1,TPcsi>=1] wool
-	replaceitem entity @a[$SP$,m=2,TPcs>=1,TPcsi=1] slot.hotbar.8 wool 1 14 {ench:[{id:0,lvl:1}],HideFlags:127}
-	replaceitem entity @a[$SP$,m=2,TPcs>=1,TPcsi=2] slot.hotbar.8 wool 1 11 {ench:[{id:0,lvl:1}],HideFlags:127}
 	@a[$SP$,m=2,TPcs>=1,TPcsi>=1] playsound Snd_XP voice @a[c=1] ~ ~ ~ 0.5
-	
-	@a[TPcsi>=1] TPcsi = 0
+	@a[TPcs>=1] TPcs = 0
 //>
-
 
 //<Teams Randomizer Testfor Clock
 FUNC {Func_TeamsRandomizerTFClock}:
@@ -1259,8 +1187,8 @@ FUNC {Func_TeamsRandomizerTFClock}:
 	
 	@e[type=ArmorStand,TPCount] TPrnd = 0
 	
-	@a[$SP$,m=2,TPrnd=1] @e[type=ArmorStand,TPCountRed] TPrnd + 1
-	@a[$SP$,m=2,TPrnd=2] @e[type=ArmorStand,TPCountBlue] TPrnd + 1
+	@a[$SP$,m=2,TPtid=1,TPpl=3] @e[type=ArmorStand,TPCountRed] TPrnd + 1
+	@a[$SP$,m=2,TPtid=2,TPpl=3] @e[type=ArmorStand,TPCountBlue] TPrnd + 1
 	
 ///	if negative, switch to red
 ///	if positive, switch to blue
@@ -1281,7 +1209,61 @@ FUNC {Func_TeamsEnd}:
 //>
 
 
+//<UNUSED: Snowballs
+//=
+//<Snowball Start
+FUNC Func_SnowballStart
+	USE $ObjA$
+		TPsb dummy The Pit Snowball
+		TPsba dummy The Pit Snowball Amount
+		TPsbc dummy The Pit Snowball Calc
+		TPsbo dummy The Pit Snowball Toggle
+	UNUSE
+	
+END
+//>
 
+//<Snowball Clock
+FUNC Func_SnowballClock
+///	TPsbo in player: 0 = inf (reg off), 1 = reg (on)
+	@a[TPsa=1,m=2,TPpl=1] TPsbo = 0
+	@e[type=ArmorStand,TPStand,TPwt>=30<=32] @a[TPsa=1,m=2,TPpl=1] TPsbo = 1
+	@e[type=ArmorStand,TPStand,TPwt>=35<=37] @a[TPsa=1,m=2,TPpl=1] TPsbo = 2
+	
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1] ScOP @a[TPsa=1,m=2,TPpl=1,TPsbo=1] TPsbc = @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1] clear @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] snowball -1 0
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1] ScOP @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba = @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPaf
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1] ScOP @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsbc - @a[m=2,TPpl=1,TPsbo=1,r=1,c=1] TPsba
+	
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsba=16] TPsb = 41
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsbc>=1,TPsba>=0<=15] TPsb = 41
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb>=0] TPsb - 1
+	@e[type=ArmorStand,TPStand,TPwt>=30<=32,TPsb=0,TPwtc>=1] @a[TPsa=1,m=2,TPpl=1,TPsbo=1] TPsb = 0
+	
+	clear @a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] snowball
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] slot.weapon.offhand CCItem_Snowball
+	@a[TPsa=1,m=2,TPpl=1,TPsbo=1,TPsba>=0<=15,TPsb=0] playsound Snd_XP voice @a[c=1]
+	
+	replaceitem entity @a[TPsa=1,m=2,TPpl=1,TPsbo=2] slot.weapon.offhand snowball 16 0 {display:{Name:"Infinite Snowballs"}}
+END
+//>
+
+//<Snowball End
+FUNC Func_SnowballEnd
+	USE $ObjR$
+		TPsb
+		TPsba
+		TPsbc
+		TPsbo
+	UNUSE
+	
+END
+//>
+=//
+//>
+
+//<UNUSED: General mobs
+//=
 //<Mobs Start
 FUNC Func_MobsStart
 	USE $ObjA$
@@ -1343,23 +1325,23 @@ FUNC Func_MobsTFClock
 	SetblockTestfor
 	
 ///	Mob teams
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=1<=3] ScTJ TPm @e[$SA$,TPMob,team=!TPm]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] ScTJ TPr @e[$SA$,TPMobR,team=!TPr]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] ScTJ TPb @e[$SA$,TPMobB,team=!TPb]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] replaceitem entity @e[$SA$,TPMobB,TPMobR] slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,display:{color:16711680}}
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] replaceitem entity @e[$SA$,TPMobB,TPMobB] slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,display:{color:255}}
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=1<=3] replaceitem entity @e[$SA$,TPMobB,TPMobB] slot.armor.chest iron_chestplate 1 0 {Unbreakable:1}
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=1<=3] J> TPm @e[TPMob,team=!TPm]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] J> TPr @e[TPMobR,team=!TPr]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] J> TPb @e[TPMobB,team=!TPb]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] replaceitem entity @e[TPMobB,TPMobR] slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,display:{color:16711680}}
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=4] replaceitem entity @e[TPMobB,TPMobB] slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,display:{color:255}}
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=1<=3] replaceitem entity @e[TPMobB,TPMobB] slot.armor.chest iron_chestplate 1 0 {Unbreakable:1}
 	
 ///	Player teams
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=1] ScTL @a[$SA$,m=2,TPpl=1]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=2] ScTJ TPp @a[$SA$,m=2,TPpl=1,team=!TPp]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] ScTJ TPr @a[$SA$,m=2,TPpl=1,TPtid=1,team=!TPr]
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] ScTJ TPb @a[$SA$,m=2,TPpl=1,TPtid=2,team=!TPb]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=1] L> @a[TPsa=1,m=2,TPpl=1]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=2] J> TPp @a[TPsa=1,m=2,TPpl=1,team=!TPp]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] J> TPr @a[TPsa=1,m=2,TPpl=1,TPtid=1,team=!TPr]
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] J> TPb @a[TPsa=1,m=2,TPpl=1,TPtid=2,team=!TPb]
 	
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=1] replaceitem entity @a[$SA$,m=2,TPpl=1] slot.armor.head air 1 0
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=2] replaceitem entity @a[$SA$,m=2,TPpl=1,team=TPp] slot.armor.head stained_glass 1 4
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] replaceitem entity @a[$SA$,m=2,TPpl=1,team=TPr] slot.armor.head stained_glass 1 14
-	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] replaceitem entity @a[$SA$,m=2,TPpl=1,team=TPb] slot.armor.head stained_glass 1 11
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=1] replaceitem entity @a[TPsa=1,m=2,TPpl=1] slot.armor.head air 1 0
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb=2] replaceitem entity @a[TPsa=1,m=2,TPpl=1,team=TPp] slot.armor.head stained_glass 1 4
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] replaceitem entity @a[TPsa=1,m=2,TPpl=1,team=TPr] slot.armor.head stained_glass 1 14
+	@e[type=ArmorStand,TPStand,TPmbs>=1,TPmb>=3<=4] replaceitem entity @a[TPsa=1,m=2,TPpl=1,team=TPb] slot.armor.head stained_glass 1 11
 	
 	@e[type=ArmorStand,TPStand,TPmbs>=1] TPmbs = 0
 END
@@ -1449,9 +1431,11 @@ FUNC Func_MobsEnd
 	kill @e[TPMob]
 END
 //>
+=//
+//>
 
-
-//<Color Code
+//<UNUSED: Color Code
+//=
 FUNC Func_ColorCode
 	ColorFillWood(CBPArenaRegL;0)
 	ColorFillWood(CBPArenaRegS;1)
@@ -1470,14 +1454,12 @@ FUNC Func_ColorCode
 ///	ColorFillGlass(CBPMobsTFClock;8)
 ///	ColorFillGlass(CBPMobSummonPulse;9)
 	
-//=
 	ColorFillWool(CBPMobsStart;5)
 	ColorFillClay(CBPMobsCalc1;4)
 	ColorFillClay(CBPMobsCalc2;5)
 	ColorFillClay(CBPMobsCalc3;6)
 	ColorFillClay(CBPMobsCalc4;7)
 	ColorFillWool(CBPMobsEnd;5)
-=//
 	
 	ColorFillWool(CBPTeamsSelfChooseStart;0)
 	ColorFillClay(CBPTeamsSelfChooseClock;0)
@@ -1487,204 +1469,121 @@ FUNC Func_ColorCode
 	ColorFillClay(CBPTeamsRandomizerClock;1)
 	ColorFillWool(CBPTeamsRandomizerEnd;1)
 	
-//=
 	ColorFillWool(CBPTeamsDisplayStart;2)
 	ColorFillClay(CBPTeamsDisplayClock;2)
 	ColorFillWool(CBPTeamsDisplayEnd;2)
-=//
 	
 	ColorFillWool(CBPMainStart;3)
 	ColorFillClay(CBPMainClock;3)
 	ColorFillWool(CBPMainEnd;3)
 	
-END
-//>
-
-
-
-//<Groups: Arena
-Activate(CBPColorCode)
-Func_CMDSave()
-
-:CBPArenaRegL PULSE $Style$
-Deactivate(CBPArenaRegL)
-Func_ArenaRegL()
-
-:CBPArenaRegS PULSE $Style$
-Deactivate(CBPArenaRegS)
-Func_ArenaRegS()
-
-:CBPArenaDegL PULSE $Style$
-Deactivate(CBPArenaDegL)
-Func_ArenaDegL()
-
-:CBPArenaDegS PULSE $Style$
-Deactivate(CBPArenaDegS)
-Func_ArenaDegS()
-
-:CBPArenaChangeCalcPulse PULSE $Style$
-Deactivate(CBPArenaChangeCalcPulse)
-Func_ArenaChangeCalcPulse()
-//>
-
-//<Groups: General
-:CBPResetOptionsPulse PULSE $Style$
-Deactivate(CBPResetOptionsPulse)
-Func_ResetOptionsPulse()
-
-:CBPColorCode PULSE $Style$
-ColorFillGlass(CBPColorCode;15)
-Func_ColorCode()
-
-:CBPPumpkinEditPulse PULSE $Style$
-Deactivate(CBPPumpkinEditPulse)
-Func_PumpkinEditPulse()
-
-
-:CBPCountdownTFClock CLOCK $Style$
-Func_CountdownTFClock()
-
-:CBPWeaponTypeTFClock CLOCK $Style$
-Func_WeaponTypeTFClock()
-
-//=
-:CBPMobsTFClock CLOCK $Style$
-Func_MobsTFClock()
-=//
-
-
-:CBPMainStart PULSE $Style$
-Func_SpawnStandStart
-Deactivate(CBPMainStart)
-Func_GeneralScoreboardStart()
-Func_DegArenaStart()
-Func_EffectsStart()
-Func_WeaponTypesStart()
-///	Func_SnowballStart()
-Func_PumpkinStart()
-Activate(CBPMainClock)
-Activate(CBPCountdownTFClock)
-Activate(CBPWeaponTypeTFClock)
-/// Activate(CBPMobsTFClock)
-Activate(CBPArenaChangeCalcPulse)
-Activate(CBPTeamsSelfChooseEnd)
-Activate(CBPTeamsRandomizerEnd)
-
-:CBPMainClock CLOCK $Style$
-Func_SpawnIDSetting()
-Func_GeneralScoreboardClock()
-Func_DegArenaClock()
-Func_EffectsClock()
-Func_WeaponTypesClock()
-///	Func_SnowballClock()
-Func_PumpkinClock()
-Func_TeamsGeneralClock()
-/// Func_MobsGeneralClock()
-Func_GeneralEndClock()
-
-:CBPMainEnd PULSE $Style$
-Func_SpawnStandEnd()
-Deactivate(CBPMainEnd)
-Func_GeneralScoreboardEnd()
-Func_DegArenaEnd()
-Func_EffectsEnd()
-Func_WeaponTypesEnd()
-///	Func_SnowballEnd()
-Func_PumpkinEnd()
-Deactivate(CBPMainClock)
-Deactivate(CBPCountdownTFClock)
-Deactivate(CBPWeaponTypeTFClock)
-/// Deactivate(CBPMobsTFClock)
-Activate(CBPArenaChangeCalcPulse)
-//>
-
-//<Groups: Teams
-:CBPTeamsStart PULSE $Style$
-Deactivate(CBPTeamsStart)
-Func_TeamsStart()
-Activate(CBPTeamsOptionTFClock)
-
-:CBPTeamsOptionTFClock CLOCK $Style$
-Func_TeamsOptionTFClock()
-
-
-:CBPTeamsSelfChooseStart PULSE $Style$
-Deactivate(CBPTeamsSelfChooseStart)
-Activate(CBPTeamsSelfChooseClock)
-Func_TeamsRandomizerEnd()
-Func_TeamsDisplayStart()
-Func_TeamsSelfChooseStart()
-Deactivate(CBPTeamsRandomizerClock)
-
-:CBPTeamsSelfChooseClock CLOCK $Style$
-Func_TeamsSelfChooseClock()
-Func_TeamsDisplayClock()
-
-:CBPTeamsSelfChooseEnd PULSE $Style$
-Deactivate(CBPTeamsSelfChooseEnd)
-Deactivate(CBPTeamsSelfChooseClock)
-Func_TeamsSelfChooseEnd()
-Func_TeamsDisplayEnd()
-
-
-:CBPTeamsRandomizerStart PULSE $Style$
-Deactivate(CBPTeamsRandomizerStart)
-Func_TeamsSelfChooseEnd()
-Func_TeamsDisplayStart()
-Func_TeamsRandomizerStart()
-Deactivate(CBPTeamsSelfChooseClock)
-Activate(CBPTeamsRandomizerClock)
-
-:CBPTeamsRandomizerClock CLOCK $Style$
-Func_TeamsDisplayClock()
-Func_TeamsRandomizerClock()
-
-:CBPTeamsRandomizerEnd PULSE $Style$
-Deactivate(CBPTeamsRandomizerEnd)
-Func_TeamsDisplayEnd()
-Func_TeamsRandomizerEnd()
-Deactivate(CBPTeamsRandomizerClock)
-
-
-:CBPTeamsEnd PULSE $Style$
-Deactivate(CBPTeamsEnd)
-Func_TeamsEnd()
-Deactivate(CBPTeamsOptionTFClock)
-Activate(CBPTeamsSelfChooseEnd)
-Activate(CBPTeamsRandomizerEnd)
-//>
-
-//<Groups: Mobs
-//=
-:CBPMobsStart PULSE $Style$
-Deactivate(CBPMobsStart)
-Func_MobsStart()
-
-:CBPMobSummonPulse PULSE $Style$
-Deactivate(CBPMobSummonPulse)
-Func_MobSummonPulse()
-
-:CBPMobsCalc1 PULSE $Style$
-Deactivate(CBPMobsCalc1)
-Func_MobsCalc1()
-
-:CBPMobsCalc2 PULSE $Style$
-Deactivate(CBPMobsCalc2)
-Func_MobsCalc2()
-
-:CBPMobsCalc3 PULSE $Style$
-Deactivate(CBPMobsCalc3)
-Func_MobsCalc3()
-
-:CBPMobsCalc4 PULSE $Style$
-Deactivate(CBPMobsCalc4)
-Func_MobsCalc4()
-
-:CBPMobsEnd PULSE $Style$
-Deactivate(CBPMobsEnd)
-Func_MobsEnd()
 =//
 //>
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	CCU.spawnStandStart()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardStart()
+	Func_WeaponTypesStart()
+	Func_EffectsStart()
+	Func_PumpkinStart()
+	Func_TeamsStart()
+	CCU_Activate(Grp_MainClock)
+	CCU.tfActivate(Grp_CountdownTFClock)
+	CCU.tfActivate(Grp_GeneralOptionsTFClock)
+	CCU.tfActivate(Grp_PlayerJoinTFClock)
+	CCU.tfActivate(Grp_RoundStartTFClock)
+	CCU.tfActivate(Grp_RoundTFClock)
+	CCU.tfActivate(Grp_RoundEndTFClock)
+	CCU.tfActivate(Grp_DegArenaTFClock)
+	CCU.tfActivate(Grp_WeaponTypeTFClock)
+	CCU.tfActivate(Grp_TeamsSettingTFClock)
+	CCU.tfActivate(Grp_TeamsSelfChooseTFClock)
+	CCU.tfActivate(Grp_TeamsRandomizerTFClock)
+	CCU_FinalSpawnStand
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	Func_WeaponTypesEnd()
+	Func_EffectsEnd()
+	Func_PumpkinEnd()
+	Func_TeamsEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU.tfDeactivate(Grp_CountdownTFClock)
+	CCU.tfDeactivate(Grp_GeneralOptionsTFClock)
+	CCU.tfDeactivate(Grp_PlayerJoinTFClock)
+	CCU.tfDeactivate(Grp_RoundStartTFClock)
+	CCU.tfDeactivate(Grp_RoundTFClock)
+	CCU.tfDeactivate(Grp_RoundEndTFClock)
+	CCU.tfDeactivate(Grp_DegArenaTFClock)
+	CCU.tfDeactivate(Grp_WeaponTypeTFClock)
+	CCU.tfDeactivate(Grp_TeamsSettingTFClock)
+	CCU.tfDeactivate(Grp_TeamsSelfChooseTFClock)
+	CCU.tfDeactivate(Grp_TeamsRandomizerTFClock)
+	
+GROUP {Grp_RefreshArenaPulse}:
+	CCU_Deactivate(GSELF)
+	Func_RefreshArenaPulse()
+	
+GROUP {Grp_MainClock}:
+	CCU.spawnIDSetting()
+	Func_GeneralScoreboardClock()
+	Func_EffectsClock()
+	Func_PumpkinClock()
+	Func_GeneralEndClock()
+
+GROUP {Grp_CountdownTFClock}:
+	Func_CountdownTFClock()
+
+GROUP {Grp_GeneralOptionsTFClock}:
+	Func_GeneralOptionsTFClock()
+
+GROUP {Grp_PlayerJoinTFClock}:
+	Func_PlayerJoinTFClock()
+	
+
+GROUP {Grp_RoundStartTFClock}:
+	Func_RoundStartTFClock()
+
+GROUP {Grp_RoundTFClock}:
+	Func_RoundTFClock()
+
+GROUP {Grp_RoundEndTFClock}:
+	Func_RoundEndTFClock()
+
+	
+GROUP {Grp_DegArenaTFClock}:
+	Func_DegArenaTFClock()
+
+GROUP {Grp_WeaponTypeTFClock}:
+	Func_WeaponTypeTFClock()
+
+GROUP {Grp_TeamsSettingTFClock}:
+	Func_TeamsSettingTFClock()
+
+GROUP {Grp_TeamsSelfChooseTFClock}:
+	Func_TeamsSelfChooseTFClock()
+
+GROUP {Grp_TeamsRandomizerTFClock}:
+	Func_TeamsRandomizerTFClock()
+
+CCU.cmdSave()
+//>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
