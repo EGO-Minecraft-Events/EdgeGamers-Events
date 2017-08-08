@@ -14,7 +14,7 @@ DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 232 26 -200
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
@@ -92,7 +92,7 @@ DEF $ArmorStandGold$ {Tags:["18Race","18RaceGold"],DisabledSlots:2096896,Invulne
 ///	Sand
 DEF $RefreshSand$ 239 22 -211 239 6 -211
 
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

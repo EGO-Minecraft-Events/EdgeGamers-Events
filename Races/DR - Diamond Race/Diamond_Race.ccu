@@ -14,7 +14,7 @@ DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 212 17 -21
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
@@ -53,7 +53,7 @@ DEF $lapAF$ x=249,y=4,z=-28,dx=1,dy=15,dz=6
 ///	Area where laps are disabled in spawn
 DEF $lapSP$ x=214,y=16,z=-38,dx=16,dy=5,dz=3
 
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

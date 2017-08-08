@@ -18,7 +18,7 @@ DEF COORDS $CoordsOption$ -65 15 79
 
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"AD","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Anvil Drop","color":"green"}}},{"text":"]","color":"gray"},{"text":": "},
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options

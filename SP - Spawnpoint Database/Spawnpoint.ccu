@@ -26,7 +26,7 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 7 111
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 IMPORT {GETCOORDS WITHIN Spawnpoint_Book_dat.txt}
 
 OPTIONS:

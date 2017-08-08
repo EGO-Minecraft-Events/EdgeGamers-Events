@@ -26,7 +26,7 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 29 111
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 IMPORT {GETCOORDS GETDIR WITHIN Races}
 IMPORT {GETCOORDS WITHIN PC - Pictionary\Pictionary_dat.txt}
 IMPORT {GETCOORDS WITHIN AD - Anvil Drop\Anvil_Drop_dat.txt}

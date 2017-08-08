@@ -15,7 +15,7 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 15 15 -177
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
@@ -93,7 +93,7 @@ FUNC {Func_DetectTP}:
 	@a[$SA$,m=2,$Name$RaceS1>=1] + $Name$RWaterTP
 	@a[$SA$,m=2,$Name$RaceS2>=1] + $Name$RWaterTP
 	
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

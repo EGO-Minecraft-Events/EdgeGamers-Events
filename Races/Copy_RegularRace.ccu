@@ -14,7 +14,7 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ x y z
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
@@ -85,7 +85,7 @@ ARRAY {Arr_SelectPlaces}:
 		has completed the race! /// Message
 	}
 	
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

@@ -101,7 +101,7 @@ ARRAY {Arr_ScoreboardObjectives}:
 	CTFleave stat.leaveGame Leave Game
 	CTFEC dummy EC
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 
 DEF MAX_INT CALC(2 ^ 31 - 1)
 DEF MIN_INT CALC(-(2 ^ 31))

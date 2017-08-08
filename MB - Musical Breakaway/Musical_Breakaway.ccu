@@ -18,7 +18,7 @@ DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 63 8 188
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 
 DEF COORDS $CornerCoords$ 82 4 189
 DEF $SpreadDistance$ 2
