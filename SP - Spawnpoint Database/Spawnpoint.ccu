@@ -68,256 +68,279 @@ DEF COORDS $TSTokenFloor$ 554 19 37 544 19 47
 
 //<Spawnpoint Defines
 ARRAY {Arr_Spawnpoint}:
-	{
-	///	display coords
-		49 36 -45
+	{ /// 1
+		49 36 -45 /// display coords
+		49 36 -45 -90 0 /// teleport coords
+		Ice Race /// full display name
+		Ice Race /// display name
+		aqua /// color
+		ir /// shortcut
 		
-	///	teleport coords
-		49 36 -45 -90 0
-		
-	///	full display name
-		Ice Race
-		
-	///	display name
-		Ice Race
-		
-	///	color
-		aqua
-		
-	///	shortcut
-		ir
-	} {
+	} { /// 2
 		75 7 -80
 		75 7 -80 90 0
 		Slow Race
 		Slow Race
 		gray
 		sr
-	} {
+		
+	} { /// 3
 		73 7 -102
 		73 7 -102 90 0
 		Nether Race
 		Nether Race
 		red
 		nr
-	} {
+		
+	} { /// 4
 		23 7 -133
 		23 7 -133 -90 0
 		Evil Race
 		Evil Race
 		gray
 		evilr
-	} {
+		
+	} { /// 5
 		218 18 -37
 		218 18 -37 -90 0
 		Diamond Race
 		Diamond Race
 		aqua
 		dr
-	} {
+		
+	} { /// 6
 		276 17 -96
 		276 17 -96 90 0
 		Emerald Race
 		Emerald Race
 		green
 		er
-	} {
+		
+	} { /// 7
 		-349 94 191
 		-349 94 191 -90 0
 		NvS
 		NvS
 		red
 		nvs
-	} {
+		
+	} { /// 8
 		229 8 -157
 		229 8 -157 -90 0
 		Quartz Race
 		Quartz Race
 		white
 		qr
-	} {
+		
+	} { /// 9
 		77 5 41
 		77 5 41 0 -15
 		Mastermind
 		Mastermind
 		gold
 		mm
-	} {
+		
+	} { /// 10
 		-105 25 200
 		-105 25 200 -135 0
 		The Pit 3
 		The Pit 3
 		green
 		tpl3
-	} {
+		
+	} { /// 11
 		242 26 -222
 		242 26 -222 -90 0
 		1.8 Race
 		1.8 Race
 		gold
 		18r
-	} {
+		
+	} { /// 12
 		424 12 -122
 		424 12 -122 -90 0
 		Epic Race
 		Epic Race
 		gold
 		epicr
-	} {
+		
+	} { /// 13
 		467 8 -33
 		467 8 -33 -90 0
 		Salt Race
 		Salt Race
 		gray
 		saltr
-	} {
+		
+	} { /// 14
 		-250 25 18
 		-250 25 18 -90 0
 		Sand Tomb
 		Sand Tomb
 		yellow
 		st
-	} {
+		
+	} { /// 15
 		397 17 61
 		397 17 61 90 0
 		Spawn
 		Spawn
 		dark_red
 		spawn
-	} {
+		
+	} { /// 16
 		-77 56 -85
 		-77 56 -85 -45 0
 		Virus 2
 		Virus 2
 		yellow
 		virus2
-	} {
+		
+	} { /// 17
 		-85 45 -241
 		-85 45 -241 -45 0
 		Virus 1
 		Virus 1
 		yellow
 		virus1
-	} {
+		
+	} { /// 18
 		549 20 42
 		549 20 42
 		Teamspeak Token
 		Teamspeak Token
 		dark_aqua
 		tstoken
-	} {
+		
+	} { /// 19
 		517 11 -827
 		517 11 -827 90 0
 		Frostburn Run
 		Frostburn Run
 		aqua
 		fbr
-	} {
+		
+	} { /// 20
 		460 3 -331
 		460 3 -331 -90 0
 		EverChanging Race
 		EverChanging Race
 		yellow
 		ecr
-	} {
+		
+	} { /// 21
 		-16 5 87
 		-16 5 87 90 0
 		Anvil Drop
 		Anvil Drop
 		green
 		ad
-	} {
+		
+	} { /// 22
 		31 20 -240
 		31 20 -240 -45 0
 		Death Run
 		Death Run
 		red
 		deathr
-	} {
+		
+	} { /// 23
 		329 24 171
 		329 24.065 171 90 0
 		The Minigame Hub
 		The Minigame Hub
 		green
 		mghub
-	} {
+		
+	} { /// 24
 		385 15 159
 		385 15 159 180 0
 		The PVP hub
 		The PVP hub
 		light_purple
 		pvphub
-	} {
+		
+	} { /// 25
 		329 24 154
 		329 24.065 154 90 0
 		The Mastermind Hub
 		The Mastermind Hub
 		gold
 		mmhub
-	} {
+		
+	} { /// 26
 		329 24 137
 		329 24.076 137 90 0
 		The Race Hub
 		The Race Hub
 		dark_aqua
 		racehub
-	} {
+		
+	} { /// 27
 		348 4 114
 		348 4 114 -90 0
 		Spawnpoint System
 		Spawnpoint System
 		yellow
 		cmd
-	} {
+		
+	} { /// 28
 		-268 49 -39
 		-268 49 -39 -90 0
 		PVP: Old CTF
 		PVP: Old CTF
 		red
 		oldctf
-	} {
+		
+	} { /// 29
 		-187 24 96
 		-187 24 96 -90 0
 		Death Pit
 		Death Pit
 		red
 		dp
-	} {
+		
+	} { /// 30
 		214 27 334
 		214 27 334 -90 0
 		Rabbit Ball
 		Rabbit; ;Ball
 		red;white;blue
 		rb
-	} {
+		
+	} { /// 31
 		23 15 -189
 		23 15 -189.0 -90 0
 		Dirt Race
 		Dirt Race
 		gray
 		dirtr
-	} {
+		
+	} { /// 32
 		445 68 -669
 		445 68 -669.0 -90 0
 		Mycelium Race
 		Mycelium Race
 		dark_purple
 		mr
-	} {
+		
+	} { /// 33
 		558 107 159
 		558 107 159.0 90 0
 		Capture the flag
 		Capture; the ;flag
 		red;white;blue
 		ctf
-	} {
+		
+	} { /// 34
 		161 4 180
 		161 4 180 90 0
 		Pictionary
 		P;i;c;t;i;o;n;a;r;y
 		light_purple;red;gold;yellow;green;dark_green;blue;dark_aqua;aqua;white
 		pc
-	} {
+		
+	} { /// 35
 		-103 19 482
 		-103 19 482 -180 0
 		Royal Rumble
@@ -325,7 +348,7 @@ ARRAY {Arr_Spawnpoint}:
 		blue;white;dark_green
 		rr
 	
-	} {
+	} { /// 36
 		224 24 334
 		224 24 334 -90 0
 		Rabbit Ball
@@ -395,9 +418,10 @@ FUNC {Func_GeneralScoreboardStart}:
 		SPtp = 0
 		SPpvp = 0
 		SPsat = 1
+		SPwea = 0
 		SPgmd = 1
 		SPgam = 0
-		SPaff = 23
+		SPaff = 7
 //>
 
 //<Adding Scoreboards Pulse

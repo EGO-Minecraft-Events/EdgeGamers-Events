@@ -1,0 +1,5 @@
+9 19 -241 15 26 -224
+Grp_MainStart;10 20 -240;10 21 -225
+Grp_MainClock;12 20 -240;12 23 -225
+Grp_CountdownTFClock;10 23 -240;10 24 -225
+Grp_MainEnd;14 20 -240;14 22 -225

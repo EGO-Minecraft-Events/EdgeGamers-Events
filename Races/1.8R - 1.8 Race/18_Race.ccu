@@ -1,0 +1,221 @@
+//(1.8 Race)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\1.8R - 1.8 Race\18_Race.ccu
+
+//<General Definitions
+DEF $SA$ x=212,y=7,z=-241,dx=129,dy=100,dz=50
+DEF $SPid$ 11
+
+DEF $CMDName$ 18R
+DEF $CMDSizeX$ 6
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ 232 26 -200
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 1
+///	Name
+DEF $Name$ 18
+///	Text display name
+DEF $TD$ 1.8R
+///	Hover and scoreboard name
+DEF $TDName$ 1.8 Race
+///	Scoreboard teams color
+DEF $Color$ gold
+///	Place where air is when open
+DEF $Dao$ 249 24 -225 255 24 -219
+///	Place where redstone blocks are there when open
+DEF $Dro$ 248 22 -221 255 22 -223
+
+
+///	Where laps are completed
+DEF $lap$ x=249,y=25,z=-229,dx=6,dy=5,dz=2
+///	Area where laps are reset inside the races
+DEF $lapAF$ x=269,y=16,z=-227,dx=8,dy=2,dz=4
+///	Area where laps are disabled in spawn
+DEF $lapSP$ x=240,y=24,z=-223,dx=31,dy=4,dz=2
+
+
+///	Sand Randomizer Coords
+DEF COORDS $SandCoords$ 249 24 -215
+
+///	Load Glass Structure Block Coords
+DEF COORDS $LoadGlass$ 257 22 -211
+
+///	Load Glass Region to replace with barrier
+DEF COORDS $LoadGlassRegion$ 257 27 -211 288 27 -205
+
+///	Poison area
+DEF $PoisonArea$ x=263,y=14,z=-221,dy=4
+///	Teleport player from fence gate - Region
+DEF $TpRg$ x=256,y=26,z=-238,dy=1
+///	Teleport player to area from fence gate
+DEF TELE $TpTo$ 250 26 -238 0 0
+
+///	Teleport player from underwater area
+DEF TELE $UnderwaterTP$ 264 16 -226 -90 0
+
+///	Summon gold armor stands
+ARRAY {COORDS Arr_UnderwaterGold}:
+	260 20 -216
+	267 20 -213
+	270 20 -215
+	264 20 -218
+	274 20 -229
+	270 20 -227
+	266 20 -228
+	262 20 -228
+	261 20 -221
+	257 20 -228
+
+///	Gold armor stand
+DEF $ArmorStandGold$ {Tags:["18Race","18RaceGold"],DisabledSlots:2096896,Invulnerable:1,PersistenceRequired:1,Invisible:1,NoGravity:1,ArmorItems:[{},{},{},{id:gold_block,Count:1b}]}
+
+///	Sand
+DEF $RefreshSand$ 239 22 -211 239 6 -211
+
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {Func_EditGeneralScoreboardStart}:
+		ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_EditGeneralScoreboardStart) Obj_EditGeneralScoreboardStart}:
+			18RaceTimer1 dummy 1.8 Race Timer - 40
+			18RaceTimer2 dummy 1.8 Race Timer - 200
+			18RaceTimer3 dummy 1.8 Race Timer - 80
+			18RaceRand dummy 1.8 Race Randomizer
+			18RaceTP dummy 1.8 Race Teleport
+		
+	///	Other
+		gamerule naturalRegeneration false
+		
+	///	Timer Armor Stand
+		CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["18Race","18RaceTimer"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+		
+		@e[type=ArmorStand,18RaceTimer] 18RaceTimer1 + 0
+		@e[type=ArmorStand,18RaceTimer] 18RaceTimer2 + 0
+		
+	///	Sand Randomizer
+		LOOP {1 5 + 1} {0 4 + 1}:
+			CCU_ExecuteSpawnStand summon AreaEffectCloud $SandCoords$[x, y - |1|, z] {Tags:["18Race","18RaceRand","18RaceSand","18RaceSand|0|"],Duration:1000000}
+		
+	///	Golden Block Randomizer
+		LOOP {Arr_UnderwaterGold[S]} {1 Arr_UnderwaterGold[L] + 1}:
+			CCU_ExecuteSpawnStand summon AreaEffectCloud |0| {Tags:["18Race","18RaceRand","18RaceWater","18RaceWater|1|"],Duration:1000000}
+		
+		@e[type=AreaEffectCloud,18RaceRand] 18RaceRand + 0
+		@r[type=AreaEffectCloud,18RaceWater] 18RaceRand = 1
+		
+	///	Refresh sand
+		fill $RefreshSand$ redstone_block 0 replace stonebrick 0
+		fill $RefreshSand$ stonebrick 0 replace redstone_block 0
+
+		
+	FUNC {Func_EditGeneralScoreboardClock}:
+	///	Teleport
+		@a[$TpRg$,m=2,team=$Name$R] 18RaceTP = 2
+		tp @a[$SA$,m=2,team=$Name$R,18RaceTP=2] $TpTo$
+		@a[$SA$,m=2,team=$Name$R] sand -1 ~ ~-0.2 ~ kill @a[c=1]
+		
+	///	Poison
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer1>=0<=39] 18RaceTimer1 + 1
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer1=40] effect @a[$PoisonArea$,m=2,team=$Name$R] 19 20 3 true
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer1=40] 18RaceTimer1 = 0
+		
+	///	Change sand and barrier block formation
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2>=0<=199] 18RaceTimer2 + 1
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=186] fill $LoadGlassRegion$ air 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=187] setblock $LoadGlass$ redstone_block 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=187] setblock $LoadGlass$ stonebrick 0
+		
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=192] fill $LoadGlassRegion$ barrier 0 replace glass 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=196] fill $LoadGlassRegion$ glass 0 replace barrier 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] fill $LoadGlassRegion$ barrier 0 replace glass 0
+		
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] @r[type=AreaEffectCloud,18RaceSand,18RaceRand=0] 18RaceRand = 1
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] @e[type=AreaEffectCloud,18RaceSand,18RaceRand=1] setblock ~ ~ ~ redstone_block 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] @e[type=AreaEffectCloud,18RaceSand,18RaceRand=1] setblock ~ ~ ~ stonebrick 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] @e[type=AreaEffectCloud,18RaceSand,18RaceRand=2] 18RaceRand = 0
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] @e[type=AreaEffectCloud,18RaceSand,18RaceRand=1] 18RaceRand = 2
+		@e[type=ArmorStand,18RaceTimer,18RaceTimer2=200] 18RaceTimer2 = 0
+		
+	///	Golden block Randomizer
+		tp @e[type=ArmorStand,18RaceGold] ~ ~ ~ ~2 ~
+		@a[$SA$,m=2,team=$Name$R] @e[r=1,c=1,type=AreaEffectCloud,18RaceWater,18RaceRand=2] 18RaceRand = 3
+		
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=3] @a[r=1,c=1,m=2,team=$Name$R] 18RaceTP = 1
+		tp @a[$SA$,m=2,team=$Name$R,18RaceTP=1] $UnderwaterTP$
+		
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=3] ~ ~-1 ~ kill @e[r=1,c=1,type=ArmorStand,18RaceGold] $UnderwaterTP$
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=3] @r[type=AreaEffectCloud,18RaceWater,18RaceRand=0] 18RaceRand = 1
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=3] 18RaceRand = 0
+		
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=1] summon ArmorStand ~ ~-1 ~ $ArmorStandGold$
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=1] playsound Snd_XP voice @a[$SA$]
+		@e[type=AreaEffectCloud,18RaceWater,18RaceRand=1] 18RaceRand = 2
+		
+	///	Regeneration
+		effect @a[$SA$,m=2,team=$Name$R] 10 0 0 true
+		@a[$SA$,m=2,team=$Name$R] 18RaceTimer3 + 1
+		effect @a[$SA$,m=2,team=$Name$R,18RaceTimer3=80] 10 1 10 true
+		@a[$SA$,m=2,team=$Name$R,18RaceTimer3=80] 18RaceTimer3 = 0
+		
+	///	TP End
+		@a[$SA$,m=2,team=$Name$R,18RaceTP=1] playsound Snd_Level voice @a[c=1]
+		@a[$SA$,m=2,team=$Name$R,18RaceTP=2] playsound Snd_TP voice @a[c=1]
+		@a[$SA$,m=2,team=$Name$R,18RaceTP>=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+		@a[$SA$,m=2,team=$Name$R,18RaceTP>=1] 18RaceTP = 0
+
+		
+	FUNC {Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+
+
+	FUNC {Func_EditGeneralScoreboardEnd}:
+		CCU.objectiveRemove(Obj_EditGeneralScoreboardStart)
+	
+	///	Custom
+		kill @e[type=ArmorStand,18Race]
+		kill @e[type=AreaEffectCloud,18Race]
+
+	///	General reset
+		gamerule naturalRegeneration true
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+		fill $Dro$ stonebrick 0 replace redstone_block 0
+
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

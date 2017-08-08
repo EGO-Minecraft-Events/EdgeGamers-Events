@@ -1,0 +1,116 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=34,y=2,z=-64,dx=141,dy=69,dz=43
+DEF $SPid$ 1
+
+DEF $CMDName$ IR
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 6
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ 55 36 -62
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 0
+///	Name
+DEF $Name$ Ice
+///	Text display name
+DEF $TD$ IR
+///	Hover and scoreboard name
+DEF $TDName$ Ice Race
+///	Scoreboard teams color
+DEF $Color$ aqua
+///	Place where air is when open
+DEF $Dao$ 66 34 -42 66 34 -48
+///	Place where redstone blocks are there when open
+DEF $Dro$ ``
+
+/// Coordinates for setting blocks at win areas
+ARRAY {COORDS Arr_SetblockPlaces}:
+	{ /// 1st place
+		42 33 -31 42 33 -32 /// they can be either a pair of 3 or 6 coords
+		
+	} { /// 2nd place
+		42 33 -28
+		
+	} {	/// 3rd place
+		42 33 -35
+		
+	}
+
+///	Selecting places
+ARRAY {Arr_SelectPlaces}:
+	/// All options after the 3rd are additional and are not required
+	
+	{ /// 1st place
+		x=41,y=36,z=-32,dy=1,dz=1 /// Selection
+		took first place! /// Message
+		fill Arr_SetblockPlaces[0][0] redstone_block 0 /// Fill region
+		
+	} { /// 2nd place
+		x=41,y=36,z=-28,dy=1 /// Selection
+		took second place! /// Message
+		setblock Arr_SetblockPlaces[1][0] redstone_block 0 /// Fill region
+		
+	} {	/// 3rd place
+		x=41,y=36,z=-35,dy=1 /// Selection
+		took third place! /// Message
+		setblock Arr_SetblockPlaces[2][0] redstone_block 0 /// Fill region
+		
+	}
+	
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {GLOBAL ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {GLOBAL Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {GLOBAL Func_EditGeneralScoreboardClock}:
+		
+		
+	FUNC {GLOBAL Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+
+
+	FUNC {GLOBAL Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+	///	fill $Dro$ stonebrick 0 replace redstone_block 0
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
