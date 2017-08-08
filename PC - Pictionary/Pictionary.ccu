@@ -72,7 +72,10 @@ ARRAY {Arr_GuessList}:
 		IF {$FoundDuplicate$ = -1}:
 			Arr_GuessListCalc[|0|]
 		ELSE:
-			PRINT Found Duplicate 'Arr_GuessListCalc[$FoundDuplicate$]' at index $FoundDuplicate$ (will not be included)
+			PRINT [Pictionary] Found Duplicate 'Arr_GuessListCalc[$FoundDuplicate$]' at index $FoundDuplicate$ (will not be included)
+			
+UNASSIGN {ARRAY Arr_GuessListCalc}
+UNASSIGN {DEF $FoundDuplicate$}
 		
 ///	These are arranged in this order so they have full access to most colors on the hotbar
 ///	Any remaining colors will be in their inv

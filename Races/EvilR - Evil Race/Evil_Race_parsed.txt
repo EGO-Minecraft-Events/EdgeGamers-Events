@@ -1,0 +1,126 @@
+INITIALIZE
+	fill 19 8 -115 23 15 -98 air 0
+
+GROUP | Grp_MainStart | PULSE		[20 9 -114 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 4
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 20 9 -114 stonebrick 0
+	scoreboard objectives add EvilRace dummy Evil Race
+	scoreboard objectives add EvilRaceCD dummy Evil Race Countdown
+	scoreboard objectives add EvilRaceCL dummy Evil Race Clear
+	scoreboard objectives add EvilRaceDE deathCount Evil Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar EvilRace
+	scoreboard teams add EvilR
+	scoreboard teams option EvilR color gray
+	scoreboard teams option EvilR seeFriendlyInvisibles true
+	scoreboard teams option EvilR collisionRule never
+	scoreboard teams option EvilR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["EvilRaceCD"]}
+	scoreboard players set /spawn EvilRace 99
+	scoreboard teams join EvilR /spawn
+	scoreboard objectives add EvilRaceBC dummy Evil Race Broadcast
+	setblock 20 12 -114 redstone_block 0
+	setblock 22 9 -114 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 4
+
+GROUP | Grp_MainClock | CLOCK		[20 12 -114 | stonebrick 0]
+	scoreboard players add @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] SPid 0
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,score_SPid=-5] SPid 4
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,score_SPid_min=-3] SPid 4
+	minecraft:kill @e[x=19,y=6,z=-147,dx=88,dy=100,dz=27,type=Item]
+	scoreboard players add @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2] EvilRaceCL 0
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceCL=0,score_EvilRaceCL_min=0] EvilRaceDE 1
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceCL=0,score_EvilRaceCL_min=0] EvilRaceCL 1
+	effect @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceDE_min=1] clear
+	minecraft:clear @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceDE_min=1]
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceDE_min=1] SPbk 4
+	scoreboard teams join EvilR @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,team=!EvilR]
+	effect @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,team=EvilR] 14 3 0 true
+	scoreboard players add @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,team=EvilR] EvilRaceBC 0
+	scoreboard players set @a[x=36,y=16,z=-133,dy=2,c=1,m=2,score_EvilRaceBC=0,score_EvilRaceBC_min=0] EvilRaceBC 1
+	execute @a[x=36,y=16,z=-133,dy=2,c=1,m=2,score_EvilRaceBC=1,score_EvilRaceBC_min=1] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=36,y=16,z=-133,dy=2,c=1,m=2,score_EvilRaceBC=1,score_EvilRaceBC_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=36,y=16,z=-133,dy=2,c=1,m=2,score_EvilRaceBC=1,score_EvilRaceBC_min=1] ~ ~ ~ setblock 36 16 -133 redstone_block 0
+	scoreboard players set @a[x=36,y=16,z=-130,dy=2,c=1,m=2,score_EvilRaceBC=0,score_EvilRaceBC_min=0] EvilRaceBC 2
+	execute @a[x=36,y=16,z=-130,dy=2,c=1,m=2,score_EvilRaceBC=2,score_EvilRaceBC_min=2] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=36,y=16,z=-130,dy=2,c=1,m=2,score_EvilRaceBC=2,score_EvilRaceBC_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=36,y=16,z=-130,dy=2,c=1,m=2,score_EvilRaceBC=2,score_EvilRaceBC_min=2] ~ ~ ~ setblock 36 16 -130 redstone_block 0
+	scoreboard players set @a[x=36,y=16,z=-136,dy=2,c=1,m=2,score_EvilRaceBC=0,score_EvilRaceBC_min=0] EvilRaceBC 3
+	execute @a[x=36,y=16,z=-136,dy=2,c=1,m=2,score_EvilRaceBC=3,score_EvilRaceBC_min=3] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=36,y=16,z=-136,dy=2,c=1,m=2,score_EvilRaceBC=3,score_EvilRaceBC_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=36,y=16,z=-136,dy=2,c=1,m=2,score_EvilRaceBC=3,score_EvilRaceBC_min=3] ~ ~ ~ setblock 36 16 -136 redstone_block 0
+	execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_EvilRaceBC_min=1] EvilRace = @a[r=1,c=1,m=2,score_EvilRaceBC_min=1] EvilRaceBC
+	execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2] ~ ~ ~ detect ~ ~0.3 ~ lava 0 minecraft:kill @a[c=1,m=2]
+	execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2] ~ ~ ~ detect ~ ~-0.3 ~ magma -1 scoreboard players tag @a[r=0,c=1] add EvilRWaterTP
+	minecraft:tp @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,tag=EvilRWaterTP] 23 7 -133 -90 0
+	effect @a[tag=EvilRWaterTP] 6 1 100 true
+	effect @a[tag=EvilRWaterTP] 11 1 100 true
+	execute @a[tag=EvilRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=EvilRWaterTP] remove EvilRWaterTP
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceDE_min=1] EvilRaceDE 0
+	scoreboard players operation @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceBC_min=1] EvilRace *= -1 Number
+	scoreboard players operation @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EvilRaceBC_min=1] EvilRaceBC *= -1 Number
+
+GROUP | Grp_CountdownTFClock | CLOCK		[22 9 -114 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=EvilRaceCD]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=EvilRaceCD] EvilRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=20,score_EvilRaceCD_min=20] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=20,score_EvilRaceCD_min=20] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=40,score_EvilRaceCD_min=40] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=40,score_EvilRaceCD_min=40] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=60,score_EvilRaceCD_min=60] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=60,score_EvilRaceCD_min=60] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=80,score_EvilRaceCD_min=80] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=80,score_EvilRaceCD_min=80] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=100,score_EvilRaceCD_min=100] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=100,score_EvilRaceCD_min=100] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=120,score_EvilRaceCD_min=120] ~ ~ ~ execute @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=120,score_EvilRaceCD_min=120] ~ ~ ~ tellraw @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"EvilR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Evil Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=120,score_EvilRaceCD_min=120] ~ ~ ~ title @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=EvilRaceCD,score_EvilRaceCD=120,score_EvilRaceCD_min=120] ~ ~ ~ fill 31 5 -129 31 5 -137 stonebrick 0 replace redstone_block 0
+
+GROUP | Grp_MainEnd | PULSE		[22 12 -114 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=4,score_SPgam_min=4] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 22 12 -114 stonebrick 0
+	scoreboard objectives remove EvilRace
+	scoreboard objectives remove EvilRaceCD
+	scoreboard objectives remove EvilRaceCL
+	scoreboard objectives remove EvilRaceDE
+	scoreboard teams remove EvilR
+	minecraft:kill @e[type=AreaEffectCloud,tag=EvilRaceCD]
+	effect @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27] clear
+	minecraft:clear @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2]
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2,score_EC=0,score_EC_min=0] SPbk 4
+	effect @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2] 6 20 100 true
+	scoreboard players set @a[x=19,y=6,z=-147,dx=88,dy=100,dz=27,m=2] SPtp 4
+	fill 31 5 -129 31 5 -137 redstone_block 0 replace stonebrick 0
+	scoreboard objectives remove EvilRaceBC
+	setblock 36 16 -133 air 0
+	setblock 36 16 -130 air 0
+	setblock 36 16 -136 air 0
+	setblock 20 12 -114 stonebrick 0
+	setblock 22 9 -114 stonebrick 0
+
+FINALIZE
+	fill 19 7 -115 22 5 -112 air 0
+	setblock 20 7 -114 structure_block 0 replace {name:"CMDSave_EvilR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:6,sizeY:6,sizeZ:16}
+	setblock 20 5 -114 structure_block 0 replace {name:"CMDSave_EvilR",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 20 7 -115 wooden_button 4
+	setblock 20 5 -115 wooden_button 4
+	setblock 21 7 -114 redstone_lamp 0
+	setblock 21 5 -114 redstone_lamp 0
+	setblock 20 7 -113 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+	setblock 20 9 -114 stonebrick 0
+	setblock 20 12 -114 stonebrick 0
+	setblock 22 9 -114 stonebrick 0
+	setblock 22 12 -114 stonebrick 0
+

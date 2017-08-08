@@ -1,0 +1,142 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=433,y=3,z=-841,dx=90,dy=50,dz=90
+DEF $SPid$ 19
+
+DEF $CMDName$ FBR
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 6
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ 527 20 -831
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 2
+///	Name
+DEF $Name$ Frostburn
+///	Text display name
+DEF $TD$ FBR
+///	Hover and scoreboard name
+DEF $TDName$ Frostburn Run
+///	Scoreboard teams color
+DEF $Color$ aqua
+///	Place where air is when open
+DEF $Dao$ 510 8 -833 510 8 -821
+///	Place where redstone blocks are there when open
+DEF $Dro$ ``
+
+///	Portal
+DEF $Ptl$ x=514,y=13,z=-794,dx=3,dy=3
+///	Magma Maze
+DEF $MM$ x=510,y=10,z=-792,dx=11,dy=5,dz=11
+
+ARRAY {Arr_Checkpoints}:
+	{
+		x=511,y=10,z=-833,dx=11,dy=9,dz=12 /// Spawn selection
+		514 11 -827 90 0 /// Spawn teleport
+	} {
+		x=448,y=10,z=-803,dx=4,dy=5,dz=2 /// Checkpoint 1 selection
+		450 11 -802 -90 0 /// Checkpoint 1 teleport
+	} {
+		x=513,y=11,z=-793,dx=5,dy=6 /// Checkpoint 2 selection
+		516.0 12 -793 0 45 /// Checkpoint 2 teleport
+	} {
+		x=492,y=21,z=-779,dx=4,dy=5,dz=4t /// Checkpoint 3 selection
+		494 21 -778 90 20 /// Checkpoint 3 teleport
+	}
+
+/// Coordinates for setting blocks at win areas
+ARRAY {COORDS Arr_SetblockPlaces}:
+	{ /// 1st place
+		435 10 -778 435 10 -777 /// they can be either a pair of 3 or 6 coords
+		
+	} { /// 2nd place
+		435 9 -781
+		
+	} {	/// 3rd place
+		435 8 -774
+		
+	}
+
+///	Selecting places
+ARRAY {Arr_SelectPlaces}:
+	/// All options after the 3rd are additional and are not required
+	
+	{ /// 1st place
+		x=434,y=13,z=-778,dy=1,dz=1 /// Selection
+		took first place! /// Message
+		fill Arr_SetblockPlaces[0][0] redstone_block 0 /// Fill region
+		
+	} { /// 2nd place
+		x=434,y=12,z=-781,dy=1 /// Selection
+		took second place! /// Message
+		fill Arr_SetblockPlaces[1][0] redstone_block 0 /// Fill region
+		
+	} {	/// 3rd place
+		x=434,y=11,z=-774,dy=1 /// Selection
+		took third place! /// Message
+		fill Arr_SetblockPlaces[2][0] redstone_block 0 /// Fill region
+		
+	}
+
+FUNC {Func_DetectTP}:
+	@a[$SA$,m=2] hay_block -1 ~ ~-1.3 ~ @a[r=0,c=1] + $Name$RWaterTP
+	
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {Func_EditGeneralScoreboardClock}:
+		effect @a[$SA$,m=2,team=$Name$R] 12 3 0 true
+		effect @a[$MM$,m=2,team=$Name$R] 12 0 0 true
+		tp @a[$Ptl$,m=2,team=$Name$R] ~ ~ ~1
+		
+		
+	FUNC {Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+
+
+	FUNC {Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+	///	fill $Dro$ stonebrick 0 replace redstone_block 0
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

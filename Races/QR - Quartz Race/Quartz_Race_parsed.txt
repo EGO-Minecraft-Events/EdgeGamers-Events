@@ -1,0 +1,110 @@
+INITIALIZE
+	fill 219 9 -140 223 16 -123 air 0
+
+GROUP | Grp_MainStart | PULSE		[220 10 -139 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 8
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 220 10 -139 stonebrick 0
+	scoreboard objectives add QuartzRace dummy Quartz Race
+	scoreboard objectives add QuartzRaceCD dummy Quartz Race Countdown
+	scoreboard objectives add QuartzRaceCL dummy Quartz Race Clear
+	scoreboard objectives add QuartzRaceDE deathCount Quartz Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar QuartzRace
+	scoreboard teams add QuartzR
+	scoreboard teams option QuartzR color white
+	scoreboard teams option QuartzR seeFriendlyInvisibles true
+	scoreboard teams option QuartzR collisionRule never
+	scoreboard teams option QuartzR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["QuartzRaceCD"]}
+	scoreboard players set /spawn QuartzRace 99
+	scoreboard teams join QuartzR /spawn
+	setblock 220 13 -139 redstone_block 0
+	setblock 222 10 -139 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 8
+
+GROUP | Grp_MainClock | CLOCK		[220 13 -139 | stonebrick 0]
+	scoreboard players add @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] SPid 0
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,score_SPid=-9] SPid 8
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,score_SPid_min=-7] SPid 8
+	minecraft:kill @e[x=219,y=4,z=-177,dx=77,dy=100,dz=38,type=Item]
+	scoreboard players add @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2] QuartzRaceCL 0
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceCL=0,score_QuartzRaceCL_min=0] QuartzRaceDE 1
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceCL=0,score_QuartzRaceCL_min=0] QuartzRaceCL 1
+	effect @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceDE_min=1] clear
+	minecraft:clear @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceDE_min=1]
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceDE_min=1] SPbk 8
+	scoreboard teams join QuartzR @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,team=!QuartzR]
+	effect @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,team=QuartzR] 14 3 0 true
+	scoreboard players add @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,team=QuartzR] QuartzRace 0
+	scoreboard players tag @a[x=226,y=6,z=-158,dx=14,dy=6,dz=2,m=2,team=QuartzR,score_QuartzRace_min=0,tag=!QuartzLap] add QuartzLap
+	scoreboard players add @a[x=232,y=7,z=-163,dx=8,dy=5,dz=2,m=2,team=QuartzR,score_QuartzRace_min=0,tag=!QuartzLap] QuartzRace 1
+	execute @a[x=232,y=7,z=-163,dx=8,dy=5,dz=2,m=2,team=QuartzR,score_QuartzRace_min=1,tag=!QuartzLap] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=QuartzR,score_QuartzRace_min=1,tag=!QuartzLap]"},{"text":" has finished a lap!","color":"yellow"}]}
+	execute @a[x=232,y=7,z=-163,dx=8,dy=5,dz=2,m=2,team=QuartzR,score_QuartzRace_min=1,tag=!QuartzLap] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a
+	scoreboard players tag @a[x=232,y=7,z=-163,dx=8,dy=5,dz=2,m=2,team=QuartzR,score_QuartzRace_min=0,tag=!QuartzLap] add QuartzLap
+	scoreboard players tag @a[x=241,y=8,z=-142,dy=3,dz=2,m=2,team=QuartzR,score_QuartzRace_min=0,tag=QuartzLap] remove QuartzLap
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_QuartzRaceDE_min=1] QuartzRaceDE 0
+
+GROUP | Grp_CountdownTFClock | CLOCK		[222 10 -139 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=QuartzRaceCD]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=QuartzRaceCD] QuartzRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=20,score_QuartzRaceCD_min=20] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=20,score_QuartzRaceCD_min=20] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=40,score_QuartzRaceCD_min=40] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=40,score_QuartzRaceCD_min=40] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=60,score_QuartzRaceCD_min=60] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=60,score_QuartzRaceCD_min=60] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=80,score_QuartzRaceCD_min=80] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=80,score_QuartzRaceCD_min=80] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=100,score_QuartzRaceCD_min=100] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=100,score_QuartzRaceCD_min=100] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ execute @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ tellraw @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"QR","color":"white","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Quartz Race","color":"white"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ title @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ fill 240 6 -160 232 6 -154 stonebrick 0 replace redstone_block 0
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ fill 232 4 -156 240 4 -158 redstone_block 0 replace stonebrick 0
+	execute @e[type=AreaEffectCloud,tag=QuartzRaceCD,score_QuartzRaceCD=120,score_QuartzRaceCD_min=120] ~ ~ ~ fill 231 7 -158 231 7 -156 quartz_block 0
+
+GROUP | Grp_MainEnd | PULSE		[222 13 -139 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=8,score_SPgam_min=8] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 222 13 -139 stonebrick 0
+	scoreboard objectives remove QuartzRace
+	scoreboard objectives remove QuartzRaceCD
+	scoreboard objectives remove QuartzRaceCL
+	scoreboard objectives remove QuartzRaceDE
+	scoreboard teams remove QuartzR
+	minecraft:kill @e[type=AreaEffectCloud,tag=QuartzRaceCD]
+	effect @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38] clear
+	minecraft:clear @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2]
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2,score_EC=0,score_EC_min=0] SPbk 8
+	effect @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2] 6 20 100 true
+	scoreboard players set @a[x=219,y=4,z=-177,dx=77,dy=100,dz=38,m=2] SPtp 8
+	fill 240 6 -160 232 6 -154 redstone_block 0 replace stonebrick 0
+	fill 232 4 -156 240 4 -158 stonebrick 0 replace redstone_block 0
+	fill 231 7 -158 231 7 -156 quartz_stairs 1
+	scoreboard players tag * remove QuartzLap
+	setblock 220 13 -139 stonebrick 0
+	setblock 222 10 -139 stonebrick 0
+
+FINALIZE
+	fill 219 8 -140 222 6 -137 air 0
+	setblock 220 8 -139 structure_block 0 replace {name:"CMDSave_QR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:6,sizeY:6,sizeZ:16}
+	setblock 220 6 -139 structure_block 0 replace {name:"CMDSave_QR",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 220 8 -140 wooden_button 4
+	setblock 220 6 -140 wooden_button 4
+	setblock 221 8 -139 redstone_lamp 0
+	setblock 221 6 -139 redstone_lamp 0
+	setblock 220 8 -138 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+	setblock 220 10 -139 stonebrick 0
+	setblock 220 13 -139 stonebrick 0
+	setblock 222 10 -139 stonebrick 0
+	setblock 222 13 -139 stonebrick 0
+

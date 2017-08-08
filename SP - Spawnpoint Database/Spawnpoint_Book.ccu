@@ -27,6 +27,7 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 29 111
 
 IMPORT {LIBRARY GETDIR General}
+IMPORT {GETCOORDS GETDIR WITHIN Races}
 IMPORT {GETCOORDS WITHIN PC - Pictionary\Pictionary_dat.txt}
 IMPORT {GETCOORDS WITHIN AD - Anvil Drop\Anvil_Drop_dat.txt}
 IMPORT {GETCOORDS WITHIN MM - Mastermind\Mastermind_dat.txt}
@@ -42,9 +43,77 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	parseChangesOption false
+	parseChangesOption true
 //>
 
+//<Array: Race Spawnpoint IDs
+///	Sets all these scores to 1
+ARRAY {Arr_RaceSPids}:
+	2
+	3
+	4
+	5
+	6
+	8
+	11
+	12
+	13
+	19
+	22
+	31
+	32
+//>
+
+
+//<Books: All races
+FUNC {Func_Book_AllRaces}:
+	LOOP {Arr_RaceSPids[S]}:
+		@e[type=Player,EC=0,SPbk=|0|] SPbk = 1
+/*
+	DEF $RaceSet$ /// Emerald Race;Emerald_Race;ER;dark_green;er
+		{\"text\":\"[\",\"color\":\"dark_gray\"},
+		{\"text\":\"|2|\",\"color\":\"|3|\",
+			\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @a[c=1] SPtp = |4| SPna\"},
+			\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleport yourself to |0|\",\"color\":\"|3|\"}}
+		},
+		{\"text\":\"]: \",\"color\":\"dark_gray\"},
+		{\"text\":\"[+]\",\"color\":\"dark_green\",
+			\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock |1|.Grp_MainStart redstone_block 0\"},
+			\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts |0|\",\"color\":\"green\"}}
+		},
+		{\"text\":\" \",\"color\":\"gray\"},
+		{\"text\":\"[-]\",\"color\":\"red\",
+			\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock |1|.Grp_MainEnd redstone_block 0\"},
+			\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops |0|\",\"color\":\"red\"}}
+		},
+		{\"text\":\" \",\"color\":\"gray\"},
+		{\"text\":\"[T]\n\",\"color\":\"gold\",
+			\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players operation @a[SPdim=6] SPtp = |4| SPna\"},
+			\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Teleports all to |0|\",\"color\":\"gold\"}}
+		}
+-/-
+
+	replaceitem entity @e[type=Player,EC=0,SPbk=1] slot.weapon.offhand written_book 1 0 
+	{title:"Races Book",author:"eGO",pages:[0:
+		"[\"\",
+			$RaceSet$(Ice Race;Ice_Race;IR;dark_aqua;ir), /// 1
+			$RaceSet$(Slow Race;Slow_Race;SR;gray;sr), /// 2
+			$RaceSet$(Nether Race;Nether_Race;NR;red;nr), /// 3
+			$RaceSet$(Evil Race;Evil_Race;EvilR;dark_gray;evilr), /// 4
+			$RaceSet$(Diamond Race;Diamond_Race;DR;dark_aqua;dr), /// 5
+			$RaceSet$(Emerald Race;Emerald_Race;ER;dark_green;er), /// 6
+			$RaceSet$(Quartz Race;Quartz_Race;QR;gray;qr), /// 8
+			$RaceSet$(1.8 Race;18_Race;1.8R;gold;18r), /// 11
+			$RaceSet$(Epic Race;Epic_Race;EpicR;gold;epicr), /// 12
+			$RaceSet$(Salt Race;Salt_Race;SaltR;dark_gray;saltr), /// 16
+			$RaceSet$(Death Run;Death_Run;DeathR;red;deathr), /// 19
+			$RaceSet$(FrostBurn Run;Frostburn_Race;FBR;dark_aqua;fbr), /// 22
+			$RaceSet$(Dirt Race;Dirt_Race;DirtR;dark_gray;dirtr), /// 31
+			$RaceSet$(Mycelium Race;Mycelium_Race;MR;dark_purple;mr) /// 32
+		]"
+	]}
+*/
+//>
 
 //<Book: Mastermind
 FUNC {Func_Book_Mastermind}:
@@ -1442,6 +1511,7 @@ FUNC {Func_BookTFClock}:
 	CCU_SetblockTestfor
 	
 	clear @e[type=Player,SPbk>=1] written_book -1 -1 {author:"eGO"}
+	Func_Book_AllRaces()
 	Func_Book_Mastermind()
 	Func_Book_ThePit3()
 	Func_Book_SandTomb()

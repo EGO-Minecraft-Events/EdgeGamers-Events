@@ -1,0 +1,126 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=19,y=6,z=-147,dx=88,dy=100,dz=27
+DEF $SPid$ 4
+
+DEF $CMDName$ EvilR
+DEF $CMDSizeX$ 6
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ 19 8 -115
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 0
+///	Name
+DEF $Name$ Evil
+///	Text display name
+DEF $TD$ EvilR
+///	Hover and scoreboard name
+DEF $TDName$ Evil Race
+///	Scoreboard teams color
+DEF $Color$ gray
+///	Place where air is when open
+DEF $Dao$ 31 5 -129 31 5 -137
+///	Place where redstone blocks are there when open
+DEF $Dro$ ``
+
+/// Spawn teleport
+DEF $CPtp$ 23 7 -133 -90 0
+
+/// Coordinates for setting blocks at win areas
+ARRAY {COORDS Arr_SetblockPlaces}:
+	{ /// 1st place
+		36 16 -133 /// they can be either a pair of 3 or 6 coords
+		
+	} { /// 2nd place
+		36 16 -130
+		
+	} {	/// 3rd place
+		36 16 -136
+		
+	}
+
+///	Selecting places
+ARRAY {Arr_SelectPlaces}:
+	/// All options after the 3rd are additional and are not required
+	
+	{ /// 1st place
+		x=36,y=16,z=-133,dy=2 /// Selection
+		took first place! /// Message
+		setblock Arr_SetblockPlaces[0][0] redstone_block 0 /// Fill region
+		
+	} { /// 2nd place
+		x=36,y=16,z=-130,dy=2 /// Selection
+		took second place! /// Message
+		setblock Arr_SetblockPlaces[1][0] redstone_block 0 /// Fill region
+		
+	} {	/// 3rd place
+		x=36,y=16,z=-136,dy=2 /// Selection
+		took third place! /// Message
+		setblock Arr_SetblockPlaces[2][0] redstone_block 0 /// Fill region
+		
+	}
+	
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {GLOBAL ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {GLOBAL Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {GLOBAL Func_EditGeneralScoreboardClock}:
+		@a[$SA$,m=2] lava 0 ~ ~0.3 ~ kill @a[c=1,m=2]
+	
+		@a[$SA$,m=2] magma ~ ~-0.3 ~ @a[r=0,c=1] + $Name$RWaterTP
+		tp @a[$SA$,m=2,$Name$RWaterTP] $CPtp$
+		effect @a[$Name$RWaterTP] 6 1 100 true
+		effect @a[$Name$RWaterTP] 11 1 100 true
+		@a[$Name$RWaterTP] playsound Snd_TP voice @a[c=1]
+		@a[$Name$RWaterTP] - $Name$RWaterTP
+		
+	FUNC {GLOBAL Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+
+
+	FUNC {GLOBAL Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+	///	fill $Dro$ stonebrick 0 replace redstone_block 0
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

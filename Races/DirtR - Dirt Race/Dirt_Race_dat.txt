@@ -1,0 +1,5 @@
+15 15 -177 32 22 -173
+Grp_MainStart;16 16 -176;31 17 -176
+Grp_MainClock;16 19 -176;31 21 -176
+Grp_CountdownTFClock;16 16 -174;31 17 -174
+Grp_MainEnd;16 19 -174;31 20 -174

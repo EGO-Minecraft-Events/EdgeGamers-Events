@@ -1,0 +1,155 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=416,y=4,z=-135,dx=60,dy=29,dz=65
+DEF $SPid$ 12
+
+DEF $CMDName$ EpicR
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 6
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ 431 7 -135
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 2
+///	Name
+DEF $Name$ Epic
+///	Text display name
+DEF $TD$ EpicR
+///	Hover and scoreboard name
+DEF $TDName$ Epic Race
+///	Scoreboard teams color
+DEF $Color$ gold
+///	Place where air is when open
+DEF $Dao$ 427 9 -126 427 9 -118
+///	Place where redstone blocks are there when open
+DEF $Dro$ ``
+
+ARRAY {COORDS Arr_Dispensers}:
+	472 12 -102
+	472 12 -104
+	472 12 -106
+	472 12 -108
+
+ARRAY {Arr_Checkpoints}:
+	{
+		x=420,y=11,z=-126,dx=6,dy=5,dz=8 /// Spawn selection
+		424 12 -122 -90 20 /// Spawn teleport
+	} {
+		x=425,y=10,z=-116,dx=2,dy=3,dz=2 /// Checkpoint 1 selection
+		426 11 -115 -90 0 /// Checkpoint 1 teleport
+	} {
+		x=456,y=11,z=-93,dx=2,dy=3,dz=2 /// Checkpoint 2 selection
+		457 12 -92 50 0 /// Checkpoint 2 teleport
+	} {
+		x=465,y=10,z=-123,dx=2,dy=3,dz=2 /// Checkpoint 3 selection
+		470 11 -75 90 20 /// Checkpoint 3 teleport
+	} {
+		x=466,y=26,z=-111,dx=2,dy=3,dz=2
+		467 27 -110 0 20
+	} {
+		x=442,y=24,z=-94,dx=2,dy=3,dz=2
+		443 25 -93 -90 20
+	} {
+		x=458,y=25,z=-104,dx=2,dy=3,dz=2
+		459 26 -103 90 20
+	} {
+		x=458,y=21,z=-112,dx=2,dy=3,dz=2
+		459 22 -111 180 20
+	}
+
+/// Coordinates for setting blocks at win areas
+ARRAY {COORDS Arr_SetblockPlaces}:
+	{ /// 1st place
+		430 19 -123 430 19 -121 /// they can be either a pair of 3 or 6 coords
+		
+	} { /// 2nd place
+		430 19 -125 430 19 -126
+		
+	} {	/// 3rd place
+		430 19 -119 430 19 -118
+		
+	}
+
+///	Selecting places
+ARRAY {Arr_SelectPlaces}:
+	/// All options after the 3rd are additional and are not required
+	
+	{ /// 1st place
+		x=429,y=22,z=-123,dy=2,dz=2 /// Selection
+		took first place! /// Message
+		fill Arr_SetblockPlaces[0][0] redstone_block 0 /// Fill region
+		
+	} { /// 2nd place
+		x=429,y=22,z=-126,dy=2,dz=1 /// Selection
+		took second place! /// Message
+		fill Arr_SetblockPlaces[1][0] redstone_block 0 /// Fill region
+		
+	} {	/// 3rd place
+		x=429,y=22,z=-118,dy=2,dz=1 /// Selection
+		took third place! /// Message
+		fill Arr_SetblockPlaces[2][0] redstone_block 0 /// Fill region
+		
+	}
+
+FUNC {Func_DetectTP}:
+	@a[$SA$,m=2] hay_block -1 ~ ~-1.3 ~ @a[r=0,c=1] + $Name$RWaterTP
+	
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {Func_EditGeneralScoreboardClock}:
+		LOOP {Arr_Dispensers[S]}:
+			replaceitem block |0| slot.container.4 arrow 64
+		@e[$SA$,type=Arrow] + EpicRinGround {inGround:1b}
+		kill @e[$SA$,type=Arrow,EpicRinGround]
+		
+	FUNC {Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+	///	@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+
+
+	FUNC {Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+	///	fill $Dro$ stonebrick 0 replace redstone_block 0
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

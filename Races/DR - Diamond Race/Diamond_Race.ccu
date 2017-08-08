@@ -1,0 +1,94 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=206,y=4,z=-57,dx=49,dy=100,dz=39
+DEF $SPid$ 5
+
+DEF $CMDName$ NAME
+DEF $CMDSizeX$ 6
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ 212 17 -21
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption stonebrick 0
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 1
+///	Name
+DEF $Name$ Diamond
+///	Text display name
+DEF $TD$ DR
+///	Hover and scoreboard name
+DEF $TDName$ Diamond Race
+///	Scoreboard teams color
+DEF $Color$ aqua
+///	Place where air is when open
+DEF $Dao$ 224 16 -34 230 16 -40
+///	Place where redstone blocks are there when open
+DEF $Dro$ 224 14 -38 230 14 -36
+
+
+///	Where laps are completed
+DEF $lap$ x=224,y=18,z=-42,dx=6,dy=10,dz=1
+///	Area where laps are reset inside the races
+DEF $lapAF$ x=249,y=4,z=-28,dx=1,dy=15,dz=6
+///	Area where laps are disabled in spawn
+DEF $lapSP$ x=214,y=16,z=-38,dx=16,dy=5,dz=3
+
+IMPORT {LIBRARY Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {Func_EditGeneralScoreboardClock}:
+		
+		
+	FUNC {Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ stonebrick 0 replace redstone_block 0
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dro$ redstone_block 0 replace stonebrick 0
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill 223 17 -38 222 17 -36 stonebrick 3
+
+
+
+	FUNC {Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ redstone_block 0 replace stonebrick 0
+		fill $Dro$ stonebrick 0 replace redstone_block 0
+		fill 223 17 -36 223 17 -38 air 0
+		fill 222 17 -36 222 17 -38 stone_slab 5
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

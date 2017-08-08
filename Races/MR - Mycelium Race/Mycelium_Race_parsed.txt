@@ -1,0 +1,159 @@
+INITIALIZE
+	fill 432 73 -666 426 80 -683 air 0
+	fill 432 73 -666 415 80 -672 air 0
+
+GROUP | Grp_MainStart | PULSE		[431 74 -667 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 32
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 431 74 -667 stonebrick 0
+	scoreboard objectives add MyceliumRace dummy Mycelium Race
+	scoreboard objectives add MyceliumRaceCD dummy Mycelium Race Countdown
+	scoreboard objectives add MyceliumRaceCL dummy Mycelium Race Clear
+	scoreboard objectives add MyceliumRaceDE deathCount Mycelium Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar MyceliumRace
+	scoreboard teams add MyceliumR
+	scoreboard teams option MyceliumR color dark_purple
+	scoreboard teams option MyceliumR seeFriendlyInvisibles true
+	scoreboard teams option MyceliumR collisionRule never
+	scoreboard teams option MyceliumR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["MyceliumRaceCD"]}
+	scoreboard players set /spawn MyceliumRace 99
+	scoreboard teams join MyceliumR /spawn
+	scoreboard objectives add MyceliumRaceBC dummy Mycelium Race Broadcast
+	scoreboard objectives add MyceliumRaceCP dummy Mycelium Race Checkpoints
+	setblock 431 74 -669 redstone_block 0
+	setblock 431 77 -667 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 32
+
+GROUP | Grp_MainClock | CLOCK		[431 74 -669 | stonebrick 0]
+	scoreboard players add @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] SPid 0
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,score_SPid=-33] SPid 32
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,score_SPid_min=-31] SPid 32
+	minecraft:kill @e[x=433,y=5,z=-739,dx=40,dy=80,dz=100,type=Item]
+	scoreboard players add @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] MyceliumRaceCL 0
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceCL=0,score_MyceliumRaceCL_min=0] MyceliumRaceDE 1
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceCL=0,score_MyceliumRaceCL_min=0] MyceliumRaceCL 1
+	effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceDE_min=1] clear
+	minecraft:clear @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceDE_min=1]
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceDE_min=1] SPbk 32
+	scoreboard teams join MyceliumR @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,team=!MyceliumR]
+	effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,team=MyceliumR] 14 3 0 true
+	scoreboard players add @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,team=MyceliumR] MyceliumRaceBC 0
+	scoreboard players set @a[x=443,y=68,z=-659,dy=1,c=1,m=2,score_MyceliumRaceBC=0,score_MyceliumRaceBC_min=0] MyceliumRaceBC 1
+	execute @a[x=443,y=68,z=-659,dy=1,c=1,m=2,score_MyceliumRaceBC=1,score_MyceliumRaceBC_min=1] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=443,y=68,z=-659,dy=1,c=1,m=2,score_MyceliumRaceBC=1,score_MyceliumRaceBC_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=443,y=68,z=-659,dy=1,c=1,m=2,score_MyceliumRaceBC=1,score_MyceliumRaceBC_min=1] ~ ~ ~ setblock 444 69 -659 stone_slab 5
+	scoreboard players set @a[x=443,y=68,z=-661,dy=1,c=1,m=2,score_MyceliumRaceBC=0,score_MyceliumRaceBC_min=0] MyceliumRaceBC 2
+	execute @a[x=443,y=68,z=-661,dy=1,c=1,m=2,score_MyceliumRaceBC=2,score_MyceliumRaceBC_min=2] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=443,y=68,z=-661,dy=1,c=1,m=2,score_MyceliumRaceBC=2,score_MyceliumRaceBC_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=443,y=68,z=-661,dy=1,c=1,m=2,score_MyceliumRaceBC=2,score_MyceliumRaceBC_min=2] ~ ~ ~ setblock 444 69 -661 stone_slab 5
+	scoreboard players set @a[x=443,y=68,z=-663,dy=1,c=1,m=2,score_MyceliumRaceBC=0,score_MyceliumRaceBC_min=0] MyceliumRaceBC 3
+	execute @a[x=443,y=68,z=-663,dy=1,c=1,m=2,score_MyceliumRaceBC=3,score_MyceliumRaceBC_min=3] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=443,y=68,z=-663,dy=1,c=1,m=2,score_MyceliumRaceBC=3,score_MyceliumRaceBC_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=443,y=68,z=-663,dy=1,c=1,m=2,score_MyceliumRaceBC=3,score_MyceliumRaceBC_min=3] ~ ~ ~ setblock 444 69 -663 stone_slab 5
+	execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_MyceliumRaceBC_min=1] MyceliumRace = @a[r=1,c=1,m=2,score_MyceliumRaceBC_min=1] MyceliumRaceBC
+	scoreboard players add @a[x=442,y=67,z=-673,dx=17,dy=5,dz=7,m=2,team=MyceliumR] MyceliumRaceCP 0
+	execute @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=452,y=58,z=-720,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] MyceliumRaceCP 1
+	execute @a[x=449,y=57,z=-727,dx=8,dz=6,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=449,y=57,z=-727,dx=8,dz=6,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=449,y=57,z=-727,dx=8,dz=6,m=2,team=MyceliumR,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] MyceliumRaceCP 1
+	execute @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=447,y=14,z=-725,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] MyceliumRaceCP 2
+	execute @a[x=447,y=10,z=-721,dx=11,dy=10,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=447,y=10,z=-721,dx=11,dy=10,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=447,y=10,z=-721,dx=11,dy=10,m=2,team=MyceliumR,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] MyceliumRaceCP 2
+	execute @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=2,score_MyceliumRaceCP_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=2,score_MyceliumRaceCP_min=2] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=2,score_MyceliumRaceCP_min=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
+	scoreboard players set @a[x=447,y=15,z=-700,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=2,score_MyceliumRaceCP_min=2] MyceliumRaceCP 3
+	execute @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3]"},{"text":" has reached checkpoint 4!","color":"yellow"}]}
+	scoreboard players set @a[x=450,y=19,z=-685,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] MyceliumRaceCP 4
+	execute @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3]"},{"text":" has reached checkpoint 4!","color":"yellow"}]}
+	scoreboard players set @a[x=451,y=19,z=-686,dx=2,dy=3,dz=4,m=2,team=MyceliumR,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] MyceliumRaceCP 4
+	execute @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=4,score_MyceliumRaceCP_min=4] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=4,score_MyceliumRaceCP_min=4] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=MyceliumR,score_MyceliumRaceCP=4,score_MyceliumRaceCP_min=4]"},{"text":" has reached checkpoint 5!","color":"yellow"}]}
+	scoreboard players set @a[x=443,y=40,z=-657,dx=4,dy=3,dz=2,m=2,team=MyceliumR,score_MyceliumRaceCP=4,score_MyceliumRaceCP_min=4] MyceliumRaceCP 5
+	execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add MyceliumRWaterTP
+	scoreboard players tag @a[x=442,y=67,z=-673,dx=17,dy=5,dz=7,m=2,score_MyceliumRaceCP_min=1] add MyceliumRWaterTP
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=0,score_MyceliumRaceCP_min=0] 455.0 68 -672 -180 0
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=1,score_MyceliumRaceCP_min=1] 454 59 -719 180 45
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=2,score_MyceliumRaceCP_min=2] 449 15 -724 0 15
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=3,score_MyceliumRaceCP_min=3] 449 16 -699 -45 15
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=4,score_MyceliumRaceCP_min=4] 452 20 -684 45 15
+	minecraft:tp @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,tag=MyceliumRWaterTP,score_MyceliumRaceCP=5,score_MyceliumRaceCP_min=5] 445 41 -656 -160 15
+	effect @a[tag=MyceliumRWaterTP] 6 1 100 true
+	effect @a[tag=MyceliumRWaterTP] 11 1 100 true
+	execute @a[tag=MyceliumRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=MyceliumRWaterTP] remove MyceliumRWaterTP
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceDE_min=1] MyceliumRaceDE 0
+	scoreboard players operation @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceBC_min=1] MyceliumRace *= -1 Number
+	scoreboard players operation @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_MyceliumRaceBC_min=1] MyceliumRaceBC *= -1 Number
+
+GROUP | Grp_CountdownTFClock | CLOCK		[431 77 -667 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=MyceliumRaceCD]
+	setblock ~ ~ ~ repeating_command_block 12 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=MyceliumRaceCD] MyceliumRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=20,score_MyceliumRaceCD_min=20] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=20,score_MyceliumRaceCD_min=20] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=40,score_MyceliumRaceCD_min=40] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=40,score_MyceliumRaceCD_min=40] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=60,score_MyceliumRaceCD_min=60] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=60,score_MyceliumRaceCD_min=60] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=80,score_MyceliumRaceCD_min=80] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=80,score_MyceliumRaceCD_min=80] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=100,score_MyceliumRaceCD_min=100] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=100,score_MyceliumRaceCD_min=100] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=120,score_MyceliumRaceCD_min=120] ~ ~ ~ execute @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=120,score_MyceliumRaceCD_min=120] ~ ~ ~ tellraw @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MR","color":"dark_purple","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mycelium Race","color":"dark_purple"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=120,score_MyceliumRaceCD_min=120] ~ ~ ~ title @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=MyceliumRaceCD,score_MyceliumRaceCD=120,score_MyceliumRaceCD_min=120] ~ ~ ~ fill 450 65 -674 459 65 -674 stonebrick 0 replace redstone_block 0
+
+GROUP | Grp_MainEnd | PULSE		[431 74 -671 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=32,score_SPgam_min=32] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 431 74 -671 stonebrick 0
+	scoreboard objectives remove MyceliumRace
+	scoreboard objectives remove MyceliumRaceCD
+	scoreboard objectives remove MyceliumRaceCL
+	scoreboard objectives remove MyceliumRaceDE
+	scoreboard teams remove MyceliumR
+	minecraft:kill @e[type=AreaEffectCloud,tag=MyceliumRaceCD]
+	effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100] clear
+	minecraft:clear @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2]
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2,score_EC=0,score_EC_min=0] SPbk 32
+	effect @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] 6 20 100 true
+	scoreboard players set @a[x=433,y=5,z=-739,dx=40,dy=80,dz=100,m=2] SPtp 32
+	fill 450 65 -674 459 65 -674 redstone_block 0 replace stonebrick 0
+	scoreboard objectives remove MyceliumRaceBC
+	scoreboard objectives remove MyceliumRaceCP
+	setblock 444 69 -659 air 0
+	setblock 444 69 -661 air 0
+	setblock 444 69 -663 air 0
+	setblock 431 74 -669 stonebrick 0
+	setblock 431 77 -667 stonebrick 0
+
+FINALIZE
+	fill 429 72 -669 432 70 -666 air 0
+	setblock 431 72 -667 structure_block 0 replace {name:"CMDSave_MR",mode:"SAVE",posX:-15,posY:2,posZ:-5,sizeX:16,sizeY:6,sizeZ:6}
+	setblock 431 70 -667 structure_block 0 replace {name:"CMDSave_MR",mode:"LOAD",posX:-15,posY:4,posZ:-5}
+	setblock 432 72 -667 wooden_button 1
+	setblock 432 70 -667 wooden_button 1
+	setblock 431 72 -668 redstone_lamp 0
+	setblock 431 70 -668 redstone_lamp 0
+	setblock 430 72 -667 command_block 4 replace {TrackOutput:0b,Command:"setblock ~ ~ ~-1 redstone_block 0"}
+	setblock 431 74 -667 stonebrick 0
+	setblock 431 74 -669 stonebrick 0
+	setblock 431 77 -667 stonebrick 0
+	setblock 431 74 -671 stonebrick 0
+
