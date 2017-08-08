@@ -82,14 +82,14 @@ GROUP | Grp_MainStart | PULSE		[352 8 112 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgam 0
-	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPaff 23
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPaff 7
 	setblock 352 8 114 redstone_block 0
 	setblock 352 14 114 redstone_block 0
 	setblock 352 20 114 redstone_block 0
 	setblock 352 8 116 redstone_block 0
-	setblock Grp_BookTFClock redstone_block 0
 	setblock 352 10 116 redstone_block 0
 	setblock 352 13 116 redstone_block 0
 	setblock 352 15 116 redstone_block 0
@@ -130,7 +130,6 @@ GROUP | Grp_AddingScoreboardsPulse | PULSE		[352 15 112 | stonebrick 0]
 	scoreboard teams add NoPVP
 	scoreboard teams option NoPVP friendlyfire false
 	scoreboard players set Coopdog55 MCTeams 2
-	scoreboard players set TheDarkOne239 MCTeams 2
 	scoreboard players set Pikaslack MCTeams 2
 	scoreboard players set Soupyahtzee MCTeams 2
 	scoreboard players set BUTTERLOVER7683 MCTeams 4
@@ -151,6 +150,7 @@ GROUP | Grp_AddingScoreboardsPulse | PULSE		[352 15 112 | stonebrick 0]
 	scoreboard players set Witch_Doctor MCTeams 32
 	scoreboard players set Kilgore90 MCTeams 32
 	scoreboard players set Icohedron MCTeams 32
+	scoreboard players set TheDarkOne239 MCTeams 32
 	scoreboard players set Percent1 ADSave 50
 	scoreboard players set Percent2 ADSave 0
 	scoreboard players set Walls ADSave 0
@@ -619,7 +619,6 @@ GROUP | Grp_MainEnd | PULSE		[352 13 118 | stonebrick 0]
 	setblock 352 14 114 stonebrick 0
 	setblock 352 20 114 stonebrick 0
 	setblock 352 8 116 stonebrick 0
-	setblock Grp_BookTFClock stonebrick 0
 	setblock 352 10 116 stonebrick 0
 	setblock 352 13 116 stonebrick 0
 	setblock 352 15 116 stonebrick 0
