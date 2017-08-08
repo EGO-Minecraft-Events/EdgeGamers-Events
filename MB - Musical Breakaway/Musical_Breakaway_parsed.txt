@@ -1,0 +1,340 @@
+INITIALIZE
+	fill 63 8 188 67 25 205 air 0
+
+GROUP | Grp_MainStart | PULSE		[64 9 189 | stonebrick 0]
+	setblock 64 9 189 stonebrick 0
+	scoreboard objectives add Number dummy
+	scoreboard objectives add MBrn dummy Musical Breakaway Randomizer
+	scoreboard objectives add MBct dummy Musical Breakaway Counter
+	scoreboard objectives add MBnb dummy Musical Breakaway Number
+	scoreboard objectives setdisplay sidebar MBct
+	scoreboard players set -1 Number -1
+	summon ArmorStand ~ ~ ~ {Tags:["MBStand","MBEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	summon AreaEffectCloud 82.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 82.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 84.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 86.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 88.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 90.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 92.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 94.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 96.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 98.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 100.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 102.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 104.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 106.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 108.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 189.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 191.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 193.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 195.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 197.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 199.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 201.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 203.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 205.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 207.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 209.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 211.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 213.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 215.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	summon AreaEffectCloud 110.5 4 217.5 {Tags:["MBEntity","MBCloud"],Duration:2147483647}
+	scoreboard players add @e[type=AreaEffectCloud,tag=MBCloud] MBnb 0
+	scoreboard players add @e[type=AreaEffectCloud,tag=MBCloud] MBrn 0
+	execute @e[type=AreaEffectCloud,tag=MBCloud] ~ ~ ~ scoreboard players add Total MBct 1
+	blockdata 66 13 191 {auto:1b}
+	setblock 66 13 189 redstone_block 0
+
+GROUP | Grp_RandomizerPulse | PULSE		[66 9 189 | stonebrick 0]
+	setblock 66 9 189 stonebrick 0
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=1,score_MBrn_min=1] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 0
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=2,score_MBrn_min=2] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 1
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=3,score_MBrn_min=3] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 2
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=4,score_MBrn_min=4] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 3
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=5,score_MBrn_min=5] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 4
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=6,score_MBrn_min=6] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 5
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=7,score_MBrn_min=7] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 6
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=8,score_MBrn_min=8] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 7
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=9,score_MBrn_min=9] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 8
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=10,score_MBrn_min=10] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 9
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=11,score_MBrn_min=11] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 10
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=12,score_MBrn_min=12] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 11
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=13,score_MBrn_min=13] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 12
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=14,score_MBrn_min=14] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 13
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=15,score_MBrn_min=15] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 14
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=16,score_MBrn_min=16] ~ ~ ~ fill ~ ~ ~ ~1 ~ ~1 wool 15
+	scoreboard players set @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1] MBrn 0
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse1] remove MBCannotUse1
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse2] remove MBCannotUse2
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse3] remove MBCannotUse3
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse4] remove MBCannotUse4
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse5] remove MBCannotUse5
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse6] remove MBCannotUse6
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse7] remove MBCannotUse7
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse8] remove MBCannotUse8
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse9] remove MBCannotUse9
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse10] remove MBCannotUse10
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse11] remove MBCannotUse11
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse12] remove MBCannotUse12
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse13] remove MBCannotUse13
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse14] remove MBCannotUse14
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse15] remove MBCannotUse15
+	scoreboard players tag @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn_min=1,tag=MBCannotUse16] remove MBCannotUse16
+
+GROUP | Grp_RandomizerTFClock | CLOCK		[66 13 189 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=1,score_MBrn_min=1] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse1
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=2,score_MBrn_min=2] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse2
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=3,score_MBrn_min=3] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse3
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=4,score_MBrn_min=4] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse4
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=5,score_MBrn_min=5] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse5
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=6,score_MBrn_min=6] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse6
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=7,score_MBrn_min=7] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse7
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=8,score_MBrn_min=8] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse8
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=9,score_MBrn_min=9] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse9
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=10,score_MBrn_min=10] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse10
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=11,score_MBrn_min=11] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse11
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=12,score_MBrn_min=12] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse12
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=13,score_MBrn_min=13] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse13
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=14,score_MBrn_min=14] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse14
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=15,score_MBrn_min=15] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse15
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=16,score_MBrn_min=16] ~ ~ ~ scoreboard players tag @e[rm=1,r=2,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] add MBCannotUse16
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse1] MBrn 1
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse2] MBrn 2
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse3] MBrn 3
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse4] MBrn 4
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse5] MBrn 5
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse6] MBrn 6
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse7] MBrn 7
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse8] MBrn 8
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse9] MBrn 9
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse10] MBrn 10
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse11] MBrn 11
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse12] MBrn 12
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse13] MBrn 13
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse14] MBrn 14
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse15] MBrn 15
+	scoreboard players set @r[c=1,type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0,tag=!MBCannotUse16] MBrn 16
+	scoreboard players set @e[type=ArmorStand,tag=MBStand] MBct 0
+	execute @e[type=AreaEffectCloud,tag=MBCloud,score_MBrn=0,score_MBrn_min=0] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=MBStand] MBct 1
+
+GROUP | Grp_MainEnd | PULSE		[66 17 189 | stonebrick 0]
+	setblock 66 17 189 stonebrick 0
+	scoreboard objectives remove MBrn
+	scoreboard objectives remove MBct
+	scoreboard objectives remove MBnb
+	minecraft:kill @e[tag=MBEntity]
+	blockdata 66 13 191 {auto:0b}
+	setblock 66 13 189 stonebrick 0
+
+FINALIZE
+	fill 63 7 188 66 5 191 air 0
+	setblock 64 7 189 structure_block 0 replace {name:"CMDSave_MB",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:16,sizeY:16,sizeZ:16}
+	setblock 64 5 189 structure_block 0 replace {name:"CMDSave_MB",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 64 7 188 wooden_button 4
+	setblock 64 5 188 wooden_button 4
+	setblock 65 7 189 redstone_lamp 0
+	setblock 65 5 189 redstone_lamp 0
+	setblock 64 7 190 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+	setblock 64 9 189 stonebrick 0
+	setblock 66 9 189 stonebrick 0
+	setblock 66 13 189 stonebrick 0
+	setblock 66 17 189 stonebrick 0
+
