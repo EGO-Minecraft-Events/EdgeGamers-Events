@@ -23,7 +23,7 @@ IMPORT {LIBRARY GETDIR General}
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 16
 	parseOption true

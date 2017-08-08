@@ -1,5 +1,5 @@
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 ///	coordsOption $CoordsOption$
 ///	Style
 ///	Avaliable options: +X -X +Z -Z (and) height in y
