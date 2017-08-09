@@ -33,7 +33,7 @@ DEF $CF$ 259 27 334
 
 DEF $RBall$ {ArmorItems:[{},{},{},{id:leather_helmet,tag:{display:{color:5233919,Name:Cute Little Helmet!}}}],Attributes:[{Name:generic.maxHealth,Base:100},{Name:generic.attackDamage,Base:0},{Name:generic.followRange,Base:0},{Name:generic.knockbackResistance,Base:.25}],Invulnerable:1,NoAI:1,Glowing:1,RabbitType:3,Health:100.0f}
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 
