@@ -27,12 +27,12 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 29 111
 
 IMPORT {LIBRARY GETDIR General}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\PC - Pictionary\Pictionary_dat.txt}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\AD - Anvil Drop\Anvil_Drop_dat.txt}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\MM - Mastermind\Mastermind_dat.txt}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\RR - Royal Rumble\Royal_Rumble_dat.txt}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\CTF - Capture the Flag\Capture_the_Flag_dat.txt}
-IMPORT {GETCOORDS C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\TP - The Pit\The_Pit_3_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\PC - Pictionary\Pictionary_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\AD - Anvil Drop\Anvil_Drop_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\MM - Mastermind\Mastermind_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\RR - Royal Rumble\Royal_Rumble_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\CTF - Capture the Flag\Capture_the_Flag_dat.txt}
+IMPORT {GETCOORDS C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\TP - The Pit\The_Pit_3_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -42,7 +42,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	
 //>
 
 

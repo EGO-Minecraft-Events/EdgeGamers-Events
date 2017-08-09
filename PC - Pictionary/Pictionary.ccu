@@ -19,9 +19,9 @@ DEF COORDS $CoordsOption$ 79 9 175
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
 
 ///Theme
-DEF $Theme$ Testing Topics
+DEF $Theme$ Animals
 ///	Filling the board
-DEF COORDS $FillBoard$ 130 4 168 133 18 192
+DEF COORDS $FillBoard$ 130 6 168 130 18 192
 
 ///	Teleport player to drawing board
 DEF TELE $DrawingTP$ 132 4 180 90 0
@@ -34,6 +34,9 @@ DEF COORDS $DetectBlock$ 129 6 165
 
 ///	Redstone block to open the door with
 DEF COORDS $OpenDoorBlock$ 158 1 180
+
+///	Sets the cmd block for filling the board with wool
+DEF COORDS $FillBoardBlock$ 128 6 164
 
 /// Item list
 /*
@@ -52,86 +55,46 @@ DEF CCItem_Wool wool 64 |0|
 /// Arr_Test[asdf]
 
 ///	Actual guess list
-ARRAY {Arr_GuessList}:
-	Apparatus 	
-	Nut 	
-	Tent 	
-	Flight 	
-	War 	
-	Flesh 	
-	Knife 	
-	Plot 	
-	Sand 	
-	Yarn 	
-	Letters 	
-	Curtain 	
-	Degree 	
-	Stream 	
-	Sack 	
-	Design 	
-	Fact 	
-	Card 	
-	Language 	
-	Crowd 	
-	Regret 	
-	Number 	
-	Line 	
-	Girl 	
-	Eyes 	
-	Downtown 	
-	Club 	
-	Spark 	
-	Screw 	
-	Ghost 	
-	Idea 	
-	Books 	
-	Sister 	
-	Swing 	
-	Air 	
-	Property 	
-	Size 	
-	Hour 	
-	Stranger 	
-	Reason 	
-	Window 	
-	Squirrel 	
-	Seed 	
-	Amusement 	
-	Wrench 	
-	Tank 	
-	Cracker 	
-	Hate 	
-	Scene 	
-	Frogs 	
-	Magic 	
-	Egg 	
-	Lip 	
-	Birthday 	
-	Bear 	
-	Quartz 	
-	Corgi-	
-	Cast 	
-	Pollution 	
-	Caption
+ARRAY {Arr_GuessListCalc}:
+	IMPORT {WITHIN GuessList.ccu}
 	
+///	Detects duplicates
+///	Using 2 identical arrays, if the strings match and the index aren't equal --> prints
+///	Otherwise it just displays the word so it is parsed inside the array
 
+ARRAY {Arr_GuessList}:
+	LOOP {0 Arr_GuessListCalc[-1] + 1}:
+		DEF GLOBAL $FoundDuplicate$ -1
+		LOOP {0 Arr_GuessListCalc[-1] + 1}:
+			IF {Arr_GuessListCalc[|0|] = Arr_GuessListCalc[|0;1|]}:
+				IF {|0| != |0;1|}:
+					DEF GLOBAL $FoundDuplicate$ |0;1|
+		IF {$FoundDuplicate$ = -1}:
+			Arr_GuessListCalc[|0|]
+		ELSE:
+			PRINT [Pictionary] Found Duplicate 'Arr_GuessListCalc[$FoundDuplicate$]' at index $FoundDuplicate$ (will not be included)
+			
+UNASSIGN {ARRAY Arr_GuessListCalc}
+UNASSIGN {DEF $FoundDuplicate$}
+		
+///	These are arranged in this order so they have full access to most colors on the hotbar
+///	Any remaining colors will be in their inv
 ARRAY {Arr_WoolIDs}:
-	0
+	14
 	1
-	2
-	3
 	4
 	5
-	6
-	7
-	8
-	9
+	3
 	10
-	11
+	0
 	12
-	13
-	14
 	15
+	2
+	6
+	8
+	7
+	9
+	11
 
 IMPORT {LIBRARY GETDIR General}
 //>
@@ -145,10 +108,13 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<General Scoreboard Start
+INITIALIZE:
+	setblock $FillBoardBlock$ command_block 0 replace {Command:"CCU_Activate(Grp_FillBoardPulse)"}
+
 FUNC {Func_GeneralScoreboardStart}:
 	USE {ScOA}:
 		CCU_NumberObjAdd
@@ -161,8 +127,8 @@ FUNC {Func_GeneralScoreboardStart}:
 		PCss dummy Pictionary Stop Selection
 		PCcl dummy Pictionary Stop Selection
 		PCaf dummy Pictionary Affected Items
-	
-	
+		PCtm dummy Pictionary Temp
+		
 	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
 		PC Pictionary
 		OPT color green
@@ -171,6 +137,9 @@ FUNC {Func_GeneralScoreboardStart}:
 	
 		PCd_y PC display yellow
 		OPT color yellow
+		
+	ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
+		4
 		
 	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	CCU_ExecuteSpawnStand ScSS PC
@@ -190,10 +159,10 @@ FUNC {Func_GeneralScoreboardStart}:
 	setblock $OpenDoorBlock$ air 0
 	
 ///Says the Nights' Theme In Title and In Chat
-	title @a title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
+	title @a[$SA$] title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
 	title @a[$SA$] subtitle ["",{"text":"$Theme$","color":"gold","bold":true,"italic":true}]
-	tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"}]}
-	tellraw @a[$SA$] $TextStart${"text":"$Theme$","color":"gold"}]}
+	tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"},{"text":"$Theme$","color":"gold"}]}
+	
 	
 //>
 
@@ -202,7 +171,6 @@ FUNC {Func_FillBoardPulse}:
 	LOOP {Arr_WoolIDs[S]}:
 		@e[type=ArmorStand,PCStand] wool |0| $DetectBlock$ fill $FillBoard$ wool |0|
 	@e[type=ArmorStand,PCStand] air 0 $DetectBlock$ fill $FillBoard$ air 0
-
 //>
 
 //<Selects Player Testfor Clock
@@ -217,9 +185,13 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	Fills board
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] fill $FillBoard$ air 0
 	
-///	Prevents the player from going again for the next 3 guesses
+///	Prevents the player from going again for the next x number of guesses according to PCtm (number of players divided by 4 round down)
+	@e[type=ArmorStand,PCStand] PCtm = 0
+	@a[$SA$,m=2,PCpl>=0] @e[type=ArmorStand,PCStand] PCtm + 1
+	ScOP @e[type=ArmorStand,PCStand] PCtm /= 4 Number
+	
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @a[$SA$,m=2,PCss>=1] PCss - 1
-	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] PCss = 3
+	@e[type=ArmorStand,PCStand,PCcl=0] ScOP @a[$SA$,m=2,PCpl=2] PCss = @e[type=ArmorStand,PCStand] PCtm
 	
 ///	Activates the timer
 	@e[type=ArmorStand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @e[type=ArmorStand,PCStand] PCti2 = 120
@@ -237,8 +209,12 @@ FUNC {Func_SelectsPlayerTFClock}:
 	clear @a[$SA$,m=2,PCpl=2]
 	
 	replaceitem entity @a[$SA$,m=2,PCpl=2] slot.weapon.offhand CCItem_Shears
-	LOOP {0 8 + 1} {Arr_WoolIDs[S]}:
-		give @a[$SA$,m=2,PCpl=2] CCItem_Wool(|1|)
+	LOOP {0 Arr_WoolIDs[-1] + 1}:
+		IF {|0| >= 8}:
+			replaceitem entity @a[$SA$,m=2,PCpl=2] slot.hotbar.|0| CCItem_Wool(|1|)
+		ELSE:
+			give @a[$SA$,m=2,PCpl=2] CCItem_Wool(|1|)
+		
 		
 	@a[$SA$,m=2,EC=0,PCpl=2] SPbk = $SPid$
 	
@@ -251,7 +227,6 @@ FUNC {Func_SelectsPlayerTFClock}:
 	@e[type=ArmorStand,PCStand,PCcl=0] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" is the artist.","color":"gray"}]}
 	@e[type=ArmorStand,PCStand,PCcl>=1] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" are the artists.","color":"gray"}]}
 	
-	
 ///	Says what the topic name is
 	tellraw @a[$SA$,m=2,PCpl=2] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
 	tellraw @a[PCss>=95] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
@@ -260,9 +235,6 @@ FUNC {Func_SelectsPlayerTFClock}:
 ///	General reset
 	@a[$SA$,m=2,PCpl=2] PCpl = 3
 	@e[type=ArmorStand,PCStand,PCcl>=1] PCcl = 0
-	
-	
-	
 //>
 
 //<General Scoreboard Clock
@@ -288,7 +260,7 @@ FUNC {Func_GeneralScoreboardClock}:
 ///	baby i'm ballin
 	LOOP {Arr_WoolIDs[S]}:
 		@a[$SA$,m=2,PCpl=3] clear @a[c=1,r=1,PCpl=3] wool |0| 0
-		give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Wool(|1|)
+		give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Wool(|0|)
 		
 	@a[$SA$,m=2,PCpl=3] clear @a[c=1,r=1,PCpl=3] shears -1 0
 	give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Shears
@@ -309,7 +281,7 @@ FUNC {Func_TimerTFClock}:
 	
 	pictionary status
 	COND:
-		@e[type=ArmorStand,tag=PCStand] PCti2 = 0
+		@e[type=ArmorStand,PCStand] PCti2 = 0
 	
 	@e[type=ArmorStand,PCStand,PCti>=0] PCti + 1
 	@e[type=ArmorStand,PCStand,PCti=20] PCti2 - 1
@@ -320,7 +292,7 @@ FUNC {Func_TimerTFClock}:
 	
 ///	Display message
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Round Over!","color":"dark_aqua","underlined":true}
-	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] {"text":"","extra":[{"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
+	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
 	
 /// Clear answer
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] pictionary clear
@@ -355,6 +327,10 @@ FUNC {Func_GeneralScoreboardEnd}:
 //>
 
 //<Groups
+GROUP {Grp_ActivateMainEnd}:
+	CCU_Deactivate(GSELF)
+	CCU_Activate(Grp_MainEnd)
+	
 GROUP {Grp_MainStart}:
 	CCU.spawnStandStart()
 	CCU_Deactivate(GSELF)
@@ -411,4 +387,3 @@ CCU.cmdSave()
 
 
 
-	

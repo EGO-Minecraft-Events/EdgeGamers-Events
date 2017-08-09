@@ -11,7 +11,7 @@ OPTIONS:
 	filePathFuncOption C:\Users\Austin\Documents\Austin\powder game code\eGO\Server Stuff\1.12\world\data\functions\King Cat's Compasses
 ///	Filepath to MCFunctions
 /// Preserve coordinates for each group
-	keepCoordsOption false
+	parseChangesOption false
 
 MFUNC {KCC.compass/getSqrt}:
 ///	Custom min / max score
