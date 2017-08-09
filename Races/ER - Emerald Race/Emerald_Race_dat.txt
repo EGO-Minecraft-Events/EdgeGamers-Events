@@ -1,5 +1,5 @@
 273 14 -68 277 21 -51
 Grp_MainStart;274 15 -67;274 16 -52
 Grp_MainClock;274 18 -67;274 19 -52
-Grp_Countdown;276 15 -67;276 16 -52
+Grp_CountdownTFClock;276 15 -67;276 16 -52
 Grp_MainEnd;276 18 -67;276 19 -52

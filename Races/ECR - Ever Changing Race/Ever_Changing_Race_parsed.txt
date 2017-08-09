@@ -1,5 +1,4 @@
 INITIALIZE
-	fill 443 10 -321 460 17 -315 air 0
 	fill 443 10 -321 449 17 -304 air 0
 
 GROUP | Grp_StructureBlockPulse | PULSE		[444 11 -320 | stonebrick 0]
@@ -52,6 +51,7 @@ GROUP | Grp_MainStart | PULSE		[444 14 -320 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 531 3 -335 {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure3"]}
 	scoreboard players add @e[type=ArmorStand,tag=ECRDeathMessages] ECRaceTI 0
 	setblock 446 11 -320 redstone_block 0
+	blockdata 446 15 -318 {auto:1b}
 	setblock 446 15 -320 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 20
 
@@ -147,6 +147,7 @@ GROUP | Grp_MainEnd | PULSE		[448 11 -320 | stonebrick 0]
 	fill 467 2 -329 562 2 -333 air 0
 	scoreboard players tag * remove ECLap
 	setblock 446 11 -320 stonebrick 0
+	blockdata 446 15 -318 {auto:0b}
 	setblock 446 15 -320 stonebrick 0
 
 FINALIZE

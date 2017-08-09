@@ -6,7 +6,7 @@ DEF $SA$ x=21,y=4,z=-88,dx=61,dy=100,dz=21
 DEF $SPid$ 2
 
 DEF $CMDName$ SR
-DEF $CMDSizeX$ 16
+DEF $CMDSizeX$ 6
 DEF $CMDSizeY$ 6
 DEF $CMDSizeZ$ 16
 
