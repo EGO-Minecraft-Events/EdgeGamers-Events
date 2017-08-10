@@ -22,6 +22,7 @@ GROUP | Grp_MainStart | PULSE		[220 10 -139 | stonebrick 0]
 	scoreboard players set /spawn QuartzRace 99
 	scoreboard teams join QuartzR /spawn
 	setblock 220 13 -139 redstone_block 0
+	blockdata 222 10 -137 {auto:1b}
 	setblock 222 10 -139 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 8
 
@@ -92,6 +93,7 @@ GROUP | Grp_MainEnd | PULSE		[222 13 -139 | stonebrick 0]
 	fill 231 7 -158 231 7 -156 quartz_stairs 1
 	scoreboard players tag * remove QuartzLap
 	setblock 220 13 -139 stonebrick 0
+	blockdata 222 10 -137 {auto:0b}
 	setblock 222 10 -139 stonebrick 0
 
 FINALIZE

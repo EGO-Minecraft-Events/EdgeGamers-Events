@@ -26,6 +26,7 @@ GROUP | Grp_MainStart | PULSE		[16 16 -176 | stonebrick 0]
 	scoreboard objectives add DirtRaceBC dummy Dirt Race Broadcast
 	scoreboard objectives add DirtRaceCP dummy Dirt Race Checkpoints
 	setblock 16 19 -176 redstone_block 0
+	blockdata 18 16 -174 {auto:1b}
 	setblock 16 16 -174 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 31
 
@@ -46,7 +47,7 @@ GROUP | Grp_MainClock | CLOCK		[16 19 -176 | stonebrick 0]
 	scoreboard players set @a[x=63,y=15,z=-204,dx=1,dy=1,c=1,m=2,score_DirtRaceBC=0,score_DirtRaceBC_min=0] DirtRaceBC 1
 	execute @a[x=63,y=15,z=-204,dx=1,dy=1,c=1,m=2,score_DirtRaceBC=1,score_DirtRaceBC_min=1] ~ ~ ~ tellraw @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DirtR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Dirt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
 	execute @a[x=63,y=15,z=-204,dx=1,dy=1,c=1,m=2,score_DirtRaceBC=1,score_DirtRaceBC_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
-	execute @a[x=63,y=15,z=-204,dx=1,dy=1,c=1,m=2,score_DirtRaceBC=1,score_DirtRaceBC_min=1] ~ ~ ~ setblock 64 12 -203 redstone_block 0
+	execute @a[x=63,y=15,z=-204,dx=1,dy=1,c=1,m=2,score_DirtRaceBC=1,score_DirtRaceBC_min=1] ~ ~ ~ fill 64 12 -203 63 12 -203 redstone_block 0
 	scoreboard players set @a[x=66,y=15,z=-204,dy=1,c=1,m=2,score_DirtRaceBC=0,score_DirtRaceBC_min=0] DirtRaceBC 2
 	execute @a[x=66,y=15,z=-204,dy=1,c=1,m=2,score_DirtRaceBC=2,score_DirtRaceBC_min=2] ~ ~ ~ tellraw @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DirtR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Dirt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
 	execute @a[x=66,y=15,z=-204,dy=1,c=1,m=2,score_DirtRaceBC=2,score_DirtRaceBC_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
@@ -57,12 +58,12 @@ GROUP | Grp_MainClock | CLOCK		[16 19 -176 | stonebrick 0]
 	execute @a[x=61,y=15,z=-204,dy=1,c=1,m=2,score_DirtRaceBC=3,score_DirtRaceBC_min=3] ~ ~ ~ setblock 61 12 -203 redstone_block 0
 	execute @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45,m=2,score_DirtRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_DirtRaceBC_min=1] DirtRace = @a[r=1,c=1,m=2,score_DirtRaceBC_min=1] DirtRaceBC
 	scoreboard players add @a[x=19,y=14,z=-192,dx=8,dy=5,dz=5,m=2,team=DirtR] DirtRaceCP 0
-	execute @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,DirtRaceCP=0.0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
-	execute @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,DirtRaceCP=0.0] ~ ~ ~ tellraw @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DirtR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Dirt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=DirtR,DirtRaceCP=0.0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
-	scoreboard players set @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,DirtRaceCP=0.0] DirtRaceCP 1
+	execute @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,score_DirtRaceCP=0,score_DirtRaceCP_min=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,score_DirtRaceCP=0,score_DirtRaceCP_min=0] ~ ~ ~ tellraw @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DirtR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Dirt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=DirtR,score_DirtRaceCP=0,score_DirtRaceCP_min=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=48,y=25,z=-179,dx=2,dy=4,m=2,team=DirtR,score_DirtRaceCP=0,score_DirtRaceCP_min=0] DirtRaceCP 1
 	scoreboard players tag @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45,m=2,score_DirtRaceS1_min=1] add DirtRWaterTP
 	scoreboard players tag @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45,m=2,score_DirtRaceS2_min=1] add DirtRWaterTP
-	scoreboard players tag @a[tag=$Spn$,m=2,score_DirtRaceCP_min=1] add DirtRWaterTP
+	scoreboard players tag @a[x=19,y=14,z=-192,dx=8,dy=5,dz=5,m=2,score_DirtRaceCP_min=1] add DirtRWaterTP
 	minecraft:tp @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45,m=2,tag=DirtRWaterTP,score_DirtRaceCP=0,score_DirtRaceCP_min=0] 23 15 -189.0 -90 0
 	minecraft:tp @a[x=18,y=11,z=-207,dx=49,dy=20,dz=45,m=2,tag=DirtRWaterTP,score_DirtRaceCP=1,score_DirtRaceCP_min=1] 49 25 -179 0 45
 	effect @a[tag=DirtRWaterTP] 6 1 100 true
@@ -119,10 +120,11 @@ GROUP | Grp_MainEnd | PULSE		[16 19 -174 | stonebrick 0]
 	fill 28 12 -187 28 12 -192 redstone_block 0 replace stonebrick 0
 	scoreboard objectives remove DirtRaceBC
 	scoreboard objectives remove DirtRaceCP
-	setblock 64 12 -203 air 0
+	fill 64 12 -203 63 12 -203 air 0
 	setblock 66 12 -203 air 0
 	setblock 61 12 -203 air 0
 	setblock 16 19 -176 stonebrick 0
+	blockdata 18 16 -174 {auto:0b}
 	setblock 16 16 -174 stonebrick 0
 
 FINALIZE

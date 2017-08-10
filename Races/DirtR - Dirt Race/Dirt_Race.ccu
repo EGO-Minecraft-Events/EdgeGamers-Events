@@ -15,12 +15,12 @@ DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 15 15 -177
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 6
 	parseOption true
@@ -58,7 +58,7 @@ ARRAY {Arr_Checkpoints}:
 /// Coordinates for setting blocks at win areas
 ARRAY {COORDS Arr_SetblockPlaces}:
 	{ /// 1st place
-		64 12 -203 /// they can be either a pair of 3 or 6 coords
+		64 12 -203 63 12 -203 /// they can be either a pair of 3 or 6 coords
 		
 	} { /// 2nd place
 		66 12 -203
@@ -75,7 +75,7 @@ ARRAY {Arr_SelectPlaces}:
 	{ /// 1st place
 		x=63,y=15,z=-204,dx=1,dy=1 /// Selection
 		took first place! /// Message
-		setblock Arr_SetblockPlaces[0][0] redstone_block 0 /// setblock region
+		fill Arr_SetblockPlaces[0][0] redstone_block 0 /// setblock region
 		
 	} { /// 2nd place
 		x=66,y=15,z=-204,dy=1 /// Selection
@@ -93,7 +93,7 @@ FUNC {Func_DetectTP}:
 	@a[$SA$,m=2,$Name$RaceS1>=1] + $Name$RWaterTP
 	@a[$SA$,m=2,$Name$RaceS2>=1] + $Name$RWaterTP
 	
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

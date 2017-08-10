@@ -23,6 +23,7 @@ GROUP | Grp_MainStart | PULSE		[20 9 -114 | stonebrick 0]
 	scoreboard teams join EvilR /spawn
 	scoreboard objectives add EvilRaceBC dummy Evil Race Broadcast
 	setblock 20 12 -114 redstone_block 0
+	blockdata 22 9 -112 {auto:1b}
 	setblock 22 9 -114 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 4
 
@@ -108,6 +109,7 @@ GROUP | Grp_MainEnd | PULSE		[22 12 -114 | stonebrick 0]
 	setblock 36 16 -130 air 0
 	setblock 36 16 -136 air 0
 	setblock 20 12 -114 stonebrick 0
+	blockdata 22 9 -112 {auto:0b}
 	setblock 22 9 -114 stonebrick 0
 
 FINALIZE

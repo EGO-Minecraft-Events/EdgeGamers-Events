@@ -50,6 +50,7 @@ GROUP | Grp_MainStart | PULSE		[233 27 -199 | stonebrick 0]
 	fill 239 22 -211 239 6 -211 redstone_block 0 replace stonebrick 0
 	fill 239 22 -211 239 6 -211 stonebrick 0 replace redstone_block 0
 	setblock 235 27 -199 redstone_block 0
+	blockdata 237 27 -197 {auto:1b}
 	setblock 237 27 -199 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 11
 
@@ -163,6 +164,7 @@ GROUP | Grp_MainEnd | PULSE		[237 30 -199 | stonebrick 0]
 	fill 248 22 -221 255 22 -223 stonebrick 0 replace redstone_block 0
 	scoreboard players tag * remove 18Lap
 	setblock 235 27 -199 stonebrick 0
+	blockdata 237 27 -197 {auto:0b}
 	setblock 237 27 -199 stonebrick 0
 
 FINALIZE

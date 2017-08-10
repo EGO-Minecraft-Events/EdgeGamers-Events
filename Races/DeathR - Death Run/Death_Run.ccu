@@ -14,12 +14,12 @@ DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 9 19 -241
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 6
 	parseOption true
@@ -96,7 +96,7 @@ ARRAY {Arr_SelectPlaces}:
 		
 	}
 	
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import

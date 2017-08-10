@@ -14,12 +14,12 @@ DEF $CMDSizeZ$ 5
 
 DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ -X
-DEF COORDS $CoordsOption$ 79 9 175
+DEF COORDS $CoordsOption$ 95 9 191
 
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
 
 ///Theme
-DEF $Theme$ MC Leadership!
+DEF $Theme$ Animals!
 ///	Filling the board
 DEF COORDS $FillBoard$ 130 6 168 130 18 192
 
@@ -220,8 +220,8 @@ FUNC {Func_SelectsPlayerTFClock}:
 	
 ///	Teleports
 	tp @a[$SA$,m=2,PCpl=2] $DrawingTP$
-	execute @a[m=2,PCpl=2,$SA$] ~ ~ ~ pictionary set artist @p[$SA$]
-	execute @p[x=130,y=4,z=152,dx=3,dy=50,dz=43] ~ ~ ~ pictionary set artist @p[r=0]
+	@a[m=2,PCpl=2,$SA$] pictionary set artist @p[$SA$]
+	@p[x=130,y=4,z=152,dx=3,dy=50,dz=43] pictionary set artist @p[r=0]
 	
 ///	Says who's the artist
 	@e[type=ArmorStand,PCStand,PCcl=0] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" is the artist.","color":"gray"}]}
@@ -265,7 +265,6 @@ FUNC {Func_GeneralScoreboardClock}:
 	@a[$SA$,m=2,PCpl=3] clear @a[c=1,r=1,PCpl=3] shears -1 0
 	give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Shears
 	
-	
 ///	If PCss of a player is set to 100, activates guess
 ///	It's an option in the book to select anyone EXCEPT themself
 	@a[PCss=100] @r[$SA$,m=2,PCpl=1,PCss=0] PCpl = 2
@@ -301,7 +300,6 @@ FUNC {Func_TimerTFClock}:
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] clear @a[$SA$,m=2,PCpl=3]
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] @a[$SA$,m=2,PCpl=3,EC=0] SPbk = $SPid$
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] tp @a[$SA$,m=2,PCpl=3] $AudienceTP$
-	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] @a[$SA$,m=2,PCpl=3] reset PCaf
 	@e[type=ArmorStand,PCStand,PCti2=0,PCti>=0] @a[$SA$,m=2,PCpl=3] PCpl = 1
 	
 ///	Resets all

@@ -22,6 +22,7 @@ GROUP | Grp_MainStart | PULSE		[213 18 -20 | stonebrick 0]
 	scoreboard players set /spawn DiamondRace 99
 	scoreboard teams join DiamondR /spawn
 	setblock 213 21 -20 redstone_block 0
+	blockdata 215 18 -18 {auto:1b}
 	setblock 215 18 -20 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 5
 
@@ -93,6 +94,7 @@ GROUP | Grp_MainEnd | PULSE		[215 21 -20 | stonebrick 0]
 	fill 222 17 -36 222 17 -38 stone_slab 5
 	scoreboard players tag * remove DiamondLap
 	setblock 213 21 -20 stonebrick 0
+	blockdata 215 18 -18 {auto:0b}
 	setblock 215 18 -20 stonebrick 0
 
 FINALIZE

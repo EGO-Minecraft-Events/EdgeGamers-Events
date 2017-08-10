@@ -6,7 +6,7 @@ DEF $SA$ x=21,y=4,z=-88,dx=61,dy=100,dz=21
 DEF $SPid$ 2
 
 DEF $CMDName$ SR
-DEF $CMDSizeX$ 16
+DEF $CMDSizeX$ 6
 DEF $CMDSizeY$ 6
 DEF $CMDSizeZ$ 16
 
@@ -14,12 +14,12 @@ DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ 73 5 -63
 DEF $BlockOption$ stonebrick 0
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
 OPTIONS:
-	blockOption stonebrick 0
+	blockOption $BlockOption$
 	coordsOption $CoordsOption$
 	styleOption $StyleDirection$ 6
 	parseOption true
@@ -79,7 +79,7 @@ ARRAY {Arr_SelectPlaces}:
 		
 	}
 	
-IMPORT {LIBRARY Minigames/races.ccu}
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
 //>
 
 //<General Race Import
