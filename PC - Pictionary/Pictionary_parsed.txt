@@ -31,56 +31,55 @@ GROUP | Grp_MainStart | PULSE		[94 12 190 | stonebrick 0]
 	scoreboard players set 4 Number 4
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar PC
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Car",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Horse",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Corgi",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Bus",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"TNT",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Eraser",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Cat",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Hammer",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Cup",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Minecraft Logo",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Queen",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Lighthouse",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Guitar",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Key",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Penguin",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Chicken",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Pool",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Balloon",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Diamond Ring",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Cotton Candy",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Flower",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Ball",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Taco",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Ferret",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Meeting",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Ban",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Volcano",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Round",Tags:["PCEntity","PCGuess"]}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Fox",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"French Fries",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Puppy",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Bomb",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Lobster",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Corn",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Potato",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Fishing",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Trumpet",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Dinosaur",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Phone",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Computer",Tags:["PCEntity","PCGuess"]}
-	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Lamp",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Liger",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Lynx",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Octopus",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Penguin",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Skunk",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Monkey",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Tarsier",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Wolf",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Crocodile",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"GrizzlyBear",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Hippopotamus",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Jaguar",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"KomodoDragon",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"PufferFish",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Stingray",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Collie",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Cat",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Chinchilla",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Gecko",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"WolfHound",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Aye",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Leopard",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Panda",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Ocelot",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Okapi",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Panther",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Sloth",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Corgi",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Giraffe",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Shark",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Donkey",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Eagle",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Lemur",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Manatee",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Pika",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Rabbit",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"TasmanianDevil",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Sponge",Tags:["PCEntity","PCGuess"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:2147483647,CustomName:"Zebra",Tags:["PCEntity","PCGuess"]}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard teams join PC @e[type=AreaEffectCloud,tag=PCGuess]
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard teams join PCd_y Time_Elapsed
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard players add @e[type=AreaEffectCloud,tag=PCGuess] PCpl 0
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=PCStand] PCti -1
 	setblock 158 1 180 air 0
 	title @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
-	title @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] subtitle ["",{"text":"MC Leadership!","color":"gold","bold":true,"italic":true}]
+	title @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] subtitle ["",{"text":"Animals!","color":"gold","bold":true,"italic":true}]
 	tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Tonight's Theme:","color":"gray"}]}
-	tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"MC Leadership!","color":"gold"}]}
+	tellraw @a[x=110,y=3,z=148,dx=64,dy=15,dz=64] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Animals!","color":"gold"}]}
 	setblock 94 13 188 redstone_block 0
 	setblock 94 10 188 redstone_block 0
 	setblock 94 21 190 redstone_block 0
@@ -167,7 +166,6 @@ GROUP | Grp_TimerTFClock | CLOCK		[94 10 188 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ minecraft:clear @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3]
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3,score_EC=0,score_EC_min=0] SPbk 34
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ minecraft:tp @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] 137 4 180 90 -30
-	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ scoreboard players reset @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] PCaf
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ scoreboard players set @a[x=110,y=3,z=148,dx=64,dy=15,dz=64,m=2,score_PCpl=3,score_PCpl_min=3] PCpl 1
 	execute @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] ~ ~ ~ scoreboard players set @e[type=AreaEffectCloud,tag=PCGuess,score_PCpl=1,score_PCpl_min=1] PCpl 2
 	scoreboard players set @e[type=ArmorStand,tag=PCStand,score_PCti2=0,score_PCti2_min=0,score_PCti_min=0] PCti -1
@@ -255,7 +253,7 @@ GROUP | Grp_MainEnd | PULSE		[94 18 188 | stonebrick 0]
 	setblock 94 21 190 stonebrick 0
 
 FINALIZE
-	fill 95 8 191 92 6 188 air 0
+	fill 92 8 188 95 6 191 air 0
 	setblock 94 8 190 structure_block 0 replace {name:"CMDSave_PC",mode:"SAVE",posX:-15,posY:2,posZ:-4,sizeX:16,sizeY:16,sizeZ:5}
 	setblock 94 6 190 structure_block 0 replace {name:"CMDSave_PC",mode:"LOAD",posX:-15,posY:4,posZ:-4}
 	setblock 95 8 190 wooden_button 1
