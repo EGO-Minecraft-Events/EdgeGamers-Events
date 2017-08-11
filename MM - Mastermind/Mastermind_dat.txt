@@ -1,4 +1,4 @@
-63 15 79 92 25 96
+63 15 79 93 25 96
 Grp_MainStart;64 16 80;64 21 95
 Grp_MainClock;64 23 80;64 23 95
 Grp_GeneralOptionsTFClock;66 16 80;66 21 95
@@ -16,4 +16,3 @@ Grp_GuessCheckTFClock10;86 16 80;86 21 95
 Grp_GuessCheckTFClock11;88 16 80;88 21 95
 Grp_GuessCheckTFClock12;90 16 80;90 21 95
 Grp_MainEnd;92 16 80;92 19 95
-Grp_cmdSave;68 23 80;68 23 95
