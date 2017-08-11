@@ -1,0 +1,296 @@
+INITIALIZE
+	fill -81 58 -235 -64 75 -231 air 0
+
+GROUP | Grp_MainStart | PULSE		[-80 59 -234 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 17
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock -80 59 -234 stonebrick 0
+	scoreboard objectives add V1 dummy Virus 1
+	scoreboard objectives add VRpl dummy Virus 1 Player List
+	scoreboard objectives add VRpl2 dummy Virus 1 Player List 2
+	scoreboard objectives add VRde deathCount Virus 1 Deaths
+	scoreboard objectives add VRti dummy Virus 1 Timer
+	scoreboard objectives add VRti2 dummy Virus 1 Timer 2
+	scoreboard objectives add VRti3 dummy Virus 1 Timer 3
+	scoreboard objectives add VRxp dummy Virus 1 XP Calc
+	scoreboard objectives add VRop dummy Virus 1 Options
+	scoreboard objectives add VRst dummy Virus 1 State
+	scoreboard objectives add VRgh dummy Virus Golden Helmet
+	scoreboard objectives add Number dummy
+	scoreboard players set 60 Number 60
+	scoreboard players set 100 Number 100
+	scoreboard players set 600 Number 600
+	scoreboard teams add VRh Virus 1 Hiders
+	scoreboard teams option VRh friendlyfire false
+	scoreboard teams option VRh collisionRule never
+	scoreboard teams option VRh color green
+	scoreboard teams option VRh nametagVisibility hideForOtherTeams
+	scoreboard teams add VRv Virus 1 Virus
+	scoreboard teams option VRv friendlyfire false
+	scoreboard teams option VRv collisionRule never
+	scoreboard teams option VRv color yellow
+	scoreboard teams add VRd_y V1 Display Yellow
+	scoreboard teams option VRd_y color yellow
+	scoreboard teams add VRd_g V1 Display Green
+	scoreboard teams option VRd_g color green
+	scoreboard teams join VRd_y Countdown Minutes Seconds Virus
+	scoreboard teams join VRd_g Hiders
+	scoreboard players set V1GameTime VRop 600
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar V1
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["VRStand","VREntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=VRStand] VRti 0
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=VRStand] VRst 0
+	setblock -80 64 -234 redstone_block 0
+	blockdata -78 59 -232 {auto:1b}
+	setblock -80 59 -232 redstone_block 0
+	blockdata -78 61 -232 {auto:1b}
+	setblock -80 61 -232 redstone_block 0
+	blockdata -78 63 -232 {auto:1b}
+	setblock -80 63 -232 redstone_block 0
+	blockdata -78 65 -232 {auto:1b}
+	setblock -80 65 -232 redstone_block 0
+	blockdata -78 67 -232 {auto:1b}
+	setblock -80 67 -232 redstone_block 0
+	blockdata -78 69 -232 {auto:1b}
+	setblock -80 69 -232 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 17
+
+GROUP | Grp_MainClock | CLOCK		[-80 64 -234 | stonebrick 0]
+	scoreboard players add @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181] SPid 0
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_SPid=-18] SPid 17
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_SPid_min=-16] SPid 17
+	scoreboard players add @e[type=ArmorStand,tag=VRStand,score_VRst_min=1,score_VRst=2,score_VRti_min=0,score_VRti=19,score_VRti2_min=1,score_VRti3_min=0] VRti 1
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRst_min=1,score_VRst=2,score_VRti=20,score_VRti_min=20,score_VRti2_min=1,score_VRti3_min=0] VRti2 1
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst_min=1,score_VRst=2,score_VRti=20,score_VRti_min=20,score_VRti2_min=0,score_VRti3_min=0] VRti 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst_min=1,score_VRst=2,score_VRti2=-1] VRti 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst_min=1,score_VRst=2,score_VRti2=-1] VRti2 0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=300,score_VRti2_min=300,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5 minutes remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=300,score_VRti2_min=300,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Glowing has been removed from all virus!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=300,score_VRti2_min=300,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ execute @a ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[c=1]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=240,score_VRti2_min=240,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4 minutes remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=180,score_VRti2_min=180,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3 minutes remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=120,score_VRti2_min=120,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2 minutes remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=60,score_VRti2_min=60,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1 minute remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=30,score_VRti2_min=30,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"30 seconds remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=15,score_VRti2_min=15,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"15 seconds remain!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=5,score_VRti2_min=5,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=4,score_VRti2_min=4,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=3,score_VRti2_min=3,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=2,score_VRti2_min=2,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=1,score_VRti2_min=1,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1!","color":"yellow"}]}
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1] VRst 3
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2] ~ ~ ~ scoreboard players operation Seconds VRti = @e[type=ArmorStand,tag=VRStand,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2,c=1] VRti2
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2] ~ ~ ~ scoreboard players operation Minutes VRti = @e[type=ArmorStand,tag=VRStand,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2,c=1] VRti2
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2] ~ ~ ~ scoreboard players operation Seconds VRti %= 60 Number
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti3_min=0,score_VRti3=2] ~ ~ ~ scoreboard players operation Minutes VRti /= 60 Number
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti_min=0,score_VRti2_min=1,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ scoreboard players operation Countdown V1 = Seconds VRti
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti_min=0,score_VRti2_min=1,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ scoreboard players operation Seconds V1 = Seconds VRti
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti_min=0,score_VRti2_min=1,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ scoreboard players operation Minutes V1 = Minutes VRti
+	execute @e[type=ArmorStand,tag=VRStand] ~ ~ ~ scoreboard players add @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2] VRpl 0
+	execute @e[type=ArmorStand,tag=VRStand] ~ ~ ~ minecraft:clear @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=0,score_VRpl_min=0]
+	execute @e[type=ArmorStand,tag=VRStand] ~ ~ ~ scoreboard players set @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=0,score_VRpl_min=0,score_EC=0,score_EC_min=0] SPbk 17
+	execute @e[type=ArmorStand,tag=VRStand] ~ ~ ~ effect @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=0,score_VRpl_min=0] clear
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=0,score_VRst_min=0] ~ ~ ~ scoreboard players set @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=0,score_VRpl_min=0] VRpl 1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2] ~ ~ ~ scoreboard players set @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=0,score_VRpl_min=0] VRpl 3
+	scoreboard teams join VRh @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=1,score_VRpl_min=1,team=!VRh]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ scoreboard players set @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=1,score_VRpl_min=1] VRpl 2
+	title @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] title {"text":"You are now","color":"yellow"}
+	title @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] subtitle {"text":"the virus!","color":"yellow"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=0,score_VRst_min=0] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 53 -225.0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ minecraft:tp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 53 -225.0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 38 -225.0
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] VRpl 3
+	scoreboard teams join VRv @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3,team=!VRv]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] 5 3 90 true
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2_min=302] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] 24 3 0 true
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=0,score_VRst_min=0] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] 24 3 0 true
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] 24 3 0 true
+	effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=1,score_VRpl=3] 11 3 3 true
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=4,score_VRst_min=4] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=1,score_VRpl_min=1] 11 3 9 true
+	effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=1,score_VRpl=3] 6 100 100 true
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] VRgh 0
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] VRgh 1 {Inventory:[{Slot:103b,id:"minecraft:golden_helmet",Count:1b}]}
+	minecraft:clear @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3,score_VRgh=0,score_VRgh_min=0] golden_helmet
+	replaceitem entity @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3,score_VRgh=0,score_VRgh_min=0] slot.armor.head golden_helmet 1 0 {Unbreakable:1}
+	scoreboard players set @e[type=ArmorStand,tag=VRStand] VRpl 0
+	execute @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=1,score_VRpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=VRStand] VRpl 1
+	scoreboard players set @e[type=ArmorStand,tag=VRStand] VRpl2 0
+	execute @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=VRStand] VRpl2 1
+	scoreboard players operation Hiders V1 = @e[type=ArmorStand,tag=VRStand] VRpl
+	scoreboard players operation Virus V1 = @e[type=ArmorStand,tag=VRStand] VRpl2
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRpl=0,score_VRpl_min=0] VRst 3
+	minecraft:kill @e[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,type=XPOrb]
+	minecraft:xp -2147483648L @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181]
+	scoreboard players operation @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2] VRxp = @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2_min=0] VRti2
+	scoreboard players operation @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2] VRxp *= 100 Number
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ scoreboard players operation @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2] VRxp /= 60 Number
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ scoreboard players operation @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2] VRxp /= 600 Number
+	minecraft:xp 1129L @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=0,m=2]
+	minecraft:xp 11 @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=0,m=2]
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=64,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=64,m=2] VRxp 64
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=32,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=32,m=2] VRxp 32
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=16,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=16,m=2] VRxp 16
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=8,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=8,m=2] VRxp 8
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=4,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=4,m=2] VRxp 4
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=2,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=2,m=2] VRxp 2
+	minecraft:xp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=1,m=2]
+	scoreboard players remove @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=1,m=2] VRxp 1
+	minecraft:xp -1129L @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=0,m=2]
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_VRxp_min=0] VRxp 0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst_min=2,score_VRst=4] ~ ~ ~ scoreboard players set @a[m=2,score_VRpl=1,score_VRpl_min=1,score_VRde_min=1] SPbk 17
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2] ~ ~ ~ scoreboard players set @a[m=2,score_VRpl=1,score_VRpl_min=1,score_VRde_min=1] VRpl 2
+	scoreboard players set @a[score_VRde_min=1] VRde 0
+	minecraft:kill @e[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,type=Item]
+
+GROUP | Grp_MainEnd | PULSE		[-80 71 -234 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=17,score_SPgam_min=17] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock -80 71 -234 stonebrick 0
+	minecraft:clear @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0]
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_EC=0,score_EC_min=0] SPbk 17
+	effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] clear
+	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] SPtp 17
+	scoreboard objectives remove V1
+	scoreboard objectives remove VRpl
+	scoreboard objectives remove VRpl2
+	scoreboard objectives remove VRde
+	scoreboard objectives remove VRti
+	scoreboard objectives remove VRti2
+	scoreboard objectives remove VRti3
+	scoreboard objectives remove VRxp
+	scoreboard objectives remove VRop
+	scoreboard objectives remove VRst
+	scoreboard objectives remove VRgh
+	scoreboard teams remove VRh
+	scoreboard teams remove VRv
+	scoreboard teams remove VRd_y
+	scoreboard teams remove VRd_g
+	minecraft:kill @e[type=ArmorStand,tag=VREntity]
+	fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
+	fill -73 52 -222 -66 52 -229 redstone_block 0 replace stonebrick 0
+	setblock -80 64 -234 stonebrick 0
+	blockdata -78 59 -232 {auto:0b}
+	setblock -80 59 -232 stonebrick 0
+	blockdata -78 61 -232 {auto:0b}
+	setblock -80 61 -232 stonebrick 0
+	blockdata -78 63 -232 {auto:0b}
+	setblock -80 63 -232 stonebrick 0
+	blockdata -78 65 -232 {auto:0b}
+	setblock -80 65 -232 stonebrick 0
+	blockdata -78 67 -232 {auto:0b}
+	setblock -80 67 -232 stonebrick 0
+	blockdata -78 69 -232 {auto:0b}
+	setblock -80 69 -232 stonebrick 0
+
+GROUP | Grp_RoundStartTFClock | CLOCK		[-80 59 -232 | stonebrick 0]
+	testfor @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] ~ ~ ~ scoreboard players set Seconds VRti 60
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] VRti2 60
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] VRti3 0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] ~ ~ ~ title @a title {"text":""}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] ~ ~ ~ title @a subtitle {"text":"The doors are now open","color":"green"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] ~ ~ ~ execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	fill -73 49 -229 -66 49 -222 stonebrick 0 replace redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=1,score_VRst_min=1] VRst 2
+
+GROUP | Grp_CountdownTFClock | CLOCK		[-80 61 -232 | stonebrick 0]
+	testfor @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=0,score_VRti3_min=0]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=30,score_VRti2_min=30,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"30 seconds until the virus is released!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2_min=1,score_VRti2=5,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ execute @a ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[c=1]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=5,score_VRti2_min=5,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=4,score_VRti2_min=4,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=3,score_VRti2_min=3,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=2,score_VRti2_min=2,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti=0,score_VRti_min=0,score_VRti2=1,score_VRti2_min=1,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1!","color":"yellow"}]}
+
+GROUP | Grp_CountdownEndTFClock | CLOCK		[-80 63 -232 | stonebrick 0]
+	testfor @e[type=ArmorStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ scoreboard players reset Countdown V1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ title @a title {"text":"The virus has","color":"yellow"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ title @a subtitle {"text":"been released!","color":"yellow"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ execute @a ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ fill -73 52 -222 -66 52 -229 stonebrick 0 replace redstone_block 0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=0,score_VRti3_min=0] VRti3 1
+	scoreboard players operation @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1] VRti2 = V1GameTime VRop
+
+GROUP | Grp_EndGameTFClock | CLOCK		[-80 65 -232 | stonebrick 0]
+	testfor @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRpl=0,score_VRpl_min=0] ~ ~ ~ title @a title {"text":"The virus won!","color":"yellow"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRpl=0,score_VRpl_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"The virus won!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ title @a title {"text":"Time!","color":"yellow"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"The time is up! Hiders win!","color":"yellow"}]}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ title @a subtitle {"text":"The hiders won!","color":"green"}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ scoreboard players reset Seconds V1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ scoreboard players reset Minutes V1
+	fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3] VRti3 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3] VRst 4
+
+GROUP | Grp_EndRoundTFClock | CLOCK		[-80 67 -232 | stonebrick 0]
+	testfor @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ minecraft:clear @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,score_EC=0,score_EC_min=0] SPbk 17
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] clear
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] SPtp 17
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=1] VRpl 1
+	fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players reset Countdown V1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players reset Minutes V1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players reset Seconds V1
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] VRst 0
+
+GROUP | Grp_GeneralOptionsTFClock | CLOCK		[-80 69 -232 | stonebrick 0]
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=32] ~ ~ ~ tellraw @a[score_EC=0,score_EC_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Edit time: ","color":"gray"},{"text":"[+]","color":"gold","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Edit current time","color":"gold"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2] VRti2 #"}},{"text":", ","color":"gray","italic":true},{"text":"[+]","color":"gold","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Edit start time","color":"gold"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set V1GameTime VRop #"}}]}
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRop_min=32] VRop 32
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=16] ~ ~ ~ scoreboard players set @r[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,m=2,score_VRpl=3,score_VRpl_min=3] VRpl 1
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=16] ~ ~ ~ scoreboard players set @a[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,m=2,score_VRpl=1,score_VRpl_min=1] SPtp 17
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=16] ~ ~ ~ minecraft:clear @a[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,m=2,score_VRpl=1,score_VRpl_min=1] golden_helmet
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=16] ~ ~ ~ effect @a[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,m=2,score_VRpl=1,score_VRpl_min=1] clear
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRop_min=16] VRop 16
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=8] ~ ~ ~ scoreboard players set @r[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=1,score_VRpl_min=1] VRpl 2
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRop_min=8] VRop 8
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=4] ~ ~ ~ scoreboard players set V1GameTime VRop 600
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRop_min=4] VRop 4
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=2] ~ ~ ~ tellraw @a[score_EC=0,score_EC_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Choose team: ","color":"gray"},{"text":"Hider","color":"green","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the hiders","color":"green"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 1"}},{"text":", ","color":"gray","italic":true},{"text":"Virus","color":"yellow","italic":true,"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 2"}}]}
+	scoreboard players remove @e[type=ArmorStand,tag=VRStand,score_VRop_min=2] VRop 2
+	execute @e[type=ArmorStand,tag=VRStand,score_VRop_min=1] ~ ~ ~ setblock -80 71 -234 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRop_min=1] VRop 0
+
+FINALIZE
+	fill -81 57 -235 -78 55 -232 air 0
+	setblock -80 57 -234 structure_block 0 replace {name:"CMDSave_V1",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:16,sizeY:16,sizeZ:16}
+	setblock -80 55 -234 structure_block 0 replace {name:"CMDSave_V1",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock -81 57 -234 wooden_button 2
+	setblock -81 55 -234 wooden_button 2
+	setblock -80 57 -233 redstone_lamp 0
+	setblock -80 55 -233 redstone_lamp 0
+	setblock -79 57 -234 command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+	setblock -80 59 -234 stonebrick 0
+	setblock -80 64 -234 stonebrick 0
+	setblock -80 71 -234 stonebrick 0
+	setblock -80 59 -232 stonebrick 0
+	setblock -80 61 -232 stonebrick 0
+	setblock -80 63 -232 stonebrick 0
+	setblock -80 65 -232 stonebrick 0
+	setblock -80 67 -232 stonebrick 0
+	setblock -80 69 -232 stonebrick 0
+

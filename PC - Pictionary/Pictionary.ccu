@@ -116,9 +116,6 @@ INITIALIZE:
 	setblock $FillBoardBlock$ command_block 0 replace {Command:"CCU_Activate(Grp_FillBoardPulse)"}
 
 FUNC {Func_GeneralScoreboardStart}:
-	USE {ScOA}:
-		CCU_NumberObjAdd
-	
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
 		PC dummy Pictionary!
 		PCti dummy Pictionary Timer (ticks)

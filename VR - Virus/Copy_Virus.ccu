@@ -1,0 +1,94 @@
+//(Virus Copy)
+
+//<Defines
+DEF $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEF $SPid$ #
+
+DEF $CMDName$ V
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ x y z
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
+
+///	Teleport virus to above mid
+DEF COORDS $VirusBeg$ 
+/// Mid tube
+DEF COORDS $VirusEnd$ 
+///	Select Spawn
+DEF $SP$ 
+///	Select Virus
+DEF $SV$ 
+///	Open mid door
+DEF COORDS $DoorMid$ 
+///	Open virus door
+DEF COORDS $DoorVirus$ 
+/// Virus Type
+DEF $VType$ 
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Main Start
+FUNC {Func_EditGeneralScoreboardStart}:
+	
+//>
+
+//<Main Clock
+FUNC {Func_EditGeneralScoreboardClock}:
+///	General
+	kill @e[$SA$,type=Item]
+//>
+
+//<Round Start Testfor Clock
+FUNC {Func_EditRoundStartTFClock}:
+	fill $DoorMid$ stonebrick 0 replace redstone_block 0
+//>
+
+//<Countdown End Testfor Clock
+FUNC {Func_EditCountdownEndTFClock}:
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
+//>
+
+//<End Game Testfor Clock
+FUNC {Func_EditEndGameTFClock}:
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
+//>
+
+//<End Round Testfor Clock
+FUNC {Func_EditEndRoundTFClock}:
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
+//>
+
+//<Main End
+FUNC {Func_EditGeneralScoreboardEnd}:
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
+//>
+
+IMPORT {LIBRARY 1.10/Minigames/virus.ccu}
+
+
+
+
+
+
+
+
+
+

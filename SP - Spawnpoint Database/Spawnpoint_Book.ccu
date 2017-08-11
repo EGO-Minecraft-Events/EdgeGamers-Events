@@ -34,6 +34,7 @@ IMPORT {GETCOORDS WITHIN MM - Mastermind\Mastermind_dat.txt}
 IMPORT {GETCOORDS WITHIN RR - Royal Rumble\Royal_Rumble_dat.txt}
 IMPORT {GETCOORDS WITHIN CTF - Capture the Flag\Capture_the_Flag_dat.txt}
 IMPORT {GETCOORDS WITHIN TP - The Pit\The_Pit_3_dat.txt}
+IMPORT {GETCOORDS WITHIN VR - Virus\Virus1_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -654,26 +655,61 @@ FUNC {Func_Book_Virus1}:
 			
 			{\"text\":\"VR1: \",\"color\":\"dark_gray\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 59 -232 redstone_block 0\"},
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Virus1.Grp_MainStart redstone_block 0\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the scoreboards for Virus 1\",\"color\":\"green\"}}
 			},
 			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"End\n\n\",\"color\":\"red\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 63 -232 redstone_block 0\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 1\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends Virus 1\",\"color\":\"red\"}}
 			},
 			
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 1\"}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Stop\n\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 5\"}
+			},
+			
 			{\"text\":\"Select Virus: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -68 59 -230 redstone_block 0\"}},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 8\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Chooses a virus\",\"color\":\"dark_green\"}}
+			},
 			
-			{\"text\":\"Open Doors: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 63 -230 redstone_block 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 16\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes a virus\",\"color\":\"red\"}}
+			},
 			
-			{\"text\":\"Change Teams: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -69 61 -230 redstone_block 0\"}},
+			{\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 2\"}
+			},
 			
 			{\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -71 63 -230 redstone_block 0\"}}
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 4\"}
+			},
+			
+			{\"text\":\"Time: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 32\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Edit the current time\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 1 minute\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 1 minute\",\"color\":\"red\"}}
+			}
 		]"
 	]}
 */
