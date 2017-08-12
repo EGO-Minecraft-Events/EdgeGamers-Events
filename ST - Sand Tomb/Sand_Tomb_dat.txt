@@ -1,0 +1,10 @@
+-220 8 31 -212 17 48
+Grp_MainStart;-219 9 32;-219 13 47
+Grp_MainClock;-219 15 32;-219 16 47
+Grp_MainEnd;-217 9 32;-217 12 47
+Grp_GeneralOptionsTFClock;-217 14 32;-217 16 47
+Grp_PortalTFClock;-215 9 32;-215 9 47
+Grp_CountdownTFClock;-215 11 32;-215 12 47
+Grp_RoundStartTFClock;-215 14 32;-215 14 47
+Grp_RoundTFClock;-213 9 32;-213 11 47
+Grp_RoundEndTFClock;-213 13 32;-213 14 47

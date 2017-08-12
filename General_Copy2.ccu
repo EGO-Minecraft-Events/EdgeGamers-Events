@@ -46,6 +46,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		REPLACETHISpl dummy FULLNAME Player List
 		REPLACETHISde deathCount FULLNAME Deaths
 		REPLACETHISst dummy FULLNAME State
+		REPLACETHIScl dummy FULLNAME Calc
 		REPLACETHISti dummy FULLNAME Timer
 		REPLACETHISti2 dummy FULLNAME Timer 2
 		REPLACETHISop dummy FULLNAME Options

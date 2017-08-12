@@ -383,7 +383,6 @@ GROUP {Grp_ResetSettings}:
 
 GROUP {Grp_ChangeSettings}:
 	CCU_Deactivate(GSELF)
-	say GSELF
 	Func_ChangeSettings()
 
 CCU.cmdSave()
