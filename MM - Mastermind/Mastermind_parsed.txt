@@ -1,5 +1,4 @@
 INITIALIZE
-	fill 63 15 79 71 25 96 air 0
 	fill 63 15 79 93 25 96 air 0
 
 GROUP | Grp_MainStart | PULSE		[64 16 80 | stonebrick 0]
@@ -9,7 +8,7 @@ GROUP | Grp_MainStart | PULSE		[64 16 80 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
 	setblock 64 16 80 stonebrick 0
-	scoreboard objectives add Number dummy
+	scoreboard objectives add CCU_NumberObjAdd
 	scoreboard objectives add MM dummy Mastermind
 	scoreboard objectives add MMpl dummy Mastermind Player List
 	scoreboard objectives add MMre dummy Mastermind (EC)
@@ -45,6 +44,7 @@ GROUP | Grp_MainStart | PULSE		[64 16 80 | stonebrick 0]
 	scoreboard teams option MMorange color gold
 	scoreboard teams add MMwhite
 	scoreboard teams option MMwhite color white
+	scoreboard objectives add Number dummy
 	scoreboard players set -1 Number -1
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Tags:["MMEntity","MMStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 46 4 24 {Tags:["MMEntity","MMRoom","MMRoom1"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
@@ -82,7 +82,7 @@ GROUP | Grp_MainStart | PULSE		[64 16 80 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 48 17.67 72 {Tags:["MMEntity","MMCA","MMCA3"],DisabledSlots:2096896,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:1,Invulnerable:1,PersistenceRequired:1,Rotation:[180f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,f],LeftLeg:[-90f,0f,0f],RightLeg:[-90f,0f,0f]},ArmorItems:[{id:leather_boots,Count:1b,tag:{display:{color:15892389}}},{id:leather_leggings,Count:1b,tag:{display:{color:15892389}}},{id:leather_chestplate,Count:1b,tag:{display:{color:15892389}}},{id:skull,Count:1b,Damage:3s,tag:{SkullOwner:jamboree_lee}}],HandItems:[{},{}]}
 	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 47 17.67 72 {Tags:["MMEntity","MMCA","MMCA4"],DisabledSlots:2096896,NoGravity:1,NoBasePlate:1,ShowArms:1,Small:1,Invulnerable:1,PersistenceRequired:1,Rotation:[180f,0f],Pose:{Body:[0f,0f,0f],Head:[0f,0f,0f],LeftArm:[0f,0f,0f],RightArm:[0f,0f,0f],LeftLeg:[-90f,0f,0f],RightLeg:[-90f,0f,0f]},ArmorItems:[{id:leather_boots,Count:1b,tag:{display:{color:11685080}}},{id:leather_leggings,Count:1b,tag:{display:{color:11685080}}},{id:leather_chestplate,Count:1b,tag:{display:{color:11685080}}},{id:skull,Count:1b,Damage:3s,tag:{SkullOwner:CynRyn}}],HandItems:[{},{}]}
 	scoreboard players set Mastermind SPmm 1
-	setblock 64 23 80 redstone_block 0
+	setblock 64 24 80 redstone_block 0
 	setblock 66 16 80 redstone_block 0
 	setblock 66 23 80 redstone_block 0
 	setblock 68 16 80 redstone_block 0
@@ -99,9 +99,9 @@ GROUP | Grp_MainStart | PULSE		[64 16 80 | stonebrick 0]
 	setblock 90 16 80 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 9
 
-GROUP | Grp_MainClock | CLOCK		[64 23 80 | stonebrick 0]
+GROUP | Grp_MainClock | CLOCK		[64 24 80 | stonebrick 0]
 	scoreboard players add @a[x=45,y=3,z=22,dx=64,dy=30,dz=65] MMpl 0
-	scoreboard players set @a[x=45,y=3,z=22,dx=64,dy=30,dz=65,score_MMpl=0,score_MMpl_min=0] MMre -101
+	scoreboard players set @a[x=45,y=3,z=22,dx=64,dy=30,dz=65,score_MMpl=0,score_MMpl_min=0] MMre -100
 	scoreboard teams join NoPVP @a[x=45,y=3,z=22,dx=64,dy=30,dz=65,score_MMpl=0,score_MMpl_min=0,team=!NoPVP]
 	scoreboard teams join MMwhite @a[x=45,y=3,z=22,dx=64,dy=30,dz=65,score_MMpl=0,score_MMpl_min=0,score_EC=0,score_EC_min=0,team=!MMwhite]
 	scoreboard players set @a[x=45,y=3,z=22,dx=64,dy=30,dz=65,score_MMpl=0,score_MMpl_min=0] MMpl 1
@@ -157,7 +157,7 @@ GROUP | Grp_GeneralOptionsTFClock | CLOCK		[66 16 80 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom] MMrg 0
 	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] ~ ~ ~ scoreboard players reset @e[type=ArmorStand,tag=MMRoom] MMpl
 	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] ~ ~ ~ scoreboard players reset * MMre
-	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] ~ ~ ~ scoreboard players set @a[x=45,y=3,z=22,dx=64,dy=30,dz=65] MMre -101
+	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] ~ ~ ~ scoreboard players set @a[x=45,y=3,z=22,dx=64,dy=30,dz=65] MMre -100
 	scoreboard players remove @e[type=ArmorStand,tag=MMStand,score_MMop_min=32] MMop 32
 	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=16] ~ ~ ~ execute @e[type=ArmorStand,tag=MMCA] ~ ~ ~ detect ~ ~-3 ~ wool 14 scoreboard players set @e[tag=MMCA,r=0,c=1] MMca 1
 	execute @e[type=ArmorStand,tag=MMStand,score_MMop_min=16] ~ ~ ~ execute @e[type=ArmorStand,tag=MMCA] ~ ~ ~ detect ~ ~-3 ~ wool 5 scoreboard players set @e[tag=MMCA,r=0,c=1] MMca 2
@@ -296,7 +296,7 @@ GROUP | Grp_GuessCheckTFClock1 | CLOCK		[68 16 80 | stonebrick 0]
 	execute @a[x=46,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=1,score_MMrs_min=1,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom1,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom1,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom1,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=46,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom1,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom1,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom1,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -392,7 +392,7 @@ GROUP | Grp_GuessCheckTFClock2 | CLOCK		[70 16 80 | stonebrick 0]
 	execute @a[x=57,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=2,score_MMrs_min=2,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom2,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom2,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom2,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=57,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom2,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom2,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom2,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -488,7 +488,7 @@ GROUP | Grp_GuessCheckTFClock3 | CLOCK		[72 16 80 | stonebrick 0]
 	execute @a[x=68,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=3,score_MMrs_min=3,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom3,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom3,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom3,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=68,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom3,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom3,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom3,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -584,7 +584,7 @@ GROUP | Grp_GuessCheckTFClock4 | CLOCK		[74 16 80 | stonebrick 0]
 	execute @a[x=79,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=4,score_MMrs_min=4,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom4,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom4,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom4,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=79,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom4,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom4,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom4,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -680,7 +680,7 @@ GROUP | Grp_GuessCheckTFClock5 | CLOCK		[76 16 80 | stonebrick 0]
 	execute @a[x=90,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=5,score_MMrs_min=5,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom5,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom5,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom5,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=90,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom5,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom5,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom5,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -776,7 +776,7 @@ GROUP | Grp_GuessCheckTFClock6 | CLOCK		[78 16 80 | stonebrick 0]
 	execute @a[x=101,y=4,z=24,dx=7,dy=4,dz=12,score_MMrs=6,score_MMrs_min=6,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom6,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom6,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom6,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=101,y=4,z=24,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom6,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom6,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom6,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -872,7 +872,7 @@ GROUP | Grp_GuessCheckTFClock7 | CLOCK		[80 16 80 | stonebrick 0]
 	execute @a[x=46,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=7,score_MMrs_min=7,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom7,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom7,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom7,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=46,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom7,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom7,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom7,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -968,7 +968,7 @@ GROUP | Grp_GuessCheckTFClock8 | CLOCK		[82 16 80 | stonebrick 0]
 	execute @a[x=57,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=8,score_MMrs_min=8,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom8,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom8,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom8,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=57,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom8,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom8,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom8,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -1064,7 +1064,7 @@ GROUP | Grp_GuessCheckTFClock9 | CLOCK		[84 16 80 | stonebrick 0]
 	execute @a[x=68,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=9,score_MMrs_min=9,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom9,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom9,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom9,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=68,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom9,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom9,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom9,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -1160,7 +1160,7 @@ GROUP | Grp_GuessCheckTFClock10 | CLOCK		[86 16 80 | stonebrick 0]
 	execute @a[x=79,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=10,score_MMrs_min=10,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom10,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom10,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom10,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=79,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom10,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom10,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom10,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -1256,7 +1256,7 @@ GROUP | Grp_GuessCheckTFClock11 | CLOCK		[88 16 80 | stonebrick 0]
 	execute @a[x=90,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=11,score_MMrs_min=11,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom11,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom11,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom11,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=90,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom11,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom11,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom11,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -1352,7 +1352,7 @@ GROUP | Grp_GuessCheckTFClock12 | CLOCK		[90 16 80 | stonebrick 0]
 	execute @a[x=101,y=4,z=47,dx=7,dy=4,dz=12,score_MMrs=12,score_MMrs_min=12,score_MMra=0,score_MMra_min=0,score_MMna=0,score_MMna_min=0] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=MMRoom12,score_MMgn_min=1,score_MMrg=0,score_MMrg_min=0] MMrg 1
 	execute @e[type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @e[c=1,r=1,type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] MMpl = @e[c=1,r=1,type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] MMgn
 	scoreboard players operation @e[type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] MMpl *= -1 Number
-	scoreboard players remove @e[type=ArmorStand,tag=MMRoom12,score_MMrg=1,score_MMrg_min=1] MMpl 101
+	scoreboard players remove @e[type=ArmorStand,tag=MMRoom12,score_MMrg=1,score_MMrg_min=1] MMpl 100
 	execute @e[type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] ~ ~ ~ scoreboard players operation @a[x=101,y=4,z=47,dx=7,dy=4,dz=12] MMre = @e[c=1,r=1,type=ArmorStand,tag=MMRoom12,score_MMrg_min=1,score_MMrg=2] MMpl
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom12,score_MMrg=1,score_MMrg_min=1] MMrg 0
 	scoreboard players set @e[type=ArmorStand,tag=MMRoom12,score_MMrg=2,score_MMrg_min=2] MMrg 3
@@ -1405,7 +1405,7 @@ GROUP | Grp_MainEnd | PULSE		[92 16 80 | stonebrick 0]
 	scoreboard teams remove MMwhite
 	minecraft:kill @e[type=ArmorStand,tag=MMEntity]
 	scoreboard players set Mastermind SPmm 0
-	setblock 64 23 80 stonebrick 0
+	setblock 64 24 80 stonebrick 0
 	setblock 66 16 80 stonebrick 0
 	setblock 66 23 80 stonebrick 0
 	setblock 68 16 80 stonebrick 0
@@ -1431,7 +1431,7 @@ FINALIZE
 	setblock 65 12 80 redstone_lamp 0
 	setblock 64 14 81 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
 	setblock 64 16 80 stonebrick 0
-	setblock 64 23 80 stonebrick 0
+	setblock 64 24 80 stonebrick 0
 	setblock 66 16 80 stonebrick 0
 	setblock 66 23 80 stonebrick 0
 	setblock 68 16 80 stonebrick 0

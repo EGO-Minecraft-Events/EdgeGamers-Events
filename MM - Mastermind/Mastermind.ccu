@@ -393,7 +393,7 @@ FUNC {Func_GeneralScoreboardStart}:
 FUNC {Func_GeneralScoreboardClock}:
 ///	Player List
 	@a[$SA$] MMpl + 0
-	@a[$SA$,MMpl=0] MMre = -101
+	@a[$SA$,MMpl=0] MMre = -100
 	J> NoPVP @a[$SA$,MMpl=0,team=!NoPVP]
 	J> MMwhite @a[$SA$,MMpl=0,EC=0,team=!MMwhite]
 	@a[$SA$,MMpl=0] MMpl = 1
@@ -586,7 +586,7 @@ FUNC {Func_GuessCheckTFClock}:
 		-4 is guess on fourth try
 		-5 is guess on fifth try
 		
-		-101 normal
+		-100 normal
 		-102 is when first guess is successfully done
 		-103 is when second guess is successfully done
 		-104 is when third guess is successfully done
@@ -597,7 +597,7 @@ FUNC {Func_GuessCheckTFClock}:
 	=//
 	@e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] ScOP @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMgn
 	ScOP @e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl *= -1 Number
-	@e[type=ArmorStand,MMRoom|0|,MMrg=1] MMpl - 101
+	@e[type=ArmorStand,MMRoom|0|,MMrg=1] MMpl - 100
 	@e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] ScOP @a[$SR|0|$] MMre = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl
 	@e[type=ArmorStand,MMRoom|0|,MMrg=1] MMrg = 0
 	@e[type=ArmorStand,MMRoom|0|,MMrg=2] MMrg = 3
@@ -689,7 +689,7 @@ FUNC {Func_GeneralOptionsTFClock}:
 	@e[type=ArmorStand,MMStand,MMop>=32] @e[type=ArmorStand,MMRoom] MMrg = 0
 	@e[type=ArmorStand,MMStand,MMop>=32] @e[type=ArmorStand,MMRoom] reset MMpl
 	@e[type=ArmorStand,MMStand,MMop>=32] * reset MMre
-	@e[type=ArmorStand,MMStand,MMop>=32] @a[$SA$] MMre = -101
+	@e[type=ArmorStand,MMStand,MMop>=32] @a[$SA$] MMre = -100
 	@e[type=ArmorStand,MMStand,MMop>=32] MMop - 32
 	
 ///	16 = Set answer
