@@ -1,107 +1,89 @@
-//#-p stonebrick 0 -b -65 69 -81 -print
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\Events & Commands\VR - Virus\CBP_Virus2.cbp
+//(Virus Copy)
 
 //<Defines
-DEFINE $SPpvp$ 1
-DEFINE $SPsat$ 1
+DEF $SA$ x=-107,y=2,z=-130,dx=193,dy=100,dz=241
+DEF $SPid$ 16
 
-DEFINE $SA$ x=-107,y=2,z=-130,dx=193,dy=100,dz=241
-DEFINE $CMDName$ V2
-DEFINE $CMDSizeX$ 16
-DEFINE $CMDSizeY$ 16
-DEFINE $CMDSizeZ$ 16
-DEFINE $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VRPARSE($VType$)","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus PARSE($VType$)","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+DEF $CMDName$ V
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ -65 69 -81
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
 
 ///	Teleport virus to above mid
-DEFINE $VirusBeg$ -61.0 64 -69.0
+DEF COORDS $VirusBeg$ -61.0 64 -69.0
 /// Mid tube
-DEFINE $VirusEnd$ -61.0 40 -69.0
+DEF COORDS $VirusEnd$ -61.0 40 -69.0
 ///	Select Spawn
-DEFINE $SP$ x=-77,y=56,z=-85,dx=31,dy=5,dz=31
+DEF $SP$ x=-77,y=56,z=-85,dx=31,dy=5,dz=31
 ///	Select Virus
-DEFINE $SV$ x=-62,y=64,z=-70,dx=1,dy=3,dz=1
+DEF $SV$ x=-62,y=64,z=-70,dx=1,dy=3,dz=1
 ///	Open mid door
-DEFINE $DoorMid$ -65 60 -66 -58 60 -73
+DEF COORDS $DoorMid$ -65 60 -66 -58 60 -73
 ///	Open virus door
-DEFINE $DoorVirus$ -64 63 -67 -59 63 -72
-///	Spawn ID
-DEFINE $SPid$ 16
+DEF COORDS $DoorVirus$ -64 63 -67 -59 63 -72
 /// Virus Type
-DEFINE $VType$ 2
-
-PCBPIMPORT PCBPI_PosX.cbp
+DEF $VType$ 2
 //>
 
-//<Comments: To do
-FUNC Func_ToDoThings
-Mandatory:
-	
-Additional:
-	-Make it not a player number when there are more than 10 people
-	-Last person standing gets 16 snowballs and a speed boost
-	
-Features:
-	-XP bar and scoreboard display timer
-END
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
 //>
 
 //<Main Start
-FUNC Func_EditGeneralScoreboardStart
+FUNC {Func_EditGeneralScoreboardStart}:
 	
-END
 //>
 
 //<Main Clock
-FUNC Func_EditGeneralScoreboardClock
-	
-END
+FUNC {Func_EditGeneralScoreboardClock}:
+///	General
+	kill @e[$SA$,type=Item]
 //>
 
-//<Open Doors Pulse
-FUNC Func_EditOpenDoorsPulse
+//<Round Start Testfor Clock
+FUNC {Func_EditRoundStartTFClock}:
 	fill $DoorMid$ stonebrick 0 replace redstone_block 0
-END
 //>
 
-//<Release Virus Testfor Clock
-FUNC Func_EditReleaseVirusTFClock
-	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
-	@e[type=ArmorStand,VRtimer,VRti=0,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
-END
+//<Countdown End Testfor Clock
+FUNC {Func_EditCountdownEndTFClock}:
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] fill $DoorVirus$ stonebrick 0 replace redstone_block 0
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] fill $DoorMid$ redstone_block 0 replace stonebrick 0
 //>
 
 //<End Game Testfor Clock
-FUNC Func_EditEndGameTFClock
-	
-END
+FUNC {Func_EditEndGameTFClock}:
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
+//>
+
+//<End Round Testfor Clock
+FUNC {Func_EditEndRoundTFClock}:
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
 //>
 
 //<Main End
-FUNC Func_EditGeneralScoreboardEnd
-	
-END
-
-PCBPIMPORT PCBPI_Virus.cbp
+FUNC {Func_EditGeneralScoreboardEnd}:
+	fill $DoorMid$ redstone_block 0 replace stonebrick 0
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
 //>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+IMPORT {LIBRARY 1.10/Minigames/virus.ccu}
 
 
 
