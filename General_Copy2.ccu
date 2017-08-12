@@ -1,0 +1,207 @@
+//(FULLNAME)
+
+//<General Definitions
+DEF $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEF $SPid$ #
+DEF $SPpvp$ 0
+DEF $SPsat$ 0
+
+DEF $CMDName$ NAME
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOR"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ x y z
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<General Comments
+//=
+
+=//
+//>
+
+
+//<General Scoreboard Start
+FUNC {Func_GeneralScoreboardStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
+		REPLACETHIS dummy FULLNAME
+		REPLACETHISpl dummy FULLNAME Player List
+		REPLACETHISde deathCount FULLNAME Deaths
+		REPLACETHISst dummy FULLNAME State
+		REPLACETHISti dummy FULLNAME Timer
+		REPLACETHISti2 dummy FULLNAME Timer 2
+		REPLACETHISop dummy FULLNAME Options
+		
+	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+		REPLACETHIS FULLNAME
+		OPT color green
+		OPT friendlyfire false
+		OPT collisionRule never
+		
+		REPLACETHISd_y FULLNAME display yellow
+		OPT color yellow
+	
+	ScSS PC
+	
+	ARRAY {ACTIVATE CCU.iterateNumbers ARGS}:
+		-1
+		20
+	
+	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["REPLACETHISEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	CCU_ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Tags:["REPLACETHISEntity"],Rotation:[0f,0f],$Duration$}
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,REPLACETHISEntity] REPLACETHISst = 0
+//>
+
+
+//<General Options Testfor Clock
+FUNC {Func_GeneralOptionsTFClock}:
+	testfor @e[type=ArmorStand,REPLACETHISStand,REPLACETHISop>=$TempScore$]
+	CCU_SetblockTestfor
+	
+	ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=ArmorStand,REPLACETHISStand,REPLACETHISop>=$TempScore$];REPLACETHISop) ARGS}:
+	{
+		CCU_Activate(Grp_MainEnd)
+		
+	} {
+		
+		
+	} {
+		
+		
+	} {
+		
+		
+	}
+//>
+
+//<Countdown Testfor Clock
+FUNC {Func_CountdownTFClock}:
+	
+	
+//>
+
+//<Round Start Testfor Clock
+FUNC {Func_RoundStartTFClock}:
+	testfor @e[type=ArmorStand,REPLACETHISStand,REPLACETHISst=1]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,REPLACETHISStand,REPLACETHISst=1] REPLACETHISst = 2
+//>
+
+//<Round Testfor Clock
+FUNC {Func_RoundTFClock}:
+	testfor @e[type=ArmorStand,REPLACETHISStand,REPLACETHISst=2]
+	CCU_SetblockTestfor
+	
+	
+//>
+
+//<Round End Testfor Clock
+FUNC {Func_RoundEndTFClock}:
+	testfor @e[type=ArmorStand,REPLACETHISStand,REPLACETHISst=3]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,REPLACETHISStand,REPLACETHISst=3] REPLACETHISst = 0
+//>
+
+//<General Scoreboard Clock
+FUNC {Func_GeneralScoreboardClock}:
+	clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$,m=2] clear
+	
+	kill @e[$SA$,type=Item]
+//>
+
+//<General End Clock
+FUNC {Func_GeneralEndClock}:
+	
+
+//>
+
+//<General Scoreboard End
+FUNC {Func_GeneralScoreboardEnd}:
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
+	
+	kill @e[REPLACETHISEntity]
+	effect @a[$SA$,m=2] clear
+	clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$] 6 1 100 true
+	@a[$SA$,m=2] SPtp = $SPid$
+//>
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	CCU.spawnStandStart()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardStart()
+	CCU_Activate(Grp_MainClock)
+	CCU.tfActivate(Grp_GeneralOptionsTFClock)
+	CCU.tfActivate(Grp_CountdownTFClock)
+	CCU.tfActivate(Grp_RoundStartTFClock)
+	CCU.tfActivate(Grp_RoundTFClock)
+	CCU.tfActivate(Grp_RoundEndTFClock)
+	CCU_FinalSpawnStand
+
+GROUP {Grp_MainClock}:
+	CCU.spawnIDSetting()
+	Func_GeneralScoreboardClock()
+	Func_GeneralEndClock()
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU.tfDeactivate(Grp_GeneralOptionsTFClock)
+	CCU.tfDeactivate(Grp_CountdownTFClock)
+	CCU.tfDeactivate(Grp_RoundStartTFClock)
+	CCU.tfDeactivate(Grp_RoundTFClock)
+	CCU.tfDeactivate(Grp_RoundEndTFClock)
+	
+GROUP {Grp_GeneralOptionsTFClock}:
+	Func_GeneralOptionsTFClock()
+	
+GROUP {Grp_CountdownTFClock}:
+	Func_CountdownTFClock()
+	
+GROUP {Grp_RoundStartTFClock}:
+	Func_RoundStartTFClock()
+	
+GROUP {Grp_RoundTFClock}:
+	Func_RoundTFClock()
+	
+GROUP {Grp_RoundEndTFClock}:
+	Func_RoundEndTFClock()
+
+CCU.cmdSave()
+//>
+
+
+
+
+
+
+
+
