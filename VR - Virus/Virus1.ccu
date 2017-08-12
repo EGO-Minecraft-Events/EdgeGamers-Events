@@ -67,11 +67,13 @@ FUNC {Func_EditCountdownEndTFClock}:
 
 //<End Game Testfor Clock
 FUNC {Func_EditEndGameTFClock}:
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
 	fill $DoorMid$ redstone_block 0 replace stonebrick 0
 //>
 
 //<End Round Testfor Clock
 FUNC {Func_EditEndRoundTFClock}:
+	fill $DoorVirus$ redstone_block 0 replace stonebrick 0
 	fill $DoorMid$ redstone_block 0 replace stonebrick 0
 //>
 

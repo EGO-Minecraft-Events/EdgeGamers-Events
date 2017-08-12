@@ -101,7 +101,7 @@ GROUP | Grp_MainClock | CLOCK		[-80 64 -234 | stonebrick 0]
 	title @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] subtitle {"text":"the virus!","color":"yellow"}
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=0,score_VRst_min=0] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 53 -225.0
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=0,score_VRti3_min=0] ~ ~ ~ minecraft:tp @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 53 -225.0
-	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl=2,score_VRpl_min=2] -69.0 38 -225.0
+	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2,score_VRti3=1,score_VRti3_min=1] ~ ~ ~ minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,m=2,score_VRpl_min=2,score_VRpl=3] -69.0 38 -225.0
 	scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=2,score_VRpl_min=2] VRpl 3
 	scoreboard teams join VRv @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3,team=!VRv]
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=2,score_VRst_min=2] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl=3,score_VRpl_min=3] 5 3 90 true
@@ -240,6 +240,7 @@ GROUP | Grp_EndGameTFClock | CLOCK		[-80 65 -232 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ title @a subtitle {"text":"The hiders won!","color":"green"}
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ scoreboard players reset Seconds V1
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3,score_VRti2=0,score_VRti2_min=0,score_VRti3=1,score_VRti3_min=1,score_VRpl_min=1] ~ ~ ~ scoreboard players reset Minutes V1
+	fill -73 52 -222 -66 52 -229 redstone_block 0 replace stonebrick 0
 	fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
 	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3] VRti3 0
 	scoreboard players set @e[type=ArmorStand,tag=VRStand,score_VRst=3,score_VRst_min=3] VRst 4
@@ -252,6 +253,7 @@ GROUP | Grp_EndRoundTFClock | CLOCK		[-80 67 -232 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ effect @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] clear
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=0] SPtp 17
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181,m=2,score_VRpl_min=1] VRpl 1
+	fill -73 52 -222 -66 52 -229 redstone_block 0 replace stonebrick 0
 	fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players reset Countdown V1
 	execute @e[type=ArmorStand,tag=VRStand,score_VRst=5,score_VRst_min=5] ~ ~ ~ scoreboard players reset Minutes V1
