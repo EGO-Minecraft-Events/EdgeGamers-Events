@@ -1,5 +1,4 @@
 //(Spawnpoint)
-///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Other\Spawnpoint Database\Spawnpoint.ccu
 
 //<Defines
 ///	DEF $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
@@ -26,8 +25,7 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ 351 7 111
 
-IMPORT {LIBRARY GETDIR 1.10/General}
-IMPORT {GETCOORDS WITHIN Spawnpoint_Book_dat.txt}
+IMPORT {LIBRARY GETDIR 1.12/General}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -36,7 +34,7 @@ OPTIONS:
 	parseOption true
 	commandOption true
 	combinerOption true
-///	filePathFuncOption 
+	filePathFuncOption C:\Users\Austin\Documents\Austin\powder game code\eGO\Server Stuff\1.12.1\world\data\functions\spawnpoint
 	parseChangesOption false
 
 DEF $SP$ x=350,y=14,z=13,dx=90,dy=30,dz=90
@@ -411,8 +409,8 @@ FUNC {Func_GeneralScoreboardStart}:
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		Arr_Spawnpoint[|0|][5] SPna = |1|
 	
-	kill @e[type=ArmorStand,SpawnStand]
-	summon ArmorStand $SpawnStand$ {Tags:["SpawnStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	kill @e[type=armor_stand,SpawnStand]
+	summon armor_stand $SpawnStand$ {Tags:["SpawnStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 	
 	//=
 	SPaff
@@ -446,7 +444,7 @@ FUNC {Func_GeneralScoreboardStart}:
 		IF {Arr_AllowPlayers[|0|] = false}:
 			DEF GLOBAL $CalcAllowScore$ CALC($CalcAllowScore$ + (2 ^ |0;1|))
 	
-	USE {@e[type=ArmorStand,SpawnStand]}:
+	USE {@e[type=armor_stand,SpawnStand]}:
 		SPtp = 0
 		SPpvp = 0
 		SPsat = 1
@@ -458,7 +456,6 @@ FUNC {Func_GeneralScoreboardStart}:
 
 //<Adding Scoreboards Pulse
 FUNC {Func_AddingScoreboardsPulse}:
-	
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveRemove(Obj_AddingScoreboardsPulse) Obj_AddingScoreboardsPulse}:
 		EC dummy Event Coordinator List
 		MCTeams dummy MC Specialty Teams
@@ -619,9 +616,9 @@ FUNC {Func_AddingScoreboardsPulse}:
 //>
 
 //<SpawnPoint Testfor Clock
-FUNC {Func_SpawnpointTFClock}:
-	testfor @a[SPid>=1]
-	CCU_SetblockTestfor
+FUNC {Func_Spawnpoint}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_Spawnpoint if @a[SPid>=1]
 	
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		spawnpoint @a[SPid=|1|] Arr_Spawnpoint[|0|][0]
@@ -649,9 +646,9 @@ FUNC {Func_SpawnpointTFClock}:
 //>
 
 //<Teleport Testfor Clock
-FUNC {Func_TeleportTFClock}:
-	testfor @a[SPtp>=1]
-	CCU_SetblockTestfor
+FUNC {Func_Teleport}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_Teleport if @a[SPtp>=1]
 	
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		tp @a[SPtp=|1|] Arr_Spawnpoint[|0|][1]
@@ -679,14 +676,14 @@ FUNC {Func_TeleportTFClock}:
 //>
 
 //<Game Start Tellraw Testfor Clock
-FUNC {Func_GameStartTellrawTFClock}:
-/// Warning: "x" must be turned off before another game can start.
-	testfor @e[type=ArmorStand,SpawnStand,SPgac>=1]
-	CCU_SetblockTestfor
+FUNC {Func_GameStartTellraw}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_GameStartTellraw if @e[type=armor_stand,SpawnStand,SPgac>=1]
 	
+/// Warning: "x" must be turned off before another game can start.
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		/*
-		@e[type=ArmorStand,SpawnStand,SPgac>=1,SPgam=|1|] tellraw @a[EC=0] $TextStart$
+		@e[type=armor_stand,SpawnStand,SPgac>=1,SPgam=|1|] tellraw @a[EC=0] $TextStart$
 		{"text":"Warning: ","color":"red"},;
 		*/
 	///	2 = full name = |0|, 3 = name = |1|, 4 = color = |2|
@@ -702,13 +699,13 @@ FUNC {Func_GameStartTellrawTFClock}:
 		]}
 		*/
 	
-	@e[type=ArmorStand,SpawnStand,SPgac>=1] SPgac = 0
+	@e[type=armor_stand,SpawnStand,SPgac>=1] SPgac = 0
 //>
 
 //<Spawn Testfor Clock
-FUNC {Func_SpawnTFClock}:
-	testfor @a[$SP$]
-	CCU_SetblockTestfor
+FUNC {Func_Spawn}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_Spawn if @a[$SP$]
 	
 ///	@a SPsp = 0
 ///	@a[$SP$] SPsp = 1
@@ -717,13 +714,13 @@ FUNC {Func_SpawnTFClock}:
 	effect @a[$SPTree$] 23 2 0 true
 	gamemode 2 @a[$SPTree$,m=0]
 	
-	testfor @e[type=ArmorStand,SpawnStand,SPpvp=0]
+	@e[type=armor_stand,SpawnStand,SPpvp=0]
 	COND:
 		J> NoPVP @a[$SPTree$,m=2]
 	
 	@a[$SPTree$,m=!3] SPti + 1
 	@a[$SPNotTree$,m=!3,SPti<10] SPti = 0
-	ScOP @a[$SPTree$,m=!3,SPti>=10] SPtp = @e[type=ArmorStand,SpawnStand,SPtp>=1] SPtp
+	ScOP @a[$SPTree$,m=!3,SPti>=10] SPtp = @e[type=armor_stand,SpawnStand,SPtp>=1] SPtp
 	
 	@a[$SPPortal$,m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = mghub SPna
 	@a[$SPPortal$,m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = pvphub SPna
@@ -733,9 +730,9 @@ FUNC {Func_SpawnTFClock}:
 
 
 //<Timer Testfor Clock
-FUNC {Func_TimerTFClock}:
-	testfor @e[type=ArmorStand,SPeti=1]
-	CCU_SetblockTestfor
+FUNC {Func_Timer}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_Timer if @e[type=armor_stand,SPeti=1]
 	
 	@a SPafkc = 1
 	@a SPetm + 0
@@ -750,45 +747,45 @@ FUNC {Func_TimerTFClock}:
 	@a[SPetc>=6000] SPafk = 1
 	@a[SPetc=0] SPafk = 0
 	
-	@e[type=ArmorStand,SPeti=1] @a[SPdim=6,SPafk=0] SPeti + 1
+	@e[type=armor_stand,SPeti=1] @a[SPdim=6,SPafk=0] SPeti + 1
 	@a[SPeti>=1200] SPetm + 1
 	@a[SPeti>=1200] SPeti = 0
 //>
 
 //<Timer Reset Testfor Clock
-FUNC {Func_ResetTimerTFClock}:
-	testfor @e[type=ArmorStand,SpawnStand,SPeti>=2<=4]
-	CCU_SetblockTestfor
+FUNC {Func_ResetTimer}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_ResetTimer if @e[type=armor_stand,SpawnStand,SPeti>=2<=4]
 	
-	@e[type=ArmorStand,SpawnStand,SPeti=2] ScSS SPetm
-	@e[type=ArmorStand,SpawnStand,SPeti=3] ScSS
-	@e[type=ArmorStand,SpawnStand,SPeti=3] SPeti = 1
+	@e[type=armor_stand,SpawnStand,SPeti=2] ScSS SPetm
+	@e[type=armor_stand,SpawnStand,SPeti=3] ScSS
+	@e[type=armor_stand,SpawnStand,SPeti=3] SPeti = 1
 	
-	@e[type=ArmorStand,SpawnStand,SPeti=4] + SpawnStandReset
+	@e[type=armor_stand,SpawnStand,SPeti=4] + SpawnStandReset
 	
-	USE {@e[type=ArmorStand,SpawnStandReset] * reset}:
+	USE {@e[type=armor_stand,SpawnStandReset] * reset}:
 		SPeti
 		SPetm
 		SPetc
 		SPafk
 		SPafkc
 	
-	@e[type=ArmorStand,SpawnStandReset] SPeti = 0
-	@e[type=ArmorStand,SpawnStandReset] + SpawnStandReset
+	@e[type=armor_stand,SpawnStandReset] SPeti = 0
+	@e[type=armor_stand,SpawnStandReset] + SpawnStandReset
 	
-	@e[type=ArmorStand,SpawnStand,SPeti>=2<=4] SPeti = 0
+	@e[type=armor_stand,SpawnStand,SPeti>=2<=4] SPeti = 0
 //>
 
 //<TS Token Passcode Testfor Clock
-FUNC {Func_TSTokenPasscodeTFClock}:
-	testfor @e[type=ArmorStand,SpawnStand,TSToken>=1]
-	CCU_SetblockTestfor
-	
-	@e[type=ArmorStand,SpawnStand,TSToken>=1] @a SPtsi + 0
-	@e[type=ArmorStand,SpawnStand,TSToken>=1] @a[SPtsi=0] enable TSToken
+FUNC {Func_TSTokenPasscode}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_TSTokenPasscode if @e[type=armor_stand,SpawnStand,TSToken>=1]
+		
+	@e[type=armor_stand,SpawnStand,TSToken>=1] @a SPtsi + 0
+	@e[type=armor_stand,SpawnStand,TSToken>=1] @a[SPtsi=0] enable TSToken
 	
 	/*
-	@e[type=ArmorStand,SpawnStand,TSToken>=1] tellraw @a[SPtsi=0] $TSTokenTextStart$
+	@e[type=armor_stand,SpawnStand,TSToken>=1] tellraw @a[SPtsi=0] $TSTokenTextStart$
 	{"text":"The ","color":"gray"},
 	{"text":"Teamspeak Token","color":"dark_aqua","bold":"true",
 		"hoverEvent":{"action":"show_text","value":{"text":"TP to the TSToken (ECs)","color":"dark_aqua"}},
@@ -803,11 +800,11 @@ FUNC {Func_TSTokenPasscodeTFClock}:
 	]}
 	*/
 	
-	@e[type=ArmorStand,SpawnStand,TSToken>=1] @a[SPtsi=0] SPtsi = 1
+	@e[type=armor_stand,SpawnStand,TSToken>=1] @a[SPtsi=0] SPtsi = 1
 	
 	@a[TSToken>=1] ScOP @a[c=1,r=1,TSToken>=1] SPtsc = @a[c=1,r=1,TSToken>=1] TSToken
 	ScOP @a[TSToken<=-1] SPtsc *= -1 Number
-	ScOP @a[TSToken>=1] SPtsc -= @e[type=ArmorStand,SpawnStand,TSToken>=1] TSToken
+	ScOP @a[TSToken>=1] SPtsc -= @e[type=armor_stand,SpawnStand,TSToken>=1] TSToken
 	ScOP @a[TSToken>=1,SPtsc=0] SPtp = tstoken SPna
 	
 	@a[TSToken>=1,SPtsc<=-1] SPtsc = 1
@@ -822,20 +819,20 @@ FUNC {Func_TSTokenPasscodeTFClock}:
 	@a[TSToken>=1,SPtsc>=1] SPtsc = 0
 	@a[TSToken>=1] TSToken = 0
 	
-	@e[type=ArmorStand,SpawnStand,SPtss>=1<=2] * reset SPts
-	@e[type=ArmorStand,SpawnStand,SPtss>=1<=2] SPtss + 2
+	@e[type=armor_stand,SpawnStand,SPtss>=1<=2] * reset SPts
+	@e[type=armor_stand,SpawnStand,SPtss>=1<=2] SPtss + 2
 	
-	@e[type=ArmorStand,SpawnStand,SPtss=3] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] reset SPts
-	@e[type=ArmorStand,SpawnStand,SPtss=3] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 1
-	@e[type=ArmorStand,SpawnStand,SPtss=4] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] SPts = 1
-	@e[type=ArmorStand,SpawnStand,SPtss=4] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 0
+	@e[type=armor_stand,SpawnStand,SPtss=3] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] reset SPts
+	@e[type=armor_stand,SpawnStand,SPtss=3] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 1
+	@e[type=armor_stand,SpawnStand,SPtss=4] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] SPts = 1
+	@e[type=armor_stand,SpawnStand,SPtss=4] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 0
 //>
 
 //<TS Token Options Testfor Clock
-FUNC {Func_TSTokenOptionsTFClock}:
-	testfor @e[type=ArmorStand,SpawnStand,SPtso>=1]
-	CCU_SetblockTestfor
-	
+FUNC {Func_TSTokenOptions}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		MFunc_TSTokenOptions if @e[type=armor_stand,SpawnStand,SPtso>=1]
+		
 ///	Set passcode starts
 ///	Regular selection		SPtss 1
 ///	Opposite selection		SPtss 2
@@ -847,40 +844,40 @@ FUNC {Func_TSTokenOptionsTFClock}:
 ///	Chooses player (@r / WE)	2 / 1
 	
 	/*
-	@e[type=ArmorStand,SpawnStand,SPtso>=64] tellraw @a[EC=0] $TSTokenTextStart$
+	@e[type=armor_stand,SpawnStand,SPtso>=64] tellraw @a[EC=0] $TSTokenTextStart$
 	{"text":"Click here!","color":"yellow","italic":"true",
 		"hoverEvent":{"action":"show_text","value":{"text":"Click here to set the TS Token Password","color":"yellow"}},
-		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=ArmorStand,SpawnStand] TSToken #"}
+		"clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,SpawnStand] TSToken #"}
 	}
 	]}
 	*/
 	
-	@e[type=ArmorStand,SpawnStand,SPtso>=64] SPtso - 64
+	@e[type=armor_stand,SpawnStand,SPtso>=64] SPtso - 64
 
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] ScOR TSToken
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] ScOA TSToken trigger
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] ScOR SPts
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] ScOA SPts dummy TSToken
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] * reset SPtsi
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] * reset SPtsn
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] * reset SPtss
-	@e[type=ArmorStand,SpawnStand,SPtso>=32] SPtso - 32
+	@e[type=armor_stand,SpawnStand,SPtso>=32] ScOR TSToken
+	@e[type=armor_stand,SpawnStand,SPtso>=32] ScOA TSToken trigger
+	@e[type=armor_stand,SpawnStand,SPtso>=32] ScOR SPts
+	@e[type=armor_stand,SpawnStand,SPtso>=32] ScOA SPts dummy TSToken
+	@e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtsi
+	@e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtsn
+	@e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtss
+	@e[type=armor_stand,SpawnStand,SPtso>=32] SPtso - 32
 	
-	@e[type=ArmorStand,SpawnStand,SPtso>=16] setblock $TSTokenClear$ redstone_block 0
-	@e[type=ArmorStand,SpawnStand,SPtso>=16] SPtso - 16
+	@e[type=armor_stand,SpawnStand,SPtso>=16] setblock $TSTokenClear$ redstone_block 0
+	@e[type=armor_stand,SpawnStand,SPtso>=16] SPtso - 16
 
-	@e[type=ArmorStand,SpawnStand,SPtso>=8] fill $TSTokenFloor$ stained_hardened_clay 5 replace coal_block 0
-	@e[type=ArmorStand,SpawnStand,SPtso>=8] SPtso - 8
+	@e[type=armor_stand,SpawnStand,SPtso>=8] fill $TSTokenFloor$ stained_hardened_clay 5 replace coal_block 0
+	@e[type=armor_stand,SpawnStand,SPtso>=8] SPtso - 8
 	
-	@e[type=ArmorStand,SpawnStand,SPtso>=4] ScSS SPts
-	@e[type=ArmorStand,SpawnStand,SPtso>=4] setblock $TSTokenGlass$ redstone_block 0
-	@e[type=ArmorStand,SpawnStand,SPtso>=4] SPtso - 4
+	@e[type=armor_stand,SpawnStand,SPtso>=4] ScSS SPts
+	@e[type=armor_stand,SpawnStand,SPtso>=4] setblock $TSTokenGlass$ redstone_block 0
+	@e[type=armor_stand,SpawnStand,SPtso>=4] SPtso - 4
 	
-	@e[type=ArmorStand,SpawnStand,SPtso>=2] @r[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ setblock ~ 19 ~ coal_block 0
-	@e[type=ArmorStand,SpawnStand,SPtso>=2] SPtso - 2
+	@e[type=armor_stand,SpawnStand,SPtso>=2] @r[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ setblock ~ 19 ~ coal_block 0
+	@e[type=armor_stand,SpawnStand,SPtso>=2] SPtso - 2
 	
-	@e[type=ArmorStand,SpawnStand,SPtso>=1] setblock $TSWorldedit$ redstone_block 0
-	@e[type=ArmorStand,SpawnStand,SPtso>=1] SPtso = 0
+	@e[type=armor_stand,SpawnStand,SPtso>=1] setblock $TSWorldedit$ redstone_block 0
+	@e[type=armor_stand,SpawnStand,SPtso>=1] SPtso = 0
 //>
 
 //<Other Clock
@@ -906,30 +903,30 @@ FUNC {Func_OtherClock}:
 	
 ///	The following are under conditional blocks because if not, they'll spam everything lol
 ///	PVP
-	testfor @e[type=ArmorStand,SpawnStand,SPpvp=0]
+	testfor @e[type=armor_stand,SpawnStand,SPpvp=0]
 	COND:
 		J> NoPVP @a[team=!NoPVP,SPdim=6]
 	
 ///	Saturation
-	testfor @e[type=ArmorStand,SpawnStand,SPsat=1]
+	testfor @e[type=armor_stand,SpawnStand,SPsat=1]
 	COND:
 		effect @a[SPdim=6] 23 2 0 true
 	
 ///	Weather
-	testfor @e[type=ArmorStand,SpawnStand,SPwea=0]
+	testfor @e[type=armor_stand,SpawnStand,SPwea=0]
 	COND:
 		weather clear 1000000
 	
-	testfor @e[type=ArmorStand,SpawnStand,SPwea=1]
+	testfor @e[type=armor_stand,SpawnStand,SPwea=1]
 	COND:
 		weather rain 1000000
 	
-	testfor @e[type=ArmorStand,SpawnStand,SPwea=2]
+	testfor @e[type=armor_stand,SpawnStand,SPwea=2]
 	COND:
 		weather thunder 1000000
 	
 ///	Regular gamemode
-	testfor @e[type=ArmorStand,SpawnStand,SPgmd=1]
+	testfor @e[type=armor_stand,SpawnStand,SPgmd=1]
 	COND:
 		gamemode 2 @a[m=0,SPdim=6]
 	
@@ -958,33 +955,33 @@ SPst	Specialty teams		Players
 =//
 
 ///	Calculating exceptions
-	ScOP @e[type=ArmorStand,SpawnStand,SPaff>=1] SPafc = @e[type=ArmorStand,SpawnStand,SPaff>=1] SPaff
-///	@e[type=ArmorStand,SpawnStand,SPafc>=64] @a[MCTeams=64,SPdim=6] SPafc = 1
-///	@e[type=ArmorStand,SpawnStand,SPafc>=64] SPafc - 64
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=32]
+	ScOP @e[type=armor_stand,SpawnStand,SPaff>=1] SPafc = @e[type=armor_stand,SpawnStand,SPaff>=1] SPaff
+///	@e[type=armor_stand,SpawnStand,SPafc>=64] @a[MCTeams=64,SPdim=6] SPafc = 1
+///	@e[type=armor_stand,SpawnStand,SPafc>=64] SPafc - 64
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=32]
 	COND:
 		@a[MCTeams=32,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=32] SPafc - 32
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=16]
+	@e[type=armor_stand,SpawnStand,SPafc>=32] SPafc - 32
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=16]
 	COND:
 		@a[MCTeams=16,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=16] SPafc - 16
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=8]
+	@e[type=armor_stand,SpawnStand,SPafc>=16] SPafc - 16
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=8]
 	COND:
 		@a[MCTeams=8,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=8] SPafc - 8
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=4]
+	@e[type=armor_stand,SpawnStand,SPafc>=8] SPafc - 8
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=4]
 	COND:
 		@a[MCTeams=4,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=4] SPafc - 4
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=2]
+	@e[type=armor_stand,SpawnStand,SPafc>=4] SPafc - 4
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=2]
 	COND:
 		@a[MCTeams=2,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=2] SPafc - 2
-	testfor @e[type=ArmorStand,SpawnStand,SPafc>=1]
+	@e[type=armor_stand,SpawnStand,SPafc>=2] SPafc - 2
+	testfor @e[type=armor_stand,SpawnStand,SPafc>=1]
 	COND:
 		@a[MCTeams=1,SPdim=6] SPafc = 1
-	@e[type=ArmorStand,SpawnStand,SPafc>=1] SPafc = 0
+	@e[type=armor_stand,SpawnStand,SPafc>=1] SPafc = 0
 	
 ///	Gamemode
 	gamemode 2 @a[m=1,SPafc=1,SPdim=6]
@@ -1039,69 +1036,49 @@ SPst	Specialty teams		Players
 FUNC {Func_GeneralScoreboardEnd}:
 	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
 	
-	kill @e[type=ArmorStand,SpawnStand]
+	kill @e[type=armor_stand,SpawnStand]
 //>
 
 
-//<Groups
-GROUP {Grp_MainStart}:
-	CCU_Deactivate(Grp_MainStart)
-	Func_GeneralScoreboardStart()
-	CCU_Activate(Grp_SpawnpointTFClock)
-	CCU_Activate(Grp_TeleportTFClock)
-	CCU_Activate(Grp_GameStartTellrawTFClock)
-	CCU_Activate(Grp_SpawnTFClock)
-	CCU_Activate(Grp_TimerTFClock)
-	CCU_Activate(Grp_ResetTimerTFClock)
-	CCU_Activate(Grp_TSTokenPasscodeTFClock)
-	CCU_Activate(Grp_TSTokenOptionsTFClock)
-	CCU_Activate(Grp_OtherClock)
-	CCU_Activate(Spawnpoint_Book.Grp_BookTFClock)
-
-GROUP {Grp_AddingScoreboardsPulse}:
-	CCU_Deactivate(Grp_AddingScoreboardsPulse)
+//<Minecraft Functions
+MFUNC {init MFunc_MainStart}:
 	Func_AddingScoreboardsPulse()
+	Func_GeneralScoreboardStart()
+	
+MFUNC {main MFunc_MainClock}:
+	LOOP {Arr_ActivateMain[S]}:
+		|0|
+	Func_OtherClock
+	
+MFUNC {spawnpoint MFunc_Spawnpoint}:
+	Func_Spawnpoint()
 
-GROUP {Grp_SpawnpointTFClock}:
-	Func_SpawnpointTFClock()
+MFUNC {teleport MFunc_Teleport}:
+	Func_Teleport()
 
-GROUP {Grp_TeleportTFClock}:
-	Func_TeleportTFClock()
+MFUNC {game_start_tellraw MFunc_GameStartTellraw}:
+	Func_GameStartTellraw()
 
-GROUP {Grp_GameStartTellrawTFClock}:
-	Func_GameStartTellrawTFClock()
+MFUNC {spawn MFunc_Spawn}:
+	Func_Spawn()
 
-GROUP {Grp_SpawnTFClock}:
-	Func_SpawnTFClock()
+MFUNC {timer MFunc_Timer}:
+	Func_Timer()
 
-GROUP {Grp_TimerTFClock}:
-	Func_TimerTFClock()
+MFUNC {reset_timer MFunc_ResetTimer}:
+	Func_ResetTimer()
 
-GROUP {Grp_ResetTimerTFClock}:
-	Func_ResetTimerTFClock()
+MFUNC {reset_timer MFunc_TSTokenPasscode}:
+	Func_TSTokenPasscode()
 
-GROUP {Grp_TSTokenPasscodeTFClock}:
-	Func_TSTokenPasscodeTFClock()
+MFUNC {MFunc_TSTokenOptions}:
+	Func_TSTokenOptions()
 
-GROUP {Grp_TSTokenOptionsTFClock}:
-	Func_TSTokenOptionsTFClock()
-
-GROUP {Grp_OtherClock}:
+MFUNC {MFunc_OtherClock}:
 	Func_OtherClock()
 
-GROUP {Grp_MainEnd}:
-	CCU_Deactivate(Grp_MainEnd)
+MFUNC {MFunc_MainEnd}:
 	Func_GeneralScoreboardEnd()
-	CCU_Deactivate(Grp_SpawnpointTFClock)
-	CCU_Deactivate(Grp_TeleportTFClock)
-	CCU_Deactivate(Grp_GameStartTellrawTFClock)
-	CCU_Deactivate(Grp_SpawnTFClock)
-	CCU_Deactivate(Grp_TimerTFClock)
-	CCU_Deactivate(Grp_ResetTimerTFClock)
-	CCU_Deactivate(Grp_TSTokenPasscodeTFClock)
-	CCU_Deactivate(Grp_TSTokenOptionsTFClock)
-	CCU_Deactivate(Grp_OtherClock)
-	CCU_Deactivate(Spawnpoint_Book.Grp_BookTFClock)
 
 CCU.cmdSave()
 //>

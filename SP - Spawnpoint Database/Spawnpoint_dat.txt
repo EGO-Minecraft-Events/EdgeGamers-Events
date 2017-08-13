@@ -1,13 +1,9 @@
-351 7 111 368 24 119
-Grp_MainStart;352 8 112;367 13 112
-Grp_AddingScoreboardsPulse;352 15 112;367 22 112
-Grp_SpawnpointTFClock;352 8 114;367 12 114
-Grp_TeleportTFClock;352 14 114;367 18 114
-Grp_GameStartTellrawTFClock;352 20 114;367 22 114
-Grp_SpawnTFClock;352 8 116;367 8 116
-Grp_TimerTFClock;352 10 116;367 11 116
-Grp_ResetTimerTFClock;352 13 116;367 13 116
-Grp_TSTokenPasscodeTFClock;352 15 116;367 16 116
-Grp_TSTokenOptionsTFClock;352 18 116;367 19 116
-Grp_OtherClock;352 8 118;367 11 118
-Grp_MainEnd;352 13 118;367 16 118
+351 7 111 368 24 115
+MFunc_GameStartTellrawTFClock;352 8 112;367 10 112
+MFunc_SpawnTFClock;352 12 112;367 12 112
+MFunc_TimerTFClock;352 14 112;367 15 112
+MFunc_ResetTimerTFClock;352 17 112;367 17 112
+MFunc_TSTokenPasscodeTFClock;352 19 112;367 20 112
+MFunc_TSTokenOptionsTFClock;352 22 112;367 23 112
+MFunc_OtherClock;352 8 114;367 11 114
+MFunc_MainEnd;352 13 114;367 15 114

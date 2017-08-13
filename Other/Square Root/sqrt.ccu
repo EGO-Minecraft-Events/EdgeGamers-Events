@@ -22,4 +22,3 @@ MFUNC {KCC.compass/getSqrt}:
 			@s[KCC.sqrt.sqrt>=$PreviousMinScore$<|0|] KCC.sqrt.sqre = $PreviousResult$
 			DEF GLOBAL $PreviousMinScore$ |0;1|
 			DEF GLOBAL $PreviousResult$ INT(|0;1| ^ 0.5)
-			PRINT |0|
