@@ -807,7 +807,7 @@ FUNC {Func_TSTokenPasscode}:
 	@a[TSToken>=1] MFunc_TSTokenPasscodeGuess
 //>
 
-//<
+//<TS Token Select
 FUNC {Func_TSTokenSelect}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
 		@e[type=armor_stand,SpawnStand,SPtss>=1] MFunc_TSTokenSelect

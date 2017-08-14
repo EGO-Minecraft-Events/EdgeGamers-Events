@@ -393,8 +393,18 @@ MFUNC | MFunc_GameStartTellraw | C:/Users/Austin/Documents/Austin/powder game co
 	execute @s[score_SPgam=36,score_SPgam_min=36] ~ ~ ~ tellraw @a[score_EC=0,score_EC_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SP","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"SpawnPoint System","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players operation @p SPtp = cmd SPna"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Warning: ","color":"red"},{"text":"Rabbit","color":"red","bold":"true","clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp 36"},"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Rabbit Ball","color":"red"}}},{"text":" ","color":"white","bold":"true","clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp 36"},"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Rabbit Ball","color":"white"}}},{"text":"Ball","color":"blue","bold":"true","clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp 36"},"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Rabbit Ball","color":"blue"}}},{"text":" must be turned off before another game can start.","color":"gray"}]}
 	scoreboard players set @s SPgac 0
 
-MFUNC | MFunc_Spawn | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/spawn.mcfunction
-	Func_Spawn()
+MFUNC | MFunc_SpawnTree | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/spawn_tree.mcfunction
+	effect @s 23 2 0 true
+	gamemode 2 @s[m=0]
+	execute @e[type=armor_stand,tag=SpawnStand,score_SPpvp=0,score_SPpvp_min=0] ~ ~ ~ scoreboard teams join NoPVP @a[x=397,y=17,z=61,r=5,m=2]
+	scoreboard players add @s[m=!3] SPti 1
+	scoreboard players operation @s[m=!3,score_SPti_min=10] SPtp = @e[type=armor_stand,tag=SpawnStand,score_SPtp_min=1] SPtp
+
+MFUNC | MFunc_SpawnPortal | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/spawn_portal.mcfunction
+	execute @s[m=!3] ~ ~ ~ detect ~ 3 ~ stained_hardened_clay 5 scoreboard players operation @s SPtp = mghub SPna
+	execute @s[m=!3] ~ ~ ~ detect ~ 3 ~ stained_hardened_clay 2 scoreboard players operation @s SPtp = pvphub SPna
+	execute @s[m=!3] ~ ~ ~ detect ~ 3 ~ stained_hardened_clay 1 scoreboard players operation @s SPtp = mmhub SPna
+	execute @s[m=!3] ~ ~ ~ detect ~ 3 ~ stained_hardened_clay 9 scoreboard players operation @s SPtp = racehub SPna
 
 MFUNC | MFunc_Timer | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/timer.mcfunction
 	scoreboard players set @a SPafkc 1
@@ -418,42 +428,25 @@ MFUNC | MFunc_Timer | C:/Users/Austin/Documents/Austin/powder game code/eGO/Serv
 	scoreboard players set @a[score_SPeti_min=1200] SPeti 0
 
 MFUNC | MFunc_ResetTimer | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/reset_timer.mcfunction
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPeti=2,score_SPeti_min=2] ~ ~ ~ scoreboard objectives setdisplay sidebar SPetm
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPeti=3,score_SPeti_min=3] ~ ~ ~ scoreboard objectives setdisplay sidebar
-	scoreboard players set @e[type=armor_stand,tag=SpawnStand,score_SPeti=3,score_SPeti_min=3] SPeti 1
-	scoreboard players tag @e[type=armor_stand,tag=SpawnStand,score_SPeti=4,score_SPeti_min=4] add SpawnStandReset
-	execute @e[type=armor_stand,tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPeti
-	execute @e[type=armor_stand,tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPetm
-	execute @e[type=armor_stand,tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPetc
-	execute @e[type=armor_stand,tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPafk
-	execute @e[type=armor_stand,tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPafkc
-	scoreboard players set @e[type=armor_stand,tag=SpawnStandReset] SPeti 0
-	scoreboard players tag @e[type=armor_stand,tag=SpawnStandReset] add SpawnStandReset
-	scoreboard players set @e[type=armor_stand,tag=SpawnStand,score_SPeti_min=2,score_SPeti=4] SPeti 0
+	execute @s[score_SPeti=2,score_SPeti_min=2] ~ ~ ~ scoreboard objectives setdisplay sidebar SPetm
+	execute @s[score_SPeti=3,score_SPeti_min=3] ~ ~ ~ scoreboard objectives setdisplay sidebar
+	scoreboard players set @s[score_SPeti=3,score_SPeti_min=3] SPeti 1
+	scoreboard players tag @s[score_SPeti=4,score_SPeti_min=4] add SpawnStandReset
+	execute @s[tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPeti
+	execute @s[tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPetm
+	execute @s[tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPetc
+	execute @s[tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPafk
+	execute @s[tag=SpawnStandReset] ~ ~ ~ scoreboard players reset * SPafkc
+	scoreboard players set @s[tag=SpawnStandReset] SPeti 0
+	scoreboard players tag @s[tag=SpawnStandReset] remove SpawnStandReset
+	scoreboard players set @s SPeti 0
 
 MFUNC | MFunc_TSTokenPasscode | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/ts_token_passcode.mcfunction
-	execute @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] ~ ~ ~ scoreboard players add @a SPtsi 0
-	execute @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] ~ ~ ~ scoreboard players enable @a[score_SPtsi=0,score_SPtsi_min=0] TSToken
-	execute @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] ~ ~ ~ tellraw @a[score_SPtsi=0,score_SPtsi_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TS","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Teamspeak Token","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"The ","color":"gray"},{"text":"Teamspeak Token","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"TP to the TSToken (ECs)","color":"dark_aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players operation @p SPtp = tstoken SPna"}},{"text":" is now open! Click ","color":"gray"},{"text":"here","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Set the TSToken password","color":"yellow"}},"clickEvent":{"action":"suggest_command","value":"/guess "}},{"text":" to submit the password.","color":"gray"}]}
-	execute @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] ~ ~ ~ scoreboard players set @a[score_SPtsi=0,score_SPtsi_min=0] SPtsi 1
-	execute @a[score_TSToken_min=1] ~ ~ ~ scoreboard players operation @a[c=1,r=1,score_TSToken_min=1] SPtsc = @a[c=1,r=1,score_TSToken_min=1] TSToken
-	scoreboard players operation @a[score_TSToken=-1] SPtsc *= -1 Number
-	scoreboard players operation @a[score_TSToken_min=1] SPtsc -= @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] TSToken
-	scoreboard players operation @a[score_TSToken_min=1,score_SPtsc=0,score_SPtsc_min=0] SPtp = tstoken SPna
-	scoreboard players set @a[score_TSToken_min=1,score_SPtsc=-1] SPtsc 1
-	tellraw @a[score_TSToken_min=1,score_SPtsc_min=1] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TS","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Teamspeak Token","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"You have submitted an ","color":"gray"},{"text":"incorrect","color":"red"},{"text":" number.","color":"gray"}]}
-	execute @a[score_TSToken_min=1,score_SPtsc_min=1] ~ ~ ~ playsound minecraft:entity.experience_orb.pickup voice @a[c=1] ~ ~ ~ 1 0.5
-	scoreboard players add @a[score_TSToken_min=1,score_SPtsc_min=1] SPtsn 1
-	scoreboard players enable @a[score_TSToken_min=1,score_SPtsc_min=1,score_SPtsn=9] TSToken
-	tellraw @a[score_TSToken_min=1,score_SPtsc_min=1,score_SPtsn=10,score_SPtsn_min=10] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TS","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Teamspeak Token","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"You have submitted 10 incorrect answers, and have 0 tries left.","color":"gray"}]}
-	scoreboard players set @a[score_TSToken_min=1,score_SPtsc_min=1] SPtsc 0
-	scoreboard players set @a[score_TSToken_min=1] TSToken 0
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPtss_min=1,score_SPtss=2] ~ ~ ~ scoreboard players reset * SPts
-	scoreboard players add @e[type=armor_stand,tag=SpawnStand,score_SPtss_min=1,score_SPtss=2] SPtss 2
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPtss=3,score_SPtss_min=3] ~ ~ ~ execute @a[x=544,y=19,z=37,dx=10,dy=5,dz=10] ~ ~ ~ detect ~ 19 ~ stained_hardened_clay 5 scoreboard players reset @a[c=1] SPts
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPtss=3,score_SPtss_min=3] ~ ~ ~ execute @a[x=544,y=19,z=37,dx=10,dy=5,dz=10] ~ ~ ~ detect ~ 19 ~ coal_block 0 scoreboard players set @a[c=1] SPts 1
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPtss=4,score_SPtss_min=4] ~ ~ ~ execute @a[x=544,y=19,z=37,dx=10,dy=5,dz=10] ~ ~ ~ detect ~ 19 ~ stained_hardened_clay 5 scoreboard players set @a[c=1] SPts 1
-	execute @e[type=armor_stand,tag=SpawnStand,score_SPtss=4,score_SPtss_min=4] ~ ~ ~ execute @a[x=544,y=19,z=37,dx=10,dy=5,dz=10] ~ ~ ~ detect ~ 19 ~ coal_block 0 scoreboard players set @a[c=1] SPts 0
+	scoreboard players add @a SPtsi 0
+	scoreboard players enable @a[score_SPtsi=0,score_SPtsi_min=0] TSToken
+	tellraw @a[score_SPtsi=0,score_SPtsi_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TS","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Teamspeak Token","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"The ","color":"gray"},{"text":"Teamspeak Token","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"TP to the TSToken (ECs)","color":"dark_aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players operation @p SPtp = tstoken SPna"}},{"text":" is now open! Click ","color":"gray"},{"text":"here","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Set the TSToken password","color":"yellow"}},"clickEvent":{"action":"suggest_command","value":"/guess "}},{"text":" to submit the password.","color":"gray"}]}
+	scoreboard players set @a[score_SPtsi=0,score_SPtsi_min=0] SPtsi 1
+	execute @a[score_TSToken_min=1] ~ ~ ~ MFunc_TSTokenPasscodeGuess
 
 MFUNC | MFunc_TSTokenOptions | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/spawnpoint/ts_token_options.mcfunction
 	execute @e[type=armor_stand,tag=SpawnStand,score_SPtso_min=64] ~ ~ ~ tellraw @a[score_EC=0,score_EC_min=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TS","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Teamspeak Token","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"Click here!","color":"yellow","italic":"true","hoverEvent":{"action":"show_text","value":{"text":"Click here to set the TS Token Password","color":"yellow"}},"clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=SpawnStand] TSToken #"}}]}
@@ -523,11 +516,14 @@ MFUNC | MFunc_MainClock | C:/Users/Austin/Documents/Austin/powder game code/eGO/
 	execute @a[score_SPid_min=1] ~ ~ ~ function spawnpoint:spawnpoint
 	execute @a[score_SPtp_min=1] ~ ~ ~ function spawnpoint:teleport
 	execute @e[type=armor_stand,tag=SpawnStand,score_SPgac_min=1] ~ ~ ~ function spawnpoint:game_start_tellraw
+	execute @a[x=397,y=17,z=61,r=5] ~ ~ ~ function spawnpoint:spawn_tree
+	execute @a[x=350,y=14,z=13,dx=90,dy=5,dz=90] ~ ~ ~ function spawnpoint:spawn_portal
 	function spawnpoint:timer if @e[type=armor_stand,score_SPeti=1,score_SPeti_min=1]
-	function spawnpoint:reset_timer if @e[type=armor_stand,tag=SpawnStand,score_SPeti_min=2,score_SPeti=4]
-	function spawnpoint:ts_token_passcode if @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1]
+	execute @e[type=armor_stand,tag=SpawnStand,score_SPeti_min=2,score_SPeti=4] ~ ~ ~ function spawnpoint:reset_timer
+	execute @e[type=armor_stand,tag=SpawnStand,score_TSToken_min=1] ~ ~ ~ function spawnpoint:ts_token_passcode
 	function spawnpoint:ts_token_options if @e[type=armor_stand,tag=SpawnStand,score_SPtso_min=1]
 	scoreboard players add @a[m=!3,score_SPti_min=10] SPti 1
+	scoreboard players set @a[x=397,y=17,z=61,rm=5,m=!3,score_SPti=9] SPti 0
 	scoreboard players set @a[x=397,y=17,z=61,rm=5,m=!3,score_SPti_min=20] SPti 0
 	scoreboard players set @a SPdim 0
 	scoreboard players set @a SPdim 6 {Dimension:0}
@@ -564,9 +560,9 @@ MFUNC | MFunc_MainClock | C:/Users/Austin/Documents/Austin/powder game code/eGO/
 	gamemode 2 @a[m=0,score_SPafc=1,score_SPafc_min=1,score_SPdim=6,score_SPdim_min=6]
 	scoreboard players operation @a[score_SPafc=1,score_SPafc_min=1,score_SPlg_min=1,score_SPdim=6,score_SPdim_min=6] SPtp = spawn SPna
 	clear @a[x=397,y=17,z=61,r=5,m=2,score_SPafc=1,score_SPafc_min=1,score_SPdim=6,score_SPdim_min=6]
-	scoreboard players set @a[score_SPafc=1,score_SPafc_min=1] SPafc 0
-	scoreboard players set @a[score_SPlg_min=1] SPlg 0
 	scoreboard players enable * SPvot
 	tellraw @a[score_SPvot_min=1] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SP","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"SpawnPoint System","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players operation @p SPtp = cmd SPna"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Vote here: ","color":"gray"},{"text":"Link 1","color":"green","bold":"true","underlined":"true","clickEvent":{"action":"open_url","value":"http://minecraft-server-list.com/server/200887/vote/"},"hoverEvent":{"action":"show_text","value":{"text":"Vote link #1","color":"green"}}},{"text":" "},{"text":"Link 2","color":"dark_green","bold":"true","underlined":"true","clickEvent":{"action":"open_url","value":"http://minecraftservers.org/vote/109809"},"hoverEvent":{"action":"show_text","value":{"text":"Vote link #2","color":"dark_green"}}},{"text":" "},{"text":"Link 3","color":"green","bold":"true","underlined":"true","clickEvent":{"action":"open_url","value":"https://minecraftservers.biz/servers/2511/"},"hoverEvent":{"action":"show_text","value":{"text":"Vote link #3","color":"green"}}},{"text":" "},{"text":"Link 4","color":"dark_green","bold":"true","underlined":"true","clickEvent":{"action":"open_url","value":"http://minecraft-mp.com/server/86376/vote/"},"hoverEvent":{"action":"show_text","value":{"text":"Vote link #4","color":"dark_green"}}},{"text":" "},{"text":"Link 5","color":"green","bold":"true","underlined":"true","clickEvent":{"action":"open_url","value":"http://www.planetminecraft.com/server/edge-gamerscom/vote/"},"hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}}]}
 	execute @a[score_SPvot_min=1] ~ ~ ~ playsound minecraft:entity.experience_orb.pickup voice @a[c=1]
 	scoreboard players set @a[score_SPvot_min=1] SPvot 0
+	scoreboard players set @a[score_SPafc=1,score_SPafc_min=1] SPafc 0
+	scoreboard players set @a[score_SPlg_min=1] SPlg 0
