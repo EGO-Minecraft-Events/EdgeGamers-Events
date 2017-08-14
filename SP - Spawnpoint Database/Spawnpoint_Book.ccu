@@ -34,6 +34,9 @@ IMPORT {GETCOORDS WITHIN MM - Mastermind\Mastermind_dat.txt}
 IMPORT {GETCOORDS WITHIN RR - Royal Rumble\Royal_Rumble_dat.txt}
 IMPORT {GETCOORDS WITHIN CTF - Capture the Flag\Capture_the_Flag_dat.txt}
 IMPORT {GETCOORDS WITHIN TP - The Pit\The_Pit_3_dat.txt}
+IMPORT {GETCOORDS WITHIN VR - Virus\Virus1_dat.txt}
+IMPORT {GETCOORDS WITHIN VR - Virus\Virus2_dat.txt}
+IMPORT {GETCOORDS WITHIN ST - Sand Tomb\Sand_Tomb_dat.txt}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -460,148 +463,65 @@ FUNC {Func_Book_ThePit3}:
 */
 //>
 
-//<Book: Sand Tomb (2 books)
+//<Book: Sand Tomb
 FUNC {Func_Book_SandTomb}:
 /*
-	give @e[type=Player,EC=0,SPbk=14] written_book 1 0 
-	{title:"ST: Ant Farm Book",author:"eGO",pages:[0:
+	replaceitem entity @e[type=Player,EC=0,SPbk=14] slot.weapon.offhand written_book 1 0 
+	{title:"ST Book",author:"eGO",pages:[0:
 		"[\"\",
-			{\"text\":\"Ant Farm Settings\",\"bold\":true},
+			{\"text\":\"Sand Tomb Settings\",\"bold\":true},
 			{\"text\":\"\n\"},
 			
 			{\"text\":\"Arena: \",\"color\":\"black\"},
-			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -215 6 32 redstone_block 0\"}},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Sand_Tomb.Grp_MainStart redstone_block 0\"}},
 			{\"text\":\" / \",\"color\":\"black\"},
-			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -215 10 32 redstone_block 0\"}},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 1\"}},
 			
 			{\"text\":\"Doors: \",\"color\":\"dark_gray\"},
-			{\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -219 13 32 redstone_block 0\"}},
+			{\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 2\"}},
 			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"Closed\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -219 16 32 redstone_block 0\"}},
+			{\"text\":\"Closed\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 4\"}},
 			
-			{\"text\":\"Jump boost: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set JumpBoostAF STSave 1\"}},
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STst 1\"}},
+			{\"text\":\" / \",\"color\":\"dark_gray\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STst 3\"}},
+			
+			{\"text\":\"Switch: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[CL]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 32\"}},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[AF]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 64\"}},
+			
+			{\"text\":\"Saturation: \",\"color\":\"dark_gray\"},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STsa 1\"}},
 			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set JumpBoostAF STSave 0\"}},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STsa 0\"}},
 			
 			{\"text\":\"Blindness: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set BlindnessAF STSave 1\"}},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STbl 1\"}},
 			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set BlindnessAF STSave 0\"}},
-			
-			{\"text\":\"No Sprint: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set NoSprintAF STSave 1\"}},
-			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set NoSprintAF STSave 0\"}},
-			
-			{\"text\":\"Potion: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set PotionsAF STSave 2\"}},
-			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set PotionsAF STSave 0\"}},
-			
-			{\"text\":\"Collisions: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set CollisionsAF STSave 2\"}},
-			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set CollisionsAF STSave 0\"}},
-			
-			{\"text\":\"Teleport: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/minecraft:tp @a[r=0,c=1] -249 5 37.0\"}},
-			
-			{\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -213 17 32 redstone_block 0\"}},
-			
-			{\"text\":\"Ant Farm Delay\",\"color\":\"black\",\"bold\":true},
-			{\"text\":\"\n[1]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 1\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[2]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 2\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[3]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 3\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[4]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 4\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[5]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 5\"}},
-			{\"text\":\"\n\"},
-			{\"text\":\"[6]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 6\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[7]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 7\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[8]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 8\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[9]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 9\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[10]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayAF STSave 10\"}}
-		]"
-	]}
-	
--/-
-
-	give @e[type=Player,EC=0,SPbk=14] written_book 1 0 
-	{title:"ST: Classic Book",author:"eGO",pages:[0:
-		"[\"\",
-			{\"text\":\"Classic Settings\",\"bold\":true},
-			{\"text\":\"\n\"},
-			
-			{\"text\":\"Arena: \",\"color\":\"black\"},
-			{\"text\":\"Start\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -213 6 32 redstone_block 0\"}},
-			{\"text\":\" / \",\"color\":\"black\"},
-			{\"text\":\"Stop\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -213 10 32 redstone_block 0\"}},
-			
-			{\"text\":\"Doors: \",\"color\":\"dark_gray\"},
-			{\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -217 13 32 redstone_block 0\"}},
-			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"Closed\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -217 16 32 redstone_block 0\"}},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STbl 0\"}},
 			
 			{\"text\":\"Jump boost: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set JumpBoostCL STSave 1\"}},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STju 1\"}},
 			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set JumpBoostCL STSave 0\"}},
-			
-			{\"text\":\"Blindness: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set BlindnessCL STSave 1\"}},
-			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set BlindnessCL STSave 0\"}},
-			
-			{\"text\":\"No Sprint: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set NoSprintCL STSave 1\"}},
-			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set NoSprintCL STSave 0\"}},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STju 0\"}},
 			
 			{\"text\":\"Potion: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set PotionsCL STSave 2\"}},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STpo 1\"}},
 			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set PotionsCL STSave 0\"}},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STpo 0\"}},
 			
 			{\"text\":\"Collisions: \",\"color\":\"dark_gray\"},
-			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set CollisionsCL STSave 2\"}},
+			{\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STco 2\"}},
 			{\"text\":\" or \",\"color\":\"gray\"},
-			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set CollisionsCL STSave 0\"}},
-			
-			{\"text\":\"Teleport: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/minecraft:tp @a[r=0,c=1] -216 5 18\"}},
+			{\"text\":\"Off\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STco 0\"}},
 			
 			{\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -217 18 32 redstone_block 0\"}},
+			{\"text\":\"[+]\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 8\"}},
 			
-			{\"text\":\"Classic Delay\",\"color\":\"black\",\"bold\":true},
-			{\"text\":\"\n[1]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 1\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[2]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 2\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[3]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 3\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[4]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 4\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[5]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 5\"}},
-			{\"text\":\"\n\"},
-			{\"text\":\"[6]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 6\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[7]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 7\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[8]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 8\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[9]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 9\"}},
-			{\"text\":\"  \"},
-			{\"text\":\"[10]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set DelayCL STSave 10\"}}
+			{\"text\":\"Edit Delay: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,STStand] STop 16\"}}
 		]"
 	]}
 */
@@ -618,26 +538,61 @@ FUNC {Func_Book_Virus2}:
 			
 			{\"text\":\"VR2: \",\"color\":\"dark_gray\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -64 70 -78 redstone_block 0\"},
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Virus2.Grp_MainStart redstone_block 0\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the scoreboards for Virus 2\",\"color\":\"green\"}}
 			},
 			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"End\n\n\",\"color\":\"red\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -64 74 -78 redstone_block 0\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 1\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends Virus 2\",\"color\":\"red\"}}
 			},
 			
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 1\"}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Stop\n\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 5\"}
+			},
+			
 			{\"text\":\"Select Virus: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -52 70 -76 redstone_block 0\"}},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 8\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Chooses a virus\",\"color\":\"dark_green\"}}
+			},
 			
-			{\"text\":\"Open Doors: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -64 74 -76 redstone_block 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 16\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes a virus\",\"color\":\"red\"}}
+			},
 			
-			{\"text\":\"Change Teams: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -53 72 -76 redstone_block 0\"}},
+			{\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 2\"}
+			},
 			
 			{\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -55 74 -76 redstone_block 0\"}}
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 4\"}
+			},
+			
+			{\"text\":\"Time: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 32\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Edit the current time\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 1 minute\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 1 minute\",\"color\":\"red\"}}
+			}
 		]"
 	]}
 */
@@ -654,26 +609,61 @@ FUNC {Func_Book_Virus1}:
 			
 			{\"text\":\"VR1: \",\"color\":\"dark_gray\"},
 			{\"text\":\"Start\",\"color\":\"dark_green\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 59 -232 redstone_block 0\"},
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock Virus1.Grp_MainStart redstone_block 0\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the scoreboards for Virus 1\",\"color\":\"green\"}}
 			},
 			{\"text\":\" / \",\"color\":\"gray\"},
-			{\"text\":\"End\n\n\",\"color\":\"red\",
-				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 63 -232 redstone_block 0\"},
+			{\"text\":\"Stop\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 1\"},
 				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends Virus 1\",\"color\":\"red\"}}
 			},
 			
+			{\"text\":\"Round: \",\"color\":\"dark_gray\"},
+			{\"text\":\"Start\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 1\"}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"Stop\n\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRst 5\"}
+			},
+			
 			{\"text\":\"Select Virus: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -68 59 -230 redstone_block 0\"}},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 8\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Chooses a virus\",\"color\":\"dark_green\"}}
+			},
 			
-			{\"text\":\"Open Doors: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -80 63 -230 redstone_block 0\"}},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\n\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 16\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes a virus\",\"color\":\"red\"}}
+			},
 			
-			{\"text\":\"Change Teams: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -69 61 -230 redstone_block 0\"}},
+			{\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 2\"}
+			},
 			
 			{\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-			{\"text\":\"[+]\n\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/setblock -71 63 -230 redstone_block 0\"}}
+			{\"text\":\"[+]\n\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 4\"}
+			},
+			
+			{\"text\":\"Time: \",\"color\":\"dark_gray\"},
+			{\"text\":\"[+]\",\"color\":\"gold\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=ArmorStand,VRStand] VRop 32\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Edit the current time\",\"color\":\"gold\"}}
+			},
+			{\"text\":\" / \",\"color\":\"gray\"},
+			{\"text\":\"[+]\",\"color\":\"dark_green\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players add @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 1 minute\",\"color\":\"dark_green\"}}
+			},
+			{\"text\":\" \",\"color\":\"gray\"},
+			{\"text\":\"[-]\",\"color\":\"red\",
+				\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players remove @e[type=ArmorStand,VRStand,VRst=2] VRti2 60\"},
+				\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 1 minute\",\"color\":\"red\"}}
+			}
 		]"
 	]}
 */

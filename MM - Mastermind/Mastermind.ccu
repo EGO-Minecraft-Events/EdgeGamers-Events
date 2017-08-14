@@ -223,6 +223,9 @@ IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Defines: Other
+///	Number of groups
+DEF $MaxNum$ 12
+
 ///	Structure block save answer
 DEF COORDS $StructureSave$ 48 10 72
 
@@ -333,9 +336,10 @@ FUNC {Func_GeneralScoreboardStart}:
 		MMti dummy Mastermind Timer
 		MMti2 dummy Mastermind Timer 2
 		MMop dummy Mastermind Options
+		MMrg dummy Mastermind Right Guess
 	
-	CCU_ExecuteSpawnStand scoreboard objectives setdisplay sidebar MM
-	CCU_ExecuteSpawnStand scoreboard objectives setdisplay sidebar.team.white MMre
+	CCU_ExecuteSpawnStand ScSS MM
+	CCU_ExecuteSpawnStand ScOS sidebar.team.white MMre
 	
 	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
 		MMred
@@ -373,6 +377,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	CCU_ExecuteSpawnStand ScOP @e[type=ArmorStand,MMRoom] MMrn *= -1 Number
 	CCU_ExecuteSpawnStand @e[type=ArmorStand,MMRoom] MMgc = 1
 	CCU_ExecuteSpawnStand @e[type=ArmorStand,MMRoom] MMgl = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,MMRoom] MMrg = 0
 	CCU_ExecuteSpawnStand @e[type=ArmorStand,MMStand] MMop = 16
 	
 ///	Summon Correct Answer Armor Stands
@@ -442,7 +447,7 @@ FUNC {Func_GuessCheckTFClock}:
 	IF {|0| <= 6}:
 		LOOP {1 5 + 1} {0 8 + 2}:
 			@e[type=ArmorStand,MMRoom|0;1|,MMgn=|0|] summon AreaEffectCloud ~ ~2 ~CALC(|1| + 2) {Tags:["MMEntity","MMRoomN","MMRoomN|0|"],Duration:5,Rotation:[180f,0f]}
-	IF {|0| > 6}:
+	ELSE:
 		LOOP {1 5 + 1} {0 8 + 2}:
 			@e[type=ArmorStand,MMRoom|0;1|,MMgn=|0|] summon AreaEffectCloud ~7 ~2 ~CALC(10 - |1|) {Tags:["MMEntity","MMRoomS","MMRoomS|0|"],Duration:5}
 	
@@ -451,13 +456,13 @@ FUNC {Func_GuessCheckTFClock}:
 	IF {|0| <= 6}:
 		@e[$SR|0|$,type=AreaEffectCloud,MMRoomN] ScOP @p[r=5,MMrs=-|0|] MMrs *= -1 Number
 		tp @a[$SR|0|$,MMrs=|0|] @e[$SR|0|$,type=AreaEffectCloud,MMRoomN]
-	IF {|0| > 6}:
+	ELSE:
 		@e[$SR|0|$,type=AreaEffectCloud,MMRoomS] ScOP @p[r=5,MMrs=-|0|] MMrs *= -1 Number
 		tp @a[$SR|0|$,MMrs=|0|] @e[$SR|0|$,type=AreaEffectCloud,MMRoomS]
 		
 	IF {|0| <= 6}:
-		DEF GLOBAL $IsNeg$ NULL
-	IF {|0| > 6}:
+		DEF GLOBAL $IsNeg$
+	ELSE:
 		DEF GLOBAL $IsNeg$ -
 	
 ///	Summons all armor stands (temporary)
@@ -489,8 +494,7 @@ FUNC {Func_GuessCheckTFClock}:
 		LOOP {1 6 + 1}:
 			@a[$SR|0;1|$,MMrs=|0;1|] @e[dx=5,dy=1,MMA,MMpa=|0|] @e[dx=5,dy=1,MMRA|0|] MMra + 1
 		@a[$SR|0|$,MMrs=|0|] @e[dx=7,dy=1,MMRA,MMra>=2] @a[dx=-7,dy=1,c=1,MMrs=|0|] MMra = 1
-		
-	IF {|0| > 6}:
+	ELSE:
 		LOOP {1 6 + 1}:
 			@a[$SR|0;1|$,MMrs=|0;1|] @e[dx=-5,dy=1,MMA,MMpa=|0|] @e[dx=-5,dy=1,MMRA|0|] MMra + 1
 		@a[$SR|0|$,MMrs=|0|] @e[dx=-7,dy=1,MMRA,MMra>=2] @a[dx=7,dy=1,c=1,MMrs=|0|] MMra = 1
@@ -500,7 +504,7 @@ FUNC {Func_GuessCheckTFClock}:
 /// Detects any non-wool blocks
 	IF {|0| <= 6}:
 		@a[$SR|0|$,MMrs=|0|] @e[dx=5,dy=1,MMA,MMpa=0] @a[MMrs=|0|,dx=-5,dy=1,c=1] MMna = 1
-	IF {|0| > 6}:
+	ELSE:
 		@a[$SR|0|$,MMrs=|0|] @e[dx=-5,dy=1,MMA,MMpa=0] @a[MMrs=|0|,dx=5,dy=1,c=1] MMna = 1
 	@a[$SR|0|$,MMrs=|0|] MMna + 0
 
@@ -520,8 +524,7 @@ FUNC {Func_GuessCheckTFClock}:
 =//
 	IF {|0| <= 6}:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~7 ~ ~ standing_sign 2 replace $SignFix$
-	
-	IF {|0| > 6}:
+	ELSE:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~-7 ~ ~ standing_sign 10 replace $SignFix$
 	
 ///	displays red
@@ -567,19 +570,41 @@ FUNC {Func_GuessCheckTFClock}:
 	
 	IF {|0| <= 6}:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=7,dy=1,MMAR,MMsd=4] fill ~-7 ~4 ~ ~-7 ~6 ~ sea_lantern 0 replace redstone_lamp
-		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=7,dy=1,MMAR,MMsd=4] @e[type=ArmorStand,MMRoom|0|,MMgn>=1] MMpl + 0
-	
-	IF {|0| > 6}:
+		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=7,dy=1,MMAR,MMsd=4] @e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMrg=0] MMrg = 2
+	ELSE:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] fill ~7 ~4 ~ ~7 ~6 ~ sea_lantern 0 replace redstone_lamp
-		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] @e[type=ArmorStand,MMRoom|0|,MMgn>=1] MMpl + 0
+		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[dx=-7,dy=1,MMAR,MMsd=4] @e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMrg=0] MMrg = 2
 	
-	@e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMpl=0] ScOP @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMpl=0] MMpl = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMpl=0] MMgn
-	ScOP @e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMpl>=1] MMpl *= -1 Number
-	@e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMpl<=-1] ScOP @a[$SR|0|$] MMre = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMpl<=-1] MMpl
+	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] @e[type=ArmorStand,MMRoom|0|,MMgn>=1,MMrg=0] MMrg = 1
+	//=
+		MMrg 0 --> 1 --> 0
+		MMrg 0 --> 2 --> 3
+		
+		-1 is guess on first try
+		-2 is guess on second try
+		-3 is guess on third try
+		-4 is guess on fourth try
+		-5 is guess on fifth try
+		
+		-100 normal
+		-102 is when first guess is successfully done
+		-103 is when second guess is successfully done
+		-104 is when third guess is successfully done
+		-105 is when fourth guess is successfully done
+		-106 is when fifth guess is successfully done
+	
+	
+	=//
+	@e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] ScOP @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMgn
+	ScOP @e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl *= -1 Number
+	@e[type=ArmorStand,MMRoom|0|,MMrg=1] MMpl - 100
+	@e[type=ArmorStand,MMRoom|0|,MMrg>=1<=2] ScOP @a[$SR|0|$] MMre = @e[c=1,r=1,type=ArmorStand,MMRoom|0|,MMrg>=1<=2] MMpl
+	@e[type=ArmorStand,MMRoom|0|,MMrg=1] MMrg = 0
+	@e[type=ArmorStand,MMRoom|0|,MMrg=2] MMrg = 3
 	
 	IF {|0| <= 6}:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] clone ~2 ~-1 ~ ~5 ~-1 ~ ~2 ~-3 ~
-	IF {|0| > 6}:
+	ELSE:
 		@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
 	
 	@a[$SR|0|$,MMrs=|0|,MMra=0,MMna=0] setblock ~ ~5 ~ redstone_block 0
@@ -661,6 +686,7 @@ FUNC {Func_GeneralOptionsTFClock}:
 	@e[type=ArmorStand,MMStand,MMop>=32] fill $FillStructure$ redstone_block 0 replace planks 0
 	@e[type=ArmorStand,MMStand,MMop>=32] fill $FillStructure$ planks 0 replace redstone_block 0
 	@e[type=ArmorStand,MMStand,MMop>=32] @e[type=ArmorStand,MMRoom] MMgc = 1
+	@e[type=ArmorStand,MMStand,MMop>=32] @e[type=ArmorStand,MMRoom] MMrg = 0
 	@e[type=ArmorStand,MMStand,MMop>=32] @e[type=ArmorStand,MMRoom] reset MMpl
 	@e[type=ArmorStand,MMStand,MMop>=32] * reset MMre
 	@e[type=ArmorStand,MMStand,MMop>=32] @a[$SA$] MMre = -100
@@ -724,7 +750,6 @@ FUNC {Func_RefreshRoomsTFClock}:
 //>
 
 //<Groups
-
 GROUP {Grp_MainStart}:
 	CCU.spawnStandStart()
 	CCU_Deactivate(GSELF)
@@ -732,11 +757,9 @@ GROUP {Grp_MainStart}:
 	CCU_Activate(Grp_MainClock)
 	CCU_Activate(Grp_GeneralOptionsTFClock)
 	CCU_Activate(Grp_RefreshRoomsTFClock)
-	LOOP {1 12 + 1}:
+	LOOP {1 $MaxNum$ + 1}:
 		CCU_Activate(Grp_GuessCheckTFClock|0|)
 	CCU_FinalSpawnStand
-	
-	CCU_Activate(Grp_GuessCheckTFClock12)
 	
 GROUP {Grp_MainClock}:
 	Func_GeneralScoreboardClock()
@@ -748,7 +771,7 @@ GROUP {Grp_RefreshRoomsTFClock}:
 	Func_RefreshRoomsTFClock()
 
 
-LOOP {1 12 + 1}:
+LOOP {1 $MaxNum$ + 1}:
 	GROUP {CLOCK Grp_GuessCheckTFClock|0|}:
 		Func_GuessCheckTFClock(|0|)
 
@@ -760,7 +783,7 @@ GROUP {Grp_MainEnd}:
 	CCU_Deactivate(Grp_MainClock)
 	CCU_Deactivate(Grp_GeneralOptionsTFClock)
 	CCU_Deactivate(Grp_RefreshRoomsTFClock)
-	LOOP {1 12 + 1}:
+	LOOP {1 $MaxNum$ + 1}:
 		CCU_Deactivate(Grp_GuessCheckTFClock|0|)
 
 CCU.cmdSave()

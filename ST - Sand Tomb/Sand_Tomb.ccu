@@ -1,0 +1,479 @@
+//(Sand Tomb)
+
+//<General Definitions
+DEF $SA$ x=-279,y=4,z=5,dx=83,dy=50,dz=44
+DEF $SPid$ 14
+DEF $SPpvp$ 1
+DEF $SPsat$ 0
+
+DEF $CMDName$ ST
+DEF $CMDSizeX$ 10
+DEF $CMDSizeY$ 8
+DEF $CMDSizeZ$ 16
+
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ST","color":"yellow","bold":"true","hoverEvent":{\
+		"action":"show_text","value":{"text":"Sand Tomb","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ -220 8 31
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
+
+///	Select Arenas
+DEF $SelectAF$ x=-272,y=4,z=35,dx=44,dy=45,dz=6
+DEF $SelectCL$ x=-222,y=4,z=12,dx=20,dy=40,dz=13
+
+///	Particle coordinates
+DEF COORDS $ParticleCoordsAF$ -252 26.25 27
+DEF COORDS $ParticleCoordsCL$ -237 26.25 18
+
+///	Select for the portal
+DEF $SelectPortalAF$ x=-253,y=25,z=27,dx=2,dy=2
+DEF $SelectPortalCL$ x=-237,y=25,z=17,dy=2,dz=2
+
+///	Door bar
+DEF COORDS $PortalFillAF$ -251 26 27 -253 26 27
+DEF COORDS $PortalFillCL$ -237 26 17 -237 26 19
+
+///	Teleport to the arena
+DEF COORDS $PortalTeleportAF$ -249 5 37.0
+DEF COORDS $PortalTeleportCL$ -216 4 18
+
+///	Select winners
+DEF $WinSelectAF$ x=-272,y=40,z=40,dx=44
+DEF $WinSelectCL$ x=-207,y=11,z=16,dy=1,dz=3
+
+///	Pre select winners
+DEF $WinPreSelectAF$ x=-272,y=41,z=40,dx=44,dy=1
+DEF $WinPreSelectCL$ x=-207,y=10,z=16,dy=24,dz=3
+
+///	Sand block area
+DEF COORDS $StructureBlockAF$ -273 42 36 -273 42 37
+DEF COORDS $StructureBlockCL$ -207 40 18
+
+///	Clearing the sand in the arena
+DEF COORDS $SandFillAF$ -229 41 36 -271 5 37
+DEF COORDS $SandFillCL$ -211 4 13 -221 33 23
+
+///	Select spawn
+DEF $SpawnArea$ x=-266,y=25,z=9,dx=28,dy=5,dz=17
+
+///	Firework
+DEF $Firework$ FireworksRocketEntity ~ ~ ~ \
+		{LifeTime:20,FireworksItem:{id:fireworks,Count:1,tag:{Fireworks:{Explosions:[{Type:0,Flicker:1,Trail:0,Colors:[41728,65280],FadeColors:[2883328]}]}}}}
+
+DEF CCItem_Potion potion |0| |1| {CustomPotionEffects:[{Id:25,Amplifier:12,Duration:20}],\
+		Potion:"leaping",HideFlags:127,display:{Name:"Kangaroo potion",Lore:["One time use potion","Use wisely!"]}}
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 8
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption true
+//>
+
+//<General Comments
+//=
+	STid 0 = switch to classic
+	STid 1 = classic
+	STid 2 = switch to ant farm
+	STid 3 = ant farm
+	
+	Saturation - STsa	0 / 1
+	Blindness - STbl	0 / 1
+	Jump boost - STju	0 / 1
+	Potion - STpo		0 / 1
+	Collisions - STco	0 --> 1, 2 --> 3
+=//
+//>
+
+
+//<General Scoreboard Start
+FUNC {Func_GeneralScoreboardStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:	
+		ST dummy Sand Tomb
+		STpl dummy Sand Tomb Player List
+		STde deathCount Sand Tomb Deaths
+		STst dummy Sand Tomb State
+		STti dummy Sand Tomb Timer
+		STcd dummy Sand Tomb Countdown
+		STop dummy Sand Tomb Options
+		STpt dummy Sand Tomb Portal
+		STid dummy Sand Tomb Arena ID
+		STtp dummy Sand Tomb Teleport
+		STcl dummy Sand Tomb Calc
+		STwl dummy Sand Tomb Win Calc
+		
+		STsa dummy Sand Tomb Saturation
+		STbl dummy Sand Tomb Blindness
+		STju dummy Sand Tomb Jump boost
+		STpo dummy Sand Tomb Potion
+		STco dummy Sand Tomb Collisions
+		
+	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+		ST Sand Tomb
+		OPT color yellow
+		OPT friendlyfire false
+		OPT collisionRule never
+		
+		STd_dg Sand Tomb display dark green
+		OPT color dark_green
+		
+		STd_g Sand Tomb display green
+		OPT color green
+		
+		STd_y Sand Tomb display yellow
+		OPT color yellow
+	
+	ScSS ST
+	
+	J> STd_dg Classic Ant_Farm
+	J> STd_y Players Time_Elapsed
+	
+	ARRAY {ACTIVATE CCU.iterateNumbers ARGS}:
+		20
+	
+	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["STStand","STEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STst = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STpt = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STid = 1
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STcd = -1
+	
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STsa = 1
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STbl = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STju = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STpo = 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,STStand] STco = 0
+	CCU_ExecuteSpawnStand Delay STop = 60
+	CCU_ExecuteSpawnStand WinnerCount STop = -1
+//>
+
+
+//<General Options Testfor Clock
+FUNC {Func_GeneralOptionsTFClock}:
+	testfor @e[type=ArmorStand,STStand,STop>=1]
+	CCU_SetblockTestfor
+	
+	ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=ArmorStand,STStand,STop>=$TempScore$];STop) ARGS}:
+		{ /// 1 - end game
+			CCU_Activate(Grp_MainEnd)
+			
+		} { /// 2 - open doors
+			@e[type=ArmorStand,STStand,STpt=0,STid=1] title @a[$SA$] title {"text":"Classic Arena","color":"green"}
+			@e[type=ArmorStand,STStand,STpt=0,STid=2] title @a[$SA$] title {"text":"Ant Farm","color":"green"}
+			@e[type=ArmorStand,STStand,STpt=0] title @a[$SA$] subtitle {"text":"The door is now open","color":"green"}
+			
+			@e[type=ArmorStand,STStand,STpt=0,STid=1] Classic ST = 0
+			@e[type=ArmorStand,STStand,STpt=0,STid=2] Ant_Farm ST = 0
+			@e[type=ArmorStand,STStand,STpt=0,STid=1] fill $PortalFillCL$ air 0
+			@e[type=ArmorStand,STStand,STpt=0,STid=2] fill $PortalFillAF$ air 0
+			
+			@e[type=ArmorStand,STStand,STpt=0] @a[$SA$] playsound Snd_XP voice @a[c=1]
+			@e[type=ArmorStand,STStand,STpt=0] @e[type=ArmorStand,SpawnStand] SPtp = $SPid$
+			@e[type=ArmorStand,STStand,STpt=0] STpt = 1
+			
+		} { /// 4 - close doors
+			Classic reset ST
+			Ant_Farm reset ST
+			@e[type=ArmorStand,STStand,STpt=1] fill $PortalFillCL$ stone_slab 1
+			@e[type=ArmorStand,STStand,STpt=1] fill $PortalFillAF$ stone_slab 1
+			@e[type=ArmorStand,STStand,STpt=1] @e[type=ArmorStand,SpawnStand] SPtp = 0
+			@e[type=ArmorStand,STStand,STpt=1] STpt = 0
+			
+		} { /// 8 - reset all options
+			STsa = 1
+			STbl = 0
+			STju = 0
+			STpo = 0
+			STco = 0
+			Delay STop = 60
+			
+		} { /// 16 - edit delay
+			/*
+			tellraw @a[EC=0] $TextStart$
+				{"text":"Edit Delay: ","color":"gray"},
+				{"text":"[+]","color":"gold","italic":true,
+					"hoverEvent":{"action":"show_text","value":{"text":"Edit the delay (in ticks)","color":"gold"}},
+					"clickEvent":{"action":"suggest_command","value":"/scoreboard players set Delay STop #"}
+				}]}
+			*/
+			
+		} { /// 32 - switch to CL
+			@e[type=ArmorStand,STStand,STst=0,STid=2,STpt=1] @a[$SA$,m=2,SPpl=3] SPtp = $SPid$ /// teleports to spawn
+			@e[type=ArmorStand,STStand,STst=0,STid=2,STpt=1] STop + 6 /// close and opens doors
+			@e[type=ArmorStand,STStand,STst=0,STid=2] @a playsound Snd_XP voice @a[c=1]
+			@e[type=ArmorStand,STStand,STst=0,STid=2] STid = 1
+			@e[type=ArmorStand,STStand,STst>=1,STid=2] tellraw @a[EC=0] $TextStart${"text":"You cannot switch an arena when a game has started!","color":"yellow"}]}
+			
+		} { /// 64 - switch to AF
+			@e[type=ArmorStand,STStand,STst=0,STid=1,STpt=1] @a[$SA$,m=2,SPpl=3] SPtp = $SPid$ /// teleports to spawn
+			@e[type=ArmorStand,STStand,STst=0,STid=1,STpt=1] STop + 6 /// close and opens doors
+			@e[type=ArmorStand,STStand,STst=0,STid=1] @a playsound Snd_XP voice @a[c=1]
+			@e[type=ArmorStand,STStand,STst=0,STid=1] STid = 2
+			@e[type=ArmorStand,STStand,STst>=1,STid=1] tellraw @a[EC=0] $TextStart${"text":"You cannot switch an arena when a game has started!","color":"yellow"}]}
+			
+		}
+//>
+
+//<Portal Testfor Clock
+FUNC {Func_PortalTFClock}:
+	testfor @e[type=ArmorStand,STStand,STpt=1]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,STStand,STpt=1,STid=1] particle enchantmenttable $ParticleCoordsCL$ 0 0 0 1 4 force
+	@e[type=ArmorStand,STStand,STpt=1,STid=2] particle enchantmenttable $ParticleCoordsAF$ 0 0 0 1 4 force
+	@e[type=ArmorStand,STStand,STpt=1,STid=1] @a[$SelectPortalCL$,m=2] STtp = 1
+	@e[type=ArmorStand,STStand,STpt=1,STid=2] @a[$SelectPortalAF$,m=2] STtp = 2
+//>
+
+//<Countdown Testfor Clock
+FUNC {Func_CountdownTFClock}:
+	testfor @e[type=ArmorStand,STStand,STst=2,STcd>=0]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd>=0<120] STcd + 1
+	@e[type=ArmorStand,STStand,STst=2,STcd=20] @a[$SA$] playsound Snd_Pling voice @a[c=1]
+	@e[type=ArmorStand,STStand,STst=2,STcd=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd=40] @a[$SA$] playsound Snd_Pling voice @a[c=1]
+	@e[type=ArmorStand,STStand,STst=2,STcd=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd=60] @a[$SA$] playsound Snd_Pling voice @a[c=1]
+	@e[type=ArmorStand,STStand,STst=2,STcd=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd=80] @a[$SA$] playsound Snd_Pling voice @a[c=1]
+	@e[type=ArmorStand,STStand,STst=2,STcd=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd=100] @a[$SA$] playsound Snd_Pling voice @a[c=1]
+	@e[type=ArmorStand,STStand,STst=2,STcd=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
+	
+	@e[type=ArmorStand,STStand,STst=2,STcd=120] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2 2
+	@e[type=ArmorStand,STStand,STst=2,STcd=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
+	ScOP @e[type=ArmorStand,STStand,STst=2,STcd=120] STti = Delay STop
+	@e[type=ArmorStand,STStand,STst=2,STcd=120] STcd = -1
+//>
+
+//<Round Start Testfor Clock
+FUNC {Func_RoundStartTFClock}:
+	testfor @e[type=ArmorStand,STStand,STst=1]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,STStand,STst=1] STcd = 0 /// starts countdown
+	@e[type=ArmorStand,STStand,STst=1] STop = 4 /// closes portals
+	
+	@e[type=ArmorStand,STStand,STst=1,STid=1] @a[m=2,$SelectCL$] STpl = 0
+	@e[type=ArmorStand,STStand,STst=1,STid=2] @a[m=2,$SelectAF$] STpl = 0
+	
+	@e[type=ArmorStand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STpo + 0
+	@e[type=ArmorStand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STsa + 0
+	@e[type=ArmorStand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STwl + 0
+	@e[type=ArmorStand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STpl = 1
+	
+	@e[type=ArmorStand,STStand,STst=1] STst = 2
+//>
+
+//<Round Testfor Clock
+FUNC {Func_RoundTFClock}:
+	testfor @e[type=ArmorStand,STStand,STst=2]
+	CCU_SetblockTestfor
+	
+///	Scoreboard display
+	effect @a[$WinPreSelectCL$,m=2,STpl=1] 12 15 0 true
+	effect @a[$WinPreSelectCL$,m=2,STpl=1] 11 2 10 true
+	effect @a[$WinPreSelectAF$,m=2,STpl=1] 12 15 0 true
+	effect @a[$WinPreSelectAF$,m=2,STpl=1] 11 2 10 true
+	@e[type=ArmorStand,STStand,STid=1] ScOP @a[c=1,$WinSelectCL$,STpl=1,STwl=0] STwl = WinnerCount STop
+	@e[type=ArmorStand,STStand,STid=2] ScOP @a[c=1,$WinSelectAF$,STpl=1,STwl=0] STwl = WinnerCount STop
+	@a[$SA$,m=2,STpl=1,STwl=-1] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-1]"},{"text":" got 1st place!","color":"green"}]}
+	@a[$SA$,m=2,STpl=1,STwl=-2] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-2]"},{"text":" got 2nd place!","color":"green"}]}
+	@a[$SA$,m=2,STpl=1,STwl=-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-3]"},{"text":" got 3rd place!","color":"green"}]}
+	@a[$SA$,m=2,STpl=1,STwl<-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl<-3]"},{"text":" has escaped the sand tomb!","color":"green"}]}
+	@a[$SA$,m=2,STpl=1,STwl>=-3<=-1] ScOP @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] ST = @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] STwl
+	@a[$SA$,m=2,STpl=1,STwl<=-1] WinnerCount STop - 1
+	@a[$SA$,m=2,STpl=1,STwl<=-1] SPtp = $SPid$
+	@a[$SA$,m=2,STpl=1,STwl<=-1] STpl = 2
+	
+///	Delay
+	@e[type=ArmorStand,STStand,STst=2,STcd=-1] STti + 1
+	ScOP @e[type=ArmorStand,STStand,STst=2,STcd=-1] STcl = Delay STop
+	ScOP @e[type=ArmorStand,STStand,STst=2,STcd=-1] STcl -= @e[c=1,type=ArmorStand,STStand,STst=2] STti
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ redstone_block 0
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ air 0
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ redstone_block 0
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ air 0
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STcd=-1] @a[$SA$] playsound Snd_XP voice @a[c=1] ~ ~ ~ 0.5
+	@e[type=ArmorStand,STStand,STst=2,STcl<=0,STcd=-1] STti = 0
+	
+///	Suffocation
+	@a[$SA$,m=2,STpl=1] sand 0 ~ ~1 ~ @a[r=1,c=1] STti + 1
+	@a[$SA$,m=2,STpl=1] air 0 ~ ~2 ~ @a[r=1,c=1] STti = 0
+	kill @a[$SA$,m=2,STti>=100]
+	
+///	Options
+///	Saturation
+	@e[type=ArmorStand,STsa=1] effect @a[$SA$,m=2,STpl=1] 23 3 0 true
+	@e[type=ArmorStand,STsa=0] effect @a[$SA$,m=2,STpl=1] 17 2 127 true
+	@e[type=ArmorStand,STsa=0] @a[$SA$,m=2,STpl=1,STsa<30] STsa + 1
+	@e[type=ArmorStand,STsa=0] effect @a[$SA$,m=2,STpl=1,STsa=30] 23 1 0 true
+	@e[type=ArmorStand,STsa=0] @a[$SA$,m=2,STpl=1,STsa=30] STsa = 0
+
+///	Blindness
+	@e[type=ArmorStand,STbl=1] effect @a[$SA$,m=2,STpl=1] 15 2 0 true
+	
+///	Jump boost
+	@e[type=ArmorStand,STju=1] effect @a[$SA$,m=2,STpl=1] 8 2 1 true
+	
+///	Potion
+	@e[type=ArmorStand,STpo=0] @a[$SA$,m=2,STpl=1,STpo=1] STpo = 0
+	@e[type=ArmorStand,STpo=0] clear @a[$SA$,m=2,STpl=1] CCItem_Potion(-1;-1)
+	@e[type=ArmorStand,STpo=1] give @a[$SA$,m=2,STpl=1,STpo=0] CCItem_Potion(1;0)
+	@e[type=ArmorStand,STpo=1] @a[$SA$,m=2,STpl=1,STpo=0] STpo = 1
+	@e[type=ArmorStand,STpo=1] effect @a[$SA$,m=2,STpl=1,STpo=1] 8 0 0 true
+	clear @a[$SA$,m=2] glass_bottle
+//>
+
+//<Round End Testfor Clock
+FUNC {Func_RoundEndTFClock}:
+	testfor @e[type=ArmorStand,STStand,STst=3]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,STStand,STst=3] fill $SandFillCL$ air 0
+	@e[type=ArmorStand,STStand,STst=3] fill $SandFillAF$ air 0
+	@e[type=ArmorStand,STStand,STst=3] kill @e[$SA$,type=FallingSand]
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl>=1<=2] STpl = 3
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STti = 0
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STpo = 0
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STwl = 0
+	@e[type=ArmorStand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] clear
+	@e[type=ArmorStand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] 10 10 100 true
+	@e[type=ArmorStand,STStand,STst=3] clear @a[$SA$,m=2,STpl=3]
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl=3,EC=0] SPbk = $SPid$
+	@e[type=ArmorStand,STStand,STst=3] @a[$SA$,m=2,STpl=3] SPtp = $SPid$
+	
+	@e[type=ArmorStand,STStand,STst=3] WinnerCount STop = -1
+	@e[type=ArmorStand,STStand,STst=3] * reset ST
+	@e[type=ArmorStand,STStand,STst=3] STst = 0
+//>
+
+//<General Scoreboard Clock
+FUNC {Func_GeneralScoreboardClock}:
+///	General
+	kill @e[$SA$,type=Item]
+	
+///	Spawn area
+	@a[$SpawnArea$,m=2] STpl + 0
+	J> ST @a[$SpawnArea$,m=2,STpl=0,team=!ST] @a[$SpawnArea$,m=2,STpl=3,team=!ST]
+	@a[$SpawnArea$,m=2,STpl=2] summon $Firework$
+	@a[$SpawnArea$,m=2,STpl>=0] STpl = 3
+	@a[$SpawnArea$,m=2,STpl=3,STti>=1] STti = 0
+	effect @a[$SpawnArea$,m=2,STpl=3] 12 3 0 true
+	effect @a[$SpawnArea$,m=2] 23 2 0 true
+	
+///	Collision option
+	@e[type=ArmorStand,STco=0] ScTO ST collisionRule never
+	@e[type=ArmorStand,STco=0] STco = 1
+	@e[type=ArmorStand,STco=2] ScTO ST collisionRule always
+	@e[type=ArmorStand,STco=2] STco = 3
+	
+///	Player Counter Display
+	@e[type=ArmorStand,STStand] STpl = 0
+	@a[$SA$,m=2,STpl=1] @e[type=ArmorStand,STStand] STpl + 1
+	ScOP Players ST = @e[type=ArmorStand,STStand] STpl
+	
+///	general teleports
+	tp @a[m=2,STtp=1] $PortalTeleportCL$
+	tp @a[m=2,STtp=2] $PortalTeleportAF$
+	@a[m=2,STtp>=1] playsound Snd_TP voice @a[c=1]
+	@a[m=2,STtp>=1] STtp = 0
+
+/// Reset on death
+	@a[STde>=1,STpl=1,EC=0] SPbk = $SPid$
+	@a[STde>=1,STpl=1] STti = 0
+	@a[STde>=1,STpl=1] STpl = 3
+	@a[STde>=1] STde = 0
+//>
+
+
+//<General Scoreboard End
+FUNC {Func_GeneralScoreboardEnd}:
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
+	
+	fill $SandFillCL$ air 0
+	fill $SandFillAF$ air 0
+	kill @e[$SA$,type=FallingSand]
+	kill @e[STEntity]
+	
+	clear @a[$SA$,m=2]
+	effect @a[$SA$,m=2] clear
+	effect @a[$SA$] 10 10 100 true
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	@a[$SA$,m=2] SPtp = $SPid$
+//>
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	CCU.spawnStandStart()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardStart()
+	CCU_Activate(Grp_MainClock)
+	CCU.tfActivate(Grp_GeneralOptionsTFClock)
+	CCU.tfActivate(Grp_PortalTFClock)
+	CCU.tfActivate(Grp_CountdownTFClock)
+	CCU.tfActivate(Grp_RoundStartTFClock)
+	CCU.tfActivate(Grp_RoundTFClock)
+	CCU.tfActivate(Grp_RoundEndTFClock)
+	CCU_FinalSpawnStand
+
+GROUP {Grp_MainClock}:
+	CCU.spawnIDSetting()
+	Func_GeneralScoreboardClock()
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU.tfDeactivate(Grp_GeneralOptionsTFClock)
+	CCU.tfDeactivate(Grp_PortalTFClock)
+	CCU.tfDeactivate(Grp_CountdownTFClock)
+	CCU.tfDeactivate(Grp_RoundStartTFClock)
+	CCU.tfDeactivate(Grp_RoundTFClock)
+	CCU.tfDeactivate(Grp_RoundEndTFClock)
+	
+GROUP {Grp_GeneralOptionsTFClock}:
+	Func_GeneralOptionsTFClock()
+	
+GROUP {Grp_PortalTFClock}:
+	Func_PortalTFClock()
+	
+GROUP {Grp_CountdownTFClock}:
+	Func_CountdownTFClock()
+	
+GROUP {Grp_RoundStartTFClock}:
+	Func_RoundStartTFClock()
+	
+GROUP {Grp_RoundTFClock}:
+	Func_RoundTFClock()
+	
+GROUP {Grp_RoundEndTFClock}:
+	Func_RoundEndTFClock()
+
+CCU.cmdSave()
+//>
+
+
+
+
+
+
+
+

@@ -398,7 +398,6 @@ Avaliable options
 //<General Scoreboard Start
 FUNC {Func_GeneralScoreboardStart}:
 	USE {ScOA}:
-		CCU_NumberObjAdd
 		TPSave dummy The Pit Save
 	
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:

@@ -1,5 +1,4 @@
 //(Name)
-///	Full file name
 
 //<General Definitions
 DEF $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
@@ -36,9 +35,6 @@ OPTIONS:
 
 //<General Scoreboard Start
 FUNC {Func_GeneralScoreboardStart}:
-	USE {ScOA}:
-		CCU_NumberObjAdd
-	
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
 		SPid dummy SpawnPoint ID
 		
