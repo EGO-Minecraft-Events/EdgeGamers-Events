@@ -1,0 +1,167 @@
+INITIALIZE
+	fill 443 10 -321 449 17 -304 air 0
+
+GROUP | Grp_StructureBlockPulse | PULSE		[444 11 -320 | stonebrick 0]
+	setblock 444 11 -320 stonebrick 0
+	scoreboard players operation @e[type=ArmorStand,tag=ECRRaceTimer] ECRSave = Percent ECRSave
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=1,score_ECRSave_min=1] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.05
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=2,score_ECRSave_min=2] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.1
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=3,score_ECRSave_min=3] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.15
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=4,score_ECRSave_min=4] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.2
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=5,score_ECRSave_min=5] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.25
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=6,score_ECRSave_min=6] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.3
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=7,score_ECRSave_min=7] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.35
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=8,score_ECRSave_min=8] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.4
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=9,score_ECRSave_min=9] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.45
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=10,score_ECRSave_min=10] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(0.5
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRSave=11,score_ECRSave_min=11] ~ ~ ~ execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~-1 ~ Arr_Percent(1.0
+	execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~ ~ redstone_block 0
+	execute @e[type=ArmorStand,tag=ECRStructure] ~ ~ ~ setblock ~ ~ ~ air 0
+	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a[c=1] ~ ~ ~ 0.4
+
+GROUP | Grp_MainStart | PULSE		[444 14 -320 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 20
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 444 14 -320 stonebrick 0
+	scoreboard objectives add ECRace dummy Ever Changing Race
+	scoreboard objectives add ECRaceCD dummy Ever Changing Race Countdown
+	scoreboard objectives add ECRaceCL dummy Ever Changing Race Clear
+	scoreboard objectives add ECRaceDE deathCount Ever Changing Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar ECRace
+	scoreboard teams add ECR
+	scoreboard teams option ECR color yellow
+	scoreboard teams option ECR seeFriendlyInvisibles true
+	scoreboard teams option ECR collisionRule never
+	scoreboard teams option ECR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["ECRaceCD"]}
+	scoreboard players set /spawn ECRace 99
+	scoreboard teams join ECR /spawn
+	scoreboard objectives add ECRaceDS dummy Ever Changing Race Delay State
+	scoreboard objectives add ECRaceTI dummy Ever Changing Race Delay Timer
+	scoreboard objectives add ECRaceFA deathCount Falls
+	scoreboard objectives add ECRSave dummy ECR Settings Save
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay belowName ECRaceFA
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRRaceTimer"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand ~ ~ ~ {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRDeathMessages"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 467 3 -335 {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure1"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 499 3 -335 {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure2"]}
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon ArmorStand 531 3 -335 {Marker:1,PersistenceRequired:1,Invisible:1,NoGravity:1,Tags:["ECRAS","ECRStructure","ECRStructure3"]}
+	scoreboard players add @e[type=ArmorStand,tag=ECRDeathMessages] ECRaceTI 0
+	setblock 446 11 -320 redstone_block 0
+	blockdata 446 15 -318 {auto:1b}
+	setblock 446 15 -320 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 20
+
+GROUP | Grp_MainClock | CLOCK		[446 11 -320 | stonebrick 0]
+	scoreboard players add @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] SPid 0
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,score_SPid=-21] SPid 20
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,score_SPid_min=-19] SPid 20
+	minecraft:kill @e[x=450,y=0,z=-353,dx=124,dy=30,dz=45,type=Item]
+	scoreboard players add @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2] ECRaceCL 0
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceCL=0,score_ECRaceCL_min=0] ECRaceDE 1
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceCL=0,score_ECRaceCL_min=0] ECRaceCL 1
+	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceDE_min=1] clear
+	minecraft:clear @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceDE_min=1]
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceDE_min=1] SPbk 20
+	scoreboard teams join ECR @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,team=!ECR]
+	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR] 14 3 0 true
+	scoreboard players add @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR] ECRace 0
+	scoreboard players tag @a[x=454,y=2,z=-334,dx=12,dy=9,dz=6,m=2,team=ECR,score_ECRace_min=0,tag=!ECLap] add ECLap
+	scoreboard players add @a[x=565,y=3,z=-333,dy=3,dz=4,m=2,team=ECR,score_ECRace_min=0,tag=!ECLap] ECRace 1
+	execute @a[x=565,y=3,z=-333,dy=3,dz=4,m=2,team=ECR,score_ECRace_min=1,tag=!ECLap] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=ECR,score_ECRace_min=1,tag=!ECLap]"},{"text":" has finished a lap!","color":"yellow"}]}
+	execute @a[x=565,y=3,z=-333,dy=3,dz=4,m=2,team=ECR,score_ECRace_min=1,tag=!ECLap] ~ ~ ~ playsound minecraft:entity.experience_orb.touch voice @a
+	scoreboard players tag @a[x=565,y=3,z=-333,dy=3,dz=4,m=2,team=ECR,score_ECRace_min=0,tag=!ECLap] add ECLap
+	scoreboard players tag @a[x=497,y=0,z=-333,dy=4,dz=4,m=2,team=ECR,score_ECRace_min=0,tag=ECLap] remove ECLap
+	scoreboard players tag @a[x=569,y=3,z=-333,dy=4,dz=4,m=2,team=ECR] add ECRKilled
+	scoreboard players tag @a[x=467,y=0,z=-333,dx=95,dy=-10,dz=4,m=2,team=ECR,tag=!ECRKilled] add ECRKilled
+	minecraft:tp @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] 460 3 -331 -90 0
+	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ~ ~ ~ particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] 8 5 255 true
+	scoreboard players add @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,team=ECR,tag=ECRKilled] ECRaceFA 1
+	scoreboard players tag @a[tag=ECRKilled] remove ECRKilled
+	scoreboard players remove @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI_min=1] ECRaceTI 1
+	testfor @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=1,score_ECRaceDS_min=1]
+	 | scoreboard players operation @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=1,score_ECRaceDS_min=1] ECRaceTI = Delay2 ECRSave
+	 | scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceDS=1,score_ECRaceDS_min=1] ECRaceDS 2
+	 L setblock 444 11 -320 redstone_block 0
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=2,score_ECRaceDS_min=2] ~ ~ ~ fill 467 2 -329 562 2 -333 air 0 replace gold_block 0
+	execute @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=2,score_ECRaceDS_min=2] ~ ~ ~ fill 467 2 -329 562 2 -333 gold_block 0 replace stained_glass 3
+	testfor @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=2,score_ECRaceDS_min=2]
+	 | scoreboard players operation @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceTI=0,score_ECRaceTI_min=0,score_ECRaceDS=2,score_ECRaceDS_min=2] ECRaceTI = Delay1 ECRSave
+	 L scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer,score_ECRaceDS=2,score_ECRaceDS_min=2] ECRaceDS 1
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_ECRaceDE_min=1] ECRaceDE 0
+
+GROUP | Grp_CountdownTFClock | CLOCK		[446 15 -320 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=ECRaceCD]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=ECRaceCD] ECRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=20,score_ECRaceCD_min=20] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=20,score_ECRaceCD_min=20] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=40,score_ECRaceCD_min=40] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=40,score_ECRaceCD_min=40] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=60,score_ECRaceCD_min=60] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=60,score_ECRaceCD_min=60] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=80,score_ECRaceCD_min=80] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=80,score_ECRaceCD_min=80] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=100,score_ECRaceCD_min=100] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=100,score_ECRaceCD_min=100] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ execute @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ tellraw @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ECR","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ever Changing Race","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ title @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer] ECRaceDS 1
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ scoreboard players set @e[type=ArmorStand,tag=ECRRaceTimer] ECRaceTI 0
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ fill 466 4 -329 466 4 -333 air 0
+	execute @e[type=AreaEffectCloud,tag=ECRaceCD,score_ECRaceCD=120,score_ECRaceCD_min=120] ~ ~ ~ fill 466 6 -333 466 6 -329 air 0
+
+GROUP | Grp_MainEnd | PULSE		[448 11 -320 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=20,score_SPgam_min=20] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 448 11 -320 stonebrick 0
+	scoreboard objectives remove ECRace
+	scoreboard objectives remove ECRaceCD
+	scoreboard objectives remove ECRaceCL
+	scoreboard objectives remove ECRaceDE
+	scoreboard teams remove ECR
+	minecraft:kill @e[type=AreaEffectCloud,tag=ECRaceCD]
+	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45] clear
+	minecraft:clear @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2]
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2,score_EC=0,score_EC_min=0] SPbk 20
+	effect @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2] 6 20 100 true
+	scoreboard players set @a[x=450,y=0,z=-353,dx=124,dy=30,dz=45,m=2] SPtp 20
+	scoreboard objectives remove ECRaceDS
+	scoreboard objectives remove ECRaceTI
+	scoreboard objectives remove ECRaceFA
+	scoreboard objectives remove ECRSave
+	scoreboard players tag * remove ECRKilled
+	minecraft:kill @e[type=ArmorStand,tag=ECRAS]
+	fill 466 4 -329 466 4 -333 skull 4 replace {SkullType:3,Owner:{Name:"Smiley0_1",Id:"15f83218-25b3-4936-873e-20fd1aede94c"}}
+	fill 466 6 -333 466 6 -329 barrier 0
+	fill 467 2 -329 562 2 -333 air 0
+	scoreboard players tag * remove ECLap
+	setblock 446 11 -320 stonebrick 0
+	blockdata 446 15 -318 {auto:0b}
+	setblock 446 15 -320 stonebrick 0
+
+FINALIZE
+	fill 443 9 -321 446 7 -318 air 0
+	setblock 444 9 -320 structure_block 0 replace {name:"CMDSave_ECR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:6,sizeY:6,sizeZ:16}
+	setblock 444 7 -320 structure_block 0 replace {name:"CMDSave_ECR",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 444 9 -321 wooden_button 4
+	setblock 444 7 -321 wooden_button 4
+	setblock 445 9 -320 redstone_lamp 0
+	setblock 445 7 -320 redstone_lamp 0
+	setblock 444 9 -319 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+	setblock 444 11 -320 stonebrick 0
+	setblock 444 14 -320 stonebrick 0
+	setblock 446 11 -320 stonebrick 0
+	setblock 446 15 -320 stonebrick 0
+	setblock 448 11 -320 stonebrick 0
+

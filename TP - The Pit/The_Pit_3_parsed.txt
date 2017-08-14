@@ -52,6 +52,9 @@ GROUP | Grp_MainStart | PULSE		[-96 16 240 | stonebrick 0]
 	scoreboard objectives add TPwtg dummy TP Weapon Type Give
 	scoreboard objectives add TPef dummy The Pit Effect
 	scoreboard objectives add TPefc dummy The Pit Effect Calc
+	scoreboard players set @e[type=ArmorStand,tag=TPStand] TPons 0
+	scoreboard players set @e[type=ArmorStand,tag=TPStand] TPoju 1
+	scoreboard players set @e[type=ArmorStand,tag=TPStand] TPomo 0
 	scoreboard objectives add TPpu dummy The Pit Pumpkin
 	scoreboard objectives add TPput dummy The Pit Pumpkin Timer
 	scoreboard objectives add TPpuc dummy The Pit Pumpkin Calc
@@ -97,14 +100,14 @@ GROUP | Grp_MainStart | PULSE		[-96 16 240 | stonebrick 0]
 	setblock -92 31 240 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 10
 
-GROUP | Grp_MainEnd | PULSE		[-96 23 240 | stonebrick 0]
+GROUP | Grp_MainEnd | PULSE		[-96 24 240 | stonebrick 0]
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=10,score_SPgam_min=10] SPgam 0
 	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
-	setblock -96 23 240 stonebrick 0
+	setblock -96 24 240 stonebrick 0
 	scoreboard objectives remove TP
 	scoreboard objectives remove TPsa
 	scoreboard objectives remove TPtm
@@ -170,8 +173,8 @@ GROUP | Grp_MainEnd | PULSE		[-96 23 240 | stonebrick 0]
 	blockdata -92 31 242 {auto:0b}
 	setblock -92 31 240 stonebrick 0
 
-GROUP | Grp_RefreshArenaPulse | PULSE		[-96 29 240 | stonebrick 0]
-	setblock -96 29 240 stonebrick 0
+GROUP | Grp_RefreshArenaPulse | PULSE		[-96 30 240 | stonebrick 0]
+	setblock -96 30 240 stonebrick 0
 	execute @e[type=ArmorStand,tag=TPStand,score_TPoat=0,score_TPoat_min=0,score_TPoas=0,score_TPoas_min=0] ~ ~ ~ setblock -78 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"NONE",posX:-1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegS",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=TPStand,score_TPoat=0,score_TPoat_min=0,score_TPoas=0,score_TPoas_min=0] ~ ~ ~ setblock -79 5 175 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_90",posX:0,posY:5,posZ:-1,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegS",showboundingbox:0b}
 	execute @e[type=ArmorStand,tag=TPStand,score_TPoat=0,score_TPoat_min=0,score_TPoas=0,score_TPoas_min=0] ~ ~ ~ setblock -80 5 174 structure_block 0 replace {mode:"LOAD",ignoreEntities:1b,rotation:"CLOCKWISE_180",posX:1,posY:5,posZ:0,sizeX:21,sizeY:1,sizeZ:21,name:"TP_RegS",showboundingbox:0b}
@@ -206,11 +209,11 @@ GROUP | Grp_MainClock | CLOCK		[-94 16 240 | stonebrick 0]
 	scoreboard players set @e[type=Arrow] TPtm 1 {inGround:1b}
 	minecraft:kill @e[type=Arrow,score_TPtm=1,score_TPtm_min=1]
 	testfor @e[type=ArmorStand,tag=TPStand,score_TPoas_min=1000]
-	 | execute @e[type=ArmorStand,tag=TPStand,score_TPoas_min=1000] ~ ~ ~ setblock -96 29 240 redstone_block 0
+	 | execute @e[type=ArmorStand,tag=TPStand,score_TPoas_min=1000] ~ ~ ~ setblock -96 30 240 redstone_block 0
 	 L scoreboard players remove @e[type=ArmorStand,tag=TPStand,score_TPoas_min=1000] TPoas 1000
 	
 	testfor @e[type=ArmorStand,tag=TPStand,score_TPoat_min=1000]
-	 | execute @e[type=ArmorStand,tag=TPStand,score_TPoat_min=1000] ~ ~ ~ setblock -96 29 240 redstone_block 0
+	 | execute @e[type=ArmorStand,tag=TPStand,score_TPoat_min=1000] ~ ~ ~ setblock -96 30 240 redstone_block 0
 	 L scoreboard players remove @e[type=ArmorStand,tag=TPStand,score_TPoat_min=1000] TPoat 1000
 	testfor @e[type=ArmorStand,tag=TPStand,score_TPowe_min=1000]
 	 | execute @e[type=ArmorStand,tag=TPStand,score_TPowe_min=1000,score_TPst=2,score_TPst_min=2] ~ ~ ~ scoreboard players set @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] TPwtg 1
@@ -233,8 +236,8 @@ GROUP | Grp_MainClock | CLOCK		[-94 16 240 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst_min=1] ~ ~ ~ scoreboard teams join TPr @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl_min=0,team=!TPr,score_TPtid=1,score_TPtid_min=1]
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst_min=1] ~ ~ ~ scoreboard teams join TPb @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl_min=0,team=!TPb,score_TPtid=2,score_TPtid_min=2]
 	scoreboard players set @e[type=ArmorStand,tag=TPCount,score_TPst=2,score_TPst_min=2] TPpl 0
-	execute @e[type=ArmorStand,tag=TPStand,score_TPst=2,score_TPst_min=2] ~ ~ ~ execute @a[x=-107,y=6,z=146,dx=56,dy=14,dz=56,m=2,score_TPtid=1,score_TPtid_min=1,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountRed] TPpl 1
-	execute @e[type=ArmorStand,tag=TPStand,score_TPst=2,score_TPst_min=2] ~ ~ ~ execute @a[x=-107,y=6,z=146,dx=56,dy=14,dz=56,m=2,score_TPtid=2,score_TPtid_min=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountBlue] TPpl 1
+	execute @e[type=ArmorStand,tag=TPStand,score_TPst=2,score_TPst_min=2] ~ ~ ~ execute @a[x=-107,y=6,z=146,dx=56,dy=50,dz=56,m=2,score_TPtid=1,score_TPtid_min=1,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountRed] TPpl 1
+	execute @e[type=ArmorStand,tag=TPStand,score_TPst=2,score_TPst_min=2] ~ ~ ~ execute @a[x=-107,y=6,z=146,dx=56,dy=50,dz=56,m=2,score_TPtid=2,score_TPtid_min=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountBlue] TPpl 1
 	scoreboard players set @e[type=ArmorStand,tag=TPCount,score_TPst=0,score_TPst_min=0] TPpl 0
 	execute @e[type=ArmorStand,tag=TPStand,score_TPst=0,score_TPst_min=0] ~ ~ ~ execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid=1,score_TPtid_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountRed] TPpl 1
 	execute @e[type=ArmorStand,tag=TPStand,score_TPst=0,score_TPst_min=0] ~ ~ ~ execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPtid=2,score_TPtid_min=2] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPCountBlue] TPpl 1
@@ -243,7 +246,7 @@ GROUP | Grp_MainClock | CLOCK		[-94 16 240 | stonebrick 0]
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst_min=1] ~ ~ ~ scoreboard players operation Blue TP = @e[type=ArmorStand,tag=TPCountBlue] TPpl
 	scoreboard players set @e[type=ArmorStand,tag=TPCount] TPpl 0
 	execute @a[x=-107,y=25,z=193,dx=9,dy=5,dz=9,m=2,score_TPpl=3,score_TPpl_min=3] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0,score_TPst=0,score_TPst_min=0] TPpl 1
-	execute @a[x=-107,y=6,z=146,dx=56,dy=14,dz=56,m=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0,score_TPst=2,score_TPst_min=2] TPpl 1
+	execute @a[x=-107,y=6,z=146,dx=56,dy=50,dz=56,m=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ scoreboard players add @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0,score_TPst=2,score_TPst_min=2] TPpl 1
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0] ~ ~ ~ scoreboard players reset Red TP
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0] ~ ~ ~ scoreboard players reset Blue TP
 	execute @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0] ~ ~ ~ scoreboard players operation Players TP = @e[type=ArmorStand,tag=TPStand,score_TPtst=0,score_TPtst_min=0] TPpl
@@ -309,6 +312,7 @@ GROUP | Grp_MainClock | CLOCK		[-94 16 240 | stonebrick 0]
 	scoreboard players set @a[score_TPde_min=1] TPde 0
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPwe_min=1,score_TPwe=2] 18 3 100 true
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPwe=0,score_TPwe_min=0] 18 0 0 true
+	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=3,score_TPpl_min=3] 23 10 0 true
 
 GROUP | Grp_CountdownTFClock | CLOCK		[-94 25 240 | stonebrick 0]
 	testfor @e[type=ArmorStand,tag=TPStand,score_TPti_min=0]
@@ -409,9 +413,7 @@ GROUP | Grp_RoundEndTFClock | CLOCK		[-92 23 240 | stonebrick 0]
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl_min=1] clear
 	effect @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl_min=1] 6 1 100 true
 	scoreboard players set @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl_min=1,score_EC=0,score_EC_min=0] SPbk 10
-	scoreboard players set @a[x=-107,y=6,z=146,dx=56,dy=14,dz=56,m=2,score_TPpl_min=1] SPtp 10
-	execute @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
-	execute @a[score_TPsa=1,score_TPsa_min=1,m=2,score_TPpl=1,score_TPpl_min=1] ~ ~ ~ particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	scoreboard players set @a[x=-107,y=6,z=146,dx=56,dy=50,dz=56,m=2,score_TPpl_min=1] SPtp 10
 	setblock -80 7 174 redstone_block 0
 	setblock -80 7 174 air 0
 	scoreboard players reset @e[type=ArmorStand,tag=TPStand] TPti
@@ -419,8 +421,8 @@ GROUP | Grp_RoundEndTFClock | CLOCK		[-92 23 240 | stonebrick 0]
 	scoreboard players reset Countdown TP
 	scoreboard players reset Time_Elapsed TP
 	scoreboard players reset Players TP
-	execute @e[type=ArmorStand,tag=TPStand,score_TPst=3,score_TPst_min=3] ~ ~ ~ setblock -96 29 240 redstone_block 0
-	execute @e[type=ArmorStand,tag=TPStand,score_TPst=4,score_TPst_min=4] ~ ~ ~ setblock -96 23 240 redstone_block 0
+	execute @e[type=ArmorStand,tag=TPStand,score_TPst=3,score_TPst_min=3] ~ ~ ~ setblock -96 30 240 redstone_block 0
+	execute @e[type=ArmorStand,tag=TPStand,score_TPst=4,score_TPst_min=4] ~ ~ ~ setblock -96 24 240 redstone_block 0
 	scoreboard players set @e[type=ArmorStand,tag=TPStand,score_TPst_min=3] TPst 0
 
 GROUP | Grp_DegArenaTFClock | CLOCK		[-92 26 240 | stonebrick 0]
@@ -569,8 +571,8 @@ FINALIZE
 	setblock -95 12 240 redstone_lamp 0
 	setblock -96 14 241 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
 	setblock -96 16 240 stonebrick 0
-	setblock -96 23 240 stonebrick 0
-	setblock -96 29 240 stonebrick 0
+	setblock -96 24 240 stonebrick 0
+	setblock -96 30 240 stonebrick 0
 	setblock -94 16 240 stonebrick 0
 	setblock -94 25 240 stonebrick 0
 	setblock -94 28 240 stonebrick 0

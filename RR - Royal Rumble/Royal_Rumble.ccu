@@ -1,6 +1,5 @@
 //(Royal Rumble)
 ///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\RR - Royal Rumble\Royal_Rumble.ccu
-///	Royal Rumble. God damn this document is outdated
 
 //<General Definitions
 DEF $SA$ x=-153,y=0,z=299,dx=158,dy=110,dz=195
@@ -19,7 +18,7 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +X
 DEF COORDS $CoordsOption$ -129 6 399
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Options
@@ -36,19 +35,54 @@ OPTIONS:
 	filePathFuncOption 
 ///	Filepath to MCFunctions
 /// Preserve coordinates for each group
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<Random comments
 //=
+	-Agent's setup: http://i.imgur.com/PZaIVv6.jpg
+	-kill pigs on point
+	-teleport pigs from point
+	-if tickspeed is slow, set to 60 --> 100%
+	-nerf knockback
+	-speed 3 instead of speed 4
+	-respawn delay of 5s
+	-class limit of 4 on stealth
+	-helmet on warrior for team color
 
--Get coordinates and rotations for all horses
--Get coordinates for display armor stands
--Lag fixing using $SA$ to score
--Combine multiple groups to use RRop as an option TFClock 
--Transfer all specific coordinates to definitions
--Record pig and cow names at point 2
+TODO:
+-General settings:
+	-Turn sounds on because sound queues will be extremely helpful
+-Optifine settings
+	-Video settings --> Animations -->
+		-Explosion Animated --> on
+		-Smoke Animated --> on
+		
+		
 
+-Universal book
+-5 minute tour assisted with cmd blocks
+-10 minute practice session
+
+
+-
+
+
+-Introduce royal rumble:
+	-Royal rumble = leadership vs players
+	-Class based team game --> Capture points
+	-show where points are & they can be captured with redstone blocks
+	
+-Show spawn points (in order of blue to green)
+-Intro classes in green:
+	-engineer = necessary support with healing aura and a movable dispenser to heal faster and restock ammo
+	-archer = ranged combat with regular arrows and splash damage arrows
+	-warrior = close ranged combat with heavy armor
+	-stealth = fast, easily killable and a general distractor
+	
+-Intro teleporter rooms to green --> show teleporters and activate all teleporters
+	
+	
 
 
 Horses:
@@ -658,7 +692,8 @@ DEF CCItem_StealthHeadB slot.armor.head wool 1 3 {Unbreakable:1,display:{Name:"T
 ///	DEF CCItem_StealthBleach potion 1 0 {HideFlags:127,CanDestroy:["minecraft:sand"],Potion:"invisibility",CustomPotionEffects:[{Id:7b,Amplifier:100b,Duration:1000000}],display:{Name:"Bleach",Lore:["Don't drink this in real life","Seriously"]}}
 
 ///	Warrior
-DEF CCItem_WarriorSword iron_sword 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],AttributeModifiers:[{AttributeName:"generic.movementSpeed",Name:"anything",Amount:-0.15,Operation:1,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-2.4,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackDamage",Name:"anything",Amount:10,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],display:{Lore:["Holding this will","make you slower"]}}
+DEF CCItem_WarriorSword iron_sword 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],AttributeModifiers:[{AttributeName:"generic.movementSpeed",Name:"anything",Amount:-0.15,Operation:1,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-2.4,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackDamage",Name:"anything",Amount:6,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],display:{Lore:["Holding this will","make you slower"]}}
+DEF CCItem_WarriorShovel iron_shovel 1 0 {Unbreakable:1,HideFlags:126,CanDestroy:["minecraft:sand"],ench:[{id:19,lvl:2}]}
 DEF CCItem_WarriorShieldG shield 1 10 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],BlockEntityTag:{Patterns:[],Base:10}}
 DEF CCItem_WarriorShieldB shield 1 12 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],BlockEntityTag:{Patterns:[],Base:12}}
 
@@ -668,10 +703,9 @@ DEF CCItem_WarriorLegs slot.armor.legs iron_leggings 1 0 {Unbreakable:1,HideFlag
 DEF CCItem_WarriorFeet slot.armor.feet iron_boots 1 0 {Unbreakable:1,HideFlags:127}
 
 ///	Archer
-DEF CCItem_ArcherBow bow 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],ench:[{id:51,lvl:1}],display:{Name:"Regular bow",Lore:["Infinity 1"]}}
+DEF CCItem_ArcherBow bow 1 0 {Unbreakable:1,HideFlags:126,CanDestroy:["minecraft:sand"],ench:[{id:51,lvl:1}],display:{Name:"Regular bow"}}
 DEF CCItem_ArcherKnife wooden_sword 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],AttributeModifiers:[{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-1.5,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackDamage",Name:"anything",Amount:1,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],display:{Name:"Butter Knife"}}
-DEF CCItem_ArcherReinforced bow 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],ench:[{id:48,lvl:3}],display:{Name:"Reinforced bow",Lore:["Shoots explosive arrows","Power 3"]}}
-DEF CCItem_ArcherStick stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"The Scoping Stick",Lore:["Zooms in and makes you"," immobile when held"]},AttributeModifiers:[{AttributeName:"generic.movementSpeed",Name:"anything",Amount:-3,Operation:1,UUIDLeast:1,UUIDMost:1,Slot:mainhand}]}
+DEF CCItem_ArcherReinforced bow 1 0 {Unbreakable:1,HideFlags:126,CanDestroy:["minecraft:sand"],ench:[{id:48,lvl:3}],display:{Name:"Reinforced bow",Lore:["Shoots explosive arrows"]}}
 DEF CCItem_ArcherRocket arrow |0| |1| {HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Rocket(s)"}}
 DEF CCItem_ArcherArrow arrow |0| |1| {HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"A Regular Arrow",Lore:["Magically disappears when","you use the reinforced bow"]}}
 
@@ -682,12 +716,12 @@ DEF CCItem_ArcherLegs slot.armor.legs chainmail_leggings 1 0 {Unbreakable:1,Hide
 DEF CCItem_ArcherFeet slot.armor.feet chainmail_boots 1 0 {Unbreakable:1,HideFlags:127}
 
 ///	Engineer
-DEF CCItem_EngiePickaxe diamond_pickaxe 1 0 {Unbreakable:1,HideFlags:127,ench:[{id:32,lvl:1}],CanDestroy:["minecraft:obsidian","minecraft:redstone_block","minecraft:sand"],AttributeModifiers:[{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-3.0,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackDamage",Name:"anything",Amount:3.5,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],display:{Lore:["Breaks redstone blocks,","obsidian and sand","Efficiency 1"]}}
+DEF CCItem_EngiePickaxe diamond_pickaxe 1 0 {Unbreakable:1,HideFlags:126,ench:[{id:32,lvl:1}],CanDestroy:["minecraft:obsidian","minecraft:redstone_block","minecraft:sand"],AttributeModifiers:[{AttributeName:"generic.attackSpeed",Name:"anything",Amount:-3.0,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand},{AttributeName:"generic.attackDamage",Name:"anything",Amount:3.5,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:mainhand}],display:{Lore:["Breaks redstone blocks,","obsidian and sand"]}}
 DEF CCItem_EngieBow bow 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Lore:["Shoots blindness arrows"]}}
 DEF CCItem_EngiePotion potion 1 0 {Potion:"water_breathing",HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Potion of Teleportation",Lore:["Teleports you back to spawn"]}}
-DEF CCItem_EngiePickup carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Pickup",Lore:["Picks up in a 3 block radius","Cannot attack while holding the pig"]}}
-DEF CCItem_EngieDestruct carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Self Destruct",Lore:["8 second delay before","placing a new pig"]}}
-
+DEF CCItem_EngiePickup carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Pickup",Lore:["Picks up in a 3 block radius","Cannot attack while holding the pig"]},ench:[{id:0,lvl:1}]}
+DEF CCItem_EngieDestruct carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Self Destruct",Lore:["CALC($EngiePickupDestruct$ / 20.0) second delay before","placing a new pig"]},ench:[{id:0,lvl:1}]}
+DEF CCItem_EngieCamp carrot_on_a_stick 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Camp",Lore:["Stay in one spot for a while","and enables knockback resistance","for your obsidian mining pleasure"]}}
 
 /*
 DEF CCItem_EngieEggG spawn_egg 1 0 {HideFlags:127,CanDestroy:["minecraft:sand"],display:{Name:"Dispenser Pig",Lore:["Oink"]},
@@ -709,7 +743,9 @@ DEF CCItem_EngieArrow tipped_arrow |0| |1| {Potion:"blindness",CustomPotionEffec
 */
 
 DEF CCItem_EngieHeadG slot.armor.head leather_helmet 1 0 {Unbreakable:1,HideFlags:127,display:{color:2490112}}
+DEF CCItem_EngieHeadResG slot.armor.head leather_helmet 1 0 {Unbreakable:1,HideFlags:127,display:{color:2490112},AttributeModifiers:[{AttributeName:"generic.knockbackResistance",Name:"anything",Amount:1,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:head},{AttributeName:"generic.armor",Name:"anything",Amount:1.5,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:head}]}
 DEF CCItem_EngieHeadB slot.armor.head leather_helmet 1 0 {Unbreakable:1,HideFlags:127,display:{color:6724056}}
+DEF CCItem_EngieHeadResB slot.armor.head leather_helmet 1 0 {Unbreakable:1,HideFlags:127,display:{color:6724056},AttributeModifiers:[{AttributeName:"generic.knockbackResistance",Name:"anything",Amount:1,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:head},{AttributeName:"generic.armor",Name:"anything",Amount:1.5,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:head}]}
 DEF CCItem_EngieChestG slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,HideFlags:127,display:{color:2490112}}
 DEF CCItem_EngieChestB slot.armor.chest leather_chestplate 1 0 {Unbreakable:1,HideFlags:127,display:{color:6724056}}
 DEF CCItem_EngieLegsG slot.armor.legs leather_leggings 1 0 {Unbreakable:1,HideFlags:127,display:{color:2490112}}
@@ -734,6 +770,7 @@ DEF $StealthKnifeSpeedLevel$ 1
 
 ///	Stealth Restocking options
 DEF $StealthRestockDelay$ 140
+DEF $StealthRestockGlowing$ 60
 
 ///	Archer Arrow Explosion Radius options
 DEF $ArcherExplosionNear$ 2
@@ -745,7 +782,7 @@ DEF $ArcherExplosionSelfFar$ 4
 DEF $ArcherRocketNum$ 10
 
 ///	Engie Regeneration options
-DEF $EngieRegenRadius$ 5
+DEF $EngieRegenRadius$ 6
 DEF $EngieRegenDelay$ 60
 
 ///	Engie Teleport Delay
@@ -765,6 +802,98 @@ DEF $EngiePickupDelay$ 60
 
 //<Class books
 /*
+DEF CCItem_Book_Universal written_book 1 0 
+	{title:General Overview,author:french_man,pages:[0:
+		"[\"\",
+			{\"text\":\"A Brief Overview\n\",\"bold\":true},
+			{\"text\":\"
+					Royal Rumble 
+				\",\"color\":\"black\"},{\"text\":\"
+					is a class based capture points pvp game\n\nYou 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					capture points 
+				\",\"color\":\"black\"},{\"text\":\"
+					by placing redstone blocks on pistons at the given locations\n\n
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					Green 
+				\",\"color\":\"dark_green\"},{\"text\":\"
+					is attacking, while 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					Blue 
+				\",\"color\":\"blue\"},{\"text\":\"
+					is defending\n\n
+				\",\"color\":\"dark_gray\"}
+		]",1:
+		"[\"\",
+			{\"text\":\"Teleporters\n\",\"bold\":true},
+			{\"text\":\"
+				Teleporters are only for green and can be toggled by redstone blocks at the beacons.
+				There are custom teleporters for blue that can only be toggled by the EC.\n
+			\",\"color\":\"dark_gray\"},
+			{\"text\":\"tl;dr \",\"color\":\"black\"},{\"text\":\"
+				activate if green, disable if blue
+			\",\"color\":\"dark_gray\"}
+			
+		]",2:
+		"[\"\",
+			{\"text\":\"Classes\n\",\"bold\":true},
+			{\"text\":\"
+					The 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					stealth 
+				\",\"color\":\"black\"},{\"text\":\"
+					class can only be chosen by the green team, and is a general distractor & pick class.\n
+					The 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					warrior 
+				\",\"color\":\"black\"},{\"text\":\"
+					class is a general melee combat class.
+				\",\"color\":\"dark_gray\"}
+		]",3:
+		"[\"\",
+			{\"text\":\"Classes\n\",\"bold\":true},
+			{\"text\":\"
+					The 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					archer 
+				\",\"color\":\"black\"},{\"text\":\"
+					class is a general ranged combat class.\n
+					The 
+				\",\"color\":\"dark_gray\"},{\"text\":\"
+					engineer 
+				\",\"color\":\"black\"},{\"text\":\"
+					class is a support class, and is the only source of healing and ammo.
+				\",\"color\":\"dark_gray\"}
+		]",4:
+		"[\"\",
+			{\"text\":\"Capturing points\n\",\"bold\":true},
+			{\"text\":\"
+				Green captures a point by placing a redstone block on the piston at the point. 
+				Blue defends by breaking the redstone block.
+			\",\"color\":\"dark_gray\"}
+		]",5:
+		"[\"\",
+			{\"text\":\"Second point\n\",\"bold\":true},
+			{\"text\":\"
+				For green to access the second point, green engineers must break an obsidian wall and pass through a sand wall behind it. 
+				The sand generator can be toggled to continuously put sand behind the obsidian wall.\n
+			{\"text\":\"tl;dr \",\"color\":\"black\"},{\"text\":\"
+				activate if blue, disable if green
+			\",\"color\":\"dark_gray\"}
+			
+			\",\"color\":\"dark_gray\"}
+		]",6:
+		"[\"\",
+			{\"text\":\"Doing Stuff\n\",\"bold\":true},
+			{\"text\":\"
+				Redstone blocks are given only to stealth and engineers, so they are the only classes that can capture points, toggle teleporters and toggle the sand generator.
+				Engineers are the only class that can break the redstone blocks to turn them off.
+			\",\"color\":\"dark_gray\"}
+		]"
+	]}
+
+-/-
+
 DEF CCItem_Book_Stealth written_book 1 0 
 	{title:Stealth Overview,author:french_man,pages:[0:
 		"[\"\",
@@ -810,7 +939,7 @@ DEF CCItem_Book_Stealth written_book 1 0
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nBig Earner:\",\"italic\":true},
 			{\"text\":\"\n
-				This weapon can one hit kill engineers. 
+				This weapon can one hit kill engineers and one hit kill archers with a crit. 
 				If you kill an engineer, 75% of your cloak will be recharged and you will gain 5 seconds of speed. 
 				Keep in mind it can only be used once.
 			\",\"color\":\"dark_gray\"}
@@ -827,8 +956,8 @@ DEF CCItem_Book_Stealth written_book 1 0
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nRestocking Device:\",\"italic\":true},
 			{\"text\":\"\n
-				When right clicked, you will be blinded and slowed for 6 seconds (as well as unable to use any items), 
-				but any used potions or big earners will be given back.
+				When right clicked, you will be glowing for 3 seconds, blinded and slowed for 6 seconds, and unable to use any items. 
+				Any used potions or big earners will be given back.
 			\",\"color\":\"dark_gray\"}
 		]"
 	]}
@@ -854,6 +983,14 @@ DEF CCItem_Book_Warrior written_book 1 0
 				Unequip the sword when you want to get to a location faster!
 			\",\"color\":\"dark_gray\"}
 		]",2:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nIron Shovel:\",\"italic\":true},
+			{\"text\":\"\n
+				It's just a normal iron shovel except with knockback. 
+				Use it to knock people off high ledges or just use it for digging sand.
+			\",\"color\":\"dark_gray\"}
+		]",3:
 		"[\"\",
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nShield:\",\"italic\":true},
@@ -904,13 +1041,6 @@ DEF CCItem_Book_Archer written_book 1 0
 			{\"text\":\"\n
 				It's a damn butter knife.
 			\",\"color\":\"dark_gray\"}
-		]",5:
-		"[\"\",
-			{\"text\":\"Weapon Overview\",\"bold\":true},
-			{\"text\":\"\nScoping Stick:\",\"italic\":true},
-			{\"text\":\"\n
-				This will give you the ability to scope into far away places, but you lose mobility and visibility when used.
-			\",\"color\":\"dark_gray\"}
 		]"
 	]}
 
@@ -933,7 +1063,7 @@ DEF CCItem_Book_Engie written_book 1 0
 			{\"text\":\"\nA Brief Overview\",\"italic\":true},
 			{\"text\":\"\n\"},
 			{\"text\":\"
-				Every engineer has an aura around them with a radius of three blocks, where everyone in it regenerates health.
+				Every engineer has an aura around them with a radius of $EngieRegenRadius$ blocks, where everyone in it regenerates health.
 			\",\"color\":\"dark_gray\"}
 		]",2:
 		"[\"\",
@@ -946,18 +1076,26 @@ DEF CCItem_Book_Engie written_book 1 0
 		]",3:
 		"[\"\",
 			{\"text\":\"Weapon Overview\",\"bold\":true},
+			{\"text\":\"\nCamp Toggle:\",\"italic\":true},
+			{\"text\":\"\n
+				This will give full knockback resistance at the cost of severely hampering movement. 
+				Use it when mining any obsidian you might come across.
+			\",\"color\":\"dark_gray\"}
+		]",4:
+		"[\"\",
+			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nPotion of Teleportation:\",\"italic\":true},
 			{\"text\":\"\n
 				This allows you to teleport back to spawn in a matter of seconds.
 			\",\"color\":\"dark_gray\"}
-		]",4:
+		]",5:
 		"[\"\",
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nThe Bow:\",\"italic\":true},
 			{\"text\":\"\n
 				This shoots zero damage blindness arrows, with the maxiumum ammo capacity of two.
 			\",\"color\":\"dark_gray\"}
-		]",5:
+		]",6:
 		"[\"\",
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nDispenser Pig:\",\"italic\":true},
@@ -965,7 +1103,7 @@ DEF CCItem_Book_Engie written_book 1 0
 				The dispenser pig is used for restocking ammo for both you (the blindness arrows) and the archer (the explosive arrows.) 
 				It also provides an area of effect healing, which heals faster than your aura.
 			\",\"color\":\"dark_gray\"}
-		]",6:
+		]",7:
 		"[\"\",
 			{\"text\":\"Weapon Overview\",\"bold\":true},
 			{\"text\":\"\nDispenser Pig:\",\"italic\":true},
@@ -1067,28 +1205,31 @@ FUNC {Func_PortalTFClock}:
 //<Universal Class Change
 FUNC {Func_UniversalGive}:
 ///	Heals, clears
-	clear @a[RRsa=1,m=2,|0|]
-	effect @a[RRsa=1,m=2,|0|] clear
-	effect @a[RRsa=1,m=2,|0|] 6 1 100 true
-	effect @a[RRsa=1,m=2,|0|] 11 3 4 true
+	clear @a[$SA$,m=2,|0|]
+	effect @a[$SA$,m=2,|0|] clear
+	effect @a[$SA$,m=2,|0|] 6 1 100 true
+	effect @a[$SA$,m=2,|0|] 11 3 4 true
 	
 ///	Sets scoreboards to reduce lag in clocks
-	@a[RRsa=1,m=2,|0|] RRsrt = 0
-	@a[RRsa=1,m=2,|0|] RRaar + 0
-	@a[RRsa=1,m=2,|0|] RRedt + 0
-	@a[RRsa=1,m=2,|0|] RRre = 60
-	@a[RRsa=1,m=2,|0|] RRaf + 0
-	@a[RRsa=1,m=2,|0|] RRpi + 0
-	@a[RRsa=1,m=2,|0|] RRrg + 0
-	@a[RRsa=1,m=2,|0|] RRao + 0
-	@a[RRsa=1,m=2,|0|] RRue + 0
-	@a[RRsa=1,m=2,|0|] RRte + 0
-	@a[RRsa=1,m=2,|0|] RRtp + 0
-	@a[RRsa=1,m=2,|0|] stats entity @a[r=0,c=1,m=2,|0|] set AffectedItems @a[r=0,c=1] RRaf
+	@a[$SA$,m=2,|0|] RRsrt = 0
+	@a[$SA$,m=2,|0|] RRaar + 0
+	@a[$SA$,m=2,|0|] RRedt + 0
+	@a[$SA$,m=2,|0|] RRre = 60
+	@a[$SA$,m=2,|0|] RRaf + 0
+	@a[$SA$,m=2,|0|] RRpi + 0
+	@a[$SA$,m=2,|0|] RRrg + 0
+	@a[$SA$,m=2,|0|] RRao + 0
+	@a[$SA$,m=2,|0|] RRue + 0
+	@a[$SA$,m=2,|0|] RRte + 0
+	@a[$SA$,m=2,|0|] RRtp + 0
+	@a[$SA$,m=2,|0|] stats entity @a[r=0,c=1,m=2,|0|] set AffectedItems @a[r=0,c=1] RRaf
 	
 ///	Glass panes
-	replaceitem entity @a[RRsa=1,m=2,|0|,team=RRg] CCItem_GlassPaneG
-	replaceitem entity @a[RRsa=1,m=2,|0|,team=RRb] CCItem_GlassPaneB
+	replaceitem entity @a[$SA$,m=2,|0|,team=RRg] CCItem_GlassPaneG
+	replaceitem entity @a[$SA$,m=2,|0|,team=RRb] CCItem_GlassPaneB
+	
+///	Universal book
+	replaceitem entity @a[$SA$,m=2,|0|] slot.inventory.26 CCItem_Book_Universal
 //>
 
 
@@ -1151,6 +1292,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	gamerule naturalRegeneration false
 	gamerule doTileDrops false
 	gamerule doDaylightCycle false
+	gamerule sendCommandFeedback false
 	time set 0
 	
 	ScOS list RRci
@@ -1280,14 +1422,14 @@ FUNC {Func_GeneralEndClock}:
 	@a[RRsa=1,m=2,RRxp>=0] RRxp = 0
 
 /// Class Change tags applied on death
-	@a[m=2,RRde>=1,RRci=0] ScOP @a[c=1,m=2,RRde>=1,RRci=0] RRgi = @a[c=1,m=2,RRde>=1,RRci=0] RRci
+	@a[m=2,RRde>=1,RRci>=0] ScOP @a[c=1,m=2,RRde>=1,RRci>=0] RRgi = @a[c=1,m=2,RRde>=1,RRci>=0] RRci
 	
 ///	Teleportation effects
 	@a[RRsa=1,m=2,RRte>=1] playsound Snd_TP voice @a[c=1]
-	@a[RRsa=1,m=2,RRte=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	@a[RRsa=1,m=2,RRte=1,team=RRg] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
+	@a[RRsa=1,m=2,RRte=1,team=RRb] particle magicCrit ~ ~1 ~ 0.3 0.7 0.3 0 30 force
 	@a[RRsa=1,m=2,RRte=2] particle magicCrit ~ ~1 ~ 0.3 0.7 0.3 0 30 force
-	@a[RRsa=1,m=2,RRte=3,team=RRg] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
-	@a[RRsa=1,m=2,RRte=3,team=RRb] particle magicCrit ~ ~1 ~ 0.3 0.7 0.3 0 30 force
+	@a[RRsa=1,m=2,RRte=3] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
 	@a[m=2,RRte>=1] RRte = 0
 	
 ///	Resistance removal
@@ -1307,6 +1449,7 @@ FUNC {Func_GeneralEndClock}:
 //<General Scoreboard End
 FUNC {Func_GeneralScoreboardEnd}:
 	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
 	
 	kill @e[type=ArmorStand,RRPoint]
 	kill @e[type=Arrow]
@@ -1317,6 +1460,7 @@ FUNC {Func_GeneralScoreboardEnd}:
 	gamerule naturalRegeneration true
 	gamerule doTileDrops false
 	gamerule doDaylightCycle false
+	gamerule sendCommandFeedback true
 	time set 0
 	
 ///	Book for EC (RRBook)
@@ -1362,7 +1506,7 @@ FUNC {Func_GeneralOptionsTFClock}:
 	ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=ArmorStand,RRStand,RRop>=$TempScore$];RRop) ARGS}:
 		{
 		/// 1
-			CCU_Activate(Grp_MainEnd)
+			@e[type=ArmorStand,RRStand] RRst = 4
 		} {
 		/// 2
 			@e[type=AreaEffectCloud,RRtpi=9] RRtpo = 1
@@ -1508,7 +1652,7 @@ FUNC {Func_RoundTFClock}:
 
 //<Round End Testfor Clock
 FUNC {Func_RoundEndTFClock}:
-	testfor @e[type=ArmorStand,RRStand,RRst=3]
+	testfor @e[type=ArmorStand,RRStand,RRst>=3]
 	CCU_SetblockTestfor
 	
 ///	Control point
@@ -1575,7 +1719,8 @@ FUNC {Func_RoundEndTFClock}:
 	effect @a[RRsa=1,m=2] clear
 	@a[RRsa=1,m=2] SPtp = $SPid$
 	
-	@e[type=ArmorStand,RRStand,RRst=3] RRst = 0
+	@e[type=ArmorStand,RRStand,RRst=4] CCU_Activate(Grp_MainEnd)
+	@e[type=ArmorStand,RRStand,RRst>=3] RRst = 0
 //>
 
 //<Countdown Testfor Clock
@@ -1993,7 +2138,7 @@ FUNC {Func_ControlPointClock}:
 //<Control Point End
 FUNC {Func_ControlPointEnd}:
 	CCU.objectiveRemove(Obj_ControlPointStart)
-	CCU.teamRemove(Obj_ControlPointStart)
+	CCU.teamRemove(Team_ControlPointStart)
 	
 	kill @e[type=ArmorStand,RRPoint]
 	kill @e[type=ArmorStand,RRCountdown]
@@ -2166,14 +2311,14 @@ FUNC {Func_StealthClock}:
 	@a[RRsa=1,m=2,RRci=0,RRsst=2,RRsed=20] RRsst = 0
 	@a[RRsa=1,m=2,RRci=0,RRsst=0,RRsed=20] RRsed = 0
 	
-///Effects, clears
+///	Effects, clears
 	@a[RRsa=1,m=2,RRci=0,RRsst=2] particle smoke ~ ~1 ~ 0.3 0.5 0.3 0 10 force @a
 	@a[RRsa=1,m=2,RRci=0,RRsst=2] playsound minecraft:entity.squid.death voice @a[r=10] ~ ~ ~ 0.6 0.5
 	clear @a[RRsa=1,m=2,RRci=0,RRsst>=1<=2]
 	effect @a[RRsa=1,m=2,RRci=0,RRsst>=1<=2] 14 2 0 true
 	effect @a[RRsa=1,m=2,RRci=0,RRsst=0] 14 0 0 true
 	
-///XP Start calc
+///	XP Start calc
 	@a[RRsa=1,m=2,RRci=0,RRsam>=0] ScOP @a[c=1,r=1,m=2,RRci=0,RRsam>=0] RRxp = @a[c=1,r=1,m=2,RRci=0,RRsam>=0] RRsam
 
 //=
@@ -2243,6 +2388,8 @@ FUNC {Func_StealthClock}:
 	
 	@a[RRsa=1,m=2,RRci=0,RRsrt>=0<=$StealthRestockDelay$] RRsrt - 1
 	@a[RRsa=1,m=2,RRci=0,RRsrt>=0<=$StealthRestockDelay$] particle endRod ~ ~1 ~ 0.5 0.8 0.5 0 1 force
+	effect @a[RRsa=1,m=2,RRci=0,RRsrt>=$StealthRestockGlowing$] minecraft:glowing 1 0 true
+	effect @a[RRsa=1,m=2,RRci=0,RRsrt<$StealthRestockGlowing$] minecraft:glowing 0 0 true
 	@a[RRsa=1,m=2,RRci=0,RRsrt>=0<=$StealthRestockDelay$] ScOP @a[m=2,RRci=0,RRsrt>=1,c=1,r=1] RRxp = @a[m=2,RRci=0,RRsrt>=1,c=1,r=1] RRsrt
 	
 ///	Canceled upon death
@@ -2268,6 +2415,7 @@ FUNC {Func_StealthInventoryRestoreTFClock}:
 	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore] slot.hotbar.2 CCItem_StealthCloak
 	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore] slot.hotbar.7 CCItem_StealthRestock
 	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore] slot.inventory.8 CCItem_Book_Stealth
+	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore] slot.inventory.26 CCItem_Book_Universal
 	
 	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore,team=RRg] CCItem_StealthHeadG
 	replaceitem entity @a[RRsa=1,m=2,RRStealthInvRestore,team=RRb] CCItem_StealthHeadB
@@ -2290,32 +2438,32 @@ FUNC {Func_StealthEnd}:
 
 //<Stealth Items
 FUNC {Func_StealthGive}:
-	@a[RRsa=1,m=2,RRgi=0] RRci = 0
-	@a[RRsa=1,m=2,RRgi=0] RRur = 0
-	@a[RRsa=1,m=2,RRgi=0] RRup = 0
-	@a[RRsa=1,m=2,RRgi=0] RRuk = 0
-	@a[RRsa=1,m=2,RRgi=0] RRsst = 0
-	@a[RRsa=1,m=2,RRgi=0] RRsed = 0
-	@a[RRsa=1,m=2,RRgi=0] RRsam = $StealthCloakMax$
+	@a[$SA$,m=2,RRgi=0] RRci = 0
+	@a[$SA$,m=2,RRgi=0] RRur = 0
+	@a[$SA$,m=2,RRgi=0] RRup = 0
+	@a[$SA$,m=2,RRgi=0] RRuk = 0
+	@a[$SA$,m=2,RRgi=0] RRsst = 0
+	@a[$SA$,m=2,RRgi=0] RRsed = 0
+	@a[$SA$,m=2,RRgi=0] RRsam = $StealthCloakMax$
 	
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.hotbar.0 CCItem_StealthSpeed
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.hotbar.1 CCItem_StealthJump
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.hotbar.2 CCItem_StealthCloak
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.hotbar.4 CCItem_StealthKnife
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.hotbar.7 CCItem_StealthRestock
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0,team=RRg] CCItem_StealthHeadG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0,team=RRb] CCItem_StealthHeadB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0,team=RRg] slot.hotbar.5 CCItem_StealthPoisonG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0,team=RRb] slot.hotbar.5 CCItem_StealthPoisonB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] CCItem_RedstoneGive(1)
-	replaceitem entity @a[RRsa=1,m=2,RRgi=0] slot.inventory.8 CCItem_Book_Stealth
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.hotbar.0 CCItem_StealthSpeed
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.hotbar.1 CCItem_StealthJump
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.hotbar.2 CCItem_StealthCloak
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.hotbar.4 CCItem_StealthKnife
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.hotbar.7 CCItem_StealthRestock
+	replaceitem entity @a[$SA$,m=2,RRgi=0,team=RRg] CCItem_StealthHeadG
+	replaceitem entity @a[$SA$,m=2,RRgi=0,team=RRb] CCItem_StealthHeadB
+	replaceitem entity @a[$SA$,m=2,RRgi=0,team=RRg] slot.hotbar.5 CCItem_StealthPoisonG
+	replaceitem entity @a[$SA$,m=2,RRgi=0,team=RRb] slot.hotbar.5 CCItem_StealthPoisonB
+	replaceitem entity @a[$SA$,m=2,RRgi=0] CCItem_RedstoneGive(1)
+	replaceitem entity @a[$SA$,m=2,RRgi=0] slot.inventory.8 CCItem_Book_Stealth
 //>
 
 //<Stealth Change Classes
 FUNC {Func_StealthCC}:
-	@a[RRsa=1,m=2,RRgi=|0|] RRsst = 0
-	@a[RRsa=1,m=2,RRgi=|0|] RRsam = 0
-	@a[RRsa=1,m=2,RRgi=|0|] RRsed = 0
+	@a[$SA$,m=2,|0|] RRsst = 0
+	@a[$SA$,m=2,|0|] RRsam = 0
+	@a[$SA$,m=2,|0|] RRsed = 0
 //>
 
 
@@ -2336,15 +2484,16 @@ FUNC {Func_WarriorEnd}:
 
 //<Warrior Items
 FUNC {Func_WarriorGive}:
-	@a[RRsa=1,m=2,RRgi=1] RRci = 1
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] CCItem_WarriorHead
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] CCItem_WarriorChest
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] CCItem_WarriorLegs
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] CCItem_WarriorFeet
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] slot.hotbar.0 CCItem_WarriorSword
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1,team=RRg] slot.weapon.offhand CCItem_WarriorShieldG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1,team=RRb] slot.weapon.offhand CCItem_WarriorShieldB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=1] slot.inventory.8 CCItem_Book_Warrior
+	@a[$SA$,m=2,RRgi=1] RRci = 1
+	replaceitem entity @a[$SA$,m=2,RRgi=1] CCItem_WarriorHead
+	replaceitem entity @a[$SA$,m=2,RRgi=1] CCItem_WarriorChest
+	replaceitem entity @a[$SA$,m=2,RRgi=1] CCItem_WarriorLegs
+	replaceitem entity @a[$SA$,m=2,RRgi=1] CCItem_WarriorFeet
+	replaceitem entity @a[$SA$,m=2,RRgi=1] slot.hotbar.0 CCItem_WarriorSword
+	replaceitem entity @a[$SA$,m=2,RRgi=1] slot.hotbar.1 CCItem_WarriorShovel
+	replaceitem entity @a[$SA$,m=2,RRgi=1,team=RRg] slot.weapon.offhand CCItem_WarriorShieldG
+	replaceitem entity @a[$SA$,m=2,RRgi=1,team=RRb] slot.weapon.offhand CCItem_WarriorShieldB
+	replaceitem entity @a[$SA$,m=2,RRgi=1] slot.inventory.8 CCItem_Book_Warrior
 //>
 
 //<Warrior Change Classes (currently has nothing)
@@ -2468,34 +2617,27 @@ FUNC {Func_ArcherArrowDamageTestforClock}:
 	
 //=	Deals damage based on class and range
 		HrmLvl	ResLvl	Dmg		CN	CF
-		1		2		1.8			w
-		1		1		2.4		w	a
-		1		0		3		a	e
-		2		2		3.6		e	
-		2		1		4.8			s
-		2		0		6		s	
+		1		2		1.8			
+		1		1		2.4			
+		1		0		3			ae
+		2		2		3.6			
+		2		1		4.8			sw
+		2		0		6		swae	
 	Pig = archer
 =//
 
-	effect @a[RRsa=1,m=2,RRci=0,RRaar=1] 11 1 0 true
-	effect @a[RRsa=1,m=2,RRci=0,RRaar>=1<=2] 7 1 1 true
+	effect @a[RRsa=1,m=2,RRci>=0<=1,RRaar=1] 11 1 0 true
+	@a[RRsa=1,m=2,RRci>=0<=1,RRaar=1] RRre = 3
 	
-	effect @a[RRsa=1,m=2,RRci=3,RRaar=2] 11 1 1 true
-	@a[RRsa=1,m=2,RRci=3,RRaar=2] RRre = 1
-	effect @a[RRsa=1,m=2,RRci=3,RRaar=2] 7 1 1 true
-	effect @a[RRsa=1,m=2,RRci=3,RRaar=1] 7 1 0 true
-	
-	effect @a[RRsa=1,m=2,RRci=2,RRaar=1] 11 1 0 true
-	@a[RRsa=1,m=2,RRci=2,RRaar=1] RRre = 1
-	effect @a[RRsa=1,m=2,RRci=1,RRaar=2] 11 1 0 true
-	effect @a[RRsa=1,m=2,RRci=1,RRaar=1] 11 1 1 true
-	@a[RRsa=1,m=2,RRci=1,RRaar>=1<=2] RRre = 1
-	effect @a[RRsa=1,m=2,RRci>=1<=2,RRaar>=1<=2] 7 1 0 true
+	effect @a[RRsa=1,m=2,RRci>=0<=1,RRaar=1] 7 1 1 true
+	effect @a[RRsa=1,m=2,RRci>=2<=3,RRaar=1] 7 1 0 true
+	effect @a[RRsa=1,m=2,RRci>=0<=4,RRaar=2] 7 1 1 true
 	
 	effect @e[type=Pig,RRaar=1,RRPig] 11 1 0 true
 	effect @e[type=Pig,RRaar>=1<=2,RRPig] 7 1 0 true
 	
 	@e[type=Arrow,RRaar=3] RRka = 1
+	
 	@a[RRaar>=1] RRaar = 0
 	@e[type=Pig,RRaar>=1] RRaar = 0
 //>
@@ -2507,20 +2649,19 @@ FUNC {Func_ArcherEnd}:
 
 //<Archer Items
 FUNC {Func_ArcherGive}:
-	@a[RRsa=1,m=2,RRgi=2] RRci = 2
-	@a[RRsa=1,m=2,RRgi=2] RRub = 0
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.weapon.offhand bow 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],ench:[{id:51,lvl:1}],display:{Name:"Regular bow",Lore:["Infinity 1"]}}
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.hotbar.0 CCItem_ArcherReinforced
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.hotbar.1 CCItem_ArcherKnife
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.hotbar.3 CCItem_ArcherStick
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.hotbar.7 CCItem_ArcherRocket($ArcherRocketNum$;0)
+	@a[$SA$,m=2,RRgi=2] RRci = 2
+	@a[$SA$,m=2,RRgi=2] RRub = 0
+	replaceitem entity @a[$SA$,m=2,RRgi=2] slot.weapon.offhand bow 1 0 {Unbreakable:1,HideFlags:127,CanDestroy:["minecraft:sand"],ench:[{id:51,lvl:1}],display:{Name:"Regular bow",Lore:["Infinity 1"]}}
+	replaceitem entity @a[$SA$,m=2,RRgi=2] slot.hotbar.0 CCItem_ArcherReinforced
+	replaceitem entity @a[$SA$,m=2,RRgi=2] slot.hotbar.1 CCItem_ArcherKnife
+	replaceitem entity @a[$SA$,m=2,RRgi=2] slot.hotbar.7 CCItem_ArcherRocket($ArcherRocketNum$;0)
 	
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2,team=RRg] CCItem_ArcherHeadG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2,team=RRb] CCItem_ArcherHeadB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] CCItem_ArcherChest
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] CCItem_ArcherLegs
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] CCItem_ArcherFeet
-	replaceitem entity @a[RRsa=1,m=2,RRgi=2] slot.inventory.8 CCItem_Book_Archer
+	replaceitem entity @a[$SA$,m=2,RRgi=2,team=RRg] CCItem_ArcherHeadG
+	replaceitem entity @a[$SA$,m=2,RRgi=2,team=RRb] CCItem_ArcherHeadB
+	replaceitem entity @a[$SA$,m=2,RRgi=2] CCItem_ArcherChest
+	replaceitem entity @a[$SA$,m=2,RRgi=2] CCItem_ArcherLegs
+	replaceitem entity @a[$SA$,m=2,RRgi=2] CCItem_ArcherFeet
+	replaceitem entity @a[$SA$,m=2,RRgi=2] slot.inventory.8 CCItem_Book_Archer
 //>
 
 //<Archer Change Classes (currently has nothing)
@@ -2537,6 +2678,7 @@ FUNC {Func_EngineerStart}:
 		RRae dummy RR Stats Affected Entities
 		RRrg dummy RR Regeneration
 		
+		RRect dummy RR Camp Toggle
 		RReam dummy RR Pig Amount
 		RRens dummy RR Newly Spawned Pig
 		RRedp dummy RR Dead Pig
@@ -2582,8 +2724,28 @@ FUNC {Func_EngineerClock}:
 ///	Tags for the player when holding certain weapons
 	@a[RRsa=1,m=2,RRci=3] RRhi = 30 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Pickup"}}}]}
 	@a[RRsa=1,m=2,RRci=3] RRhi = 31 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Self Destruct"}}}]}
+	@a[RRsa=1,m=2,RRci=3] RRhi = 32 {Inventory:[{Slot:-106b,id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Camp"}}}]}
 	@a[RRsa=1,m=2,RRci=3] RRhi = 30 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Pickup"}}}}
 	@a[RRsa=1,m=2,RRci=3] RRhi = 31 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Self Destruct"}}}}
+	@a[RRsa=1,m=2,RRci=3] RRhi = 32 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:"Camp"}}}}
+	
+///	Toggles camp
+///	Only works when you're on the ground to prevent abusing the ability to no fall damage
+	@a[RRsa=1,m=2,RRci=3,RRcs>=1,RRhi=32,RRect=0] RRect = 1 {OnGround:1b}
+	@a[RRsa=1,m=2,RRci=3,RRcs>=1,RRhi=32,RRect=2] RRect = 3
+	@a[RRsa=1,m=2,RRci=3,RRect=2] RRect = 3 {OnGround:0b}
+	replaceitem entity @a[RRsa=1,m=2,RRci=3,RRect=1,team=RRg] CCItem_EngieHeadResG
+	replaceitem entity @a[RRsa=1,m=2,RRci=3,RRect=1,team=RRb] CCItem_EngieHeadResB
+	replaceitem entity @a[RRsa=1,m=2,RRci=3,RRect=3,team=RRg] CCItem_EngieHeadG
+	replaceitem entity @a[RRsa=1,m=2,RRci=3,RRect=3,team=RRb] CCItem_EngieHeadB
+	@a[RRsa=1,m=2,RRci=3,RRect=1] RRect = 2
+	@a[RRsa=1,m=2,RRci=3,RRect=3] RRect = 0
+	
+///	Effects for camp
+	effect @a[RRsa=1,m=2,RRci=3,RRect=2] 2 5 10 true
+	effect @a[RRsa=1,m=2,RRci=3,RRect=2] 8 5 250 true
+	effect @a[RRsa=1,m=2,RRci=3,RRect=0] 2 0 0 true
+	effect @a[RRsa=1,m=2,RRci=3,RRect=0] 8 0 0 true
 	
 ///	Setting up the dispenser
 	@a[RRsa=1,m=2,RRci=3] RRept + 0
@@ -2599,7 +2761,7 @@ FUNC {Func_EngineerClock}:
 	
 ///	Setting the PID of the pig
 	@e[type=Pig,RRPigBlue,RRens=0] ScOP @e[c=1,r=1,type=Pig,RRPigBlue,RRens=0] RRpi = @a[c=1,r=6,team=RRb,RRci=3,RRept=0,RRue>=1] RRpi
-	@e[type=Pig,RRPigBlue,RRens=0] ScOP @e[c=1,r=1,type=Pig,RRPigGreen,RRens=0] RRpi = @a[c=1,r=6,team=RRg,RRci=3,RRept=0,RRue>=1] RRpi
+	@e[type=Pig,RRPigGreen,RRens=0] ScOP @e[c=1,r=1,type=Pig,RRPigGreen,RRens=0] RRpi = @a[c=1,r=6,team=RRg,RRci=3,RRept=0,RRue>=1] RRpi
 	@a[RRsa=1,m=2,RRci=3,RRue>=1] RRue = 2
 	@e[type=Pig,RRens=0,RRPig] RRpi + 0
 	kill @e[type=Pig,RRens=0,RRpi=0,RRPig]
@@ -2754,7 +2916,7 @@ FUNC {Func_EngineerPickupRequestTFClock}:
 	@a[RRsa=1,RRPickupRequest,RRpcl1=0] kill @e[type=ArmorStand,RRPickupRequestTarget,c=1,r=3]
 	
 ///	If RRpcl1 matches with a score of 0, activates all
-	clear @a[RRsa=1,RRPickupRequest,RRpcl1=0] carrot_on_a_stick
+	clear @a[RRsa=1,RRPickupRequest,RRpcl1=0] carrot_on_a_stick 0 -1 {ench:[{id:0,lvl:1}]}
 	clear @a[RRsa=1,RRPickupRequest,RRpcl1=0] bow
 	@a[RRsa=1,RRPickupRequest,RRpcl1=0] + RRPigDispenserGive
 	@a[RRsa=1,RRPickupRequest,RRpcl1=0] + RRDispenserPickup
@@ -2777,7 +2939,7 @@ FUNC {Func_EngineerDestructRequestTFClock}:
 	kill @e[RRPigDispenser,RRpcl2=0]
 	
 ///	Clearing, replaceitem, etc.
-	clear @a[RRci=3,RRDestructRequestChoose] carrot_on_a_stick
+	clear @a[RRci=3,RRDestructRequestChoose] carrot_on_a_stick 0 -1 {ench:[{id:0,lvl:1}]}
 	@a[RRDestructRequestChoose] RRept = 0
 	@a[RRDestructRequestChoose] RReam = $EngiePickupDestruct$
 	@a[RRDestructRequestChoose] @a[c=1,r=0,RRDestructRequest] - RRDestructRequest
@@ -2799,7 +2961,7 @@ FUNC {Func_EngineerDeadPigTFClock}:
 	@a[RRDeadPigPlayer,RRci=3] RReam = $EngiePickupDeath$
 	tellraw @a[RRDeadPigPlayer,RRci=3] $TextStart${"text":"Your dispenser had been destroyed!","color":"red","italic":true}]}
 	@a[RRDeadPigPlayer,RRci=3] playsound minecraft:entity.pig.death voice @a[c=1]
-	clear @a[RRDeadPigPlayer] carrot_on_a_stick
+	clear @a[RRDeadPigPlayer] carrot_on_a_stick 0 -1 {ench:[{id:0,lvl:1}]}
 	@a[RRDeadPigPlayer] - RRDeadPigPlayer
 	@a[RRpcl3<=10000] reset RRpcl3
 //>
@@ -2903,46 +3065,49 @@ FUNC {Func_EngineerEnd}:
 
 //<Engineer Items
 FUNC {Func_EngineerGive}:
-	@a[RRsa=1,m=2,RRgi=3] RRci = 3
-	@a[RRsa=1,m=2,RRgi=3] RRept + 0
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRg] CCItem_EngieHeadG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRb] CCItem_EngieHeadB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRg] CCItem_EngieChestG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRb] CCItem_EngieChestB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRg] CCItem_EngieLegsG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRb] CCItem_EngieLegsB
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRg] CCItem_EngieFeetG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRb] CCItem_EngieFeetB
+	@a[$SA$,m=2,RRgi=3] RRci = 3
+	@a[$SA$,m=2,RRgi=3] RRept + 0
+	@a[$SA$,m=2,RRgi=3] RRect = 0
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRg] CCItem_EngieHeadG
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRb] CCItem_EngieHeadB
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRg] CCItem_EngieChestG
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRb] CCItem_EngieChestB
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRg] CCItem_EngieLegsG
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRb] CCItem_EngieLegsB
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRg] CCItem_EngieFeetG
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRb] CCItem_EngieFeetB
 	
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3] slot.hotbar.0 CCItem_EngiePickaxe
-	@a[RRsa=1,m=2,RRgi=3] replaceitem entity @a[r=0,c=1,m=2,!RRDispenserPickup] slot.hotbar.1 CCItem_EngieBow
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3] slot.hotbar.2 CCItem_EngiePotion
-	@a[RRsa=1,m=2,RRgi=3] RReam + 0
-	@a[RRsa=1,m=2,RRgi=3,RReam=0] RReam = -1
+	replaceitem entity @a[$SA$,m=2,RRgi=3] slot.hotbar.0 CCItem_EngiePickaxe
+	@a[$SA$,m=2,RRgi=3] replaceitem entity @a[r=0,c=1,m=2,!RRDispenserPickup] slot.hotbar.1 CCItem_EngieBow
+	replaceitem entity @a[$SA$,m=2,RRgi=3] slot.hotbar.2 CCItem_EngiePotion
+	replaceitem entity @a[$SA$,m=2,RRgi=3] slot.hotbar.3 CCItem_EngieCamp
+	@a[$SA$,m=2,RRgi=3] RReam + 0
+	@a[$SA$,m=2,RRgi=3,RReam=0] RReam = -1
 		
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRg,RRept=0,RReam=-1,RRue=0] slot.hotbar.4 CCItem_EngieEggG
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,team=RRb,RRept=0,RReam=-1,RRue=0] slot.hotbar.4 CCItem_EngieEggB
-	@a[RRsa=1,m=2,RRgi=3] RRepi + 0
-	@a[RRsa=1,m=2,RRgi=3,RRepi=0] RRepi = -1
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRg,RRept=0,RReam=-1,RRue=0] slot.hotbar.4 CCItem_EngieEggG
+	replaceitem entity @a[$SA$,m=2,RRgi=3,team=RRb,RRept=0,RReam=-1,RRue=0] slot.hotbar.4 CCItem_EngieEggB
+	@a[$SA$,m=2,RRgi=3] RRepi + 0
+	@a[$SA$,m=2,RRgi=3,RRepi=0] RRepi = -1
 		
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,RRept=2,RRepi=-1] slot.hotbar.5 CCItem_EngiePickup
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3,RRept=2] slot.hotbar.6 CCItem_EngieDestruct
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3] slot.hotbar.7 CCItem_EngieArrow(2;0)
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3] CCItem_RedstoneGive(2)
-	replaceitem entity @a[RRsa=1,m=2,RRgi=3] slot.inventory.8 CCItem_Book_Engie
+	replaceitem entity @a[$SA$,m=2,RRgi=3,RRept=2,RRepi=-1] slot.hotbar.5 CCItem_EngiePickup
+	replaceitem entity @a[$SA$,m=2,RRgi=3,RRept=2] slot.hotbar.6 CCItem_EngieDestruct
+	replaceitem entity @a[$SA$,m=2,RRgi=3] slot.hotbar.7 CCItem_EngieArrow(2;0)
+	replaceitem entity @a[$SA$,m=2,RRgi=3] CCItem_RedstoneGive(2)
+	replaceitem entity @a[$SA$,m=2,RRgi=3] slot.inventory.8 CCItem_Book_Engie
 
 ///	Pickaxe stats: 1 attack speed, 4.5 attack damage
 //>
 
 //<Engineer Change Classes
 FUNC {Func_EngineerCC}:
-	@a[RRsa=1,m=2,RRgi=|0|,RRue=2] + RRDestructRequest
-	@a[RRsa=1,m=2,RRgi=|0|,RRept=2] + RRDestructRequest
-	@a[RRsa=1,m=2,RRgi=|0|] RRept = 0
-	@a[RRsa=1,m=2,RRgi=|0|] RRue = 0
-	@a[RRsa=1,m=2,RRgi=|0|] reset RRetd
-	@a[RRsa=1,m=2,RRgi=|0|] reset RRepi
-	@a[RRsa=1,m=2,RRgi=|0|] - RRDispenserPickup
+	@a[$SA$,m=2,|0|,RRue=2] + RRDestructRequest
+	@a[$SA$,m=2,|0|,RRept=2] + RRDestructRequest
+	@a[$SA$,m=2,|0|] RRept = 0
+	@a[$SA$,m=2,|0|] RRue = 0
+	@a[$SA$,m=2,|0|] RRect = 0
+	@a[$SA$,m=2,|0|] reset RRetd
+	@a[$SA$,m=2,|0|] reset RRepi
+	@a[$SA$,m=2,|0|] - RRDispenserPickup
 //>
 
 
@@ -3217,9 +3382,11 @@ FUNC {Func_SummonAestheticsPulse}:
 		UNASSIGN {ARRAY Arr_Temp}
 
 /// animals in blue spawn
+	//=
 	summon Pig $SpawnAnimals$ {Tags:["RREntity","RRDisplay","RRDisplayAnimal","RRDisplayPig"],Saddle:1b,CustomName:"Porkchop",Invulnerable:1,$NoLoot$}
 	summon Pig $SpawnAnimals$ {Tags:["RREntity","RRDisplay","RRDisplayAnimal","RRDisplayPig"],Saddle:1b,CustomName:"Bacon",Invulnerable:1,$NoLoot$}
 	summon Pig $SpawnAnimals$ {Tags:["RREntity","RRDisplay","RRDisplayAnimal","RRDisplayPig"],Saddle:1b,CustomName:"Spider Pig",Invulnerable:1,$NoLoot$}
+	=//
 	summon Cow $SpawnAnimals$ {Tags:["RREntity","RRDisplay","RRDisplayAnimal","RRDisplayCow"],CustomName:"idk_moosters",Invulnerable:1,$NoLoot$}
 	
 	LOOP {Arr_HorsePlacement[S]}:
@@ -4216,11 +4383,7 @@ GROUP {Grp_MainStart}:
 	CCU.tfActivate(Grp_EngineerDeadPigTFClock)
 	CCU.tfActivate(Grp_EngineerPigInitializeTFClock)
 	CCU.tfActivate(Grp_EngineerTeleportPotionTFClock)
-	
-	CCU.tfActivate(Grp_StealthGiveTFClock)
-	CCU.tfActivate(Grp_WarriorGiveTFClock)
-	CCU.tfActivate(Grp_ArcherGiveTFClock)
-	CCU.tfActivate(Grp_EngineerGiveTFClock)
+	CCU.tfActivate(Grp_ClassGiveTFClock)
 	
 	CCU_Activate(Grp_MainClock)
 	CCU_FinalSpawnStand
@@ -4272,42 +4435,31 @@ GROUP {Grp_MainEnd}:
 	CCU.tfDeactivate(Grp_EngineerDeadPigTFClock)
 	CCU.tfDeactivate(Grp_EngineerPigInitializeTFClock)
 	CCU.tfDeactivate(Grp_EngineerTeleportPotionTFClock)
-	
-	CCU.tfDeactivate(Grp_StealthGiveTFClock)
-	CCU.tfDeactivate(Grp_WarriorGiveTFClock)
-	CCU.tfDeactivate(Grp_ArcherGiveTFClock)
-	CCU.tfDeactivate(Grp_EngineerGiveTFClock)
+	CCU.tfDeactivate(Grp_ClassGiveTFClock)
 	
 	CCU_Deactivate(Grp_MainClock)
 
-LOOP {Stealth;Warrior;Archer;Engineer} {0;1;2;3}:
-	GROUP {Grp_|0|GiveTFClock}:
-		testfor @a[RRsa=1,RRgi=|1|]
-		CCU_SetblockTestfor
-		
-		Func_UniversalGive(RRgi=|1|)
-		
-		IF {|0| = Stealth}:
-			Func_StealthGive()
-		IF {|0| != Stealth}:
-			Func_StealthCC(|1|)
-		
-		IF {|0| = Warrior}:
-			Func_WarriorGive()
-		IF {|0| != Warrior}:
-			Func_WarriorCC(|1|)
-		
-		IF {|0| = Archer}:
-			Func_ArcherGive()
-		IF {|0| != Archer}:
-			Func_ArcherCC|1|)
-		
-		IF {|0| = Engineer}:
-			Func_EngineerGive()
-		IF {|0| != Engineer}:
-			Func_EngineerCC(|1|)
-		
-		@a[RRsa=1,RRgi=|1|] reset RRgi
+GROUP {Grp_ClassGiveTFClock}:
+	testfor @a[$SA$,RRgi>=0]
+	CCU_SetblockTestfor
+	
+	Func_UniversalGive(RRgi>=0)
+	
+	Func_StealthGive()
+	Func_StealthCC(RRgi>=1<=3)
+	
+	Func_WarriorGive()
+	Func_WarriorCC(RRgi=0)
+	Func_WarriorCC(RRgi>=2<=3)
+
+	Func_ArcherGive()
+	Func_ArcherCC(RRgi>=0<=1)
+	Func_ArcherCC(RRgi=3)
+
+	Func_EngineerGive()
+	Func_EngineerCC(RRgi>=0<=2)
+	
+	@a[$SA$,RRgi>=0] reset RRgi
 
 CCU.cmdSave()
 //>

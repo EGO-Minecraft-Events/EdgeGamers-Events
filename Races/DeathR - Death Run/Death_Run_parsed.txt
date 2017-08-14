@@ -1,0 +1,165 @@
+INITIALIZE
+	fill 9 19 -241 15 26 -224 air 0
+
+GROUP | Grp_MainStart | PULSE		[10 20 -240 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 22
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 10 20 -240 stonebrick 0
+	scoreboard objectives add DeathRace dummy Death Run
+	scoreboard objectives add DeathRaceCD dummy Death Run Countdown
+	scoreboard objectives add DeathRaceCL dummy Death Run Clear
+	scoreboard objectives add DeathRaceDE deathCount Death Run Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar DeathRace
+	scoreboard teams add DeathR
+	scoreboard teams option DeathR color red
+	scoreboard teams option DeathR seeFriendlyInvisibles true
+	scoreboard teams option DeathR collisionRule never
+	scoreboard teams option DeathR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["DeathRaceCD"]}
+	scoreboard players set /spawn DeathRace 99
+	scoreboard teams join DeathR /spawn
+	scoreboard objectives add DeathRaceCP dummy Death Race Checkpoint
+	scoreboard objectives add DeathRaceTI dummy Death Race Timer
+	scoreboard objectives add DeathRaceAR dummy Death Race Arrow
+	scoreboard objectives add DeathRaceTP dummy Death Race Teleport
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud 80 20 -230 {Duration:2147483647,Tags:["DeathRaceTI"]}
+	scoreboard players set @e[type=AreaEffectCloud,tag=DeathRaceTI] DeathRaceAR 0
+	scoreboard players set @e[type=AreaEffectCloud,tag=DeathRaceTI] DeathRaceTP 0
+	gamerule naturalRegeneration false
+	scoreboard objectives add DeathRaceBC dummy Death Run Broadcast
+	setblock 12 20 -240 redstone_block 0
+	blockdata 10 24 -238 {auto:1b}
+	setblock 10 24 -240 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 22
+
+GROUP | Grp_MainClock | CLOCK		[12 20 -240 | stonebrick 0]
+	scoreboard players add @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] SPid 0
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,score_SPid=-23] SPid 22
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,score_SPid_min=-21] SPid 22
+	minecraft:kill @e[x=13,y=12,z=-260,dx=135,dy=50,dz=55,type=Item]
+	scoreboard players add @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2] DeathRaceCL 0
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceCL=0,score_DeathRaceCL_min=0] DeathRaceDE 1
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceCL=0,score_DeathRaceCL_min=0] DeathRaceCL 1
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceDE_min=1] clear
+	minecraft:clear @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceDE_min=1]
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceDE_min=1] SPbk 22
+	scoreboard teams join DeathR @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,team=!DeathR]
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR] 14 3 0 true
+	scoreboard players add @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,team=DeathR] DeathRaceBC 0
+	scoreboard players set @a[x=26,y=19,z=-224,dx=1,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=0,score_DeathRaceBC_min=0] DeathRaceBC 1
+	execute @a[x=26,y=19,z=-224,dx=1,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=1,score_DeathRaceBC_min=1] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=26,y=19,z=-224,dx=1,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=1,score_DeathRaceBC_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=26,y=19,z=-224,dx=1,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=1,score_DeathRaceBC_min=1] ~ ~ ~ fill 28 16 -222 28 16 -224 redstone_block 0
+	scoreboard players set @a[x=27,y=19,z=-219,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=0,score_DeathRaceBC_min=0] DeathRaceBC 2
+	execute @a[x=27,y=19,z=-219,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=2,score_DeathRaceBC_min=2] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=27,y=19,z=-219,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=2,score_DeathRaceBC_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=27,y=19,z=-219,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=2,score_DeathRaceBC_min=2] ~ ~ ~ fill 28 16 -217 28 16 -219 redstone_block 0
+	scoreboard players set @a[x=27,y=19,z=-229,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=0,score_DeathRaceBC_min=0] DeathRaceBC 3
+	execute @a[x=27,y=19,z=-229,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=3,score_DeathRaceBC_min=3] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=27,y=19,z=-229,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=3,score_DeathRaceBC_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=27,y=19,z=-229,dy=2,dz=2,c=1,m=2,score_DeathRaceBC=3,score_DeathRaceBC_min=3] ~ ~ ~ fill 28 16 -229 28 16 -227 redstone_block 0
+	execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_DeathRaceBC_min=1] DeathRace = @a[r=1,c=1,m=2,score_DeathRaceBC_min=1] DeathRaceBC
+	minecraft:kill @e[x=13,y=12,z=-260,dx=135,dy=50,dz=55,type=Item]
+	scoreboard players add @e[tag=AreaEffectCloud,tag=DeathRaceTI] DeathRaceTI 1
+	execute @e[tag=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTI=95,score_DeathRaceTI_min=95] ~ ~ ~ fill 44 17 -246 56 17 -237 air 9
+	execute @e[tag=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTI=95,score_DeathRaceTI_min=95] ~ ~ ~ setblock 44 15 -246 redstone_block 0
+	execute @e[tag=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTI=95,score_DeathRaceTI_min=95] ~ ~ ~ setblock 44 15 -246 air 0
+	execute @e[tag=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTI=100,score_DeathRaceTI_min=100] ~ ~ ~ clone 44 17 -246 56 17 -237 44 19 -246
+	scoreboard players set @e[tag=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTI=100,score_DeathRaceTI_min=100] DeathRaceTI 0
+	execute @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=0,score_DeathRaceTP_min=0] ~ ~ ~ summon Arrow ~ ~ ~ {damage:1,Fire:600s,pickup:0b,life:1190s,Motion:[0d,0d,1.5d]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=0,score_DeathRaceTP_min=0] ~ ~ ~ particle flame ~ ~ ~ 0.3 0.3 0.3 0.01 5 force
+	execute @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=0,score_DeathRaceTP_min=0] ~ ~ ~ playsound minecraft:entity.arrow.shoot voice @a ~ ~ ~ 0.5
+	scoreboard players add @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP_min=0,score_DeathRaceTP=2] DeathRaceTP 1
+	scoreboard players add @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=2,score_DeathRaceTP_min=2] DeathRaceAR 1
+	minecraft:tp @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=2,score_DeathRaceTP_min=2,score_DeathRaceAR_min=0,score_DeathRaceAR=10] ~1 ~ ~
+	minecraft:tp @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=2,score_DeathRaceTP_min=2,score_DeathRaceAR=11,score_DeathRaceAR_min=11] 80 20 -230
+	scoreboard players set @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=2,score_DeathRaceTP_min=2,score_DeathRaceAR=11,score_DeathRaceAR_min=11] DeathRaceAR 0
+	scoreboard players set @e[type=AreaEffectCloud,tag=DeathRaceTI,score_DeathRaceTP=2,score_DeathRaceTP_min=2] DeathRaceTP 0
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR] 10 0 10 true
+	scoreboard players add @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR] DeathRaceTI 1
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR,score_DeathRaceTI=120,score_DeathRaceTI_min=120] 10 1 10 true
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR,score_DeathRaceTI=120,score_DeathRaceTI_min=120] DeathRaceTI 0
+	effect @a[x=25,y=20,z=-247,dx=11,dy=5,dz=14,m=2,team=DeathR] 10 1 10 true
+	replaceitem entity @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR,score_DeathRaceDE_min=1] slot.weapon potion 1 0 {HideFlags:127,Potion:"healing",CustomPotionEffects:[{Id:22b,Amplifier:0b,Duration:1800}]}
+	scoreboard players add @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,team=DeathR] DeathRaceCP 0
+	execute @a[x=128,y=19,z=-229,dy=5,dz=12,m=2,team=DeathR,score_DeathRaceCP=0,score_DeathRaceCP_min=0] ~ ~ ~ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=DeathR,score_DeathRaceCP=0,score_DeathRaceCP_min=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	execute @a[x=128,y=19,z=-229,dy=5,dz=12,m=2,team=DeathR,score_DeathRaceCP=0,score_DeathRaceCP_min=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	scoreboard players set @a[x=128,y=19,z=-229,dy=5,dz=12,m=2,team=DeathR,score_DeathRaceCP=0,score_DeathRaceCP_min=0] DeathRaceCP 1
+	minecraft:tp @a[x=25,y=20,z=-247,dx=11,dy=5,dz=14,m=2,team=DeathR,score_DeathRaceCP=1,score_DeathRaceCP_min=1] 127 19 -223 90 0
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceDE_min=1] DeathRaceDE 0
+	scoreboard players operation @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceBC_min=1] DeathRace *= -1 Number
+	scoreboard players operation @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_DeathRaceBC_min=1] DeathRaceBC *= -1 Number
+
+GROUP | Grp_CountdownTFClock | CLOCK		[10 24 -240 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=DeathRaceCD]
+	setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=DeathRaceCD] DeathRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=20,score_DeathRaceCD_min=20] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=20,score_DeathRaceCD_min=20] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=40,score_DeathRaceCD_min=40] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=40,score_DeathRaceCD_min=40] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=60,score_DeathRaceCD_min=60] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=60,score_DeathRaceCD_min=60] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=80,score_DeathRaceCD_min=80] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=80,score_DeathRaceCD_min=80] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=100,score_DeathRaceCD_min=100] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=100,score_DeathRaceCD_min=100] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=120,score_DeathRaceCD_min=120] ~ ~ ~ execute @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=120,score_DeathRaceCD_min=120] ~ ~ ~ tellraw @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"DeathR","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Death Run","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=120,score_DeathRaceCD_min=120] ~ ~ ~ title @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=DeathRaceCD,score_DeathRaceCD=120,score_DeathRaceCD_min=120] ~ ~ ~ fill 41 17 -246 41 17 -237 stonebrick 0 replace redstone_block 0
+
+GROUP | Grp_MainEnd | PULSE		[14 20 -240 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=22,score_SPgam_min=22] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 14 20 -240 stonebrick 0
+	scoreboard objectives remove DeathRace
+	scoreboard objectives remove DeathRaceCD
+	scoreboard objectives remove DeathRaceCL
+	scoreboard objectives remove DeathRaceDE
+	scoreboard teams remove DeathR
+	minecraft:kill @e[type=AreaEffectCloud,tag=DeathRaceCD]
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55] clear
+	minecraft:clear @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2]
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2,score_EC=0,score_EC_min=0] SPbk 22
+	effect @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2] 6 20 100 true
+	scoreboard players set @a[x=13,y=12,z=-260,dx=135,dy=50,dz=55,m=2] SPtp 22
+	scoreboard objectives remove DeathRaceCP
+	scoreboard objectives remove DeathRaceTI
+	scoreboard objectives remove DeathRaceAR
+	scoreboard objectives remove DeathRaceTP
+	minecraft:kill @e[type=AreaEffectCloud,tag=DeathRaceTI]
+	gamerule naturalRegeneration true
+	fill 41 17 -246 41 17 -237 redstone_block 0 replace stonebrick 0
+	scoreboard objectives remove DeathRaceBC
+	fill 28 16 -222 28 16 -224 air 0
+	fill 28 20 -222 28 20 -224 air 0
+	fill 28 16 -217 28 16 -219 air 0
+	fill 28 20 -217 28 20 -219 air 0
+	fill 28 16 -229 28 16 -227 air 0
+	fill 28 20 -229 28 20 -217 air 0
+	setblock 12 20 -240 stonebrick 0
+	blockdata 10 24 -238 {auto:0b}
+	setblock 10 24 -240 stonebrick 0
+
+FINALIZE
+	fill 9 18 -241 12 16 -238 air 0
+	setblock 10 18 -240 structure_block 0 replace {name:"CMDSave_DeathR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:6,sizeY:6,sizeZ:16}
+	setblock 10 16 -240 structure_block 0 replace {name:"CMDSave_DeathR",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 10 18 -241 wooden_button 4
+	setblock 10 16 -241 wooden_button 4
+	setblock 11 18 -240 redstone_lamp 0
+	setblock 11 16 -240 redstone_lamp 0
+	setblock 10 18 -239 command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+	setblock 10 20 -240 stonebrick 0
+	setblock 12 20 -240 stonebrick 0
+	setblock 10 24 -240 stonebrick 0
+	setblock 14 20 -240 stonebrick 0
+

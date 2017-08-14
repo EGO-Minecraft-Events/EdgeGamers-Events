@@ -1,7 +1,7 @@
 -97 15 239 -89 32 256
-Grp_MainStart;-96 16 240;-96 21 255
-Grp_MainEnd;-96 23 240;-96 27 255
-Grp_RefreshArenaPulse;-96 29 240;-96 30 255
+Grp_MainStart;-96 16 240;-96 22 255
+Grp_MainEnd;-96 24 240;-96 28 255
+Grp_RefreshArenaPulse;-96 30 240;-96 31 255
 Grp_MainClock;-94 16 240;-94 23 255
 Grp_CountdownTFClock;-94 25 240;-94 26 255
 Grp_GeneralOptionsTFClock;-94 28 240;-94 30 255

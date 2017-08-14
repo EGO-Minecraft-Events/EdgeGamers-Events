@@ -1,0 +1,89 @@
+//(Regular Race Copy)
+///	C:\Users\Austin\Documents\Austin\powder game code\eGO\CCU Events\Races\Copy_RegularRace.ccu
+
+//<General Definitions
+DEF $SA$ x=219,y=5,z=-121,dx=75,dy=100,dz=51
+DEF $SPid$ 6
+
+DEF $CMDName$ ER
+DEF $CMDSizeX$ 6
+DEF $CMDSizeY$ 6
+DEF $CMDSizeZ$ 16
+
+DEF $StyleDirection$ +Z
+DEF COORDS $CoordsOption$ 273 14 -68
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 6
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Race specific options
+///	Specifies it's a regular race
+DEF $RaceType$ 1
+///	Name
+DEF $Name$ Emerald
+///	Text display name
+DEF $TD$ ER
+///	Hover and scoreboard name
+DEF $TDName$ Emerald Race
+///	Scoreboard teams color
+DEF $Color$ green
+///	Place where air is when open
+DEF $Dao$ 269 19 -98 255 19 -98
+///	Place where redstone blocks are there when open
+DEF $Dro$ ``
+
+
+///	Where laps are completed
+DEF $lap$ x=255,y=17,z=-94,dx=14,dy=10,dz=1
+///	Area where laps are reset inside the races
+DEF $lapAF$ x=220,y=8,z=-104,dx=1,dy=12,dz=8
+///	Area where laps are disabled in spawn
+DEF $lapSP$ x=255,y=17,z=-97,dx=25,dy=10,dz=2
+
+IMPORT {LIBRARY 1.10/Minigames/races.ccu}
+//>
+
+//<General Race Import
+FUNC {ACTIVATE Func_GeneralGroups() ARGS}:
+
+	FUNC {Func_EditGeneralScoreboardStart}:
+		
+		
+	FUNC {Func_EditGeneralScoreboardClock}:
+		
+		
+	FUNC {Func_EditCountdownTFClock}:
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $Dao$ air 0 replace emerald_block 0
+		@e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill 269 19 -94 255 19 -94 air 0
+
+	FUNC {Func_EditGeneralScoreboardEnd}:
+		fill $Dao$ emerald_block 0 replace air 0
+		fill 269 19 -94 255 19 -94 emerald_block 0
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

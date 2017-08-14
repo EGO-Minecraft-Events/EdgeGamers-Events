@@ -1,0 +1,143 @@
+INITIALIZE
+	fill 473 8 -27 490 15 -21 air 0
+
+GROUP | Grp_MainStart | PULSE		[474 9 -26 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 13
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam_min=1] SPgac 1
+	setblock 474 9 -26 stonebrick 0
+	scoreboard objectives add SaltRace dummy Salt Race
+	scoreboard objectives add SaltRaceCD dummy Salt Race Countdown
+	scoreboard objectives add SaltRaceCL dummy Salt Race Clear
+	scoreboard objectives add SaltRaceDE deathCount Salt Race Deaths
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ scoreboard objectives setdisplay sidebar SaltRace
+	scoreboard teams add SaltR
+	scoreboard teams option SaltR color gray
+	scoreboard teams option SaltR seeFriendlyInvisibles true
+	scoreboard teams option SaltR collisionRule never
+	scoreboard teams option SaltR friendlyfire false
+	execute @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] ~ ~ ~ summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["SaltRaceCD"]}
+	scoreboard players set /spawn SaltRace 99
+	scoreboard teams join SaltR /spawn
+	scoreboard objectives add SaltRaceBC dummy Salt Race Broadcast
+	scoreboard objectives add SaltRaceCP dummy Salt Race Checkpoints
+	setblock 474 9 -24 redstone_block 0
+	blockdata 476 12 -26 {auto:1b}
+	setblock 474 12 -26 redstone_block 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=0,score_SPgam_min=0] SPgam 13
+
+GROUP | Grp_MainClock | CLOCK		[474 9 -24 | stonebrick 0]
+	scoreboard players add @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] SPid 0
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,score_SPid=-14] SPid 13
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,score_SPid_min=-12] SPid 13
+	minecraft:kill @e[x=419,y=4,z=-47,dx=79,dy=40,dz=32,type=Item]
+	scoreboard players add @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2] SaltRaceCL 0
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceCL=0,score_SaltRaceCL_min=0] SaltRaceDE 1
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceCL=0,score_SaltRaceCL_min=0] SaltRaceCL 1
+	effect @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceDE_min=1] clear
+	minecraft:clear @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceDE_min=1]
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceDE_min=1] SPbk 13
+	scoreboard teams join SaltR @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,team=!SaltR]
+	effect @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,team=SaltR] 14 3 0 true
+	scoreboard players add @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,team=SaltR] SaltRaceBC 0
+	scoreboard players set @a[x=459,y=13,z=-35,dy=1,c=1,m=2,score_SaltRaceBC=0,score_SaltRaceBC_min=0] SaltRaceBC 1
+	execute @a[x=459,y=13,z=-35,dy=1,c=1,m=2,score_SaltRaceBC=1,score_SaltRaceBC_min=1] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took first place!","color":"green"}]}
+	execute @a[x=459,y=13,z=-35,dy=1,c=1,m=2,score_SaltRaceBC=1,score_SaltRaceBC_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=459,y=13,z=-35,dy=1,c=1,m=2,score_SaltRaceBC=1,score_SaltRaceBC_min=1] ~ ~ ~ setblock 459 11 -35 redstone_block 0
+	scoreboard players set @a[x=459,y=13,z=-33,dy=1,c=1,m=2,score_SaltRaceBC=0,score_SaltRaceBC_min=0] SaltRaceBC 2
+	execute @a[x=459,y=13,z=-33,dy=1,c=1,m=2,score_SaltRaceBC=2,score_SaltRaceBC_min=2] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took second place!","color":"green"}]}
+	execute @a[x=459,y=13,z=-33,dy=1,c=1,m=2,score_SaltRaceBC=2,score_SaltRaceBC_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=459,y=13,z=-33,dy=1,c=1,m=2,score_SaltRaceBC=2,score_SaltRaceBC_min=2] ~ ~ ~ setblock 459 11 -33 redstone_block 0
+	scoreboard players set @a[x=459,y=13,z=-31,dy=1,c=1,m=2,score_SaltRaceBC=0,score_SaltRaceBC_min=0] SaltRaceBC 3
+	execute @a[x=459,y=13,z=-31,dy=1,c=1,m=2,score_SaltRaceBC=3,score_SaltRaceBC_min=3] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,m=2]"},{"text":" took third place!","color":"green"}]}
+	execute @a[x=459,y=13,z=-31,dy=1,c=1,m=2,score_SaltRaceBC=3,score_SaltRaceBC_min=3] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a
+	execute @a[x=459,y=13,z=-31,dy=1,c=1,m=2,score_SaltRaceBC=3,score_SaltRaceBC_min=3] ~ ~ ~ setblock 459 11 -31 redstone_block 0
+	execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceBC_min=1] ~ ~ ~ scoreboard players operation @a[r=1,c=1,m=2,score_SaltRaceBC_min=1] SaltRace = @a[r=1,c=1,m=2,score_SaltRaceBC_min=1] SaltRaceBC
+	scoreboard players add @a[x=460,y=7,z=-35,dx=8,dy=3,dz=4,m=2,team=SaltR] SaltRaceCP 0
+	execute @a[x=489,y=10,z=-34,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=0,score_SaltRaceCP_min=0] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=489,y=10,z=-34,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=0,score_SaltRaceCP_min=0] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=SaltR,score_SaltRaceCP=0,score_SaltRaceCP_min=0]"},{"text":" has reached checkpoint 1!","color":"yellow"}]}
+	scoreboard players set @a[x=489,y=10,z=-34,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=0,score_SaltRaceCP_min=0] SaltRaceCP 1
+	execute @a[x=450,y=15,z=-44,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=1,score_SaltRaceCP_min=1] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=450,y=15,z=-44,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=1,score_SaltRaceCP_min=1] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=SaltR,score_SaltRaceCP=1,score_SaltRaceCP_min=1]"},{"text":" has reached checkpoint 2!","color":"yellow"}]}
+	scoreboard players set @a[x=450,y=15,z=-44,dx=2,dy=3,dz=2,m=2,team=SaltR,score_SaltRaceCP=1,score_SaltRaceCP_min=1] SaltRaceCP 2
+	execute @a[x=422,y=11,z=-34,dx=2,dy=4,dz=2,m=2,team=SaltR,score_SaltRaceCP=2,score_SaltRaceCP_min=2] ~ ~ ~ playsound minecraft:entity.player.levelup voice @a[c=1]
+	execute @a[x=422,y=11,z=-34,dx=2,dy=4,dz=2,m=2,team=SaltR,score_SaltRaceCP=2,score_SaltRaceCP_min=2] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@a[c=1,r=0,m=2,team=SaltR,score_SaltRaceCP=2,score_SaltRaceCP_min=2]"},{"text":" has reached checkpoint 3!","color":"yellow"}]}
+	scoreboard players set @a[x=422,y=11,z=-34,dx=2,dy=4,dz=2,m=2,team=SaltR,score_SaltRaceCP=2,score_SaltRaceCP_min=2] SaltRaceCP 3
+	execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2] ~ ~ ~ detect ~ ~-1.3 ~ hay_block -1 scoreboard players tag @a[r=0,c=1] add SaltRWaterTP
+	scoreboard players tag @a[x=460,y=7,z=-35,dx=8,dy=3,dz=4,m=2,score_SaltRaceCP_min=1] add SaltRWaterTP
+	minecraft:tp @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,tag=SaltRWaterTP,score_SaltRaceCP=0,score_SaltRaceCP_min=0] 472 8 -33 -90 20
+	minecraft:tp @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,tag=SaltRWaterTP,score_SaltRaceCP=1,score_SaltRaceCP_min=1] 490 11 -33 180 20
+	minecraft:tp @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,tag=SaltRWaterTP,score_SaltRaceCP=2,score_SaltRaceCP_min=2] 451 16 -43 90 20
+	minecraft:tp @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,tag=SaltRWaterTP,score_SaltRaceCP=3,score_SaltRaceCP_min=3] 423 12 -33 -90 20
+	effect @a[tag=SaltRWaterTP] 6 1 100 true
+	effect @a[tag=SaltRWaterTP] 11 1 100 true
+	execute @a[tag=SaltRWaterTP] ~ ~ ~ playsound minecraft:entity.endermen.teleport voice @a[c=1]
+	scoreboard players tag @a[tag=SaltRWaterTP] remove SaltRWaterTP
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceDE_min=1] SaltRaceDE 0
+	scoreboard players operation @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceBC_min=1] SaltRace *= -1 Number
+	scoreboard players operation @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_SaltRaceBC_min=1] SaltRaceBC *= -1 Number
+
+GROUP | Grp_CountdownTFClock | CLOCK		[474 12 -26 | stonebrick 0]
+	testfor @e[type=AreaEffectCloud,tag=SaltRaceCD]
+	setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	scoreboard players add @e[type=AreaEffectCloud,tag=SaltRaceCD] SaltRaceCD 1
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=20,score_SaltRaceCD_min=20] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"5","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=20,score_SaltRaceCD_min=20] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 0.5
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=40,score_SaltRaceCD_min=40] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"4","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=40,score_SaltRaceCD_min=40] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=60,score_SaltRaceCD_min=60] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"3","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=60,score_SaltRaceCD_min=60] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 1.5
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=80,score_SaltRaceCD_min=80] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"2","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=80,score_SaltRaceCD_min=80] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=100,score_SaltRaceCD_min=100] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"1","color":"yellow","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=100,score_SaltRaceCD_min=100] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:block.note.pling voice @a[c=1] ~ ~ ~ 2
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=120,score_SaltRaceCD_min=120] ~ ~ ~ execute @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=120,score_SaltRaceCD_min=120] ~ ~ ~ tellraw @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"SaltR","color":"gray","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Salt Race","color":"gray"}}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=120,score_SaltRaceCD_min=120] ~ ~ ~ title @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] title {"text":"GO!","color":"green"}
+	execute @e[type=AreaEffectCloud,tag=SaltRaceCD,score_SaltRaceCD=120,score_SaltRaceCD_min=120] ~ ~ ~ fill 468 6 -31 468 6 -35 stonebrick 0 replace redstone_block 0
+
+GROUP | Grp_MainEnd | PULSE		[474 9 -22 | stonebrick 0]
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPtp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPpvp 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPsat 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPgmd 1
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand,score_SPgam=13,score_SPgam_min=13] SPgam 0
+	scoreboard players set @e[type=ArmorStand,tag=SpawnStand] SPwea 0
+	setblock 474 9 -22 stonebrick 0
+	scoreboard objectives remove SaltRace
+	scoreboard objectives remove SaltRaceCD
+	scoreboard objectives remove SaltRaceCL
+	scoreboard objectives remove SaltRaceDE
+	scoreboard teams remove SaltR
+	minecraft:kill @e[type=AreaEffectCloud,tag=SaltRaceCD]
+	effect @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] clear
+	minecraft:clear @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2]
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2,score_EC=0,score_EC_min=0] SPbk 13
+	effect @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2] 6 20 100 true
+	scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32,m=2] SPtp 13
+	fill 468 6 -31 468 6 -35 redstone_block 0 replace stonebrick 0
+	scoreboard objectives remove SaltRaceBC
+	scoreboard objectives remove SaltRaceCP
+	setblock 459 11 -35 air 0
+	setblock 459 11 -33 air 0
+	setblock 459 11 -31 air 0
+	setblock 474 9 -24 stonebrick 0
+	blockdata 476 12 -26 {auto:0b}
+	setblock 474 12 -26 stonebrick 0
+
+FINALIZE
+	fill 473 7 -27 476 5 -24 air 0
+	setblock 474 7 -26 structure_block 0 replace {name:"CMDSave_SaltR",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:16,sizeY:6,sizeZ:6}
+	setblock 474 5 -26 structure_block 0 replace {name:"CMDSave_SaltR",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 473 7 -26 wooden_button 2
+	setblock 473 5 -26 wooden_button 2
+	setblock 474 7 -25 redstone_lamp 0
+	setblock 474 5 -25 redstone_lamp 0
+	setblock 475 7 -26 command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+	setblock 474 9 -26 stonebrick 0
+	setblock 474 9 -24 stonebrick 0
+	setblock 474 12 -26 stonebrick 0
+	setblock 474 9 -22 stonebrick 0
+

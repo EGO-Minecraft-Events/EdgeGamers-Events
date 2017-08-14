@@ -1,0 +1,109 @@
+//(Name)
+///	Full file name
+
+//<General Definitions
+DEF $SA$ x=#,y=#,z=#,dx=#,dy=#,dz=#
+DEF $SPid$ #
+DEF $SPpvp$ 0
+DEF $SPsat$ 0
+
+DEF $CMDName$ NAME
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"NAME","color":"COLOR","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"NAME","color":"COLOR"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ x y z
+DEF $BlockOption$ stonebrick 0
+
+IMPORT {LIBRARY GETDIR 1.10/General}
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+
+//<General Scoreboard Start
+FUNC {Func_GeneralScoreboardStart}:
+	USE {ScOA}:
+		CCU_NumberObjAdd
+	
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
+		SPid dummy SpawnPoint ID
+		
+	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+		NoPush
+		OPT collisionRule never
+		OPT friendlyfire false
+	
+	ScSS PC
+	
+	ARRAY {ACTIVATE CCU.iterateNumbers ARGS}:
+		-1
+		20
+	
+	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:[""],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	CCU_ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Tags:[""],Rotation:[0f,0f],$Duration$}
+//>
+
+//<General Scoreboard Clock
+FUNC {Func_GeneralScoreboardClock}:
+	clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$,m=2] clear
+	
+	kill @e[$SA$,type=Item]
+//>
+
+//<General End Clock
+FUNC {Func_GeneralEndClock}:
+	
+
+//>
+
+//<General Scoreboard End
+FUNC {Func_GeneralScoreboardEnd}:
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
+	
+	
+	effect @a[$SA$,m=2] clear
+	clear @a[$SA$,m=2]
+	@a[$SA$,m=2,EC=0] SPbk = $SPid$
+	effect @a[$SA$] 6 1 100 true
+	@a[$SA$,m=2] SPtp = $SPid$
+//>
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	CCU.spawnStandStart()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardStart()
+	CCU_Activate(Grp_MainClock)
+	CCU_FinalSpawnStand
+
+GROUP {Grp_MainClock}:
+	CCU.spawnIDSetting()
+	Func_GeneralScoreboardClock()
+	Func_GeneralEndClock()
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+
+CCU.cmdSave()
+//>

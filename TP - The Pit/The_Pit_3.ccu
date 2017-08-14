@@ -18,7 +18,7 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ -97 15 239
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -28,7 +28,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 	
 ///	Select spawn
 DEF $SP$ x=-107,y=25,z=193,dx=9,dy=5,dz=9
@@ -53,7 +53,7 @@ DEF $TopMidFloor$ x=-81,y=23,z=172,dx=4,dz=4
 ///	On the quartz middle pillar
 DEF $TopPillar$ x=-82,y=10,z=171,dx=6,dz=6
 ///	Select only the arena
-DEF $SelectArena$ x=-107,y=6,z=146,dx=56,dy=14,dz=56
+DEF $SelectArena$ x=-107,y=6,z=146,dx=56,dy=50,dz=56
 
 ///	Teleporting from the walls
 DEF $SelectWallW$ x=-108,y=6,z=146,dy=32,dz=56
@@ -624,6 +624,9 @@ FUNC {Func_GeneralEndClock}:
 ///	Weakness
 	effect @a[TPsa=1,m=2,TPwe>=1<=2] 18 3 100 true
 	effect @a[TPsa=1,m=2,TPwe=0] 18 0 0 true
+	
+///	Saturation to all spectators
+	effect @a[TPsa=1,m=2,TPpl=3] 23 10 0 true
 //>
 
 //<General Scoreboard End
@@ -790,8 +793,6 @@ FUNC {Func_RoundEndTFClock}:
 	@a[TPsa=1,m=2,TPpl>=1,EC=0] SPbk = $SPid$
 	
 	@a[$SelectArena$,m=2,TPpl>=1] SPtp = $SPid$
-	@a[TPsa=1,m=2,TPpl=1] playsound Snd_TP voice @a[c=1]
-	@a[TPsa=1,m=2,TPpl=1] particle happyVillager ~0.1 ~1 ~0.1 0.3 0.5 0.3 1 20 force
 	
 ///	Middle structure set
 	setblock $MiddleStructure$ redstone_block 0
@@ -912,6 +913,10 @@ FUNC {Func_EffectsStart}:
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_EffectsStart) Obj_EffectsStart}:
 		TPef dummy The Pit Effect
 		TPefc dummy The Pit Effect Calc
+	
+	@e[type=ArmorStand,TPStand] TPons = 0
+	@e[type=ArmorStand,TPStand] TPoju = 1
+	@e[type=ArmorStand,TPStand] TPomo = 0
 //>
 
 //<Effects Clock

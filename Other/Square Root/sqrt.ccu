@@ -1,18 +1,12 @@
 OPTIONS:
-	blockOption stonebrick 0
+///	blockOption $BlockOption$
 ///	coordsOption $CoordsOption$
-///	Style
-///	Avaliable options: +X -X +Z -Z (and) height in y
-///	styleOption $StyleDirection$ 16
-///	Parse, cmd, compiler
 	parseOption true
 	commandOption true
 	combinerOption true
 	filePathFuncOption C:\Users\Austin\Documents\Austin\powder game code\eGO\Server Stuff\1.12\world\data\functions\King Cat's Compasses
-///	Filepath to MCFunctions
-/// Preserve coordinates for each group
-	keepCoordsOption false
-
+	parseChangesOption false
+	
 MFUNC {KCC.compass/getSqrt}:
 ///	Custom min / max score
 	DEF GLOBAL $GetMin$ 1
@@ -28,3 +22,4 @@ MFUNC {KCC.compass/getSqrt}:
 			@s[KCC.sqrt.sqrt>=$PreviousMinScore$<|0|] KCC.sqrt.sqre = $PreviousResult$
 			DEF GLOBAL $PreviousMinScore$ |0;1|
 			DEF GLOBAL $PreviousResult$ INT(|0;1| ^ 0.5)
+			PRINT |0|

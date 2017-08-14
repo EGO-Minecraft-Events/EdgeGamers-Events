@@ -28,7 +28,7 @@ OPTIONS:
 	commandOption true
 	combinerOption true
 ///	filePathFuncOption 
-	keepCoordsOption false
+	parseChangesOption false
 //>
 
 //<Defines: Large
@@ -219,7 +219,7 @@ DEF COORDS $FillButtonsS$ 53 6 57 108 6 49
 
 DEF COORDS $FillStructure$ 45 2 60 109 2 23
 
-IMPORT {LIBRARY GETDIR General}
+IMPORT {LIBRARY GETDIR 1.10/General}
 //>
 
 //<Defines: Other
