@@ -359,7 +359,7 @@ ARRAY {Arr_Spawnpoint}:
 
 
 //<Main Start
-FUNC {Func_GeneralScoreboardStart}:
+FUNC {Func_MainStart}:
 	USE {ScOA}:
 		CCU_NumberObjAdd
 	
@@ -453,10 +453,12 @@ FUNC {Func_GeneralScoreboardStart}:
 		SPgmd = 1
 		SPgam = 0
 		SPaff = $CalcAllowScore$
+	
+	tellraw @a $TextStart${"text":"Spawnpoint System","color":"yellow"},{"text":" has been installed!","color":"gray"}]}
 //>
 
 //<Adding Scoreboards Pulse
-FUNC {Func_AddingScoreboardsPulse}:
+FUNC {Func_AddingScoreboards}:
 	ARRAY {GLOBAL ACTIVATE CCU.objectiveRemove(Obj_AddingScoreboardsPulse) Obj_AddingScoreboardsPulse}:
 		EC dummy Event Coordinator List
 		MCTeams dummy MC Specialty Teams
@@ -616,16 +618,16 @@ FUNC {Func_AddingScoreboardsPulse}:
 	V2Countdown VirusSave = 60
 //>
 
-//<SpawnPoint Testfor Clock
+//<SpawnPoint
 FUNC {Func_Spawnpoint}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_Spawnpoint if @a[SPid>=1]
+		@a[SPid>=1] MFunc_Spawnpoint
 	
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
-		spawnpoint @a[SPid=|1|] Arr_Spawnpoint[|0|][0]
+		spawnpoint @s[SPid=|1|] Arr_Spawnpoint[|0|][0]
 		
 		/*
-		tellraw @a[SPid=|1|] $TextStart$
+		tellraw @s[SPid=|1|] $TextStart$
 		{"text":"Your spawnpoint has been set to ","color":"gray"},
 		{"text":"Arr_Spawnpoint[|0|][0]","color":"yellow","bold":"true"},
 		{"text":" at ","color":"gray"},;
@@ -634,7 +636,7 @@ FUNC {Func_Spawnpoint}:
 		LOOP {Arr_Spawnpoint[|0|][3]} {Arr_Spawnpoint[|0|][4]}:
 			/*
 			{"text":"|0|","color":"|1|","bold":"true",
-				"clickEvent":{"action":"run_command","value":"/scoreboard players set @p SPtp |1;1|"},
+				"clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp |1;1|"},
 				"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Arr_Spawnpoint[|0;1|][2]","color":"|1|"}}
 			},;
 			*/
@@ -642,20 +644,20 @@ FUNC {Func_Spawnpoint}:
 		{"text":"!","color":"gray"}]}
 		*/
 	
-	@a[SPid>=1] playsound Snd_XP voice @a[c=1,SPid>=1]
-	ScOP @a[SPid>=1] SPid *= -1 Number
+	@s playsound Snd_XP voice @s
+	ScOP @s SPid *= -1 Number
 //>
 
-//<Teleport Testfor Clock
+//<Teleport
 FUNC {Func_Teleport}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_Teleport if @a[SPtp>=1]
+		@a[SPtp>=1] MFunc_Teleport
 	
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
-		tp @a[SPtp=|1|] Arr_Spawnpoint[|0|][1]
+		tp @s[SPtp=|1|] Arr_Spawnpoint[|0|][1]
 		
 		/*
-		tellraw @a[SPtp=|1|] $TextStart$
+		tellraw @s[SPtp=|1|] $TextStart$
 		{"text":"You have been teleported to ","color":"gray"},
 		{"text":"Arr_Spawnpoint[|0|][0]","color":"yellow","bold":"true"},
 		{"text":" at ","color":"gray"},;
@@ -664,7 +666,7 @@ FUNC {Func_Teleport}:
 		LOOP {Arr_Spawnpoint[|0|][3]} {Arr_Spawnpoint[|0|][4]}:
 			/*
 			{"text":"|0|","color":"|1|","bold":"true",
-				"clickEvent":{"action":"run_command","value":"/scoreboard players set @p SPtp |1;1|"},
+				"clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp |1;1|"},
 				"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Arr_Spawnpoint[|0;1|][2]","color":"|1|"}}
 			},;
 			*/
@@ -672,26 +674,26 @@ FUNC {Func_Teleport}:
 		{"text":"!","color":"gray"}]}
 		*/
 	
-	@a[SPtp>=1] playsound Snd_XP voice @a[c=1,SPtp>=1]
-	@a[SPtp>=1] SPtp = 0
+	playsound Snd_XP voice @s
+	@s SPtp = 0
 //>
 
-//<Game Start Tellraw Testfor Clock
+//<Game Start Tellraw
 FUNC {Func_GameStartTellraw}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_GameStartTellraw if @e[type=armor_stand,SpawnStand,SPgac>=1]
+		@e[type=armor_stand,SpawnStand,SPgac>=1] MFunc_GameStartTellraw
 	
 /// Warning: "x" must be turned off before another game can start.
 	LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
 		/*
-		@e[type=armor_stand,SpawnStand,SPgac>=1,SPgam=|1|] tellraw @a[EC=0] $TextStart$
+		@s[SPgam=|1|] tellraw @a[EC=0] $TextStart$
 		{"text":"Warning: ","color":"red"},;
 		*/
 	///	2 = full name = |0|, 3 = name = |1|, 4 = color = |2|
 		LOOP {Arr_Spawnpoint[|0|][3]} {Arr_Spawnpoint[|0|][4]}:
 			/*
 			{"text":"|0|","color":"|1|","bold":"true",
-				"clickEvent":{"action":"run_command","value":"/scoreboard players set @p SPtp |1;1|"},
+				"clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp |1;1|"},
 				"hoverEvent":{"action":"show_text","value":{"text":"Teleport to Arr_Spawnpoint[|0;1|][2]","color":"|1|"}}
 			},;
 			*/
@@ -700,35 +702,36 @@ FUNC {Func_GameStartTellraw}:
 		]}
 		*/
 	
-	@e[type=armor_stand,SpawnStand,SPgac>=1] SPgac = 0
+	@s SPgac = 0
 //>
 
-//<Spawn Testfor Clock
-FUNC {Func_Spawn}:
+//<Spawn Tree
+FUNC {Func_SpawnTree}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_Spawn if @a[$SP$]
+		@a[$SPTree$] MFunc_SpawnTree
 	
-///	@a SPsp = 0
-///	@a[$SP$] SPsp = 1
-	
-///	effect @a[$SP$] 1 1 3 true
-	effect @a[$SPTree$] 23 2 0 true
-	gamemode 2 @a[$SPTree$,m=0]
+	effect @s 23 2 0 true
+	gamemode 2 @s[m=0]
 	
 	@e[type=armor_stand,SpawnStand,SPpvp=0] J> NoPVP @a[$SPTree$,m=2]
 	
-	@a[$SPTree$,m=!3] SPti + 1
-	@a[$SPNotTree$,m=!3,SPti<10] SPti = 0
-	ScOP @a[$SPTree$,m=!3,SPti>=10] SPtp = @e[type=armor_stand,SpawnStand,SPtp>=1] SPtp
+	@s[m=!3] SPti + 1
+	ScOP @s[m=!3,SPti>=10] SPtp = @e[type=armor_stand,SpawnStand,SPtp>=1] SPtp
+//>
+
+//<Spawn Portal
+FUNC {Func_SpawnPortal}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		@a[$SPPortal$] MFunc_SpawnPortal
 	
-	@a[$SPPortal$,m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = mghub SPna
-	@a[$SPPortal$,m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = pvphub SPna
-	@a[$SPPortal$,m=!3] stained_hardened_clay 1 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = mmhub SPna
-	@a[$SPPortal$,m=!3] stained_hardened_clay 9 ~ 3 ~ ScOP @a[c=1,m=!3] SPtp = racehub SPna
+	@s[m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @s SPtp = mghub SPna
+	@s[m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @s SPtp = pvphub SPna
+	@s[m=!3] stained_hardened_clay 1 ~ 3 ~ ScOP @s SPtp = mmhub SPna
+	@s[m=!3] stained_hardened_clay 9 ~ 3 ~ ScOP @s SPtp = racehub SPna
 //>
 
 
-//<Timer Testfor Clock
+//<Timer
 FUNC {Func_Timer}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
 		MFunc_Timer if @e[type=armor_stand,SPeti=1]
@@ -751,40 +754,40 @@ FUNC {Func_Timer}:
 	@a[SPeti>=1200] SPeti = 0
 //>
 
-//<Timer Reset Testfor Clock
+//<Timer Reset
 FUNC {Func_ResetTimer}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_ResetTimer if @e[type=armor_stand,SpawnStand,SPeti>=2<=4]
+		@e[type=armor_stand,SpawnStand,SPeti>=2<=4] MFunc_ResetTimer
 	
-	@e[type=armor_stand,SpawnStand,SPeti=2] ScSS SPetm
-	@e[type=armor_stand,SpawnStand,SPeti=3] ScSS
-	@e[type=armor_stand,SpawnStand,SPeti=3] SPeti = 1
+	@s[SPeti=2] ScSS SPetm
+	@s[SPeti=3] ScSS
+	@s[SPeti=3] SPeti = 1
 	
-	@e[type=armor_stand,SpawnStand,SPeti=4] + SpawnStandReset
+	@s[SPeti=4] + SpawnStandReset
 	
-	USE {@e[type=armor_stand,SpawnStandReset] * reset}:
+	USE {@s[SpawnStandReset] * reset}:
 		SPeti
 		SPetm
 		SPetc
 		SPafk
 		SPafkc
 	
-	@e[type=armor_stand,SpawnStandReset] SPeti = 0
-	@e[type=armor_stand,SpawnStandReset] + SpawnStandReset
+	@s[SpawnStandReset] SPeti = 0
+	@s[SpawnStandReset] - SpawnStandReset
 	
-	@e[type=armor_stand,SpawnStand,SPeti>=2<=4] SPeti = 0
+	@s SPeti = 0
 //>
 
-//<TS Token Passcode Testfor Clock
+//<TS Token Passcode
 FUNC {Func_TSTokenPasscode}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-		MFunc_TSTokenPasscode if @e[type=armor_stand,SpawnStand,TSToken>=1]
+		@e[type=armor_stand,SpawnStand,TSToken>=1] MFunc_TSTokenPasscode
 		
-	@e[type=armor_stand,SpawnStand,TSToken>=1] @a SPtsi + 0
-	@e[type=armor_stand,SpawnStand,TSToken>=1] @a[SPtsi=0] enable TSToken
+	@a SPtsi + 0
+	@a[SPtsi=0] enable TSToken
 	
 	/*
-	@e[type=armor_stand,SpawnStand,TSToken>=1] tellraw @a[SPtsi=0] $TSTokenTextStart$
+	tellraw @a[SPtsi=0] $TSTokenTextStart$
 	{"text":"The ","color":"gray"},
 	{"text":"Teamspeak Token","color":"dark_aqua","bold":"true",
 		"hoverEvent":{"action":"show_text","value":{"text":"TP to the TSToken (ECs)","color":"dark_aqua"}},
@@ -799,35 +802,46 @@ FUNC {Func_TSTokenPasscode}:
 	]}
 	*/
 	
-	@e[type=armor_stand,SpawnStand,TSToken>=1] @a[SPtsi=0] SPtsi = 1
+	@a[SPtsi=0] SPtsi = 1
 	
-	@a[TSToken>=1] ScOP @a[c=1,r=1,TSToken>=1] SPtsc = @a[c=1,r=1,TSToken>=1] TSToken
-	ScOP @a[TSToken<=-1] SPtsc *= -1 Number
-	ScOP @a[TSToken>=1] SPtsc -= @e[type=armor_stand,SpawnStand,TSToken>=1] TSToken
-	ScOP @a[TSToken>=1,SPtsc=0] SPtp = tstoken SPna
-	
-	@a[TSToken>=1,SPtsc<=-1] SPtsc = 1
-	tellraw @a[TSToken>=1,SPtsc>=1] $TSTokenTextStart${"text":"You have submitted an ","color":"gray"},{"text":"incorrect","color":"red"},{"text":" number.","color":"gray"}]}
-	@a[TSToken>=1,SPtsc>=1] playsound Snd_XP voice @a[c=1] ~ ~ ~ 1 0.5
-	/// tellraw @a[TSToken=0] $TSTokenTextStart${"text":"The number literally cannot be 0. It's time to stop.","color":"gray"}]}
-	/// @a[TSToken=0] enable TSToken
-	
-	@a[TSToken>=1,SPtsc>=1] SPtsn + 1
-	@a[TSToken>=1,SPtsc>=1,SPtsn<10] enable TSToken
-	tellraw @a[TSToken>=1,SPtsc>=1,SPtsn=10] $TSTokenTextStart${"text":"You have submitted 10 incorrect answers, and have 0 tries left.","color":"gray"}]}
-	@a[TSToken>=1,SPtsc>=1] SPtsc = 0
-	@a[TSToken>=1] TSToken = 0
-	
-	@e[type=armor_stand,SpawnStand,SPtss>=1<=2] * reset SPts
-	@e[type=armor_stand,SpawnStand,SPtss>=1<=2] SPtss + 2
-	
-	@e[type=armor_stand,SpawnStand,SPtss=3] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] reset SPts
-	@e[type=armor_stand,SpawnStand,SPtss=3] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 1
-	@e[type=armor_stand,SpawnStand,SPtss=4] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] SPts = 1
-	@e[type=armor_stand,SpawnStand,SPtss=4] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 0
+	@a[TSToken>=1] MFunc_TSTokenPasscodeGuess
 //>
 
-//<TS Token Options Testfor Clock
+//<
+FUNC {Func_TSTokenSelect}:
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+		@e[type=armor_stand,SpawnStand,SPtss>=1] MFunc_TSTokenSelect
+	
+	@s[SPtss>=1<=2] * reset SPts
+	@s[SPtss>=1<=2] SPtss + 2
+	
+	@s[SPtss=3] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] reset SPts
+	@s[SPtss=3] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 1
+	@s[SPtss=4] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] SPts = 1
+	@s[SPtss=4] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 0
+//>
+
+//<TS Token Passcode Guess
+FUNC {Func_TSTokenPasscodeGuess}:
+///	@a[TSToken>=1] MFunc_TSTokenPasscodeGuess
+
+	ScOP @s SPtsc = @s TSToken
+	ScOP @s[TSToken<=-1] SPtsc *= -1 Number
+	ScOP @s SPtsc -= @e[type=armor_stand,SpawnStand,TSToken>=1] TSToken
+	ScOP @s[SPtsc=0] SPtp = tstoken SPna
+	
+	@s[SPtsc<=-1] SPtsc = 1
+	tellraw @s[SPtsc>=1] $TSTokenTextStart${"text":"You have submitted an ","color":"gray"},{"text":"incorrect","color":"red"},{"text":" number.","color":"gray"}]}
+	playsound Snd_XP voice @s ~ ~ ~ 1 0.5
+	
+	@s[SPtsc>=1] SPtsn + 1
+	@s[SPtsc>=1,SPtsn<10] enable TSToken
+	tellraw @s[SPtsc>=1,SPtsn=10] $TSTokenTextStart${"text":"You have submitted 10 incorrect answers, and have 0 tries left.","color":"gray"}]}
+	@s[SPtsc>=1] SPtsc = 0
+	@s TSToken = 0
+//>
+
+//<TS Token Options
 FUNC {Func_TSTokenOptions}:
 	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
 		MFunc_TSTokenOptions if @e[type=armor_stand,SpawnStand,SPtso>=1]
@@ -879,10 +893,11 @@ FUNC {Func_TSTokenOptions}:
 	@e[type=armor_stand,SpawnStand,SPtso>=1] SPtso = 0
 //>
 
-//<Other Clock
-FUNC {Func_OtherClock}:
+//<Main Clock
+FUNC {Func_MainClock}:
 ///	Continuing the spawnpoint clock
 	@a[m=!3,SPti>=10] SPti + 1
+	@a[$SPNotTree$,m=!3,SPti<10] SPti = 0
 	@a[$SPNotTree$,m=!3,SPti>=20] SPti = 0
 	
 ///	Dimension
@@ -966,9 +981,6 @@ SPst	Specialty teams		Players
 ///	This is even if the spawnpoint is somewhere else
 	clear @a[$SPTree$,m=2,SPafc=1,SPdim=6]
 	
-	@a[SPafc=1] SPafc = 0
-	@a[SPlg>=1] SPlg = 0
-	
 ///	For voting
 	* enable SPvot
 	/*
@@ -1001,21 +1013,25 @@ SPst	Specialty teams		Players
 	*/
 	@a[SPvot>=1] playsound Snd_XP voice @a[c=1]
 	@a[SPvot>=1] SPvot = 0
+	
+	@a[SPafc=1] SPafc = 0
+	@a[SPlg>=1] SPlg = 0
 
 //>
 
 //<Main End
-FUNC {Func_GeneralScoreboardEnd}:
+FUNC {Func_MainEnd}:
 	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
 	
+	tellraw @a $TextStart${"text":"Spawnpoint System","color":"yellow"},{"text":" has been uninstalled!","color":"gray"}]}
 	kill @e[type=armor_stand,SpawnStand]
 //>
 
 
 //<Minecraft Functions
 MFUNC {init MFunc_MainStart}:
-	Func_AddingScoreboardsPulse()
-	Func_GeneralScoreboardStart()
+	Func_AddingScoreboards()
+	Func_MainStart()
 	gamerule gameLoopFunction MFunc_MainClock
 	
 MFUNC {spawnpoint MFunc_Spawnpoint}:
@@ -1027,8 +1043,11 @@ MFUNC {teleport MFunc_Teleport}:
 MFUNC {game_start_tellraw MFunc_GameStartTellraw}:
 	Func_GameStartTellraw()
 
-MFUNC {spawn MFunc_Spawn}:
-	Func_Spawn()
+MFUNC {spawn_tree MFunc_SpawnTree}:
+	Func_SpawnTree()
+
+MFUNC {spawn_portal MFunc_SpawnPortal}:
+	Func_SpawnPortal()
 
 MFUNC {timer MFunc_Timer}:
 	Func_Timer()
@@ -1043,13 +1062,13 @@ MFUNC {ts_token_options MFunc_TSTokenOptions}:
 	Func_TSTokenOptions()
 
 MFUNC {uninstall MFunc_MainEnd}:
-	Func_GeneralScoreboardEnd()
+	Func_MainEnd()
 	gamerule gameLoopFunction -
 	
 MFUNC {main MFunc_MainClock}:
 	LOOP {Arr_ActivateMain[S]}:
 		|0|
-	Func_OtherClock
+	Func_MainClock()
 //>
 
 
