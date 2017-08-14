@@ -530,6 +530,7 @@ FUNC {Func_AddingScoreboardsPulse}:
 		EC jamboree_lee
 		EC CynRyn
 		EC CMDZane
+		EC Icohedron
 		
 		LE FoxyTheBoomQueen
 		LE idk_lobsters
@@ -538,7 +539,6 @@ FUNC {Func_AddingScoreboardsPulse}:
 		
 		APWBS Witch_Doctor
 		APWBS Kilgore90
-		APWBS Icohedron
 		APWBS TheDarkOne239
 	
 ///	Anvil Drop
