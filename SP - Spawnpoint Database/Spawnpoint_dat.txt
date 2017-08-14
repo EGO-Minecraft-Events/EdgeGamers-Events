@@ -1,9 +1,0 @@
-351 7 111 368 24 115
-MFunc_GameStartTellrawTFClock;352 8 112;367 10 112
-MFunc_SpawnTFClock;352 12 112;367 12 112
-MFunc_TimerTFClock;352 14 112;367 15 112
-MFunc_ResetTimerTFClock;352 17 112;367 17 112
-MFunc_TSTokenPasscodeTFClock;352 19 112;367 20 112
-MFunc_TSTokenOptionsTFClock;352 22 112;367 23 112
-MFunc_OtherClock;352 8 114;367 11 114
-MFunc_MainEnd;352 13 114;367 15 114

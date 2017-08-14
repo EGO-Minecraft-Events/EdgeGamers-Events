@@ -30,6 +30,7 @@ OPTIONS:
 	combinerOption true
 	filePathFuncOption 
 	parseChangesOption false
+	deleteFunctionFolderOption false
 //>
 
 

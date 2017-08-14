@@ -36,6 +36,7 @@ OPTIONS:
 	combinerOption true
 	filePathFuncOption C:\Users\Austin\Documents\Austin\powder game code\eGO\Server Stuff\1.12.1\world\data\functions\spawnpoint
 	parseChangesOption false
+	deleteFunctionFolderOption true
 
 DEF $SP$ x=350,y=14,z=13,dx=90,dy=30,dz=90
 DEF $SpawnStand$ 397 17 61
@@ -714,9 +715,7 @@ FUNC {Func_Spawn}:
 	effect @a[$SPTree$] 23 2 0 true
 	gamemode 2 @a[$SPTree$,m=0]
 	
-	@e[type=armor_stand,SpawnStand,SPpvp=0]
-	COND:
-		J> NoPVP @a[$SPTree$,m=2]
+	@e[type=armor_stand,SpawnStand,SPpvp=0] J> NoPVP @a[$SPTree$,m=2]
 	
 	@a[$SPTree$,m=!3] SPti + 1
 	@a[$SPNotTree$,m=!3,SPti<10] SPti = 0
@@ -893,9 +892,8 @@ FUNC {Func_OtherClock}:
 ///	Mastermind
 	@a[$MM$,SPdim=6] SPmm = 1
 	@a[$NotMM$,SPmm=1] SPmm = 2
-	Mastermind SPmm ? 0 0
-	COND:
-		@a[SPmm=1] SPmm = 2
+	ScOP @e[type=armor_stand,SpawnStand] SPmm = Mastermind SPmm
+	@e[type=armor_stand,SpawnStand,SPmm=0] @a[SPmm=1] SPmm = 2
 	@a[SPmm=2,EC=0] SPmm = 0
 	clear @a[SPmm=2] wool -1 -1 {display:{Lore:["Mastermind Wool"]}}
 	clear @a[SPmm=2] shears -1 -1 {display:{Lore:["Mastermind Shears"]}}
@@ -903,32 +901,18 @@ FUNC {Func_OtherClock}:
 	
 ///	The following are under conditional blocks because if not, they'll spam everything lol
 ///	PVP
-	testfor @e[type=armor_stand,SpawnStand,SPpvp=0]
-	COND:
-		J> NoPVP @a[team=!NoPVP,SPdim=6]
+	@e[type=armor_stand,SpawnStand,SPpvp=0] J> NoPVP @a[team=!NoPVP,SPdim=6]
 	
 ///	Saturation
-	testfor @e[type=armor_stand,SpawnStand,SPsat=1]
-	COND:
-		effect @a[SPdim=6] 23 2 0 true
+	@e[type=armor_stand,SpawnStand,SPsat=1] effect @a[SPdim=6] 23 2 0 true
 	
 ///	Weather
-	testfor @e[type=armor_stand,SpawnStand,SPwea=0]
-	COND:
-		weather clear 1000000
-	
-	testfor @e[type=armor_stand,SpawnStand,SPwea=1]
-	COND:
-		weather rain 1000000
-	
-	testfor @e[type=armor_stand,SpawnStand,SPwea=2]
-	COND:
-		weather thunder 1000000
+	@e[type=armor_stand,SpawnStand,SPwea=0] weather clear 1000000
+	@e[type=armor_stand,SpawnStand,SPwea=1] weather rain 1000000
+	@e[type=armor_stand,SpawnStand,SPwea=2] weather thunder 1000000
 	
 ///	Regular gamemode
-	testfor @e[type=armor_stand,SpawnStand,SPgmd=1]
-	COND:
-		gamemode 2 @a[m=0,SPdim=6]
+	@e[type=armor_stand,SpawnStand,SPgmd=1] gamemode 2 @a[m=0,SPdim=6]
 	
 ///	Affected players gamemode
 	@a MCTeams + 0
@@ -958,29 +942,17 @@ SPst	Specialty teams		Players
 	ScOP @e[type=armor_stand,SpawnStand,SPaff>=1] SPafc = @e[type=armor_stand,SpawnStand,SPaff>=1] SPaff
 ///	@e[type=armor_stand,SpawnStand,SPafc>=64] @a[MCTeams=64,SPdim=6] SPafc = 1
 ///	@e[type=armor_stand,SpawnStand,SPafc>=64] SPafc - 64
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=32]
-	COND:
-		@a[MCTeams=32,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=32] @a[MCTeams=32,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=32] SPafc - 32
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=16]
-	COND:
-		@a[MCTeams=16,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=16] @a[MCTeams=16,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=16] SPafc - 16
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=8]
-	COND:
-		@a[MCTeams=8,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=8] @a[MCTeams=8,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=8] SPafc - 8
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=4]
-	COND:
-		@a[MCTeams=4,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=4] @a[MCTeams=4,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=4] SPafc - 4
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=2]
-	COND:
-		@a[MCTeams=2,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=2] @a[MCTeams=2,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=2] SPafc - 2
-	testfor @e[type=armor_stand,SpawnStand,SPafc>=1]
-	COND:
-		@a[MCTeams=1,SPdim=6] SPafc = 1
+	@e[type=armor_stand,SpawnStand,SPafc>=1] @a[MCTeams=1,SPdim=6] SPafc = 1
 	@e[type=armor_stand,SpawnStand,SPafc>=1] SPafc = 0
 	
 ///	Gamemode
@@ -1003,27 +975,27 @@ SPst	Specialty teams		Players
 	tellraw @a[SPvot>=1] $TextStart$
 	{"text":"Vote here: ","color":"gray"},
 	{"text":"Link 1","color":"green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"http://minecraft-server-list.com/server/200887/vote/"},
+		"clickEvent":{"action":"open_url","value":"`http://minecraft-server-list.com/server/200887/vote/`"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #1","color":"green"}}
 	},
 	{"text":" "},
 	{"text":"Link 2","color":"dark_green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"http://minecraftservers.org/vote/109809"},
+		"clickEvent":{"action":"open_url","value":"`http://minecraftservers.org/vote/109809`"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #2","color":"dark_green"}}
 	},
 	{"text":" "},
 	{"text":"Link 3","color":"green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"https://minecraftservers.biz/servers/2511/"},
+		"clickEvent":{"action":"open_url","value":"`https://minecraftservers.biz/servers/2511/`"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #3","color":"green"}}
 	},
 	{"text":" "},
 	{"text":"Link 4","color":"dark_green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"http://minecraft-mp.com/server/86376/vote/"},
+		"clickEvent":{"action":"open_url","value":"`http://minecraft-mp.com/server/86376/vote/`"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #4","color":"dark_green"}}
 	},
 	{"text":" "},
 	{"text":"Link 5","color":"green","bold":"true","underlined":"true",
-		"clickEvent":{"action":"open_url","value":"http://www.planetminecraft.com/server/edge-gamerscom/vote/"},
+		"clickEvent":{"action":"open_url","value":"`http://www.planetminecraft.com/server/edge-gamerscom/vote/`"},
 		"hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}
 	}]}
 	*/
@@ -1044,11 +1016,7 @@ FUNC {Func_GeneralScoreboardEnd}:
 MFUNC {init MFunc_MainStart}:
 	Func_AddingScoreboardsPulse()
 	Func_GeneralScoreboardStart()
-	
-MFUNC {main MFunc_MainClock}:
-	LOOP {Arr_ActivateMain[S]}:
-		|0|
-	Func_OtherClock
+	gamerule gameLoopFunction MFunc_MainClock
 	
 MFUNC {spawnpoint MFunc_Spawnpoint}:
 	Func_Spawnpoint()
@@ -1068,19 +1036,20 @@ MFUNC {timer MFunc_Timer}:
 MFUNC {reset_timer MFunc_ResetTimer}:
 	Func_ResetTimer()
 
-MFUNC {reset_timer MFunc_TSTokenPasscode}:
+MFUNC {ts_token_passcode MFunc_TSTokenPasscode}:
 	Func_TSTokenPasscode()
 
-MFUNC {MFunc_TSTokenOptions}:
+MFUNC {ts_token_options MFunc_TSTokenOptions}:
 	Func_TSTokenOptions()
 
-MFUNC {MFunc_OtherClock}:
-	Func_OtherClock()
-
-MFUNC {MFunc_MainEnd}:
+MFUNC {uninstall MFunc_MainEnd}:
 	Func_GeneralScoreboardEnd()
-
-CCU.cmdSave()
+	gamerule gameLoopFunction -
+	
+MFUNC {main MFunc_MainClock}:
+	LOOP {Arr_ActivateMain[S]}:
+		|0|
+	Func_OtherClock
 //>
 
 
