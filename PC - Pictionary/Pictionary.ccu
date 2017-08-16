@@ -19,7 +19,7 @@ DEF COORDS $CoordsOption$ 95 9 191
 DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
 
 ///Theme
-DEF $Theme$ Animals!
+DEF $Theme$ Pokemon!
 ///	Filling the board
 DEF COORDS $FillBoard$ 130 6 168 130 18 192
 
@@ -156,7 +156,7 @@ FUNC {Func_GeneralScoreboardStart}:
 	setblock $OpenDoorBlock$ air 0
 	
 ///Says the Nights' Theme In Title and In Chat
-	title @a[$SA$] title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
+	title @a[$SA$] title ["",{"text":"Tonight's Theme: ","color":"dark_aqua","bold":true,"italic":true}]
 	title @a[$SA$] subtitle ["",{"text":"$Theme$","color":"gold","bold":true,"italic":true}]
 	tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"}]}
 	tellraw @a[$SA$] $TextStart${"text":"$Theme$","color":"gold"}]}
