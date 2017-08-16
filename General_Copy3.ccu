@@ -22,14 +22,10 @@ IMPORT {LIBRARY GETDIR 1.12/General}
 
 //<Options
 OPTIONS:
-	blockOption $BlockOption$
-	coordsOption $CoordsOption$
-	styleOption $StyleDirection$ 16
 	parseOption true
 	commandOption true
 	combinerOption true
 	filePathFuncOption 
-	parseChangesOption false
 	deleteFunctionFolderOption false
 //>
 
