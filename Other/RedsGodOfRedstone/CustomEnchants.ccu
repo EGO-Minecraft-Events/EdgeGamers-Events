@@ -1,0 +1,97 @@
+//(Name)
+
+//<General Definitions
+IMPORT {LIBRARY GETDIR 1.12/General}
+
+DEF $CustomLore$ Adds a Custom Enchant to an item.
+DEF $CustomName$ Enchanting Dust
+//>
+
+//<Options
+OPTIONS:
+	parseOption true
+	commandOption false
+	combinerOption false
+	filePathFuncOption C:\Users\Austin\Documents\Austin\powder game code\eGO\Server Stuff\1.12.1\world\data\functions\CustomEnchants
+	deleteFunctionFolderOption true
+//>
+
+//<Comments
+//=
+asdf
+-enchanting dust
+-summon villager with bat egg lmao what
+=//
+
+//>
+
+
+//<Groups
+MFUNC {init MFunc_Init}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_Init) Obj_Init}:
+		CEidt dummy Custom Enchants Item Detect
+		CEiid dummy Custom Enchants Item ID
+		CEicl dummy Custom Enchants Item Calc
+		CEisn dummy Custom Enchants Item Summon
+	
+MFUNC {main MFunc_Main}:
+	@e[type=Item,!UsedID] CEiid + 0
+	@e[type=Item,CEiid=0] CEiid = 1 {Item:{id:"minecraft:glowstone_dust",tag:{display:{Lore:["$CustomLore$"],Name:"$CustomName$"}}}}
+	@e[type=Item,CEiid=0] CEiid = 2 {Item:{id:"minecraft:diamond_pickaxe"}}
+	@e[type=Item,CEiid=0] CEiid = 3 {Item:{id:"minecraft:diamond_shovel"}}
+	@e[type=Item,CEiid=0] CEiid = 4 {Item:{id:"minecraft:diamond_axe"}}
+	@e[type=Item,CEiid=0] CEiid = 5 {Item:{id:"minecraft:bow"}}
+	@e[type=Item,!UsedID] + UsedID
+	
+	@e[CEiid>=2<=5] @e[r=1,CEiid=1] MFunc_Count
+	
+MFUNC {BRANCH Enchanting count_number MFunc_Count}:
+	LOOP {1 64 + 1}:
+		@s CEidt + |0| {Item:{Count:|0|b}}
+	
+	ScOP @s CEicl = @e[c=1,r=1,type=Item,CEiid>=2<=5] CEidt
+	@s say @e[c=1,r=1,type=Item,CEiid>=2<=5]
+	
+	ScOP @s CEisn = @s CEidt
+	@s[CEicl=0] CEisn - 3 /// remove 3
+	@s[CEicl=0,CEidt>=4] CEidt = 3
+	
+	@s[CEicl=1] CEisn - 2 /// remove 2
+	@s[CEicl=1,CEidt>=3] CEidt = 2
+	
+	@s[CEicl=2] CEisn - 1 /// remove 1
+	@s[CEicl=2,CEidt>=2] CEidt = 1
+	
+	@s[CEicl>=3,CEidt>=1] CEidt = 0
+	@s[CEisn>=1] MFunc_SummonNum
+		
+	MFUNC {summon_number MFunc_SummonNum}:
+		LOOP {1 64 + 1}:
+			@s[CEisn=|0|] summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:|0|b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["$CustomLore$"],Name:"$CustomName$"}}}}
+		
+		@e[EnchantingDustSummon] CEiid = -1
+		@e[EnchantingDustSummon] + UsedID
+		@e[EnchantingDustSummon] - EnchantingDustSummon
+		
+	ScOP @e[c=1,r=1,type=Item,CEiid>=2<=5] CEidt += @s CEidt
+	kill @s
+	
+MFUNC {BRANCH ShopGen Enchanter MFunc_ShopGen}:
+	/*
+	@e[type=bat,name=SpawnEnchanter] summon villager ~ ~ ~ 
+		{Silent:1b,Health:1000000f,CustomName:"Enchanter",Profession:1,Career:1,NoAI:1b,CustomNameVisible:1b,Invulnerable:1b,
+		Offers:{Recipes:[{rewardExp:0b,maxUses:100000000,uses:0,
+			buy:{id:"minecraft:experience_bottle",Damage:0s,Count:10b},
+			buyB:{id:"minecraft:dye",Damage:4s,Count:3b},
+			sell:{id:"minecraft:glowstone_dust",Damage:0s,Count:1b,tag:{display:{Name:"Enchanting Dust",Lore:["Adds a Custom Enchant to an item."]}}}}]},
+		CareerLevel:1}
+	*/
+	kill @e[type=bat,name=SpawnEnchanter]
+	
+MFUNC {uninstall MFunc_Uninstall}:
+	CCU.objectiveRemove(Obj_Init)
+//>
+
+
+
+

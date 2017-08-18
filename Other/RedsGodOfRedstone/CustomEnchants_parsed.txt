@@ -1,0 +1,173 @@
+MFUNC | MFunc_Init | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/init.mcfunction
+	scoreboard objectives add CEidt dummy Custom Enchants Item Detect
+	scoreboard objectives add CEiid dummy Custom Enchants Item ID
+	scoreboard objectives add CEicl dummy Custom Enchants Item Calc
+	scoreboard objectives add CEisn dummy Custom Enchants Item Summon
+
+MFUNC | MFunc_Main | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/main.mcfunction
+	scoreboard players add @e[type=Item,tag=!UsedID] CEiid 0
+	scoreboard players set @e[type=Item,score_CEiid=0,score_CEiid_min=0] CEiid 1 {Item:{id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	scoreboard players set @e[type=Item,score_CEiid=0,score_CEiid_min=0] CEiid 2 {Item:{id:"minecraft:diamond_pickaxe"}}
+	scoreboard players set @e[type=Item,score_CEiid=0,score_CEiid_min=0] CEiid 3 {Item:{id:"minecraft:diamond_shovel"}}
+	scoreboard players set @e[type=Item,score_CEiid=0,score_CEiid_min=0] CEiid 4 {Item:{id:"minecraft:diamond_axe"}}
+	scoreboard players set @e[type=Item,score_CEiid=0,score_CEiid_min=0] CEiid 5 {Item:{id:"minecraft:bow"}}
+	scoreboard players tag @e[type=Item,tag=!UsedID] add UsedID
+	execute @e[score_CEiid_min=2,score_CEiid=5] ~ ~ ~ execute @e[r=1,score_CEiid=1,score_CEiid_min=1] ~ ~ ~ function CustomEnchants:Enchanting/count_number
+
+MFUNC | MFunc_SummonNum | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/Enchanting/summon_number.mcfunction
+	execute @s[score_CEisn=1,score_CEisn_min=1] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:1b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=2,score_CEisn_min=2] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:2b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=3,score_CEisn_min=3] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:3b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=4,score_CEisn_min=4] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:4b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=5,score_CEisn_min=5] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:5b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=6,score_CEisn_min=6] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:6b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=7,score_CEisn_min=7] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:7b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=8,score_CEisn_min=8] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:8b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=9,score_CEisn_min=9] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:9b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=10,score_CEisn_min=10] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:10b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=11,score_CEisn_min=11] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:11b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=12,score_CEisn_min=12] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:12b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=13,score_CEisn_min=13] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:13b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=14,score_CEisn_min=14] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:14b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=15,score_CEisn_min=15] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:15b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=16,score_CEisn_min=16] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:16b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=17,score_CEisn_min=17] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:17b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=18,score_CEisn_min=18] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:18b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=19,score_CEisn_min=19] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:19b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=20,score_CEisn_min=20] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:20b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=21,score_CEisn_min=21] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:21b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=22,score_CEisn_min=22] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:22b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=23,score_CEisn_min=23] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:23b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=24,score_CEisn_min=24] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:24b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=25,score_CEisn_min=25] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:25b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=26,score_CEisn_min=26] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:26b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=27,score_CEisn_min=27] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:27b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=28,score_CEisn_min=28] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:28b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=29,score_CEisn_min=29] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:29b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=30,score_CEisn_min=30] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:30b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=31,score_CEisn_min=31] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:31b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=32,score_CEisn_min=32] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:32b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=33,score_CEisn_min=33] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:33b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=34,score_CEisn_min=34] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:34b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=35,score_CEisn_min=35] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:35b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=36,score_CEisn_min=36] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:36b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=37,score_CEisn_min=37] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:37b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=38,score_CEisn_min=38] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:38b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=39,score_CEisn_min=39] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:39b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=40,score_CEisn_min=40] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:40b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=41,score_CEisn_min=41] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:41b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=42,score_CEisn_min=42] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:42b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=43,score_CEisn_min=43] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:43b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=44,score_CEisn_min=44] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:44b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=45,score_CEisn_min=45] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:45b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=46,score_CEisn_min=46] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:46b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=47,score_CEisn_min=47] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:47b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=48,score_CEisn_min=48] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:48b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=49,score_CEisn_min=49] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:49b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=50,score_CEisn_min=50] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:50b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=51,score_CEisn_min=51] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:51b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=52,score_CEisn_min=52] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:52b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=53,score_CEisn_min=53] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:53b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=54,score_CEisn_min=54] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:54b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=55,score_CEisn_min=55] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:55b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=56,score_CEisn_min=56] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:56b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=57,score_CEisn_min=57] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:57b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=58,score_CEisn_min=58] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:58b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=59,score_CEisn_min=59] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:59b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=60,score_CEisn_min=60] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:60b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=61,score_CEisn_min=61] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:61b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=62,score_CEisn_min=62] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:62b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=63,score_CEisn_min=63] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:63b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	execute @s[score_CEisn=64,score_CEisn_min=64] ~ ~ ~ summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:64b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["Adds a Custom Enchant to an item."],Name:"Enchanting Dust"}}}}
+	scoreboard players set @e[tag=EnchantingDustSummon] CEiid -1
+	scoreboard players tag @e[tag=EnchantingDustSummon] add UsedID
+	scoreboard players tag @e[tag=EnchantingDustSummon] remove EnchantingDustSummon
+
+MFUNC | MFunc_Count | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/Enchanting/count_number.mcfunction
+	scoreboard players add @s CEidt 1 {Item:{Count:1b}}
+	scoreboard players add @s CEidt 2 {Item:{Count:2b}}
+	scoreboard players add @s CEidt 3 {Item:{Count:3b}}
+	scoreboard players add @s CEidt 4 {Item:{Count:4b}}
+	scoreboard players add @s CEidt 5 {Item:{Count:5b}}
+	scoreboard players add @s CEidt 6 {Item:{Count:6b}}
+	scoreboard players add @s CEidt 7 {Item:{Count:7b}}
+	scoreboard players add @s CEidt 8 {Item:{Count:8b}}
+	scoreboard players add @s CEidt 9 {Item:{Count:9b}}
+	scoreboard players add @s CEidt 10 {Item:{Count:10b}}
+	scoreboard players add @s CEidt 11 {Item:{Count:11b}}
+	scoreboard players add @s CEidt 12 {Item:{Count:12b}}
+	scoreboard players add @s CEidt 13 {Item:{Count:13b}}
+	scoreboard players add @s CEidt 14 {Item:{Count:14b}}
+	scoreboard players add @s CEidt 15 {Item:{Count:15b}}
+	scoreboard players add @s CEidt 16 {Item:{Count:16b}}
+	scoreboard players add @s CEidt 17 {Item:{Count:17b}}
+	scoreboard players add @s CEidt 18 {Item:{Count:18b}}
+	scoreboard players add @s CEidt 19 {Item:{Count:19b}}
+	scoreboard players add @s CEidt 20 {Item:{Count:20b}}
+	scoreboard players add @s CEidt 21 {Item:{Count:21b}}
+	scoreboard players add @s CEidt 22 {Item:{Count:22b}}
+	scoreboard players add @s CEidt 23 {Item:{Count:23b}}
+	scoreboard players add @s CEidt 24 {Item:{Count:24b}}
+	scoreboard players add @s CEidt 25 {Item:{Count:25b}}
+	scoreboard players add @s CEidt 26 {Item:{Count:26b}}
+	scoreboard players add @s CEidt 27 {Item:{Count:27b}}
+	scoreboard players add @s CEidt 28 {Item:{Count:28b}}
+	scoreboard players add @s CEidt 29 {Item:{Count:29b}}
+	scoreboard players add @s CEidt 30 {Item:{Count:30b}}
+	scoreboard players add @s CEidt 31 {Item:{Count:31b}}
+	scoreboard players add @s CEidt 32 {Item:{Count:32b}}
+	scoreboard players add @s CEidt 33 {Item:{Count:33b}}
+	scoreboard players add @s CEidt 34 {Item:{Count:34b}}
+	scoreboard players add @s CEidt 35 {Item:{Count:35b}}
+	scoreboard players add @s CEidt 36 {Item:{Count:36b}}
+	scoreboard players add @s CEidt 37 {Item:{Count:37b}}
+	scoreboard players add @s CEidt 38 {Item:{Count:38b}}
+	scoreboard players add @s CEidt 39 {Item:{Count:39b}}
+	scoreboard players add @s CEidt 40 {Item:{Count:40b}}
+	scoreboard players add @s CEidt 41 {Item:{Count:41b}}
+	scoreboard players add @s CEidt 42 {Item:{Count:42b}}
+	scoreboard players add @s CEidt 43 {Item:{Count:43b}}
+	scoreboard players add @s CEidt 44 {Item:{Count:44b}}
+	scoreboard players add @s CEidt 45 {Item:{Count:45b}}
+	scoreboard players add @s CEidt 46 {Item:{Count:46b}}
+	scoreboard players add @s CEidt 47 {Item:{Count:47b}}
+	scoreboard players add @s CEidt 48 {Item:{Count:48b}}
+	scoreboard players add @s CEidt 49 {Item:{Count:49b}}
+	scoreboard players add @s CEidt 50 {Item:{Count:50b}}
+	scoreboard players add @s CEidt 51 {Item:{Count:51b}}
+	scoreboard players add @s CEidt 52 {Item:{Count:52b}}
+	scoreboard players add @s CEidt 53 {Item:{Count:53b}}
+	scoreboard players add @s CEidt 54 {Item:{Count:54b}}
+	scoreboard players add @s CEidt 55 {Item:{Count:55b}}
+	scoreboard players add @s CEidt 56 {Item:{Count:56b}}
+	scoreboard players add @s CEidt 57 {Item:{Count:57b}}
+	scoreboard players add @s CEidt 58 {Item:{Count:58b}}
+	scoreboard players add @s CEidt 59 {Item:{Count:59b}}
+	scoreboard players add @s CEidt 60 {Item:{Count:60b}}
+	scoreboard players add @s CEidt 61 {Item:{Count:61b}}
+	scoreboard players add @s CEidt 62 {Item:{Count:62b}}
+	scoreboard players add @s CEidt 63 {Item:{Count:63b}}
+	scoreboard players add @s CEidt 64 {Item:{Count:64b}}
+	scoreboard players operation @s CEicl = @e[c=1,r=1,type=Item,score_CEiid_min=2,score_CEiid=5] CEidt
+	execute @s ~ ~ ~ say @e[c=1,r=1,type=Item,score_CEiid_min=2,score_CEiid=5]
+	scoreboard players operation @s CEisn = @s CEidt
+	scoreboard players remove @s[score_CEicl=0,score_CEicl_min=0] CEisn 3
+	scoreboard players set @s[score_CEicl=0,score_CEicl_min=0,score_CEidt_min=4] CEidt 3
+	scoreboard players remove @s[score_CEicl=1,score_CEicl_min=1] CEisn 2
+	scoreboard players set @s[score_CEicl=1,score_CEicl_min=1,score_CEidt_min=3] CEidt 2
+	scoreboard players remove @s[score_CEicl=2,score_CEicl_min=2] CEisn 1
+	scoreboard players set @s[score_CEicl=2,score_CEicl_min=2,score_CEidt_min=2] CEidt 1
+	scoreboard players set @s[score_CEicl_min=3,score_CEidt_min=1] CEidt 0
+	execute @s[score_CEisn_min=1] ~ ~ ~ function CustomEnchants:Enchanting/summon_number
+	scoreboard players operation @e[c=1,r=1,type=Item,score_CEiid_min=2,score_CEiid=5] CEidt += @s CEidt
+	kill @s
+
+MFUNC | MFunc_ShopGen | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/ShopGen/Enchanter.mcfunction
+	execute @e[type=bat,name=SpawnEnchanter] ~ ~ ~ summon villager ~ ~ ~ {Silent:1b,Health:1000000f,CustomName:"Enchanter",Profession:1,Career:1,NoAI:1b,CustomNameVisible:1b,Invulnerable:1b,Offers:{Recipes:[{rewardExp:0b,maxUses:100000000,uses:0,buy:{id:"minecraft:experience_bottle",Damage:0s,Count:10b},buyB:{id:"minecraft:dye",Damage:4s,Count:3b},sell:{id:"minecraft:glowstone_dust",Damage:0s,Count:1b,tag:{display:{Name:"Enchanting Dust",Lore:["Adds a Custom Enchant to an item."]}}}}]},CareerLevel:1}
+	kill @e[type=bat,name=SpawnEnchanter]
+
+MFUNC | MFunc_Uninstall | C:/Users/Austin/Documents/Austin/powder game code/eGO/Server Stuff/1.12.1/world/data/functions/CustomEnchants/uninstall.mcfunction
+	scoreboard objectives remove CEidt
+	scoreboard objectives remove CEiid
+	scoreboard objectives remove CEicl
+	scoreboard objectives remove CEisn
