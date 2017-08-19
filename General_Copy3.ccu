@@ -23,8 +23,8 @@ IMPORT {LIBRARY GETDIR 1.12/General}
 //<Options
 OPTIONS:
 	parseOption true
-	commandOption true
-	combinerOption true
+	commandOption false
+	combinerOption false
 	filePathFuncOption 
 	deleteFunctionFolderOption false
 //>

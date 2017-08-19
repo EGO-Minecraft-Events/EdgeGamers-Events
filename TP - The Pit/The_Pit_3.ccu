@@ -18,7 +18,8 @@ DEF $BlockOption$ stonebrick 0
 DEF $StyleDirection$ +Z
 DEF COORDS $CoordsOption$ -97 15 239
 
-IMPORT {LIBRARY GETDIR 1.10/General}
+IMPORT {LIBRARY GETDIR 1.0.0/1.12/General}
+IMPORT {LIBRARY GETDIR 1.0.0/1.12/EGO}
 
 OPTIONS:
 	blockOption $BlockOption$
@@ -449,7 +450,7 @@ FUNC {Func_GeneralScoreboardStart}:
 ///	summon ArmorStand ~ ~ ~ {Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b,Tags:["TPEntity","TPCount","TPCountMobs"]}
 	@e[type=ArmorStand,TPStand] TPst = 0
 	
-	ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
+	ARRAY {ACTIVATE CCU.setConstants() ARGS}:
 		40
 		100
 	

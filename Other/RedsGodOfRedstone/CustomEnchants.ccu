@@ -1,7 +1,7 @@
 //(Name)
 
 //<General Definitions
-IMPORT {LIBRARY GETDIR 1.12/General}
+IMPORT {LIBRARY GETDIR 1.0.0/1.12/General}
 
 DEF $CustomLore$ Adds a Custom Enchant to an item.
 DEF $CustomName$ Enchanting Dust
@@ -41,16 +41,20 @@ MFUNC {main MFunc_Main}:
 	@e[type=Item,CEiid=0] CEiid = 3 {Item:{id:"minecraft:diamond_shovel"}}
 	@e[type=Item,CEiid=0] CEiid = 4 {Item:{id:"minecraft:diamond_axe"}}
 	@e[type=Item,CEiid=0] CEiid = 5 {Item:{id:"minecraft:bow"}}
+	@e[type=Item,CEiid=0] CEiid = 6 {Item:{id:"minecraft:diamond_helmet"}}
+	@e[type=Item,CEiid=0] CEiid = 7 {Item:{id:"minecraft:diamond_chestplate"}}
+	@e[type=Item,CEiid=0] CEiid = 8 {Item:{id:"minecraft:diamond_leggings"}}
+	@e[type=Item,CEiid=0] CEiid = 9 {Item:{id:"minecraft:diamond_boots"}}
 	@e[type=Item,!UsedID] + UsedID
 	
-	@e[CEiid>=2<=5] @e[r=1,CEiid=1] MFunc_Count
+	@e[CEiid>=2] @e[r=1,CEiid=1] MFunc_Count
 	
 MFUNC {BRANCH Enchanting count_number MFunc_Count}:
 	LOOP {1 64 + 1}:
 		@s CEidt + |0| {Item:{Count:|0|b}}
 	
-	ScOP @s CEicl = @e[c=1,r=1,type=Item,CEiid>=2<=5] CEidt
-	@s say @e[c=1,r=1,type=Item,CEiid>=2<=5]
+	ScOP @s CEicl = @e[c=1,r=1,type=Item,CEiid>=2] CEidt
+	@s say @e[c=1,r=1,type=Item,CEiid>=2]
 	
 	ScOP @s CEisn = @s CEidt
 	@s[CEicl=0] CEisn - 3 /// remove 3
@@ -67,13 +71,14 @@ MFUNC {BRANCH Enchanting count_number MFunc_Count}:
 		
 	MFUNC {summon_number MFunc_SummonNum}:
 		LOOP {1 64 + 1}:
-			@s[CEisn=|0|] summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:|0|b,id:"minecraft:glowstone_dust",tag:{display:{Lore:["$CustomLore$"],Name:"$CustomName$"}}}}
+			@s[CEisn=|0|] summon Item ~ ~ ~ {Tags:["EnchantingDustSummon"],Item:{Count:|0|b,id:"minecraft:glowstone_dust",\
+					tag:{display:{Lore:["$CustomLore$"],Name:"$CustomName$"}}}}
 		
 		@e[EnchantingDustSummon] CEiid = -1
 		@e[EnchantingDustSummon] + UsedID
 		@e[EnchantingDustSummon] - EnchantingDustSummon
 		
-	ScOP @e[c=1,r=1,type=Item,CEiid>=2<=5] CEidt += @s CEidt
+	ScOP @e[c=1,r=1,type=Item,CEiid>=2] CEidt += @s CEidt
 	kill @s
 	
 MFUNC {BRANCH ShopGen Enchanter MFunc_ShopGen}:
