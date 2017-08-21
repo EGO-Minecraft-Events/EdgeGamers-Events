@@ -1,0 +1,135 @@
+//(Rabbit Ball)
+///	C:\Users\zane_does_games\Desktop\eGOCCU\Command-Compiler-Unlimited-master\CCU Events\RB - Rabbit Ball\RabbitBall.ccu
+
+//<General Definitions
+DEF $SA$ x=206,y=73,z=262,dx=114,dy=-17,dz=153
+DEF $SPid$ 40
+DEF $SPpvp$ 0
+DEF $SPsat$ 1
+
+DEF $GSpawn$ 224 24 334
+DEF $BPit$ 237 27 330
+DEF $RPit$ 237 27 338
+DEF $BPit1$ x=237,y=27,z=324,dx=0,dy=0,dz=6
+DEF $Rpit1$ x=237,y=27,z=338,dx=0,dy=0,dz=6
+DEF $BPort$ x=213,y=26,z=333,dx=0,dy=3,dz=-2
+DEF $RPort$ x=213,y=26,z=337,dx=0,dy=3,dz=-2
+DEF $BportP$ 213 27 336
+DEF $RportP$ 213 27 336
+DEF $RGS$ 259 27 367
+DEF $BGS$ 259 27 301
+
+DEF $CMDName$ RB
+DEF $CMDSizeX$ 16
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $BlockOption$ stonebrick 0
+DEF $StyleDirection$ +X
+DEF COORDS $CoordsOption$ 312 34 331
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"RB","color":"red","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"RabbitBall","color":"red"}}},{"text":"]","color":"gray"},{"text":": "},
+
+DEF $CF$ 259 27 334
+
+DEF $RBall$ {CustomName:Ball,CustomNameVisible:1,Invulnerable:1,NoAI:1,Glowing:1,RabbitType:3,Tags:["RBEntity"]}
+
+IMPORT {LIBRARY GETDIR General}
+//>
+
+
+//<Comments
+//=
+	-Blue Score Chords:
+	-B1=289 43 327
+	-B2=289 43 331
+	-B3=289 43 335
+	-B4=289 43 339
+	-B5=289 43 343
+	-
+	-Red Score Chords:
+	-R1=289 43 325
+	-R2=289 43 329
+	-R3=289 43 333
+	-R4=289 43 337
+	-R5=289 43 341
+	-
+	-Spawns:
+	-RB=224 24 334 -90 0
+	-B= 237 27 330
+	-R= 237 27 338
+	-/summon Rabbit 259 27 334 {ArmorItems:[{},{},{},{id:leather_helmet,tag:{display:{color:5233919,Name:Cute Little Helmet!}}}],
+	Attributes:[{Name:generic.maxHealth,Base:100},{Name:generic.attackDamage,
+=//
+//>
+
+//<Options
+OPTIONS:
+	blockOption $BlockOption$
+	coordsOption $CoordsOption$
+	styleOption $StyleDirection$ 16
+	parseOption true
+	commandOption true
+	combinerOption true
+///	filePathFuncOption 
+	parseChangesOption false
+//>
+
+//<Portal Start
+FUNC {Func_PortalStart}:
+	J> RBR @a[$RPort$]
+	J> RBB @a[$BPort$]
+	particle heart $RportP$ ~ 1 ~ 0 20 100
+	tp @a[$RPort$] $RPit$
+	tp @a[$BPort$] $BPit$
+
+
+//<General Start
+FUNC {Func_GeneralStart}:
+	summon Rabbit $CF$ $RBall$
+	tp @a[$Rpit1$] $RGS$
+	tp @a[$BPit1$] $BGS$
+//>
+
+//<ScoreboardStart
+FUNC {Func_GeneralScoreboardStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
+		RB dummy Rabbit Ball
+	
+	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+		RBR 
+		OPT color red
+		RBB
+		OPT color blue
+
+//>
+
+//<Scoreboard Remove
+FUNC {Func_ScoreboardEnd}:
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
+	fill 288 28 339 288 36 344 minecraft:air
+	fill 288 28 329 288 36 324 minecraft:air
+//>
+
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	Func_GeneralScoreboardStart()
+	CCU_Deactivate(GSELF)
+
+GROUP {Grp_Start}:
+	Func_GeneralStart()
+	
+GROUP {CLOCK Grp_Portal}:
+	Func_PortalStart()
+
+
+GROUP {Grp_MainEnd}:
+	Func_ScoreboardEnd()
+	CCU_Deactivate(Func_GeneralStart)
+	CCU_Deactivate(Grp_MainStart)
+	CCU_Deactivate(GSELF)
+
+CCU.cmdSave()
+//>

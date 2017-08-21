@@ -1,0 +1,47 @@
+INITIALIZE
+	fill 312 34 331 329 42 333 air 0
+
+GROUP | Grp_MainStart | PULSE		[313 35 332 | stonebrick 0]
+	scoreboard objectives add RB dummy Rabbit Ball
+	scoreboard teams add RBR
+	scoreboard teams option RBR color red
+	scoreboard teams add RBB
+	scoreboard teams option RBB color blue
+	setblock 313 35 332 stonebrick 0
+
+GROUP | Grp_Start | PULSE		[313 37 332 | stonebrick 0]
+	summon Rabbit 259 27 334 {CustomName:Ball,CustomNameVisible:1,Invulnerable:1,NoAI:1,Glowing:1,RabbitType:3,Tags:["RBEntity"]}
+	minecraft:tp @a[x=237,y=27,z=338,dx=0,dy=0,dz=6] 259 27 367
+	minecraft:tp @a[x=237,y=27,z=324,dx=0,dy=0,dz=6] 259 27 301
+
+GROUP | Grp_Portal | CLOCK		[313 39 332 | stonebrick 0]
+	scoreboard teams join RBR @a[x=213,y=26,z=337,dx=0,dy=3,dz=-2]
+	scoreboard teams join RBB @a[x=213,y=26,z=333,dx=0,dy=3,dz=-2]
+	particle heart 213 27 336 ~ 1 ~ 0 20 100
+	minecraft:tp @a[x=213,y=26,z=337,dx=0,dy=3,dz=-2] 237 27 338
+	minecraft:tp @a[x=213,y=26,z=333,dx=0,dy=3,dz=-2] 237 27 330
+
+GROUP | Grp_MainEnd | PULSE		[313 41 332 | stonebrick 0]
+	scoreboard objectives remove RB
+	scoreboard teams remove RBR
+	scoreboard teams remove RBB
+	fill 288 28 339 288 36 344 minecraft:air
+	fill 288 28 329 288 36 324 minecraft:air
+	setblock Func_GeneralStart stonebrick 0
+	setblock 313 35 332 stonebrick 0
+	setblock 313 41 332 stonebrick 0
+
+FINALIZE
+	fill 312 33 331 315 31 334 air 0
+	setblock 313 33 332 structure_block 0 replace {name:"CMDSave_RB",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:16,sizeY:16,sizeZ:16}
+	setblock 313 31 332 structure_block 0 replace {name:"CMDSave_RB",mode:"LOAD",posX:0,posY:4,posZ:0}
+	setblock 312 33 332 wooden_button 2
+	setblock 312 31 332 wooden_button 2
+	setblock 313 33 333 redstone_lamp 0
+	setblock 313 31 333 redstone_lamp 0
+	setblock 314 33 332 command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+	setblock 313 35 332 stonebrick 0
+	setblock 313 37 332 stonebrick 0
+	setblock 313 39 332 stonebrick 0
+	setblock 313 41 332 stonebrick 0
+
