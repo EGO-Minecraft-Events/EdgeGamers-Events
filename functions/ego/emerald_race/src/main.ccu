@@ -1,6 +1,8 @@
 $include("lib/general/utils.ccu")
 
 $py(
+import someTest
+
 # create objectives
 global_objectives.new_str(
 """
@@ -17,4 +19,5 @@ team = Team("RRb" ,"Royal Rumble Blue", seeFriendlyInvisibles="True")
 !mfunc init
     $(global_objectives.cmd_init())
     playsound $(Sound.pling)
+    say $(__file__)
     say anotherone
