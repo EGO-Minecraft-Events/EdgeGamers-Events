@@ -1,0 +1,90 @@
+//(eGO)
+CCU.isImport(EGO/utils)
+
+//<Defines
+DEF CCU_ExecuteSpawnStand @e[type=armor_stand,SpawnStand,SPgam=0]
+DEF CCU_FinalSpawnStand @e[type=armor_stand,SpawnStand,SPgam=0] SPgam = $SPid$
+//>
+
+//<Setting Options
+//= from 1 --> 2 --> 4... etc
+ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=armor_stand,RRStand,RRop>=$TempScore$];RRop) ARGS}:
+	{
+		
+		
+	} {
+		
+		
+	} {
+		
+		
+	} {
+		
+		
+	}
+=//
+
+FUNC {GLOBAL CCU.setOptions}:
+///	deincrementing loop
+	LOOP {ARGS[-1] 0 - 1}:
+		DEF GLOBAL $TempScore$ CALC(2 ^ |0;1|)
+		USE {|0;1|}:
+			LOOP {0 ARGS[|0|][-1] + 1}:
+				ARGS[|0;1|][|0|]
+				
+	///	removes score
+		IF {$TempScore$ != 1}:
+			|0;1| |1;1| - $TempScore$
+		IF {$TempScore$ = 1}:
+			|0;1| |1;1| = 0
+	
+	UNASSIGN {ARRAY ARGS}
+	UNASSIGN {DEF $TempScore$}
+//>
+
+//<SpawnPoint System
+//=
+DEF $SA$ 
+DEF $SPid$ 
+DEF $SPpvp$ 1
+DEF $SPsat$ 1
+DEF $SPgmd$ 0
+DEF $SPwea$ 0
+=//
+
+/// Initialize
+IF {$SPpvp$ = `$SPpvp$`}:
+	DEF GLOBAL $SPpvp$ 0
+	
+IF {$SPsat$ = `$SPsat$`}:
+	DEF GLOBAL $SPsat$ 1
+	
+IF {$SPgmd$ = `$SPgmd$`}:
+	DEF GLOBAL $SPgmd$ 1
+	
+IF {$SPwea$ = `$SPwea$`}:
+	DEF GLOBAL $SPwea$ 0
+
+FUNC {GLOBAL CCU.spawnIDSetting}:
+	@a[$SA$] SPid + 0
+	@a[$SA$,SPid<-$SPid$] SPid = $SPid$
+	@a[$SA$,SPid>-$SPid$] SPid = $SPid$
+
+FUNC {GLOBAL CCU.spawnStandStart}:
+	@e[type=armor_stand,SpawnStand] SPtp = $SPid$
+	@e[type=armor_stand,SpawnStand] SPpvp = $SPpvp$
+	@e[type=armor_stand,SpawnStand] SPsat = $SPsat$
+	IF {$SPgmd$ != 1}:
+		@e[type=armor_stand,SpawnStand] SPgmd = $SPgmd$
+	IF {$SPwea$ != 0}:
+		@e[type=armor_stand,SpawnStand] SPwea = $SPwea$
+	@e[type=armor_stand,SpawnStand,SPgam>=1] SPgac = 1
+
+FUNC {GLOBAL CCU.spawnStandEnd}:
+	@e[type=armor_stand,SpawnStand] SPtp = 0
+	@e[type=armor_stand,SpawnStand] SPpvp = 0
+	@e[type=armor_stand,SpawnStand] SPsat = 1
+	@e[type=armor_stand,SpawnStand] SPgmd = 1
+	@e[type=armor_stand,SpawnStand,SPgam=$SPid$] SPgam = 0
+	@e[type=armor_stand,SpawnStand] SPwea = 0
+//>

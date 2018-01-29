@@ -1,5 +1,0 @@
-527 20 -831 544 27 -825
-Grp_MainStart;528 21 -830;543 22 -830
-Grp_MainClock;528 21 -828;543 24 -828
-Grp_CountdownTFClock;528 24 -830;543 25 -830
-Grp_MainEnd;528 21 -826;543 22 -826

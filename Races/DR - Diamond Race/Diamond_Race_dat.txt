@@ -1,5 +1,0 @@
-212 17 -21 216 24 -4
-Grp_MainStart;213 18 -20;213 19 -5
-Grp_MainClock;213 21 -20;213 22 -5
-Grp_CountdownTFClock;215 18 -20;215 19 -5
-Grp_MainEnd;215 21 -20;215 22 -5

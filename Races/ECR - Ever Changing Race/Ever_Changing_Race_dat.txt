@@ -1,6 +1,0 @@
-443 10 -321 449 17 -304
-Grp_StructureBlockPulse;444 11 -320;444 12 -305
-Grp_MainStart;444 14 -320;444 16 -305
-Grp_MainClock;446 11 -320;446 13 -305
-Grp_CountdownTFClock;446 15 -320;446 16 -305
-Grp_MainEnd;448 11 -320;448 12 -305

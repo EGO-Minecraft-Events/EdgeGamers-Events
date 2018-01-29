@@ -1,0 +1,409 @@
+//(Virus)
+CCU.isImport(Minigames/virus)
+
+//== General Virus Import (EGO)
+	In general, Virus is pretty much death tag. If the virus tags you, you die and turn into the virus until the time runs out or everyone is infected.
+	The copy/paste to set the variables / arrays for each race type can be found in the Races folder under the EdgeGamers' Events repository.
+=//
+
+//<General Defines
+DEF $SPpvp$ 1
+DEF $SPsat$ 1
+
+DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR$VType$","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus $VType$","color":"yellow"}}},{"text":"]","color":"gray"},{"text":": "},
+//>
+
+//<Random comments
+//=
+	VRst 0 = normal
+	VRst 1 = game start pulse
+	VRst 2 = game start
+	VRst 3 = game end pulse
+	VRst 4 = game end
+	VRst 5 = round end pulse --> normal
+=//
+//>
+
+//<General Scoreboard Start
+FUNC {Func_GeneralScoreboardStart}:
+	ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
+		V$VType$ dummy Virus $VType$
+		VRpl dummy Virus $VType$ Player List
+		VRpl2 dummy Virus $VType$ Player List 2
+		VRde deathCount Virus $VType$ Deaths
+		VRti dummy Virus $VType$ Timer
+		VRti2 dummy Virus $VType$ Timer 2
+		VRti3 dummy Virus $VType$ Timer 3
+		VRxp dummy Virus $VType$ XP Calc
+		VRop dummy Virus $VType$ Options
+		VRst dummy Virus $VType$ State
+		VRgh dummy Virus Golden Helmet
+	
+	ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
+		60
+		100
+		600
+	
+	ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+		VRh Virus $VType$ Hiders
+		OPT friendlyfire false
+		OPT collisionRule never
+///		OPT deathMessageVisibility false
+		OPT color green
+		OPT nametagVisibility hideForOtherTeams
+		
+		VRv Virus $VType$ Virus
+		OPT friendlyfire false
+		OPT collisionRule never
+///		OPT deathMessageVisibility false
+		OPT color yellow
+		
+		VRd_y V$VType$ Display Yellow
+		OPT color yellow
+		VRd_g V$VType$ Display Green
+		OPT color green
+	
+	J> VRd_y Countdown Minutes Seconds Virus
+	J> VRd_g Hiders
+	
+	V$VType$GameTime VRop = 600
+	
+	CCU_ExecuteSpawnStand ScSS V$VType$
+	CCU_ExecuteSpawnStand summon ArmorStand ~ ~ ~ {Tags:["VRStand","VREntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,VRStand] VRti + 0
+	CCU_ExecuteSpawnStand @e[type=ArmorStand,VRStand] VRst + 0
+//>
+
+//<Round Start Testfor Clock
+FUNC {Func_RoundStartTFClock}:
+	testfor @e[type=ArmorStand,VRStand,VRst=1]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,VRStand,VRst=1] Seconds VRti = 60
+	@e[type=ArmorStand,VRStand,VRst=1] VRti2 = 60
+	@e[type=ArmorStand,VRStand,VRst=1] VRti3 = 0
+	@e[type=ArmorStand,VRStand,VRst=1] title @a title {"text":""}
+	//(Change this to above hotbar in 1.11)
+	@e[type=ArmorStand,VRStand,VRst=1] title @a subtitle {"text":"The doors are now open","color":"green"}
+	@e[type=ArmorStand,VRStand,VRst=1] @a playsound Snd_Level voice @a[c=1]
+	Func_EditRoundStartTFClock()
+	
+	@e[type=ArmorStand,VRStand,VRst=1] VRst = 2
+//>
+
+//<Countdown Testfor Clock
+FUNC {Func_CountdownTFClock}:
+	testfor @e[type=ArmorStand,VRStand,VRst=2,VRti3=0]
+	CCU_SetblockTestfor
+	
+///	Countdown stuff
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=30,VRti3=0] tellraw @a $TextStart${"text":"30 seconds until the virus is released!","color":"yellow"}]}
+///	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1<=5,VRti3=0] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,VRStand,VRti=0,VRti2>=5<=1,VRti3=0,c=1,r=1]","objective":"VRti2","color":"yellow"},{"text":"!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1<=5,VRti3=0] @a playsound Snd_XP voice @a[c=1]
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=5,VRti3=0] tellraw @a $TextStart${"text":"5!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=4,VRti3=0] tellraw @a $TextStart${"text":"4!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=3,VRti3=0] tellraw @a $TextStart${"text":"3!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=2,VRti3=0] tellraw @a $TextStart${"text":"2!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=1,VRti3=0] tellraw @a $TextStart${"text":"1!","color":"yellow"}]}
+//>
+
+//<Countdown End Testfor Clock
+FUNC {Func_CountdownEndTFClock}:
+	testfor @e[type=ArmorStand,VRst=2,VRti2=0,VRti3=0]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] Countdown reset V$VType$
+	//(Change this to above hotbar in 1.11)
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] title @a title {"text":"The virus has","color":"yellow"}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] title @a subtitle {"text":"been released!","color":"yellow"}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] @a playsound Snd_Wither voice @a[c=1]
+	Func_EditCountdownEndTFClock()
+	
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=0] VRti3 = 1
+	ScOP @e[type=ArmorStand,VRStand,VRst=2,VRti2=0,VRti3=1] VRti2 = V$VType$GameTime VRop
+//>
+
+//<End Game Testfor Clock
+FUNC {Func_EndGameTFClock}:
+	testfor @e[type=ArmorStand,VRStand,VRst=3]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,VRStand,VRst=3,VRpl=0] title @a title {"text":"The virus won!","color":"yellow"}
+	@e[type=ArmorStand,VRStand,VRst=3,VRpl=0] tellraw @a $TextStart${"text":"The virus won!","color":"yellow"}]}
+	
+	@e[type=ArmorStand,VRStand,VRst=3,VRti2=0,VRti3=1,VRpl>=1] title @a title {"text":"Time!","color":"yellow"}
+	@e[type=ArmorStand,VRStand,VRst=3,VRti2=0,VRti3=1,VRpl>=1] tellraw @a $TextStart${"text":"The time is up! Hiders win!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=3,VRti2=0,VRti3=1,VRpl>=1] title @a subtitle {"text":"The hiders won!","color":"green"}
+	@e[type=ArmorStand,VRStand,VRst=3,VRti2=0,VRti3=1,VRpl>=1] Seconds reset V$VType$
+	@e[type=ArmorStand,VRStand,VRst=3,VRti2=0,VRti3=1,VRpl>=1] Minutes reset V$VType$
+	Func_EditEndGameTFClock()
+	
+	@e[type=ArmorStand,VRStand,VRst=3] VRti3 = 0
+	@e[type=ArmorStand,VRStand,VRst=3] VRst = 4
+//>
+
+//<End Round Testfor Clock
+FUNC {Func_EndRoundTFClock}:
+	testfor @e[type=ArmorStand,VRStand,VRst=5]
+	CCU_SetblockTestfor
+	
+	@e[type=ArmorStand,VRStand,VRst=5] clear @a[$SA$,m=2,VRpl>=0]
+	@e[type=ArmorStand,VRStand,VRst=5] @a[$SA$,EC=0] SPbk = $SPid$
+	@e[type=ArmorStand,VRStand,VRst=5] effect @a[$SA$,m=2,VRpl>=0] clear
+	@e[type=ArmorStand,VRStand,VRst=5] @a[$SA$,m=2,VRpl>=0] SPtp = $SPid$
+	@e[type=ArmorStand,VRStand,VRst=5] @a[$SA$,m=2,VRpl>=1] VRpl = 1
+	Func_EditEndRoundTFClock()
+	
+	@e[type=ArmorStand,VRStand,VRst=5] Countdown reset V$VType$
+	@e[type=ArmorStand,VRStand,VRst=5] Minutes reset V$VType$
+	@e[type=ArmorStand,VRStand,VRst=5] Seconds reset V$VType$
+	@e[type=ArmorStand,VRStand,VRst=5] VRst = 0
+//>
+
+
+//<General Options Testfor Clock
+FUNC {Func_GeneralOptionsTFClock}:
+	ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=ArmorStand,VRStand,VRop>=$TempScore$];VRop) ARGS}:
+		{ /// 1 - turns off game
+			CCU_Activate(Grp_MainEnd)
+			
+		} { /// 2 - edit teams
+			/*
+			tellraw @a[EC=0] $TextStart$
+				{"text":"Choose team: ","color":"gray"},
+				{"text":"Hider","color":"green","italic":true,
+					"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the hiders","color":"green"}},
+					"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 1"}
+				},
+				{"text":", ","color":"gray","italic":true},
+				{"text":"Virus","color":"yellow","italic":true,
+					"hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}},
+					"clickEvent":{"action":"suggest_command","value":"/scoreboard players set PlayerName VRpl 2"}
+				}]}
+			*/
+			
+		} { /// 4 - reset settings
+			V$VType$GameTime VRop = 600
+			
+		} { /// 8 - randomly choose a player to be a virus
+			@r[$SP$,m=2,VRpl=1] VRpl = 2
+			
+		} { /// 16 - remove players from virus
+			@r[$SV$,m=2,VRpl=3] VRpl = 1
+			@a[$SV$,m=2,VRpl=1] SPtp = $SPid$
+			clear @a[$SV$,m=2,VRpl=1] golden_helmet
+			effect @a[$SV$,m=2,VRpl=1] clear
+		} { /// 32 - edit time
+			/*
+			tellraw @a[EC=0] $TextStart$
+				{"text":"Edit time: ","color":"gray"},
+				{"text":"[+]","color":"gold","italic":true,
+					"hoverEvent":{"action":"show_text","value":{"text":"Edit current time","color":"gold"}},
+					"clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=ArmorStand,VRStand,VRst=2] VRti2 #"}
+				},
+				{"text":", ","color":"gray","italic":true},
+				{"text":"[+]","color":"gold","italic":true,
+					"hoverEvent":{"action":"show_text","value":{"text":"Edit start time","color":"gold"}},
+					"clickEvent":{"action":"suggest_command","value":"/scoreboard players set V$VType$GameTime VRop #"}
+				}]}
+			*/
+		}
+//>
+
+//<General Scoreboard Clock
+FUNC {Func_GeneralScoreboardClock}:
+/// baby i'm ballin
+///	ArmorStand VRpl -- -1 = Before countdown, 0 = Doors open, 1 = Regular game, 2 = stop
+///	Player VRpl -- 0 = Start, 1 = Hiding, 2 = Dead and will turn to the virus, 3 = Virus
+		
+///	Timer
+	@e[type=ArmorStand,VRStand,VRst>=1<=2,VRti>=0<=19,VRti2>=1,VRti3>=0] VRti + 1
+	@e[type=ArmorStand,VRStand,VRst>=1<=2,VRti=20,VRti2>=1,VRti3>=0] VRti2 - 1
+	@e[type=ArmorStand,VRStand,VRst>=1<=2,VRti=20,VRti2>=0,VRti3>=0] VRti = 0
+	@e[type=ArmorStand,VRStand,VRst>=1<=2,VRti2<=-1] VRti = 0
+	@e[type=ArmorStand,VRStand,VRst>=1<=2,VRti2<=-1] VRti2 = 0
+	
+	@e[type=ArmorStand,VRStand,VRst=2,VRst=2,VRti=0,VRti2=300,VRti3=1] tellraw @a $TextStart${"text":"5 minutes remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=300,VRti3=1] tellraw @a $TextStart${"text":"Glowing has been removed from all virus!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=300,VRti3=1] @a playsound Snd_XP voice @a[c=1]
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=240,VRti3=1] tellraw @a $TextStart${"text":"4 minutes remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=180,VRti3=1] tellraw @a $TextStart${"text":"3 minutes remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=120,VRti3=1] tellraw @a $TextStart${"text":"2 minutes remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=60,VRti3=1] tellraw @a $TextStart${"text":"1 minute remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=30,VRti3=1] tellraw @a $TextStart${"text":"30 seconds remain!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=15,VRti3=1] tellraw @a $TextStart${"text":"15 seconds remain!","color":"yellow"}]}
+///	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1<=5,VRti3=1] tellraw @a $TextStart${"score":{"name":"@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=15,VRti3=1,c=1,r=1]","objective":"VRti2","color":"yellow"}},{"text":"!","color":"yellow"}]} 
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=5,VRti3=1] tellraw @a $TextStart${"text":"5!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=4,VRti3=1] tellraw @a $TextStart${"text":"4!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=3,VRti3=1] tellraw @a $TextStart${"text":"3!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=2,VRti3=1] tellraw @a $TextStart${"text":"2!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=1,VRti3=1] tellraw @a $TextStart${"text":"1!","color":"yellow"}]}
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2=0,VRti3=1] VRst = 3
+	
+///	Display times
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1,VRti3>=0<=2] ScOP Seconds VRti = @e[type=ArmorStand,VRStand,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] VRti2
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1,VRti3>=0<=2] ScOP Minutes VRti = @e[type=ArmorStand,VRStand,VRti=0,VRti2>=1,VRti3>=0<=2,c=1] VRti2
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1,VRti3>=0<=2] ScOP Seconds VRti %= 60 Number
+	@e[type=ArmorStand,VRStand,VRst=2,VRti=0,VRti2>=1,VRti3>=0<=2] ScOP Minutes VRti /= 60 Number
+	@e[type=ArmorStand,VRStand,VRst=2,VRti>=0,VRti2>=1,VRti3=0] ScOP Countdown V$VType$ = Seconds VRti
+	@e[type=ArmorStand,VRStand,VRst=2,VRti>=0,VRti2>=1,VRti3=1] ScOP Seconds V$VType$ = Seconds VRti
+	@e[type=ArmorStand,VRStand,VRst=2,VRti>=0,VRti2>=1,VRti3=1] ScOP Minutes V$VType$ = Minutes VRti
+	
+///	General: Adds to hiders
+	@e[type=ArmorStand,VRStand] @a[$SP$,m=2] VRpl + 0
+	@e[type=ArmorStand,VRStand] clear @a[$SP$,m=2,VRpl=0]
+	@e[type=ArmorStand,VRStand] @a[$SP$,m=2,VRpl=0,EC=0] SPbk = $SPid$
+	@e[type=ArmorStand,VRStand] effect @a[$SP$,m=2,VRpl=0] clear
+	@e[type=ArmorStand,VRStand,VRst=0] @a[$SP$,m=2,VRpl=0] VRpl = 1
+	@e[type=ArmorStand,VRStand,VRst=2] @a[$SP$,m=2,VRpl=0] VRpl = 3
+	J> VRh @a[$SA$,m=2,VRpl=1,team=!VRh]
+	
+///	Add to virus
+	@e[type=ArmorStand,VRStand,VRst=2,VRti3=1] @a[$SP$,m=2,VRpl=1] VRpl = 2
+	title @a[$SA$,m=2,VRpl=2] title {"text":"You are now","color":"yellow"}
+	title @a[$SA$,m=2,VRpl=2] subtitle {"text":"the virus!","color":"yellow"}
+	@e[type=ArmorStand,VRStand,VRst=0] tp @a[$SP$,m=2,VRpl=2] $VirusBeg$
+	@e[type=ArmorStand,VRStand,VRst=2,VRti3=0] tp @a[$SA$,m=2,VRpl=2] $VirusBeg$
+	@e[type=ArmorStand,VRStand,VRst=2,VRti3=1] tp @a[$SP$,m=2,VRpl>=2<=3] $VirusEnd$
+	@a[$SA$,m=2,VRpl=2] VRpl = 3
+	J> VRv @a[$SA$,m=2,VRpl=3,team=!VRv]
+	
+///	Effects
+	@e[type=ArmorStand,VRStand,VRst=2] effect @a[$SA$,m=2,VRpl=3] 5 3 90 true /// removes strength once game ends
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2>=302] effect @a[$SA$,m=2,VRpl=3] 24 3 0 true /// removes glowing @ 5 mins
+	@e[type=ArmorStand,VRStand,VRst=0] effect @a[$SA$,m=2,VRpl=3] 24 3 0 true /// glowing for selected virus
+	@e[type=ArmorStand,VRStand,VRst=2,VRti3=0] effect @a[$SA$,m=2,VRpl=3] 24 3 0 true /// glowing for selected virus during countdown
+	effect @a[$SA$,m=2,VRpl>=1<=3] 11 3 3 true
+	@e[type=ArmorStand,VRStand,VRst=4] effect @a[$SA$,m=2,VRpl=1] 11 3 9 true /// resistance to all
+	effect @a[$SA$,m=2,VRpl>=1<=3] 6 100 100 true
+	
+///	Virus helmet detection
+	@a[$SA$,m=2,VRpl=3] VRgh = 0
+	@a[$SA$,m=2,VRpl=3] VRgh = 1 {Inventory:[{Slot:103b,id:"minecraft:golden_helmet",Count:1b}]}
+	clear @a[$SA$,m=2,VRpl=3,VRgh=0] golden_helmet
+	replaceitem entity @a[$SA$,m=2,VRpl=3,VRgh=0] slot.armor.head golden_helmet 1 0 {Unbreakable:1}
+	
+///	Player list (Hiders and Virus)
+	@e[type=ArmorStand,VRStand] VRpl = 0
+	@a[$SA$,m=2,VRpl=1] @e[type=ArmorStand,VRStand] VRpl + 1
+	
+	@e[type=ArmorStand,VRStand] VRpl2 = 0
+	@a[$SA$,m=2,VRpl=3] @e[type=ArmorStand,VRStand] VRpl2 + 1
+	
+	ScOP Hiders V$VType$ = @e[type=ArmorStand,VRStand] VRpl
+	ScOP Virus V$VType$ = @e[type=ArmorStand,VRStand] VRpl2
+	
+///	Detection if the virus won
+	@e[type=ArmorStand,VRStand,VRst=2,VRpl=0] VRst = 3
+	
+///	XP
+	kill @e[$SA$,type=XPOrb]
+	xp -2147483648L @a[$SA$]
+	ScOP @a[$SA$,m=2] VRxp = @e[type=ArmorStand,VRStand,VRst=2,VRti2>=0] VRti2
+	ScOP @a[$SA$,m=2] VRxp *= 100 Number
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2>=0,VRti3=0] ScOP @a[$SA$,m=2] VRxp /= 60 Number
+	@e[type=ArmorStand,VRStand,VRst=2,VRti2>=0,VRti3=1] ScOP @a[$SA$,m=2] VRxp /= 600 Number
+	
+	xp 1129L @a[$SA$,VRxp>=0,m=2]
+	xp 11 @a[$SA$,VRxp>=0,m=2]
+	LOOP {64 1 / 2} {6336 99 / 2}:
+		xp |2| @a[$SA$,VRxp>=|0|,m=2]
+		@a[$SA$,VRxp>=|0|,m=2] VRxp - |0|
+	xp -1129L @a[$SA$,VRxp>=0,m=2]
+	
+	@a[$SA$,VRxp>=0] VRxp = 0
+	
+///	Deaths
+	@e[type=ArmorStand,VRStand,VRst>=2<=4] @a[m=2,VRpl=1,VRde>=1] SPbk = $SPid$
+	@e[type=ArmorStand,VRStand,VRst=2] @a[m=2,VRpl=1,VRde>=1] VRpl = 2
+	@a[VRde>=1] VRde = 0
+//>
+
+//<General Scoreboard End
+FUNC {Func_GeneralScoreboardEnd}:
+	clear @a[$SA$,m=2,VRpl>=0]
+	@a[$SA$,EC=0] SPbk = $SPid$
+	effect @a[$SA$,m=2,VRpl>=0] clear
+	@a[$SA$,m=2,VRpl>=0] SPtp = $SPid$
+	
+	CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+	CCU.teamRemove(Team_GeneralScoreboardStart)
+	
+	kill @e[type=ArmorStand,VREntity]
+//>
+
+
+//<Groups
+GROUP {Grp_MainStart}:
+	CCU.spawnStandStart()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardStart()
+	Func_EditGeneralScoreboardStart()
+	CCU_Activate(Grp_MainClock)
+	CCU.tfActivate(Grp_RoundStartTFClock)
+	CCU.tfActivate(Grp_CountdownTFClock)
+	CCU.tfActivate(Grp_CountdownEndTFClock)
+	CCU.tfActivate(Grp_EndGameTFClock)
+	CCU.tfActivate(Grp_EndRoundTFClock)
+	CCU.tfActivate(Grp_GeneralOptionsTFClock)
+	CCU_FinalSpawnStand
+
+GROUP {Grp_MainClock}:
+	CCU.spawnIDSetting()
+	Func_GeneralScoreboardClock()
+	Func_EditGeneralScoreboardClock()
+
+GROUP {Grp_MainEnd}:
+	CCU.spawnStandEnd()
+	CCU_Deactivate(GSELF)
+	Func_GeneralScoreboardEnd()
+	Func_EditGeneralScoreboardEnd()
+	CCU_Deactivate(Grp_MainClock)
+	CCU.tfDeactivate(Grp_RoundStartTFClock)
+	CCU.tfDeactivate(Grp_CountdownTFClock)
+	CCU.tfDeactivate(Grp_CountdownEndTFClock)
+	CCU.tfDeactivate(Grp_EndGameTFClock)
+	CCU.tfDeactivate(Grp_EndRoundTFClock)
+	CCU.tfDeactivate(Grp_GeneralOptionsTFClock)
+
+GROUP {Grp_RoundStartTFClock}:
+	Func_RoundStartTFClock()
+
+GROUP {Grp_CountdownTFClock}:
+	Func_CountdownTFClock()
+
+GROUP {Grp_CountdownEndTFClock}:
+	Func_CountdownEndTFClock()
+
+GROUP {Grp_EndGameTFClock}:
+	Func_EndGameTFClock()
+
+GROUP {Grp_EndRoundTFClock}:
+	Func_EndRoundTFClock()
+	
+GROUP {Grp_GeneralOptionsTFClock}:
+	Func_GeneralOptionsTFClock()
+
+CCU.cmdSave()
+//>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

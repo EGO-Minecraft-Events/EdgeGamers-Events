@@ -1,5 +1,0 @@
-432 73 -666 415 80 -672
-Grp_MainStart;431 74 -667;416 75 -667
-Grp_MainClock;431 74 -669;416 78 -669
-Grp_CountdownTFClock;431 77 -667;416 78 -667
-Grp_MainEnd;431 74 -671;416 75 -671

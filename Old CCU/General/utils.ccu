@@ -1,0 +1,476 @@
+//(General Utils)
+CCU.isImport(General/utils)
+
+//<Regular defines
+//=
+DEF $BlockOption$ stonebrick 0
+
+OPTIONS:
+	blockOption $BlockOption$
+=//
+
+///	if BlockOption is set to a redstone block
+SPLIT {Arr_CCU_Temp $BlockOption$} { }
+IF {Arr_CCU_Temp[0] = redstone_block}:
+	UNASSIGN {DEF $BlockOption$}
+	DEF GLOBAL $BlockOption$ stonebrick 0
+	
+UNASSIGN {ARRAY Arr_CCU_Temp}
+
+///	For area effect clouds lol
+DEF $Duration$ Duration:2147483647
+
+///	For no loot drops
+DEF $NoLoot$ DeathLootTable:"minecraft:empty"
+
+DEF ScTA scoreboard teams add
+DEF ScTO scoreboard teams option
+DEF ScTR scoreboard teams remove
+DEF ScOA scoreboard objectives add
+DEF ScSS scoreboard objectives setdisplay sidebar
+DEF ScOS scoreboard objectives setdisplay
+DEF ScOR scoreboard objectives remove
+DEF ScOP scoreboard players operation
+
+DEF CCU_Activate setblock |0| redstone_block 0
+DEF CCU_Deactivate setblock |0| $BlockOption$
+
+///	Simply uses the log change base formula
+///	CCU_LogBase(base;number)
+DEF CCU_LogBase LOG(DEC(|0|) / DEC(|1|))
+
+///	Gets the largest exponent where a binary search can successfully go past the number
+FUNC {GLOBAL CCU.getBinaryExponent}:
+	CCU.roundDown(CALC(LOG(DEC(|0|)) / LOG(2.0));`$CCUCalcBinaryExponent$`)
+
+DEF Snd_Pling minecraft:block.note.pling
+DEF Snd_XP minecraft:entity.experience_orb.pickup
+DEF Snd_Item minecraft:entity.item.pickup
+DEF Snd_TP minecraft:entity.endermen.teleport
+DEF Snd_Wither minecraft:entity.wither.death
+DEF Snd_Level minecraft:entity.player.levelup
+DEF Snd_Explode minecraft:entity.generic.explode
+DEF Snd_Hat minecraft:block.note.hat
+DEF Snd_Primed minecraft:entity.tnt.primed
+//>
+
+//<Number Adding
+//=
+USE {ScOA}:
+	CCU_NumberObjAdd
+
+ARRAY {ACTIVATE CCU.setConstants() ARGS}:
+	-1
+	20
+=//
+
+FUNC {GLOBAL CCU.setConstants}:
+	IF {|0| = ``}:
+		DEF GLOBAL $CCUNumberObj$ Number
+	ELSE:
+		DEF GLOBAL $CCUNumberObj$ |0;1|
+	IF {|1| != false}:
+		scoreboard objectives add $CCUNumberObj$ dummy
+	LOOP {ARGS[S]}:
+		|0| $CCUNumberObj$ = |0|
+	
+	UNASSIGN {GLOBAL DEF $CCUNumberObj$}
+	UNASSIGN {ARRAY ARGS}
+//>
+
+//<Objective and Team lists
+//=
+ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
+	RRti dummy Royal Rumble Timer
+	RRpl dummy Royal Rumble Player List
+
+
+CCU.objectiveRemove(Arr_GeneralScoreboardStart)
+=//
+
+FUNC {GLOBAL CCU.objectiveAdd}:
+	LOOP {|0|[S]}:
+		scoreboard objectives add |0|
+
+FUNC {GLOBAL CCU.objectiveRemove}:
+	LOOP {|0|[S]}:
+		SPLIT {Arr_CCU_Temp |0|} { }
+		scoreboard objectives remove Arr_CCU_Temp[0]
+	UNASSIGN {ARRAY Arr_CCU_Temp}
+
+//=
+///	OPT in the beginning means it's an option
+ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
+	RRg Royal Rumble Green
+	OPT color green
+	OPT friendlyfire false
+
+
+CCU.teamRemove(Arr_GeneralScoreboardStart)
+=//
+
+FUNC {GLOBAL CCU.teamAdd}:
+	LOOP {|0|[S]}:
+		SPLIT {Arr_CCU_Temp |0|} { }
+		IF {Arr_CCU_Temp[0] = OPT}:
+			scoreboard teams option $CCU_TeamStorage$ Arr_CCU_Temp[1] Arr_CCU_Temp[2]
+		
+		IF {Arr_CCU_Temp[0] != OPT}:
+			scoreboard teams add |0|
+			DEF GLOBAL $CCU_TeamStorage$ Arr_CCU_Temp[0]
+			
+	UNASSIGN {DEF $CCU_TeamStorage$}
+
+FUNC {GLOBAL CCU.teamRemove}:
+	LOOP {|0|[S]}:
+		SPLIT {Arr_CCU_Temp |0|} { }
+		IF {Arr_CCU_Temp[0] != OPT}:
+			scoreboard teams remove Arr_CCU_Temp[0]
+//>
+
+//<Villager offers
+//=
+ARRAY {ACTIVATE CCU.getVillagerOffers() ARGS}:
+	{
+	///	buying then selling
+	///	item id
+	///	item count
+	///	item damage value
+	///	item tag
+	///	only the item id is necessary
+		pumpkin_pie
+		20
+	} {
+		diamond_helmet
+	} {
+		pumpkin_pie
+		50
+	} {
+		diamond_helmet
+		1
+		0
+		{ench:[{id:0,lvl:1}]}
+	}
+returns with $GetVillagerTag$
+=//
+
+///	FUNC {CCU.getVillagerOffers}:
+	
+	
+//>
+
+//<Temporary mcFunctions
+//= Makes a function under the temp folder, called temp_#
+Usage:
+CCU.mfuncTemp(if @s)
+	what you want
+	the function to be
+=//
+
+FUNC {GLOBAL CCU.mfuncTemp}:
+	IF {$CCUSave_MFuncTempCounter$ = `$CCUSave_MFuncTempCounter$`}:
+		DEF GLOBAL $CCUSave_MFuncTempCounter$ 0
+	ELSE:
+		DEF GLOBAL $CCUSave_MFuncTempCounter$ CALC($CCUSave_MFuncTempCounter$ + 1)
+		CCU.instantGlobalCalc($CCUSave_MFuncTempCounter$;`$CCUSave_MFuncTempCounter$`)
+	MFunc_Temp_$CCUSave_MFuncTempCounter$ |0|
+	MFUNC {temp/temp_$CCUSave_MFuncTempCounter$ MFunc_Temp$CCUSave_MFuncTempCounter$}:
+//>
+
+//<Lists
+//=
+Array Add: Adds everything in ARGS
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_Name) ARGS}:
+		element 1
+		element 2
+		
+	or
+	
+	ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_Name;3) ARGS}:
+		element 1
+		element 2
+		
+Array Remove: Removes the index number given if any number is given
+	CCU.arrayListRemove(Arr_Name) or CCU.arrayListRemove(Arr_Name;3)
+=//
+
+FUNC {GLOBAL CCU.arrayListAdd}:
+	DEF GLOBAL $CCU_EmptyArray$ true
+	IF {|0|[S] != |0|`[S]`}:
+		DEF GLOBAL $CCU_EmptyArray$ false
+		ARRAY {GLOBAL Arr_CCU_Temp}:
+			LOOP {|0|[S]}:
+				|0|
+	
+	IF {|1| = ``}: /// meaning the second parameter doesn't have a number
+		ARRAY {GLOBAL |0|}:
+			IF {$CCU_EmptyArray$ = false}:
+				LOOP {Arr_CCU_Temp[S]}:
+					|0|
+			LOOP {ARGS[S]}:
+				|0|
+				
+	ELSE:
+		ARRAY {GLOBAL |0|}:
+			IF {$CCU_EmptyArray$ = false}:
+				LOOP {0 Arr_CCU_Temp[-1] + 1}:
+					IF {|0| = |1;1|}:	
+						LOOP {ARGS[S]}:
+							|0|
+					Arr_CCU_Temp[|0|]
+			
+	UNASSIGN {ARRAY ARGS}
+	UNASSIGN {GLOBAL ARRAY Arr_CCU_Temp}
+	UNASSIGN {GLOBAL DEF $CCU_EmptyArray$}
+	
+FUNC {GLOBAL CCU.arrayListRemove}:
+	ARRAY {GLOBAL Arr_CCU_Temp}:
+		LOOP {|0|[S]}:
+			|0|
+	
+	IF {|1| = ``}: /// meaning no arguments are given apart from the array name
+		ARRAY {GLOBAL |0|}:
+			LOOP {0 (Arr_CCU_Temp[-1] - 1) + 1}:
+				Arr_CCU_Temp[|0|]
+				
+	ELSE: /// meaning arguments were given
+		ARRAY {GLOBAL |0|}:
+			LOOP {0 (Arr_CCU_Temp[-1]) + 1}:
+				IF {|1;1| != |0|}:
+					Arr_CCU_Temp[|0|]
+
+	UNASSIGN {GLOBAL ARRAY Arr_CCU_Temp}
+//>
+
+//<Scoreboard Tags
+//= Takes an array of scoreboard tags and places them inside any given data tag
+ARRAY {Arr_CCUCloudTags}:
+	GetCoordsCloud
+	GetCoordsEntity
+	
+CCU.scoreboardTags(Arr_CCUCloudTags)
+=//
+FUNC {GLOBAL CCU.scoreboardTags}:
+	LOOP {0 |0|[-1] + 1}:
+		|0;1|[|0|];
+		IF {|0| != |0;1|[-1]}:
+			,;
+	
+//>
+
+//<Directional based defines
+//= Required if you want an auto-saving structure block area, and repeating conditional command blocks with proper deactivation
+DEF $CMDName$ PC
+DEF $CMDSizeX$ 5
+DEF $CMDSizeY$ 16
+DEF $CMDSizeZ$ 16
+
+DEF $BlockOption$ stonebrick 0
+DEF $StyleOption$ +X
+DEF COORDS $CoordsOption$ 79 9 175
+
+OPTIONS:
+	coordsOption $CoordsOption$
+	styleOption $StyleOption$ 16
+=//
+
+///	Positive X
+IF {$StyleOption$ = +X}:
+	DEF GLOBAL CCU_SetblockTestfor setblock ~ ~ ~ repeating_command_block 13 replace {TrackOutput:0b,auto:1b}
+	DEF GLOBAL CCU_TFActivate blockdata |0|[x + 2, y, z] {auto:1b}
+	DEF GLOBAL CCU_TFDeactivate blockdata |0|[x + 2, y, z] {auto:0b}
+	
+	FUNC {GLOBAL CCU.tfActivate}:
+		CCU_TFActivate(|0|)
+		CCU_Activate(|0|)
+	
+	FUNC {GLOBAL CCU.tfDeactivate}:
+		CCU_TFDeactivate(|0|)
+		CCU_Deactivate(|0|)
+
+	FUNC {GLOBAL CCU.cmdSave}:
+		FINALIZE:
+			fill $CoordsOption$[x, y - 1, z, x + 3, y - 3, z + 3] air 0
+			setblock $CoordsOption$[x + 1, y - 1, z + 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+			setblock $CoordsOption$[x + 1, y - 3, z + 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+			setblock $CoordsOption$[x + 0, y - 1, z + 1] wooden_button 2
+			setblock $CoordsOption$[x + 0, y - 3, z + 1] wooden_button 2
+			setblock $CoordsOption$[x + 1, y - 1, z + 2] redstone_lamp 0
+			setblock $CoordsOption$[x + 1, y - 3, z + 2] redstone_lamp 0
+			setblock $CoordsOption$[x + 2, y - 1, z + 1] command_block 5 replace {TrackOutput:0b,Command:"setblock ~ ~ ~1 redstone_block 0"}
+
+///	Negative X
+IF {$StyleOption$ = -X}:
+	DEF GLOBAL CCU_SetblockTestfor setblock ~ ~ ~ repeating_command_block 12 replace {TrackOutput:0b,auto:1b}
+	DEF GLOBAL CCU_TFActivate blockdata |0|[x - 2, y, z] {auto:1b}
+	DEF GLOBAL CCU_TFDeactivate blockdata |0|[x - 2, y, z] {auto:0b}
+	
+	FUNC {GLOBAL CCU.tfActivate}:
+		CCU_TFActivate(|0|)
+		CCU_Activate(|0|)
+	
+	FUNC {GLOBAL CCU.tfDeactivate}:
+		CCU_TFDeactivate(|0|)
+		CCU_Deactivate(|0|)
+	
+	FUNC {GLOBAL CCU.cmdSave}:
+		FINALIZE:
+			fill $CoordsOption$[x - 3, y - 1, z - 3, x + 0, y - 3, z + 0] air 0
+			setblock $CoordsOption$[x - 1, y - 1, z - 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:CALC(1 - $CMDSizeX$),posY:2,posZ:CALC(1 - $CMDSizeZ$),sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+			setblock $CoordsOption$[x - 1, y - 3, z - 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:CALC(1 - $CMDSizeX$),posY:4,posZ:CALC(1 - $CMDSizeZ$)}
+			setblock $CoordsOption$[x + 0, y - 1, z - 1] wooden_button 1
+			setblock $CoordsOption$[x + 0, y - 3, z - 1] wooden_button 1
+			setblock $CoordsOption$[x - 1, y - 1, z - 2] redstone_lamp 0
+			setblock $CoordsOption$[x - 1, y - 3, z - 2] redstone_lamp 0
+			setblock $CoordsOption$[x - 2, y - 1, z - 1] command_block 4 replace {TrackOutput:0b,Command:"setblock ~ ~ ~-1 redstone_block 0"}
+	
+///	Positive Z
+IF {$StyleOption$ = +Z}:
+	DEF GLOBAL CCU_SetblockTestfor setblock ~ ~ ~ repeating_command_block 11 replace {TrackOutput:0b,auto:1b}
+	DEF GLOBAL CCU_TFActivate blockdata |0|[x, y, z + 2] {auto:1b}
+	DEF GLOBAL CCU_TFDeactivate blockdata |0|[x, y, z + 2] {auto:0b}
+	
+	FUNC {GLOBAL CCU.tfActivate}:
+		CCU_TFActivate(|0|)
+		CCU_Activate(|0|)
+	
+	FUNC {GLOBAL CCU.tfDeactivate}:
+		CCU_TFDeactivate(|0|)
+		CCU_Deactivate(|0|)
+
+	FUNC {GLOBAL CCU.cmdSave}:
+		FINALIZE:
+			fill $CoordsOption$[x, y - 1, z, x + 3, y - 3, z + 3] air 0
+			setblock $CoordsOption$[x + 1, y - 1, z + 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:0,posY:2,posZ:0,sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+			setblock $CoordsOption$[x + 1, y - 3, z + 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:0,posY:4,posZ:0}
+			setblock $CoordsOption$[x + 1, y - 1, z + 0] wooden_button 4
+			setblock $CoordsOption$[x + 1, y - 3, z + 0] wooden_button 4
+			setblock $CoordsOption$[x + 2, y - 1, z + 1] redstone_lamp 0
+			setblock $CoordsOption$[x + 2, y - 3, z + 1] redstone_lamp 0
+			setblock $CoordsOption$[x + 1, y - 1, z + 2] command_block 3 replace {TrackOutput:0b,Command:"setblock ~1 ~ ~ redstone_block 0"}
+
+///	Negative Z
+IF {$StyleOption$ = -Z}:
+	DEF GLOBAL CCU_SetblockTestfor setblock ~ ~ ~ repeating_command_block 10 replace {TrackOutput:0b,auto:1b}
+	DEF GLOBAL CCU_TFActivate blockdata |0|[x, y, z - 2] {auto:1b}
+	DEF GLOBAL CCU_TFDeactivate blockdata |0|[x, y, z - 2] {auto:0b}
+	
+	FUNC {GLOBAL CCU.tfActivate}:
+		CCU_TFActivate(|0|)
+		CCU_Activate(|0|)
+	
+	FUNC {GLOBAL CCU.tfDeactivate}:
+		CCU_TFDeactivate(|0|)
+		CCU_Deactivate(|0|)
+
+	FUNC {GLOBAL CCU.cmdSave}:
+		FINALIZE:
+			fill $CoordsOption$[x + 1, y - 1, z + 1, x - 2, y - 3, z - 2] air 0
+			setblock $CoordsOption$[x - 1, y - 1, z - 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"SAVE",posX:CALC(1 - $CMDSizeX$),posY:2,posZ:CALC(1 - $CMDSizeZ$),sizeX:$CMDSizeX$,sizeY:$CMDSizeY$,sizeZ:$CMDSizeZ$}
+			setblock $CoordsOption$[x - 1, y - 3, z - 1] structure_block 0 replace {name:"CMDSave_$CMDName$",mode:"LOAD",posX:CALC(1 - $CMDSizeX$),posY:4,posZ:CALC(1 - $CMDSizeZ$)}
+			setblock $CoordsOption$[x - 1, y - 1, z + 0] wooden_button 3
+			setblock $CoordsOption$[x - 1, y - 3, z + 0] wooden_button 3
+			setblock $CoordsOption$[x - 2, y - 1, z - 1] redstone_lamp 0
+			setblock $CoordsOption$[x - 2, y - 3, z - 1] redstone_lamp 0
+			setblock $CoordsOption$[x - 1, y - 1, z - 2] command_block 2 replace {TrackOutput:0b,Command:"setblock ~-1 ~ ~ redstone_block 0"}
+//>
+
+
+//<Math: Instant Calc
+//=
+Instant calc prevents the CALC() loop from getting too big.
+It takes a definition and parses the CALC statements before moving foward by putting it in a LOOP statement
+instantGlobalCalc just makes the definition global while instantCalc remains at the same tab space level.
+
+CCU.instantCalc($DefName$;`$DefName$`)
+CCU.instantGlobalCalc($DefName$;`$DefName$`)
+=//
+
+FUNC {CCU.instantCalc}:
+	LOOP {|0| |0| + 1}:
+		DEF GLOBAL $CCU_Temp$ |0;1|
+	DEF |1;1| $CCU_Temp$
+	UNASSIGN {GLOBAL DEF $CCU_Temp$}
+	
+FUNC {CCU.instantGlobalCalc}:
+	LOOP {|0| |0| + 1}:
+		DEF GLOBAL |1;2| |0;1|
+//>
+
+//<Math: Rounding
+//=
+Generally, normal rounding can just be done by INT(Number)
+
+	INT($DefName$)
+	0.8 --> 1
+	0.5 --> 1
+	0.3 --> 0
+	-0.1 --> 0
+	-0.5 --> 0
+	-0.9 --> -1
+	-1.1 --> -1
+	
+	CCU.roundUp($DefName$;`$DefName$`)
+	0.8 --> 1
+	0.5 --> 1
+	0.3 --> 1
+	-0.1 --> 0
+	-0.5 --> 0
+	-0.9 --> 0
+	-1.1 --> -1
+
+	CCU.roundDown($DefName$;`$DefName$`)
+	0.8 --> 0
+	0.5 --> 0
+	0.3 --> 0
+	-0.1 --> -1
+	-0.5 --> -1
+	-0.9 --> -1
+	-1.1 --> -2
+
+	$CCU_RoundCalc$ is positive when it normally rounds down
+	$CCU_RoundCalc$ is negative when it normally rounds up
+	DEC(INT(Number)) rounds it normally
+
+=//
+FUNC {GLOBAL CCU.roundUp}:
+	DEF $CCU_RoundCalc$ CALC(|0;1| - DEC(INT(|0;1|)))
+	
+	IF {$CCU_RoundCalc$ > 0}:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1| + (1 - $CCU_RoundCalc$))
+		
+	ELIF {$CCU_RoundCalc$ < 0}:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1| - $CCU_RoundCalc$)
+		
+	ELSE:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1|)
+		
+	CCU.instantGlobalCalc($CCU_RoundResult$;`$CCU_RoundResult$`)
+	DEF |1;1| $CCU_RoundResult$
+	
+	UNASSIGN {DEF $CCU_RoundCalc$}
+	UNASSIGN {GLOBAL DEF $CCU_RoundResult$}
+
+FUNC {GLOBAL CCU.roundDown}:
+	DEF $CCU_RoundCalc$ CALC(|0;1| - DEC(INT(|0;1|)))
+	IF {$CCU_RoundCalc$ > 0}:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1| - $CCU_RoundCalc$)
+		
+	ELIF {$CCU_RoundCalc$ < 0}:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1| - (1 + $CCU_RoundCalc$))
+		
+	ELSE:
+		DEF GLOBAL $CCU_RoundResult$ INT(|0;1|)
+		
+	CCU.instantGlobalCalc($CCU_RoundResult$;`$CCU_RoundResult$`)
+	DEF |1;1| $CCU_RoundResult$
+	
+	UNASSIGN {DEF $CCU_RoundCalc$}
+	UNASSIGN {GLOBAL DEF $CCU_RoundResult$}
+//>
+
+
+
+
+
+
