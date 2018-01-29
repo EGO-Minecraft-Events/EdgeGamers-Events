@@ -2,18 +2,19 @@ $include("lib/general/utils.ccu")
 
 $py(
 # create objectives
-objectives = Objectives()
-
-objectives.add_strs("""
+global_objectives.new_str(
+"""
 RRpl
 RRas
-RRcs stat.held_carrot_idk
-RRcs _ fake name
+RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
+RRxd _ RR a fake name
 """)
+
+team = Team("RRb" ,"Royal Rumble Blue", seeFriendlyInvisibles="True")
 )
 
 
 !mfunc init
-    $(objectives.cmd_init())
+    $(global_objectives.cmd_init())
     playsound $(Sound.pling)
     say anotherone

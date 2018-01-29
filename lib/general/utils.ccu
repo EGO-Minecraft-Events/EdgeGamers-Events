@@ -1,14 +1,1 @@
-$py(
-snd_pling = "minecraft:block.note.pling"
-snd_xp = "minecraft:entity.experience_orb.pickup"
-snd_item = "minecraft:entity.item.pickup"
-snd_tp = "minecraft:entity.endermen.teleport"
-snd_wither = "minecraft:entity.wither.death"
-snd_level = "minecraft:entity.player.levelup"
-snd_explode = "minecraft:entity.generic.explode"
-snd_hat = "minecraft:block.note.hat"
-snd_primed = "minecraft:entity.tnt.primed"
-
-def asdf():
-	return "test"
-)
+$include("lib/general/utils.py")
