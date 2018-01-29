@@ -1,0 +1,19 @@
+$include("lib/general/utils.ccu")
+
+$py(
+# create objectives
+objectives = Objectives()
+
+objectives.add_strs("""
+RRpl
+RRas
+RRcs stat.held_carrot_idk
+RRcs _ fake name
+""")
+)
+
+
+!mfunc init
+    $(objectives.cmd_init())
+    playsound $(Sound.pling)
+    say anotherone
