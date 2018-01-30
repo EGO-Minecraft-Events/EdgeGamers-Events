@@ -83,19 +83,41 @@ class Objectives(Container):
             self.objectives.append(objective)
 
     def add(self, *objectives):
+        """
+        Adds any given number of Objective objects
+
+        Args:
+            *objectives (Objective): An arbitrary objective
+        """
         for objective in objectives:
             self.objectives.append(objective)
 
     def cmd_init(self):
+        """
+        Creates each objective
+        """
         cmd_list = [objective.cmd_init() for objective in self.objectives]
         return output_cmd_list(cmd_list)
 
     def cmd_term(self):
+        """
+        Removes each objective
+        """
         cmd_list = [objective.cmd_term() for objective in self.objectives]
         return output_cmd_list(cmd_list)
 
+    def __len__(self):
+        """
+        Gets the number of Objective objects stored
+        """
+        return len(self.objectives)
+
 
 class Team(Container):
+    """
+    Representation for a single scoreboard team
+    """
+
     # dictionary to store all valid values for options
     valid_options = {
         "friendlyfire": ("true", "false"),
@@ -134,6 +156,17 @@ class Team(Container):
             self.add_option(option, value)
 
     def add_option(self, option, option_value):
+        """
+        Adds a single option to the options dictionary
+
+        Args:
+            option (str): Team option
+            option_value (str): Team option value
+
+        Raises:
+            SyntaxError: When the option name is invalid or when
+                the option value is invalid
+        """
         if option not in Team.valid_options:
             raise SyntaxError("Invalid team option name '{option}' for team '{name}'".format(option=option, name=self.name))
 
@@ -187,19 +220,22 @@ class Teams(Container):
         Args:
             text (str): the full docstring input for parsing teams
 
-        eg.
+        Raises:
+            SyntaxError: Before any option is set, a team must be defined.
+                This means a team name cannot the same as a option
 
-        RRg RR green
-        color green
-        nametagVisibility hideForOtherTeams
-        friendlyfire false
-        collisionRule pushOwnTeam
-            
-        RRb RR Blue
-            color blue
+        Examples:
+            RRg RR green
+            color green
             nametagVisibility hideForOtherTeams
             friendlyfire false
             collisionRule pushOwnTeam
+                
+            RRb RR Blue
+                color blue
+                nametagVisibility hideForOtherTeams
+                friendlyfire false
+                collisionRule pushOwnTeam
         """
 
         lines = text.splitlines()
@@ -231,16 +267,34 @@ class Teams(Container):
             self.teams.append(current_team)
 
     def add(self, *teams):
+        """
+        Adds any given number of Team objects
+
+        Args:
+            *teams (Team): An arbitrary amount of Team objects
+        """
         for team in teams:
             self.teams.append(team)
 
     def cmd_init(self):
+        """
+        Creates each team
+        """
         cmd_list = [team.cmd_init() for team in self.teams]
         return output_cmd_list(cmd_list)
 
     def cmd_term(self):
+        """
+        Removes each team
+        """
         cmd_list = [team.cmd_term() for team in self.teams]
         return output_cmd_list(cmd_list)
+
+    def __len__(self):
+        """
+        Gets the number of Team objects stored
+        """
+        return len(self.teams)
 
 
 OBJECTIVES = Objectives()

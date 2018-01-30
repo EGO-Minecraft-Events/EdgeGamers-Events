@@ -1,6 +1,6 @@
 from lib.container import Container
 from lib.coords import Coords
-from lib.general import output_cmd_list
+from lib.general import Container.output_cmd_list
 
 
 class FlooNetwork(Container):
@@ -79,7 +79,7 @@ class FlooNetwork(Container):
         # 
         cmd_list.append("@e[type=armor_stand,FlooNetwork,FLgam>=1] FLgac = 1")
 
-        return output_cmd_list(cmd_list)
+        return Container.output_cmd_list(cmd_list)
 
     def cmd_main(self, SA):
         """

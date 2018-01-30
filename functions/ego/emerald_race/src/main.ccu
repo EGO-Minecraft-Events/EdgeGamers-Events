@@ -1,9 +1,8 @@
-$py(
-import os, sys
+$include("lib/include_cwd.ccu")
 
-sys.path.append(os.getcwd())
-from lib.general.scoreboard import *
-from lib.general.consts import *
+$py(
+from lib.scoreboard import *
+from lib.consts import *
 
 
 # create objectives
@@ -16,7 +15,7 @@ RRxd _ RR a fake name
 RRidk dummy RR a fake name
 """)
 
-team = Team("RRb" ,"Royal Rumble Blue", seeFriendlyInvisibles="true", friendlyfire="false")
+team = Team("RRb", "Royal Rumble Blue", seeFriendlyInvisibles="true", friendlyfire="false")
 
 TEAMS.new_str("""
 RRg RR green

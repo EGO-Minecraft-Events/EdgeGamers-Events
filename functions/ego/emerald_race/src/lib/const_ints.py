@@ -26,7 +26,7 @@ class ConstInts(Container):
         cmd_list = []
         for const in sorted(list(self.constants)):
             cmd_list.append("scoreboard players set {num} {name} {num}".format(num=const, name=self.objective.name))
-        return output_cmd_list(cmd_list)
+        return Container.output_cmd_list(cmd_list)
 
     def cmd_term(self):
         """
