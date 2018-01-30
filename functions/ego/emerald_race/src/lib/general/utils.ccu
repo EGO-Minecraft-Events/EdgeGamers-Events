@@ -1,4 +1,0 @@
-$include("lib/general/general.py")
-$include("lib/general/container.py")
-$include("lib/general/scoreboard.py")
-$include("lib/general/consts.py")
