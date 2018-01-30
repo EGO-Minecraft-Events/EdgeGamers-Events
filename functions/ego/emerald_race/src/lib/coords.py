@@ -115,7 +115,7 @@ class Coords:
 
         return self.coord_dict[value]
 
-    def toSelector(self):
+    def to_selector(self):
         """
         If the type is REGULAR, it will create the selector arguments using x,y,z
         If the type is REGION, it will create the selector arguments using x,y,z,dx,dy,dz
@@ -126,7 +126,8 @@ class Coords:
         if self.type == Coords.REGULAR:
             return "x={0},y={1},z={2}".format(*self.coord_list)
         elif self.type == Coords.REGION:
-            return "x={0},y={1},z={2},dx={3},dy={4},dz={5}".format(*self.coord_list)
+            dx, dy, dz = [self.coord_list[index+3].value - self.coord_list[index].value for index in range(3)]
+            return "x={0},y={1},z={2},dx={3},dy={4},dz={5}".format(*self.coord_list[0:3], dx, dy, dz)
         else:
             raise TypeError("Coordinates '{}' cannot be converted to selector arguments".format(str(self)))
 

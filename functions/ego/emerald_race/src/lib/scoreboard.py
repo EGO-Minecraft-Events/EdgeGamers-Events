@@ -1,6 +1,6 @@
 from lib.general import output_cmd_list
 from lib.container import Container
-from lib.consts import *
+from lib.consts import Colors
 
 
 class Objective(Container):
@@ -130,9 +130,8 @@ class Team(Container):
             raise SyntaxError("The team name '{}' cannot be larger than 16 characters".format(name))
 
         # checks whether the option is valid by seeing if the key is within the valid values dict
-        for option in options.keys():
-            option_value = options[option]
-            self.add_option(option, option_value)
+        for option, value in options.items():
+            self.add_option(option, value)
 
     def add_option(self, option, option_value):
         if option not in Team.valid_options:
@@ -154,8 +153,8 @@ class Team(Container):
         cmd_list.append(team_cmd)
 
         # iterates through the options dictionary
-        for key in self.options.keys():
-            option_cmd = "scoreboard teams option {name} {option} {value}".format(name=self.name, option=key, value=self.options[key])
+        for option, option_value in self.options.items():
+            option_cmd = "scoreboard teams option {name} {option} {value}".format(name=self.name, option=option, value=option_value)
             cmd_list.append(option_cmd)
 
         return output_cmd_list(cmd_list)

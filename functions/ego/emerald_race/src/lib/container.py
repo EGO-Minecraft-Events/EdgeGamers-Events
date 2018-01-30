@@ -4,13 +4,13 @@ class Container:
     """
     def cmd_init(self):
         """ Intialize commands """
-        pass
+        return ""
 
     def cmd_main(self):
         """ Main commands """
-        pass
+        return ""
 
     def cmd_term(self):
         """ Terminate commands """
-        pass
+        return ""
 
