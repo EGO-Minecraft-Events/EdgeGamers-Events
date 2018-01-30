@@ -136,6 +136,7 @@ class Event:
         self.coords = coords
         self.shortcut = shortcut.split(";")
         self.display_coords = self.coords["xyz"]
+        self.display_coords = str(self.coords)
 
         # checks whether the length of the color after splitting
         # is the length of the name after splitting
@@ -147,7 +148,7 @@ class Event:
 
 
 # Races
-ICE_RACE = Event("Ice race", "aqua", Coords("49 36 -45 -90 0"), "ir")
+ICE_RACE = Event("Ice race", "aqua", Coords("49 36 -45 -90 2 6 2 7 34"), "ir")
 SLOW_RACE = Event("Slow Race", "gray", Coords("75 7 -80 90 0"), "sr")
 NETHER_RACE = Event("Nether Race", "red", Coords("73 7 -102 90 0"), "nr")
 EVIL_RACE = Event("Evil Race", "gray", Coords("23 7 -133 -90 0"), "evilr")

@@ -1,3 +1,9 @@
+"""
+Coordinates
+
+TODO vector
+"""
+
 class Coords:
     """
     Class to represent a set of coordinates
