@@ -91,6 +91,7 @@ class Coords:
 
         # Gets third set of coordinates
         if self.type == Coords.CLONE:
+            
             self.coord_dict["3x"] = self.coord_list[6]
             self.coord_dict["3y"] = self.coord_list[7]
             self.coord_dict["3z"] = self.coord_list[8]

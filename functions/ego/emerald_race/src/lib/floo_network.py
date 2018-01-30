@@ -76,17 +76,37 @@ class FlooNetwork(Container):
         else:
             cmd_list.append(set_stand_str.format("FLwea", "2"))
 
+        # 
+        cmd_list.append("@e[type=armor_stand,FlooNetwork,FLgam>=1] FLgac = 1")
+
         return output_cmd_list(cmd_list)
 
-    def cmd_main(self):
+    def cmd_main(self, SA):
         """
         Used in the main loop to set everyone's floo network id value
         for spawning and teleportation
         """
         cmd_list = []
-        cmd_list.append("@a[{SA}] SPid + 0")
-        cmd_list.append("@a[{SA},SPid=..-{id_calc}] SPid = {id}")
-        cmd_list.append("@a[{SA}] SPid=-{id_calc}..")
+        cmd_list.append("@a[{SA}] FLid + 0").format(SA)
+        cmd_list.append("@a[{SA},FLid=..-{id_calc}] FLid = {id}".format(SA, self.id+1, self.id))
+        cmd_list.append("@a[{SA}] FLid=-{id_calc}.. FLid = {id}".format(SA, self.id-1, self.id))
+
+    def cmd_term(self):
+        """
+        Resets all options for the floo network
+        """
+        cmd_list = []
+        set_stand_str = "@e[type=_armor_stand,FlooNetwork] {0} = {1}"
+
+        # Resets all options
+        cmd_list.append(set_stand_str.format("FLtp", "0"))
+        cmd_list.append(set_stand_str.format("FLpvp", "0"))
+        cmd_list.append(set_stand_str.format("FLsat", "1"))
+        cmd_list.append(set_stand_str.format("FLgam", "1"))
+        cmd_list.append(set_stand_str.format("FLwea", "0"))
+
+        # Sets the same game to 0
+        cmd_list.append("@e[type=armor_stand,FlooNetwork,FLgam={0}] FLgam = 0".format(self.id))
 
 
 class Event:
