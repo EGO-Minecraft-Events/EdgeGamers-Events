@@ -1,7 +1,0 @@
-# include this at the beginning of all main.ccu scripts
-# to be able to refer to the python library files by relative path
-
-$default(__BEGIN_SCRIPT__ = False)
-$if(not __BEGIN_SCRIPT__)
-$py(__BEGIN_SCRIPT__ = True; import os, sys; sys.path.append(os.getcwd()))
-$endif
