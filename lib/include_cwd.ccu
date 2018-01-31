@@ -1,0 +1,6 @@
+# include this file in any ccu scripts that require Python imports from the current working directory of the file
+
+$default(__INCLUDE_CWD__ = False)
+$if(not __INCLUDE_CWD__)
+$py(__INCLUDE_CWD__ = True; import os, sys; sys.path.append(os.getcwd()))
+$endif
