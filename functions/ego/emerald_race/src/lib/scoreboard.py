@@ -1,15 +1,62 @@
-from lib.general import output_cmd_list
+"""
+Library for scoreboard teams and objectives
+"""
+
 from lib.container import Container
 from lib.consts import Colors
 
 
+class Slot(Container):
+    """
+    Scoreboard objective setdisplay slot
+    """
+
+    # Defines all valid setdisplay slots
+    # List comprehension to get "sidebar.team.color" for all colors that isn't "reset"
+    valid_slots = ("belowName", "list", "sidebar", *("sidebar.team." + color for color in Colors.ALL if color != "reset"))
+
+    def __init__(self, slot, reset_slot=True):
+        """
+        Args:
+            slot (str): The specific slot that objective will be displayed on
+            reset_slot (bool): If the objective in the specified slot resets when it terminates
+        """
+        super().__init__()
+
+        if slot not in Slot.valid_slots:
+            raise SyntaxError("Invalid setdisplay slot: {}".format(slot))
+        
+        self.slot = slot
+        self.reset_slot = reset_slot
+
+    def cmd_init(self):
+        return "scoreboard objectives setdisplay sidebar {}".format(self.slot)
+
+
+
 class Objective(Container):
-    def __init__(self, name, criteria="_", display_name=""):
+    """
+    Represents a scoreboard objective
+    
+    Attributes:
+        name (str):
+        criteria (str):
+        display_name (str):
+        remove_self (bool):
+        setdisplay_slots (str):
+        slots (list of (str, bool)): Holds tuples containing the slot, and whether to reset said slot
+    """
+
+    def __init__(self, name, criteria="_", display_name="", remove_self=True):
         """
-        :param name: objective name
-        :param criteria: objective criteria, None and "_" defaults to "dummy"
-        :param display_name: objective display name, defaults to None
+        Args:
+            name (str): objective name
+            criteria (str): objective criteria, defaults to "dummy"
+                Note that "_" is the same as "dummy"
+            display_name (str): objective display name, defaults to an empty string
+            remove_self (bool): if the objective is removed when calling Objective.cmd_term()
         """
+        super().__init__()
 
         if len(name) > 16:
             raise SyntaxError("The objective name '{}' cannot be larger than 16 characters".format(name))
@@ -22,25 +69,48 @@ class Objective(Container):
             self.criteria = criteria
 
         self.display_name = display_name
+        self.remove_self = remove_self
+        self.slots = []
+
+    # def setdisplay(self, slot, reset_slot=True):
+    #     """
+    #     Args:
+    #         slot (str): The specific slot that objective will be displayed on
+    #         reset_slot (bool): If the objective in the specified slot resets when it terminates
+    #     """
+
+    #     if slot not in Objective.valid_slots:
+    #         raise SyntaxError("Objective {name} cannot be set to an invalid setdisplay {slot}".format(name=self.name, slot=slot))
+
+    #     self.slots.append((slot, reset_slot))
 
     def cmd_init(self):
         """
-        Creates the command as "scoreboard objectives add"
+        Adds all objectives using:
+            scoreboard objectives add
         """
         return ("scoreboard objectives add {name} {criteria} {disp_name}".format(
                 name=self.name, criteria=self.criteria, disp_name=self.display_name)).strip()
 
     def cmd_term(self):
         """
-        Creates the command as "scoreboard objectives remove"
+        Removes objectives and resets setdisplay slots using:
+            scoreboard objectives remove
+            scoreboard objectives setdisplay sidebar
         """
-        return "scoreboard objectives remove {}".format(self.name)
+        if self.remove_self:
+            return "scoreboard objectives remove {}".format(self.name)
+        else:
+            for slot in self.slots:
+                if slot[1]:
+                    self.cmd_queue.put("scoreboard objectives setdisplay {}".format(slot[0]))
+            return self._cmd_output()
 
     def __str__(self):
-        return "Objective({})".format(self.name)
+        return "Objective[{}]".format(self.name)
 
     def __repr__(self):
-        return "Objective(name={name}, criteria={criteria}, display_name={disp_name})".format(
+        return "Objective[name={name}, criteria={criteria}, display_name={disp_name}]".format(
                 name=repr(self.name), criteria=repr(self.criteria), disp_name=repr(self.display_name))
 
 
@@ -49,11 +119,12 @@ class Objectives(Container):
     General container for holding Objective objects
     """
     def __init__(self):
+        super().__init__()
         self.objectives = []
 
     def new(self, name, criteria="_", display_name=""):
         """
-        Default method to add a single objective
+        Default method to add a single objective (see Objective.__init__)
         """
         objective = Objective(name, criteria, display_name)
         self.objectives.append(objective)
@@ -66,11 +137,12 @@ class Objectives(Container):
         RRpl
         RRas
         RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
-        RRxd _ RR a fake name
+        RRxd _ RR ecks dee
         """
         lines = text.splitlines()
         for line in lines:
-            data = line.strip().split(" ", 2)
+            line = line.strip()
+            data = line.split(" ", 2)
             
             # skips empty lists or a list with an empty string
             if not data or not line:
@@ -96,15 +168,23 @@ class Objectives(Container):
         """
         Creates each objective
         """
-        cmd_list = [objective.cmd_init() for objective in self.objectives]
-        return output_cmd_list(cmd_list)
+        for objective in self.objectives:
+            self.cmd_queue.put(objective.cmd_init())
+        return self._cmd_output()
 
     def cmd_term(self):
         """
         Removes each objective
         """
-        cmd_list = [objective.cmd_term() for objective in self.objectives]
-        return output_cmd_list(cmd_list)
+        for objective in self.objectives:
+            self.cmd_queue.put(objective.cmd_term())
+        return self._cmd_output()
+
+    def __str__(self):
+        return "Objectives[{}]".format(str([str(objective) for objective in self.objectives]))
+
+    def __repr__(self):
+        return "Objectives[{}]".format(str([repr(objective) for objective in self.objectives]))
 
     def __len__(self):
         """
@@ -144,6 +224,8 @@ class Team(Container):
             SyntaxError: When the team name is greater than 16 characters, or
                 the option is an invalid option name or the option value is invalid
         """
+        super().__init__()
+
         self.name = name
         self.display_name = display_name
         self.options = {}
@@ -180,17 +262,16 @@ class Team(Container):
         """
         Creates "scoreboard teams add" and "scoreboard teams option" commands
         """
-        cmd_list = []
         team_cmd = ("scoreboard teams add {name} {disp_name}".format(name=self.name, disp_name=self.display_name)).strip()
 
-        cmd_list.append(team_cmd)
+        self.cmd_queue.put(team_cmd)
 
         # iterates through the options dictionary
         for option, option_value in self.options.items():
             option_cmd = "scoreboard teams option {name} {option} {value}".format(name=self.name, option=option, value=option_value)
-            cmd_list.append(option_cmd)
+            self.cmd_queue.put(option_cmd)
 
-        return output_cmd_list(cmd_list)
+        return self._cmd_output()
 
     def cmd_term(self):
         """
@@ -198,17 +279,26 @@ class Team(Container):
         """
         return "scoreboard teams remove {}".format(self.name)
 
+    def __str__(self):
+        return "Team[{}]".format(self.name)
+
+    def __repr__(self):
+        return "Team[name={name}, display_name={disp_name}, options={options}]".format(
+                name=repr(self.name), disp_name=repr(self.display_name), options=self.options)
+
+
 
 class Teams(Container):
     """
     General container for holding Team objects
     """
     def __init__(self):
+        super().__init__()
         self.teams = []
 
     def new(self, name, display_name="", **options):
         """
-        Default method to add a single objective
+        Default method to add a single objective (see Team.__init__)
         """
         team = Team(name, display_name, **options)
         self.teams.append(team)
@@ -280,15 +370,23 @@ class Teams(Container):
         """
         Creates each team
         """
-        cmd_list = [team.cmd_init() for team in self.teams]
-        return output_cmd_list(cmd_list)
+        for team in self.teams:
+            self.cmd_queue.put(team.cmd_init())
+        return self._cmd_output()
 
     def cmd_term(self):
         """
         Removes each team
         """
-        cmd_list = [team.cmd_term() for team in self.teams]
-        return output_cmd_list(cmd_list)
+        for team in self.teams:
+            self.cmd_queue.put(team.cmd_term())
+        return self._cmd_output()
+
+    def __str__(self):
+        return "Teams[{}]".format(str([str(team) for team in self.teams]))
+
+    def __repr__(self):
+        return "Teams[{}]".format(str([repr(team) for team in self.teams]))
 
     def __len__(self):
         """
@@ -296,25 +394,5 @@ class Teams(Container):
         """
         return len(self.teams)
 
-
 OBJECTIVES = Objectives()
 TEAMS = Teams()
-
-def _test():
-    TEAMS.new_str("""
-    RRg RR green
-    color green
-    nametagVisibility hideForOtherTeams
-    friendlyfire false
-    collisionRule pushOwnTeam
-        
-    RRb RR Blue
-        color blue
-        nametagVisibility hideForOtherTeams
-        friendlyfire false
-        collisionRule pushOwnTeam
-    """)
-    
-    print(TEAMS.cmd_init())
-    print(TEAMS.cmd_term())
-

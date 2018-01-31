@@ -1,9 +1,8 @@
 from lib.container import Container
 from lib.coords import Coords
-from lib.general import Container.output_cmd_list
 
 
-class FlooNetwork(Container):
+class FlooEvent(Container):
     """
     Stores the general commands used by the Floo Network for every event.
 
@@ -18,6 +17,18 @@ class FlooNetwork(Container):
     }
     
     def __init__(self, event, **options):
+        """
+        Args:
+            event (Event):
+            **options: (Arbitrary options)
+
+        Example:
+            FlooRace = FlooEvent(ICE_RACE)
+            FlooPVP = FlooEvent(CAPTURE_THE_FLAG, pvp="false")
+            FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
+        """
+        super().__init__()
+
         if not isinstance(event, Event):
             raise TypeError("The ID must be an Event type")
         self.event = event
@@ -28,10 +39,10 @@ class FlooNetwork(Container):
             self.add_option(option, value)
 
     def add_option(self, option, option_value):
-        if option not in FlooNetwork.valid_options:
+        if option not in FlooEvent.valid_options:
             raise SyntaxError("Invalid option name '{option}' for the floo network".format(option=option))
 
-        if option_value not in FlooNetwork.valid_options[option]:
+        if option_value not in FlooEvent.valid_options[option]:
             raise SyntaxError("Invalid option value for option '{option}' for the floo network: '{op_value}'".format(
                     option=option, op_value=option_value))
 
@@ -41,72 +52,79 @@ class FlooNetwork(Container):
         """
         Sets up the commands for the floo network
         """
-        cmd_list = []
-
-        set_stand_str = "@e[type=_armor_stand,FlooNetwork] {0} = {1}"
+        set_stand_str = "@e[type=_armor_stand,FlooEvent] {0} = {1}"
 
         # setting up the teleport id
-        cmd_list.append(set_stand_str.format("FLtp", self.id))
+        self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
 
         # setting up pvp options, defaults to false
         if "pvp" not in self.options or self.options["pvp"] == "false":
-            cmd_list.append(set_stand_str.format("FLpvp", "0"))
+            self.cmd_queue.put(set_stand_str.format("FLpvp", "0"))
         else:
-            cmd_list.append(set_stand_str.format("FLpvp", "1"))
+            self.cmd_queue.put(set_stand_str.format("FLpvp", "1"))
 
         # setting up the saturation options, defaults to true
         if "pvp" not in self.options or self.options["pvp"] == "true":
-            cmd_list.append(set_stand_str.format("FLsat", "1"))
+            self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
         else:
-            cmd_list.append(set_stand_str.format("FLsat", "0"))
+            self.cmd_queue.put(set_stand_str.format("FLsat", "0"))
 
         # setting up gamemode, defaults to adventure
         if "gamemode" not in self.options or self.options["gamemode"] == "adventure":
-            cmd_list.append(set_stand_str.format("FLsat", "1"))
+            self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
         elif self.options["gamemode"] == "survival":
-            cmd_list.append(set_stand_str.format("FLsat", "2"))
+            self.cmd_queue.put(set_stand_str.format("FLsat", "2"))
         else:
-            cmd_list.append(set_stand_str.format("FLsat", "3"))
+            self.cmd_queue.put(set_stand_str.format("FLsat", "3"))
 
         # setting up weather, defaults to clear
         if "weather" not in self.options or self.options["weather"] == "clear":
-            cmd_list.append(set_stand_str.format("FLwea", "0"))
+            self.cmd_queue.put(set_stand_str.format("FLwea", "0"))
         elif self.options["weather"] == "rain":
-            cmd_list.append(set_stand_str.format("FLwea", "1"))
+            self.cmd_queue.put(set_stand_str.format("FLwea", "1"))
         else:
-            cmd_list.append(set_stand_str.format("FLwea", "2"))
+            self.cmd_queue.put(set_stand_str.format("FLwea", "2"))
 
-        # 
-        cmd_list.append("@e[type=armor_stand,FlooNetwork,FLgam>=1] FLgac = 1")
+        self.cmd_queue.put("@e[type=armor_stand,FlooEvent,FLgam>=1] FLgac = 1")
 
-        return Container.output_cmd_list(cmd_list)
+        return self._cmd_output()
 
     def cmd_main(self, SA):
         """
         Used in the main loop to set everyone's floo network id value
         for spawning and teleportation
         """
-        cmd_list = []
-        cmd_list.append("@a[{SA}] FLid + 0").format(SA)
-        cmd_list.append("@a[{SA},FLid=..-{id_calc}] FLid = {id}".format(SA, self.id+1, self.id))
-        cmd_list.append("@a[{SA}] FLid=-{id_calc}.. FLid = {id}".format(SA, self.id-1, self.id))
+        self.cmd_queue.put("@a[{SA}] FLid + 0").format(SA)
+        self.cmd_queue.put("@a[{SA},FLid=..-{id_calc}] FLid = {id}".format(SA, self.id+1, self.id))
+        self.cmd_queue.put("@a[{SA}] FLid=-{id_calc}.. FLid = {id}".format(SA, self.id-1, self.id))
+
+        return self._cmd_output()
 
     def cmd_term(self):
         """
         Resets all options for the floo network
         """
         cmd_list = []
-        set_stand_str = "@e[type=_armor_stand,FlooNetwork] {0} = {1}"
+        set_stand_str = "@e[type=_armor_stand,FlooEvent] {0} = {1}"
 
         # Resets all options
-        cmd_list.append(set_stand_str.format("FLtp", "0"))
-        cmd_list.append(set_stand_str.format("FLpvp", "0"))
-        cmd_list.append(set_stand_str.format("FLsat", "1"))
-        cmd_list.append(set_stand_str.format("FLgam", "1"))
-        cmd_list.append(set_stand_str.format("FLwea", "0"))
+        self.cmd_queue.put(set_stand_str.format("FLtp", "0"))
+        self.cmd_queue.put(set_stand_str.format("FLpvp", "0"))
+        self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
+        self.cmd_queue.put(set_stand_str.format("FLgam", "1"))
+        self.cmd_queue.put(set_stand_str.format("FLwea", "0"))
 
         # Sets the same game to 0
-        cmd_list.append("@e[type=armor_stand,FlooNetwork,FLgam={0}] FLgam = 0".format(self.id))
+        self.cmd_queue.put("@e[type=armor_stand,FlooEvent,FLgam={0}] FLgam = 0".format(self.id))
+
+        return self._cmd_output()
+
+    def __str__(self):
+        return "FlooEvent[{event}]".format(event=str(self.event))
+
+    def __repr__(self):
+        return "FlooEvent[event={event}, options={options}]".format(
+                event=repr(self.event), options=self.options)
 
 
 class Event:
@@ -124,7 +142,7 @@ class Event:
         """
 
         # Creates a unique integer ID value for each event class
-        if id_start is None:
+        if id_start is not None:
             Event.id = id_start
 
         self.id = Event.id
@@ -145,6 +163,13 @@ class Event:
 
         # Adds each event to the members list
         Event.members.append(self)
+
+    def __str__(self):
+        return "Event[{name} ({short})]".format(name=repr(self.full_name), short=str(self.shortcut)[1:-1])
+
+    def __repr__(self):
+        return "Event[id={id}, name={name}, colors={colors}, coords={coords}, shortcut={short}]".format(
+                id=self.id, name=self.name, colors=self.colors, coords=self.coords, short=str(self.shortcut)[1:-1])
 
 
 # Races

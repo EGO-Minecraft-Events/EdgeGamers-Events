@@ -1,3 +1,10 @@
+"""
+Creates a special objective to hold constant numbers
+
+As soon as this is imported, it adds the "constants" objective to
+the global scoreboard.OBJECTIVES variable
+"""
+
 from lib.container import Container
 from lib.scoreboard import *
 
@@ -8,6 +15,8 @@ class ConstInts(Container):
     The general convention when using this is to not change the objective name
     """
     def __init__(self, objName="constants"):
+        super().__init__()
+
         self.objective = Objective(objName)
         OBJECTIVES.add(self.objective)
         self.constants = set()
@@ -23,13 +32,14 @@ class ConstInts(Container):
         """
         Outputs "scoreboard players set" for each constant in increasing order
         """
-        cmd_list = []
         for const in sorted(list(self.constants)):
-            cmd_list.append("scoreboard players set {num} {name} {num}".format(num=const, name=self.objective.name))
-        return Container.output_cmd_list(cmd_list)
+            self.cmd_queue.put("scoreboard players set {num} {name} {num}".format(num=const, name=self.objective.name))
+        return self._cmd_output()
 
     def cmd_term(self):
         """
         Does nothing, since the global objective termination should terminate the objective
         """
         return ""
+
+CONST_INTS = ConstInts()
