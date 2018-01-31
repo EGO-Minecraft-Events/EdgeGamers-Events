@@ -1,5 +1,3 @@
-$include("lib/include_cwd.ccu")
-
 $py(
 from lib.scoreboard import *
 from lib.consts import *
@@ -39,6 +37,8 @@ RRb RR Blue
     say split
     $(team.cmd_init())
     $(team.cmd_term())
+
+!mfunc not_init
     say split
     $(TEAMS.cmd_init())
     $(TEAMS.cmd_term())

@@ -6,38 +6,10 @@ from lib.container import Container
 from lib.consts import Colors
 
 
-class Slot(Container):
-    """
-    Scoreboard objective setdisplay slot
-    """
-
-    # Defines all valid setdisplay slots
-    # List comprehension to get "sidebar.team.color" for all colors that isn't "reset"
-    valid_slots = ("belowName", "list", "sidebar", *("sidebar.team." + color for color in Colors.ALL if color != "reset"))
-
-    def __init__(self, slot, reset_slot=True):
-        """
-        Args:
-            slot (str): The specific slot that objective will be displayed on
-            reset_slot (bool): If the objective in the specified slot resets when it terminates
-        """
-        super().__init__()
-
-        if slot not in Slot.valid_slots:
-            raise SyntaxError("Invalid setdisplay slot: {}".format(slot))
-        
-        self.slot = slot
-        self.reset_slot = reset_slot
-
-    def cmd_init(self):
-        return "scoreboard objectives setdisplay sidebar {}".format(self.slot)
-
-
-
 class Objective(Container):
     """
     Represents a scoreboard objective
-    
+
     Attributes:
         name (str):
         criteria (str):
@@ -46,6 +18,35 @@ class Objective(Container):
         setdisplay_slots (str):
         slots (list of (str, bool)): Holds tuples containing the slot, and whether to reset said slot
     """
+
+    class DisplaySlot:
+        """
+        Scoreboard objective setdisplay slot
+        """
+
+        # Defines all valid setdisplay slots
+        # List comprehension to get "sidebar.team.color" for all colors that isn't "reset"
+        valid_slots = ("belowName", "list", "sidebar", *("sidebar.team." + color for color in Colors.ALL if color != "reset"))
+
+        def __init__(self, value, reset=True):
+            """
+            Args:
+                value (str): The specific slot that objective will be displayed on
+                reset (bool): If the objective in the specified slot resets when it terminates
+            """
+
+            if value not in Objective.DisplaySlot.valid_slots:
+                raise SyntaxError("Invalid setdisplay slot: {}".format(value))
+            
+            self.value = value
+            self.reset = reset
+
+        def __str__(self):
+            return self.value
+
+        def __repr__(self):
+            return "({value}, reset={reset})".format(value=self.value, reset=self.reset)
+
 
     def __init__(self, name, criteria="_", display_name="", remove_self=True):
         """
@@ -72,46 +73,55 @@ class Objective(Container):
         self.remove_self = remove_self
         self.slots = []
 
-    # def setdisplay(self, slot, reset_slot=True):
-    #     """
-    #     Args:
-    #         slot (str): The specific slot that objective will be displayed on
-    #         reset_slot (bool): If the objective in the specified slot resets when it terminates
-    #     """
+    def setdisplay(self, *slots, reset_slot=True):
+        """
+        Args:
+            *slots (str): Slots that objective will be displayed on
+            reset_slot (bool): If the objective in the specified slot resets when it terminates
+        """
 
-    #     if slot not in Objective.valid_slots:
-    #         raise SyntaxError("Objective {name} cannot be set to an invalid setdisplay {slot}".format(name=self.name, slot=slot))
-
-    #     self.slots.append((slot, reset_slot))
+        for slot in slots:
+            self.slots.append(Objective.DisplaySlot(slot, reset_slot))
 
     def cmd_init(self):
         """
         Adds all objectives using:
             scoreboard objectives add
+            scoreboard objectives setdisplay
         """
-        return ("scoreboard objectives add {name} {criteria} {disp_name}".format(
-                name=self.name, criteria=self.criteria, disp_name=self.display_name)).strip()
+        cmd_add = ("scoreboard objectives add {name} {criteria} {disp_name}".format(
+            name=self.name, criteria=self.criteria, disp_name=self.display_name)).strip()
+        self.cmd_queue.put(cmd_add)
+        
+        # If slots is not empty
+        for slot in self.slots:
+            self.cmd_queue.put("scoreboard objectives setdisplay {slot} {name}".format(slot=slot.value, name=self.name))
+
+        return self._cmd_output()
 
     def cmd_term(self):
         """
         Removes objectives and resets setdisplay slots using:
             scoreboard objectives remove
-            scoreboard objectives setdisplay sidebar
+            scoreboard objectives setdisplay
         """
+
+        # Does not reset the setdisplay slot because removing
+        # the objective automatically resets the slot
         if self.remove_self:
             return "scoreboard objectives remove {}".format(self.name)
-        else:
-            for slot in self.slots:
-                if slot[1]:
-                    self.cmd_queue.put("scoreboard objectives setdisplay {}".format(slot[0]))
-            return self._cmd_output()
+
+        for slot in self.slots:
+            if slot.reset:
+                self.cmd_queue.put("scoreboard objectives setdisplay {}".format(slot.value))
+        return self._cmd_output()
 
     def __str__(self):
         return "Objective[{}]".format(self.name)
 
     def __repr__(self):
-        return "Objective[name={name}, criteria={criteria}, display_name={disp_name}]".format(
-                name=repr(self.name), criteria=repr(self.criteria), disp_name=repr(self.display_name))
+        return "Objective[name={name}, criteria={criteria}, display_name={disp_name}, display_slots={disp_slots}]".format(
+            name=repr(self.name), criteria=repr(self.criteria), disp_name=repr(self.display_name), disp_slots=self.slots)
 
 
 class Objectives(Container):
@@ -186,6 +196,17 @@ class Objectives(Container):
     def __repr__(self):
         return "Objectives[{}]".format(str([repr(objective) for objective in self.objectives]))
 
+    def __getitem__(self, name):
+        """
+        Args:
+            key (str): name of the objective
+        """
+        for objective in self.objectives:
+            if name == objective.name:
+                return objective
+        
+        raise NameError("Objective name {} was not found in the container".format(name))
+
     def __len__(self):
         """
         Gets the number of Objective objects stored
@@ -254,7 +275,7 @@ class Team(Container):
 
         if option_value not in Team.valid_options[option]:
             raise SyntaxError("Invalid option value for option '{option}' in team '{name}': '{op_value}'".format(
-                    option=option, name=self.name, op_value=option_value))
+                option=option, name=self.name, op_value=option_value))
 
         self.options[option] = option_value
 
@@ -284,8 +305,7 @@ class Team(Container):
 
     def __repr__(self):
         return "Team[name={name}, display_name={disp_name}, options={options}]".format(
-                name=repr(self.name), disp_name=repr(self.display_name), options=self.options)
-
+            name=repr(self.name), disp_name=repr(self.display_name), options=self.options)
 
 
 class Teams(Container):
@@ -381,6 +401,17 @@ class Teams(Container):
         for team in self.teams:
             self.cmd_queue.put(team.cmd_term())
         return self._cmd_output()
+
+    def __getitem__(self, name):
+        """
+        Args:
+            key (str): name of the objective
+        """
+        for team in self.teams:
+            if name == team.name:
+                return team
+        
+        raise NameError("Team name {} was not found in the container".format(name))
 
     def __str__(self):
         return "Teams[{}]".format(str([str(team) for team in self.teams]))

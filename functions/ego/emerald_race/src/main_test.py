@@ -1,7 +1,7 @@
-from lib.scoreboard import *
 from lib.const_ints import *
 from lib.floo_network import *
 from lib import coords
+from lib.scoreboard import *
 
 
 # Scoreboard
@@ -11,8 +11,10 @@ RRas
 RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
 RRxd _ RR ecks dee
 """)
-print(repr(OBJECTIVES))
+OBJECTIVES["RRpl"].setdisplay("sidebar", "belowName")
+print(OBJECTIVES["RRpl"])
 print(str(OBJECTIVES))
+print(repr(OBJECTIVES))
 print(OBJECTIVES.cmd_init())
 print(OBJECTIVES.cmd_term())
 
@@ -29,8 +31,9 @@ RRb RR Blue
     friendlyfire false
     collisionRule pushOwnTeam
 """)
-print(repr(TEAMS))
+print(TEAMS["RRb"])
 print(str(TEAMS))
+print(repr(TEAMS))
 print(TEAMS.cmd_init())
 print(TEAMS.cmd_term())
 
@@ -54,6 +57,9 @@ FlooPVP = FlooEvent(VIRUS_1, pvp="true")
 FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
 
 print(FlooRace, FlooPVP, FlooDeathPit)
+print(repr(ICE_RACE))
+print(repr(VIRUS_1))
+print(repr(DEATH_PIT))
 
 places1 = ("belowName", "list", "sidebar", *("sidebar.team." + color for color in Colors.ALL if color != "reset"))
 places2 = ("belowName", "list", "sidebar", "sidebar.team.aqua", "sidebar.team.black", "sidebar.team.blue", "sidebar.team.dark_aqua", "sidebar.team.dark_blue", "sidebar.team.dark_gray", "sidebar.team.dark_green", "sidebar.team.dark_purple", "sidebar.team.dark_red", "sidebar.team.gold", "sidebar.team.gray", "sidebar.team.green", "sidebar.team.light_purple", "sidebar.team.red", "sidebar.team.white", "sidebar.team.yellow")
