@@ -58,7 +58,7 @@ class NewCoords:
         elif self.type == NewCoords.CLONE:
             self._vectors.append(Vector3(*coords_strlist[0:3]))
             self._vectors.append(Vector3(*coords_strlist[3:6]))
-            self._vectors.append(Vector3(*coords_strlist[3:9]))
+            self._vectors.append(Vector3(*coords_strlist[6:9]))
         else:
             raise RuntimeError("Something derped")
 
@@ -181,7 +181,7 @@ class Coords:
         elif self.type == Coords.CLONE:
             self.vectors.append(Vector3(*coords_strlist[0:3]))
             self.vectors.append(Vector3(*coords_strlist[3:6]))
-            self.vectors.append(Vector3(*coords_strlist[3:9]))
+            self.vectors.append(Vector3(*coords_strlist[6:9]))
         else:
             raise RuntimeError("Something derped")
 
