@@ -1,6 +1,3 @@
-import random
-import math
-
 from lib.container import Container
 from lib.coords import Coords
 
@@ -131,14 +128,10 @@ class FlooEvent(Container):
 
 
 class Event:
-    id = 0
-    google_hangouts = (9001 + 42 + 25 + 486415699541463632568965321357890965321454367421578
-            + 2147483646 + math.pi + 0**0.5 + sum(map(ord, "This")) + math.inf + float("NaN"))
-    random.seed(google_hangouts)
-    random_ids = random.sample(range((1<<31)-1), 200)
+    id = 1
     members = []
 
-    def __init__(self, name, color, coords, shortcut):
+    def __init__(self, name, color, coords, shortcut, id_start=None):
         """
         Args:
             name (str): Name that can be split up with ";" for different colors ("Royal; ;Rumble")
@@ -148,8 +141,11 @@ class Event:
             id_start (int): An optional value to set the current event ID for distinguishing between different types of events
         """
 
-        # Uses a unique ID value from the random.sample list given as Event.random_ids
-        self.id = Event.random_ids[Event.id]
+        # Creates a unique integer ID value for each event class
+        if id_start is not None:
+            Event.id = id_start
+
+        self.id = Event.id
         Event.id += 1
 
         self.name = name.split(";")
@@ -177,7 +173,7 @@ class Event:
 
 
 # Races
-ICE_RACE = Event("Ice race", "aqua", Coords("49 36 -45 -90 0"), "ir")
+ICE_RACE = Event("Ice race", "aqua", Coords("49 36 -45 -90 2 6 2 7 34"), "ir")
 SLOW_RACE = Event("Slow Race", "gray", Coords("75 7 -80 90 0"), "sr")
 NETHER_RACE = Event("Nether Race", "red", Coords("73 7 -102 90 0"), "nr")
 EVIL_RACE = Event("Evil Race", "gray", Coords("23 7 -133 -90 0"), "evilr")
@@ -194,7 +190,7 @@ FROSTBURN_RUN = Event("Frostburn Run", "aqua", Coords("517 11 -827 90 0"), "fbr"
 EVERCHANGING_RACE = Event("EverChanging Race", "yellow", Coords("460 3 -331 -90 0"), "ecr")
 
 # Minigames
-VIRUS_1 = Event("Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "v1;virus1")
+VIRUS_1 = Event("Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "v1;virus1", id_start=100)
 VIRUS_2 = Event("Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "v2;virus2")
 PVP_OLD_CTF = Event("PVP: Old CTF", "red", Coords("-268 49 -39 -90 0"), "pvp1;oldctf")
 CAPTURE_THE_FLAG = Event("Capture; the ;flag", "red;white;blue", Coords("558 107 159.0 90 0"), "ctf")
@@ -209,7 +205,7 @@ ROYAL_RUMBLE = Event("Royal; ;Rumble", "blue;white;dark_green", Coords("-103 19 
 RABBIT_BALL = Event("Rabbit; ;Ball", "red;white;blue", Coords("224 24 334 -90 0"), "rb")
 
 # Other
-FLAWN = Event("Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn")
+FLAWN = Event("Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", id_start=200)
 FLAWNPOINT_SYSTEM = Event("Spawnpoint System", "yellow", Coords("348 4 114 -90 0"), "cmd")
 TEAMFLEAK_TOKEN = Event("Teamspeak Token", "dark_aqua", Coords("549 20 42"), "tstoken")
 MINIGAME_HUB = Event("The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub")

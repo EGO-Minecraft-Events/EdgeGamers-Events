@@ -1,9 +1,6 @@
 $py(
-import os, sys
-
-sys.path.append(os.getcwd())
-from lib.general.scoreboard import *
-from lib.general.consts import *
+from lib.scoreboard import *
+from lib.consts import *
 
 
 # create objectives
@@ -16,7 +13,7 @@ RRxd _ RR a fake name
 RRidk dummy RR a fake name
 """)
 
-team = Team("RRb" ,"Royal Rumble Blue", seeFriendlyInvisibles="true", friendlyfire="false")
+team = Team("RRb", "Royal Rumble Blue", seeFriendlyInvisibles="true", friendlyfire="false")
 
 TEAMS.new_str("""
 RRg RR green
@@ -40,6 +37,8 @@ RRb RR Blue
     say split
     $(team.cmd_init())
     $(team.cmd_term())
+
+!mfunc not_init
     say split
     $(TEAMS.cmd_init())
     $(TEAMS.cmd_term())

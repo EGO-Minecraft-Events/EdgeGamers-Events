@@ -17,7 +17,7 @@ class ConstInts(Container):
     def __init__(self, objName="constants"):
         super().__init__()
 
-        self.objective = Objective(objName, remove_self=False)
+        self.objective = Objective(objName)
         OBJECTIVES.add(self.objective)
         self.constants = set()
 
