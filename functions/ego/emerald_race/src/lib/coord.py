@@ -104,6 +104,10 @@ class Coord:
         """
         return self.prefix == "^"
 
+    def relative(self):
+      """Deprecated function. Reroutes calls to is_relative()"""
+      return self.is_relative()
+
 
 #    def __set__(self, instance, value):
 #        if isinstance(value, Coord):
@@ -132,34 +136,8 @@ class Coord:
     """
 
 
-    def __lt__(self, other):
-        if isinstance(other, Coord):
-            return self.value < other.value
-        elif isinstance(other, (int, float)):
-            return self.value < other
-        else:
-            return NotImplemented
-    def __ge__(self, other):
-        if isinstance(other, Coord):
-            return self.value >= other.value
-        elif isinstance(other, (int, float)):
-            return self.value >= other
-        else:
-            return NotImplemented
-    def __eq__(self, other):
-        if isinstance(other, Coord):
-            return self.value == other.value
-        elif isinstance(other, (int, float)):
-            return self.value == other
-        else:
-            return NotImplemented
-    def __gt__(self, other):
-        if isinstance(other, Coord):
-            return self.value > other.value
-        elif isinstance(other, (int, float)):
-            return self.value > other
-        else:
-            return NotImplemented
+
+
     def __ne__(self, other):
         if isinstance(other, Coord):
             return self.value != other.value
@@ -167,6 +145,31 @@ class Coord:
             return self.value != other
         else:
             return NotImplemented
+
+    def __lt__(self, other):
+        if isinstance(other, Coord):
+            return self.value < other.value
+        elif isinstance(other, (int, float)):
+            return self.value < other
+        else:
+            return NotImplemented
+
+    def __ge__(self, other):
+        if isinstance(other, Coord):
+            return self.value >= other.value
+        elif isinstance(other, (int, float)):
+            return self.value >= other
+        else:
+            return NotImplemented
+
+    def __eq__(self, other):
+        if isinstance(other, Coord):
+            return self.value == other.value
+        elif isinstance(other, (int, float)):
+            return self.value == other
+        else:
+            return NotImplemented
+
     def __le__(self, other):
         if isinstance(other, Coord):
             return self.value <= other.value
@@ -174,6 +177,15 @@ class Coord:
             return self.value <= other
         else:
             return NotImplemented
+
+    def __gt__(self, other):
+        if isinstance(other, Coord):
+            return self.value > other.value
+        elif isinstance(other, (int, float)):
+            return self.value > other
+        else:
+            return NotImplemented
+
 
     """In all numeric type operations, the prefix of the result is inherited from the left of the operator.
 
@@ -183,6 +195,288 @@ class Coord:
         ^15 - ~5 === ~10
          15 / ^5 ===  3
     """
+
+
+
+    def __sub__(self, other):
+        if isinstance(other, Coord):
+            result = self.value - other.value
+        elif isinstance(other, (int, float)):
+            result = self.value - other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rsub__(self, other):
+        if isinstance(other, (int, float)):
+            result = other - self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __isub__(self, other):
+        if isinstance(other, Coord):
+            self.value -= other.value
+        elif isinstance(other, (int, float)):
+            self.value -= other
+        else:
+            return NotImplemented
+        return self
+
+    def __mul__(self, other):
+        if isinstance(other, Coord):
+            result = self.value * other.value
+        elif isinstance(other, (int, float)):
+            result = self.value * other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rmul__(self, other):
+        if isinstance(other, (int, float)):
+            result = other * self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __imul__(self, other):
+        if isinstance(other, Coord):
+            self.value *= other.value
+        elif isinstance(other, (int, float)):
+            self.value *= other
+        else:
+            return NotImplemented
+        return self
+
+    def __or__(self, other):
+        if isinstance(other, Coord):
+            result = self.value | other.value
+        elif isinstance(other, (int, float)):
+            result = self.value | other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __ror__(self, other):
+        if isinstance(other, (int, float)):
+            result = other | self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __ior__(self, other):
+        if isinstance(other, Coord):
+            self.value |= other.value
+        elif isinstance(other, (int, float)):
+            self.value |= other
+        else:
+            return NotImplemented
+        return self
+
+    def __lshift__(self, other):
+        if isinstance(other, Coord):
+            result = self.value << other.value
+        elif isinstance(other, (int, float)):
+            result = self.value << other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rlshift__(self, other):
+        if isinstance(other, (int, float)):
+            result = other << self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __ilshift__(self, other):
+        if isinstance(other, Coord):
+            self.value <<= other.value
+        elif isinstance(other, (int, float)):
+            self.value <<= other
+        else:
+            return NotImplemented
+        return self
+
+    def __mod__(self, other):
+        if isinstance(other, Coord):
+            result = self.value % other.value
+        elif isinstance(other, (int, float)):
+            result = self.value % other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rmod__(self, other):
+        if isinstance(other, (int, float)):
+            result = other % self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __imod__(self, other):
+        if isinstance(other, Coord):
+            self.value %= other.value
+        elif isinstance(other, (int, float)):
+            self.value %= other
+        else:
+            return NotImplemented
+        return self
+
+    def __add__(self, other):
+        if isinstance(other, Coord):
+            result = self.value + other.value
+        elif isinstance(other, (int, float)):
+            result = self.value + other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __radd__(self, other):
+        if isinstance(other, (int, float)):
+            result = other + self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __iadd__(self, other):
+        if isinstance(other, Coord):
+            self.value += other.value
+        elif isinstance(other, (int, float)):
+            self.value += other
+        else:
+            return NotImplemented
+        return self
+
+    def __rshift__(self, other):
+        if isinstance(other, Coord):
+            result = self.value >> other.value
+        elif isinstance(other, (int, float)):
+            result = self.value >> other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rrshift__(self, other):
+        if isinstance(other, (int, float)):
+            result = other >> self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __irshift__(self, other):
+        if isinstance(other, Coord):
+            self.value >>= other.value
+        elif isinstance(other, (int, float)):
+            self.value >>= other
+        else:
+            return NotImplemented
+        return self
+
+    def __floordiv__(self, other):
+        if isinstance(other, Coord):
+            result = self.value // other.value
+        elif isinstance(other, (int, float)):
+            result = self.value // other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rfloordiv__(self, other):
+        if isinstance(other, (int, float)):
+            result = other // self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __ifloordiv__(self, other):
+        if isinstance(other, Coord):
+            self.value //= other.value
+        elif isinstance(other, (int, float)):
+            self.value //= other
+        else:
+            return NotImplemented
+        return self
+
+    def __and__(self, other):
+        if isinstance(other, Coord):
+            result = self.value & other.value
+        elif isinstance(other, (int, float)):
+            result = self.value & other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rand__(self, other):
+        if isinstance(other, (int, float)):
+            result = other & self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __iand__(self, other):
+        if isinstance(other, Coord):
+            self.value &= other.value
+        elif isinstance(other, (int, float)):
+            self.value &= other
+        else:
+            return NotImplemented
+        return self
+
+    def __pow__(self, other):
+        if isinstance(other, Coord):
+            result = self.value ** other.value
+        elif isinstance(other, (int, float)):
+            result = self.value ** other
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
+    def __rpow__(self, other):
+        if isinstance(other, (int, float)):
+            result = other ** self.value
+        else:
+            return NotImplemented
+        new_coordval = Coord(result)
+        return new_coordval
+
+    def __ipow__(self, other):
+        if isinstance(other, Coord):
+            self.value **= other.value
+        elif isinstance(other, (int, float)):
+            self.value **= other
+        else:
+            return NotImplemented
+        return self
 
     def __truediv__(self, other):
         if isinstance(other, Coord):
@@ -211,87 +505,7 @@ class Coord:
         else:
             return NotImplemented
         return self
-    def __mul__(self, other):
-        if isinstance(other, Coord):
-            result = self.value * other.value
-        elif isinstance(other, (int, float)):
-            result = self.value * other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
 
-    def __rmul__(self, other):
-        if isinstance(other, (int, float)):
-            result = other * self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __imul__(self, other):
-        if isinstance(other, Coord):
-            self.value *= other.value
-        elif isinstance(other, (int, float)):
-            self.value *= other
-        else:
-            return NotImplemented
-        return self
-    def __lshift__(self, other):
-        if isinstance(other, Coord):
-            result = self.value << other.value
-        elif isinstance(other, (int, float)):
-            result = self.value << other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rlshift__(self, other):
-        if isinstance(other, (int, float)):
-            result = other << self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __ilshift__(self, other):
-        if isinstance(other, Coord):
-            self.value <<= other.value
-        elif isinstance(other, (int, float)):
-            self.value <<= other
-        else:
-            return NotImplemented
-        return self
-    def __floordiv__(self, other):
-        if isinstance(other, Coord):
-            result = self.value // other.value
-        elif isinstance(other, (int, float)):
-            result = self.value // other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rfloordiv__(self, other):
-        if isinstance(other, (int, float)):
-            result = other // self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __ifloordiv__(self, other):
-        if isinstance(other, Coord):
-            self.value //= other.value
-        elif isinstance(other, (int, float)):
-            self.value //= other
-        else:
-            return NotImplemented
-        return self
     def __xor__(self, other):
         if isinstance(other, Coord):
             result = self.value ^ other.value
@@ -319,195 +533,7 @@ class Coord:
         else:
             return NotImplemented
         return self
-    def __mod__(self, other):
-        if isinstance(other, Coord):
-            result = self.value % other.value
-        elif isinstance(other, (int, float)):
-            result = self.value % other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
 
-    def __rmod__(self, other):
-        if isinstance(other, (int, float)):
-            result = other % self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __imod__(self, other):
-        if isinstance(other, Coord):
-            self.value %= other.value
-        elif isinstance(other, (int, float)):
-            self.value %= other
-        else:
-            return NotImplemented
-        return self
-    def __add__(self, other):
-        if isinstance(other, Coord):
-            result = self.value + other.value
-        elif isinstance(other, (int, float)):
-            result = self.value + other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __radd__(self, other):
-        if isinstance(other, (int, float)):
-            result = other + self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __iadd__(self, other):
-        if isinstance(other, Coord):
-            self.value += other.value
-        elif isinstance(other, (int, float)):
-            self.value += other
-        else:
-            return NotImplemented
-        return self
-    def __rshift__(self, other):
-        if isinstance(other, Coord):
-            result = self.value >> other.value
-        elif isinstance(other, (int, float)):
-            result = self.value >> other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rrshift__(self, other):
-        if isinstance(other, (int, float)):
-            result = other >> self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __irshift__(self, other):
-        if isinstance(other, Coord):
-            self.value >>= other.value
-        elif isinstance(other, (int, float)):
-            self.value >>= other
-        else:
-            return NotImplemented
-        return self
-    def __or__(self, other):
-        if isinstance(other, Coord):
-            result = self.value | other.value
-        elif isinstance(other, (int, float)):
-            result = self.value | other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __ror__(self, other):
-        if isinstance(other, (int, float)):
-            result = other | self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __ior__(self, other):
-        if isinstance(other, Coord):
-            self.value |= other.value
-        elif isinstance(other, (int, float)):
-            self.value |= other
-        else:
-            return NotImplemented
-        return self
-    def __pow__(self, other):
-        if isinstance(other, Coord):
-            result = self.value ** other.value
-        elif isinstance(other, (int, float)):
-            result = self.value ** other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rpow__(self, other):
-        if isinstance(other, (int, float)):
-            result = other ** self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __ipow__(self, other):
-        if isinstance(other, Coord):
-            self.value **= other.value
-        elif isinstance(other, (int, float)):
-            self.value **= other
-        else:
-            return NotImplemented
-        return self
-    def __sub__(self, other):
-        if isinstance(other, Coord):
-            result = self.value - other.value
-        elif isinstance(other, (int, float)):
-            result = self.value - other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rsub__(self, other):
-        if isinstance(other, (int, float)):
-            result = other - self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __isub__(self, other):
-        if isinstance(other, Coord):
-            self.value -= other.value
-        elif isinstance(other, (int, float)):
-            self.value -= other
-        else:
-            return NotImplemented
-        return self
-    def __and__(self, other):
-        if isinstance(other, Coord):
-            result = self.value & other.value
-        elif isinstance(other, (int, float)):
-            result = self.value & other
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
-        return new_coordval
-
-    def __rand__(self, other):
-        if isinstance(other, (int, float)):
-            result = other & self.value
-        else:
-            return NotImplemented
-        new_coordval = Coord(result)
-        return new_coordval
-
-    def __iand__(self, other):
-        if isinstance(other, Coord):
-            self.value &= other.value
-        elif isinstance(other, (int, float)):
-            self.value &= other
-        else:
-            return NotImplemented
-        return self
 
     def __divmod__(self, other):
         if isinstance(other, Coord):
@@ -537,28 +563,37 @@ class Coord:
             return NotImplemented
         return self
 
-    def __pos__(self):
-        new_coordval = Coord(+self.value)
-        new_coordval.prefix = self.prefix
-        return new_coordval
+
+
     def __neg__(self):
         new_coordval = Coord(-self.value)
         new_coordval.prefix = self.prefix
         return new_coordval
+
     def __invert__(self):
         new_coordval = Coord(~self.value)
         new_coordval.prefix = self.prefix
         return new_coordval
+
+    def __pos__(self):
+        new_coordval = Coord(+self.value)
+        new_coordval.prefix = self.prefix
+        return new_coordval
+
 
     def __abs__(self):
         new_coordval = Coord(abs(self.value))
         new_coordval.prefix = self.prefix
         return new_coordval
 
-    def __int__(self):
-        return int(self.value)
+
+
     def __float__(self):
         return float(self.value)
+
+    def __int__(self):
+        return int(self.value)
+
 
     def __round__(self, n=0):
         new_coordval = Coord(round(self.value, n))

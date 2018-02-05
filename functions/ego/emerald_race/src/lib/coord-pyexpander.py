@@ -104,6 +104,10 @@ class Coord:
         """
         return self.prefix == "^"
 
+    def relative(self):
+      """Deprecated function. Reroutes calls to is_relative()"""
+      return self.is_relative()
+
 
 #    def __set__(self, instance, value):
 #        if isinstance(value, Coord):
