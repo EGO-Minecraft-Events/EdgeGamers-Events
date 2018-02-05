@@ -272,7 +272,7 @@ $endfor
     """Arithmetic operations are performed component-wise
     """
 
-$py(ops = {"add__":"+", "sub__":"-", "__mul__":"*", "truediv__":"/", "floordiv__":"//", "mod__":"%", "pow__":"**", "lshift__":"<<", "rshift__":">>", "and__":"&", "xor__":"^", "or__":"|"})
+$py(ops = {"add__":"+", "sub__":"-", "mul__":"*", "truediv__":"/", "floordiv__":"//", "mod__":"%", "pow__":"**", "lshift__":"<<", "rshift__":">>", "and__":"&", "xor__":"^", "or__":"|"})
 $for(name, symbol in ops.items())
     def __$(name)(self, other):
         if isinstance(other, Vector3):
@@ -543,7 +543,7 @@ $endfor
     """Arithmetic operations are performed component-wise
     """
 
-$py(ops = {"add__":"+", "sub__":"-", "__mul__":"*", "truediv__":"/", "floordiv__":"//", "mod__":"%", "pow__":"**", "lshift__":"<<", "rshift__":">>", "and__":"&", "xor__":"^", "or__":"|"})
+$py(ops = {"add__":"+", "sub__":"-", "mul__":"*", "truediv__":"/", "floordiv__":"//", "mod__":"%", "pow__":"**", "lshift__":"<<", "rshift__":">>", "and__":"&", "xor__":"^", "or__":"|"})
 $for(name, symbol in ops.items())
     def __$(name)(self, other):
         if isinstance(other, Vector2):
