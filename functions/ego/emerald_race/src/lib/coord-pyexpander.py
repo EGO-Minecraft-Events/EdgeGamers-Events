@@ -1,3 +1,5 @@
+from numbers import Real
+
 def _isint(x):
     """Check if x is an int
 
@@ -33,13 +35,39 @@ def _tonum(x):
     else:
         return float(x)
 
+def _tonum_strip_prefix(x):
+    if x[0].isdigit():
+        return _tonum(x)
+    else:
+        return _tonum(x[1:])
+
 class Coord:
     """A value container for Minecraft coordinates
 
     Attributes:
-        value (int, float): The value of this coordinate
+        value (numbers.Real): The value of this coordinate
         prefix (str): The prefix of this coordinate. Can be either "", "~", or "^"
     """
+
+    def _set_value(self, val):
+        if isinstance(val, str):
+            if val[0] in "~^":
+                if len(val) == 1:
+                    self._value = 0
+                else:
+                    self._value = _tonum(val[1:])
+                self._prefix = val[0]
+            else:
+                self._value = _tonum(val)
+                self._prefix = ""
+            return
+
+        if isinstance(val, Real):
+            self._value = val
+            self._prefix = ""
+            return
+
+        raise TypeError("'Coord' can only be initialized to 'int', 'float', 'long', any subclass of numbers.Real, or 'str'")
 
     def __init__(self, value=0):
         """Create a coordinate from a given value
@@ -48,84 +76,68 @@ class Coord:
             value (optional): Value of this coordinate. If a float or int, this coordinate will be global.
                 If a str, value should be a number, optionally prefixed by one of ~ (relative) or ^ (local).
         """
-        if isinstance(value, str):
-            if value[0] in "~^":
-                self.value = _tonum(value[1:])
-                self.prefix = value[0]
-            else:
-                self.value = _tonum(value)
-                self.prefix = ""
-            return
+        self._set_value(value)
 
-        if isinstance(value, (int, float)):
-            self.value = value
-            self.prefix = ""
-            return
+    @property
+    def value(self):
+        return self._value
 
-        raise TypeError("Unsupported type: {}".format(type(value)))
+    @value.setter
+    def value(self, val):
+        self._set_value(val)
 
     def copy(self):
         """Return a copy of this coordinate
 
         Returns:
-            A Coord object containing the same value and prefix as self
+            A Coord object containing the same value and _prefix as self
         """
         copy_coord = Coord(self.value)
-        copy_coord.prefix = self.prefix
+        copy_coord._prefix = self._prefix
         return copy_coord
 
     def __str__(self):
-        return self.prefix + str(self.value)
+        if self.value == 0 and not self.is_global():
+            return self._prefix
+        return self._prefix + str(self.value)
 
     def __repr__(self):
         return "Coord('{}')".format(str(self))
 
-    def is_global(self):
-        """Check if this coordinate is global
+    def set_global(self):
+        self._prefix = ""
 
-        Returns:
-            True if this is a global coordinate, False otherwise
-        """
-        return self.prefix == ""
+    def is_global(self):
+        return self._prefix == ""
+
+    def set_relative(self):
+        self._prefix = "~"
 
     def is_relative(self):
-        """Check if this coordinate is relative
+        return self._prefix == "~"
 
-        Returns:
-            True if this is a relative coordinate, False otherwise
-        """
-        return self.prefix == "~"
+    def set_local(self):
+        self._prefix = "^"
 
     def is_local(self):
-        """Check if this coordinate is local
-
-        Returns:
-            True if this is a local coordinate, False otherwise
-        """
-        return self.prefix == "^"
-
-    def relative(self):
-      """Deprecated function. Reroutes calls to is_relative()"""
-      return self.is_relative()
-
+        return self._prefix == "^"
 
 #    def __set__(self, instance, value):
 #        if isinstance(value, Coord):
 #            self.value = value.value
-#            self.prefix = value.prefix
-#        elif isinstance(value, (int, float)):
+#            self._prefix = value._prefix
+#        elif isinstance(value, Real):
 #            self.value = value
-#            self.prefix = ""
+#            self._prefix = ""
 #        elif isinstance(value, str):
 #            if value[0] in "~^":
 #                self.value = _tonum(value[1:])
-#                self.prefix = value[0]
+#                self._prefix = value[0]
 #            else:
 #                self.value = _tonum(value)
-#                self.prefix = ""
+#                self._prefix = ""
 #        else:
-#            raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'str', or 'Coord'")
-
+#            raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
 
     """In all numeric type comparisons, the prefix of the Coord is ignored
 
@@ -141,7 +153,7 @@ $for(name, symbol in comparisons.items())
     def $(name)(self, other):
         if isinstance(other, Coord):
             return self.value $(symbol) other.value
-        elif isinstance(other, (int, float)):
+        elif isinstance(other, Real):
             return self.value $(symbol) other
         else:
             return NotImplemented
@@ -161,27 +173,37 @@ $for(name, symbol in ops.items())
     def __$(name)(self, other):
         if isinstance(other, Coord):
             result = self.value $(symbol) other.value
-        elif isinstance(other, (int, float)):
+        elif isinstance(other, Real):
             result = self.value $(symbol) other
+        elif isinstance(other, str):
+            result = self.value $(symbol) _tonum_strip__prefix(other)
         else:
             return NotImplemented
         new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
+        new_coordval._prefix = self._prefix
         return new_coordval
 
     def __r$(name)(self, other):
-        if isinstance(other, (int, float)):
+        _prefix = ""
+        if isinstance(other, Real):
             result = other $(symbol) self.value
+        elif isinstance(other, str):
+            result = _tonum_strip__prefix(other) $(symbol) self.value
+            if not other[0].isdigit():
+                _prefix = other[0]
         else:
             return NotImplemented
         new_coordval = Coord(result)
+        new_coordval._prefix = _prefix
         return new_coordval
 
     def __i$(name)(self, other):
         if isinstance(other, Coord):
             self.value $(symbol)= other.value
-        elif isinstance(other, (int, float)):
+        elif isinstance(other, Real):
             self.value $(symbol)= other
+        elif isinstance(other, str):
+            self.value $(symbol)= _tonum_strip__prefix(other)
         else:
             return NotImplemented
         return self
@@ -190,42 +212,41 @@ $endfor
     def __divmod__(self, other):
         if isinstance(other, Coord):
             result = divmod(self.value, other.value)
-        elif isinstance(other, (int, float)):
+        elif isinstance(other, Real):
             result = divmod(self.value, other)
+        elif isinstance(other, str):
+            result = divmod(self.value, _tonum_strip__prefix(other))
         else:
             return NotImplemented
         new_coordval = Coord(result)
-        new_coordval.prefix = self.prefix
+        new_coordval._prefix = self._prefix
         return new_coordval
 
     def __rdivmod__(self, other):
-        if isinstance(other, (int, float)):
+        _prefix = ""
+        if isinstance(other, Real):
             result = divmod(other, self.value)
+        elif isinstance(other, str):
+            result = divmod(_tonum_strip__prefix(other), self.value)
+            if not other[0].isdigit():
+                _prefix = other[0]
         else:
             return NotImplemented
         new_coordval = Coord(result)
+        new_coordval._prefix = _prefix
         return new_coordval
-
-    def __idivmod__(self, other):
-        if isinstance(other, Coord):
-            self.value = divmod(self.value, other.value)
-        elif isinstance(other, (int, float)):
-            self.value = divmod(self.value, other)
-        else:
-            return NotImplemented
-        return self
 
 $py(unary_ops = {"__neg__":"-", "__pos__":"+", "__invert__":"~"})
 $for(name, symbol in unary_ops.items())
     def $(name)(self):
         new_coordval = Coord($(symbol)self.value)
-        new_coordval.prefix = self.prefix
+        new_coordval._prefix = self._prefix
         return new_coordval
 $endfor
 
     def __abs__(self):
         new_coordval = Coord(abs(self.value))
-        new_coordval.prefix = self.prefix
+        new_coordval._prefix = self._prefix
         return new_coordval
 
 $py(conversion_ops = {"__int__":"int(", "__float__":"float("})
@@ -236,5 +257,5 @@ $endfor
 
     def __round__(self, n=0):
         new_coordval = Coord(round(self.value, n))
-        new_coordval.prefix = self.prefix
+        new_coordval._prefix = self._prefix
         return new_coordval

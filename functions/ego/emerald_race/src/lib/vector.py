@@ -1,5 +1,6 @@
 from lib.coord import Coord
 from math import sqrt
+from numbers import Real
 class Vector3:
  def __init__(self,x=0,y=None,z=None):
   if y is not None and z is None:
@@ -8,63 +9,63 @@ class Vector3:
    raise TypeError("Invalid usage. Valid uses: Vector3(), Vector3(x), Vector3(x, y, z). More details in docstring.")
   if y is None and z is None:
    if isinstance(x,Coord):
-    self._x=x.copy()
-    self._y=x.copy()
-    self._z=x.copy()
+    self.x=x.copy()
+    self.y=x.copy()
+    self.z=x.copy()
    else:
-    self._x=Coord(x)
-    self._y=Coord(x)
-    self._z=Coord(x)
+    self.x=Coord(x)
+    self.y=Coord(x)
+    self.z=Coord(x)
    return
   if isinstance(x,Coord):
-   self._x=x
+   self.x=x
   else:
-   self._x=Coord(x)
+   self.x=Coord(x)
   if y is not None:
    if isinstance(y,Coord):
-    self._y=y
+    self.y=y
    else:
-    self._y=Coord(y)
+    self.y=Coord(y)
   if z is not None:
    if isinstance(z,Coord):
-    self._z=z
+    self.z=z
    else:
-    self._z=Coord(z)
+    self.z=Coord(z)
  @property
  def x(self):
-  return self._x.copy()
+  return self._x
  @x.setter
  def x(self,value):
   if isinstance(value,Coord):
    self._x=value.copy()
-  elif isinstance(value,(int,float,str)):
+  elif isinstance(value,(str,Real)):
    self._x=Coord(value)
   else:
-   raise TypeError("Unsupported assignment of x to {}".format(type(value)))
+   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
  @property
  def y(self):
-  return self._y.copy()
+  return self._y
  @y.setter
  def y(self,value):
   if isinstance(value,Coord):
    self._y=value.copy()
-  elif isinstance(value,(int,float,str)):
+  elif isinstance(value,(str,Real)):
    self._y=Coord(value)
   else:
-   raise TypeError("Unsupported assignment of y to {}".format(type(value)))
+   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
  @property
  def z(self):
-  return self._z.copy()
+  return self._z
  @z.setter
  def z(self,value):
   if isinstance(value,Coord):
    self._z=value.copy()
-  elif isinstance(value,(int,float,str)):
+  elif isinstance(value,(str,Real)):
    self._z=Coord(value)
   else:
-   raise TypeError("Unsupported assignment of z to {}".format(type(value)))
+   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
  def copy(self):
-  return Vector3(self.x.copy(),self.y.copy(),self.z.copy())
+  return Vector3(self.x,self.y,self.z)
  def norm(self):
   return sqrt(self@self)
  def cross(self,vector3):
@@ -77,7 +78,9 @@ class Vector3:
  def __len__(self):
   return 3
  def __iter__(self):
-  return iter([self._x,self._y,self._z])
+  yield self.x
+  yield self.y
+  yield self.z
  def normalized(self):
   return self/self.norm()
  def __getitem__(self,key):
@@ -115,35 +118,35 @@ class Vector3:
   return Vector3(self.x,self.x,self.x)
  @xxx.setter
  def xxx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xxx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xxx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xxy(self):
   return Vector3(self.x,self.x,self.y)
  @xxy.setter
  def xxy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xxy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xxy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xxz(self):
   return Vector3(self.x,self.x,self.z)
  @xxz.setter
  def xxz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xxz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xxz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xyx(self):
   return Vector3(self.x,self.y,self.x)
  @xyx.setter
  def xyx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xyx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xyx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xyy(self):
   return Vector3(self.x,self.y,self.y)
  @xyy.setter
  def xyy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xyy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xyy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xyz(self):
@@ -154,18 +157,16 @@ class Vector3:
    self.x=value.x
    self.y=value.y
    self.z=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.x=value
    self.y=value
    self.z=value
-  else:
-   return NotImplemented
  @property
  def xzx(self):
   return Vector3(self.x,self.z,self.x)
  @xzx.setter
  def xzx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xzx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xzx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xzy(self):
@@ -176,32 +177,30 @@ class Vector3:
    self.x=value.x
    self.z=value.y
    self.y=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.x=value
    self.z=value
    self.y=value
-  else:
-   return NotImplemented
  @property
  def xzz(self):
   return Vector3(self.x,self.z,self.z)
  @xzz.setter
  def xzz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xzz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xzz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yxx(self):
   return Vector3(self.y,self.x,self.x)
  @yxx.setter
  def yxx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yxx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yxx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yxy(self):
   return Vector3(self.y,self.x,self.y)
  @yxy.setter
  def yxy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yxy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yxy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yxz(self):
@@ -212,32 +211,30 @@ class Vector3:
    self.y=value.x
    self.x=value.y
    self.z=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.y=value
    self.x=value
    self.z=value
-  else:
-   return NotImplemented
  @property
  def yyx(self):
   return Vector3(self.y,self.y,self.x)
  @yyx.setter
  def yyx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yyx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yyx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yyy(self):
   return Vector3(self.y,self.y,self.y)
  @yyy.setter
  def yyy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yyy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yyy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yyz(self):
   return Vector3(self.y,self.y,self.z)
  @yyz.setter
  def yyz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yyz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yyz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yzx(self):
@@ -248,32 +245,30 @@ class Vector3:
    self.y=value.x
    self.z=value.y
    self.x=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.y=value
    self.z=value
    self.x=value
-  else:
-   return NotImplemented
  @property
  def yzy(self):
   return Vector3(self.y,self.z,self.y)
  @yzy.setter
  def yzy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yzy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yzy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yzz(self):
   return Vector3(self.y,self.z,self.z)
  @yzz.setter
  def yzz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yzz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yzz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zxx(self):
   return Vector3(self.z,self.x,self.x)
  @zxx.setter
  def zxx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zxx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zxx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zxy(self):
@@ -284,18 +279,16 @@ class Vector3:
    self.z=value.x
    self.x=value.y
    self.y=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.z=value
    self.x=value
    self.y=value
-  else:
-   return NotImplemented
  @property
  def zxz(self):
   return Vector3(self.z,self.x,self.z)
  @zxz.setter
  def zxz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zxz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zxz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zyx(self):
@@ -306,53 +299,51 @@ class Vector3:
    self.z=value.x
    self.y=value.y
    self.x=value.z
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.z=value
    self.y=value
    self.x=value
-  else:
-   return NotImplemented
  @property
  def zyy(self):
   return Vector3(self.z,self.y,self.y)
  @zyy.setter
  def zyy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zyy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zyy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zyz(self):
   return Vector3(self.z,self.y,self.z)
  @zyz.setter
  def zyz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zyz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zyz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zzx(self):
   return Vector3(self.z,self.z,self.x)
  @zzx.setter
  def zzx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zzx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zzx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zzy(self):
   return Vector3(self.z,self.z,self.y)
  @zzy.setter
  def zzy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zzy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zzy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def zzz(self):
   return Vector3(self.z,self.z,self.z)
  @zzz.setter
  def zzz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zzz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zzz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xx(self):
   return Vector2(self.x,self.x)
  @xx.setter
  def xx(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xy(self):
@@ -362,11 +353,9 @@ class Vector3:
   if isinstance(value,Vector2):
    self.x=value.x
    self.y=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.x=value
    self.y=value
-  else:
-   return NotImplemented
  @property
  def xz(self):
   return Vector2(self.x,self.z)
@@ -375,11 +364,9 @@ class Vector3:
   if isinstance(value,Vector2):
    self.x=value.x
    self.z=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.x=value
    self.z=value
-  else:
-   return NotImplemented
  @property
  def yx(self):
   return Vector2(self.y,self.x)
@@ -388,17 +375,15 @@ class Vector3:
   if isinstance(value,Vector2):
    self.y=value.x
    self.x=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.y=value
    self.x=value
-  else:
-   return NotImplemented
  @property
  def yy(self):
   return Vector2(self.y,self.y)
  @yy.setter
  def yy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def yz(self):
@@ -408,11 +393,9 @@ class Vector3:
   if isinstance(value,Vector2):
    self.y=value.x
    self.z=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.y=value
    self.z=value
-  else:
-   return NotImplemented
  @property
  def zx(self):
   return Vector2(self.z,self.x)
@@ -421,11 +404,9 @@ class Vector3:
   if isinstance(value,Vector2):
    self.z=value.x
    self.x=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.z=value
    self.x=value
-  else:
-   return NotImplemented
  @property
  def zy(self):
   return Vector2(self.z,self.y)
@@ -434,17 +415,15 @@ class Vector3:
   if isinstance(value,Vector2):
    self.z=value.x
    self.y=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.z=value
    self.y=value
-  else:
-   return NotImplemented
  @property
  def zz(self):
   return Vector2(self.z,self.z)
  @zz.setter
  def zz(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'zz' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'zz' refer to the same object, which makes assignment undefined")
   return NotImplemented
  def __eq__(self,other):
   if isinstance(other,Vector3):
@@ -463,464 +442,363 @@ class Vector3:
    return NotImplemented
  """Arithmetic operations are performed component-wise
     """ 
- def __rshift__(self,other):
+ def __or__(self,other):
   if isinstance(other,Vector3):
-   x=self.x>>other.x
-   y=self.y>>other.y
-   z=self.z>>other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x>>other
-   y=self.y>>other
-   z=self.z>>other
+   x=self.x|other.x
+   y=self.y|other.y
+   z=self.z|other.z
   else:
-   return NotImplemented
+   x=self.x|other
+   y=self.y|other
+   z=self.z|other
   return Vector3(x,y,z)
- def __rrshift__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other>>self.x
-   y=other>>self.y
-   z=other>>self.z
-  else:
-   return NotImplemented
+ def __ror__(self,other):
+  x=other|self.x
+  y=other|self.y
+  z=other|self.z
   return Vector3(x,y,z)
- def __irshift__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x>>=other.x
-    self.y>>=other.y
-    self.z>>=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x>>=other
-    self.y>>=other
-    self.z>>=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __ior__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __floordiv__(self,other):
   if isinstance(other,Vector3):
-   x=self.x//other.x
-   y=self.y//other.y
-   z=self.z//other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x//other
-   y=self.y//other
-   z=self.z//other
+   self.x|=other.x
+   self.y|=other.y
+   self.z|=other.z
   else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __rfloordiv__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other//self.x
-   y=other//self.y
-   z=other//self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __ifloordiv__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x//=other.x
-    self.y//=other.y
-    self.z//=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x//=other
-    self.y//=other
-    self.z//=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __truediv__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x/other.x
-   y=self.y/other.y
-   z=self.z/other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x/other
-   y=self.y/other
-   z=self.z/other
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __rtruediv__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other/self.x
-   y=other/self.y
-   z=other/self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __itruediv__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x/=other.x
-    self.y/=other.y
-    self.z/=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x/=other
-    self.y/=other
-    self.z/=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __sub__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x-other.x
-   y=self.y-other.y
-   z=self.z-other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x-other
-   y=self.y-other
-   z=self.z-other
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __rsub__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other-self.x
-   y=other-self.y
-   z=other-self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __isub__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x-=other.x
-    self.y-=other.y
-    self.z-=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x-=other
-    self.y-=other
-    self.z-=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x|=other
+   self.y|=other
+   self.z|=other
   return self
  def __pow__(self,other):
   if isinstance(other,Vector3):
    x=self.x**other.x
    y=self.y**other.y
    z=self.z**other.z
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x**other
    y=self.y**other
    z=self.z**other
-  else:
-   return NotImplemented
   return Vector3(x,y,z)
  def __rpow__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other**self.x
-   y=other**self.y
-   z=other**self.z
-  else:
-   return NotImplemented
+  x=other**self.x
+  y=other**self.y
+  z=other**self.z
   return Vector3(x,y,z)
  def __ipow__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x**=other.x
-    self.y**=other.y
-    self.z**=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x**=other
-    self.y**=other
-    self.z**=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector3):
+   self.x**=other.x
+   self.y**=other.y
+   self.z**=other.z
+  else:
+   self.x**=other
+   self.y**=other
+   self.z**=other
   return self
  def __add__(self,other):
   if isinstance(other,Vector3):
    x=self.x+other.x
    y=self.y+other.y
    z=self.z+other.z
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x+other
    y=self.y+other
    z=self.z+other
-  else:
-   return NotImplemented
   return Vector3(x,y,z)
  def __radd__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other+self.x
-   y=other+self.y
-   z=other+self.z
-  else:
-   return NotImplemented
+  x=other+self.x
+  y=other+self.y
+  z=other+self.z
   return Vector3(x,y,z)
  def __iadd__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x+=other.x
-    self.y+=other.y
-    self.z+=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x+=other
-    self.y+=other
-    self.z+=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __or__(self,other):
   if isinstance(other,Vector3):
-   x=self.x|other.x
-   y=self.y|other.y
-   z=self.z|other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x|other
-   y=self.y|other
-   z=self.z|other
+   self.x+=other.x
+   self.y+=other.y
+   self.z+=other.z
   else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __ror__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other|self.x
-   y=other|self.y
-   z=other|self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __ior__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x|=other.x
-    self.y|=other.y
-    self.z|=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x|=other
-    self.y|=other
-    self.z|=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x+=other
+   self.y+=other
+   self.z+=other
   return self
- def __mul__(self,other):
+ def __rshift__(self,other):
   if isinstance(other,Vector3):
-   x=self.x*other.x
-   y=self.y*other.y
-   z=self.z*other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x*other
-   y=self.y*other
-   z=self.z*other
+   x=self.x>>other.x
+   y=self.y>>other.y
+   z=self.z>>other.z
   else:
-   return NotImplemented
+   x=self.x>>other
+   y=self.y>>other
+   z=self.z>>other
   return Vector3(x,y,z)
- def __rmul__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other*self.x
-   y=other*self.y
-   z=other*self.z
-  else:
-   return NotImplemented
+ def __rrshift__(self,other):
+  x=other>>self.x
+  y=other>>self.y
+  z=other>>self.z
   return Vector3(x,y,z)
- def __imul__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x*=other.x
-    self.y*=other.y
-    self.z*=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x*=other
-    self.y*=other
-    self.z*=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __irshift__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector3):
+   self.x>>=other.x
+   self.y>>=other.y
+   self.z>>=other.z
+  else:
+   self.x>>=other
+   self.y>>=other
+   self.z>>=other
   return self
- def __lshift__(self,other):
+ def __floordiv__(self,other):
   if isinstance(other,Vector3):
-   x=self.x<<other.x
-   y=self.y<<other.y
-   z=self.z<<other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x<<other
-   y=self.y<<other
-   z=self.z<<other
+   x=self.x//other.x
+   y=self.y//other.y
+   z=self.z//other.z
   else:
-   return NotImplemented
+   x=self.x//other
+   y=self.y//other
+   z=self.z//other
   return Vector3(x,y,z)
- def __rlshift__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other<<self.x
-   y=other<<self.y
-   z=other<<self.z
-  else:
-   return NotImplemented
+ def __rfloordiv__(self,other):
+  x=other//self.x
+  y=other//self.y
+  z=other//self.z
   return Vector3(x,y,z)
- def __ilshift__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x<<=other.x
-    self.y<<=other.y
-    self.z<<=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x<<=other
-    self.y<<=other
-    self.z<<=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __ifloordiv__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __xor__(self,other):
   if isinstance(other,Vector3):
-   x=self.x^other.x
-   y=self.y^other.y
-   z=self.z^other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x^other
-   y=self.y^other
-   z=self.z^other
+   self.x//=other.x
+   self.y//=other.y
+   self.z//=other.z
   else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __rxor__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other^self.x
-   y=other^self.y
-   z=other^self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __ixor__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x^=other.x
-    self.y^=other.y
-    self.z^=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x^=other
-    self.y^=other
-    self.z^=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __and__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x&other.x
-   y=self.y&other.y
-   z=self.z&other.z
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x&other
-   y=self.y&other
-   z=self.z&other
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __rand__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other&self.x
-   y=other&self.y
-   z=other&self.z
-  else:
-   return NotImplemented
-  return Vector3(x,y,z)
- def __iand__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x&=other.x
-    self.y&=other.y
-    self.z&=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x&=other
-    self.y&=other
-    self.z&=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x//=other
+   self.y//=other
+   self.z//=other
   return self
  def __mod__(self,other):
   if isinstance(other,Vector3):
    x=self.x%other.x
    y=self.y%other.y
    z=self.z%other.z
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x%other
    y=self.y%other
    z=self.z%other
-  else:
-   return NotImplemented
   return Vector3(x,y,z)
  def __rmod__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other%self.x
-   y=other%self.y
-   z=other%self.z
-  else:
-   return NotImplemented
+  x=other%self.x
+  y=other%self.y
+  z=other%self.z
   return Vector3(x,y,z)
  def __imod__(self,other):
-  if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-   if isinstance(other,Vector3):
-    self.x%=other.x
-    self.y%=other.y
-    self.z%=other.z
-   if isinstance(other,(int,float,Coord)):
-    self.x%=other
-    self.y%=other
-    self.z%=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector3):
+   self.x%=other.x
+   self.y%=other.y
+   self.z%=other.z
+  else:
+   self.x%=other
+   self.y%=other
+   self.z%=other
+  return self
+ def __lshift__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x<<other.x
+   y=self.y<<other.y
+   z=self.z<<other.z
+  else:
+   x=self.x<<other
+   y=self.y<<other
+   z=self.z<<other
+  return Vector3(x,y,z)
+ def __rlshift__(self,other):
+  x=other<<self.x
+  y=other<<self.y
+  z=other<<self.z
+  return Vector3(x,y,z)
+ def __ilshift__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x<<=other.x
+   self.y<<=other.y
+   self.z<<=other.z
+  else:
+   self.x<<=other
+   self.y<<=other
+   self.z<<=other
+  return self
+ def __mul__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x*other.x
+   y=self.y*other.y
+   z=self.z*other.z
+  else:
+   x=self.x*other
+   y=self.y*other
+   z=self.z*other
+  return Vector3(x,y,z)
+ def __rmul__(self,other):
+  x=other*self.x
+  y=other*self.y
+  z=other*self.z
+  return Vector3(x,y,z)
+ def __imul__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x*=other.x
+   self.y*=other.y
+   self.z*=other.z
+  else:
+   self.x*=other
+   self.y*=other
+   self.z*=other
+  return self
+ def __xor__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x^other.x
+   y=self.y^other.y
+   z=self.z^other.z
+  else:
+   x=self.x^other
+   y=self.y^other
+   z=self.z^other
+  return Vector3(x,y,z)
+ def __rxor__(self,other):
+  x=other^self.x
+  y=other^self.y
+  z=other^self.z
+  return Vector3(x,y,z)
+ def __ixor__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x^=other.x
+   self.y^=other.y
+   self.z^=other.z
+  else:
+   self.x^=other
+   self.y^=other
+   self.z^=other
+  return self
+ def __truediv__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x/other.x
+   y=self.y/other.y
+   z=self.z/other.z
+  else:
+   x=self.x/other
+   y=self.y/other
+   z=self.z/other
+  return Vector3(x,y,z)
+ def __rtruediv__(self,other):
+  x=other/self.x
+  y=other/self.y
+  z=other/self.z
+  return Vector3(x,y,z)
+ def __itruediv__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x/=other.x
+   self.y/=other.y
+   self.z/=other.z
+  else:
+   self.x/=other
+   self.y/=other
+   self.z/=other
+  return self
+ def __sub__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x-other.x
+   y=self.y-other.y
+   z=self.z-other.z
+  else:
+   x=self.x-other
+   y=self.y-other
+   z=self.z-other
+  return Vector3(x,y,z)
+ def __rsub__(self,other):
+  x=other-self.x
+  y=other-self.y
+  z=other-self.z
+  return Vector3(x,y,z)
+ def __isub__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x-=other.x
+   self.y-=other.y
+   self.z-=other.z
+  else:
+   self.x-=other
+   self.y-=other
+   self.z-=other
+  return self
+ def __and__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x&other.x
+   y=self.y&other.y
+   z=self.z&other.z
+  else:
+   x=self.x&other
+   y=self.y&other
+   z=self.z&other
+  return Vector3(x,y,z)
+ def __rand__(self,other):
+  x=other&self.x
+  y=other&self.y
+  z=other&self.z
+  return Vector3(x,y,z)
+ def __iand__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x&=other.x
+   self.y&=other.y
+   self.z&=other.z
+  else:
+   self.x&=other
+   self.y&=other
+   self.z&=other
   return self
  def __divmod__(self,other):
   if isinstance(other,Vector3):
-   x=divmod(self._x,other.x)
-   y=divmod(self._y,other.y)
-   z=divmod(self._z,other.z)
-  elif isinstance(other,(int,float,Coord)):
-   x=divmod(self._x,other)
-   y=divmod(self._y,other)
-   z=divmod(self._z,other)
+   x=divmod(self.x,other.x)
+   y=divmod(self.y,other.y)
+   z=divmod(self.z,other.z)
   else:
-   return NotImplemented
+   x=divmod(self.x,other)
+   y=divmod(self.y,other)
+   z=divmod(self.z,other)
   return Vector3(x,y,z)
  def __rdivmod__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=divmod(other,self._x)
-   y=divmod(other,self._y)
-   z=divmod(other,self._z)
-  else:
-   return NotImplemented
+  x=divmod(other,self.x)
+  y=divmod(other,self.y)
+  z=divmod(other,self.z)
   return Vector3(x,y,z)
+ def __invert__(self):
+  return Vector3(~self.x,~self.y,~self.z)
  def __pos__(self):
   return Vector3(+self.x,+self.y,+self.z)
  def __neg__(self):
   return Vector3(-self.x,-self.y,-self.z)
- def __invert__(self):
-  return Vector3(~self.x,~self.y,~self.z)
  def __abs__(self):
   return Vector3(abs(self.x),abs(self.y),abs(self.z))
  def __round__(self,n=0):
@@ -929,51 +807,52 @@ class Vector2:
  def __init__(self,x=0,y=None):
   if y is None:
    if isinstance(x,Coord):
-    self._x=x.copy()
-    self._y=x.copy()
+    self.x=x.copy()
+    self.y=x.copy()
    else:
-    self._x=Coord(x)
-    self._y=Coord(x)
+    self.x=Coord(x)
+    self.y=Coord(x)
    return
   if isinstance(x,Coord):
-   self._x=x
+   self.x=x
   else:
-   self._x=Coord(x)
+   self.x=Coord(x)
   if y is not None:
    if isinstance(y,Coord):
-    self._y=y
+    self.y=y
    else:
-    self._y=Coord(y)
+    self.y=Coord(y)
  @property
  def x(self):
-  return self._x.copy()
+  return self._x
  @x.setter
  def x(self,value):
   if isinstance(value,Coord):
    self._x=value.copy()
-  elif isinstance(value,(int,float,str)):
+  elif isinstance(value,(str,Real)):
    self._x=Coord(value)
   else:
-   raise TypeError("Unsupported assignment of x to {}".format(type(value)))
+   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
  @property
  def y(self):
-  return self._y.copy()
+  return self._y
  @y.setter
  def y(self,value):
   if isinstance(value,Coord):
    self._y=value.copy()
-  elif isinstance(value,(int,float,str)):
+  elif isinstance(value,(str,Real)):
    self._y=Coord(value)
   else:
-   raise TypeError("Unsupported assignment of y to {}".format(type(value)))
+   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
  def copy(self):
-  return Vector2(self.x.copy(),self.y.copy())
+  return Vector2(self.x,self.y)
  def norm(self):
   return sqrt(self@self)
  def __len__(self):
   return 2
  def __iter__(self):
-  return iter([self._x,self._y])
+  yield self.x
+  yield self.y
  def normalized(self):
   return self/self.norm()
  def __getitem__(self,key):
@@ -1031,7 +910,7 @@ class Vector2:
   return Vector2(self.x,self.x)
  @xx.setter
  def xxy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'xx' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'xx' refer to the same object, which makes assignment undefined")
   return NotImplemented
  @property
  def xy(self):
@@ -1041,11 +920,9 @@ class Vector2:
   if isinstance(value,Vector2):
    self.x=value.x
    self.y=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.x=value
    self.y=value
-  else:
-   return NotImplemented
  @property
  def yx(self):
   return Vector2(self.y,self.x)
@@ -1054,17 +931,15 @@ class Vector2:
   if isinstance(value,Vector2):
    self.y=value.x
    self.x=value.y
-  elif isinstance(value,(int,float,Coord)):
+  else:
    self.y=value
    self.x=value
-  else:
-   return NotImplemented
  @property
  def yy(self):
   return Vector2(self.y,self.y)
  @yy.setter
  def yyy(self,value):
-  raise RuntimeError("Illegal assignment. Elements in this vector 'yy' refer to the same object, which makes assignment undefined")
+  raise RuntimeError("Elements in this vector 'yy' refer to the same object, which makes assignment undefined")
   return NotImplemented
  def __eq__(self,other):
   if isinstance(other,Vector2):
@@ -1083,401 +958,300 @@ class Vector2:
    return NotImplemented
  """Arithmetic operations are performed component-wise
     """ 
- def __rshift__(self,other):
+ def __or__(self,other):
   if isinstance(other,Vector2):
-   x=self.x>>other.x
-   y=self.y>>other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x>>other
-   y=self.y>>other
+   x=self.x|other.x
+   y=self.y|other.y
   else:
-   return NotImplemented
+   x=self.x|other
+   y=self.y|other
   return Vector2(x,y)
- def __rrshift__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other>>self.x
-   y=other>>self.y
-  else:
-   return NotImplemented
+ def __ror__(self,other):
+  x=other|self.x
+  y=other|self.y
   return Vector2(x,y)
- def __irshift__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x>>=other.x
-    self.y>>=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x>>=other
-    self.y>>=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __ior__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __floordiv__(self,other):
   if isinstance(other,Vector2):
-   x=self.x//other.x
-   y=self.y//other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x//other
-   y=self.y//other
+   self.x|=other.x
+   self.y|=other.y
   else:
-   return NotImplemented
-  return Vector2(x,y)
- def __rfloordiv__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other//self.x
-   y=other//self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __ifloordiv__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x//=other.x
-    self.y//=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x//=other
-    self.y//=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __truediv__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x/other.x
-   y=self.y/other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x/other
-   y=self.y/other
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __rtruediv__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other/self.x
-   y=other/self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __itruediv__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x/=other.x
-    self.y/=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x/=other
-    self.y/=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __sub__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x-other.x
-   y=self.y-other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x-other
-   y=self.y-other
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __rsub__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other-self.x
-   y=other-self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __isub__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x-=other.x
-    self.y-=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x-=other
-    self.y-=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x|=other
+   self.y|=other
   return self
  def __pow__(self,other):
   if isinstance(other,Vector2):
    x=self.x**other.x
    y=self.y**other.y
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x**other
    y=self.y**other
-  else:
-   return NotImplemented
   return Vector2(x,y)
  def __rpow__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other**self.x
-   y=other**self.y
-  else:
-   return NotImplemented
+  x=other**self.x
+  y=other**self.y
   return Vector2(x,y)
  def __ipow__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x**=other.x
-    self.y**=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x**=other
-    self.y**=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector2):
+   self.x**=other.x
+   self.y**=other.y
+  else:
+   self.x**=other
+   self.y**=other
   return self
  def __add__(self,other):
   if isinstance(other,Vector2):
    x=self.x+other.x
    y=self.y+other.y
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x+other
    y=self.y+other
-  else:
-   return NotImplemented
   return Vector2(x,y)
  def __radd__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other+self.x
-   y=other+self.y
-  else:
-   return NotImplemented
+  x=other+self.x
+  y=other+self.y
   return Vector2(x,y)
  def __iadd__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x+=other.x
-    self.y+=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x+=other
-    self.y+=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __or__(self,other):
   if isinstance(other,Vector2):
-   x=self.x|other.x
-   y=self.y|other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x|other
-   y=self.y|other
+   self.x+=other.x
+   self.y+=other.y
   else:
-   return NotImplemented
-  return Vector2(x,y)
- def __ror__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other|self.x
-   y=other|self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __ior__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x|=other.x
-    self.y|=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x|=other
-    self.y|=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x+=other
+   self.y+=other
   return self
- def __mul__(self,other):
+ def __rshift__(self,other):
   if isinstance(other,Vector2):
-   x=self.x*other.x
-   y=self.y*other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x*other
-   y=self.y*other
+   x=self.x>>other.x
+   y=self.y>>other.y
   else:
-   return NotImplemented
+   x=self.x>>other
+   y=self.y>>other
   return Vector2(x,y)
- def __rmul__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other*self.x
-   y=other*self.y
-  else:
-   return NotImplemented
+ def __rrshift__(self,other):
+  x=other>>self.x
+  y=other>>self.y
   return Vector2(x,y)
- def __imul__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x*=other.x
-    self.y*=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x*=other
-    self.y*=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __irshift__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector2):
+   self.x>>=other.x
+   self.y>>=other.y
+  else:
+   self.x>>=other
+   self.y>>=other
   return self
- def __lshift__(self,other):
+ def __floordiv__(self,other):
   if isinstance(other,Vector2):
-   x=self.x<<other.x
-   y=self.y<<other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x<<other
-   y=self.y<<other
+   x=self.x//other.x
+   y=self.y//other.y
   else:
-   return NotImplemented
+   x=self.x//other
+   y=self.y//other
   return Vector2(x,y)
- def __rlshift__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other<<self.x
-   y=other<<self.y
-  else:
-   return NotImplemented
+ def __rfloordiv__(self,other):
+  x=other//self.x
+  y=other//self.y
   return Vector2(x,y)
- def __ilshift__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x<<=other.x
-    self.y<<=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x<<=other
-    self.y<<=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+ def __ifloordiv__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
-  return self
- def __xor__(self,other):
   if isinstance(other,Vector2):
-   x=self.x^other.x
-   y=self.y^other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x^other
-   y=self.y^other
+   self.x//=other.x
+   self.y//=other.y
   else:
-   return NotImplemented
-  return Vector2(x,y)
- def __rxor__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other^self.x
-   y=other^self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __ixor__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x^=other.x
-    self.y^=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x^=other
-    self.y^=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  return self
- def __and__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x&other.x
-   y=self.y&other.y
-  elif isinstance(other,(int,float,Coord)):
-   x=self.x&other
-   y=self.y&other
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __rand__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other&self.x
-   y=other&self.y
-  else:
-   return NotImplemented
-  return Vector2(x,y)
- def __iand__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x&=other.x
-    self.y&=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x&=other
-    self.y&=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
+   self.x//=other
+   self.y//=other
   return self
  def __mod__(self,other):
   if isinstance(other,Vector2):
    x=self.x%other.x
    y=self.y%other.y
-  elif isinstance(other,(int,float,Coord)):
+  else:
    x=self.x%other
    y=self.y%other
-  else:
-   return NotImplemented
   return Vector2(x,y)
  def __rmod__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=other%self.x
-   y=other%self.y
-  else:
-   return NotImplemented
+  x=other%self.x
+  y=other%self.y
   return Vector2(x,y)
  def __imod__(self,other):
-  if self.x is not self.y:
-   if isinstance(other,Vector2):
-    self.x%=other.x
-    self.y%=other.y
-   if isinstance(other,(int,float,Coord)):
-    self.x%=other
-    self.y%=other
-   else:
-    return NotImplemented
-  else:
-   raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
+  if isinstance(other,Vector2):
+   self.x%=other.x
+   self.y%=other.y
+  else:
+   self.x%=other
+   self.y%=other
+  return self
+ def __lshift__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x<<other.x
+   y=self.y<<other.y
+  else:
+   x=self.x<<other
+   y=self.y<<other
+  return Vector2(x,y)
+ def __rlshift__(self,other):
+  x=other<<self.x
+  y=other<<self.y
+  return Vector2(x,y)
+ def __ilshift__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x<<=other.x
+   self.y<<=other.y
+  else:
+   self.x<<=other
+   self.y<<=other
+  return self
+ def __mul__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x*other.x
+   y=self.y*other.y
+  else:
+   x=self.x*other
+   y=self.y*other
+  return Vector2(x,y)
+ def __rmul__(self,other):
+  x=other*self.x
+  y=other*self.y
+  return Vector2(x,y)
+ def __imul__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x*=other.x
+   self.y*=other.y
+  else:
+   self.x*=other
+   self.y*=other
+  return self
+ def __xor__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x^other.x
+   y=self.y^other.y
+  else:
+   x=self.x^other
+   y=self.y^other
+  return Vector2(x,y)
+ def __rxor__(self,other):
+  x=other^self.x
+  y=other^self.y
+  return Vector2(x,y)
+ def __ixor__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x^=other.x
+   self.y^=other.y
+  else:
+   self.x^=other
+   self.y^=other
+  return self
+ def __truediv__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x/other.x
+   y=self.y/other.y
+  else:
+   x=self.x/other
+   y=self.y/other
+  return Vector2(x,y)
+ def __rtruediv__(self,other):
+  x=other/self.x
+  y=other/self.y
+  return Vector2(x,y)
+ def __itruediv__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x/=other.x
+   self.y/=other.y
+  else:
+   self.x/=other
+   self.y/=other
+  return self
+ def __sub__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x-other.x
+   y=self.y-other.y
+  else:
+   x=self.x-other
+   y=self.y-other
+  return Vector2(x,y)
+ def __rsub__(self,other):
+  x=other-self.x
+  y=other-self.y
+  return Vector2(x,y)
+ def __isub__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x-=other.x
+   self.y-=other.y
+  else:
+   self.x-=other
+   self.y-=other
+  return self
+ def __and__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x&other.x
+   y=self.y&other.y
+  else:
+   x=self.x&other
+   y=self.y&other
+  return Vector2(x,y)
+ def __rand__(self,other):
+  x=other&self.x
+  y=other&self.y
+  return Vector2(x,y)
+ def __iand__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x&=other.x
+   self.y&=other.y
+  else:
+   self.x&=other
+   self.y&=other
   return self
  def __divmod__(self,other):
   if isinstance(other,Vector2):
-   x=divmod(self._x,other.x)
-   y=divmod(self._y,other.y)
-  elif isinstance(other,(int,float,Coord)):
-   x=divmod(self._x,other)
-   y=divmod(self._y,other)
+   x=divmod(self.x,other.x)
+   y=divmod(self.y,other.y)
   else:
-   return NotImplemented
+   x=divmod(self.x,other)
+   y=divmod(self.y,other)
   return Vector2(x,y)
  def __rdivmod__(self,other):
-  if isinstance(other,(int,float,Coord)):
-   x=divmod(other,self._x)
-   y=divmod(other,self._y)
-  else:
-   return NotImplemented
+  x=divmod(other,self.x)
+  y=divmod(other,self.y)
   return Vector2(x,y)
+ def __invert__(self):
+  return Vector2(~self.x,~self.y)
  def __pos__(self):
   return Vector2(+self.x,+self.y)
  def __neg__(self):
   return Vector2(-self.x,-self.y)
- def __invert__(self):
-  return Vector2(~self.x,~self.y)
  def __abs__(self):
   return Vector2(abs(self.x),abs(self.y))
  def __round__(self,n=0):

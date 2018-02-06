@@ -1,5 +1,12 @@
 from lib.coord import Coord
 from math import sqrt
+from numbers import Real
+
+#from coord import Coord
+
+"""
+TODO: more doctests and docstrings
+"""
 
 class Vector3:
     """A class for storing and manipulating three coordinates
@@ -41,6 +48,7 @@ class Vector3:
         >>> a.simple_str()
         '5 4 3'
     """
+
     def __init__(self, x=0, y=None, z=None):
         """Create a new vector
 
@@ -67,45 +75,45 @@ class Vector3:
 
         if y is None and z is None:
             if isinstance(x, Coord):
-                self._x = x.copy()
-                self._y = x.copy()
-                self._z = x.copy()
+                self.x = x.copy()
+                self.y = x.copy()
+                self.z = x.copy()
             else:
-                self._x = Coord(x)
-                self._y = Coord(x)
-                self._z = Coord(x)
+                self.x = Coord(x)
+                self.y = Coord(x)
+                self.z = Coord(x)
             return
 
         if isinstance(x, Coord):
-            self._x = x
+            self.x = x
         else:
-            self._x = Coord(x)
+            self.x = Coord(x)
 
         if y is not None:
             if isinstance(y, Coord):
-                self._y = y
+                self.y = y
             else:
-                self._y = Coord(y)
+                self.y = Coord(y)
 
         if z is not None:
             if isinstance(z, Coord):
-                self._z = z
+                self.z = z
             else:
-                self._z = Coord(z)
+                self.z = Coord(z)
 
 $for(i in 'xyz')
     @property
     def $(i)(self):
-        return self._$(i).copy()
+        return self._$(i)
 
     @$(i).setter
     def $(i)(self, value):
         if isinstance(value, Coord):
             self._$(i) = value.copy()
-        elif isinstance(value, (int, float, str)):
+        elif isinstance(value, (str, Real)):
             self._$(i) = Coord(value)
         else:
-            raise TypeError("Unsupported assignment of $(i) to {}".format(type(value)))
+            raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
 $endfor
 
     def copy(self):
@@ -114,7 +122,7 @@ $endfor
         Returns:
             Vector3(self.x.copy(), self.y.copy(), self.z.copy())
         """
-        return Vector3(self.x.copy(), self.y.copy(), self.z.copy())
+        return Vector3(self.x, self.y, self.z)
 
     def norm(self):
         """Return the norm of this vector
@@ -136,7 +144,9 @@ $endfor
         return 3
 
     def __iter__(self):
-        return iter([self._x, self._y, self._z])
+        yield self.x
+        yield self.y
+        yield self.z
 
     def normalized(self):
         return self / self.norm()
@@ -198,7 +208,7 @@ $for(k in 'xyz')
 $if(i == j or i == k or j == k)
     @$(i)$(j)$(k).setter
     def $(i)$(j)$(k)(self, value):
-        raise RuntimeError("Illegal assignment. Elements in this vector '$(i)$(j)$(k)' refer to the same object, which makes assignment undefined")
+        raise RuntimeError("Elements in this vector '$(i)$(j)$(k)' refer to the same object, which makes assignment undefined")
         return NotImplemented
 $else
     @$(i)$(j)$(k).setter
@@ -207,12 +217,10 @@ $else
             self.$(i) = value.x
             self.$(j) = value.y
             self.$(k) = value.z
-        elif isinstance(value, (int, float, Coord)):
+        else:
             self.$(i) = value
             self.$(j) = value
             self.$(k) = value
-        else:
-            return NotImplemented
 $endif
 
 $endfor
@@ -233,7 +241,7 @@ $for(j in 'xyz')
 $if(i == j)
     @$(i)$(j).setter
     def $(i)$(j)(self, value):
-        raise RuntimeError("Illegal assignment. Elements in this vector '$(i)$(j)' refer to the same object, which makes assignment undefined")
+        raise RuntimeError("Elements in this vector '$(i)$(j)' refer to the same object, which makes assignment undefined")
         return NotImplemented
 $else
     @$(i)$(j).setter
@@ -241,11 +249,9 @@ $else
         if isinstance(value, Vector2):
             self.$(i) = value.x
             self.$(j) = value.y
-        elif isinstance(value, (int, float, Coord)):
+        else:
             self.$(i) = value
             self.$(j) = value
-        else:
-            return NotImplemented
 $endif
 $endfor
 $endfor
@@ -279,61 +285,49 @@ $for(name, symbol in ops.items())
             x = self.x $(symbol) other.x
             y = self.y $(symbol) other.y
             z = self.z $(symbol) other.z
-        elif isinstance(other, (int, float, Coord)):
+        else:
             x = self.x $(symbol) other
             y = self.y $(symbol) other
             z = self.z $(symbol) other
-        else:
-            return NotImplemented
         return Vector3(x, y, z)
 
     def __r$(name)(self, other):
-        if isinstance(other, (int, float, Coord)):
-            x = other $(symbol) self.x
-            y = other $(symbol) self.y
-            z = other $(symbol) self.z
-        else:
-            return NotImplemented
+        x = other $(symbol) self.x
+        y = other $(symbol) self.y
+        z = other $(symbol) self.z
         return Vector3(x, y, z)
 
     def __i$(name)(self, other):
-        if self.x is not self.y and self.x is not self.z and self.y is not self.z:
-            if isinstance(other, Vector3):
-                self.x $(symbol)= other.x
-                self.y $(symbol)= other.y
-                self.z $(symbol)= other.z
-            if isinstance(other, (int, float, Coord)):
-                self.x $(symbol)= other
-                self.y $(symbol)= other
-                self.z $(symbol)= other
-            else:
-                return NotImplemented
-        else:
-            raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+        if self.x is self.y or self.x is self.z or self.y is self.z:
+            raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
             return NotImplemented
+
+        if isinstance(other, Vector3):
+            self.x $(symbol)= other.x
+            self.y $(symbol)= other.y
+            self.z $(symbol)= other.z
+        else:
+            self.x $(symbol)= other
+            self.y $(symbol)= other
+            self.z $(symbol)= other
         return self
 $endfor
 
     def __divmod__(self, other):
         if isinstance(other, Vector3):
-            x = divmod(self._x, other.x)
-            y = divmod(self._y, other.y)
-            z = divmod(self._z, other.z)
-        elif isinstance(other, (int, float, Coord)):
-            x = divmod(self._x, other)
-            y = divmod(self._y, other)
-            z = divmod(self._z, other)
+            x = divmod(self.x, other.x)
+            y = divmod(self.y, other.y)
+            z = divmod(self.z, other.z)
         else:
-            return NotImplemented
+            x = divmod(self.x, other)
+            y = divmod(self.y, other)
+            z = divmod(self.z, other)
         return Vector3(x, y, z)
 
     def __rdivmod__(self, other):
-        if isinstance(other, (int, float, Coord)):
-            x = divmod(other, self._x)
-            y = divmod(other, self._y)
-            z = divmod(other, self._z)
-        else:
-            return NotImplemented
+        x = divmod(other, self.x)
+        y = divmod(other, self.y)
+        z = divmod(other, self.z)
         return Vector3(x, y, z)
 
 $py(unary_ops = {"__neg__":"-", "__pos__":"+", "__invert__":"~"})
@@ -358,6 +352,7 @@ class Vector2:
         x (Coord): x-coordinate
         y (Coord): y-coordinate
     """
+
     def __init__(self, x=0, y=None):
         """Create a new vector
 
@@ -378,37 +373,37 @@ class Vector2:
         """
         if y is None:
             if isinstance(x, Coord):
-                self._x = x.copy()
-                self._y = x.copy()
+                self.x = x.copy()
+                self.y = x.copy()
             else:
-                self._x = Coord(x)
-                self._y = Coord(x)
+                self.x = Coord(x)
+                self.y = Coord(x)
             return
 
         if isinstance(x, Coord):
-            self._x = x
+            self.x = x
         else:
-            self._x = Coord(x)
+            self.x = Coord(x)
 
         if y is not None:
             if isinstance(y, Coord):
-                self._y = y
+                self.y = y
             else:
-                self._y = Coord(y)
+                self.y = Coord(y)
 
 $for(i in 'xy')
     @property
     def $(i)(self):
-        return self._$(i).copy()
+        return self._$(i)
 
     @$(i).setter
     def $(i)(self, value):
         if isinstance(value, Coord):
             self._$(i) = value.copy()
-        elif isinstance(value, (int, float, str)):
+        elif isinstance(value, (str, Real)):
             self._$(i) = Coord(value)
         else:
-            raise TypeError("Unsupported assignment of $(i) to {}".format(type(value)))
+            raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
 $endfor
 
     def copy(self):
@@ -417,7 +412,7 @@ $endfor
         Returns:
             Vector2(self.x.copy(), self.y.copy())
         """
-        return Vector2(self.x.copy(), self.y.copy())
+        return Vector2(self.x, self.y)
 
     def norm(self):
         """Return the norm of this vector
@@ -431,7 +426,8 @@ $endfor
         return 2
 
     def __iter__(self):
-        return iter([self._x, self._y])
+        yield self.x
+        yield self.y
 
     def normalized(self):
         return self / self.norm()
@@ -504,7 +500,7 @@ $for(j in 'xy')
 $if(i == j)
     @$(i)$(j).setter
     def $(i)$(j)$(k)(self, value):
-        raise RuntimeError("Illegal assignment. Elements in this vector '$(i)$(j)' refer to the same object, which makes assignment undefined")
+        raise RuntimeError("Elements in this vector '$(i)$(j)' refer to the same object, which makes assignment undefined")
         return NotImplemented
 $else
     @$(i)$(j).setter
@@ -512,11 +508,9 @@ $else
         if isinstance(value, Vector2):
             self.$(i) = value.x
             self.$(j) = value.y
-        elif isinstance(value, (int, float, Coord)):
+        else:
             self.$(i) = value
             self.$(j) = value
-        else:
-            return NotImplemented
 $endif
 $endfor
 $endfor
@@ -549,54 +543,42 @@ $for(name, symbol in ops.items())
         if isinstance(other, Vector2):
             x = self.x $(symbol) other.x
             y = self.y $(symbol) other.y
-        elif isinstance(other, (int, float, Coord)):
+        else:
             x = self.x $(symbol) other
             y = self.y $(symbol) other
-        else:
-            return NotImplemented
         return Vector2(x, y)
 
     def __r$(name)(self, other):
-        if isinstance(other, (int, float, Coord)):
-            x = other $(symbol) self.x
-            y = other $(symbol) self.y
-        else:
-            return NotImplemented
+        x = other $(symbol) self.x
+        y = other $(symbol) self.y
         return Vector2(x, y)
 
     def __i$(name)(self, other):
-        if self.x is not self.y:
-            if isinstance(other, Vector2):
-                self.x $(symbol)= other.x
-                self.y $(symbol)= other.y
-            if isinstance(other, (int, float, Coord)):
-                self.x $(symbol)= other
-                self.y $(symbol)= other
-            else:
-                return NotImplemented
-        else:
-            raise RuntimeError("Illegal assignment. Elements in this vector refer to the same object, which makes assignment undefined")
+        if self.x is self.y:
+            raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
             return NotImplemented
+
+        if isinstance(other, Vector2):
+            self.x $(symbol)= other.x
+            self.y $(symbol)= other.y
+        else:
+            self.x $(symbol)= other
+            self.y $(symbol)= other
         return self
 $endfor
 
     def __divmod__(self, other):
         if isinstance(other, Vector2):
-            x = divmod(self._x, other.x)
-            y = divmod(self._y, other.y)
-        elif isinstance(other, (int, float, Coord)):
-            x = divmod(self._x, other)
-            y = divmod(self._y, other)
+            x = divmod(self.x, other.x)
+            y = divmod(self.y, other.y)
         else:
-            return NotImplemented
+            x = divmod(self.x, other)
+            y = divmod(self.y, other)
         return Vector2(x, y)
 
     def __rdivmod__(self, other):
-        if isinstance(other, (int, float, Coord)):
-            x = divmod(other, self._x)
-            y = divmod(other, self._y)
-        else:
-            return NotImplemented
+        x = divmod(other, self.x)
+        y = divmod(other, self.y)
         return Vector2(x, y)
 
 $py(unary_ops = {"__neg__":"-", "__pos__":"+", "__invert__":"~"})
