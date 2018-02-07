@@ -1,7 +1,7 @@
 from lib.const_ints import *
 from lib.floo_network import *
-from lib import coords
 from lib.scoreboard import *
+from lib.coords import Coords
 
 
 # Scoreboard
@@ -47,7 +47,7 @@ print(repr(CONST_INTS.cmd_term()))
 
 
 # Coordinates
-coordRegion = coords.Coords("-32 33 320 -52 28 320")
+coordRegion = Coords("-32 33 320 -52 28 320")
 print(str(coordRegion))
 print(coordRegion.to_selector())
 
@@ -66,3 +66,7 @@ places2 = ("belowName", "list", "sidebar", "sidebar.team.aqua", "sidebar.team.bl
 
 print(places1)
 print(places2)
+
+
+for event in Event.members:
+    print(repr(event))
