@@ -155,16 +155,18 @@ class Objectives(Container):
         super().__init__()
         self.objectives = OrderedDict()
 
-    def new(self, name, criteria="_", display_name="", remove=True):
+    def new(self, name, criteria="_", display_name="", remove_self=True):
         """
         Default method to add a single objective (see Objective.__init__)
         """
-        objective = Objective(name, criteria, display_name, remove)
+        objective = Objective(name, criteria, display_name, remove_self)
         self.add(objective)
 
-    def new_str(self, text, initials=None, display=None, remove=True):
+    def new_str(self, text, initials=None, display=None, remove_self=True):
         """
         Allows input of objectives from multi-line string (without tab spaces)
+
+        Note anything starting with "#" will be ignored
 
         Args:
             text: block of text
@@ -175,6 +177,7 @@ class Objectives(Container):
             remove: Whether the objectives will be automatically removed or not
 
         eg.
+        # a cool comment explaining what RRpl is
         RRpl
         RRas
 
@@ -186,8 +189,8 @@ class Objectives(Container):
         """
 
         # strips the lines to remove the newlines at the end and any other whitespace
-        # also only appends to list if the line is not empty
-        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        # also only appends to list if the line is not empty, and doesn't start with #
+        lines = [line.strip() for line in text.splitlines() if line.strip() if not line.strip()[0] == "#"]
         current_obj = None
 
         for line in lines:
@@ -216,7 +219,7 @@ class Objectives(Container):
                 else:
                     data[2] = display + " " + data[2]
 
-            objective = Objective(*data, remove_self=remove)
+            objective = Objective(*data, remove_self=remove_self)
             current_obj = objective
             self.add(objective)
 
@@ -386,6 +389,8 @@ class Teams(Container):
         """
         Allows input of teams from multi-line string (without tab spaces)
 
+        Note anything starting with "#" will be ignored
+
         Args:
             text (str): the full docstring input for parsing teams
             initials: initials that goes in front of all teams
@@ -398,6 +403,7 @@ class Teams(Container):
                 This means a team name cannot the same as a option
 
         Examples:
+            # a cool comment explaining what RRg is
             RRg RR green
             color green
             nametagVisibility hideForOtherTeams
@@ -412,8 +418,8 @@ class Teams(Container):
         """
 
         # strips the lines to remove the newlines at the end and any other whitespace
-        # also only appends to list if the line is not empty
-        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        # also only appends to list if the line is not empty, and doesn't start with #
+        lines = [line.strip() for line in text.splitlines() if line.strip() if not line.strip()[0] == "#"]
 
         # holds the current team
         current_team = None

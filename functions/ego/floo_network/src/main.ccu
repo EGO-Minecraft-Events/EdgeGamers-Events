@@ -17,10 +17,10 @@ select_tree = "x=397,y=17,z=61,r=5"
 # in this case, mastermind and pictionary
 placable_blocks = ["x=77,y=5,z=42,r=40"]
 dimension_id = "0"
-)
+
+
 
 # General python code for the main start
-$py(
 CONST_INTS.add_constants(-1)
 
 # General objectives from floo_network
@@ -49,13 +49,21 @@ OBJECTIVES.new_str("""
     
     # used by the FlooStand to holds the event id that is currently running
     FLgam _ Game Toggle
+
+    # All the options set from FlooEvent
     FLpvp _ PVP toggle
     FLsat _ Saturation toggle
     FLwea _ Weather toggle
     FLgmd _ Gamemode toggle
+
+    # Calculates the rank of each player, see calc_rank and use_rank
     FLraa _ Ranking Actions
     FLrac _ Ranking Actions Calc
+
+    # Players are set to 1 if they are in the main dimension, otherwise it is 0
     FLdim _ Dimension Number
+
+    # The general voting objective
     FLvot trigger Vote Trigger
 """, display="FlooNetwork")
 
@@ -356,7 +364,7 @@ def set_rankings(text):
         "hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}
     }]}
     playsound $(Sounds.xp) voice @s
-    @s SPvot = 0
+    @s FLvot = 0
 
 $py(r"""
     @a[$MM$,SPdim=1] SPmm = 1

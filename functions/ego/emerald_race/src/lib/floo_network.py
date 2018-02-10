@@ -61,7 +61,7 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put("function ego:floo_network/src/stop_events unless @e[type=armor_stand,FlooStand,FLgam=0]")
+        self.cmd_queue.put("function ego:floo_network/src/stop_events")
 
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
@@ -94,12 +94,10 @@ class FlooEvent(Container):
         else:
             self.cmd_queue.put(set_stand_str.format("FLwea", "2"))
 
-        self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam>=1] FLgac = 1")
-
         return self._cmd_output()
 
-    def cmd_init_final(self):
-        return "@e[type=armor_stand,FlooStand,SPgam=0 SPgam = {}".format(self.id)
+    def cmd_post_init(self):
+        return "@e[type=armor_stand,FlooStand,SPgam=0] SPgam = {}".format(self.id)
 
     def cmd_main(self, SA):
         """
@@ -169,7 +167,7 @@ class Event:
             self.simple = text.replace(";", "")
             self.colors = tuple(colors.split(";"))
             self.disp_name = disp_name
-            self.hover_cmd = "/scoreboard players set @p SPtp {}".format(id)
+            self.hover_cmd = "/scoreboard players set @p FLtp {}".format(id)
             self.are_initials = are_initials
 
         @classmethod
