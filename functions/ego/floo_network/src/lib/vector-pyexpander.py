@@ -1,9 +1,9 @@
-#from lib.coord import Coord
 from math import sqrt
 from numbers import Real
 from abc import ABC, abstractmethod
 
-from coord import Coord
+from lib.coord import Coord
+# from coord import Coord
 
 """
 TODO: more doctests and docstrings

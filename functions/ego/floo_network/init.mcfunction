@@ -1,14 +1,11 @@
 scoreboard objectives add constants dummy
 scoreboard objectives add FLid dummy FlooNetwork ID
 scoreboard objectives add FLtp dummy FlooNetwork TP
-scoreboard objectives add FLna dummy FlooNetwork Name
-scoreboard objectives add FLti dummy FlooNetwork Timer
-scoreboard objectives add FLmm dummy FlooNetwork Mastermind
 scoreboard objectives add FLbk dummy FlooNetwork Book
-scoreboard objectives add FLsp dummy FlooNetwork Spawn
+scoreboard objectives add FLna dummy FlooNetwork Name
+scoreboard objectives add FLti dummy FlooNetwork SpawnPoint Timer
 scoreboard objectives add FLlg stat.leaveGame FlooNetwork Leave Game
 scoreboard objectives add FLgam dummy FlooNetwork Game Toggle
-scoreboard objectives add FLgac dummy FlooNetwork Game Toggle Calc
 scoreboard objectives add FLpvp dummy FlooNetwork PVP toggle
 scoreboard objectives add FLsat dummy FlooNetwork Saturation toggle
 scoreboard objectives add FLwea dummy FlooNetwork Weather toggle
@@ -181,4 +178,4 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgmd 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgam 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLraa 28
-tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"Floo","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Floo Network","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p SPtp 674271822"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Floo Network","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Floo Network","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p SPtp 674271822"}},{"text":" has been installed!","color":"gray"}]}
+tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"Floo","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Floo Network","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 674271822"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Floo Network","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Floo Network","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 674271822"}},{"text":" has been installed!","color":"gray"}]}

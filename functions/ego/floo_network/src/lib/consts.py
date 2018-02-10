@@ -13,6 +13,38 @@ class Sounds:
     primed = "minecraft:entity.tnt.primed"
 
 
+class Effects:
+    """
+    Shorthand constants for effects
+    """
+    absorption = "minecraft:absorption"
+    blind = "minecraft:blindness"
+    fire_resist = "minecraft:fire_resist"
+    glowing = "minecraft:glowing"
+    haste = "minecraft:haste"
+    hp_boost = "minecraft:health_boost"
+    hunger = "minecraft:hunger"
+    dmg = "minecraft:instant_damage"
+    hp = "minecraft:instant_health"
+    invis = "minecraft:invisibility"
+    jump = "minecraft:jump_boost"
+    levitation = "minecraft:levitation"
+    luck = "minecraft:luck"
+    mining_fatigue = "minecraft:mining_fatigue"
+    nausea = "minecraft:nausea"
+    night_vision = "minecraft:night_vision"
+    poison = "minecraft:poison"
+    regen = "minecraft:regeneration"
+    resist = "minecraft:resistance"
+    saturation = "minecraft:saturation"
+    spd = "minecraft:speed"
+    strength = "minecraft:strength"
+    unluck = "minecraft:unluck"
+    water_breath = "minecraft:water_breathing"
+    weak = "minecraft:weakness"
+    wither = "minecraft:wither"
+
+
 class Colors:
     """
     List of all colors

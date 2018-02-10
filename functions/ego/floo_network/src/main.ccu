@@ -4,38 +4,51 @@ from lib.const_ints import CONST_INTS
 from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.coords import Coords
 from lib.container import Container
-from lib.consts import Sounds
+from lib.consts import Sounds, Effects
 
 
-SA = "x=350,y=14,z=13,dx=90,dy=30,dz=90"
+select_all = Coords("350 14 13 440 44 103").to_selector()
 stand_coords = Coords("397 17 61")
 select_tree = "x=397,y=17,z=61,r=5"
-select_portal = "x=350,y=14,z=13,dx=90,dy=5,dz=90"
+select_portal = Coords("350 14 13 440 19 103").to_selector()
 select_tree = "x=397,y=17,z=61,r=5"
 
 # regions where blocks are placable
 # in this case, mastermind and pictionary
 placable_blocks = ["x=77,y=5,z=42,r=40"]
-dimension = "Dimension:0"
+dimension_id = "0"
 )
 
-# Main Start
+# General python code for the main start
 $py(
 CONST_INTS.add_constants(-1)
 
 # General objectives from floo_network
 OBJECTIVES.new_str("""
+    # used on players to hold the event id for teleporting
+    # this is set to the negative value of itself once the spawnpoint has been set
     FLid _ ID
+
+    # used on players to hold the event id for teleporting
+    # this is automatically reset to 0 after teleporting is done
     FLtp _ TP
-    FLna _ Name
-    FLti _ Timer
-    FLmm _ Mastermind
+
+    # used on players to hold the event id for getting a book
+    # this is automatically reset to 0 after getting the book
     FLbk _ Book
-    FLsp _ Spawn
+    
+    # holds fake players as shortcuts for events
+    FLna _ Name
+
+    # used on players inside the spawn tree to delay the automatic
+    # teleport by 0.5s
+    FLti dummy SpawnPoint Timer
+
+    # idk
     FLlg stat.leaveGame Leave Game
     
+    # used by the FlooStand to holds the event id that is currently running
     FLgam _ Game Toggle
-    FLgac _ Game Toggle Calc
     FLpvp _ PVP toggle
     FLsat _ Saturation toggle
     FLwea _ Weather toggle
@@ -50,7 +63,7 @@ OBJECTIVES.new_str("""
 OBJECTIVES.new_str("""
     MCTeams _ MC Specialty Teams
     Health health
-""", remove=False)
+""", remove_self=False)
 OBJECTIVES["Health"].setdisplay("list")
 
 # Adds objectives based on all event_name/src/consts.ccu files
@@ -64,7 +77,7 @@ def use_file_consts(event):
         with open("../../{}/src/consts.ccu".format(event.folder_name)) as file:
             print("Opened {}/src/consts.ccu".format(event.folder_name))
             lines = file.read()
-            OBJECTIVES.new_str(lines)
+            OBJECTIVES.new_str(lines, remove_self=False)
     except FileNotFoundError:
         pass
 
@@ -80,20 +93,6 @@ TEAMS.new_str("""
         friendlyfire false
 """)
 
-"""
-Additional things I might add idk
-    FLeti _ Event Timer: Ticks
-    FLetm _ Event Timer: Mins
-    FLetc _ Event Timer: Calc
-    FLafk _ AFK Toggle
-    FLafkc _ AFK Toggle - Calc
-    FLafk1 stat.sneakTime AFK Crouch
-    FLafk2 stat.swimOneCm AFK Swim
-    FLafk3 stat.flyOneCm AFK Fly
-    FLafk4 stat.walkOneCm AFK Walk
-    FLafk5 stat.sprintOneCm AFK Sprint
-"""
-    
 # sets rankings for individual players
 RANKINGS = {
     "APPS": 1,
@@ -104,7 +103,8 @@ RANKINGS = {
 }
 
 # adds scoreboards from the rankings
-for rank in RANKINGS.keys(): OBJECTIVES.new(rank, remove=False)
+for rank in RANKINGS.keys():
+    OBJECTIVES.new(rank, remove_self=False)
 
 def get_ranking_val(*ranks):
     """
@@ -186,13 +186,31 @@ def set_rankings(text):
     @e[type=armor_stand,FlooStand] FLgam = 0
     @e[type=armor_stand,FlooStand] FLraa = $(get_ranking_val("EC", "LE", "CMD"))
 
-    tellraw @a $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
-
+    tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
 
 !mfunc main
-    @a[FLid>=1] function ego:floo_network/spawnpoint
-    @a[FLid>=1] function ego:floo_network/spawnpoint
+    @a[FLid=1..] function ego:floo_network/spawnpoint
+    @a[FLtp=1..] function ego:floo_network/teleport
+    @a[$(select_tree)] function ego:floo_network/in_spawn_tree
+    @a[$(select_all)] function ego:floo_network/in_spawn
+    @a function ego:floo_network/calc_dimension
+    @e[type=armor_stand,FlooStand] function ego:floo_network/calc_rank
+    @a[FLrac=1] function ego:floo_network/use_rank
+    @e[type=armor_stand,FlooStand] function ego:floo_network/use_options
 
+    * enable FLvot
+    @a[FLvot=1..] function ego:floo_network/vote
+    @a[FLvot=..-1] function ego:floo_network/vote
+
+
+!mfunc term
+    $(OBJECTIVES.cmd_term())
+    
+    tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been uninstalled!","color":"gray"}'))
+    kill @e[type=armor_stand,FlooStand]
+
+
+# used on players to set their spawnpoint to the given event id
 !mfunc spawnpoint
     # iterates through all spawnpoints
     $for(event in Event.members)
@@ -204,10 +222,12 @@ def set_rankings(text):
     playsound $(Sounds.xp) voice @s
     ScOP @s FLid *= -1 constants
 
+
+# used on players to teleport them to the given event id
 !mfunc teleport
     # tp and tellraw commands
     $for(event in Event.members)
-    tp @s[SPtp=$(event.id)] $(str(event.coords))
+    tp @s[FLtp=$(event.id)] $(str(event.coords))
 
     tellraw @s[FLtp=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"You have been teleported to ","color":"gray"},{"text":"' + event.disp_coords +
     r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
@@ -217,153 +237,99 @@ def set_rankings(text):
     playsound $(Sounds.xp) voice @s
     ScOP @s FLid *= -1 constants
 
-$py(r"""
-//<Game Start Tellraw
-FUNC {Func_GameStartTellraw}:
-    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-        @e[type=armor_stand,FlooStand,SPgac>=1] MFunc_GameStartTellraw
-    
-/// Warning: "x" must be turned off before another game can start.
-    LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
-        /*
-        @s[SPgam=|1|] tellraw @a[EC=0] $TextStart$
-        {"text":"Warning: ","color":"red"},;
-        */
-    ///    2 = full name = |0|, 3 = name = |1|, 4 = color = |2|
-        LOOP {Arr_Spawnpoint[|0|][3]} {Arr_Spawnpoint[|0|][4]}:
-            /*
-            {"text":"|0|","color":"|1|","bold":"true",
-                "clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp |1;1|"},
-                "hoverEvent":{"action":"show_text","value":{"text":"Teleport to Arr_Spawnpoint[|0;1|][2]","color":"|1|"}}
-            },;
-            */
-        /*
-        {"text":" must be turned off before another game can start.","color":"gray"}
-        ]}
-        */
-    
-    @s SPgac = 0
-//>
 
-//<Spawn Tree
-FUNC {Func_SpawnTree}:
-    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-        @a[$SPTree$] MFunc_SpawnTree
-    
-    effect @s 23 2 0 true
+# used by pretty much all init mcfunctions to ensure that no other events are running
+!mfunc stop_events
+    # only stops events if the FLgam value is not 0
+    @e[type=armor_stand,FlooStand] function ego:floo_network/_stop_events unless @s[FLgam=0]
+
+
+# used on the FlooStand if an event is currently running and has to be terminated
+!mfunc _stop_events
+    $for(event in Event.members)
+    function ego:$(event.folder_name)/term if @s[FLgam=$(event.id)]
+    $endfor
+    @s[FLgam=1..] FLgam = 0
+
+
+# used on players when they are in the spawn tree
+!mfunc in_spawn_tree
+    # gives saturation
+    effect @s $(Effects.saturation) 2 0 true
     gamemode 2 @s[m=0]
     
-    @e[type=armor_stand,FlooStand,SPpvp=0] J> NoPVP @a[$SPTree$,m=2]
+    @e[type=armor_stand,FlooStand,FLpvp=0] join NoPVP @a[$(select_tree),m=2]
     
-    @s[m=!3] SPti + 1
-    ScOP @s[m=!3,SPti>=10] SPtp = @e[type=armor_stand,FlooStand,SPtp>=1] SPtp
-//>
-
-//<Spawn Portal
-FUNC {Func_SpawnPortal}:
-    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
-        @a[$SPPortal$] MFunc_SpawnPortal
-    
-    @s[m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @s SPtp = mghub SPna
-    @s[m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @s SPtp = pvphub SPna
-    @s[m=!3] stained_hardened_clay 1 ~ 3 ~ ScOP @s SPtp = mmhub SPna
-    @s[m=!3] stained_hardened_clay 9 ~ 3 ~ ScOP @s SPtp = racehub SPna
-//>
+    @s[m=!3] FLti + 1
+    ScOP @s[FLti=10..] FLtp = @e[type=armor_stand,FlooStand,FLtp=1..] FLtp
+    @s[FLtp=10..] FLtp = 0
 
 
+# used on players when the players are in the spawn region
+!mfunc in_spawn
+    @s[m=!3] ifblock stained_hardened_clay 5 ~ 3 ~ ScOP @s FLtp = mghub SPna
+    @s[m=!3] ifblock stained_hardened_clay 2 ~ 3 ~ ScOP @s FLtp = pvphub SPna
+    @s[m=!3] ifblock stained_hardened_clay 1 ~ 3 ~ ScOP @s FLtp = mmhub SPna
+    @s[m=!3] ifblock stained_hardened_clay 9 ~ 3 ~ ScOP @s FLtp = racehub SPna
 
-//<Main Clock
-FUNC {Func_MainClock}:
-///    Continuing the spawnpoint clock
-    @a[m=!3,SPti>=10] SPti + 1
-    @a[$SPNotTree$,m=!3,SPti<10] SPti = 0
-    @a[$SPNotTree$,m=!3,SPti>=20] SPti = 0
-    
-///    Dimension
-    @a SPdim = 0
-    @a SPdim = 6 {$Dim$}
 
-///    Mastermind
-    @a[$MM$,SPdim=6] SPmm = 1
-    @a[$NotMM$,SPmm=1] SPmm = 2
-    ScOP @e[type=armor_stand,FlooStand] SPmm = Mastermind SPmm
-    @e[type=armor_stand,FlooStand,SPmm=0] @a[SPmm=1] SPmm = 2
-    @a[SPmm=2,EC=0] SPmm = 0
-    clear @a[SPmm=2] wool -1 -1 {display:{Lore:["Mastermind Wool"]}}
-    clear @a[SPmm=2] shears -1 -1 {display:{Lore:["Mastermind Shears"]}}
-    @a[SPmm=2] SPmm = 0
-    
-///    The following are under conditional blocks because if not, they'll spam everything lol
-///    PVP
-    @e[type=armor_stand,FlooStand,SPpvp=0] J> NoPVP @a[team=!NoPVP,SPdim=6]
-    
-///    Saturation
-    @e[type=armor_stand,FlooStand,SPsat=1] effect @a[SPdim=6] 23 2 0 true
-    
-///    Weather
-    @e[type=armor_stand,FlooStand,SPwea=0] weather clear 1000000
-    @e[type=armor_stand,FlooStand,SPwea=1] weather rain 1000000
-    @e[type=armor_stand,FlooStand,SPwea=2] weather thunder 1000000
-    
-///    Regular gamemode
-    @e[type=armor_stand,FlooStand,SPgmd=1] gamemode 2 @a[m=0,SPdim=6]
-    
-///    Affected players gamemode
-    @a MCTeams + 0
-    @a[MCTeams=0] MCTeams = 1
-    
-//=
-SPaff
-    OT        1
-    APPS    2
-    AT        4
-    EC        8
-    LE        16
-    APWBS    32
-    
-    Normal settings: 1 + 2 + 4 = 7
+# used on players to calculate their dimension score
+!mfunc calc_dimension
+    @s SPdim = 0
+    @s SPdim = 1 {$(dimension_id)}
 
-SPst    Specialty teams        Players
-    OT = 1
-    APPS = 2
-    AT = 4
-    EC = 8 
-    LE = 16
-    APWBS = 32
-=//
 
-///    Calculating exceptions
-    ScOP @e[type=armor_stand,FlooStand,SPaff>=1] FLrac = @e[type=armor_stand,FlooStand,SPaff>=1] SPaff
-///    @e[type=armor_stand,FlooStand,FLrac>=64] @a[MCTeams=64,SPdim=6] FLrac = 1
-///    @e[type=armor_stand,FlooStand,FLrac>=64] FLrac - 64
-    @e[type=armor_stand,FlooStand,FLrac>=32] @a[MCTeams=32,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=32] FLrac - 32
-    @e[type=armor_stand,FlooStand,FLrac>=16] @a[MCTeams=16,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=16] FLrac - 16
-    @e[type=armor_stand,FlooStand,FLrac>=8] @a[MCTeams=8,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=8] FLrac - 8
-    @e[type=armor_stand,FlooStand,FLrac>=4] @a[MCTeams=4,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=4] FLrac - 4
-    @e[type=armor_stand,FlooStand,FLrac>=2] @a[MCTeams=2,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=2] FLrac - 2
-    @e[type=armor_stand,FlooStand,FLrac>=1] @a[MCTeams=1,SPdim=6] FLrac = 1
-    @e[type=armor_stand,FlooStand,FLrac>=1] FLrac = 0
+# used on the FlooStand to use the given floo network options specified per event
+# These include pvp true/false, saturation true/false,
+# weather clear/rain/thunder and gamemode adventure/survival
+!mfunc use_options
+    # pvp
+    @s[SPpvp=0] join NoPVP @a[team=!NoPVP,FLdim=1]
     
-///    Gamemode
-    gamemode 2 @a[m=1,FLrac=1,SPdim=6]
-    gamemode 2 @a[m=0,FLrac=1,SPdim=6]
+    # saturation
+    @s[SPsat=1] effect @a[FLdim=1] 23 2 0 true
     
-///    Leave Game Teleport
-    ScOP @a[FLrac=1,SPlg>=1,SPdim=6] SPtp = spawn SPna
+    # weather
+    @s[SPwea=0] weather clear 1000000
+    @s[SPwea=1] weather rain 1000000
+    @s[SPwea=2] weather thunder 1000000
     
-///    Clear is under SPaff because anytime you respawn from death, your inventory will be cleared for some reason because of this
-///    This is even if the spawnpoint is somewhere else
-    clear @a[$SPTree$,m=2,FLrac=1,SPdim=6]
+    # gamemode
+    @s[SPgmd=1] gamemode 2 @a[m=0,FLdim=1]
+
+
+# used on the FlooStand to calculate whether players' ranking affects their
+# ability to change gamemodes or not
+!mfunc calc_rank
+    @s FLrac = 1
     
-///    For voting
-    * enable SPvot
-    /*
-    tellraw @a[SPvot>=1] $TextStart$
+    ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
+    $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
+    @s[FLrac=$(score)..] @a[MCTeams=$(score),FLdim=1] FLrac = 0
+    @s[FLrac=$(score)..] FLrac - $(score)
+    $endfor
+
+# used on players with FLrac=1
+# If their rank doesn't give special permissions, they will
+# always be turned to gamemode 2 from survival or creative
+# and they will teleport to spawn upon logging in the event server
+!mfunc use_rank
+    # sets gamemode to 2
+    gamemode 2 @s[m=1,FLdim=1]
+    gamemode 2 @s[m=0,FLdim=1]
+    
+    # teleports them to spawn if they are re-entering the game
+    ScOP @s[FLlg=1..,FLdim=1] FLtp = spawn SPna
+
+    # resets scores
+    @s FLrac = 0
+    @s[FLlg=1..] FLlg = 0
+
+    
+# used on players who wanted to vote (with a score of FLvot of not 0)
+# to display a tellraw message of voting links
+!mfunc vote
+    tellraw @s $(FLOO_NETWORK.begin())
     {"text":"Vote here: ","color":"gray"},
     {"text":"Link 1","color":"green","bold":"true","underlined":"true",
         "clickEvent":{"action":"open_url","value":"`http://minecraft-server-list.com/server/200887/vote/`"},
@@ -389,70 +355,21 @@ SPst    Specialty teams        Players
         "clickEvent":{"action":"open_url","value":"`http://www.planetminecraft.com/server/edge-gamerscom/vote/`"},
         "hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}
     }]}
-    */
-    @a[SPvot>=1] playsound Snd_XP voice @a[c=1]
-    @a[SPvot>=1] SPvot = 0
-    
-    @a[FLrac=1] FLrac = 0
-    @a[SPlg>=1] SPlg = 0
+    playsound $(Sounds.xp) voice @s
+    @s SPvot = 0
 
-//>
-
-//<Main End
-FUNC {Func_MainEnd}:
-    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
-    
-    tellraw @a $TextStart${"text":"Spawnpoint System","color":"yellow"},{"text":" has been uninstalled!","color":"gray"}]}
-    kill @e[type=armor_stand,FlooStand]
-//>
-
-
-//<Minecraft Functions
-MFUNC {init MFunc_MainStart}:
-    Func_AddingScoreboards()
-    Func_MainStart()
-    gamerule gameLoopFunction MFunc_MainClock
-    
-MFUNC {spawnpoint MFunc_Spawnpoint}:
-    Func_Spawnpoint()
-
-MFUNC {teleport MFunc_Teleport}:
-    Func_Teleport()
-
-MFUNC {game_start_tellraw MFunc_GameStartTellraw}:
-    Func_GameStartTellraw()
-
-MFUNC {spawn_tree MFunc_SpawnTree}:
-    Func_SpawnTree()
-
-MFUNC {spawn_portal MFunc_SpawnPortal}:
-    Func_SpawnPortal()
-
-MFUNC {timer MFunc_Timer}:
-    Func_Timer()
-
-MFUNC {reset_timer MFunc_ResetTimer}:
-    Func_ResetTimer()
-
-MFUNC {ts_token_passcode MFunc_TSTokenPasscode}:
-    Func_TSTokenPasscode()
-
-MFUNC {ts_token_options MFunc_TSTokenOptions}:
-    Func_TSTokenOptions()
-
-MFUNC {uninstall MFunc_MainEnd}:
-    Func_MainEnd()
-    gamerule gameLoopFunction -
-    
-MFUNC {main MFunc_MainClock}:
-    LOOP {Arr_ActivateMain[S]}:
-        |0|
-    Func_MainClock()
-//>
+$py(r"""
+    @a[$MM$,SPdim=1] SPmm = 1
+    @a[$NotMM$,SPmm=1] SPmm = 2
+    ScOP @e[type=armor_stand,FlooStand] SPmm = Mastermind SPmm
+    @e[type=armor_stand,FlooStand,SPmm=0] @a[SPmm=1] SPmm = 2
+    @a[SPmm=2,EC=0] SPmm = 0
+    clear @a[SPmm=2] wool -1 -1 {display:{Lore:["Placable Block"]}}
+    clear @a[SPmm=2] shears -1 -1 {display:{Lore:["Remove Block Tool"]}}
+    @a[SPmm=2] SPmm = 0
 """)
 
-
-
+    
 
 
 
