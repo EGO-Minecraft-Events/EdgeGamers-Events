@@ -1,12 +1,179 @@
-from lib.coord import Coord
 from math import sqrt
 from numbers import Real
-class Vector3:
- def __init__(self,x=0,y=None,z=None):
-  if y is not None and z is None:
-   raise TypeError("Invalid usage. Valid uses: Vector3(), Vector3(x), Vector3(x, y, z). More details in docstring.")
-  if y is None and z is not None:
-   raise TypeError("Invalid usage. Valid uses: Vector3(), Vector3(x), Vector3(x, y, z). More details in docstring.")
+from abc import ABC,abstractmethod
+from coord import Coord
+class Vector(ABC):
+ @abstractmethod
+ def copy(self):
+  pass
+ @abstractmethod
+ def dot(self,vec):
+  pass
+ def norm(self):
+  return sqrt(self.dot(self))
+ def normalized(self):
+  return self/self.norm()
+ @abstractmethod
+ def __len__(self):
+  pass
+ @abstractmethod
+ def __iter__(self):
+  pass
+ @abstractmethod
+ def __getitem__(self,key):
+  pass
+ @abstractmethod
+ def __setitem__(self,key,value):
+  pass
+ @abstractmethod
+ def __repr__(self):
+  pass
+ @abstractmethod
+ def __str__(self):
+  pass
+ @abstractmethod
+ def simple_str(self):
+  pass
+ """Arthimetic comparisons
+    """ 
+ @abstractmethod
+ def __eq__(self,other):
+  pass
+ @abstractmethod
+ def __ne__(self,other):
+  pass
+ """Matrix multiplication
+    """ 
+ @abstractmethod
+ def __matmul__(self,other):
+  pass
+ """Arithmetic operations are performed component-wise
+    """ 
+ @abstractmethod
+ def __lshift__(self,other):
+  pass
+ def __rlshift__(self,other):
+  pass
+ def __ilshift__(self,other):
+  pass
+ @abstractmethod
+ def __pow__(self,other):
+  pass
+ def __rpow__(self,other):
+  pass
+ def __ipow__(self,other):
+  pass
+ @abstractmethod
+ def __sub__(self,other):
+  pass
+ def __rsub__(self,other):
+  pass
+ def __isub__(self,other):
+  pass
+ @abstractmethod
+ def __or__(self,other):
+  pass
+ def __ror__(self,other):
+  pass
+ def __ior__(self,other):
+  pass
+ @abstractmethod
+ def __floordiv__(self,other):
+  pass
+ def __rfloordiv__(self,other):
+  pass
+ def __ifloordiv__(self,other):
+  pass
+ @abstractmethod
+ def __rshift__(self,other):
+  pass
+ def __rrshift__(self,other):
+  pass
+ def __irshift__(self,other):
+  pass
+ @abstractmethod
+ def __add__(self,other):
+  pass
+ def __radd__(self,other):
+  pass
+ def __iadd__(self,other):
+  pass
+ @abstractmethod
+ def __mod__(self,other):
+  pass
+ def __rmod__(self,other):
+  pass
+ def __imod__(self,other):
+  pass
+ @abstractmethod
+ def __truediv__(self,other):
+  pass
+ def __rtruediv__(self,other):
+  pass
+ def __itruediv__(self,other):
+  pass
+ @abstractmethod
+ def __and__(self,other):
+  pass
+ def __rand__(self,other):
+  pass
+ def __iand__(self,other):
+  pass
+ @abstractmethod
+ def __xor__(self,other):
+  pass
+ def __rxor__(self,other):
+  pass
+ def __ixor__(self,other):
+  pass
+ @abstractmethod
+ def __mul__(self,other):
+  pass
+ def __rmul__(self,other):
+  pass
+ def __imul__(self,other):
+  pass
+ @abstractmethod
+ def __divmod__(self,other):
+  return
+ @abstractmethod
+ def __rdivmod__(self,other):
+  return
+ @abstractmethod
+ def __invert__(self):
+  pass
+ @abstractmethod
+ def __neg__(self):
+  pass
+ @abstractmethod
+ def __pos__(self):
+  pass
+ @abstractmethod
+ def __abs__(self):
+  pass
+ @abstractmethod
+ def __round__(self,n=0):
+  pass
+class Vector3(Vector):
+ @property
+ def x(self):
+  return self._x
+ @x.setter
+ def x(self,value):
+  self._x=Coord(value)
+ @property
+ def y(self):
+  return self._y
+ @y.setter
+ def y(self,value):
+  self._y=Coord(value)
+ @property
+ def z(self):
+  return self._z
+ @z.setter
+ def z(self,value):
+  self._z=Coord(value)
+ def __init__(self,x=0,y=None,z=None,by_ref=False):
   if y is None and z is None:
    if isinstance(x,Coord):
     self.x=x.copy()
@@ -17,72 +184,46 @@ class Vector3:
     self.y=Coord(x)
     self.z=Coord(x)
    return
-  if isinstance(x,Coord):
+  if y is None:
+   y=0
+  if z is None:
+   z=0
+  if not by_ref:
    self.x=x
+   self.y=y
+   self.z=z
+   return
+  if isinstance(x,Coord):
+   self._x=x
   else:
-   self.x=Coord(x)
-  if y is not None:
-   if isinstance(y,Coord):
-    self.y=y
-   else:
-    self.y=Coord(y)
-  if z is not None:
-   if isinstance(z,Coord):
-    self.z=z
-   else:
-    self.z=Coord(z)
- @property
- def x(self):
-  return self._x
- @x.setter
- def x(self,value):
-  if isinstance(value,Coord):
-   self._x=value.copy()
-  elif isinstance(value,(str,Real)):
-   self._x=Coord(value)
+   self.x=x
+  if isinstance(y,Coord):
+   self._y=y
   else:
-   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
- @property
- def y(self):
-  return self._y
- @y.setter
- def y(self,value):
-  if isinstance(value,Coord):
-   self._y=value.copy()
-  elif isinstance(value,(str,Real)):
-   self._y=Coord(value)
+   self.y=y
+  if isinstance(z,Coord):
+   self._z=z
   else:
-   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
- @property
- def z(self):
-  return self._z
- @z.setter
- def z(self,value):
-  if isinstance(value,Coord):
-   self._z=value.copy()
-  elif isinstance(value,(str,Real)):
-   self._z=Coord(value)
-  else:
-   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
- def copy(self):
-  return Vector3(self.x,self.y,self.z)
- def norm(self):
-  return sqrt(self@self)
- def cross(self,vector3):
+   self.z=z
+ def cross(self,vec3):
   if not isinstance(vector3,Vector3):
-   raise TypeError("A cross product is only applicable to Vector3's")
+   raise TypeError("A cross product is only applicable to a Vector3")
   x=self.y*vector3.z-self.z*vector3.y
   y=self.z*vector3.x-self.x*vector3.z
   z=self.x*vector3.y-self.y*vector3.x
   return Vector3(x,y,z)
+ def dot(self,vec):
+  if not isinstance(vec,Vector3):
+   raise TypeError("Vector sizes must match")
+  return self.x*vec.x+self.y*vec.y+self.z*vec.z
+ def copy(self):
+  return Vector3(self.x.copy(),self.y.copy(),self.z.copy())
  def __len__(self):
   return 3
  def __iter__(self):
   yield self.x
   yield self.y
   yield self.z
- def normalized(self):
-  return self/self.norm()
  def __getitem__(self,key):
   keys="xyz"
   if isinstance(key,int):
@@ -436,39 +577,36 @@ class Vector3:
   else:
    return NotImplemented
  def __matmul__(self,other):
-  if isinstance(other,Vector3):
-   return(self.x*other.x+self.y*other.y+self.z*other.z).value
-  else:
-   return NotImplemented
+  return NotImplemented
  """Arithmetic operations are performed component-wise
     """ 
- def __or__(self,other):
+ def __lshift__(self,other):
   if isinstance(other,Vector3):
-   x=self.x|other.x
-   y=self.y|other.y
-   z=self.z|other.z
+   x=self.x<<other.x
+   y=self.y<<other.y
+   z=self.z<<other.z
   else:
-   x=self.x|other
-   y=self.y|other
-   z=self.z|other
+   x=self.x<<other
+   y=self.y<<other
+   z=self.z<<other
   return Vector3(x,y,z)
- def __ror__(self,other):
-  x=other|self.x
-  y=other|self.y
-  z=other|self.z
+ def __rlshift__(self,other):
+  x=other<<self.x
+  y=other<<self.y
+  z=other<<self.z
   return Vector3(x,y,z)
- def __ior__(self,other):
+ def __ilshift__(self,other):
   if self.x is self.y or self.x is self.z or self.y is self.z:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector3):
-   self.x|=other.x
-   self.y|=other.y
-   self.z|=other.z
+   self.x<<=other.x
+   self.y<<=other.y
+   self.z<<=other.z
   else:
-   self.x|=other
-   self.y|=other
-   self.z|=other
+   self.x<<=other
+   self.y<<=other
+   self.z<<=other
   return self
  def __pow__(self,other):
   if isinstance(other,Vector3):
@@ -498,61 +636,61 @@ class Vector3:
    self.y**=other
    self.z**=other
   return self
- def __add__(self,other):
+ def __sub__(self,other):
   if isinstance(other,Vector3):
-   x=self.x+other.x
-   y=self.y+other.y
-   z=self.z+other.z
+   x=self.x-other.x
+   y=self.y-other.y
+   z=self.z-other.z
   else:
-   x=self.x+other
-   y=self.y+other
-   z=self.z+other
+   x=self.x-other
+   y=self.y-other
+   z=self.z-other
   return Vector3(x,y,z)
- def __radd__(self,other):
-  x=other+self.x
-  y=other+self.y
-  z=other+self.z
+ def __rsub__(self,other):
+  x=other-self.x
+  y=other-self.y
+  z=other-self.z
   return Vector3(x,y,z)
- def __iadd__(self,other):
+ def __isub__(self,other):
   if self.x is self.y or self.x is self.z or self.y is self.z:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector3):
-   self.x+=other.x
-   self.y+=other.y
-   self.z+=other.z
+   self.x-=other.x
+   self.y-=other.y
+   self.z-=other.z
   else:
-   self.x+=other
-   self.y+=other
-   self.z+=other
+   self.x-=other
+   self.y-=other
+   self.z-=other
   return self
- def __rshift__(self,other):
+ def __or__(self,other):
   if isinstance(other,Vector3):
-   x=self.x>>other.x
-   y=self.y>>other.y
-   z=self.z>>other.z
+   x=self.x|other.x
+   y=self.y|other.y
+   z=self.z|other.z
   else:
-   x=self.x>>other
-   y=self.y>>other
-   z=self.z>>other
+   x=self.x|other
+   y=self.y|other
+   z=self.z|other
   return Vector3(x,y,z)
- def __rrshift__(self,other):
-  x=other>>self.x
-  y=other>>self.y
-  z=other>>self.z
+ def __ror__(self,other):
+  x=other|self.x
+  y=other|self.y
+  z=other|self.z
   return Vector3(x,y,z)
- def __irshift__(self,other):
+ def __ior__(self,other):
   if self.x is self.y or self.x is self.z or self.y is self.z:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector3):
-   self.x>>=other.x
-   self.y>>=other.y
-   self.z>>=other.z
+   self.x|=other.x
+   self.y|=other.y
+   self.z|=other.z
   else:
-   self.x>>=other
-   self.y>>=other
-   self.z>>=other
+   self.x|=other
+   self.y|=other
+   self.z|=other
   return self
  def __floordiv__(self,other):
   if isinstance(other,Vector3):
@@ -582,6 +720,62 @@ class Vector3:
    self.y//=other
    self.z//=other
   return self
+ def __rshift__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x>>other.x
+   y=self.y>>other.y
+   z=self.z>>other.z
+  else:
+   x=self.x>>other
+   y=self.y>>other
+   z=self.z>>other
+  return Vector3(x,y,z)
+ def __rrshift__(self,other):
+  x=other>>self.x
+  y=other>>self.y
+  z=other>>self.z
+  return Vector3(x,y,z)
+ def __irshift__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x>>=other.x
+   self.y>>=other.y
+   self.z>>=other.z
+  else:
+   self.x>>=other
+   self.y>>=other
+   self.z>>=other
+  return self
+ def __add__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x+other.x
+   y=self.y+other.y
+   z=self.z+other.z
+  else:
+   x=self.x+other
+   y=self.y+other
+   z=self.z+other
+  return Vector3(x,y,z)
+ def __radd__(self,other):
+  x=other+self.x
+  y=other+self.y
+  z=other+self.z
+  return Vector3(x,y,z)
+ def __iadd__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x+=other.x
+   self.y+=other.y
+   self.z+=other.z
+  else:
+   self.x+=other
+   self.y+=other
+   self.z+=other
+  return self
  def __mod__(self,other):
   if isinstance(other,Vector3):
    x=self.x%other.x
@@ -609,90 +803,6 @@ class Vector3:
    self.x%=other
    self.y%=other
    self.z%=other
-  return self
- def __lshift__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x<<other.x
-   y=self.y<<other.y
-   z=self.z<<other.z
-  else:
-   x=self.x<<other
-   y=self.y<<other
-   z=self.z<<other
-  return Vector3(x,y,z)
- def __rlshift__(self,other):
-  x=other<<self.x
-  y=other<<self.y
-  z=other<<self.z
-  return Vector3(x,y,z)
- def __ilshift__(self,other):
-  if self.x is self.y or self.x is self.z or self.y is self.z:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector3):
-   self.x<<=other.x
-   self.y<<=other.y
-   self.z<<=other.z
-  else:
-   self.x<<=other
-   self.y<<=other
-   self.z<<=other
-  return self
- def __mul__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x*other.x
-   y=self.y*other.y
-   z=self.z*other.z
-  else:
-   x=self.x*other
-   y=self.y*other
-   z=self.z*other
-  return Vector3(x,y,z)
- def __rmul__(self,other):
-  x=other*self.x
-  y=other*self.y
-  z=other*self.z
-  return Vector3(x,y,z)
- def __imul__(self,other):
-  if self.x is self.y or self.x is self.z or self.y is self.z:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector3):
-   self.x*=other.x
-   self.y*=other.y
-   self.z*=other.z
-  else:
-   self.x*=other
-   self.y*=other
-   self.z*=other
-  return self
- def __xor__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x^other.x
-   y=self.y^other.y
-   z=self.z^other.z
-  else:
-   x=self.x^other
-   y=self.y^other
-   z=self.z^other
-  return Vector3(x,y,z)
- def __rxor__(self,other):
-  x=other^self.x
-  y=other^self.y
-  z=other^self.z
-  return Vector3(x,y,z)
- def __ixor__(self,other):
-  if self.x is self.y or self.x is self.z or self.y is self.z:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector3):
-   self.x^=other.x
-   self.y^=other.y
-   self.z^=other.z
-  else:
-   self.x^=other
-   self.y^=other
-   self.z^=other
   return self
  def __truediv__(self,other):
   if isinstance(other,Vector3):
@@ -722,34 +832,6 @@ class Vector3:
    self.y/=other
    self.z/=other
   return self
- def __sub__(self,other):
-  if isinstance(other,Vector3):
-   x=self.x-other.x
-   y=self.y-other.y
-   z=self.z-other.z
-  else:
-   x=self.x-other
-   y=self.y-other
-   z=self.z-other
-  return Vector3(x,y,z)
- def __rsub__(self,other):
-  x=other-self.x
-  y=other-self.y
-  z=other-self.z
-  return Vector3(x,y,z)
- def __isub__(self,other):
-  if self.x is self.y or self.x is self.z or self.y is self.z:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector3):
-   self.x-=other.x
-   self.y-=other.y
-   self.z-=other.z
-  else:
-   self.x-=other
-   self.y-=other
-   self.z-=other
-  return self
  def __and__(self,other):
   if isinstance(other,Vector3):
    x=self.x&other.x
@@ -778,6 +860,62 @@ class Vector3:
    self.y&=other
    self.z&=other
   return self
+ def __xor__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x^other.x
+   y=self.y^other.y
+   z=self.z^other.z
+  else:
+   x=self.x^other
+   y=self.y^other
+   z=self.z^other
+  return Vector3(x,y,z)
+ def __rxor__(self,other):
+  x=other^self.x
+  y=other^self.y
+  z=other^self.z
+  return Vector3(x,y,z)
+ def __ixor__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x^=other.x
+   self.y^=other.y
+   self.z^=other.z
+  else:
+   self.x^=other
+   self.y^=other
+   self.z^=other
+  return self
+ def __mul__(self,other):
+  if isinstance(other,Vector3):
+   x=self.x*other.x
+   y=self.y*other.y
+   z=self.z*other.z
+  else:
+   x=self.x*other
+   y=self.y*other
+   z=self.z*other
+  return Vector3(x,y,z)
+ def __rmul__(self,other):
+  x=other*self.x
+  y=other*self.y
+  z=other*self.z
+  return Vector3(x,y,z)
+ def __imul__(self,other):
+  if self.x is self.y or self.x is self.z or self.y is self.z:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector3):
+   self.x*=other.x
+   self.y*=other.y
+   self.z*=other.z
+  else:
+   self.x*=other
+   self.y*=other
+   self.z*=other
+  return self
  def __divmod__(self,other):
   if isinstance(other,Vector3):
    x=divmod(self.x,other.x)
@@ -795,16 +933,28 @@ class Vector3:
   return Vector3(x,y,z)
  def __invert__(self):
   return Vector3(~self.x,~self.y,~self.z)
- def __pos__(self):
-  return Vector3(+self.x,+self.y,+self.z)
  def __neg__(self):
   return Vector3(-self.x,-self.y,-self.z)
+ def __pos__(self):
+  return Vector3(+self.x,+self.y,+self.z)
  def __abs__(self):
   return Vector3(abs(self.x),abs(self.y),abs(self.z))
  def __round__(self,n=0):
   return Vector3(round(self.x,n),round(self.y,n),round(self.z,n))
 class Vector2:
- def __init__(self,x=0,y=None):
+ @property
+ def x(self):
+  return self._x
+ @x.setter
+ def x(self,value):
+  self._x=Coord(value)
+ @property
+ def y(self):
+  return self._y
+ @y.setter
+ def y(self,value):
+  self._y=Coord(value)
+ def __init__(self,x=0,y=None,by_ref=False):
   if y is None:
    if isinstance(x,Coord):
     self.x=x.copy()
@@ -813,48 +963,28 @@ class Vector2:
     self.x=Coord(x)
     self.y=Coord(x)
    return
-  if isinstance(x,Coord):
+  if not by_ref:
    self.x=x
+   self.y=y
+  if isinstance(x,Coord):
+   self._x=x
   else:
-   self.x=Coord(x)
-  if y is not None:
-   if isinstance(y,Coord):
-    self.y=y
-   else:
-    self.y=Coord(y)
- @property
- def x(self):
-  return self._x
- @x.setter
- def x(self,value):
-  if isinstance(value,Coord):
-   self._x=value.copy()
-  elif isinstance(value,(str,Real)):
-   self._x=Coord(value)
+   self.x=x
+  if isinstance(y,Coord):
+   self._y=y
   else:
-   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
- @property
- def y(self):
-  return self._y
- @y.setter
- def y(self,value):
-  if isinstance(value,Coord):
-   self._y=value.copy()
-  elif isinstance(value,(str,Real)):
-   self._y=Coord(value)
-  else:
-   raise TypeError("Type 'Coord' can only be assigned to 'int', 'float', 'long', any subclass of numbers.Real, 'str', or 'Coord'")
+   self.y=y
+ def dot(self,vec):
+  if not isinstance(vec,Vector2):
+   raise TypeError("Vector sizes must match")
+  return self.x*vec.x+self.y*vec.y
  def copy(self):
-  return Vector2(self.x,self.y)
- def norm(self):
-  return sqrt(self@self)
+  return Vector2(self.x.copy(),self.y.copy())
  def __len__(self):
   return 2
  def __iter__(self):
   yield self.x
   yield self.y
- def normalized(self):
-  return self/self.norm()
  def __getitem__(self,key):
   keys="xy"
   if isinstance(key,int):
@@ -952,34 +1082,31 @@ class Vector2:
   else:
    return NotImplemented
  def __matmul__(self,other):
-  if isinstance(other,Vector2):
-   return(self.x*other.x+self.y*other.y).value
-  else:
-   return NotImplemented
+  return NotImplemented
  """Arithmetic operations are performed component-wise
     """ 
- def __or__(self,other):
+ def __lshift__(self,other):
   if isinstance(other,Vector2):
-   x=self.x|other.x
-   y=self.y|other.y
+   x=self.x<<other.x
+   y=self.y<<other.y
   else:
-   x=self.x|other
-   y=self.y|other
+   x=self.x<<other
+   y=self.y<<other
   return Vector2(x,y)
- def __ror__(self,other):
-  x=other|self.x
-  y=other|self.y
+ def __rlshift__(self,other):
+  x=other<<self.x
+  y=other<<self.y
   return Vector2(x,y)
- def __ior__(self,other):
+ def __ilshift__(self,other):
   if self.x is self.y:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector2):
-   self.x|=other.x
-   self.y|=other.y
+   self.x<<=other.x
+   self.y<<=other.y
   else:
-   self.x|=other
-   self.y|=other
+   self.x<<=other
+   self.y<<=other
   return self
  def __pow__(self,other):
   if isinstance(other,Vector2):
@@ -1004,51 +1131,51 @@ class Vector2:
    self.x**=other
    self.y**=other
   return self
- def __add__(self,other):
+ def __sub__(self,other):
   if isinstance(other,Vector2):
-   x=self.x+other.x
-   y=self.y+other.y
+   x=self.x-other.x
+   y=self.y-other.y
   else:
-   x=self.x+other
-   y=self.y+other
+   x=self.x-other
+   y=self.y-other
   return Vector2(x,y)
- def __radd__(self,other):
-  x=other+self.x
-  y=other+self.y
+ def __rsub__(self,other):
+  x=other-self.x
+  y=other-self.y
   return Vector2(x,y)
- def __iadd__(self,other):
+ def __isub__(self,other):
   if self.x is self.y:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector2):
-   self.x+=other.x
-   self.y+=other.y
+   self.x-=other.x
+   self.y-=other.y
   else:
-   self.x+=other
-   self.y+=other
+   self.x-=other
+   self.y-=other
   return self
- def __rshift__(self,other):
+ def __or__(self,other):
   if isinstance(other,Vector2):
-   x=self.x>>other.x
-   y=self.y>>other.y
+   x=self.x|other.x
+   y=self.y|other.y
   else:
-   x=self.x>>other
-   y=self.y>>other
+   x=self.x|other
+   y=self.y|other
   return Vector2(x,y)
- def __rrshift__(self,other):
-  x=other>>self.x
-  y=other>>self.y
+ def __ror__(self,other):
+  x=other|self.x
+  y=other|self.y
   return Vector2(x,y)
- def __irshift__(self,other):
+ def __ior__(self,other):
   if self.x is self.y:
    raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
    return NotImplemented
   if isinstance(other,Vector2):
-   self.x>>=other.x
-   self.y>>=other.y
+   self.x|=other.x
+   self.y|=other.y
   else:
-   self.x>>=other
-   self.y>>=other
+   self.x|=other
+   self.y|=other
   return self
  def __floordiv__(self,other):
   if isinstance(other,Vector2):
@@ -1073,6 +1200,52 @@ class Vector2:
    self.x//=other
    self.y//=other
   return self
+ def __rshift__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x>>other.x
+   y=self.y>>other.y
+  else:
+   x=self.x>>other
+   y=self.y>>other
+  return Vector2(x,y)
+ def __rrshift__(self,other):
+  x=other>>self.x
+  y=other>>self.y
+  return Vector2(x,y)
+ def __irshift__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x>>=other.x
+   self.y>>=other.y
+  else:
+   self.x>>=other
+   self.y>>=other
+  return self
+ def __add__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x+other.x
+   y=self.y+other.y
+  else:
+   x=self.x+other
+   y=self.y+other
+  return Vector2(x,y)
+ def __radd__(self,other):
+  x=other+self.x
+  y=other+self.y
+  return Vector2(x,y)
+ def __iadd__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x+=other.x
+   self.y+=other.y
+  else:
+   self.x+=other
+   self.y+=other
+  return self
  def __mod__(self,other):
   if isinstance(other,Vector2):
    x=self.x%other.x
@@ -1095,75 +1268,6 @@ class Vector2:
   else:
    self.x%=other
    self.y%=other
-  return self
- def __lshift__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x<<other.x
-   y=self.y<<other.y
-  else:
-   x=self.x<<other
-   y=self.y<<other
-  return Vector2(x,y)
- def __rlshift__(self,other):
-  x=other<<self.x
-  y=other<<self.y
-  return Vector2(x,y)
- def __ilshift__(self,other):
-  if self.x is self.y:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector2):
-   self.x<<=other.x
-   self.y<<=other.y
-  else:
-   self.x<<=other
-   self.y<<=other
-  return self
- def __mul__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x*other.x
-   y=self.y*other.y
-  else:
-   x=self.x*other
-   y=self.y*other
-  return Vector2(x,y)
- def __rmul__(self,other):
-  x=other*self.x
-  y=other*self.y
-  return Vector2(x,y)
- def __imul__(self,other):
-  if self.x is self.y:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector2):
-   self.x*=other.x
-   self.y*=other.y
-  else:
-   self.x*=other
-   self.y*=other
-  return self
- def __xor__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x^other.x
-   y=self.y^other.y
-  else:
-   x=self.x^other
-   y=self.y^other
-  return Vector2(x,y)
- def __rxor__(self,other):
-  x=other^self.x
-  y=other^self.y
-  return Vector2(x,y)
- def __ixor__(self,other):
-  if self.x is self.y:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector2):
-   self.x^=other.x
-   self.y^=other.y
-  else:
-   self.x^=other
-   self.y^=other
   return self
  def __truediv__(self,other):
   if isinstance(other,Vector2):
@@ -1188,29 +1292,6 @@ class Vector2:
    self.x/=other
    self.y/=other
   return self
- def __sub__(self,other):
-  if isinstance(other,Vector2):
-   x=self.x-other.x
-   y=self.y-other.y
-  else:
-   x=self.x-other
-   y=self.y-other
-  return Vector2(x,y)
- def __rsub__(self,other):
-  x=other-self.x
-  y=other-self.y
-  return Vector2(x,y)
- def __isub__(self,other):
-  if self.x is self.y:
-   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
-   return NotImplemented
-  if isinstance(other,Vector2):
-   self.x-=other.x
-   self.y-=other.y
-  else:
-   self.x-=other
-   self.y-=other
-  return self
  def __and__(self,other):
   if isinstance(other,Vector2):
    x=self.x&other.x
@@ -1234,6 +1315,52 @@ class Vector2:
    self.x&=other
    self.y&=other
   return self
+ def __xor__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x^other.x
+   y=self.y^other.y
+  else:
+   x=self.x^other
+   y=self.y^other
+  return Vector2(x,y)
+ def __rxor__(self,other):
+  x=other^self.x
+  y=other^self.y
+  return Vector2(x,y)
+ def __ixor__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x^=other.x
+   self.y^=other.y
+  else:
+   self.x^=other
+   self.y^=other
+  return self
+ def __mul__(self,other):
+  if isinstance(other,Vector2):
+   x=self.x*other.x
+   y=self.y*other.y
+  else:
+   x=self.x*other
+   y=self.y*other
+  return Vector2(x,y)
+ def __rmul__(self,other):
+  x=other*self.x
+  y=other*self.y
+  return Vector2(x,y)
+ def __imul__(self,other):
+  if self.x is self.y:
+   raise RuntimeError("Elements in this vector refer to the same object, which makes assignment undefined")
+   return NotImplemented
+  if isinstance(other,Vector2):
+   self.x*=other.x
+   self.y*=other.y
+  else:
+   self.x*=other
+   self.y*=other
+  return self
  def __divmod__(self,other):
   if isinstance(other,Vector2):
    x=divmod(self.x,other.x)
@@ -1248,10 +1375,10 @@ class Vector2:
   return Vector2(x,y)
  def __invert__(self):
   return Vector2(~self.x,~self.y)
- def __pos__(self):
-  return Vector2(+self.x,+self.y)
  def __neg__(self):
   return Vector2(-self.x,-self.y)
+ def __pos__(self):
+  return Vector2(+self.x,+self.y)
  def __abs__(self):
   return Vector2(abs(self.x),abs(self.y))
  def __round__(self,n=0):
