@@ -9,6 +9,14 @@ def _isint(x):
     Returns:
         True if x is an integer
         False if x is not an integer
+    
+    Examples:
+        >>> _isint('5')
+        True
+        >>> _isint('7.1')
+        False
+        >>> _isint('3.0')
+        False
     """
     try:
         a, b = float(x), int(x)
@@ -27,8 +35,15 @@ def _tonum(x):
         int(x) if x is an integer
         float(x) if x is a floating point number
 
-    Raises:
-        ValueError if x is neither an integer or floating point number
+    Examples:
+        >>> _tonum('5')
+        5
+        >>> _tonum('3.14')
+        3.14
+        >>> _tonum('-5')
+        -5
+        >>> _tonum('-3.14')
+        -3.14
     """
     if _isint(x):
         return int(x)
@@ -36,6 +51,26 @@ def _tonum(x):
         return float(x)
 
 def _tonum_strip_prefix(x):
+    """Turn x into an int or float depending on its representation.
+    Ignores prefixes
+
+    Args:
+        x (str): A numeric representation of a number
+
+    Returns:
+        int(x) if x is an integer
+        float(x) if x is a floating point number
+
+    Examples:
+        >>> _tonum_strip_prefix('5')
+        5
+        >>> _tonum_strip_prefix('3.14')
+        3.14
+        >>> _tonum_strip_prefix('^5')
+        5
+        >>> _tonum_strip_prefix('~-3.14')
+        -3.14
+    """
     if x[0].isdigit():
         return _tonum(x)
     else:
@@ -45,11 +80,16 @@ class Coord:
     """A value container for Minecraft coordinates
 
     Attributes:
-        value (numbers.Real): The value of this coordinate
+        val (numbers.Real): The value of this coordinate
         prefix (str): The prefix of this coordinate. Can be either "", "~", or "^"
     """
 
-    def _set_value(self, val):
+    def _set_value(self, val=0):
+        if isinstance(val, Coord):
+            self._value = val.value
+            self._prefix = val._prefix
+            return
+
         if isinstance(val, str):
             if val[0] in "~^":
                 if len(val) == 1:
@@ -75,6 +115,14 @@ class Coord:
         Args:
             value (optional): Value of this coordinate. If a float or int, this coordinate will be global.
                 If a str, value should be a number, optionally prefixed by one of ~ (relative) or ^ (local).
+        
+        Examples:
+            >>> c = Coord('~-5')
+            ...
+            >>> c.value
+            -5
+            >>> c._prefix
+            '~'
         """
         self._set_value(value)
 
@@ -91,18 +139,49 @@ class Coord:
 
         Returns:
             A Coord object containing the same value and _prefix as self
+        
+        Examples:
+            >>> c = Coord('^3')
+            ...
+            >>> c_c = c.copy()
+            ...
+            >>> c.value == c_c.value and c._prefix == c_c._prefix
+            True
+            >>> c_c is c
+            False
         """
         copy_coord = Coord(self.value)
         copy_coord._prefix = self._prefix
         return copy_coord
 
     def __str__(self):
+        """
+        Examples:
+            >>> str(Coord('^5'))
+            '^5'
+            >>> str(Coord(2))
+            '2'
+            >>> str(Coord('~'))
+            '~'
+            >>> str(Coord())
+            '0'
+        """
         if self.value == 0 and not self.is_global():
             return self._prefix
         return self._prefix + str(self.value)
 
     def __repr__(self):
         return "Coord('{}')".format(str(self))
+
+    def set_int(self):
+        """Sets the value of this coordinate to an integer
+        """
+        self.value = int(value)
+    
+    def set_float(self):
+        """Sets the value of this coordinate to a float
+        """
+        self.value = float(value)
 
     def set_global(self):
         self._prefix = ""
@@ -176,7 +255,7 @@ $for(name, symbol in ops.items())
         elif isinstance(other, Real):
             result = self.value $(symbol) other
         elif isinstance(other, str):
-            result = self.value $(symbol) _tonum_strip__prefix(other)
+            result = self.value $(symbol) _tonum_strip_prefix(other)
         else:
             return NotImplemented
         new_coordval = Coord(result)
@@ -188,7 +267,7 @@ $for(name, symbol in ops.items())
         if isinstance(other, Real):
             result = other $(symbol) self.value
         elif isinstance(other, str):
-            result = _tonum_strip__prefix(other) $(symbol) self.value
+            result = _tonum_strip_prefix(other) $(symbol) self.value
             if not other[0].isdigit():
                 _prefix = other[0]
         else:
@@ -203,7 +282,7 @@ $for(name, symbol in ops.items())
         elif isinstance(other, Real):
             self.value $(symbol)= other
         elif isinstance(other, str):
-            self.value $(symbol)= _tonum_strip__prefix(other)
+            self.value $(symbol)= _tonum_strip_prefix(other)
         else:
             return NotImplemented
         return self
@@ -215,7 +294,7 @@ $endfor
         elif isinstance(other, Real):
             result = divmod(self.value, other)
         elif isinstance(other, str):
-            result = divmod(self.value, _tonum_strip__prefix(other))
+            result = divmod(self.value, _tonum_strip_prefix(other))
         else:
             return NotImplemented
         new_coordval = Coord(result)
@@ -227,7 +306,7 @@ $endfor
         if isinstance(other, Real):
             result = divmod(other, self.value)
         elif isinstance(other, str):
-            result = divmod(_tonum_strip__prefix(other), self.value)
+            result = divmod(_tonum_strip_prefix(other), self.value)
             if not other[0].isdigit():
                 _prefix = other[0]
         else:

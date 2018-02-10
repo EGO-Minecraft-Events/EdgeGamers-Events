@@ -1,9 +1,9 @@
-from lib.coord import Coord
-from lib.vector import Vector2, Vector3
+# from lib.coord import Coord
+# from lib.vector import Vector2, Vector3
 from abc import ABC, abstractmethod
 
-#from coord import Coord
-#from vector import Vector2, Vector3
+from coord import Coord
+from vector import Vector2, Vector3
 
 """
 Coordinates
@@ -33,7 +33,6 @@ class CoordsBase(ABC):
     def __repr__(self):
         return "Coords('{}')".format(str(self))
 
-
 class PositionCoords(CoordsBase):
     _length = 3
 
@@ -55,10 +54,16 @@ class PositionCoords(CoordsBase):
         return self.pos.simple_str()
 
     def pos_selector(self):
-        for coord in self._pos2:
+        for coord in self._pos:
             if not coord.is_global():
                 raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
         return "x={},y={},z={}".format(*self.pos_str().split())
+
+    def pos_xz_selector(self):
+        for coord in self._pos:
+            if not coord.is_global():
+                raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
+        return "x={},z={}".format(*self.pos_str().split()[::2])
 
     def __str__(self):
         return self.pos_str()
@@ -110,7 +115,10 @@ class TeleportCoords(PositionCoords, RotationCoords):
         return "{} {}".format(self.pos_str(), self.rot_str())
 
     def tele_selector(self):
-        return self.pos_selector() + "," + self.rot_selector()
+        return "{},{}".format(self.pos_selector(), self.rot_selector())
+
+    def tele_xz_selector(self):
+        return "{},{}".format(self.pos_xz_selector(), self.rot_selector())
 
     def __str__(self):
         return self.tele_str()
@@ -139,6 +147,12 @@ class RegionCoords(PositionCoords):
     def pos2_str(self):
         return self._pos2.simple_str()
 
+    def pos2_xz_selector(self):
+        for coord in self._pos:
+            if not coord.is_global():
+                raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
+        return "x={},z={}".format(*self.pos_str().split()[::2])
+
     def region_str(self):
         return "{} {}".format(self.pos_str(), self.pos2_str())
 
@@ -147,7 +161,22 @@ class RegionCoords(PositionCoords):
             if not coord.is_global():
                 raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
         diff_vec = self._pos2 - self._pos
-        return "{},{}".format(self.pos_selector(), "dx={},dy={},dz={}".format(*diff_vec.simple_str().split()))
+        diff_args = ""
+        for key in "xyz":
+            if diff_vec[key] != 0:
+                diff_args += ",d{}={}".format(key, diff_vec[key])
+        return "{}{}".format(self.pos_selector(), diff_args)
+
+    def region_xz_selector(self):
+        for coord in self._pos2:
+            if not coord.is_global():
+                raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
+        diff_vec = self._pos2 - self._pos
+        diff_args = ""
+        for key in "xz":
+            if diff_vec[key] != 0:
+                diff_args += ",d{}={}".format(key, diff_vec[key])
+        return "{}{}".format(self.pos_selector(), diff_args)
 
     def __str__(self):
         return self.region_str()
@@ -176,6 +205,12 @@ class CloneCoords(RegionCoords):
     def pos3_str(self):
         return self._pos3.simple_str()
 
+    def pos3_xz_selector(self):
+        for coord in self._pos:
+            if not coord.is_global():
+                raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
+        return "x={},z={}".format(*self.pos_str().split()[::2])
+
     def clone_str(self):
         return "{} {} {}".format(self.pos_str(), self.pos2_str(), self.pos3_str())
 
@@ -199,7 +234,8 @@ class Coords(ABC):
         Create a new Coords object
 
         Args:
-            *args: If a single string, will be split by spaces and parsed as a string list.
+            *args: If a single string, can be parsed in two different ways:
+                - If the string contains will be split by spaces and parsed as a string list.
                 Otherwise, assumes args is a list containing any of Vector2, Vector3, int, float, str, and Coord.
 
         Returns:
@@ -207,7 +243,26 @@ class Coords(ABC):
         """
 
         if len(args) == 1 and isinstance(args[0], str):
-            coords = args[0].split()
+            if "=" in args[0]: # Creating coords based on selector. Note: does not parse rotations (yet)
+                selector_args = {arg: val for arg, val in (entry.split("=") for entry in args[0].split(","))}
+
+                coords = list()
+                pos = Vector3()
+                for key in ["x", "y", "z"]:
+                    if key in selector_args:
+                        pos[key] = selector_args[key]
+                coords.extend(pos)
+
+                pos2 = Vector3()
+                for key in ["dx", "dy", "dz"]:
+                    if key in selector_args:
+                        pos2[key[1]] = selector_args[key]
+                pos2 += pos
+                if pos2 != pos:
+                    coords.extend(pos2)
+
+            else:
+                coords = args[0].split()
         else:
             coords = list()
             for arg in args:
@@ -228,217 +283,3 @@ class Coords(ABC):
 for subclass in _all_subclasses(CoordsBase):
     Coords.register(subclass)
 # e.g. isinstance(PositionCoords, Coords) == True # even though PositionCoords extends CoordsBase
-
-#class Coords:
-#    """
-#    Class to represent a set of coordinates
-#
-#    Attributes:
-#        vectors (list): List of vectors that make up this set of coordinates
-#
-#        #coords (str): String representation of the coordinates
-#        #coord_list (list of Coord): List of all possible coordinates
-#        type (str): Set depending on the number of coordinates detected
-#            REGULAR = set of 3 coordinates
-#            ROTATION = set of 2 coordinates
-#            TELEPORT = set of 5 coordinates
-#            REGION = set of 6 coordinates
-#            CLONE = set of 9 coordinates
-#        coord_dict: Dictionary to hold each Coord object according to preset keywords
-#    """
-#
-#    REGULAR = "Regular"
-#    ROTATION = "Rotation"
-#    TELEPORT = "Teleport"
-#    REGION = "Region"
-#    CLONE = "Clone"
-#
-#    type_dict = {
-#        3: REGULAR, # [ Vector3 ]
-#        2: ROTATION, # [ Vector2 ]
-#        5: TELEPORT, # [ Vector3, Vector2 ]
-#        6: REGION, # [ Vector3, Vector3 ]
-#        9: CLONE # [ Vector3, Vector3, Vector3 ]
-#    }
-#
-#    def __init__(self, coords):
-#        """
-#        Args:
-#            coords (str): A space-separated string of characters translatable to Coord objects
-#        """
-#
-#        coords_strlist = coords.split()
-#        if len(coords_strlist) in Coords.type_dict:
-#            self.type = Coords.type_dict[len(coords_strlist)]
-#        else:
-#            raise SyntaxError("The number of coordinates in '{}' do not match any of the coordinate types in {}".format(
-#                    coords=coords, lengths=list(Coords.type_dict.keys())))
-#
-#        self.vectors = []
-#
-#        if self.type == Coords.REGULAR:
-#            self.vectors.append(Vector3(*coords_strlist[0:3]))
-#        elif self.type == Coords.ROTATION:
-#            self.vectors.append(Vector2(*coords_strlist[0:2]))
-#        elif self.type == Coords.TELEPORT:
-#            self.vectors.append(Vector3(*coords_strlist[0:3]))
-#            self.vectors.append(Vector2(*coords_strlist[3:5]))
-#        elif self.type == Coords.REGION:
-#            self.vectors.append(Vector3(*coords_strlist[0:3]))
-#            self.vectors.append(Vector3(*coords_strlist[3:6]))
-#        elif self.type == Coords.CLONE:
-#            self.vectors.append(Vector3(*coords_strlist[0:3]))
-#            self.vectors.append(Vector3(*coords_strlist[3:6]))
-#            self.vectors.append(Vector3(*coords_strlist[6:9]))
-#        else:
-#            raise RuntimeError("Something derped")
-#
-#        # self.coords = coords
-#        # self.coord_list = [Coord(coord) for coord in coords.split()]
-#
-#        # coord_length = len(self.coord_list)
-#        # if coord_length in Coords.type_dict:
-#        #     self.type = Coords.type_dict[coord_length]
-#        # else:
-#        #     raise SyntaxError("Coordinates {coords} are not a length of {lengths}".format(
-#        #             coords=coords, lengths=list(Coords.type_dict.keys())))
-#
-#        self.coord_dict = {}
-#
-#        self.create_dict()
-#
-#    @classmethod
-#    def from_multiple(cls, *args):
-#        """
-#        Initializer for multiple values
-#
-#        Each value will be concatenated into a full string value and passed
-#        onto the regular constructor
-#        """
-#        arg_str = " ".join([str(arg) for arg in args])
-#        return cls(arg_str)
-#
-#    def create_dict(self):
-#        """
-#        Creates the coord_dict based off of the coordinate type and keywords
-#
-#        (x, y, z, xyz) (2x, 2y, 2z, 2xyz) (3x, 3y, 3z, 3xyz) (xr, yr, rot)
-#
-#        Note: if any of the coordinates change, create_dict will need to be called again to update it to the new values
-#        """
-#        # does the first 3 coordinates
-#        if self.type in (Coords.REGULAR, Coords.TELEPORT, Coords.REGION, Coords.CLONE):
-#            self.coord_dict["x"] = self.vectors[0].x
-#            self.coord_dict["y"] = self.vectors[0].y
-#            self.coord_dict["z"] = self.vectors[0].z
-#            self.coord_dict["xyz"] = self.vectors[0].simple_str()
-#            # self.coord_dict["x"] = self.coord_list[0]
-#            # self.coord_dict["y"] = self.coord_list[1]
-#            # self.coord_dict["z"] = self.coord_list[2]
-#            # self.coord_dict["xyz"] = " ".join(str(coord) for coord in self.coord_list[0:3])
-#
-#        # gets rotation
-#        if self.type == Coords.ROTATION:
-#            self.coord_dict["xr"] = self.vectors[0].x
-#            self.coord_dict["yr"] = self.vectors[0].y
-#            self.coord_dict["rot"] = self.vectors[0].simple_str()
-#            # self.coord_dict["xr"] = self.coord_list[0]
-#            # self.coord_dict["yr"] = self.coord_list[1]
-#            # self.coord_dict["rot"] = " ".join(str(coord) for coord in self.coord_list[0:2])
-#
-#        if self.type == Coords.TELEPORT:
-#            self.coord_dict["xr"] = self.vectors[1].x
-#            self.coord_dict["yr"] = self.vectors[1].y
-#            self.coord_dict["rot"] = self.vectors[1].simple_str()
-#            # self.coord_dict["xr"] = self.coord_list[3]
-#            # self.coord_dict["yr"] = self.coord_list[4]
-#            # self.coord_dict["rot"] = " ".join(str(coord) for coord in self.coord_list[3:5])
-#
-#        # gets secondary coordinates
-#        if self.type in (Coords.REGION, Coords.CLONE):
-#            self.coord_dict["2x"] = self.vectors[1].x
-#            self.coord_dict["2y"] = self.vectors[1].y
-#            self.coord_dict["2z"] = self.vectors[1].z
-#            self.coord_dict["2xyz"] = self.vectors[1].simple_str()
-#            # self.coord_dict["2x"] = self.coord_list[3]
-#            # self.coord_dict["2y"] = self.coord_list[4]
-#            # self.coord_dict["2z"] = self.coord_list[5]
-#            # self.coord_dict["2xyz"] = " ".join(str(coord) for coord in self.coord_list[3:6])
-#
-#        # Gets third set of coordinates
-#        if self.type == Coords.CLONE:
-#            self.coord_dict["3x"] = self.vectors[2].x
-#            self.coord_dict["3y"] = self.vectors[2].y
-#            self.coord_dict["3z"] = self.vectors[2].z
-#            self.coord_dict["3xyz"] = self.vectors[2].simple_str()
-#            # self.coord_dict["3x"] = self.coord_list[6]
-#            # self.coord_dict["3y"] = self.coord_list[7]
-#            # self.coord_dict["3z"] = self.coord_list[8]
-#            # self.coord_dict["3xyz"] = " ".join(str(coord) for coord in self.coord_list[6:9])
-#
-#    def get(self, value):
-#        """
-#        Gets a coord object given either the index or keyword.
-#        Getting the string can be done using __getitem__ via the subscription operator
-#
-#        Args:
-#            value (int or str): Either the index to the list or the key to the dictionary
-#
-#        Returns:
-#            str: single coordinate
-#        """
-#        if isinstance(value, int):
-#            vec_num = value // 3
-#            component = value % 3
-#
-#            try:
-#                return self.vectors[vec_num][component]
-#            except IndexError:
-#                raise IndexError("Index '{index}' out of range for coordinate '{coord}'".format(index=value, coord=str(self)))
-#
-#            # if value < len(self.coord_list):
-#            #     return self.coord_list[value]
-#            # else:
-#            #     raise IndexError("Index '{index}' out of range for coordinate '{coord}'".format(index=value, coord=str(self)))
-#
-#        return self.coord_dict[value]
-#
-#    def to_selector(self):
-#        """
-#        If the type is REGULAR, it will create the selector arguments using x,y,z
-#        If the type is REGION, it will create the selector arguments using x,y,z,dx,dy,dz
-#
-#        Raises:
-#            TypeError if it is not a REGULAR or REGION type
-#        """
-#        if self.type == Coords.REGULAR:
-#            return "x={},y={},z={}".format(*self.vectors[0].simple_str().split())
-#        elif self.type == Coords.REGION:
-#            dvec = self.vectors[1] - self.vectors[0]
-#            return "x={},y={},z={},dx={},dy={},dz={}".format(*self.vectors[0].simple_str().split(), *dvec.simple_str().split())
-#        else:
-#            raise TypeError("Coordinates '{}' cannot be converted to selector arguments".format(str(self)))
-#
-#        # if self.type == Coords.REGULAR:
-#        #     return "x={0},y={1},z={2}".format(*self.coord_list)
-#        # elif self.type == Coords.REGION:
-#        #     dx, dy, dz = [self.coord_list[index+3].value - self.coord_list[index].value for index in range(3)]
-#        #     return "x={0},y={1},z={2},dx={3},dy={4},dz={5}".format(*self.coord_list[0:3], dx, dy, dz)
-#        # else:
-#        #     raise TypeError("Coordinates '{}' cannot be converted to selector arguments".format(str(self)))
-#
-#    def __len__(self):
-#        return sum([len(vector) for vector in self.vectors])
-#
-#    def __getitem__(self, value):
-#        """
-#        Gets a specific coord object as a str instead of a Coord (see get(self, value))
-#        """
-#        return str(self.get(value))
-#
-#    def __str__(self):
-#        """
-#        Gets the full string value
-#        """
-#        return " ".join([vector.simple_str() for vector in self.vectors])
-#
