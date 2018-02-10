@@ -2,6 +2,8 @@
 Library for scoreboard teams and objectives
 """
 
+from collections import OrderedDict
+
 from lib.container import Container
 from lib.consts import Colors
 
@@ -61,6 +63,9 @@ class Objective(Container):
 
         if len(name) > 16:
             raise SyntaxError("The objective name '{}' cannot be larger than 16 characters".format(name))
+
+        if len(display_name) > 32:
+            raise SyntaxError("The objective display name '{}' cannot be larger than 16 characters".format(display_name))
         
         self.name = name
 
@@ -72,6 +77,7 @@ class Objective(Container):
         self.display_name = display_name
         self.remove_self = remove_self
         self.slots = []
+        self.consts = {}
 
     def setdisplay(self, *slots, reset_slot=True):
         """
@@ -83,11 +89,24 @@ class Objective(Container):
         for slot in slots:
             self.slots.append(Objective.DisplaySlot(slot, reset_slot))
 
+    def add_const(self, name, value):
+        """
+        Adds a constant value to an objective
+        """
+        if isinstance(value, int):
+            value = str(value)
+        elif isinstance(value, str) and not value.isdigit():
+            raise ValueError("A constant '{0} = {1}' must be an integer".format(name, value))
+        self.consts[name] = value
+
     def cmd_init(self):
         """
         Adds all objectives using:
             scoreboard objectives add
             scoreboard objectives setdisplay
+
+        and adds all constants using:
+            scoreboard players set NAME OBJ_NAME VALUE
         """
         cmd_add = ("scoreboard objectives add {name} {criteria} {disp_name}".format(
             name=self.name, criteria=self.criteria, disp_name=self.display_name)).strip()
@@ -96,6 +115,10 @@ class Objective(Container):
         # If slots is not empty
         for slot in self.slots:
             self.cmd_queue.put("scoreboard objectives setdisplay {slot} {name}".format(slot=slot.value, name=self.name))
+
+        for name, value in self.consts.items():
+            self.cmd_queue.put("scoreboard players set {name} {obj_name} {value}".format(
+                name=name, obj_name=self.name, value=value))
 
         return self._cmd_output()
 
@@ -130,39 +153,72 @@ class Objectives(Container):
     """
     def __init__(self):
         super().__init__()
-        self.objectives = []
+        self.objectives = OrderedDict()
 
-    def new(self, name, criteria="_", display_name=""):
+    def new(self, name, criteria="_", display_name="", remove=True):
         """
         Default method to add a single objective (see Objective.__init__)
         """
-        objective = Objective(name, criteria, display_name)
-        self.objectives.append(objective)
+        objective = Objective(name, criteria, display_name, remove)
+        self.add(objective)
 
-    def new_str(self, text):
+    def new_str(self, text, initials=None, display=None, remove=True):
         """
         Allows input of objectives from multi-line string (without tab spaces)
-        eg.
 
+        Args:
+            text: block of text
+            initials: initials that goes in front of all objectives
+                If the objective name is ".", it is completely replaced with the initials
+            display: display name that goes at the beginning of all objective display names
+                If the objective display name is ".", it is completely replaced
+            remove: Whether the objectives will be automatically removed or not
+
+        eg.
         RRpl
         RRas
+
+        RRconstants _ Oh man constants
+        some_const = 5
+
         RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
         RRxd _ RR ecks dee
         """
-        lines = text.splitlines()
+
+        # strips the lines to remove the newlines at the end and any other whitespace
+        # also only appends to list if the line is not empty
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        current_obj = None
+
         for line in lines:
-            line = line.strip()
             data = line.split(" ", 2)
+
+            # if the given line is setting a constant
+            if len(data) == 3 and data[1] == "=":
+                if current_obj is None:
+                    raise SyntaxError("An objective must be defined before any constants can be set")
+                else:
+                    name, value = data[0], data[2]
+                    current_obj.add_const(name, value)
+                    continue
             
-            # skips empty lists or a list with an empty string
-            if not data or not line:
-                continue
+            # adds given initials
+            if initials is not None:
+                if data[0] == ".":
+                    data[0] = initials
+                else:
+                    data[0] = initials + data[0]
 
-            # Makes the data list a length of 3
-            # It appends None because None is the default value for the options
+            # adds given display name
+            if display is not None and len(data) == 3:
+                if data[2] == ".":
+                    data[2] = display
+                else:
+                    data[2] = display + " " + data[2]
 
-            objective = Objective(*data)
-            self.objectives.append(objective)
+            objective = Objective(*data, remove_self=remove)
+            current_obj = objective
+            self.add(objective)
 
     def add(self, *objectives):
         """
@@ -172,13 +228,14 @@ class Objectives(Container):
             *objectives (Objective): An arbitrary objective
         """
         for objective in objectives:
-            self.objectives.append(objective)
+            if objective.name not in self.objectives:
+                self.objectives[objective.name] = objective
 
     def cmd_init(self):
         """
         Creates each objective
         """
-        for objective in self.objectives:
+        for objective in self.objectives.values():
             self.cmd_queue.put(objective.cmd_init())
         return self._cmd_output()
 
@@ -186,24 +243,23 @@ class Objectives(Container):
         """
         Removes each objective
         """
-        for objective in self.objectives:
+        for objective in self.objectives.values():
             self.cmd_queue.put(objective.cmd_term())
         return self._cmd_output()
 
     def __str__(self):
-        return "Objectives[{}]".format(str([str(objective) for objective in self.objectives]))
+        return "Objectives[{}]".format(str([str(objective) for objective in self.objectives.values()]))
 
     def __repr__(self):
-        return "Objectives[{}]".format(str([repr(objective) for objective in self.objectives]))
+        return "Objectives[{}]".format(str([repr(objective) for objective in self.objectives.values()]))
 
     def __getitem__(self, name):
         """
         Args:
             key (str): name of the objective
         """
-        for objective in self.objectives:
-            if name == objective.name:
-                return objective
+        if name in self.objectives:
+            return self.objectives[name]
         
         raise NameError("Objective name {} was not found in the container".format(name))
 
@@ -253,6 +309,9 @@ class Team(Container):
 
         if len(name) > 16:
             raise SyntaxError("The team name '{}' cannot be larger than 16 characters".format(name))
+
+        if len(display_name) > 32:
+            raise SyntaxError("The team display name '{}' cannot be larger than 16 characters".format(display_name))
 
         # checks whether the option is valid by seeing if the key is within the valid values dict
         for option, value in options.items():
@@ -314,21 +373,25 @@ class Teams(Container):
     """
     def __init__(self):
         super().__init__()
-        self.teams = []
+        self.teams = OrderedDict()
 
     def new(self, name, display_name="", **options):
         """
         Default method to add a single objective (see Team.__init__)
         """
         team = Team(name, display_name, **options)
-        self.teams.append(team)
+        self.add(team)
 
-    def new_str(self, text):
+    def new_str(self, text, initials=None, display=None):
         """
         Allows input of teams from multi-line string (without tab spaces)
 
         Args:
             text (str): the full docstring input for parsing teams
+            initials: initials that goes in front of all teams
+                If the team name is ".", it is completely replaced with the initials
+            display: display name that goes at the beginning of all team display names
+                If the team display name is ".", it is completely replaced
 
         Raises:
             SyntaxError: Before any option is set, a team must be defined.
@@ -348,21 +411,18 @@ class Teams(Container):
                 collisionRule pushOwnTeam
         """
 
-        lines = text.splitlines()
+        # strips the lines to remove the newlines at the end and any other whitespace
+        # also only appends to list if the line is not empty
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
 
         # holds the current team
         current_team = None
         for line in lines:
-            line = line.strip()
 
             # splits a maximum of one time, making a list of 2 strings
             # note that the lines are stripped in case of any leading whitespace
             data = line.split(" ", 1)
             
-            # skips empty lists or a list with an empty string
-            if not data or not line:
-                continue
-
             # if the length of the data is 2, and the first element is a team
             # option, then it is added to the current team option
             if len(data) == 2 and data[0] in Team.valid_options:
@@ -373,8 +433,21 @@ class Teams(Container):
                 continue
 
             # otherwise, the data will be set as a team
+            # gets initials and display name
+            if initials is not None:
+                if data[0] == ".":
+                    data[0] = initials
+                else:
+                    data[0] = initials + data[0]
+
+            if display is not None and len(data) == 2:
+                if data[1] == ".":
+                    data[1] = display
+                else:
+                    data[1] = display + " " + data[1]
+
             current_team = Team(*data)
-            self.teams.append(current_team)
+            self.add(current_team)
 
     def add(self, *teams):
         """
@@ -384,13 +457,14 @@ class Teams(Container):
             *teams (Team): An arbitrary amount of Team objects
         """
         for team in teams:
-            self.teams.append(team)
+            if team.name not in self.teams:
+                self.teams[team.name] = team
 
     def cmd_init(self):
         """
         Creates each team
         """
-        for team in self.teams:
+        for team in self.teams.values():
             self.cmd_queue.put(team.cmd_init())
         return self._cmd_output()
 
@@ -398,7 +472,7 @@ class Teams(Container):
         """
         Removes each team
         """
-        for team in self.teams:
+        for team in self.teams.values():
             self.cmd_queue.put(team.cmd_term())
         return self._cmd_output()
 
@@ -407,9 +481,8 @@ class Teams(Container):
         Args:
             key (str): name of the objective
         """
-        for team in self.teams:
-            if name == team.name:
-                return team
+        if name in self.teams:
+            return self.teams[name]
         
         raise NameError("Team name {} was not found in the container".format(name))
 

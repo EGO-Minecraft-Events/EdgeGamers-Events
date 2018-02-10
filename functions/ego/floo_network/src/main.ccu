@@ -1,0 +1,458 @@
+$py(
+from lib.floo_network import *
+from lib.const_ints import CONST_INTS
+from lib.scoreboard import OBJECTIVES, TEAMS
+from lib.coords import Coords
+from lib.container import Container
+from lib.consts import Sounds
+
+
+SA = "x=350,y=14,z=13,dx=90,dy=30,dz=90"
+stand_coords = Coords("397 17 61")
+select_tree = "x=397,y=17,z=61,r=5"
+select_portal = "x=350,y=14,z=13,dx=90,dy=5,dz=90"
+select_tree = "x=397,y=17,z=61,r=5"
+
+# regions where blocks are placable
+# in this case, mastermind and pictionary
+placable_blocks = ["x=77,y=5,z=42,r=40"]
+dimension = "Dimension:0"
+)
+
+# Main Start
+$py(
+CONST_INTS.add_constants(-1)
+
+# General objectives from floo_network
+OBJECTIVES.new_str("""
+    FLid _ ID
+    FLtp _ TP
+    FLna _ Name
+    FLti _ Timer
+    FLmm _ Mastermind
+    FLbk _ Book
+    FLsp _ Spawn
+    FLlg stat.leaveGame Leave Game
+    
+    FLgam _ Game Toggle
+    FLgac _ Game Toggle Calc
+    FLpvp _ PVP toggle
+    FLsat _ Saturation toggle
+    FLwea _ Weather toggle
+    FLgmd _ Gamemode toggle
+    FLraa _ Ranking Actions
+    FLrac _ Ranking Actions Calc
+    FLdim _ Dimension Number
+    FLvot trigger Vote Trigger
+""", display="FlooNetwork")
+
+# General objectives for storage purposes
+OBJECTIVES.new_str("""
+    MCTeams _ MC Specialty Teams
+    Health health
+""", remove=False)
+OBJECTIVES["Health"].setdisplay("list")
+
+# Adds objectives based on all event_name/src/consts.ccu files
+# all consts.ccu files have the following input (aka the same general format for Objectives.new_str):
+# objective_name
+# var = number
+# var2 = number2
+# etc.
+def use_file_consts(event):
+    try:
+        with open("../../{}/src/consts.ccu".format(event.folder_name)) as file:
+            print("Opened {}/src/consts.ccu".format(event.folder_name))
+            lines = file.read()
+            OBJECTIVES.new_str(lines)
+    except FileNotFoundError:
+        pass
+
+for event in Event.members:
+    use_file_consts(event)
+
+# General teams for all events
+TEAMS.new_str("""
+    NoPush
+        collisionRule never
+        friendlyfire false
+    NoPVP
+        friendlyfire false
+""")
+
+"""
+Additional things I might add idk
+    FLeti _ Event Timer: Ticks
+    FLetm _ Event Timer: Mins
+    FLetc _ Event Timer: Calc
+    FLafk _ AFK Toggle
+    FLafkc _ AFK Toggle - Calc
+    FLafk1 stat.sneakTime AFK Crouch
+    FLafk2 stat.swimOneCm AFK Swim
+    FLafk3 stat.flyOneCm AFK Fly
+    FLafk4 stat.walkOneCm AFK Walk
+    FLafk5 stat.sprintOneCm AFK Sprint
+"""
+    
+# sets rankings for individual players
+RANKINGS = {
+    "APPS": 1,
+    "AT": 2,
+    "EC": 4,
+    "LE": 8,
+    "CMD": 16,
+}
+
+# adds scoreboards from the rankings
+for rank in RANKINGS.keys(): OBJECTIVES.new(rank, remove=False)
+
+def get_ranking_val(*ranks):
+    """
+    Gets the sum given the rankings as strings
+
+    eg. get_ranking_val("APPS", "EC", "CMD") -> 21
+    """
+    return sum(set(RANKINGS[rank] for rank in ranks))
+
+def set_rankings(text):
+    """
+    Gets a text as a docstring and output the scoreboard settings for each player
+    """
+    data = []
+    cmd_list = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+
+        name, ranks = line.strip().split(None, 1)
+        ranks = tuple(ranks.split())
+        data.append((name, ranks))
+
+    for line in data:
+        name, ranks = line
+        if not ranks:
+            continue
+
+        for rank in ranks:
+            cmd_list.append("{0} {1} = 0".format(name, rank))
+            cmd_list.append("{0} MCTeams = {1}".format(name, RANKINGS[rank]))
+
+    return Container.cmd_from_list(cmd_list)
+)
+
+!mfunc init
+    # initializes the objectives
+    $(OBJECTIVES.cmd_init())
+
+    # sets all nicknames
+    $for(event in Event.members)
+    $for(shortcut in event.shortcut)
+    $(shortcut) FLna = $(event.id)
+    $endfor
+    $endfor
+
+    # creates the global armor stand
+    kill @e[type=armor_stand,FlooStand]
+    summon armor_stand $(str(stand_coords)) {Tags:["FlooStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+
+    $(set_rankings("""
+    Acefire97 APPS
+    ashtongreen00 APPS
+    ENFORCER_GAMING APPS
+    Kilgore90 APPS 
+
+    french_man EC
+    jamboree_lee EC
+    CynRyn EC
+    CMDZane AT EC
+    Icohedron EC
+    TheDarkOne239 EC
+    
+    BUTTERLOVER7683 AT LE
+    FoxyTheBoomQueen AT LE
+    Daa_ EC LE
+    idk_lobsters LE
+    JadeofallTrades LE
+    Witch_Doctor LE CMD
+    FirezFury LE
+    """))
+
+    # initializes the armor stand scores
+    @e[type=armor_stand,FlooStand] FLtp = 0
+    @e[type=armor_stand,FlooStand] FLpvp = 0
+    @e[type=armor_stand,FlooStand] FLsat = 1
+    @e[type=armor_stand,FlooStand] FLwea = 0
+    @e[type=armor_stand,FlooStand] FLgmd = 1
+    @e[type=armor_stand,FlooStand] FLgam = 0
+    @e[type=armor_stand,FlooStand] FLraa = $(get_ranking_val("EC", "LE", "CMD"))
+
+    tellraw @a $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
+
+
+!mfunc main
+    @a[FLid>=1] function ego:floo_network/spawnpoint
+    @a[FLid>=1] function ego:floo_network/spawnpoint
+
+!mfunc spawnpoint
+    # iterates through all spawnpoints
+    $for(event in Event.members)
+    tellraw @s[FLid=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"Your spawnpoint has been set to ","color":"gray"},{"text":"' + event.disp_coords +
+    r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
+    $endfor
+
+    # plays a playsound and multiplies their score by -1
+    playsound $(Sounds.xp) voice @s
+    ScOP @s FLid *= -1 constants
+
+!mfunc teleport
+    # tp and tellraw commands
+    $for(event in Event.members)
+    tp @s[SPtp=$(event.id)] $(str(event.coords))
+
+    tellraw @s[FLtp=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"You have been teleported to ","color":"gray"},{"text":"' + event.disp_coords +
+    r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
+    $endfor
+
+    # plays a playsound and multiplies their score by -1
+    playsound $(Sounds.xp) voice @s
+    ScOP @s FLid *= -1 constants
+
+$py(r"""
+//<Game Start Tellraw
+FUNC {Func_GameStartTellraw}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        @e[type=armor_stand,FlooStand,SPgac>=1] MFunc_GameStartTellraw
+    
+/// Warning: "x" must be turned off before another game can start.
+    LOOP {0 Arr_Spawnpoint[-1] + 1} {1 Arr_Spawnpoint[L] + 1}:
+        /*
+        @s[SPgam=|1|] tellraw @a[EC=0] $TextStart$
+        {"text":"Warning: ","color":"red"},;
+        */
+    ///    2 = full name = |0|, 3 = name = |1|, 4 = color = |2|
+        LOOP {Arr_Spawnpoint[|0|][3]} {Arr_Spawnpoint[|0|][4]}:
+            /*
+            {"text":"|0|","color":"|1|","bold":"true",
+                "clickEvent":{"action":"run_command","value":"/scoreboard players set @s SPtp |1;1|"},
+                "hoverEvent":{"action":"show_text","value":{"text":"Teleport to Arr_Spawnpoint[|0;1|][2]","color":"|1|"}}
+            },;
+            */
+        /*
+        {"text":" must be turned off before another game can start.","color":"gray"}
+        ]}
+        */
+    
+    @s SPgac = 0
+//>
+
+//<Spawn Tree
+FUNC {Func_SpawnTree}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        @a[$SPTree$] MFunc_SpawnTree
+    
+    effect @s 23 2 0 true
+    gamemode 2 @s[m=0]
+    
+    @e[type=armor_stand,FlooStand,SPpvp=0] J> NoPVP @a[$SPTree$,m=2]
+    
+    @s[m=!3] SPti + 1
+    ScOP @s[m=!3,SPti>=10] SPtp = @e[type=armor_stand,FlooStand,SPtp>=1] SPtp
+//>
+
+//<Spawn Portal
+FUNC {Func_SpawnPortal}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        @a[$SPPortal$] MFunc_SpawnPortal
+    
+    @s[m=!3] stained_hardened_clay 5 ~ 3 ~ ScOP @s SPtp = mghub SPna
+    @s[m=!3] stained_hardened_clay 2 ~ 3 ~ ScOP @s SPtp = pvphub SPna
+    @s[m=!3] stained_hardened_clay 1 ~ 3 ~ ScOP @s SPtp = mmhub SPna
+    @s[m=!3] stained_hardened_clay 9 ~ 3 ~ ScOP @s SPtp = racehub SPna
+//>
+
+
+
+//<Main Clock
+FUNC {Func_MainClock}:
+///    Continuing the spawnpoint clock
+    @a[m=!3,SPti>=10] SPti + 1
+    @a[$SPNotTree$,m=!3,SPti<10] SPti = 0
+    @a[$SPNotTree$,m=!3,SPti>=20] SPti = 0
+    
+///    Dimension
+    @a SPdim = 0
+    @a SPdim = 6 {$Dim$}
+
+///    Mastermind
+    @a[$MM$,SPdim=6] SPmm = 1
+    @a[$NotMM$,SPmm=1] SPmm = 2
+    ScOP @e[type=armor_stand,FlooStand] SPmm = Mastermind SPmm
+    @e[type=armor_stand,FlooStand,SPmm=0] @a[SPmm=1] SPmm = 2
+    @a[SPmm=2,EC=0] SPmm = 0
+    clear @a[SPmm=2] wool -1 -1 {display:{Lore:["Mastermind Wool"]}}
+    clear @a[SPmm=2] shears -1 -1 {display:{Lore:["Mastermind Shears"]}}
+    @a[SPmm=2] SPmm = 0
+    
+///    The following are under conditional blocks because if not, they'll spam everything lol
+///    PVP
+    @e[type=armor_stand,FlooStand,SPpvp=0] J> NoPVP @a[team=!NoPVP,SPdim=6]
+    
+///    Saturation
+    @e[type=armor_stand,FlooStand,SPsat=1] effect @a[SPdim=6] 23 2 0 true
+    
+///    Weather
+    @e[type=armor_stand,FlooStand,SPwea=0] weather clear 1000000
+    @e[type=armor_stand,FlooStand,SPwea=1] weather rain 1000000
+    @e[type=armor_stand,FlooStand,SPwea=2] weather thunder 1000000
+    
+///    Regular gamemode
+    @e[type=armor_stand,FlooStand,SPgmd=1] gamemode 2 @a[m=0,SPdim=6]
+    
+///    Affected players gamemode
+    @a MCTeams + 0
+    @a[MCTeams=0] MCTeams = 1
+    
+//=
+SPaff
+    OT        1
+    APPS    2
+    AT        4
+    EC        8
+    LE        16
+    APWBS    32
+    
+    Normal settings: 1 + 2 + 4 = 7
+
+SPst    Specialty teams        Players
+    OT = 1
+    APPS = 2
+    AT = 4
+    EC = 8 
+    LE = 16
+    APWBS = 32
+=//
+
+///    Calculating exceptions
+    ScOP @e[type=armor_stand,FlooStand,SPaff>=1] FLrac = @e[type=armor_stand,FlooStand,SPaff>=1] SPaff
+///    @e[type=armor_stand,FlooStand,FLrac>=64] @a[MCTeams=64,SPdim=6] FLrac = 1
+///    @e[type=armor_stand,FlooStand,FLrac>=64] FLrac - 64
+    @e[type=armor_stand,FlooStand,FLrac>=32] @a[MCTeams=32,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=32] FLrac - 32
+    @e[type=armor_stand,FlooStand,FLrac>=16] @a[MCTeams=16,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=16] FLrac - 16
+    @e[type=armor_stand,FlooStand,FLrac>=8] @a[MCTeams=8,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=8] FLrac - 8
+    @e[type=armor_stand,FlooStand,FLrac>=4] @a[MCTeams=4,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=4] FLrac - 4
+    @e[type=armor_stand,FlooStand,FLrac>=2] @a[MCTeams=2,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=2] FLrac - 2
+    @e[type=armor_stand,FlooStand,FLrac>=1] @a[MCTeams=1,SPdim=6] FLrac = 1
+    @e[type=armor_stand,FlooStand,FLrac>=1] FLrac = 0
+    
+///    Gamemode
+    gamemode 2 @a[m=1,FLrac=1,SPdim=6]
+    gamemode 2 @a[m=0,FLrac=1,SPdim=6]
+    
+///    Leave Game Teleport
+    ScOP @a[FLrac=1,SPlg>=1,SPdim=6] SPtp = spawn SPna
+    
+///    Clear is under SPaff because anytime you respawn from death, your inventory will be cleared for some reason because of this
+///    This is even if the spawnpoint is somewhere else
+    clear @a[$SPTree$,m=2,FLrac=1,SPdim=6]
+    
+///    For voting
+    * enable SPvot
+    /*
+    tellraw @a[SPvot>=1] $TextStart$
+    {"text":"Vote here: ","color":"gray"},
+    {"text":"Link 1","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraft-server-list.com/server/200887/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #1","color":"green"}}
+    },
+    {"text":" "},
+    {"text":"Link 2","color":"dark_green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraftservers.org/vote/109809`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #2","color":"dark_green"}}
+    },
+    {"text":" "},
+    {"text":"Link 3","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`https://minecraftservers.biz/servers/2511/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #3","color":"green"}}
+    },
+    {"text":" "},
+    {"text":"Link 4","color":"dark_green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraft-mp.com/server/86376/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #4","color":"dark_green"}}
+    },
+    {"text":" "},
+    {"text":"Link 5","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://www.planetminecraft.com/server/edge-gamerscom/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}
+    }]}
+    */
+    @a[SPvot>=1] playsound Snd_XP voice @a[c=1]
+    @a[SPvot>=1] SPvot = 0
+    
+    @a[FLrac=1] FLrac = 0
+    @a[SPlg>=1] SPlg = 0
+
+//>
+
+//<Main End
+FUNC {Func_MainEnd}:
+    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
+    
+    tellraw @a $TextStart${"text":"Spawnpoint System","color":"yellow"},{"text":" has been uninstalled!","color":"gray"}]}
+    kill @e[type=armor_stand,FlooStand]
+//>
+
+
+//<Minecraft Functions
+MFUNC {init MFunc_MainStart}:
+    Func_AddingScoreboards()
+    Func_MainStart()
+    gamerule gameLoopFunction MFunc_MainClock
+    
+MFUNC {spawnpoint MFunc_Spawnpoint}:
+    Func_Spawnpoint()
+
+MFUNC {teleport MFunc_Teleport}:
+    Func_Teleport()
+
+MFUNC {game_start_tellraw MFunc_GameStartTellraw}:
+    Func_GameStartTellraw()
+
+MFUNC {spawn_tree MFunc_SpawnTree}:
+    Func_SpawnTree()
+
+MFUNC {spawn_portal MFunc_SpawnPortal}:
+    Func_SpawnPortal()
+
+MFUNC {timer MFunc_Timer}:
+    Func_Timer()
+
+MFUNC {reset_timer MFunc_ResetTimer}:
+    Func_ResetTimer()
+
+MFUNC {ts_token_passcode MFunc_TSTokenPasscode}:
+    Func_TSTokenPasscode()
+
+MFUNC {ts_token_options MFunc_TSTokenOptions}:
+    Func_TSTokenOptions()
+
+MFUNC {uninstall MFunc_MainEnd}:
+    Func_MainEnd()
+    gamerule gameLoopFunction -
+    
+MFUNC {main MFunc_MainClock}:
+    LOOP {Arr_ActivateMain[S]}:
+        |0|
+    Func_MainClock()
+//>
+""")
+
+
+
+
+
+

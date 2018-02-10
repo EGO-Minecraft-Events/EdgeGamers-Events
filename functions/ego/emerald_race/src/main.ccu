@@ -1,6 +1,7 @@
 $py(
 from lib.scoreboard import *
 from lib.consts import *
+from lib.floo_network import *
 
 
 # create objectives
@@ -43,6 +44,14 @@ RRb RR Blue
     $(TEAMS.cmd_init())
     $(TEAMS.cmd_term())
     playsound $(Sounds.pling)
-    say $(os.path.realpath(os.path.dirname(sys.argv[0])))
-    say $(os.path.abspath(os.path.dirname(sys.argv[0])))
     say anothero
+    
+$for(event in Event.members)
+$for(shortcut in event.shortcut)
+    $(shortcut) SPna = $(event.id)
+$endfor
+$endfor
+
+$for(event in Event.members)
+    $(event.full_name): $(event.shortcut)
+$endfor

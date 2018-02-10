@@ -55,7 +55,7 @@ class PositionCoords(CoordsBase):
         return self.pos.simple_str()
 
     def pos_selector(self):
-        for coord in self._pos2:
+        for coord in self._pos:
             if not coord.is_global():
                 raise TypeError("Selectors can't be made when one or more coordinates are relative or local")
         return "x={},y={},z={}".format(*self.pos_str().split())

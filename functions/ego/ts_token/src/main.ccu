@@ -1,0 +1,134 @@
+TSToken trigger SP TSToken Trigger
+SPtsl stat.leaveGame SP TSToken Leave Game
+SPts _ TSToken
+SPtss _ SP TSToken Selection
+SPtsi _ SP TSToken Initialization
+SPtsn _ SP TSToken Number of tries
+SPtsc _ SP TSToken Calc
+SPtso _ SP TSToken Option
+
+
+DEF $TSSelect$ x=544,y=19,z=37,dx=10,dy=5,dz=10
+DEF COORDS $TSWorldedit$ 549 17 49
+DEF COORDS $TSTokenGlass$ 548 14 47
+DEF COORDS $TSTokenClear$ 550 14 47
+DEF COORDS $TSTokenFloor$ 554 19 37 544 19 47
+
+
+-1
+
+
+//<TS Token Passcode
+FUNC {Func_TSTokenPasscode}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        @e[type=armor_stand,SpawnStand,TSToken>=1] MFunc_TSTokenPasscode
+        
+    @a SPtsi + 0
+    @a[SPtsi=0] enable TSToken
+    
+    /*
+    tellraw @a[SPtsi=0] $TSTokenTextStart$
+    {"text":"The ","color":"gray"},
+    {"text":"Teamspeak Token","color":"dark_aqua","bold":"true",
+        "hoverEvent":{"action":"show_text","value":{"text":"TP to the TSToken (ECs)","color":"dark_aqua"}},
+        "clickEvent":{"action":"run_command","value":"/scoreboard players operation @p SPtp = tstoken SPna"}
+    },
+    {"text":" is now open! Click ","color":"gray"},
+    {"text":"here","color":"yellow","bold":"true",
+        "hoverEvent":{"action":"show_text","value":{"text":"Set the TSToken password","color":"yellow"}},
+        "clickEvent":{"action":"suggest_command","value":"/guess "}
+    },
+    {"text":" to submit the password.","color":"gray"}
+    ]}
+    */
+    
+    @a[SPtsi=0] SPtsi = 1
+    
+    @a[TSToken>=1] MFunc_TSTokenPasscodeGuess
+//>
+
+//<TS Token Select
+FUNC {Func_TSTokenSelect}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        @e[type=armor_stand,SpawnStand,SPtss>=1] MFunc_TSTokenSelect
+    
+    @s[SPtss>=1<=2] * reset SPts
+    @s[SPtss>=1<=2] SPtss + 2
+    
+    @s[SPtss=3] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] reset SPts
+    @s[SPtss=3] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 1
+    @s[SPtss=4] @a[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ @a[c=1] SPts = 1
+    @s[SPtss=4] @a[$TSSelect$] coal_block 0 ~ 19 ~ @a[c=1] SPts = 0
+//>
+
+//<TS Token Passcode Guess
+FUNC {Func_TSTokenPasscodeGuess}:
+///    @a[TSToken>=1] MFunc_TSTokenPasscodeGuess
+
+    ScOP @s SPtsc = @s TSToken
+    ScOP @s[TSToken<=-1] SPtsc *= -1 Number
+    ScOP @s SPtsc -= @e[type=armor_stand,SpawnStand,TSToken>=1] TSToken
+    ScOP @s[SPtsc=0] SPtp = tstoken SPna
+    
+    @s[SPtsc<=-1] SPtsc = 1
+    tellraw @s[SPtsc>=1] $TSTokenTextStart${"text":"You have submitted an ","color":"gray"},{"text":"incorrect","color":"red"},{"text":" number.","color":"gray"}]}
+    playsound Snd_XP voice @s ~ ~ ~ 1 0.5
+    
+    @s[SPtsc>=1] SPtsn + 1
+    @s[SPtsc>=1,SPtsn<10] enable TSToken
+    tellraw @s[SPtsc>=1,SPtsn=10] $TSTokenTextStart${"text":"You have submitted 10 incorrect answers, and have 0 tries left.","color":"gray"}]}
+    @s[SPtsc>=1] SPtsc = 0
+    @s TSToken = 0
+//>
+
+//<TS Token Options
+FUNC {Func_TSTokenOptions}:
+    ARRAY {GLOBAL ACTIVATE CCU.arrayListAdd(Arr_ActivateMain) ARGS}:
+        MFunc_TSTokenOptions if @e[type=armor_stand,SpawnStand,SPtso>=1]
+        
+///    Set passcode starts
+///    Regular selection        SPtss 1
+///    Opposite selection        SPtss 2
+
+///    Stops TSToken                32
+///    Opens arena                    16
+///    Removes coal                8
+///    Closes arena                4
+///    Chooses player (@r / WE)    2 / 1
+    
+    /*
+    @e[type=armor_stand,SpawnStand,SPtso>=64] tellraw @a[EC=0] $TSTokenTextStart$
+    {"text":"Click here!","color":"yellow","italic":"true",
+        "hoverEvent":{"action":"show_text","value":{"text":"Click here to set the TS Token Password","color":"yellow"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,SpawnStand] TSToken #"}
+    }
+    ]}
+    */
+    
+    @e[type=armor_stand,SpawnStand,SPtso>=64] SPtso - 64
+
+    @e[type=armor_stand,SpawnStand,SPtso>=32] ScOR TSToken
+    @e[type=armor_stand,SpawnStand,SPtso>=32] ScOA TSToken trigger
+    @e[type=armor_stand,SpawnStand,SPtso>=32] ScOR SPts
+    @e[type=armor_stand,SpawnStand,SPtso>=32] ScOA SPts _ TSToken
+    @e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtsi
+    @e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtsn
+    @e[type=armor_stand,SpawnStand,SPtso>=32] * reset SPtss
+    @e[type=armor_stand,SpawnStand,SPtso>=32] SPtso - 32
+    
+    @e[type=armor_stand,SpawnStand,SPtso>=16] setblock $TSTokenClear$ redstone_block 0
+    @e[type=armor_stand,SpawnStand,SPtso>=16] SPtso - 16
+
+    @e[type=armor_stand,SpawnStand,SPtso>=8] fill $TSTokenFloor$ stained_hardened_clay 5 replace coal_block 0
+    @e[type=armor_stand,SpawnStand,SPtso>=8] SPtso - 8
+    
+    @e[type=armor_stand,SpawnStand,SPtso>=4] ScSS SPts
+    @e[type=armor_stand,SpawnStand,SPtso>=4] setblock $TSTokenGlass$ redstone_block 0
+    @e[type=armor_stand,SpawnStand,SPtso>=4] SPtso - 4
+    
+    @e[type=armor_stand,SpawnStand,SPtso>=2] @r[$TSSelect$] stained_hardened_clay 5 ~ 19 ~ setblock ~ 19 ~ coal_block 0
+    @e[type=armor_stand,SpawnStand,SPtso>=2] SPtso - 2
+    
+    @e[type=armor_stand,SpawnStand,SPtso>=1] setblock $TSWorldedit$ redstone_block 0
+    @e[type=armor_stand,SpawnStand,SPtso>=1] SPtso = 0
+//>

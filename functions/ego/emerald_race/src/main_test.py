@@ -11,6 +11,12 @@ RRas
 RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
 RRxd _ RR ecks dee
 """)
+
+OBJECTIVES.new_str("""
+pl
+as
+cs stat.useItem.minecraft.carrot_on_a_stick carrot stick
+""", initials="ST", display="Sand Tomb")
 OBJECTIVES["RRpl"].setdisplay("sidebar", "belowName")
 print(OBJECTIVES["RRpl"])
 print(str(OBJECTIVES))
@@ -48,6 +54,7 @@ print(repr(CONST_INTS.cmd_term()))
 
 # Coordinates
 coordRegion = Coords("-32 33 320 -52 28 320")
+print(coordRegion)
 print(str(coordRegion))
 print(coordRegion.to_selector())
 
@@ -69,4 +76,7 @@ print(places2)
 
 
 for event in Event.members:
-    print(repr(event))
+    print(event.text())
+#     print(repr(event))
+#     print(event.id)
+

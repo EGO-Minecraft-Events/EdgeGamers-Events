@@ -10,6 +10,6 @@ scoreboard objectives remove RRxd
 scoreboard objectives remove RRidk
 say split
 scoreboard teams add RRb Royal Rumble Blue
-scoreboard teams option RRb seeFriendlyInvisibles true
 scoreboard teams option RRb friendlyfire false
+scoreboard teams option RRb seeFriendlyInvisibles true
 scoreboard teams remove RRb
