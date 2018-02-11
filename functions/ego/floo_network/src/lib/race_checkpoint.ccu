@@ -1,0 +1,65 @@
+    FUNC {GLOBAL Func_RaceSpecificStart}:
+    ///    Scoreboards
+        ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_RaceSpecificStart) Obj_RaceSpecificStart}:
+            $Name$RaceBC dummy $TDName$ Broadcast
+            $Name$RaceCP dummy $TDName$ Checkpoints
+
+    FUNC {GLOBAL Func_RaceSpecificClock}:
+        @a[$SA$,team=$Name$R] $Name$RaceBC + 0
+        
+    /// Iterates through the entire array
+    ///    Arr_SelectPlaces[|0|][0] gets the selection
+    ///    Arr_SelectPlaces[|0|][1] is the win message
+        LOOP {0 Arr_SelectPlaces[-1] + 1} {1 Arr_SelectPlaces[L] + 1}:
+            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |1|
+            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" Arr_SelectPlaces[|0|][1]","color":"green"}]}
+            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] playsound Snd_Level voice @a
+            
+        /// Runs any additional commands if detected
+            IF {Arr_SelectPlaces[|0|][L] > 2}:
+                LOOP {2 Arr_SelectPlaces[-1] + 1}:
+                    @a[Arr_SelectPlaces[|0;1|][0],c=1,m=2,$Name$RaceBC=|1;1|] Arr_SelectPlaces[|0;1|][|0|]
+        
+        @a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
+        
+    ///    Checkpoint setups
+        LOOP {0 Arr_Checkpoints[-1] + 1} {-1 (Arr_Checkpoints[-1] - 1) + 1}:
+            IF {|0| = 0}:
+                @a[Arr_Checkpoints[|0|][0],m=2,team=$Name$R] $Name$RaceCP + 0
+            ELSE:
+                LOOP {0 (Arr_Checkpoints[|0|][-1] - 1) + 1}:
+                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] playsound Snd_Level voice @a[c=1]
+                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] tellraw @a[$SA$] \
+                            $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|1;1|]"},{"text":" has reached checkpoint |0;1|!","color":"yellow"}]}
+                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] $Name$RaceCP = |0;1|
+        
+    ///    Teleports
+        Func_DetectTP()
+        @a[Arr_Checkpoints[0][0],m=2,$Name$RaceCP>=1] + $Name$RWaterTP
+        LOOP {0 Arr_Checkpoints[-1] + 1}:
+        ///    tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] Arr_Checkpoints[|0|][Arr_Checkpoints[|0|][-1]]
+            DEF $Test$ Arr_Checkpoints[|0;1|][-1]
+            tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] Arr_Checkpoints[|0|][$Test$]
+        effect @a[$Name$RWaterTP] 6 1 100 true
+        effect @a[$Name$RWaterTP] 11 1 100 true
+        @a[$Name$RWaterTP] playsound Snd_TP voice @a[c=1]
+        @a[$Name$RWaterTP] - $Name$RWaterTP
+
+    FUNC {GLOBAL Func_RaceSpecificEndClock}:
+        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
+        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
+
+    FUNC {GLOBAL Func_RaceSpecificEnd}:
+    ///    Scoreboard
+        CCU.objectiveRemove(Obj_RaceSpecificStart)
+        
+    /// Runs setblock/fill commands
+        LOOP {0 Arr_SetblockPlaces[-1] + 1}:
+            IF {Arr_SetblockPlaces[|0|][L] > 0}:
+                LOOP {0 Arr_SetblockPlaces[|0|][-1] + 1}:
+                    SPLIT {Arr_Temp Arr_SetblockPlaces[|0;1|][|0|]} { }
+                    IF {Arr_Temp[L] = 3}:
+                        setblock Arr_SetblockPlaces[|0;1|][|0|] air 0
+                    IF {Arr_Temp[L] = 6}:
+                        fill Arr_SetblockPlaces[|0;1|][|0|] air 0
+                        

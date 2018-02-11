@@ -197,6 +197,7 @@ def set_rankings(text):
     tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
 
 !mfunc main
+    @e[type=armor_stand,FlooStand] function ego:floo_network/run_event unless @s[FLgam=0]
     @a[FLid=1..] function ego:floo_network/spawnpoint
     @a[FLtp=1..] function ego:floo_network/teleport
     @a[$(select_tree)] function ego:floo_network/in_spawn_tree
@@ -216,6 +217,11 @@ def set_rankings(text):
     
     tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been uninstalled!","color":"gray"}'))
     kill @e[type=armor_stand,FlooStand]
+
+
+# used on the FlooStand if an event has to be ran
+!mfunc run_event
+    $for(event in Event.members)
 
 
 # used on players to set their spawnpoint to the given event id
@@ -246,20 +252,6 @@ def set_rankings(text):
     ScOP @s FLtp *= -1 constants
 
 
-# used by pretty much all init mcfunctions to ensure that no other events are running
-!mfunc stop_events
-    # only stops events if the FLgam value is not 0
-    @e[type=armor_stand,FlooStand] function ego:floo_network/_stop_events unless @s[FLgam=0]
-
-
-# used on the FlooStand if an event is currently running and has to be terminated
-!mfunc _stop_events
-    $for(event in Event.members)
-    function ego:$(event.folder_name)/term if @s[FLgam=$(event.id)]
-    $endfor
-    @s[FLgam=1..] FLgam = 0
-
-
 # used on players when they are in the spawn tree
 !mfunc in_spawn_tree
     # gives saturation
@@ -287,6 +279,35 @@ def set_rankings(text):
     @s SPdim = 1 {$(dimension_id)}
 
 
+# used on the FlooStand to calculate whether players' ranking affects their
+# ability to change gamemodes or not
+!mfunc calc_rank
+    @s FLrac = 1
+    
+    ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
+    $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
+    @s[FLrac=$(score)..] @a[MCTeams=$(score),FLdim=1] FLrac = 0
+    @s[FLrac=$(score)..] FLrac - $(score)
+    $endfor
+
+
+# used on players with FLrac=1
+# If their rank doesn't give special permissions, they will
+# always be turned to gamemode 2 from survival or creative
+# and they will teleport to spawn upon logging in the event server
+!mfunc use_rank
+    # sets gamemode to 2
+    gamemode 2 @s[m=1,FLdim=1]
+    gamemode 2 @s[m=0,FLdim=1]
+    
+    # teleports them to spawn if they are re-entering the game
+    ScOP @s[FLlg=1..,FLdim=1] FLtp = spawn SPna
+
+    # resets scores
+    @s FLrac = 0
+    @s[FLlg=1..] FLlg = 0
+
+
 # used on the FlooStand to use the given floo network options specified per event
 # These include pvp true/false, saturation true/false,
 # weather clear/rain/thunder and gamemode adventure/survival
@@ -304,34 +325,6 @@ def set_rankings(text):
     
     # gamemode
     @s[SPgmd=1] gamemode 2 @a[m=0,FLdim=1]
-
-
-# used on the FlooStand to calculate whether players' ranking affects their
-# ability to change gamemodes or not
-!mfunc calc_rank
-    @s FLrac = 1
-    
-    ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
-    $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
-    @s[FLrac=$(score)..] @a[MCTeams=$(score),FLdim=1] FLrac = 0
-    @s[FLrac=$(score)..] FLrac - $(score)
-    $endfor
-
-# used on players with FLrac=1
-# If their rank doesn't give special permissions, they will
-# always be turned to gamemode 2 from survival or creative
-# and they will teleport to spawn upon logging in the event server
-!mfunc use_rank
-    # sets gamemode to 2
-    gamemode 2 @s[m=1,FLdim=1]
-    gamemode 2 @s[m=0,FLdim=1]
-    
-    # teleports them to spawn if they are re-entering the game
-    ScOP @s[FLlg=1..,FLdim=1] FLtp = spawn SPna
-
-    # resets scores
-    @s FLrac = 0
-    @s[FLlg=1..] FLlg = 0
 
     
 # used on players who wanted to vote (with a score of FLvot of not 0)
@@ -365,6 +358,21 @@ def set_rankings(text):
     }]}
     playsound $(Sounds.xp) voice @s
     @s FLvot = 0
+
+
+# used by pretty much all init mcfunctions to ensure that no other events are running
+!mfunc stop_events
+    # only stops events if the FLgam value is not 0
+    @e[type=armor_stand,FlooStand] function ego:floo_network/_stop_events unless @s[FLgam=0]
+
+
+# used on the FlooStand if an event is currently running and has to be terminated
+!mfunc _stop_events
+    $for(event in Event.members)
+    function ego:$(event.folder_name)/term if @s[FLgam=$(event.id)]
+    $endfor
+    @s[FLgam=1..] FLgam = 0
+
 
 $py(r"""
     @a[$MM$,SPdim=1] SPmm = 1

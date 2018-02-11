@@ -19,22 +19,19 @@ class ConstInts(Container):
 
         self.objective = Objective(objName, remove_self=False)
         OBJECTIVES.add(self.objective)
-        self.constants = set()
 
     def add_constants(self, *constants):
         """
         Adds any number of integer constants given
         """
         for constant in constants:
-            self.constants.add(constant)
+            self.objective.add_const(str(constant), str(constant))
 
     def cmd_init(self):
         """
-        Outputs "scoreboard players set" for each constant in increasing order
+        Does nothing, since the global objective initialization should both
+        create the objective and set the constants
         """
-        for const in sorted(list(self.constants)):
-            self.cmd_queue.put("scoreboard players set {num} {name} {num}".format(num=const, name=self.objective.name))
-        return self._cmd_output()
 
     def cmd_term(self):
         """

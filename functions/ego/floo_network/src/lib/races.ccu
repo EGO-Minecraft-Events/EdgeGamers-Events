@@ -1,297 +1,165 @@
-$py("""
-# general copy pasta
+$py(
+# constants are used throughout the race.ccu files
+from lib.consts import Effects, Sounds
 
-from races import *
-from floo_network import EMERALD_RACE
-race = LapRace(EMERALD_RACE,
-    "x=255,y=17,z=-94,dx=14,dy=10,dz=1", "x=220,y=8,z=-104,dx=1,dy=12,dz=8", "x=255,y=17,z=-97,dx=25,dy=10,dz=2",
-    fill_air=Coords("269 19 -94 255 19 -94"), fill_block=Coords("269 19 -98 255 19 -98"))
-""")
+# obviously uses scoreboard constants
+from lib.scoreboard import OBJECTIVES, TEAMS
+
+
+# general constants
+select_all = race.event.select_all
+
+# the initials are the same as the display objective name
+initials = obj_name = race.initials
+
+# shorthand team name
+team_name = race.initials + "r"
+)
+
+# Includes the specific race type
 $if(isinstance(race, RegularRace))
-    FUNC {GLOBAL Func_RaceSpecificStart}:
-    ///    Scoreboards
-        ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_RaceSpecificStart) Obj_RaceSpecificStart}:
-            $Name$RaceBC dummy $TDName$ Broadcast
-
-    FUNC {GLOBAL Func_RaceSpecificClock}:
-        @a[$SA$,team=$Name$R] $Name$RaceBC + 0
-        
-    /// Iterates through the entire array
-    /// Arr_SelectPlaces[|0|][0] gets the selection
-    /// Arr_SelectPlaces[|0|][1] is the win message
-        LOOP {0 Arr_SelectPlaces[-1] + 1} {1 Arr_SelectPlaces[L] + 1}:
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |1|
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" Arr_SelectPlaces[|0|][1]","color":"green"}]}
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] playsound Snd_Level voice @a
-            
-        /// Runs any additional commands if detected
-            IF {Arr_SelectPlaces[|0|][L] > 2}:
-                LOOP {2 Arr_SelectPlaces[-1] + 1}:
-                    @a[Arr_SelectPlaces[|0;1|][0],c=1,m=2,$Name$RaceBC=|1;1|] Arr_SelectPlaces[|0;1|][|0|]
-            
-    ///    Set everyone's score if they won
-        @a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
-
-    FUNC {GLOBAL Func_RaceSpecificEndClock}:
-        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
-        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
-
-    FUNC {GLOBAL Func_RaceSpecificEnd}:
-    ///    Scoreboard
-        CCU.objectiveRemove(Obj_RaceSpecificStart)
-        
-    /// Runs setblock/fill commands
-        LOOP {0 Arr_SetblockPlaces[-1] + 1}:
-            IF {Arr_SetblockPlaces[|0|][L] > 0}:
-                LOOP {0 Arr_SetblockPlaces[|0|][-1] + 1}:
-                    SPLIT {Arr_Temp Arr_SetblockPlaces[|0;1|][|0|]} { }
-                    IF {Arr_Temp[L] = 3}:
-                        setblock Arr_SetblockPlaces[|0;1|][|0|] air 0
-                    IF {Arr_Temp[L] = 6}:
-                        fill Arr_SetblockPlaces[|0;1|][|0|] air 0
+$include("lib/race_regular.ccu")
 
 $elif(isinstance(race, LapRace))
-IF {$RaceType$ = 1}:
-    PRINT [$TDName$]: Lap Race
-
-    FUNC {GLOBAL Func_RaceSpecificStart}:
-        
-
-    FUNC {GLOBAL Func_RaceSpecificClock}:
-    ///    Detects laps by not having the lap tag when they hit the finish line
-    
-    ///    Adds to scoreboard
-        @a[$SA$,m=2,team=$Name$R] $Name$Race + 0
-        
-    ///    Adds to tag if they're in the spawn to prevent going backwards
-        @a[$lapSP$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] + $Name$Lap
-        
-    ///    Lap detection
-        @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] $Name$Race + 1
-        @a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] tellraw @a[$SA$] \
-                $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap]"},{"text":" has finished a lap!","color":"yellow"}]}
-        @a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] playsound Snd_XP voice @a
-        
-    ///    Adds the lap tag when they're at the finish
-        @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] + $Name$Lap
-        
-    ///    Removes the lap tag at some place in the middle of the race so it forces the player to go through the race
-        @a[$lapAF$,m=2,team=$Name$R,$Name$Race>=0,$Name$Lap] - $Name$Lap
-
-    FUNC {GLOBAL Func_RaceSpecificEndClock}:
-        
-
-    FUNC {GLOBAL Func_RaceSpecificEnd}:
-    ///    Removes the lap tag from all players
-        * - $Name$Lap
-//>
+$include("lib/race_lap.ccu")
 
 $elif(isinstance(race, CheckpointRace))
-    PRINT [$TDName$]: Checkpoint Race
-    
-    FUNC {GLOBAL Func_RaceSpecificStart}:
-    ///    Scoreboards
-        ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_RaceSpecificStart) Obj_RaceSpecificStart}:
-            $Name$RaceBC dummy $TDName$ Broadcast
-            $Name$RaceCP dummy $TDName$ Checkpoints
-
-    FUNC {GLOBAL Func_RaceSpecificClock}:
-        @a[$SA$,team=$Name$R] $Name$RaceBC + 0
-        
-    /// Iterates through the entire array
-    ///    Arr_SelectPlaces[|0|][0] gets the selection
-    ///    Arr_SelectPlaces[|0|][1] is the win message
-        LOOP {0 Arr_SelectPlaces[-1] + 1} {1 Arr_SelectPlaces[L] + 1}:
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |1|
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" Arr_SelectPlaces[|0|][1]","color":"green"}]}
-            @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] playsound Snd_Level voice @a
-            
-        /// Runs any additional commands if detected
-            IF {Arr_SelectPlaces[|0|][L] > 2}:
-                LOOP {2 Arr_SelectPlaces[-1] + 1}:
-                    @a[Arr_SelectPlaces[|0;1|][0],c=1,m=2,$Name$RaceBC=|1;1|] Arr_SelectPlaces[|0;1|][|0|]
-        
-        @a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
-        
-    ///    Checkpoint setups
-        LOOP {0 Arr_Checkpoints[-1] + 1} {-1 (Arr_Checkpoints[-1] - 1) + 1}:
-            IF {|0| = 0}:
-                @a[Arr_Checkpoints[|0|][0],m=2,team=$Name$R] $Name$RaceCP + 0
-            ELSE:
-                LOOP {0 (Arr_Checkpoints[|0|][-1] - 1) + 1}:
-                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] playsound Snd_Level voice @a[c=1]
-                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] tellraw @a[$SA$] \
-                            $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$RaceCP=|1;1|]"},{"text":" has reached checkpoint |0;1|!","color":"yellow"}]}
-                    @a[Arr_Checkpoints[|0;1|][|0|],m=2,team=$Name$R,$Name$RaceCP=|1;1|] $Name$RaceCP = |0;1|
-        
-    ///    Teleports
-        Func_DetectTP()
-        @a[Arr_Checkpoints[0][0],m=2,$Name$RaceCP>=1] + $Name$RWaterTP
-        LOOP {0 Arr_Checkpoints[-1] + 1}:
-        ///    tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] Arr_Checkpoints[|0|][Arr_Checkpoints[|0|][-1]]
-            DEF $Test$ Arr_Checkpoints[|0;1|][-1]
-            tp @a[$SA$,m=2,$Name$RWaterTP,$Name$RaceCP=|0|] Arr_Checkpoints[|0|][$Test$]
-        effect @a[$Name$RWaterTP] 6 1 100 true
-        effect @a[$Name$RWaterTP] 11 1 100 true
-        @a[$Name$RWaterTP] playsound Snd_TP voice @a[c=1]
-        @a[$Name$RWaterTP] - $Name$RWaterTP
-
-    FUNC {GLOBAL Func_RaceSpecificEndClock}:
-        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
-        ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
-
-    FUNC {GLOBAL Func_RaceSpecificEnd}:
-    ///    Scoreboard
-        CCU.objectiveRemove(Obj_RaceSpecificStart)
-        
-    /// Runs setblock/fill commands
-        LOOP {0 Arr_SetblockPlaces[-1] + 1}:
-            IF {Arr_SetblockPlaces[|0|][L] > 0}:
-                LOOP {0 Arr_SetblockPlaces[|0|][-1] + 1}:
-                    SPLIT {Arr_Temp Arr_SetblockPlaces[|0;1|][|0|]} { }
-                    IF {Arr_Temp[L] = 3}:
-                        setblock Arr_SetblockPlaces[|0;1|][|0|] air 0
-                    IF {Arr_Temp[L] = 6}:
-                        fill Arr_SetblockPlaces[|0;1|][|0|] air 0
-
+$include("lib/race_checkpoint.ccu")
 $endif
 
-$macro(general_scoreboard_start)
 $py(
 OBJECTIVES.new_str("""
-. _ .
-_CD _ Countdown
-_CL _ Clear
-_DE deathCount Deaths
-""", race.initials, race.obj_disp)
+    # This looks like a stupid whale face, but this actually is valid
+    # the first dot is replaced with initials, and the second is
+    # replaced with the display name
+    . _ .
 
-CCU_ExecuteSpawnStand ScSS $Name$Race
+    # Used by the temporary area effect cloud to act as a countdown timer
+    cd _ Countdown
 
-ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
-    $Name$R
-    OPT color $Color$
-    OPT seeFriendlyInvisibles true
-    OPT collisionRule never
-    OPT friendlyfire false
+    # Used on players to initially clear any items at the beginning of the race
+    cl _ Clear
 
-///    Countdown start
-CCU_ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
-
-///    Other
-/spawn $Name$Race = 99
-J> $Name$R /spawn
-
-Func_EditGeneralScoreboardStart()
-Func_RaceSpecificStart()
-$endmacro
-
-//<Main Clock
-FUNC {GLOBAL Func_GeneralScoreboardClock}:
-    kill @e[$SA$,type=Item]
+    # Used on players to reset each player upon death
+    de deathCount Deaths
+    """, initials, race.obj_disp)
     
-    @a[$SA$,m=2] $Name$RaceCL + 0
-    @a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
-    @a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
-    effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
-    clear @a[$SA$,m=2,$Name$RaceDE>=1]
-    @a[$SA$,m=2,$Name$RaceDE>=1] SPbk = $SPid$
-    J> $Name$R @a[$SA$,team=!$Name$R]
-    effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+OBJECTIVES[initials].setdisplay("sidebar")
+OBJECTIVES[initials].add_const("/spawn", 99)
+
+TEAMS.new_str("""
+    # The main team that all players will join
+    r .
+        color {0}
+        seeFriendlyInvisibles true
+        collisionRule never
+        friendlyfire false
+""".format(race.color), initials, race.obj_disp)
+)
+
+!mfunc init
+    # initialize the floo network
+    $(race.cmd_init())
+
+    # from the include files
+    $race_main_start()
+
+    # initializes objectives and teams
+    $(OBJECTIVES.cmd_init())
+    $(TEAMS.cmd_init())
+
+    # countdown start
+    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)cd"]}
+
+    # adds the "/spawn" fakename to the proper color
+    join $(race.initials)R /spawn
+
+    # from main ccu file
+    $edit_main_start()
+
+    # initialize the floo network
+    $(race.cmd_post_init())
+
+!mfunc main
+    # the floo network clock for setting spawnpoints
+    $(race.cmd_main())
     
-    Func_RaceSpecificClock()
-    Func_EditGeneralScoreboardClock()
+    @e[type=area_effect_cloud, $(initials)Countdown] function ego:$(race.event.folder_name)/countdown
+    kill @e[$(select_all),type=item]
     
-    @a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
-    Func_RaceSpecificEndClock()
-//>
+    # adds everyone to the clear objective
+    @a[$(select_all),m=2] $(initials)cl + 0
 
-//<Countdown
-FUNC {GLOBAL Func_CountdownTFClock}:
-    testfor @e[type=AreaEffectCloud,$Name$RaceCD]
-    CCU_SetblockTestfor
+    # uses the clear objective to initialize the death scoreboard
+    @a[$(select_all),m=2,$(initials)cl=0] $(initials)de = 1
+    @a[$(select_all),m=2,$(initials)cl=0] $(initials)cl = 1
+
+    # resets the player's everything upon death
+    # clears effects and inventory
+    effect @a[$(select_all),m=2,$(initials)de>=1] clear
+    clear @a[$(select_all),m=2,$(initials)de>=1]
+
+    # gives all ECs books
+    @a[$(select_all),m=2,$(initials)de>=1] FLbk = $(race.id)
+
+    # joins the race team
+    join $(team_name) @a[$(select_all),team=!$(team_name)]
+
+    # gives invis to all
+    effect @a[$(select_all),m=2,team=$(team_name)] $(Effects.invis) 3 0 true
     
-    @e[type=AreaEffectCloud,$Name$RaceCD] $Name$RaceCD + 1
+    $race_main_clock()
+    $edit_main_clock()
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+    # resets the death scoreboard
+    @a[$(select_all),m=2,$(initials)de>=1] $(initials)de = 0
+    $race_end_main_clock()
+
+
+!mfunc term
+    # terminates the floo network
+    $(race.cmd_term())
+
+    # terminates all scoreboards
+    $(OBJECTIVES.cmd_term())
+    $(TEAMS.cmd_term())
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+    # removes the area effect cloud
+    kill @e[type=area_effect_cloud,$(initials)cd]
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+    # general reset
+    effect @a[$(select_all)] clear
+    clear @a[$(select_all),m=2]
+    @a[$(select_all),m=2,EC=0] FLbk = $(race.id)
+    effect @a[$(select_all),m=2] $(Effects.hp) 20 100 true
+    @a[$(select_all),m=2] FLtp = $(race.id)
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+    $edit_main_end()
+    $race_main_end()
+
+
+# used on the area effect cloud countdown entity to display
+# the countdown using tellraw and playsounds
+!mfunc countdown
+    @s $(initials)cd + 1
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+    @s[$(initials)cd=20] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=20] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 0.5
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @a[$SA$] playsound Snd_Wither voice @a[c=1]
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"GO!","color":"green"}
+    @s[$(initials)cd=40] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"4","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=40] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1
     
-    Func_EditCountdownTFClock()
-//>
-
-//<Main End
-FUNC {GLOBAL Func_GeneralScoreboardEnd}:
-///    Scoreboard
-    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
-    CCU.teamRemove(Team_GeneralScoreboardStart)
+    @s[$(initials)cd=60] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"3","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=60] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1.5
     
-///    Countdown reset
-    kill @e[type=AreaEffectCloud,$Name$RaceCD]
+    @s[$(initials)cd=80] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"2","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=80] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-///    General reset
-    effect @a[$SA$] clear
-    clear @a[$SA$,m=2]
-    @a[$SA$,m=2,EC=0] SPbk = $SPid$
-    effect @a[$SA$,m=2] 6 20 100 true
-    @a[$SA$,m=2] SPtp = $SPid$
+    @s[$(initials)cd=100] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"1","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=100] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-    Func_EditGeneralScoreboardEnd()
-    Func_RaceSpecificEnd()
-//>
-
-
-//<Groups
-FUNC {GLOBAL Func_GeneralGroups}:
-    ARGS()
-    UNASSIGN {FUNC ARGS}
+    @s[$(initials)cd=120] @a[$(select_all)] playsound $(Sounds.wither) voice @a[c=1]
+    @s[$(initials)cd=120] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
+    @s[$(initials)cd=120] title @a[$(select_all)] title {"text":"GO!","color":"green"}
     
-    GROUP {Grp_MainStart}:
-        CCU.spawnStandStart()
-        CCU_Deactivate(GSELF)
-        Func_GeneralScoreboardStart()
-        CCU_Activate(Grp_MainClock)
-        CCU.tfActivate(Grp_CountdownTFClock)
-        CCU_FinalSpawnStand
-
-    GROUP {Grp_MainClock}:
-        CCU.spawnIDSetting()
-        Func_GeneralScoreboardClock()
-
-    GROUP {Grp_CountdownTFClock}:
-        Func_CountdownTFClock()
-
-    GROUP {Grp_MainEnd}:
-        CCU.spawnStandEnd()
-        CCU_Deactivate(GSELF)
-        Func_GeneralScoreboardEnd()
-        CCU_Deactivate(Grp_MainClock)
-        CCU.tfDeactivate(Grp_CountdownTFClock)
-
-    CCU.cmdSave()
-//>
-
-
-
-
-
-
-
-
-
-
-
+    $edit_countdown_clock()

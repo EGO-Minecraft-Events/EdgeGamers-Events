@@ -1,41 +1,27 @@
-$py("""
-# general copy pasta
+$py(
+# constants are used throughout the race.ccu files
+from lib.consts import Effects, Sounds
 
-from races import *
-from floo_network import EMERALD_RACE
-race = LapRace(EMERALD_RACE,
-    lap=Coords("255 17 -94 269 27 -93").to_selector(),
-    lap_reset=Coords("220 8 -104 221 20 -96").to_selector(),
-    spawn=Coords("255 17 -97 280 27 -95").to_selector(),
-    fill_air=Coords("269 19 -94 255 19 -94"),
-    fill_block=Coords("269 19 -98 255 19 -98"))
-
-$macro(edit_main_start)
-$endmacro
-
-$macro(edit_main_clock)
-$endmacro
-
-$macro(edit_countdown_clock)
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $(fill_air) stonebrick 0 replace redstone_block 0
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] fill $(fill_block) redstone_block 0 replace stonebrick 0
-$endmacro
+# obviously uses scoreboard constants
+from lib.scoreboard import OBJECTIVES, TEAMS
 
 
-$macro(edit_main_end)
-    fill $Dao$ redstone_block 0 replace stonebrick 0
-    fill $Dro$ stonebrick 0 replace redstone_block 0
-$endmacro
+# general constants
+select_all = race.event.select_all
 
-$include("lib/races.ccu")
+# the initials are the same as the display objective name
+initials = obj_name = race.initials
 
-""")
+# shorthand team name
+team_name = race.initials + "r"
+)
 
+# Includes the specific race type
 $if(isinstance(race, RegularRace))
 $include("lib/race_regular.ccu")
 
 $elif(isinstance(race, LapRace))
-$include("lib/race_lab.ccu")
+$include("lib/race_lap.ccu")
 
 $elif(isinstance(race, CheckpointRace))
 $include("lib/race_checkpoint.ccu")
@@ -43,142 +29,137 @@ $endif
 
 $py(
 OBJECTIVES.new_str("""
+    # This looks like a stupid whale face, but this actually is valid
+    # the first dot is replaced with initials, and the second is
+    # replaced with the display name
     . _ .
-    _CD _ Countdown
-    _CL _ Clear
-    _DE deathCount Deaths
-    """, race.initials, race.obj_disp)
-OBJECTIVES[race.initials].setdisplay("sidebar")
-OBJECTIVES[race.initials].add_const("/spawn", 99)
+
+    # Used by the temporary area effect cloud to act as a countdown timer
+    cd _ Countdown
+
+    # Used on players to initially clear any items at the beginning of the race
+    cl _ Clear
+
+    # Used on players to reset each player upon death
+    de deathCount Deaths
+    """, initials, race.obj_disp)
+    
+OBJECTIVES[initials].setdisplay("sidebar")
+OBJECTIVES[initials].add_const("/spawn", 99)
 
 TEAMS.new_str("""
-    R .
+    # The main team that all players will join
+    r .
         color {0}
         seeFriendlyInvisibles true
         collisionRule never
         friendlyfire false
-""".format(race.color), race.initials, race.obj_disp)
+""".format(race.color), initials, race.obj_disp)
 )
 
 !mfunc init
+    # initialize the floo network
+    $(race.cmd_init())
+
+    # from the include files
+    $race_main_start()
+
+    # initializes objectives and teams
     $(OBJECTIVES.cmd_init())
     $(TEAMS.cmd_init())
 
     # countdown start
-    summon AreaEffectCloud ~ ~ ~ {Duration:130,Tags:["$Name$RaceCD"]}
+    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)cd"]}
 
     # adds the "/spawn" fakename to the proper color
     join $(race.initials)R /spawn
 
-    # Func_EditGeneralScoreboardStart()
-    # Func_RaceSpecificStart()
+    # from main ccu file
+    $edit_main_start()
+
+    # initialize the floo network
+    $(race.cmd_post_init())
 
 !mfunc main
-    kill @e[$SA$,type=Item]
+    # the floo network clock for setting spawnpoints
+    $(race.cmd_main())
     
-    @a[$SA$,m=2] $Name$RaceCL + 0
-    @a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceDE = 1
-    @a[$SA$,m=2,$Name$RaceCL=0] $Name$RaceCL = 1
-    effect @a[$SA$,m=2,$Name$RaceDE>=1] clear
-    clear @a[$SA$,m=2,$Name$RaceDE>=1]
-    @a[$SA$,m=2,$Name$RaceDE>=1] SPbk = $SPid$
-    J> $Name$R @a[$SA$,team=!$Name$R]
-    effect @a[$SA$,m=2,team=$Name$R] 14 3 0 true
+    @e[type=area_effect_cloud, $(initials)Countdown] function ego:$(race.event.folder_name)/countdown
+    kill @e[$(select_all),type=item]
     
-    Func_RaceSpecificClock()
-    Func_EditGeneralScoreboardClock()
+    # adds everyone to the clear objective
+    @a[$(select_all),m=2] $(initials)cl + 0
+
+    # uses the clear objective to initialize the death scoreboard
+    @a[$(select_all),m=2,$(initials)cl=0] $(initials)de = 1
+    @a[$(select_all),m=2,$(initials)cl=0] $(initials)cl = 1
+
+    # resets the player's everything upon death
+    # clears effects and inventory
+    effect @a[$(select_all),m=2,$(initials)de>=1] clear
+    clear @a[$(select_all),m=2,$(initials)de>=1]
+
+    # gives all ECs books
+    @a[$(select_all),m=2,$(initials)de>=1] FLbk = $(race.id)
+
+    # joins the race team
+    join $(team_name) @a[$(select_all),team=!$(team_name)]
+
+    # gives invis to all
+    effect @a[$(select_all),m=2,team=$(team_name)] $(Effects.invis) 3 0 true
     
-    @a[$SA$,m=2,$Name$RaceDE>=1] $Name$RaceDE = 0
-    Func_RaceSpecificEndClock()
-//>
-
-//<Countdown
-FUNC {GLOBAL Func_CountdownTFClock}:
-    testfor @e[type=AreaEffectCloud,$Name$RaceCD]
-    CCU_SetblockTestfor
+    $race_main_clock()
+    $edit_main_clock()
     
-    @e[type=AreaEffectCloud,$Name$RaceCD] $Name$RaceCD + 1
+    # resets the death scoreboard
+    @a[$(select_all),m=2,$(initials)de>=1] $(initials)de = 0
+    $race_end_main_clock()
+
+
+!mfunc term
+    # terminates the floo network
+    $(race.cmd_term())
+
+    # terminates all scoreboards
+    $(OBJECTIVES.cmd_term())
+    $(TEAMS.cmd_term())
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] tellraw @a[$SA$] $TextStart${"text":"5","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=20] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 0.5
+    # removes the area effect cloud
+    kill @e[type=area_effect_cloud,$(initials)cd]
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] tellraw @a[$SA$] $TextStart${"text":"4","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=40] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1
+    # general reset
+    effect @a[$(select_all)] clear
+    clear @a[$(select_all),m=2]
+    @a[$(select_all),m=2,EC=0] FLbk = $(race.id)
+    effect @a[$(select_all),m=2] $(Effects.hp) 20 100 true
+    @a[$(select_all),m=2] FLtp = $(race.id)
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] tellraw @a[$SA$] $TextStart${"text":"3","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=60] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 1.5
+    $edit_main_end()
+    $race_main_end()
+
+
+# used on the area effect cloud countdown entity to display
+# the countdown using tellraw and playsounds
+!mfunc countdown
+    @s $(initials)cd + 1
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] tellraw @a[$SA$] $TextStart${"text":"2","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=80] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+    @s[$(initials)cd=20] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=20] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 0.5
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] tellraw @a[$SA$] $TextStart${"text":"1","color":"yellow","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=100] @a[$SA$] playsound Snd_Pling voice @a[c=1] ~ ~ ~ 2
+    @s[$(initials)cd=40] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"4","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=40] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1
     
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] @a[$SA$] playsound Snd_Wither voice @a[c=1]
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] tellraw @a[$SA$] $TextStart${"text":"GO!","color":"green","bold":"true"}]}
-    @e[type=AreaEffectCloud,$Name$RaceCD,$Name$RaceCD=120] title @a[$SA$] title {"text":"GO!","color":"green"}
+    @s[$(initials)cd=60] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"3","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=60] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1.5
     
-    Func_EditCountdownTFClock()
-//>
-
-//<Main End
-FUNC {GLOBAL Func_GeneralScoreboardEnd}:
-///    Scoreboard
-    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
-    CCU.teamRemove(Team_GeneralScoreboardStart)
+    @s[$(initials)cd=80] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"2","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=80] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-///    Countdown reset
-    kill @e[type=AreaEffectCloud,$Name$RaceCD]
+    @s[$(initials)cd=100] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"1","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=100] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-///    General reset
-    effect @a[$SA$] clear
-    clear @a[$SA$,m=2]
-    @a[$SA$,m=2,EC=0] SPbk = $SPid$
-    effect @a[$SA$,m=2] 6 20 100 true
-    @a[$SA$,m=2] SPtp = $SPid$
+    @s[$(initials)cd=120] @a[$(select_all)] playsound $(Sounds.wither) voice @a[c=1]
+    @s[$(initials)cd=120] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
+    @s[$(initials)cd=120] title @a[$(select_all)] title {"text":"GO!","color":"green"}
     
-    Func_EditGeneralScoreboardEnd()
-    Func_RaceSpecificEnd()
-//>
-
-
-//<Groups
-FUNC {GLOBAL Func_GeneralGroups}:
-    ARGS()
-    UNASSIGN {FUNC ARGS}
-    
-    GROUP {Grp_MainStart}:
-        CCU.spawnStandStart()
-        CCU_Deactivate(GSELF)
-        Func_GeneralScoreboardStart()
-        CCU_Activate(Grp_MainClock)
-        CCU.tfActivate(Grp_CountdownTFClock)
-        CCU_FinalSpawnStand
-
-    GROUP {Grp_MainClock}:
-        CCU.spawnIDSetting()
-        Func_GeneralScoreboardClock()
-
-    GROUP {Grp_CountdownTFClock}:
-        Func_CountdownTFClock()
-
-    GROUP {Grp_MainEnd}:
-        CCU.spawnStandEnd()
-        CCU_Deactivate(GSELF)
-        Func_GeneralScoreboardEnd()
-        CCU_Deactivate(Grp_MainClock)
-        CCU.tfDeactivate(Grp_CountdownTFClock)
-
-    CCU.cmdSave()
-//>
-
-
-
-
-
-
-
-
-
-
-
+    $edit_countdown_clock()

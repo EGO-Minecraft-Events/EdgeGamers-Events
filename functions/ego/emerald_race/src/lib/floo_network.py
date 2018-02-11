@@ -97,16 +97,16 @@ class FlooEvent(Container):
         return self._cmd_output()
 
     def cmd_post_init(self):
-        return "@e[type=armor_stand,FlooStand,SPgam=0] SPgam = {}".format(self.id)
+        return "@e[type=armor_stand,FlooStand,FLgam=0] FLgam = {}".format(self.id)
 
     def cmd_main(self):
         """
         Used in the main loop to set everyone's floo network id value
         for spawning and teleportation
         """
-        self.cmd_queue.put("@a[{SA}] FLid + 0").format(SA)
-        self.cmd_queue.put("@a[{SA},FLid=..-{id_calc}] FLid = {id}".format(SA, self.id+1, self.id))
-        self.cmd_queue.put("@a[{SA}] FLid=-{id_calc}.. FLid = {id}".format(SA, self.id-1, self.id))
+        self.cmd_queue.put("@a[{}] FLid + 0".format(self.event.select_all))
+        self.cmd_queue.put("@a[{0},FLid=..-{1}] FLid = {2}".format(self.event.select_all, self.id+1, self.id))
+        self.cmd_queue.put("@a[{0},FLid=-{1}..] FLid = {2}".format(self.event.select_all, self.id-1, self.id))
 
         return self._cmd_output()
 
@@ -147,15 +147,17 @@ class Event:
     members = []
 
     class Text:
-        def __init__(self, text, colors, disp_name, id, are_initials=False):
+        def __init__(self, text, colors, disp_name, id, begin="", end=""):
             """
             Displays the name with the given options
 
             Args:
-                initials (str): 
-                colors (str): 
-                hover (str): 
-                hover_cmd (str or int): either the command to run when hovering or the event id
+                text (str): String split with ";" to allow multiple colors
+                colors (str): Colors split with ";"
+                disp_name (str): The display name
+                id (str or int): the event id
+                begin (str): What the json string begins with
+                end (str): What the json string ends with
 
             eg.
                 Text("PC", "dark_aqua", "Pictionary")
@@ -168,25 +170,13 @@ class Event:
             self.colors = tuple(colors.split(";"))
             self.disp_name = disp_name
             self.hover_cmd = "/scoreboard players set @p FLtp {}".format(id)
-            self.are_initials = are_initials
+            self.json = self.get_json(begin)
+            self.end = end
 
-        @classmethod
-        def from_initials(cls, text, colors, disp_name, id):
-            initials = "[;{};];: ".format(text)
-            colors = "light_gray;{};light_gray;white".format(colors)
-            return cls(initials, colors, disp_name, id, True)
-
-        def __call__(self, text=None):
+        def get_json(self, begin):
             """
-            This either gets the beginning of the text, or surrounds the given text with proper text
+            Gets the mid section for the json string
             """
-            if self.are_initials:
-                begin = '{"text":"","extra":['
-                end = "]}"
-            else:
-                begin = ""
-                end = ""
-
             mid_list = []
             for color, name_slice in zip(self.colors, self.text):
                 if name_slice in "[]":
@@ -198,11 +188,7 @@ class Event:
                             self.disp_name + r'","color":"' + color + r'"}},"clickEvent":{"action":"run_command","value":"' + self.hover_cmd + r'"}}')
                 mid_list.append(mid)
             mid = ",".join(mid_list)
-            if text is None:
-                if self.are_initials:
-                    return begin + mid + ","
-                return begin + mid
-            return begin + mid + "," + text + end
+            return begin + mid
 
         def __str__(self):
             return "Text['{}']".format("".join(self.text))
@@ -210,6 +196,31 @@ class Event:
         def __repr__(self):
             return "Text['name={0}, colors={1}, disp_name={2}, hover_cmd={3}']".format(
                 self.text, self.colors, repr(self.disp_name), repr(self.hover_cmd))
+    
+    class Initials(Text):
+        def __init__(self, text, colors, disp_name, id):
+            initials = "[;{};];: ".format(text)
+            colors = "light_gray;{};light_gray;white".format(colors)
+            begin = '{"text":"","extra":['
+            end = "]}"
+
+            super().__init__(initials, colors, disp_name, id, begin, end)
+            self.simple_initials = text.replace(";", "")
+
+        def __call__(self, text=None):
+            if text is None:
+                return self.json + ","
+            return self.json + "," + text + self.end
+
+
+    class Name(Text):
+        def __init__(self, text, colors, disp_name, id):
+            super().__init__(text, colors, disp_name, id)
+
+        def __call__(self, text=None):
+            if text is None:
+                return self.json
+            return self.json + "," + text + self.end
 
 
     def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None):
@@ -261,8 +272,8 @@ class Event:
             else:
                 initials_color = self.colors[0]
 
-        self.begin = Event.Text.from_initials(initials_text, initials_color, self.full_name, self.id)
-        self.name_text = Event.Text(name, colors, self.full_name, self.id)
+        self.begin = Event.Initials(initials_text, initials_color, self.full_name, self.id)
+        self.name_text = Event.Name(name, colors, self.full_name, self.id)
 
         # checks whether the length of the color after splitting
         # is the length of the name after splitting

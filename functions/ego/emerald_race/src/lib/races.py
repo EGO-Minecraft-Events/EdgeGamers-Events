@@ -25,7 +25,7 @@ class Race(FlooEvent):
         super().__init__(event, **options)
         self.fill_air = fill_air
         self.fill_block = fill_block
-        self.initials = self.event.text.simple
+        self.initials = self.event.begin.simple_initials
         self.disp_name = self.event.full_name
 
         if obj_disp is None:
@@ -37,37 +37,57 @@ class Race(FlooEvent):
         self.color = event.colors[0]
 
 
-class LapRace(Race):
+class Place:
     """
-    Container class to get lap race properties
-    Attributes:
-        lap (str): selector region when completing a lap
-        lap_reset (str): selector region when resetting the lap selection
-        spawn (str): selector region for the spawn area
+    Container to hold the #th place information
     """
-    def __init__(self, event, lap, lap_reset, spawn, obj_disp=None, fill_air=None, fill_block=None, **options):
+    def __init__(self):
+        pass
+
+class RegularRace(Race):
+    def __init__(self, event, obj_disp=None, fill_air=None, fill_block=None, **options):
         """
         Args:
             event (floo_network.Event)
-            lap (Coords region or str)
-            lap_reset (Coords region or str)
-            spawn (Coords region or str)
             fill_air (Coords region)
             fill_block (Coords region)
         """
         super().__init__(event, obj_disp, fill_air, fill_block, **options)
 
-        if isinstance(lap, Coords):
-            self.lap = lap.to_selector()
-        else:
-            self.lap = lap
 
-        if isinstance(lap_reset, Coords):
-            self.lap_reset = lap_reset.to_selector()
-        else:
-            self.lap_reset = lap_reset
+class CheckpointRace(RegularRace):
+    def __init__(self, event, obj_disp=None, fill_air=None, fill_block=None, **options):
+        super().__init__(event, obj_disp, fill_air, fill_block, **options)
 
-        if isinstance(spawn, Coords):
-            self.spawn = spawn.to_selector()
-        else:
-            self.spawn = spawn
+
+class LapRace(Race):
+    """
+    Container class to get lap race properties
+    Attributes:
+        lap (str): selector region when completing a lap
+        lap_coords (Coords)
+        lap_reset (str): selector region when resetting the lap selection
+        lap_reset_coords (Coords)
+        spawn (str): selector region for the spawn area
+        spawn_coords (Coords)
+    """
+    def __init__(self, event, lap, lap_reset, spawn, obj_disp=None, fill_air=None, fill_block=None, **options):
+        """
+        Args:
+            event (floo_network.Event)
+            lap (Coords region)
+            lap_reset (Coords region)
+            spawn (Coords region)
+            fill_air (Coords region)
+            fill_block (Coords region)
+        """
+        super().__init__(event, obj_disp, fill_air, fill_block, **options)
+
+        self.lap_coords = lap
+        self.lap = lap.to_selector()
+
+        self.lap_reset_coords = lap_reset
+        self.lap_reset = lap_reset.to_selector()
+
+        self.spawn_coords = spawn
+        self.spawn = spawn.to_selector()
