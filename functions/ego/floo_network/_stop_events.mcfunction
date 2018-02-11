@@ -25,7 +25,6 @@ function ego:rabbit_ball/term if @s[score_FLgam_min=1299512154,score_FLgam=12995
 function ego:mastermind/term if @s[score_FLgam_min=1807172851,score_FLgam=1807172851]
 function ego:pictionary/term if @s[score_FLgam_min=1511200574,score_FLgam=1511200574]
 function ego:royal_rumble/term if @s[score_FLgam_min=1698782159,score_FLgam=1698782159]
-function ego:rabbit_ball/term if @s[score_FLgam_min=1299512154,score_FLgam=1299512154]
 function ego:floo_network/term if @s[score_FLgam_min=236718384,score_FLgam=236718384]
 function ego:floo_network/term if @s[score_FLgam_min=674271822,score_FLgam=674271822]
 function ego:ts_token/term if @s[score_FLgam_min=1971168489,score_FLgam=1971168489]

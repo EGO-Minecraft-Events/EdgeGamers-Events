@@ -95,7 +95,7 @@ class Objective(Container):
         """
         if isinstance(value, int):
             value = str(value)
-        elif isinstance(value, str) and not value.isdigit():
+        elif isinstance(value, str) and not (value.isdigit() or (value.startswith("-") and value[1:].isdigit())):
             raise ValueError("A constant '{0} = {1}' must be an integer".format(name, value))
         self.consts[name] = value
 
@@ -116,7 +116,7 @@ class Objective(Container):
         for slot in self.slots:
             self.cmd_queue.put("scoreboard objectives setdisplay {slot} {name}".format(slot=slot.value, name=self.name))
 
-        for name, value in self.consts.items():
+        for name, value in sorted(self.consts.items()):
             self.cmd_queue.put("scoreboard players set {name} {obj_name} {value}".format(
                 name=name, obj_name=self.name, value=value))
 

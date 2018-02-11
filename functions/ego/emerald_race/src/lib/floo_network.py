@@ -99,7 +99,7 @@ class FlooEvent(Container):
     def cmd_post_init(self):
         return "@e[type=armor_stand,FlooStand,SPgam=0] SPgam = {}".format(self.id)
 
-    def cmd_main(self, SA):
+    def cmd_main(self):
         """
         Used in the main loop to set everyone's floo network id value
         for spawning and teleportation
@@ -212,7 +212,7 @@ class Event:
                 self.text, self.colors, repr(self.disp_name), repr(self.hover_cmd))
 
 
-    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None):
+    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None):
         """
         Args:
             name (str): Name that can be split up with ";" for different colors ("Royal; ;Rumble")
@@ -224,6 +224,7 @@ class Event:
                 (name, colors), each of which could be separated with ";" ("R;R", "dark_green;blue").
                 If the initials is a str, the expected color of the initials is the first color provided unless
                 the initials contains ";". If so, it will be all colors provided in the color.
+            select_coords (Coords): Coords to select the entire region of the event
         """
 
         # Uses a unique ID value from the simple djb2 hash which hopefully ports to python nicely
@@ -236,6 +237,11 @@ class Event:
         self.coords = coords
         self.shortcut = tuple(shortcut.split(";"))
         self.disp_coords = " ".join(map(str, map(int, self.coords.pos)))
+        if select_coords is None:
+            self.select_coords = self.select_all = None
+        else:
+            self.select_coords = select_coords
+            self.select_all = select_coords.to_selector()
         # self.disp_coords = round(self.coords.pos).simple_str()
 
         if initials is None:
@@ -276,41 +282,43 @@ class Event:
 
 
 # Races
-ICE_RACE = Event("ice_race", "Ice race", "aqua", Coords("49 36 -45 -90 0"), "ir")
-SLOW_RACE = Event("slow_race", "Slow Race", "gray", Coords("75 7 -80 90 0"), "sr")
-NETHER_RACE = Event("nether_race", "Nether Race", "red", Coords("73 7 -102 90 0"), "nr")
-EVIL_RACE = Event("evil_race", "Evil Race", "gray", Coords("23 7 -133 -90 0"), "evilr", initials="EvilR")
-DIAMOND_RACE = Event("diamond_race", "Diamond Race", "aqua", Coords("218 18 -37 -90 0"), "dr")
-EMERALD_RACE = Event("emerald_race", "Emerald Race", "green", Coords("276 17 -96 90 0"), "er")
-QUARTZ_RACE = Event("quartz_race", "Quartz Race", "white", Coords("229 8 -157 -90 0"), "qr")
-V1_8_RACE = Event("1_8_race", "1.8 Race", "gold", Coords("242 26 -222 -90 0"), "18r")
-EPIC_RACE = Event("epic_race", "Epic Race", "gold", Coords("424 12 -122 -90 0"), "epicr", initials="EpicR")
-SALT_RACE = Event("salt_race", "Salt Race", "gray", Coords("467 8 -33 -90 0"), "saltr", initials="SaltR")
-DEATH_RUN = Event("death_run", "Death Run", "red", Coords("31 20 -240 -45 0"), "deathr", initials="DeathR")
-DIRT_RACE = Event("dirt_race", "Dirt Race", "gray", Coords("23 15 -189.0 -90 0"), "dirtr", initials="DirtR")
-MYCELIUM_RACE = Event("mycelium_race", "Mycelium Race", "dark_purple", Coords("445 68 -669.0 -90 0"), "mr")
-FROSTBURN_RUN = Event("frostburn_run", "Frostburn Run", "aqua", Coords("517 11 -827 90 0"), "fbr")
-EVERCHANGING_RACE = Event("ever_changing_race", "EverChanging Race", "yellow", Coords("460 3 -331 -90 0"), "ecr")
+ICE_RACE = Event("ice_race", "Ice race", "aqua", Coords("49 36 -45 -90 0"), "ir", select_coords=Coords("34 2 -64 175 71 -21"))
+SLOW_RACE = Event("slow_race", "Slow Race", "gray", Coords("75 7 -80 90 0"), "sr", select_coords=Coords("21 4 -88 82 104 -67"))
+NETHER_RACE = Event("nether_race", "Nether Race", "red", Coords("73 7 -102 90 0"), "nr", select_coords=Coords("32 4 -108 80 104 -93"))
+EVIL_RACE = Event("evil_race", "Evil Race", "gray", Coords("23 7 -133 -90 0"), "evilr", initials="EvilR", select_coords=Coords("19 6 -147 107 106 -120"))
+DIAMOND_RACE = Event("diamond_race", "Diamond Race", "aqua", Coords("218 18 -37 -90 0"), "dr", select_coords=Coords("206 4 -57 255 104 -18"))
+EMERALD_RACE = Event("emerald_race", "Emerald Race", "green", Coords("276 17 -96 90 0"), "er", select_coords=Coords("219 5 -121 294 105 -70"))
+QUARTZ_RACE = Event("quartz_race", "Quartz Race", "white", Coords("229 8 -157 -90 0"), "qr", select_coords=Coords("219 4 -177 296 104 -139"))
+V1_8_RACE = Event("1_8_race", "1.8 Race", "gold", Coords("242 26 -222 -90 0"), "18r", select_coords=Coords("212 7 -241 341 107 -191"))
+EPIC_RACE = Event("epic_race", "Epic Race", "gold", Coords("424 12 -122 -90 0"), "epicr", initials="EpicR", select_coords=Coords("416 4 -135 476 33 -70"))
+SALT_RACE = Event("salt_race", "Salt Race", "gray", Coords("467 8 -33 -90 0"), "saltr", initials="SaltR", select_coords=Coords("419 4 -47 498 44 -15"))
+DEATH_RUN = Event("death_run", "Death Run", "red", Coords("31 20 -240 -45 0"), "deathr", initials="DeathR", select_coords=Coords("13 12 -260 148 62 -205"))
+DIRT_RACE = Event("dirt_race", "Dirt Race", "gray", Coords("23 15 -189.0 -90 0"), "dirtr", initials="DirtR", select_coords=Coords("18 11 -207 67 31 -162"))
+MYCELIUM_RACE = Event("mycelium_race", "Mycelium Race", "dark_purple", Coords("445 68 -669.0 -90 0"), "mr", select_coords=Coords("433 5 -739 473 85 -639"))
+FROSTBURN_RUN = Event("frostburn_run", "Frostburn Run", "aqua", Coords("517 11 -827 90 0"), "fbr", select_coords=Coords("433 3 -841 523 53 -751"))
+EVERCHANGING_RACE = Event("ever_changing_race", "EverChanging Race", "yellow", Coords("460 3 -331 -90 0"), "ecr", select_coords=Coords("450 0 -353 574 30 -308"))
 
 # Minigames
-VIRUS_1 = Event("virus_1", "Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "v1;virus1")
-VIRUS_2 = Event("virus_2", "Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "v2;virus2")
+VIRUS_1 = Event("virus_1", "Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "v1;virus1", select_coords=Coords("-130 4 -315 -9 64 -134"))
+VIRUS_2 = Event("virus_2", "Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "v2;virus2", select_coords=Coords("-107 2 -130 86 102 111"))
 PVP_OLD_CTF = Event("pvp", "PVP: Old CTF", "red", Coords("-268 49 -39 -90 0"), "pvp1;oldctf")
-CAPTURE_THE_FLAG = Event("capture_the_flag", "Capture; the ;flag", "red;white;blue", Coords("558 107 159.0 90 0"), "ctf", initials="c;t;f")
-THE_PIT_3 = Event("the_pit_3", "The Pit 3", "green", Coords("-105 25 200 -135 0"), "tp;tpl3")
-SAND_TOMB = Event("sand_tomb", "Sand Tomb", "yellow", Coords("-250 25 18 -90 0"), "st")
-ANVIL_DROP = Event("anvil_drop", "Anvil Drop", "green", Coords("-16 5 87 90 0"), "ad")
+CAPTURE_THE_FLAG = Event("capture_the_flag", "Capture; the ;flag", "red;white;blue", Coords("558 107 159.0 90 0"), "ctf",
+    initials="c;t;f", select_coords=Coords("548 106 148 568 111 169"))
+THE_PIT_3 = Event("the_pit_3", "The Pit 3", "green", Coords("-105 25 200 -135 0"), "tp;tpl3", select_coords=Coords("-122 4 133 -43 54 224"))
+SAND_TOMB = Event("sand_tomb", "Sand Tomb", "yellow", Coords("-250 25 18 -90 0"), "st", select_coords=Coords("-279 4 5 -196 54 49"))
+ANVIL_DROP = Event("anvil_drop", "Anvil Drop", "green", Coords("-16 5 87 90 0"), "ad", select_coords=Coords("-38 0 76 -16 35 98"))
 DEATH_PIT = Event("death_pit", "Death Pit", "red", Coords("-187 24 96 -90 0"), "dp")
-RABBIT_BALL = Event("rabbit_ball", "Rabbit; ;Ball", "red;white;blue", Coords("214 27 334 -90 0"), "rb")
-MASTERMIND = Event("mastermind", "Mastermind", "gold", Coords("77 5 41 0 -15"), "mm")
+RABBIT_BALL = Event("rabbit_ball", "Rabbit; ;Ball", "red;white;blue", Coords("214 27 334 -90 0"), "rb", select_coords=Coords("206 73 262 320 56 415"))
+MASTERMIND = Event("mastermind", "Mastermind", "gold", Coords("77 5 41 0 -15"), "mm", select_coords=Coords("45 3 22 109 33 87"))
 PICTIONARY = Event("pictionary", "P;i;c;t;i;o;n;a;r;y", "light_purple;red;gold;yellow;green;dark_green;blue;dark_aqua;aqua;white",
-    Coords("161 4 180 90 0"), "pc", initials=("PC", "dark_aqua"))
-ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green", Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"))
-RABBIT_BALL = Event("rabbit_ball", "Rabbit; ;Ball", "red;white;blue", Coords("224 24 334 -90 0"), "rb")
+    Coords("161 4 180 90 0"), "pc", initials=("PC", "dark_aqua"), select_coords=Coords("110 3 148 174 18 212"))
+ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
+    Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
 # Other
 SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn")
-FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally", initials="Floo")
+FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally",
+    initials="Floo", select_coords=Coords("350 14 13 440 44 103"))
 TEAMFLEAK_TOKEN = Event("ts_token", "Teamspeak Token", "dark_aqua", Coords("549 20 42"), "ts;tstoken", initials="TsToken")
 MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub")
 PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub")

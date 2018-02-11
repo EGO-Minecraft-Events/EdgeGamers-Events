@@ -7,7 +7,7 @@ from lib.container import Container
 from lib.consts import Sounds, Effects
 
 
-select_all = Coords("350 14 13 440 44 103").to_selector()
+select_all = FLOO_NETWORK.select_all
 stand_coords = Coords("397 17 61")
 select_tree = "x=397,y=17,z=61,r=5"
 select_portal = Coords("350 14 13 440 19 103").to_selector()

@@ -1,0 +1,31 @@
+FUNC {GLOBAL Func_RaceSpecificStart}:
+    
+
+FUNC {GLOBAL Func_RaceSpecificClock}:
+///    Detects laps by not having the lap tag when they hit the finish line
+
+///    Adds to scoreboard
+    @a[$SA$,m=2,team=$Name$R] $Name$Race + 0
+    
+///    Adds to tag if they're in the spawn to prevent going backwards
+    @a[$lapSP$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] + $Name$Lap
+    
+///    Lap detection
+    @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] $Name$Race + 1
+    @a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] tellraw @a[$SA$] \
+            $TextStart${"selector":"@a[c=1,r=0,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap]"},{"text":" has finished a lap!","color":"yellow"}]}
+    @a[$lap$,m=2,team=$Name$R,$Name$Race>=1,!$Name$Lap] playsound Snd_XP voice @a
+    
+///    Adds the lap tag when they're at the finish
+    @a[$lap$,m=2,team=$Name$R,$Name$Race>=0,!$Name$Lap] + $Name$Lap
+    
+///    Removes the lap tag at some place in the middle of the race so it forces the player to go through the race
+    @a[$lapAF$,m=2,team=$Name$R,$Name$Race>=0,$Name$Lap] - $Name$Lap
+
+FUNC {GLOBAL Func_RaceSpecificEndClock}:
+    
+
+FUNC {GLOBAL Func_RaceSpecificEnd}:
+///    Removes the lap tag from all players
+    * - $Name$Lap
+    
