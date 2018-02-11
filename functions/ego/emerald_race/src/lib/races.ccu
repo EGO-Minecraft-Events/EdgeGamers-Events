@@ -72,7 +72,7 @@ TEAMS.new_str("""
     summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)cd"]}
 
     # adds the "/spawn" fakename to the proper color
-    join $(race.initials)R /spawn
+    join $(team_name) /spawn
 
     # from main ccu file
     $edit_main_start()

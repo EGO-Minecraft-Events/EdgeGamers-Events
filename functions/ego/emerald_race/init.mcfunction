@@ -16,5 +16,5 @@ scoreboard teams option ERr seeFriendlyInvisibles true
 scoreboard teams option ERr collisionRule never
 scoreboard teams option ERr friendlyfire false
 summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["ERcd"]}
-scoreboard teams join ERR /spawn
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 704022040
+scoreboard teams join ERr /spawn
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgmd_min=0,score_FLgmd=0] FLgmd 704022040

@@ -222,6 +222,10 @@ def set_rankings(text):
 # used on the FlooStand if an event has to be ran
 !mfunc run_event
     $for(event in Event.members)
+    $if(event.is_event)
+    function ego:$(event.folder_name)/init if @s[FLgam=$(event.id)]
+    $endif
+    $endfor
 
 
 # used on players to set their spawnpoint to the given event id
@@ -313,18 +317,18 @@ def set_rankings(text):
 # weather clear/rain/thunder and gamemode adventure/survival
 !mfunc use_options
     # pvp
-    @s[SPpvp=0] join NoPVP @a[team=!NoPVP,FLdim=1]
+    @s[FLpvp=0] join NoPVP @a[team=!NoPVP,FLdim=1]
     
     # saturation
-    @s[SPsat=1] effect @a[FLdim=1] 23 2 0 true
+    @s[FLsat=1] effect @a[FLdim=1] 23 2 0 true
     
     # weather
-    @s[SPwea=0] weather clear 1000000
-    @s[SPwea=1] weather rain 1000000
-    @s[SPwea=2] weather thunder 1000000
+    @s[FLwea=0] weather clear 1000000
+    @s[FLwea=1] weather rain 1000000
+    @s[FLwea=2] weather thunder 1000000
     
     # gamemode
-    @s[SPgmd=1] gamemode 2 @a[m=0,FLdim=1]
+    @s[FLgmd=1] gamemode 2 @a[m=0,FLdim=1]
 
     
 # used on players who wanted to vote (with a score of FLvot of not 0)
@@ -369,7 +373,9 @@ def set_rankings(text):
 # used on the FlooStand if an event is currently running and has to be terminated
 !mfunc _stop_events
     $for(event in Event.members)
+    $if(event.is_event)
     function ego:$(event.folder_name)/term if @s[FLgam=$(event.id)]
+    $endif
     $endfor
     @s[FLgam=1..] FLgam = 0
 

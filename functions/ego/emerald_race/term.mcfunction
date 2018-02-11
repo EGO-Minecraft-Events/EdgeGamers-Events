@@ -1,9 +1,9 @@
 scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLtp 0
 scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLpvp 0
 scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLsat 1
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLgam 1
+scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLgmd 1
 scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLwea 0
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=704022040,score_FLgam=704022040] FLgam 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgmd_min=704022040,score_FLgmd=704022040] FLgmd 0
 scoreboard objectives remove ER
 scoreboard objectives remove ERcd
 scoreboard objectives remove ERcl
