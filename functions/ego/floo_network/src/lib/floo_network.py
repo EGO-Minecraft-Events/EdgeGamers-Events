@@ -61,7 +61,7 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put("function ego:floo_network/src/stop_events")
+        self.cmd_queue.put("function ego:floo_network/stop_events")
 
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
@@ -97,7 +97,9 @@ class FlooEvent(Container):
         return self._cmd_output()
 
     def cmd_post_init(self):
-        return "@e[type=armor_stand,FlooStand,FLgam=0] FLgam = {}".format(self.id)
+        self.cmd_queue.put(r'tellraw @a[EC=0] ' + self.event.begin(self.event.name_text() + r',{"text":" has started!","color":"green"}'))
+        self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam=0] FLgam = {}".format(self.id))
+        return self._cmd_output()
 
     def cmd_main(self):
         """
@@ -125,6 +127,7 @@ class FlooEvent(Container):
 
         # Sets the same game to 0
         self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam={0}] FLgam = 0".format(self.id))
+        self.cmd_queue.put(r'tellraw @a[EC=0] ' + self.event.begin(self.event.name_text() + r',{"text":" has stopped!","color":"red"}'))
 
         return self._cmd_output()
 

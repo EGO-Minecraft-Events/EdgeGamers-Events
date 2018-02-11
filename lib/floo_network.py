@@ -18,7 +18,7 @@ class FlooEvent(Container):
     valid_options = {
         "pvp": ("true", "false"),  # FLpvp 0, 1
         "saturation": ("true", "false"),  # FLsat 0, 1
-        "gamemode": ("adventure", "survival", "spectator"),  # FLgam 1, 2, 3
+        "gamemode": ("adventure", "survival", "spectator"),  # FLgmd 1, 2, 3
         "weather": ("clear", "rain", "storm"),  # FLwea 0, 1, 2
     }
     
@@ -61,7 +61,7 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put("function ego:floo_network/src/stop_events")
+        self.cmd_queue.put("function ego:floo_network/stop_events")
 
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
@@ -97,7 +97,9 @@ class FlooEvent(Container):
         return self._cmd_output()
 
     def cmd_post_init(self):
-        return "@e[type=armor_stand,FlooStand,FLgam=0] FLgam = {}".format(self.id)
+        self.cmd_queue.put(r'tellraw @a[EC=0] ' + self.event.begin(self.event.name_text() + r',{"text":" has started!","color":"green"}'))
+        self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam=0] FLgam = {}".format(self.id))
+        return self._cmd_output()
 
     def cmd_main(self):
         """
@@ -120,11 +122,12 @@ class FlooEvent(Container):
         self.cmd_queue.put(set_stand_str.format("FLtp", "0"))
         self.cmd_queue.put(set_stand_str.format("FLpvp", "0"))
         self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
-        self.cmd_queue.put(set_stand_str.format("FLgam", "1"))
+        self.cmd_queue.put(set_stand_str.format("FLgmd", "1"))
         self.cmd_queue.put(set_stand_str.format("FLwea", "0"))
 
         # Sets the same game to 0
         self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam={0}] FLgam = 0".format(self.id))
+        self.cmd_queue.put(r'tellraw @a[EC=0] ' + self.event.begin(self.event.name_text() + r',{"text":" has stopped!","color":"red"}'))
 
         return self._cmd_output()
 
@@ -223,7 +226,7 @@ class Event:
             return self.json + "," + text + self.end
 
 
-    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None):
+    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None, is_event=True):
         """
         Args:
             name (str): Name that can be split up with ";" for different colors ("Royal; ;Rumble")
@@ -236,6 +239,7 @@ class Event:
                 If the initials is a str, the expected color of the initials is the first color provided unless
                 the initials contains ";". If so, it will be all colors provided in the color.
             select_coords (Coords): Coords to select the entire region of the event
+            is_event (bool): Whether the event is actually an event or not (since it can just be a location)
         """
 
         # Uses a unique ID value from the simple djb2 hash which hopefully ports to python nicely
@@ -248,6 +252,8 @@ class Event:
         self.coords = coords
         self.shortcut = tuple(shortcut.split(";"))
         self.disp_coords = " ".join(map(str, map(int, self.coords.pos)))
+        self.is_event = is_event
+
         if select_coords is None:
             self.select_coords = self.select_all = None
         else:
@@ -327,11 +333,11 @@ ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
     Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
 # Other
-SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn")
+SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)
 FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally",
-    initials="Floo", select_coords=Coords("350 14 13 440 44 103"))
-TEAMFLEAK_TOKEN = Event("ts_token", "Teamspeak Token", "dark_aqua", Coords("549 20 42"), "ts;tstoken", initials="TsToken")
-MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub")
-PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub")
-MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub")
-RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub")
+    initials="Floo", select_coords=Coords("350 14 13 440 44 103"), is_event=False)
+TEAMFLEAK_TOKEN = Event("ts_token", "Teamspeak Token", "dark_aqua", Coords("549 20 42"), "ts;tstoken", initials="TsToken", is_event=False)
+MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub", is_event=False)
+PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False)
+MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False)
+RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False)
