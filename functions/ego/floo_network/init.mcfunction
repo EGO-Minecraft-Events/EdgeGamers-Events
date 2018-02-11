@@ -1,4 +1,5 @@
 scoreboard objectives add constants dummy
+scoreboard players set -1 constants -1
 scoreboard objectives add FLid dummy FlooNetwork ID
 scoreboard objectives add FLtp dummy FlooNetwork TP
 scoreboard objectives add FLbk dummy FlooNetwork Book
@@ -22,62 +23,62 @@ scoreboard players set Delay1 ECRSave 60
 scoreboard players set Delay2 ECRSave 30
 scoreboard players set Percent ECRSave 35
 scoreboard objectives add VirusSave Virus Save
-scoreboard players set V1GameTime VirusSave 600
 scoreboard players set V1Countdown VirusSave 60
+scoreboard players set V1GameTime VirusSave 600
 scoreboard objectives add PVPSave PVP Save
-scoreboard players set Weapons PVPSave 1
-scoreboard players set Mode PVPSave 0
 scoreboard players set Countdown PVPSave 10
 scoreboard players set GameTime PVPSave 300
+scoreboard players set Mode PVPSave 0
+scoreboard players set Weapons PVPSave 1
 scoreboard objectives add TPSave The Pit Save
-scoreboard players set Arena_Type TPSave 0
 scoreboard players set Arena_Size TPSave 0
-scoreboard players set Weapon TPSave 10
+scoreboard players set Arena_Type TPSave 0
+scoreboard players set Jump TPSave 1
+scoreboard players set Movement TPSave 0
+scoreboard players set NoSprint TPSave 0
 scoreboard players set Pumpkin TPSave 0
 scoreboard players set PumpkinDelay TPSave 40
 scoreboard players set Teams TPSave 0
-scoreboard players set Movement TPSave 0
-scoreboard players set NoSprint TPSave 0
-scoreboard players set Jump TPSave 1
+scoreboard players set Weapon TPSave 10
 scoreboard objectives add STSave Sand Tomb Save
-scoreboard players set JumpBoostAF STSave 0
 scoreboard players set BlindnessAF STSave 0
-scoreboard players set NoSprintAF STSave 0
-scoreboard players set CollisionsAF STSave 0
-scoreboard players set PotionsAF STSave 0
-scoreboard players set DelayAF STSave 5
-scoreboard players set JumpBoostCL STSave 0
 scoreboard players set BlindnessCL STSave 0
-scoreboard players set NoSprintCL STSave 0
+scoreboard players set CollisionsAF STSave 0
 scoreboard players set CollisionsCL STSave 0
-scoreboard players set PotionsCL STSave 0
+scoreboard players set DelayAF STSave 5
 scoreboard players set DelayCL STSave 5
+scoreboard players set JumpBoostAF STSave 0
+scoreboard players set JumpBoostCL STSave 0
+scoreboard players set NoSprintAF STSave 0
+scoreboard players set NoSprintCL STSave 0
+scoreboard players set PotionsAF STSave 0
+scoreboard players set PotionsCL STSave 0
 scoreboard objectives add TPMobSave The Pit Mob Save
-scoreboard players set M_Regular TPMobSave 0
-scoreboard players set M_Pumpkin TPMobSave 0
-scoreboard players set M_Thorns TPMobSave 0
-scoreboard players set M_Porkchop TPMobSave 0
 scoreboard players set M_Knockback5 TPMobSave 0
+scoreboard players set M_Porkchop TPMobSave 0
+scoreboard players set M_Pumpkin TPMobSave 0
+scoreboard players set M_Regular TPMobSave 0
 scoreboard players set M_Skeleton TPMobSave 0
+scoreboard players set M_Thorns TPMobSave 0
 scoreboard objectives add ADSave Anvil Drop Save
+scoreboard players set Jump ADSave 0
 scoreboard players set Percent1 ADSave 50
 scoreboard players set Percent2 ADSave 0
-scoreboard players set Walls ADSave 0
 scoreboard players set Timer1 ADSave 50
 scoreboard players set Timer2 ADSave 0
 scoreboard players set Timer3 ADSave 0
-scoreboard players set Jump ADSave 0
+scoreboard players set Walls ADSave 0
 scoreboard objectives add DPSave Death Pit Save
-scoreboard players set MobID DPSave 1
-scoreboard players set Melee DPSave 1
-scoreboard players set Bow DPSave 1
-scoreboard players set Shield DPSave 0
 scoreboard players set Armor DPSave 1
-scoreboard players set Potion DPSave 1
+scoreboard players set Bones DPSave 0
+scoreboard players set Bow DPSave 1
 scoreboard players set Food DPSave 2
 scoreboard players set Lapis DPSave 1
+scoreboard players set Melee DPSave 1
+scoreboard players set MobID DPSave 1
+scoreboard players set Potion DPSave 1
+scoreboard players set Shield DPSave 0
 scoreboard players set Snowballs DPSave 0
-scoreboard players set Bones DPSave 0
 scoreboard objectives add APPS dummy
 scoreboard objectives add AT dummy
 scoreboard objectives add EC dummy
