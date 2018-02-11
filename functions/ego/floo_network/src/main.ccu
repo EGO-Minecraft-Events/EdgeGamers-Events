@@ -213,6 +213,9 @@ def set_rankings(text):
 
 
 !mfunc term
+    # terminates all events just in case lol
+    function ego:floo_network/stop_events
+
     $(OBJECTIVES.cmd_term())
     
     tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been uninstalled!","color":"gray"}'))
@@ -223,7 +226,7 @@ def set_rankings(text):
 !mfunc run_event
     $for(event in Event.members)
     $if(event.is_event)
-    function ego:$(event.folder_name)/init if @s[FLgam=$(event.id)]
+    function ego:$(event.folder_name)/main if @s[FLgam=$(event.id)]
     $endif
     $endfor
 
@@ -232,6 +235,7 @@ def set_rankings(text):
 !mfunc spawnpoint
     # iterates through all spawnpoints
     $for(event in Event.members)
+    spawnpoint @s[FLid=$(event.id)] $(event.disp_coords)
     tellraw @s[FLid=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"Your spawnpoint has been set to ","color":"gray"},{"text":"' + event.disp_coords +
     r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
     $endfor
@@ -252,7 +256,10 @@ def set_rankings(text):
     $endfor
 
     # plays a playsound and multiplies their score by -1
-    playsound $(Sounds.xp) voice @s
+    # this requires the execute in the beginning since normally, the playsound
+    # will happen where the mcfunction was ran off of, aka the previous
+    # position the player was in
+    @s playsound $(Sounds.xp) voice @s
     ScOP @s FLtp *= -1 constants
 
 

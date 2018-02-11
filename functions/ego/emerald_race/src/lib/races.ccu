@@ -69,7 +69,7 @@ TEAMS.new_str("""
     $(TEAMS.cmd_init())
 
     # countdown start
-    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)cd"]}
+    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)countdown"]}
 
     # adds the "/spawn" fakename to the proper color
     join $(team_name) /spawn
@@ -84,7 +84,7 @@ TEAMS.new_str("""
     # the floo network clock for setting spawnpoints
     $(race.cmd_main())
     
-    @e[type=area_effect_cloud, $(initials)Countdown] function ego:$(race.event.folder_name)/countdown
+    @e[type=area_effect_cloud, $(initials)countdown] function ego:$(race.event.folder_name)/countdown
     kill @e[$(select_all),type=item]
     
     # adds everyone to the clear objective
@@ -125,7 +125,7 @@ TEAMS.new_str("""
     $(TEAMS.cmd_term())
     
     # removes the area effect cloud
-    kill @e[type=area_effect_cloud,$(initials)cd]
+    kill @e[type=area_effect_cloud,$(initials)countdown]
     
     # general reset
     effect @a[$(select_all)] clear

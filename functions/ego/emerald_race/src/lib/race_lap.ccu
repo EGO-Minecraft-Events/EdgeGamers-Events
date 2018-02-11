@@ -1,3 +1,42 @@
+$py(r"""
+Copy/pasta the following:
+
+
+from races import *
+from floo_network import NAME_RACE
+
+# all races must have a race object
+race = LapRace(NAME_RACE,
+    lap=Coords(""),
+    lap_reset=Coords(""),
+    spawn=Coords(""),
+    fill_air=Coords(""),
+    fill_block=Coords(""))
+
+# additional commands for the main start
+$macro(edit_main_start)
+$endmacro
+
+# additional commands for the main clock
+$macro(edit_main_clock)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_countdown_clock)
+    @s[$(initials)cd=120] fill $(race.fill_air) stonebrick 0 replace redstone_block 0
+    @s[$(initials)cd=120] fill $(race.fill_block) redstone_block 0 replace stonebrick 0
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+    fill $(race.fill_air) redstone_block 0 replace stonebrick 0
+    fill $(race.fill_block) stonebrick 0 replace redstone_block 0
+$endmacro
+
+$include("lib/races.ccu")
+""")
+
+
 $py(
 lap_tag = race.initials + "Lap"
 )

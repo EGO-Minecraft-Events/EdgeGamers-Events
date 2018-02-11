@@ -12,5 +12,5 @@ execute @s[score_ERcd_min=100,score_ERcd=100] ~ ~ ~ execute @a[x=219,y=5,z=-121,
 execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] ~ ~ ~ playsound minecraft:entity.wither.death voice @a[c=1]
 execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ tellraw @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 704022040"}},{"text":"]","color":"gray"},{"text":": "},{"text":"GO!","color":"green","bold":"true"}]}
 execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ title @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] title {"text":"GO!","color":"green"}
-execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ fill 269 19 -94 255 19 -94 stonebrick 0 replace redstone_block 0
-execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ fill 269 19 -98 255 19 -98 redstone_block 0 replace stonebrick 0
+execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ fill 269 19 -94 255 19 -94 air 0 replace emerald_block 0
+execute @s[score_ERcd_min=120,score_ERcd=120] ~ ~ ~ fill 269 19 -98 255 19 -98 air 0 replace emerald_block 0
