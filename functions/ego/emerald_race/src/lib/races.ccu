@@ -96,11 +96,11 @@ TEAMS.new_str("""
 
     # resets the player's everything upon death
     # clears effects and inventory
-    effect @a[$(select_all),m=2,$(initials)de>=1] clear
-    clear @a[$(select_all),m=2,$(initials)de>=1]
+    effect @a[$(select_all),m=2,$(initials)de=1..] clear
+    clear @a[$(select_all),m=2,$(initials)de=1..]
 
     # gives all ECs books
-    @a[$(select_all),m=2,$(initials)de>=1] FLbk = $(race.id)
+    @a[$(select_all),m=2,$(initials)de=1..] FLbk = $(race.id)
 
     # joins the race team
     join $(team_name) @a[$(select_all),team=!$(team_name)]
@@ -112,7 +112,7 @@ TEAMS.new_str("""
     $edit_main_clock()
     
     # resets the death scoreboard
-    @a[$(select_all),m=2,$(initials)de>=1] $(initials)de = 0
+    @a[$(select_all),m=2,$(initials)de=1..] $(initials)de = 0
     $race_end_main_clock()
 
 
