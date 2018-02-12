@@ -1,7 +1,7 @@
-from lib.coord import Coord
 from math import sqrt
 from numbers import Real
 from abc import ABC,abstractmethod
+from lib.coord import Coord
 class Vector(ABC):
  @abstractmethod
  def copy(self):

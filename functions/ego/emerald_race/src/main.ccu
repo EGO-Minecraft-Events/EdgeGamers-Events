@@ -1,48 +1,38 @@
 $py(
-from lib.scoreboard import *
-from lib.consts import *
+from lib.races import *
+from lib.floo_network import EMERALD_RACE
 
+# all races must have a race object
+race = LapRace(EMERALD_RACE,
+    lap=Coords("255 17 -94 269 27 -93"),
+    lap_reset=Coords("220 8 -104 221 20 -96"),
+    spawn=Coords("255 17 -97 280 27 -95"))
 
-# create objectives
-OBJECTIVES.new_str(
-"""
-RRpl
-RRas
-RRcs stat.useItem.minecraft.carrot_on_a_stick RR carrot stick
-RRxd _ RR a fake name
-RRidk dummy RR a fake name
-""")
-
-team = Team("RRb", "Royal Rumble Blue", seeFriendlyInvisibles="true", friendlyfire="false")
-
-TEAMS.new_str("""
-RRg RR green
-color green
-nametagVisibility hideForOtherTeams
-friendlyfire false
-collisionRule pushOwnTeam
-    
-RRb RR Blue
-    color blue
-    nametagVisibility hideForOtherTeams
-    friendlyfire false
-    collisionRule pushOwnTeam
-""")
+fill_start = Coords("269 19 -94 255 19 -94")
+fill_finish = Coords("269 19 -98 255 19 -98")
 )
 
+# additional commands for the main start
+$macro(edit_main_start)
+$endmacro
 
-!mfunc init
-    $(OBJECTIVES.cmd_init())
-    $(OBJECTIVES.cmd_term())
-    say split
-    $(team.cmd_init())
-    $(team.cmd_term())
+# additional commands for the main clock
+$macro(edit_main_clock)
+$endmacro
 
-!mfunc not_init
-    say split
-    $(TEAMS.cmd_init())
-    $(TEAMS.cmd_term())
-    playsound $(Sounds.pling)
-    say $(os.path.realpath(os.path.dirname(sys.argv[0])))
-    say $(os.path.abspath(os.path.dirname(sys.argv[0])))
-    say anothero
+$macro(add_functions)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_countdown_clock)
+    @s[$(initials)cd=120] fill $(fill_start) air 0 replace emerald_block 0
+    @s[$(initials)cd=120] fill $(fill_finish) air 0 replace emerald_block 0
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+    fill $(fill_start) emerald_block 0 replace air 0
+    fill $(fill_finish) emerald_block 0 replace air 0
+$endmacro
+
+$include("lib/races.ccu")

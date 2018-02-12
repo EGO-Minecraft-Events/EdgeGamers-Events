@@ -1,6 +1,7 @@
+from abc import ABC, abstractmethod
+
 from lib.coord import Coord
 from lib.vector import Vector2, Vector3
-from abc import ABC, abstractmethod
 
 # from coord import Coord
 # from vector import Vector2, Vector3

@@ -1,0 +1,406 @@
+$py(
+from lib.floo_network import *
+from lib.const_ints import CONST_INTS
+from lib.scoreboard import OBJECTIVES, TEAMS
+from lib.coords import Coords
+from lib.container import Container
+from lib.consts import Sounds, Effects
+
+
+select_all = FLOO_NETWORK.select_all
+stand_coords = Coords("397 17 61")
+select_tree = "x=397,y=17,z=61,r=5"
+select_portal = Coords("350 14 13 440 19 103").to_selector()
+select_tree = "x=397,y=17,z=61,r=5"
+
+# regions where blocks are placable
+# in this case, mastermind and pictionary
+placable_blocks = ["x=77,y=5,z=42,r=40"]
+dimension_id = "0"
+
+
+
+# General python code for the main start
+CONST_INTS.add_constants(-1)
+
+# General objectives from floo_network
+OBJECTIVES.new_str("""
+    # used on players to hold the event id for teleporting
+    # this is set to the negative value of itself once the spawnpoint has been set
+    FLid _ ID
+
+    # used on players to hold the event id for teleporting
+    # this is automatically reset to 0 after teleporting is done
+    FLtp _ TP
+
+    # used on players to hold the event id for getting a book
+    # this is automatically reset to 0 after getting the book
+    FLbk _ Book
+    
+    # holds fake players as shortcuts for events
+    FLna _ Name
+
+    # used on players inside the spawn tree to delay the automatic
+    # teleport by 0.5s
+    FLti dummy SpawnPoint Timer
+
+    # idk
+    FLlg stat.leaveGame Leave Game
+    
+    # used by the FlooStand to holds the event id that is currently running
+    FLgam _ Game Toggle
+
+    # All the options set from FlooEvent
+    FLpvp _ PVP toggle
+    FLsat _ Saturation toggle
+    FLwea _ Weather toggle
+    FLgmd _ Gamemode toggle
+
+    # Calculates the rank of each player, see calc_rank and use_rank
+    FLraa _ Ranking Actions
+    FLrac _ Ranking Actions Calc
+
+    # Players are set to 1 if they are in the main dimension, otherwise it is 0
+    FLdim _ Dimension Number
+
+    # The general voting objective
+    FLvot trigger Vote Trigger
+""", display="FlooNetwork")
+
+# General objectives for storage purposes
+OBJECTIVES.new_str("""
+    MCTeams _ MC Specialty Teams
+    Health health
+""", remove_self=False)
+OBJECTIVES["Health"].setdisplay("list")
+
+# Adds objectives based on all event_name/src/consts.ccu files
+# all consts.ccu files have the following input (aka the same general format for Objectives.new_str):
+# objective_name
+# var = number
+# var2 = number2
+# etc.
+def use_file_consts(event):
+    try:
+        with open("../../{}/src/consts.ccu".format(event.folder_name)) as file:
+            print("Opened {}/src/consts.ccu".format(event.folder_name))
+            lines = file.read()
+            OBJECTIVES.new_str(lines, remove_self=False)
+    except FileNotFoundError:
+        pass
+
+for event in Event.members:
+    use_file_consts(event)
+
+# General teams for all events
+TEAMS.new_str("""
+    NoPush
+        collisionRule never
+        friendlyfire false
+    NoPVP
+        friendlyfire false
+""")
+
+# sets rankings for individual players
+RANKINGS = {
+    "APPS": 1,
+    "AT": 2,
+    "EC": 4,
+    "LE": 8,
+    "CMD": 16,
+}
+
+# adds scoreboards from the rankings
+for rank in RANKINGS.keys():
+    OBJECTIVES.new(rank, remove_self=False)
+
+def get_ranking_val(*ranks):
+    """
+    Gets the sum given the rankings as strings
+
+    eg. get_ranking_val("APPS", "EC", "CMD") -> 21
+    """
+    return sum(set(RANKINGS[rank] for rank in ranks))
+
+def set_rankings(text):
+    """
+    Gets a text as a docstring and output the scoreboard settings for each player
+    """
+    data = []
+    cmd_list = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+
+        name, ranks = line.strip().split(None, 1)
+        ranks = tuple(ranks.split())
+        data.append((name, ranks))
+
+    for line in data:
+        name, ranks = line
+        if not ranks:
+            continue
+
+        for rank in ranks:
+            cmd_list.append("{0} {1} = 0".format(name, rank))
+            cmd_list.append("{0} MCTeams = {1}".format(name, RANKINGS[rank]))
+
+    return Container.cmd_from_list(cmd_list)
+)
+
+!mfunc init
+    # initializes the objectives
+    $(OBJECTIVES.cmd_init())
+
+    # sets all nicknames
+    $for(event in Event.members)
+    $for(shortcut in event.shortcut)
+    $(shortcut) FLna = $(event.id)
+    $endfor
+    $endfor
+
+    # creates the global armor stand
+    kill @e[type=armor_stand,FlooStand]
+    summon armor_stand $(str(stand_coords)) {Tags:["FlooStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+
+    $(set_rankings("""
+    Acefire97 APPS
+    ashtongreen00 APPS
+    ENFORCER_GAMING APPS
+    Kilgore90 APPS 
+
+    french_man EC
+    jamboree_lee EC
+    CynRyn EC
+    CMDZane AT EC
+    Icohedron EC
+    TheDarkOne239 EC
+    
+    BUTTERLOVER7683 AT LE
+    FoxyTheBoomQueen AT LE
+    Daa_ EC LE
+    idk_lobsters LE
+    JadeofallTrades LE
+    Witch_Doctor LE CMD
+    FirezFury LE
+    """))
+
+    # initializes the armor stand scores
+    @e[type=armor_stand,FlooStand] FLtp = 0
+    @e[type=armor_stand,FlooStand] FLpvp = 0
+    @e[type=armor_stand,FlooStand] FLsat = 1
+    @e[type=armor_stand,FlooStand] FLwea = 0
+    @e[type=armor_stand,FlooStand] FLgmd = 1
+    @e[type=armor_stand,FlooStand] FLgam = 0
+    @e[type=armor_stand,FlooStand] FLraa = $(get_ranking_val("EC", "LE", "CMD"))
+
+    tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
+
+!mfunc main
+    @e[type=armor_stand,FlooStand] function ego:floo_network/run_event unless @s[FLgam=0]
+    @a[FLid=1..] function ego:floo_network/spawnpoint
+    @a[FLtp=1..] function ego:floo_network/teleport
+    @a[$(select_tree)] function ego:floo_network/in_spawn_tree
+    @a[$(select_all)] function ego:floo_network/in_spawn
+    @a function ego:floo_network/calc_dimension
+    @e[type=armor_stand,FlooStand] function ego:floo_network/calc_rank
+    @a[FLrac=1] function ego:floo_network/use_rank
+    @e[type=armor_stand,FlooStand] function ego:floo_network/use_options
+
+    * enable FLvot
+    @a[FLvot=1..] function ego:floo_network/vote
+    @a[FLvot=..-1] function ego:floo_network/vote
+
+
+!mfunc term
+    # terminates all events just in case lol
+    function ego:floo_network/stop_events
+
+    $(OBJECTIVES.cmd_term())
+    
+    tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been uninstalled!","color":"gray"}'))
+    kill @e[type=armor_stand,FlooStand]
+
+
+# used on the FlooStand if an event has to be ran
+!mfunc run_event
+    $for(event in Event.members)
+    $if(event.is_event)
+    function ego:$(event.folder_name)/main if @s[FLgam=$(event.id)]
+    $endif
+    $endfor
+
+
+# used on players to set their spawnpoint to the given event id
+!mfunc spawnpoint
+    # iterates through all spawnpoints
+    $for(event in Event.members)
+    spawnpoint @s[FLid=$(event.id)] $(event.disp_coords)
+    tellraw @s[FLid=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"Your spawnpoint has been set to ","color":"gray"},{"text":"' + event.disp_coords +
+    r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
+    $endfor
+
+    # plays a playsound and multiplies their score by -1
+    playsound $(Sounds.xp) voice @s
+    ScOP @s FLid *= -1 constants
+
+
+# used on players to teleport them to the given event id
+!mfunc teleport
+    # tp and tellraw commands
+    $for(event in Event.members)
+    tp @s[FLtp=$(event.id)] $(str(event.coords))
+
+    tellraw @s[FLtp=$(event.id)] $(FLOO_NETWORK.begin(r'{"text":"You have been teleported to ","color":"gray"},{"text":"' + event.disp_coords +
+    r'","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},' + event.name_text() + r',{"text":"!","color":"gray"}'))
+    $endfor
+
+    # plays a playsound and multiplies their score by -1
+    # this requires the execute in the beginning since normally, the playsound
+    # will happen where the mcfunction was ran off of, aka the previous
+    # position the player was in
+    @s playsound $(Sounds.xp) voice @s
+    @s FLtp = 0
+
+
+# used on players when they are in the spawn tree
+!mfunc in_spawn_tree
+    # gives saturation
+    effect @s $(Effects.saturation) 2 0 true
+    gamemode 2 @s[m=0]
+    
+    @e[type=armor_stand,FlooStand,FLpvp=0] join NoPVP @a[$(select_tree),m=2]
+    
+    @s[m=!3] FLti + 1
+    ScOP @s[FLti=10..] FLtp = @e[type=armor_stand,FlooStand,FLtp=1..] FLtp
+    @s[FLti=10..] FLti = 0
+
+
+# used on players when the players are in the spawn region
+!mfunc in_spawn
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 5 ScOP @s FLtp = mghub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 2 ScOP @s FLtp = pvphub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 1 ScOP @s FLtp = mmhub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 9 ScOP @s FLtp = racehub FLna
+
+
+# used on players to calculate their dimension score
+!mfunc calc_dimension
+    @s FLdim = 0
+    @s FLdim = 1 {Dimension:$(dimension_id)}
+
+
+# used on the FlooStand to calculate whether players' ranking affects their
+# ability to change gamemodes or not
+!mfunc calc_rank
+    @s FLrac = 1
+    
+    ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
+    $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
+    @s[FLrac=$(score)..] @a[MCTeams=$(score),FLdim=1] FLrac = 0
+    @s[FLrac=$(score)..] FLrac - $(score)
+    $endfor
+
+
+# used on players with FLrac=1
+# If their rank doesn't give special permissions, they will
+# always be turned to gamemode 2 from survival or creative
+# and they will teleport to spawn upon logging in the event server
+!mfunc use_rank
+    # sets gamemode to 2
+    gamemode 2 @s[m=1,FLdim=1]
+    gamemode 2 @s[m=0,FLdim=1]
+    
+    # teleports them to spawn if they are re-entering the game
+    ScOP @s[FLlg=1..,FLdim=1] FLtp = spawn FLna
+
+    # resets scores
+    @s FLrac = 0
+    @s[FLlg=1..] FLlg = 0
+
+
+# used on the FlooStand to use the given floo network options specified per event
+# These include pvp true/false, saturation true/false,
+# weather clear/rain/thunder and gamemode adventure/survival
+!mfunc use_options
+    # pvp
+    @s[FLpvp=0] join NoPVP @a[team=!NoPVP,FLdim=1]
+    @s[FLpvp=1] effect @a[FLdim=1] $(Effects.weak) 3 100 true
+    
+    # saturation
+    @s[FLsat=1] effect @a[FLdim=1] $(Effects.saturation) 2 0 true
+    
+    # weather
+    @s[FLwea=0] weather clear 1000000
+    @s[FLwea=1] weather rain 1000000
+    @s[FLwea=2] weather thunder 1000000
+    
+    # gamemode
+    @s[FLgmd=1] gamemode 2 @a[m=0,FLdim=1]
+
+    
+# used on players who wanted to vote (with a score of FLvot of not 0)
+# to display a tellraw message of voting links
+!mfunc vote
+    tellraw @s $(FLOO_NETWORK.begin())
+    {"text":"Vote here: ","color":"gray"},
+    {"text":"Link 1","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraft-server-list.com/server/200887/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #1","color":"green"}}
+    },
+    {"text":" "},
+    {"text":"Link 2","color":"dark_green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraftservers.org/vote/109809`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #2","color":"dark_green"}}
+    },
+    {"text":" "},
+    {"text":"Link 3","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`https://minecraftservers.biz/servers/2511/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #3","color":"green"}}
+    },
+    {"text":" "},
+    {"text":"Link 4","color":"dark_green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://minecraft-mp.com/server/86376/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #4","color":"dark_green"}}
+    },
+    {"text":" "},
+    {"text":"Link 5","color":"green","bold":"true","underlined":"true",
+        "clickEvent":{"action":"open_url","value":"`http://www.planetminecraft.com/server/edge-gamerscom/vote/`"},
+        "hoverEvent":{"action":"show_text","value":{"text":"Vote link #5","color":"green"}}
+    }]}
+    playsound $(Sounds.xp) voice @s
+    @s FLvot = 0
+
+
+# used by pretty much all external init mcfunctions to ensure that no other events are running
+# this is used by default with the FlooEvent.cmd_init function
+!mfunc stop_events
+    # only stops events if the FLgam value is not 0
+    @e[type=armor_stand,FlooStand] function ego:floo_network/_stop_events unless @s[FLgam=0]
+
+
+# used on the FlooStand if an event is currently running and has to be terminated
+!mfunc _stop_events
+    $for(event in Event.members)
+    $if(event.is_event)
+    function ego:$(event.folder_name)/term if @s[FLgam=$(event.id)]
+    $endif
+    $endfor
+    @s[FLgam=1..] FLgam = 0
+
+
+$py(r"""
+    @a[$MM$,SPdim=1] SPmm = 1
+    @a[$NotMM$,SPmm=1] SPmm = 2
+    ScOP @e[type=armor_stand,FlooStand] SPmm = Mastermind SPmm
+    @e[type=armor_stand,FlooStand,SPmm=0] @a[SPmm=1] SPmm = 2
+    @a[SPmm=2,EC=0] SPmm = 0
+    clear @a[SPmm=2] wool -1 -1 {display:{Lore:["Placable Block"]}}
+    clear @a[SPmm=2] shears -1 -1 {display:{Lore:["Remove Block Tool"]}}
+    @a[SPmm=2] SPmm = 0
+""")
+
+    
+
+
+

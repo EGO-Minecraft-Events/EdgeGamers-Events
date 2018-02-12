@@ -7,16 +7,49 @@ class Container:
     def __init__(self):
         self.cmd_queue = Queue()
 
+    @staticmethod
+    def cmd_from_list(cmd_list):
+        return "\n    ".join(cmd_list)
+
+    @staticmethod
+    def cmd_from_queue(cmd_queue):
+        cmd_list = []
+        while not cmd_queue.empty():
+            cmd = cmd_queue.get()
+            cmd_list.append(cmd)
+        return Container.cmd_from_list(cmd_list)
+
+    def cmd_pre_init(self):
+        """
+        Initializes commands before the event starts
+
+        This is generally used from the floo network to initialize
+        """
+        return ""
+
     def cmd_init(self):
-        """ Intialize commands """
+        """
+        Intialize commands
+        """
+        return ""
+
+    def cmd_post_init(self):
+        """
+        Initialize commands, used at the very end of initializing
+        and starting an event
+        """
         return ""
 
     def cmd_main(self):
-        """ Main commands """
+        """
+        Main commands
+        """
         return ""
 
     def cmd_term(self):
-        """ Terminate commands """
+        """
+        Terminate commands
+        """
         return ""
 
     def _cmd_output(self):
@@ -25,9 +58,4 @@ class Container:
 
         If the queue is empty, it returns a 0 length string
         """
-        cmd_list = []
-        while not self.cmd_queue.empty():
-            cmd = self.cmd_queue.get()
-            cmd_list.append(cmd)
-        return "\n    ".join(cmd_list)
-
+        return Container.cmd_from_queue(self.cmd_queue)
