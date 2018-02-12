@@ -260,7 +260,7 @@ def set_rankings(text):
     # will happen where the mcfunction was ran off of, aka the previous
     # position the player was in
     @s playsound $(Sounds.xp) voice @s
-    ScOP @s FLtp *= -1 constants
+    @s FLtp = 0
 
 
 # used on players when they are in the spawn tree
@@ -273,15 +273,15 @@ def set_rankings(text):
     
     @s[m=!3] FLti + 1
     ScOP @s[FLti=10..] FLtp = @e[type=armor_stand,FlooStand,FLtp=1..] FLtp
-    @s[FLtp=10..] FLtp = 0
+    @s[FLti=10..] FLti = 0
 
 
 # used on players when the players are in the spawn region
 !mfunc in_spawn
-    @s[m=!3] ifblock stained_hardened_clay 5 ~ 3 ~ ScOP @s FLtp = mghub FLna
-    @s[m=!3] ifblock stained_hardened_clay 2 ~ 3 ~ ScOP @s FLtp = pvphub FLna
-    @s[m=!3] ifblock stained_hardened_clay 1 ~ 3 ~ ScOP @s FLtp = mmhub FLna
-    @s[m=!3] ifblock stained_hardened_clay 9 ~ 3 ~ ScOP @s FLtp = racehub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 5 ScOP @s FLtp = mghub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 2 ScOP @s FLtp = pvphub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 1 ScOP @s FLtp = mmhub FLna
+    @s[m=!3] ifblock ~ 3 ~ stained_hardened_clay 9 ScOP @s FLtp = racehub FLna
 
 
 # used on players to calculate their dimension score

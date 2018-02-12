@@ -1,8 +1,8 @@
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLtp 0
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLpvp 0
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLsat 1
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLgmd 1
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgmd 1
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=227577150,score_FLgam=227577150] FLgam 0
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"IR","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ice race","color":"aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 227577150"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Ice race","color":"aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Ice race","color":"aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 227577150"}},{"text":" has stopped!","color":"red"}]}
 scoreboard objectives remove IR

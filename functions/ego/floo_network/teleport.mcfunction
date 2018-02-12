@@ -67,4 +67,4 @@ tellraw @s[score_FLtp_min=81055981,score_FLtp=81055981] {"text":"","extra":[{"te
 minecraft:tp @s[score_FLtp_min=238315678,score_FLtp=238315678] 329 24.076 137 90 0
 tellraw @s[score_FLtp_min=238315678,score_FLtp=238315678] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"Floo","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Floo Network","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 674271822"}},{"text":"]","color":"gray"},{"text":": "},{"text":"You have been teleported to ","color":"gray"},{"text":"329 24 137","color":"yellow","bold":"true"},{"text":" at ","color":"gray"},{"text":"The Race Hub","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Race Hub","color":"dark_aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 238315678"}},{"text":"!","color":"gray"}]}
 execute @s ~ ~ ~ playsound minecraft:entity.experience_orb.pickup voice @s
-scoreboard players operation @s FLtp *= -1 constants
+scoreboard players set @s FLtp 0

@@ -118,7 +118,7 @@ class FlooEvent(Container):
         """
         Resets all options for the floo network
         """
-        set_stand_str = "@e[type=_armor_stand,FlooStand] {0} = {1}"
+        set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # Resets all options
         self.cmd_queue.put(set_stand_str.format("FLtp", "0"))

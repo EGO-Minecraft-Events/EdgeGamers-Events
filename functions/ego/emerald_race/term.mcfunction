@@ -1,8 +1,8 @@
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLtp 0
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLpvp 0
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLsat 1
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLgmd 1
-scoreboard players set @e[type=_armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgmd 1
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=704022040,score_FLgam=704022040] FLgam 0
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"ER","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 704022040"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Emerald Race","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Emerald Race","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 704022040"}},{"text":" has stopped!","color":"red"}]}
 scoreboard objectives remove ER
