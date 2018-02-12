@@ -4,19 +4,23 @@ from lib.floo_network import FlooEvent
 class Virus(FlooEvent):
     """
     Attributes:
+
         initials (str)
         obj_disp (str): A possibly shortened version of display name to be put into objective display names
-        color (str)
+        select_spawn_coords (Coords)
+        select_spawn (str)
+        wait_coords (Coords)
+        select_virus_coords (Coords)
+        select_virus (str)
     """
 
-    def __init__(self, event, spawn_coords, virus_wait_coords, obj_disp=None, **options):
+    def __init__(self, event, select_spawn, wait_coords, select_virus, obj_disp=None, **options):
         """
         Automatically sets the pvp to true since that's how we roll
         """
         options["pvp"] = "true"
         super().__init__(event, **options)
 
-        self.event = event
         self.initials = self.event.begin.simple_initials
 
         if obj_disp is None:
@@ -24,8 +28,14 @@ class Virus(FlooEvent):
         else:
             self.obj_disp = obj_disp
 
-        # Gets the first color of the event color tuple
-        self.color = event.colors[0]
+        self.select_spawn_coords = select_spawn
+        self.select_spawn = select_spawn.to_selector()
+
+        self.wait_coords = wait_coords
+
+        self.select_virus_coords = select_virus
+        self.select_virus = select_virus.to_selector()
+
 
 
 
