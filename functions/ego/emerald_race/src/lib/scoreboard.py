@@ -341,6 +341,20 @@ class Team(Container):
 
         self.options[option] = option_value
 
+    def out_config(self):
+        """
+        Creates the following line if the team has a color:
+        (6 spaces) "Team_Name": "Color code"
+
+        Otherwise, returns an empty string
+        see team_color: https://hastebin.com/igojiqoleq
+        """
+        if "color" in self.options:
+            color = self.options["color"]
+            color_code = Colors.CODE_DICT[color]
+            return '      "{0}": "{1}"'.format(self.name, color_code)
+        return ""
+
     def cmd_init(self):
         """
         Creates "scoreboard teams add" and "scoreboard teams option" commands
@@ -468,10 +482,18 @@ class Teams(Container):
 
     def cmd_init(self):
         """
-        Creates each team
+        Creates each team and output file
         """
+        output_lines = []
         for team in self.teams.values():
             self.cmd_queue.put(team.cmd_init())
+            line = team.out_config()
+            if line:
+                output_lines.append(line)
+
+        with open("out_teams.txt", "w") as file:
+            for line in output_lines:
+                file.write(line + "\n")
         return self._cmd_output()
 
     def cmd_term(self):
