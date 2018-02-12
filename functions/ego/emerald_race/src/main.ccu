@@ -20,6 +20,9 @@ $endmacro
 $macro(edit_main_clock)
 $endmacro
 
+$macro(add_functions)
+$endmacro
+
 # additional commands for the countdown clock
 $macro(edit_countdown_clock)
     @s[$(initials)cd=120] fill $(fill_start) air 0 replace emerald_block 0

@@ -1,9 +1,9 @@
 $py(r"""
 Copy/pasta the following:
 
-
-from races import *
-from floo_network import NAME_RACE
+$py(
+from lib.races import *
+from lib.floo_network import NAME_RACE
 
 # all races must have a race object
 race = LapRace(NAME_RACE,
@@ -12,6 +12,8 @@ race = LapRace(NAME_RACE,
     spawn=Coords(""),
     fill_air=Coords(""),
     fill_block=Coords(""))
+)
+
 
 # additional commands for the main start
 $macro(edit_main_start)
@@ -19,6 +21,9 @@ $endmacro
 
 # additional commands for the main clock
 $macro(edit_main_clock)
+$endmacro
+
+$macro(add_functions)
 $endmacro
 
 # additional commands for the countdown clock
@@ -48,7 +53,10 @@ $endmacro
 
 $macro(race_main_clock)
     @a[$(select_all),m=2,team=$(team_name)] function ego:$(race.event.folder_name)/check_lap
+$endmacro
 
+
+$macro(race_add_functions)
 # used on players to check for whether they have gotten a successful lap or not
 !mfunc check_lap
     @s $(obj_name) + 0

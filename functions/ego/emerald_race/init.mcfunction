@@ -1,6 +1,6 @@
 function ego:floo_network/stop_events
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 704022040
-scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0

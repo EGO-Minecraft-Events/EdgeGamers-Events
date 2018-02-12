@@ -1,0 +1,44 @@
+$py(
+from lib.races import *
+from lib.floo_network import ICE_RACE
+
+# all races must have a race object
+
+race = RegularRace(ICE_RACE,
+    fill_air=Coords("66 34 -42 66 34 -48"))
+
+
+race.add_place(Coords("41 36 -32 41 37 -31"))
+race.add_fill(Coords("42 33 -31 42 33 -32"), "redstone_block")
+
+race.add_place(Coords("41 36 -28 41 37 -28"))
+race.add_fill(Coords("42 33 -28"), "redstone_block")
+
+race.add_place(Coords("41 36 -35 41 37 -35"))
+race.add_fill(Coords("42 33 -35"), "redstone_block")
+)
+
+# additional commands for the main start
+$macro(edit_main_start)
+$endmacro
+
+# additional commands for the main clock
+$macro(edit_main_clock)
+$endmacro
+
+$macro(add_functions)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_countdown_clock)
+    @s[$(initials)cd=120] fill $(race.fill_air) stonebrick 0 replace redstone_block 0
+    $# @s[$(initials)cd=120] fill $(race.fill_block) redstone_block 0 replace stonebrick 0
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+    fill $(race.fill_air) redstone_block 0 replace stonebrick 0
+    $# fill $(race.fill_block) stonebrick 0 replace redstone_block 0
+$endmacro
+
+$include("lib/races.ccu")

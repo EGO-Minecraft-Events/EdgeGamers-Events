@@ -12,3 +12,4 @@ scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_ERde_min
 scoreboard teams join ERr @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,team=!ERr]
 effect @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,team=ERr] minecraft:invisibility 3 0 true
 execute @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,team=ERr] ~ ~ ~ function ego:emerald_race/check_lap
+scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51,m=2,score_ERde_min=1] ERde 0

@@ -1,41 +1,60 @@
-FUNC {GLOBAL Func_RaceSpecificStart}:
-///    Scoreboards
-    ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_RaceSpecificStart) Obj_RaceSpecificStart}:
-        $Name$RaceBC dummy $TDName$ Broadcast
+$macro(race_main_start)
 
-FUNC {GLOBAL Func_RaceSpecificClock}:
-    @a[$SA$,team=$Name$R] $Name$RaceBC + 0
-    
-/// Iterates through the entire array
-/// Arr_SelectPlaces[|0|][0] gets the selection
-/// Arr_SelectPlaces[|0|][1] is the win message
-    LOOP {0 Arr_SelectPlaces[-1] + 1} {1 Arr_SelectPlaces[L] + 1}:
-        @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=0] $Name$RaceBC = |1|
-        @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] tellraw @a[$SA$] $TextStart${"selector":"@a[c=1,m=2]"},{"text":" Arr_SelectPlaces[|0|][1]","color":"green"}]}
-        @a[Arr_SelectPlaces[|0|][0],c=1,m=2,$Name$RaceBC=|1|] playsound Snd_Level voice @a
-        
-    /// Runs any additional commands if detected
-        IF {Arr_SelectPlaces[|0|][L] > 2}:
-            LOOP {2 Arr_SelectPlaces[-1] + 1}:
-                @a[Arr_SelectPlaces[|0;1|][0],c=1,m=2,$Name$RaceBC=|1;1|] Arr_SelectPlaces[|0;1|][|0|]
-        
-///    Set everyone's score if they won
-    @a[$SA$,m=2,$Name$RaceBC>=1] ScOP @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$Race = @a[r=1,c=1,m=2,$Name$RaceBC>=1] $Name$RaceBC
+# scoreboard setting
+$py(
+from lib.const_ints import CONST_INTS
+CONST_INTS.add_constants(-1)
 
-FUNC {GLOBAL Func_RaceSpecificEndClock}:
-    ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$Race *= -1 Number
-    ScOP @a[$SA$,m=2,$Name$RaceBC>=1] $Name$RaceBC *= -1 Number
+OBJECTIVES.new_str("""
+    bc _ Broadcast
+    """, initials, race.obj_disp)
+)
 
-FUNC {GLOBAL Func_RaceSpecificEnd}:
-///    Scoreboard
-    CCU.objectiveRemove(Obj_RaceSpecificStart)
-    
-/// Runs setblock/fill commands
-    LOOP {0 Arr_SetblockPlaces[-1] + 1}:
-        IF {Arr_SetblockPlaces[|0|][L] > 0}:
-            LOOP {0 Arr_SetblockPlaces[|0|][-1] + 1}:
-                SPLIT {Arr_Temp Arr_SetblockPlaces[|0;1|][|0|]} { }
-                IF {Arr_Temp[L] = 3}:
-                    setblock Arr_SetblockPlaces[|0;1|][|0|] air 0
-                IF {Arr_Temp[L] = 6}:
-                    fill Arr_SetblockPlaces[|0;1|][|0|] air 0
+$endmacro
+
+
+$macro(race_main_clock)
+    @a[$(select_all),m=2,team=$(team_name)] $(initials)bc + 0
+
+    # if a player is found inside a place region
+    $for(index, place in enumerate(race.places))
+    @a[$(place.select),c=1,m=2,team=$(team_name),$(initials)bc=0] function ego:$(race.event.folder_name)/set_place$(index)
+    $endfor
+$endmacro
+
+
+$macro(race_add_functions)
+
+# used on players to set their place number upon completion of the race
+# each place has its on unique function lol
+# note that the (race.initials)bc is left at a positive number for calculations
+# for the edit_main_clock macro
+$for(index, place in enumerate(race.places))
+!mfunc set_place$(index)
+    tellraw @a[$(select_all)] $(race.event.begin(r'{"selector":"@s"},{"text":" ' + place.message + r'","color":"green"}'))
+    playsound $(Sounds.level) voice @a
+
+    $(place.cmd_main(select_all))
+    @s $(initials)bc = $(place.score)
+    function ego:$(race.event.folder_name)/finalize_set_place
+$endfor
+
+!mfunc finalize_set_place
+    ScOP @s $(obj_name) = @s $(initials)bc
+    ScOP @s $(obj_name) *= -1 constants
+$endmacro
+
+
+$macro(race_end_main_clock)
+    ScOP @a[$(select_all),m=2,$(initials)bc>=1] $(race.initials)bc *= -1 constants
+$endmacro
+
+
+$macro(race_main_end)
+    # terminates all places
+    $for(index, place in enumerate(race.places))
+    $(place.cmd_term())
+    $endfor
+
+$endmacro
+

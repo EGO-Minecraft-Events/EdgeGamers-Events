@@ -16,7 +16,7 @@ class FlooEvent(Container):
     """
 
     valid_options = {
-        "pvp": ("true", "false"),  # FLpvp 0, 1
+        "pvp": ("teams", "weak", "true"),  # FLpvp 0, 1, 2
         "saturation": ("true", "false"),  # FLsat 0, 1
         "gamemode": ("adventure", "survival", "spectator"),  # FLgmd 1, 2, 3
         "weather": ("clear", "rain", "storm"),  # FLwea 0, 1, 2
@@ -66,11 +66,13 @@ class FlooEvent(Container):
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
 
-        # setting up pvp options, defaults to false
-        if "pvp" not in self.options or self.options["pvp"] == "false":
+        # setting up pvp options, defaults to false with weakness
+        if "pvp" not in self.options or self.options["pvp"] == "weak":
+            self.cmd_queue.put(set_stand_str.format("FLpvp", "1"))
+        elif self.options["pvp"] == "teams":
             self.cmd_queue.put(set_stand_str.format("FLpvp", "0"))
         else:
-            self.cmd_queue.put(set_stand_str.format("FLpvp", "1"))
+            self.cmd_queue.put(set_stand_str.format("FLpvp", "2"))
 
         # setting up the saturation options, defaults to true
         if "pvp" not in self.options or self.options["pvp"] == "true":
@@ -341,3 +343,5 @@ MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24
 PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False)
 MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False)
 RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False)
+# BLOCK_HUNT_HUB = Event("floo_network", "The BlockHunt Hub", "dark_red", Coords(""), "bhhub", initials="BHhub", is_event=False)
+
