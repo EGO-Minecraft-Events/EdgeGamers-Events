@@ -116,6 +116,10 @@ TEAMS.new_str("""
     $race_end_main_clock()
 
 
+$add_functions()
+$race_add_functions()
+
+
 !mfunc term
     # terminates the floo network
     $(race.cmd_term())
