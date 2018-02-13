@@ -182,7 +182,7 @@ TEAMS.new_str("""
 
 !mfunc term
     $(virus.cmd_term())
-    @a[$(select_all),m=2,$(initials)pl=0] function ego:$(virus.event.folder_name)/reset_player
+    @a[$(select_all),m=2,$(initials)pl=0..] function ego:$(virus.event.folder_name)/reset_player
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
     
@@ -211,9 +211,9 @@ TEAMS.new_str("""
     function ego:$(virus.event.folder_name)/timer
     
     # sets the player effects
-    @a[$(select_all),m=2,$(initials)pl=0..] function ego:$(virus.event.folder_name)/player_effects
+    @a[$(select_all),m=2,$(initials)pl=1..] function ego:$(virus.event.folder_name)/player_effects
 
-    @s[$(initials)ti=0] function ego:$(virus.event.folder_name)/end_countdown
+    @s[$(initials)ti=..0] function ego:$(virus.event.folder_name)/end_countdown
 
 
 !mfunc end_countdown
@@ -335,13 +335,14 @@ TEAMS.new_str("""
     @s[$(initials)ti=$(3*20)] tellraw @a $(virus.event.begin(r'{"text":"3!","color":"yellow"}'))
     @s[$(initials)ti=$(2*20)] tellraw @a $(virus.event.begin(r'{"text":"2!","color":"yellow"}'))
     @s[$(initials)ti=$(1*20)] tellraw @a $(virus.event.begin(r'{"text":"1!","color":"yellow"}'))
-    @s[$(initials)ti=0] $(initials)st = 4
+    @s[$(initials)ti=..0] $(initials)st = 4
     
 # used on the Virus Stand to display the time on the sidebar
 !mfunc disp_time_score
     ScOP Seconds $(initials)ti = @s $(initials)ti
     ScOP Seconds $(initials)ti /= 20 constants
     ScOP Seconds $(initials)ti %= 60 constants
+    Seconds $(initials)ti + 1
     ScOP Seconds $(obj_name) = Seconds $(initials)ti
 
     ScOP Minutes $(initials)ti = @s $(initials)ti
