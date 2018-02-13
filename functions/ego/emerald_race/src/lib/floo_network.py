@@ -318,8 +318,8 @@ FROSTBURN_RUN = Event("frostburn_run", "Frostburn Run", "aqua", Coords("517 11 -
 EVERCHANGING_RACE = Event("ever_changing_race", "EverChanging Race", "yellow", Coords("460 3 -331 -90 0"), "ecr", select_coords=Coords("450 0 -353 574 30 -308"))
 
 # Minigames
-VIRUS_1 = Event("virus_1", "Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "v1;virus1", select_coords=Coords("-130 4 -315 -9 64 -134"))
-VIRUS_2 = Event("virus_2", "Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "v2;virus2", select_coords=Coords("-107 2 -130 86 102 111"))
+VIRUS_1 = Event("virus_1", "Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "virus1;vr1", select_coords=Coords("-130 4 -315 -9 64 -134"))
+VIRUS_2 = Event("virus_2", "Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "virus2;vr2", select_coords=Coords("-107 2 -130 86 102 111"))
 PVP_OLD_CTF = Event("pvp", "PVP: Old CTF", "red", Coords("-268 49 -39 -90 0"), "pvp1;oldctf")
 CAPTURE_THE_FLAG = Event("capture_the_flag", "Capture; the ;flag", "red;white;blue", Coords("558 107 159.0 90 0"), "ctf",
     initials="c;t;f", select_coords=Coords("548 106 148 568 111 169"))

@@ -1,8 +1,5 @@
 $py(
-# constants are used throughout the race.ccu files
 from lib.consts import Effects, Sounds
-
-# obviously uses scoreboard constants
 from lib.scoreboard import OBJECTIVES, TEAMS
 
 

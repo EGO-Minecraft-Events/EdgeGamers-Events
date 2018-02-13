@@ -12,7 +12,6 @@ class Race(FlooEvent):
         fill_air (Coords region)
         fill_block (Coords region)
         initials (str)
-        disp_name (str)
         obj_disp (str): A possibly shortened version of display name to be put into objective display names
         color (str)
     """
@@ -28,10 +27,9 @@ class Race(FlooEvent):
         self.fill_air = fill_air
         self.fill_block = fill_block
         self.initials = self.event.begin.simple_initials
-        self.disp_name = self.event.full_name
 
         if obj_disp is None:
-            self.obj_disp = self.disp_name
+            self.obj_disp = self.event.full_name
         else:
             self.obj_disp = obj_disp
 

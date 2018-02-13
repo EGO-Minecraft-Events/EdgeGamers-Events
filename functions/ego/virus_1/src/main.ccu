@@ -7,6 +7,7 @@ from lib.coords import Coords
 virus = Virus(VIRUS_1,
     select_spawn=Coords("-85 45 -241 -54 50 -210"),
     wait_coords=Coords("-69.0 53 -225.0"),
+    arena_coords=Coords("-69.0 38 -225.0"),
     select_virus=Coords("-70 53 -226 -69 56 -225"))
 
 virus_door = Coords("-73 52 -222 -66 52 -229")
@@ -31,7 +32,7 @@ $macro(edit_round_end)
 $endmacro
 
 # additional commands for the countdown clock
-$macro(edit_round_restart)
+$macro(edit_round_reset)
     fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
     fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
 $endmacro
