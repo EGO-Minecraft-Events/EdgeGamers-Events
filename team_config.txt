@@ -1,2 +1,6 @@
       "ERr": "&a"
       "IRr": "&b"
+      "VR1h": "&a"
+      "VR1v": "&e"
+      "VR1d_y": "&e"
+      "VR1d_g": "&a"

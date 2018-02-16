@@ -82,8 +82,8 @@ OBJECTIVES["Health"].setdisplay("list")
 # etc.
 def use_file_consts(event):
     try:
-        with open("../../{}/src/consts.ccu".format(event.folder_name)) as file:
-            print("Opened {}/src/consts.ccu".format(event.folder_name))
+        with open("../../{}/src/consts_obj.txt".format(event.folder_name)) as file:
+            print("Opened {}/src/consts_obj.txt".format(event.folder_name))
             lines = file.read()
             OBJECTIVES.new_str(lines, remove_self=False)
     except FileNotFoundError:

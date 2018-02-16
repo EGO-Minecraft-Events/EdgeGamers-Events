@@ -105,7 +105,7 @@ class Objective(Container):
             scoreboard objectives add
             scoreboard objectives setdisplay
 
-        and adds all constants using:
+        Adds all constants using:
             scoreboard players set NAME OBJ_NAME VALUE
         """
         cmd_add = ("scoreboard objectives add {name} {criteria} {disp_name}".format(
@@ -116,6 +116,7 @@ class Objective(Container):
         for slot in self.slots:
             self.cmd_queue.put("scoreboard objectives setdisplay {slot} {name}".format(slot=slot.value, name=self.name))
 
+        # adds regular constants
         for name, value in sorted(self.consts.items()):
             self.cmd_queue.put("scoreboard players set {name} {obj_name} {value}".format(
                 name=name, obj_name=self.name, value=value))
