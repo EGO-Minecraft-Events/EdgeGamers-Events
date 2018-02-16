@@ -54,6 +54,12 @@ class FlooEvent(Container):
 
         self.options[option] = option_value
 
+    def cmd_func(self, name):
+        return self.event.cmd_func(name)
+
+    def cmd_spawn(self, selector="@s"):
+        return self.event.cmd_spawn(selector)
+
     def cmd_init(self):
         """
         Sets up the commands for the floo network
@@ -61,7 +67,8 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put("function ego:floo_network/stop_events")
+        self.cmd_queue.put(self.cmd_func("stop_events"))
+        # self.cmd_queue.put("function ego:floo_network/stop_events")
 
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
@@ -111,6 +118,8 @@ class FlooEvent(Container):
         self.cmd_queue.put("@a[{}] FLid + 0".format(self.event.select_all))
         self.cmd_queue.put("@a[{0},FLid=..-{1}] FLid = {2}".format(self.event.select_all, self.id+1, self.id))
         self.cmd_queue.put("@a[{0},FLid=-{1}..] FLid = {2}".format(self.event.select_all, self.id-1, self.id))
+        self.cmd_queue.put("@a _sa = 0".format(self.event.select_all, self.id-1, self.id))
+        self.cmd_queue.put("@a[{0}] _sa = 1".format(self.event.select_all)
 
         return self._cmd_output()
 
@@ -290,6 +299,19 @@ class Event:
 
         # Adds each event to the members list
         Event.members.append(self)
+
+    def cmd_func(self, name):
+        """
+        Returns the file path to the provided name
+        """
+        return "function ego:{0}/{1}.mcfunction".format(self.folder_name, name)
+
+    def cmd_spawn(self, selector="@s"):
+        """
+        Returns the given teleport command to teleport
+        them back to the event spawn
+        """
+        return "scoreboard players set {0} FLtp {1}".format(selector, self.id)
 
     def __str__(self):
         return "Event[{name} ({short})]".format(name=repr(self.full_name), short=str(self.shortcut)[1:-1])

@@ -1,7 +1,7 @@
 import os
 
 
-directories = tuple(directory[0] for directory in os.walk("functions/ego"))
+directories = tuple(directory[0] for directory in os.walk("../functions/ego"))
 output_lines = []
 
 for directory in directories:

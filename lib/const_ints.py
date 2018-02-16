@@ -20,7 +20,7 @@ class ConstInts(Container):
         self.objective = Objective(objName, remove_self=False)
         OBJECTIVES.add(self.objective)
 
-    def add_constants(self, *constants):
+    def add_consts(self, *constants):
         """
         Adds any number of integer constants given
         """

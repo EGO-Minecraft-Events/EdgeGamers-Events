@@ -45,8 +45,8 @@ print(TEAMS.cmd_term())
 
 
 # Constant integers
-CONST_INTS.add_constants(25, 35, 1, 20)
-CONST_INTS.add_constants(64, 23, 6, 1)
+CONST_INTS.add_consts(25, 35, 1, 20)
+CONST_INTS.add_consts(64, 23, 6, 1)
 
 print(CONST_INTS.cmd_init())
 print(repr(CONST_INTS.cmd_term()))

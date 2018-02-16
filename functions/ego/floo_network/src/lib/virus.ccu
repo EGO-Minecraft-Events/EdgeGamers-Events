@@ -114,7 +114,7 @@ OBJECTIVES.new_str("""
 
 OBJECTIVES[initials].setdisplay("sidebar")
 
-CONST_INTS.add_constants(20, 60)
+CONST_INTS.add_consts(20, 60)
 
 TEAMS.new_str("""
     h Hiders

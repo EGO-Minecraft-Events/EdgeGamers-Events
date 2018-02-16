@@ -1,4 +1,4 @@
-function ego:floo_network/stop_events
+function ego:virus_1/stop_events.mcfunction
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1561350378
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
