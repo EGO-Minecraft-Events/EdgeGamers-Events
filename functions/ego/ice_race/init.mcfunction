@@ -1,4 +1,4 @@
-function ego:floo_network/stop_events
+function ego:ice_race/stop_events.mcfunction
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 227577150
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1

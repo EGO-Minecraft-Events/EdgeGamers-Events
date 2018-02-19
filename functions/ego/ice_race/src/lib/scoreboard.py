@@ -229,7 +229,7 @@ class Objectives(Container):
         Adds any given number of Objective objects
 
         Args:
-            *objectives (Objective): An arbitrary objective
+            *objectives (Objective): An arbitrary number of objective
         """
         for objective in objectives:
             if objective.name not in self.objectives:
