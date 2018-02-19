@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from lib.coord import Coord
 # from coord import Coord
 
+
 """
 TODO: more doctests and docstrings
 """

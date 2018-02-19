@@ -15,7 +15,7 @@ class ConstObj(Objective):
         Creates the consts_obj.txt file
         """
         with open("consts_obj.txt", "w") as file:
-            file.write("{0} {1}\n".format(self.name, self.display_name))
+            file.write("{0} _ {1}\n".format(self.name, self.display_name))
             for name, value in sorted(self.consts.items()):
                 file.write("{0} = {1}\n".format(name, value))
 

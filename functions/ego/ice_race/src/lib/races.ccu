@@ -81,7 +81,7 @@ TEAMS.new_str("""
     # the floo network clock for setting spawnpoints
     $(race.cmd_main())
     
-    @e[type=area_effect_cloud, $(initials)countdown] function ego:$(race.event.folder_name)/countdown
+    @e[type=area_effect_cloud,$(initials)countdown] function ego:$(race.event.folder_name)/countdown
     kill @e[$(select_all),type=item]
     
     # adds everyone to the clear objective

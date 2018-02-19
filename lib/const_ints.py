@@ -32,6 +32,7 @@ class ConstInts(Container):
         Does nothing, since the global objective initialization should both
         create the objective and set the constants
         """
+        return ""
 
     def cmd_term(self):
         """

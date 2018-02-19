@@ -13,7 +13,21 @@ class FlooEvent(Container):
         event (floo_network.Event)
         id (int)
         options (dict)
+        used_funcs (set): The functions that have been used by this object
+
+    Args:
+        event (Event):
+        **options: (Arbitrary options)
+
+    Example:
+        FlooRace = FlooEvent(ICE_RACE)
+        FlooPVP = FlooEvent(CAPTURE_THE_FLAG, pvp="false")
+        FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
     """
+
+    # The set of required functions that must be ran for
+    # literally any event to work
+    required_funcs = {"cmd_init", "cmd_post_init", "cmd_main", "cmd_term"}
 
     valid_options = {
         "pvp": ("teams", "weak", "true"),  # FLpvp 0, 1, 2
@@ -23,20 +37,11 @@ class FlooEvent(Container):
     }
     
     def __init__(self, event, **options):
-        """
-        Args:
-            event (Event):
-            **options: (Arbitrary options)
-
-        Example:
-            FlooRace = FlooEvent(ICE_RACE)
-            FlooPVP = FlooEvent(CAPTURE_THE_FLAG, pvp="false")
-            FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
-        """
         super().__init__()
 
         if not isinstance(event, Event):
             raise TypeError("The ID must be an Event type")
+
         self.event = event
         self.id = self.event.id
         self.options = {}
@@ -54,6 +59,12 @@ class FlooEvent(Container):
 
         self.options[option] = option_value
 
+    def cmd_func(self, name):
+        return self.event.cmd_func(name)
+
+    def cmd_spawn(self, selector="@s"):
+        return self.event.cmd_spawn(selector)
+
     def cmd_init(self):
         """
         Sets up the commands for the floo network
@@ -61,7 +72,8 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put("function ego:floo_network/stop_events")
+        self.cmd_queue.put(self.cmd_func("stop_events"))
+        # self.cmd_queue.put("function ego:floo_network/stop_events")
 
         # setting up the teleport id
         self.cmd_queue.put(set_stand_str.format("FLtp", self.id))
@@ -112,6 +124,10 @@ class FlooEvent(Container):
         self.cmd_queue.put("@a[{0},FLid=..-{1}] FLid = {2}".format(self.event.select_all, self.id+1, self.id))
         self.cmd_queue.put("@a[{0},FLid=-{1}..] FLid = {2}".format(self.event.select_all, self.id-1, self.id))
 
+        # global select all, specific for each event
+        self.cmd_queue.put("@a gSA = 0")
+        self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
+
         return self._cmd_output()
 
     def cmd_term(self):
@@ -139,6 +155,7 @@ class FlooEvent(Container):
     def __repr__(self):
         return "FlooEvent[event={event}, options={options}]".format(
                 event=repr(self.event), options=self.options)
+
 
 # DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"$TD$","color":"$Color$","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"$TDName$","color":"$Color$"}}},{"text":"]","color":"gray"},{"text":": "},
 # DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
@@ -290,6 +307,19 @@ class Event:
 
         # Adds each event to the members list
         Event.members.append(self)
+
+    def cmd_func(self, name):
+        """
+        Returns the file path to the provided name
+        """
+        return "function ego:{0}/{1}.mcfunction".format(self.folder_name, name)
+
+    def cmd_spawn(self, selector="@s"):
+        """
+        Returns the given teleport command to teleport
+        them back to the event spawn
+        """
+        return "scoreboard players set {0} FLtp {1}".format(selector, self.id)
 
     def __str__(self):
         return "Event[{name} ({short})]".format(name=repr(self.full_name), short=str(self.shortcut)[1:-1])

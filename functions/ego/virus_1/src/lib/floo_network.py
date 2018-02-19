@@ -13,7 +13,21 @@ class FlooEvent(Container):
         event (floo_network.Event)
         id (int)
         options (dict)
+        used_funcs (set): The functions that have been used by this object
+
+    Args:
+        event (Event):
+        **options: (Arbitrary options)
+
+    Example:
+        FlooRace = FlooEvent(ICE_RACE)
+        FlooPVP = FlooEvent(CAPTURE_THE_FLAG, pvp="false")
+        FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
     """
+
+    # The set of required functions that must be ran for
+    # literally any event to work
+    required_funcs = {"cmd_init", "cmd_post_init", "cmd_main", "cmd_term"}
 
     valid_options = {
         "pvp": ("teams", "weak", "true"),  # FLpvp 0, 1, 2
@@ -23,20 +37,11 @@ class FlooEvent(Container):
     }
     
     def __init__(self, event, **options):
-        """
-        Args:
-            event (Event):
-            **options: (Arbitrary options)
-
-        Example:
-            FlooRace = FlooEvent(ICE_RACE)
-            FlooPVP = FlooEvent(CAPTURE_THE_FLAG, pvp="false")
-            FlooDeathPit = FlooEvent(DEATH_PIT, saturation="false")
-        """
         super().__init__()
 
         if not isinstance(event, Event):
             raise TypeError("The ID must be an Event type")
+
         self.event = event
         self.id = self.event.id
         self.options = {}
@@ -118,8 +123,10 @@ class FlooEvent(Container):
         self.cmd_queue.put("@a[{}] FLid + 0".format(self.event.select_all))
         self.cmd_queue.put("@a[{0},FLid=..-{1}] FLid = {2}".format(self.event.select_all, self.id+1, self.id))
         self.cmd_queue.put("@a[{0},FLid=-{1}..] FLid = {2}".format(self.event.select_all, self.id-1, self.id))
-        self.cmd_queue.put("@a _sa = 0".format(self.event.select_all, self.id-1, self.id))
-        self.cmd_queue.put("@a[{0}] _sa = 1".format(self.event.select_all)
+
+        # global select all, specific for each event
+        self.cmd_queue.put("@a gSA = 0")
+        self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
 
         return self._cmd_output()
 
@@ -148,6 +155,7 @@ class FlooEvent(Container):
     def __repr__(self):
         return "FlooEvent[event={event}, options={options}]".format(
                 event=repr(self.event), options=self.options)
+
 
 # DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"$TD$","color":"$Color$","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"$TDName$","color":"$Color$"}}},{"text":"]","color":"gray"},{"text":": "},
 # DEF $TextStart$ {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}}},{"text":"]","color":"gray"},{"text":": "},
@@ -304,7 +312,7 @@ class Event:
         """
         Returns the file path to the provided name
         """
-        return "function ego:{0}/{1}.mcfunction".format(self.folder_name, name)
+        return "function ego:{0}/{1}".format(self.folder_name, name)
 
     def cmd_spawn(self, selector="@s"):
         """

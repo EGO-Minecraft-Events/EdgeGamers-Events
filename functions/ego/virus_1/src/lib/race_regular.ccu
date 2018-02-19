@@ -46,7 +46,7 @@ $endmacro
 
 
 $macro(race_end_main_clock)
-    ScOP @a[$(select_all),m=2,$(initials)bc>=1] $(race.initials)bc *= -1 constants
+    ScOP @a[$(select_all),m=2,$(initials)bc=1..] $(race.initials)bc *= -1 constants
 $endmacro
 
 

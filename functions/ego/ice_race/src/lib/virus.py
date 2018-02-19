@@ -38,9 +38,3 @@ class Virus(FlooEvent):
 
         self.select_virus_coords = select_virus
         self.select_virus = select_virus.to_selector()
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-function ego:virus_1/stop_events.mcfunction
+function ego:virus_1/stop_events
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1561350378
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -11,6 +11,7 @@ scoreboard players set 60 constants 60
 scoreboard objectives add VR1 dummy Virus 1
 scoreboard objectives setdisplay sidebar VR1
 scoreboard objectives add VR1pl dummy Virus 1 Player List
+scoreboard objectives add VR1sa dummy Virus 1 Select All
 scoreboard objectives add VR1de deathCount Virus 1 Deaths
 scoreboard objectives add VR1ti dummy Virus 1 Timer
 scoreboard objectives add VR1chi dummy Virus 1 Count Hiders

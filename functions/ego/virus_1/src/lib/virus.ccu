@@ -165,7 +165,7 @@ TEAMS.new_str("""
     ScOP $(initials)Glowing $(initials)calc *= 20 constants
 
     summon armor_stand ~ ~ ~ {Tags:["$(initials)Stand","$(initials)Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func(reset_round))
+    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("reset_round"))
     $(virus.cmd_post_init())
 
 !mfunc main
@@ -175,30 +175,30 @@ TEAMS.new_str("""
     @a $(initials)sa = 0
     @a[$(select_all)] $(initials)sa = 1
     
-    # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] $(virus.cmd_func(wait_for_start))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=1] $(virus.cmd_func(start_round))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=2] $(virus.cmd_func(countdown))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=3] $(virus.cmd_func(during_round))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=4] $(virus.cmd_func(stop_round))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=5] $(virus.cmd_func(wait_for_reset))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=6] $(virus.cmd_func(reset_round))
+    # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] $(virus.cmd_func("wait_for_start"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=1] $(virus.cmd_func("start_round"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=2] $(virus.cmd_func("countdown"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=3] $(virus.cmd_func("during_round"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=4] $(virus.cmd_func("stop_round"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=5] $(virus.cmd_func("wait_for_reset"))
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=6] $(virus.cmd_func("reset_round"))
 
     # sets the glowing effect
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func(set_glowing_effects))
+    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("set_glowing_effects"))
     
     # shows the player numbers at all times
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func(calc_player_numbers))
+    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("calc_player_numbers"))
     
     # initializes the player
     @a $(initials)pl + 0
-    @a[$(select_all),m=2,$(initials)pl=0] $(virus.cmd_func(round_reset_player))
+    @a[$(select_all),m=2,$(initials)pl=0] $(virus.cmd_func("round_reset_player"))
 
     # teleports any players to the given location as necessary
-    $(virus.cmd_func(teleport_players))
+    $(virus.cmd_func("teleport_players"))
 
 !mfunc term
     $(virus.cmd_term())
-    @a[$(initials)pl=1,m=2] $(virus.cmd_func(full_reset_player))
+    @a[$(initials)pl=1,m=2] $(virus.cmd_func("full_reset_player"))
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
     
@@ -224,12 +224,12 @@ TEAMS.new_str("""
 
 !mfunc countdown
     # runs the timer
-    $(virus.cmd_func(timer))
+    $(virus.cmd_func("timer"))
     
     # sets the player effects
-    @a[$(initials)pl=1,m=2] $(virus.cmd_func(player_effects))
+    @a[$(initials)pl=1,m=2] $(virus.cmd_func("player_effects"))
 
-    @s[$(initials)ti=..0] $(virus.cmd_func(end_countdown))
+    @s[$(initials)ti=..0] $(virus.cmd_func("end_countdown"))
 
 
 !mfunc end_countdown
@@ -248,11 +248,11 @@ TEAMS.new_str("""
     kill @e[$(select_all),type=item]
 
     # runs the timer
-    $(virus.cmd_func(timer))
+    $(virus.cmd_func("timer"))
 
     # sets the player effects
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func(player_effects))
-    $(virus.cmd_func(calc_glowing))
+    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("player_effects"))
+    $(virus.cmd_func("calc_glowing"))
 
     # detects whether the virus won
     @e[type=armor_stand,$(initials)Stand,$(initials)chi=0] $(initials)st = 4
@@ -302,12 +302,12 @@ TEAMS.new_str("""
 
 # used on the Virus Stand when waiting for the round reset
 !mfunc wait_for_reset
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func(invuln_effect))
+    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("invuln_effect"))
 
 
 # used on the Virus Stand when the round actually resets
 !mfunc reset_round
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func(round_reset_player))
+    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("round_reset_player"))
     @s $(initials)gl = 1
     $edit_round_reset()
     
@@ -322,12 +322,12 @@ TEAMS.new_str("""
 !mfunc round_reset_player
     clear @s
     effect @s clear
-    @s[EC=0] $(virus.cmd_func(get_book))
+    @s[EC=0] $(virus.cmd_func("get_book"))
 
     # sets their play
     @s $(initials)pl = 1
-    $(virus.cmd_func(to_hider)) if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
-    $(virus.cmd_func(to_virus)) if @e[type=armor_stand,$(initials)Stand,$(initials)st=3]
+    $(virus.cmd_func("to_hider")) if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+    $(virus.cmd_func("to_virus")) if @e[type=armor_stand,$(initials)Stand,$(initials)st=3]
 
 
 # used on a player to fully reset themselves for command termination
@@ -338,8 +338,8 @@ TEAMS.new_str("""
 # used on the Virus Stand to count time
 !mfunc timer
     @s[$(initials)ti=1..] $(initials)ti - 1
-    $(virus.cmd_func(disp_time_text))
-    $(virus.cmd_func(disp_time_score))
+    $(virus.cmd_func("disp_time_text"))
+    $(virus.cmd_func("disp_time_score"))
 
 # used on the Virus Stand to display the time in tellraw messages
 !mfunc disp_time_text
@@ -375,7 +375,7 @@ TEAMS.new_str("""
 !mfunc to_hider
     clear @s
     effect @s clear
-    @s[EC=0] $(virus.cmd_func(get_book))
+    @s[EC=0] $(virus.cmd_func("get_book"))
     
     join $(hiders_team) @s
 
@@ -383,7 +383,7 @@ TEAMS.new_str("""
 !mfunc to_virus
     clear @s
     effect @s clear
-    @s[EC=0] $(virus.cmd_func(get_book))
+    @s[EC=0] $(virus.cmd_func("get_book"))
 
     # adds a golden helmet lol
     replaceitem entity @s slot.armor.head golden_helmet 1 0 {
@@ -435,12 +435,12 @@ TEAMS.new_str("""
 
 # used as input to randomly select a virus
 !mfunc input_select_rand_virus
-    @r[$(select_all),m=2,team=$(hiders_team)] $(virus.cmd_func(to_virus))
+    @r[$(select_all),m=2,team=$(hiders_team)] $(virus.cmd_func("to_virus"))
 
 
 # used as input to randomly convert a virus to a hider
 !mfunc input_remove_one_virus
-    @r[$(select_all),m=2,team=$(virus_team)] $(virus.cmd_func(to_hider))
+    @r[$(select_all),m=2,team=$(virus_team)] $(virus.cmd_func("to_hider"))
 
 
 # used as input to select a team
@@ -448,12 +448,12 @@ TEAMS.new_str("""
     tellraw @a[EC=0] $(virus.event.begin())
         {"text":"Choose team: ","color":"gray"},
         {"text":"Hider","color":"green","italic":true,
-            "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func(to_hider))"},
+            "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func("to_hider"))"},
             "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the hiders","color":"green"}}
         },
         {"text":", ","color":"gray","italic":true},
         {"text":"Virus","color":"yellow","italic":true,
-            "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func(to_virus))"},
+            "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func("to_virus"))"},
             "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}}
         }]}
 
@@ -487,73 +487,73 @@ TEAMS.new_str("""
             
             {\"text\":\"$(initials): \",\"color\":\"dark_gray\"},
             {\"text\":\"Start\",\"color\":\"dark_green\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(init))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("init"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the virus map so it can be ran\",\"color\":\"green\"}}
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Stop\\\n\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(term))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("term"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends the virus map\",\"color\":\"red\"}}
             },
             
             {\"text\":\"Round: \",\"color\":\"dark_gray\"},
             {\"text\":\"Start\",\"color\":\"dark_green\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_start_round))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_start_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts an individual round\",\"color\":\"dark_green\"}}
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Stop\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_stop_round))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_stop_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_reset_round))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_reset_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets an individual round\",\"color\":\"red\"}}
             },
             
             
             {\"text\":\"Select Virus: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\",\"color\":\"dark_green\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_select_rand_virus))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_select_rand_virus"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Chooses a virus\",\"color\":\"dark_green\"}}
             },
             
             {\"text\":\" \",\"color\":\"gray\"},
             {\"text\":\"[-]\\\n\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_remove_one_virus))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_remove_one_virus"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes a virus\",\"color\":\"red\"}}
             },
             
             {\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\\\n\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_select_team))\"}
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_select_team"))\"}
             },
             
             {\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\\\n\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_reset_consts))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_reset_consts"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets the time settings to their default values\",\"color\":\"gold\"}}
             },
             
             {\"text\":\"Time: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\",\"color\":\"dark_green\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_add_one_min))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_add_one_min"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 1 minute\",\"color\":\"dark_green\"}}
             },
             {\"text\":\" \",\"color\":\"gray\"},
             {\"text\":\"[+]\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_add_30s))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_add_30s"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 30 seconds\",\"color\":\"gold\"}}
             },
             {\"text\":\" \",\"color\":\"gray\"},
             {\"text\":\"[-]\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_remove_30s))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_remove_30s"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 30 seconds\",\"color\":\"gold\"}}
             },
             {\"text\":\" \",\"color\":\"gray\"},
             {\"text\":\"[-]\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func(input_remove_one_min))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_remove_one_min"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 1 minute\",\"color\":\"red\"}}
             }
         ]"
