@@ -21,7 +21,7 @@ dimension_id = "0"
 
 
 # General python code for the main start
-CONST_INTS.add_constants(-1)
+CONST_INTS.add_consts(-1)
 
 # General objectives from floo_network
 OBJECTIVES.new_str("""
@@ -198,15 +198,18 @@ def set_rankings(text):
 
 !mfunc main
     @e[type=armor_stand,FlooStand] function ego:floo_network/run_event unless @s[FLgam=0]
+
     @a[FLid=1..] function ego:floo_network/spawnpoint
     @a[FLtp=1..] function ego:floo_network/teleport
     @a[$(select_tree)] function ego:floo_network/in_spawn_tree
     @a[$(select_all)] function ego:floo_network/in_spawn
+    
     @a function ego:floo_network/calc_dimension
     @e[type=armor_stand,FlooStand] function ego:floo_network/calc_rank
     @a[FLrac=1] function ego:floo_network/use_rank
     @e[type=armor_stand,FlooStand] function ego:floo_network/use_options
 
+    # Allows voting
     * enable FLvot
     @a[FLvot=1..] function ego:floo_network/vote
     @a[FLvot=..-1] function ego:floo_network/vote

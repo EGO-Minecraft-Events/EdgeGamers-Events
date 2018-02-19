@@ -3,7 +3,7 @@ $macro(race_main_start)
 # scoreboard setting
 $py(
 from lib.const_ints import CONST_INTS
-CONST_INTS.add_constants(-1)
+CONST_INTS.add_consts(-1)
 
 OBJECTIVES.new_str("""
     bc _ Broadcast
