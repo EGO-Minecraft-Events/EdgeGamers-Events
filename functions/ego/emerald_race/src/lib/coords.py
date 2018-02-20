@@ -143,7 +143,7 @@ class RegionCoords(CoordsBase):
     def selector(self):
         _raise_on_non_global(self.pos.vec)
         _raise_on_non_global(self.pos2.vec)
-        diff_vec = self.pos2 - self.pos
+        diff_vec = self.pos2.vec - self.pos.vec
         diff_args = ""
         for key in "xyz":
             if diff_vec[key] != 0:

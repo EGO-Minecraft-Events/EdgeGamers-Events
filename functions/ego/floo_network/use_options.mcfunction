@@ -4,4 +4,4 @@ execute @s[score_FLsat_min=1,score_FLsat=1] ~ ~ ~ effect @a[score_FLdim_min=1,sc
 execute @s[score_FLwea_min=0,score_FLwea=0] ~ ~ ~ minecraft:weather clear 1000000
 execute @s[score_FLwea_min=1,score_FLwea=1] ~ ~ ~ minecraft:weather rain 1000000
 execute @s[score_FLwea_min=2,score_FLwea=2] ~ ~ ~ minecraft:weather thunder 1000000
-execute @s[score_FLgmd_min=1,score_FLgmd=1] ~ ~ ~ gamemode 2 @a[m=0,score_FLdim_min=1,score_FLdim=1]
+execute @s[score_FLgmd_min=1,score_FLgmd=1] ~ ~ ~ minecraft:gamemode 2 @a[m=0,score_FLdim_min=1,score_FLdim=1]

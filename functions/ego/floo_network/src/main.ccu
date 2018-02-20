@@ -10,7 +10,7 @@ from lib.consts import Sounds, Effects
 select_all = FLOO_NETWORK.select_all
 stand_coords = Coords("397 17 61")
 select_tree = "x=397,y=17,z=61,r=5"
-select_portal = Coords("350 14 13 440 19 103").to_selector()
+select_portal = Coords("350 14 13 440 19 103").selector()
 select_tree = "x=397,y=17,z=61,r=5"
 
 # regions where blocks are placable
@@ -19,12 +19,14 @@ placable_blocks = ["x=77,y=5,z=42,r=40"]
 dimension_id = "0"
 
 
-
 # General python code for the main start
 CONST_INTS.add_consts(-1)
 
 # General objectives from floo_network
 OBJECTIVES.new_str("""
+    # Used on players to hold all mcteams in a unique binary value
+    MCTeams _ MC Specialty Teams
+
     # used on players to hold the event id for teleporting
     # this is set to the negative value of itself once the spawnpoint has been set
     FLid _ ID
@@ -44,9 +46,6 @@ OBJECTIVES.new_str("""
     # teleport by 0.5s
     FLti dummy SpawnPoint Timer
 
-    # idk
-    FLlg stat.leaveGame Leave Game
-    
     # used by the FlooStand to holds the event id that is currently running
     FLgam _ Game Toggle
 
@@ -69,10 +68,34 @@ OBJECTIVES.new_str("""
 
 # General objectives for storage purposes
 OBJECTIVES.new_str("""
-    MCTeams _ MC Specialty Teams
     Health health
 """, remove_self=False)
 OBJECTIVES["Health"].setdisplay("list")
+
+
+# Global (general purpose) objectives
+OBJECTIVES.new_str("""
+    # used on players to determine whether they are
+    # in the game or not
+    # 0 = not in the game
+    # 1 = in the game
+    gSA _ Global Select All
+
+    # Automatically calculated on players to count their deaths
+    # It is instantly set to 0 when the score is higher than one
+    gDE deathCount Global Death Count
+
+    # Automatically calculated on players to increment when they have
+    # right clicked with a carrot on a stick
+    # It is instantly set to 0 when the score is higher than one
+    gCS stat.useItem.minecraft.carrot_on_a_stick Global Carrot Stick
+
+    # Automatically calculated on players to increment when they leave the game
+    # Note that because of the nature of commands, this actually detects when
+    # they rejoin the game
+    # It is instantly set to 0 when the score is higher than one
+    gLG stat.leaveGame Global Leave Game
+""")
 
 # Adds objectives based on all event_name/src/consts.ccu files
 # all consts.ccu files have the following input (aka the same general format for Objectives.new_str):
@@ -197,27 +220,33 @@ def set_rankings(text):
     tellraw @a[EC=0] $(FLOO_NETWORK.begin(FLOO_NETWORK.name_text() + r',{"text":" has been installed!","color":"gray"}'))
 
 !mfunc main
-    @e[type=armor_stand,FlooStand] function ego:floo_network/run_event unless @s[FLgam=0]
+    @e[type=armor_stand,FlooStand] function run_event unless @s[FLgam=0]
 
-    @a[FLid=1..] function ego:floo_network/spawnpoint
-    @a[FLtp=1..] function ego:floo_network/teleport
-    @a[$(select_tree)] function ego:floo_network/in_spawn_tree
-    @a[$(select_all)] function ego:floo_network/in_spawn
+    @a[FLid=1..] function spawnpoint
+    @a[FLtp=1..] function teleport
+
+    # only gets the book if they are alive
+    @e[type=player,FLbk=1..] function book
+
+    @a[$(select_tree)] function in_spawn_tree
+    @a[$(select_all)] function in_spawn
     
-    @a function ego:floo_network/calc_dimension
-    @e[type=armor_stand,FlooStand] function ego:floo_network/calc_rank
-    @a[FLrac=1] function ego:floo_network/use_rank
-    @e[type=armor_stand,FlooStand] function ego:floo_network/use_options
+    @a function calc_dimension
+    @e[type=armor_stand,FlooStand] function calc_rank
+    @a[FLrac=1] function use_rank
+    @e[type=armor_stand,FlooStand] function use_options
 
     # Allows voting
     * enable FLvot
-    @a[FLvot=1..] function ego:floo_network/vote
-    @a[FLvot=..-1] function ego:floo_network/vote
+    @a[FLvot=1..] function vote
+    @a[FLvot=..-1] function vote
 
+    # Resets global scores
+    function reset_global_scores
 
 !mfunc term
     # terminates all events just in case lol
-    function ego:floo_network/stop_events
+    function stop_events
 
     $(OBJECTIVES.cmd_term())
     
@@ -266,6 +295,16 @@ def set_rankings(text):
     @s FLtp = 0
 
 
+# used on players to get a book from a given event
+!mfunc book
+    $for(event in Event.members)
+    $if(event.is_event)
+    function ego:$(event.folder_name)/book if @s[FLbk=$(event.id)]
+    $endif
+    $endfor
+    @s FLbk = 0
+    
+
 # used on players when they are in the spawn tree
 !mfunc in_spawn_tree
     # gives saturation
@@ -296,7 +335,7 @@ def set_rankings(text):
 # used on the FlooStand to calculate whether players' ranking affects their
 # ability to change gamemodes or not
 !mfunc calc_rank
-    @s FLrac = 1
+    @a FLrac = 1
     
     ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
     $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
@@ -315,11 +354,7 @@ def set_rankings(text):
     gamemode 2 @s[m=0,FLdim=1]
     
     # teleports them to spawn if they are re-entering the game
-    ScOP @s[FLlg=1..,FLdim=1] FLtp = spawn FLna
-
-    # resets scores
-    @s FLrac = 0
-    @s[FLlg=1..] FLlg = 0
+    ScOP @s[gLG=1..,FLdim=1] FLtp = spawn FLna
 
 
 # used on the FlooStand to use the given floo network options specified per event
@@ -375,11 +410,17 @@ def set_rankings(text):
     @s FLvot = 0
 
 
+!mfunc reset_global_scores
+    @a[gDE=1..] gDE = 0
+    @a[gCS=1..] gCS = 0
+    @a[gLG=1..] gLG = 0
+
+
 # used by pretty much all external init mcfunctions to ensure that no other events are running
 # this is used by default with the FlooEvent.cmd_init function
 !mfunc stop_events
     # only stops events if the FLgam value is not 0
-    @e[type=armor_stand,FlooStand] function ego:floo_network/_stop_events unless @s[FLgam=0]
+    @e[type=armor_stand,FlooStand] function _stop_events unless @s[FLgam=0]
 
 
 # used on the FlooStand if an event is currently running and has to be terminated

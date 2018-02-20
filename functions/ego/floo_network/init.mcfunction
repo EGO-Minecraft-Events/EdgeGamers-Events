@@ -1,11 +1,11 @@
 scoreboard objectives add constants dummy
 scoreboard players set -1 constants -1
+scoreboard objectives add MCTeams dummy FlooNetwork MC Specialty Teams
 scoreboard objectives add FLid dummy FlooNetwork ID
 scoreboard objectives add FLtp dummy FlooNetwork TP
 scoreboard objectives add FLbk dummy FlooNetwork Book
 scoreboard objectives add FLna dummy FlooNetwork Name
 scoreboard objectives add FLti dummy FlooNetwork SpawnPoint Timer
-scoreboard objectives add FLlg stat.leaveGame FlooNetwork Leave Game
 scoreboard objectives add FLgam dummy FlooNetwork Game Toggle
 scoreboard objectives add FLpvp dummy FlooNetwork PVP toggle
 scoreboard objectives add FLsat dummy FlooNetwork Saturation toggle
@@ -15,13 +15,12 @@ scoreboard objectives add FLraa dummy FlooNetwork Ranking Actions
 scoreboard objectives add FLrac dummy FlooNetwork Ranking Actions Calc
 scoreboard objectives add FLdim dummy FlooNetwork Dimension Number
 scoreboard objectives add FLvot trigger FlooNetwork Vote Trigger
-scoreboard objectives add MCTeams dummy MC Specialty Teams
 scoreboard objectives add Health health
 scoreboard objectives setdisplay list Health
-scoreboard objectives add VR1Save dummy Virus Save
-scoreboard players set VR1Countdown VR1Save 60
-scoreboard players set VR1GameTime VR1Save 600
-scoreboard players set VR1Glowing VR1Save 300
+scoreboard objectives add gSA dummy Global Select All
+scoreboard objectives add gDE deathCount Global Death Count
+scoreboard objectives add gCS stat.useItem.minecraft.carrot_on_a_stick Global Carrot Stick
+scoreboard objectives add gLG stat.leaveGame Global Leave Game
 scoreboard objectives add APPS dummy
 scoreboard objectives add AT dummy
 scoreboard objectives add EC dummy

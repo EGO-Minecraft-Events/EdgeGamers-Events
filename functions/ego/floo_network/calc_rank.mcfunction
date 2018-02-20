@@ -1,4 +1,4 @@
-scoreboard players set @s FLrac 1
+scoreboard players set @a FLrac 1
 scoreboard players operation @s[score_FLraa_min=1] FLrac = @s[score_FLraa_min=1] FLraa
 execute @s[score_FLrac_min=16] ~ ~ ~ scoreboard players set @a[score_MCTeams_min=16,score_MCTeams=16,score_FLdim_min=1,score_FLdim=1] FLrac 0
 scoreboard players remove @s[score_FLrac_min=16] FLrac 16

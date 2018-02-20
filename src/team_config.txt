@@ -4,3 +4,7 @@
       "VR1v": "&e"
       "VR1d_y": "&e"
       "VR1d_g": "&a"
+      "VR2h": "&a"
+      "VR2v": "&e"
+      "VR2d_y": "&e"
+      "VR2d_g": "&a"

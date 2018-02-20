@@ -6,7 +6,7 @@ from lib.virus import *
 from lib.floo_network import VIRUS_NAME
 from lib.coords import Coords
 
-# all viruss must have a virus object
+# all virus maps must have a virus object
 virus = Virus(VIRUS_NAME,
     select_spawn=Coords(""),
     wait_coords=Coords(""),
@@ -53,7 +53,6 @@ $py(
 from lib.consts import Effects, Sounds, Enchants
 from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.const_ints import CONST_INTS
-from lib.const_obj import ConstObj
 
 # general constants
 select_all = virus.event.select_all
@@ -64,14 +63,6 @@ initials = obj_name = virus.initials
 # shorthand team names
 virus_team = virus.initials + "v"
 hiders_team = virus.initials + "h"
-
-
-# sets the constant objective
-const_obj = ConstObj(initials + "Save", "Virus Save")
-const_obj.add_const(initials + "GameTime", 600)
-const_obj.add_const(initials + "Countdown", 60)
-const_obj.add_const(initials + "Glowing", 300)
-const_obj.create_file()
 
 
 OBJECTIVES.new_str("""
@@ -88,8 +79,8 @@ OBJECTIVES.new_str("""
     # 1 = outside the map
     sa _ Select All
 
-    # Used on players to calculate what happens on their death
-    de deathCount Deaths
+    # Used on the armor stand to count down the time on both the
+    # countdown and the game time
     ti _ Timer
 
     # Used on the armor stand to count how many hiders and virus
@@ -155,54 +146,56 @@ TEAMS.new_str("""
     join $(initials)d_y Countdown Minutes Seconds Virus
     join $(initials)d_g Hiders
 
-    ScOP $(initials)GameTime $(initials)calc = $(initials)GameTime $(initials)Save
-    ScOP $(initials)GameTime $(initials)calc *= 20 constants
-
-    ScOP $(initials)Countdown $(initials)calc = $(initials)Countdown $(initials)Save
-    ScOP $(initials)Countdown $(initials)calc *= 20 constants
-
-    ScOP $(initials)Glowing $(initials)calc = $(initials)Glowing $(initials)Save
-    ScOP $(initials)Glowing $(initials)calc *= 20 constants
+    $(initials)Countdown $(initials)calc = $(20 * 60)
+    $(initials)Glowing $(initials)calc = $(20 * 300)
+    $(initials)GameTime $(initials)calc = $(20 * 600)
 
     summon armor_stand ~ ~ ~ {Tags:["$(initials)Stand","$(initials)Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("reset_round"))
+    @e[type=armor_stand,$(initials)Stand] function reset_round
     $(virus.cmd_post_init())
 
 !mfunc main
     $(virus.cmd_main())
 
-    # selects all
-    @a $(initials)sa = 0
-    @a[$(select_all)] $(initials)sa = 1
-    
-    # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] $(virus.cmd_func("wait_for_start"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=1] $(virus.cmd_func("start_round"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=2] $(virus.cmd_func("countdown"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=3] $(virus.cmd_func("during_round"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=4] $(virus.cmd_func("stop_round"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=5] $(virus.cmd_func("wait_for_reset"))
-    @e[type=armor_stand,$(initials)Stand,$(initials)st=6] $(virus.cmd_func("reset_round"))
+    # kills all items
+    kill @e[$(select_all),tag=!$(initials)Entity,type=item]
+
+    # resets the player if they die
+    @a[m=2,gDE=1,$(initials)pl=1] $(initials)pl = 0
+
+    # also resets the player if they just rejoined the game
+    @a[m=2,gLG=1,$(initials)pl=1] function assign_teams
+
+    # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] function wait_for_start
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=1] function start_round
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=2] function countdown
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=3] function during_round
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=4] function stop_round
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=5] function wait_for_reset
+    @e[type=armor_stand,$(initials)Stand,$(initials)st=6] function reset_round
 
     # sets the glowing effect
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("set_glowing_effects"))
+    @e[type=armor_stand,$(initials)Stand] function set_glowing_effects
     
     # shows the player numbers at all times
-    @e[type=armor_stand,$(initials)Stand] $(virus.cmd_func("calc_player_numbers"))
+    @e[type=armor_stand,$(initials)Stand] function calc_player_numbers
     
     # initializes the player
     @a $(initials)pl + 0
-    @a[$(select_all),m=2,$(initials)pl=0] $(virus.cmd_func("round_reset_player"))
+    @a[gSA=1,m=2,$(initials)pl=0] function assign_teams
 
     # teleports any players to the given location as necessary
-    $(virus.cmd_func("teleport_players"))
+    @a[m=2,$(initials)pl=1] function teleport_players
 
 !mfunc term
     $(virus.cmd_term())
-    @a[$(initials)pl=1,m=2] $(virus.cmd_func("full_reset_player"))
+
+    @a[$(initials)pl=1,m=2] function full_reset_player
+
+    kill @e[type=armor_stand,$(initials)Entity]
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
-    
-    kill @e[type=armor_stand,$(initials)Entity]
 
 
 # !mfunc wait_for_start
@@ -224,12 +217,12 @@ TEAMS.new_str("""
 
 !mfunc countdown
     # runs the timer
-    $(virus.cmd_func("timer"))
+    function timer
     
     # sets the player effects
-    @a[$(initials)pl=1,m=2] $(virus.cmd_func("player_effects"))
+    @a[$(initials)pl=1,m=2] function player_effects
 
-    @s[$(initials)ti=..0] $(virus.cmd_func("end_countdown"))
+    @s[$(initials)ti=..0] function end_countdown
 
 
 !mfunc end_countdown
@@ -238,28 +231,23 @@ TEAMS.new_str("""
     @a playsound $(Sounds.wither) voice @s
     $edit_countdown_end()
     
-    tp @a[$(virus.select_spawn),team=$(virus_team)] $(virus.wait_coords)
     ScOP @s $(initials)ti = $(initials)GameTime $(virus.initials)calc
     @s $(initials)st = 3
 
 
 !mfunc during_round
-    # kills all items
-    kill @e[$(select_all),type=item]
-
     # runs the timer
-    $(virus.cmd_func("timer"))
+    function timer
+
+    # sets all hiders to virus if they stay in spawn
+    @a[$(virus.select_spawn),m=2,team=$(hiders_team)] function assign_teams
 
     # sets the player effects
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("player_effects"))
-    $(virus.cmd_func("calc_glowing"))
+    @a[gSA=1,m=2,$(initials)pl=1] function player_effects
+    function calc_glowing
 
     # detects whether the virus won
     @e[type=armor_stand,$(initials)Stand,$(initials)chi=0] $(initials)st = 4
-
-    # resets the player if they die
-    @a[m=2,$(initials)de=1..,$(initials)pl=1] $(initials)pl = 0
-    @a[$(initials)de=1..] $(initials)de = 0
 
 
 # used on players to set their effects
@@ -274,9 +262,9 @@ TEAMS.new_str("""
 
 # used on the Virus Stand to set the glowing effect
 !mfunc set_glowing_effects
-    @s[$(initials)gl=2..] effect @a[$(select_all),m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=2..] effect @a[gSA=1,m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
     @s[$(initials)gl=2..] $(initials)gl - 2
-    @s[$(initials)gl=1..] effect @a[$(select_all),m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
     @s[$(initials)gl=2..] $(initials)gl - 1
 
 
@@ -302,12 +290,12 @@ TEAMS.new_str("""
 
 # used on the Virus Stand when waiting for the round reset
 !mfunc wait_for_reset
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("invuln_effect"))
+    @a[gSA=1,m=2,$(initials)pl=1] function invuln_effect
 
 
 # used on the Virus Stand when the round actually resets
 !mfunc reset_round
-    @a[$(select_all),m=2,$(initials)pl=1] $(virus.cmd_func("round_reset_player"))
+    @a[gSA=1,m=2,$(initials)pl=1] function full_reset_player
     @s $(initials)gl = 1
     $edit_round_reset()
     
@@ -317,29 +305,87 @@ TEAMS.new_str("""
     @s $(initials)st = 0
 
 
-# used on a given player to have a round reset for something like
-# switching rounds, changing teams, etc.
-!mfunc round_reset_player
+# used on a given player to initialize and clear their inventory
+!mfunc reset_player
     clear @s
     effect @s clear
-    @s[EC=0] $(virus.cmd_func("get_book"))
+    $(virus.cmd_book("@s[EC=0]"))
 
-    # sets their play
+    # sets their player state to 1 to indicate they are initialized
     @s $(initials)pl = 1
-    $(virus.cmd_func("to_hider")) if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
-    $(virus.cmd_func("to_virus")) if @e[type=armor_stand,$(initials)Stand,$(initials)st=3]
 
+# used on a given player to have a during a round, which covers
+# default teleporting and setting of teams
+!mfunc assign_teams
+    function reset_player
+    function to_hider if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+    function to_virus if @e[type=armor_stand,$(initials)Stand,$(initials)st=3]
+    function to_hider if @e[type=armor_stand,$(initials)Stand,$(initials)st=4..6]
 
-# used on a player to fully reset themselves for command termination
+# used on a given player to reset them completely,
+# meant to be used at the end of a round
 !mfunc full_reset_player
-    # function 
-    @s FLtp = $(virus.event.id)
+    function reset_player
+    function tp_to_spawn
+    function to_hider
+
+
+# used on players to add them to the hider team
+!mfunc to_hider
+    clear @s
+    effect @s clear
+    $(virus.cmd_book("@s[EC=0]"))
+    
+    join $(hiders_team) @s
+
+    # teleports back to the spawn if the game hasn't started yet
+    function tp_to_spawn if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+
+
+# used on players to add them to the virus team
+!mfunc to_virus
+    clear @s
+    effect @s clear
+    $(virus.cmd_book("@s[EC=0]"))
+
+    # adds a golden helmet lol
+    replaceitem entity @s slot.armor.head golden_helmet 1 0 {
+        Unbreakable:1,ench:[{id:$(Enchants.BIND),lvl:1},{id:$(Enchants.VANISH),lvl:1}]}
+
+    title @s title {"text":"You are now","color":"yellow"}
+    title @s subtitle {"text":"the virus!","color":"yellow"}
+    join $(virus_team) @s
+
+    # teleports to the waiting room during countdown
+    function tp_to_wait if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+
+    # teleports to the arena during game time
+    function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
+
+
+# used on players to make sure that players that are in spawn will be properly teleported
+!mfunc teleport_players
+    # teleports to the waiting room during countdown
+    @s[$(virus.select_spawn),team=$(virus_team)] function tp_to_wait if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+
+    # teleports to the arena during game time
+    @s[$(virus.select_spawn),team=$(virus_team)] function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
+
+!mfunc tp_to_wait
+    tp @s $(virus.wait_coords)
+
+!mfunc tp_to_arena
+    tp @s $(virus.arena_coords)
+
+!mfunc tp_to_spawn
+    $(virus.cmd_spawn())
+
 
 # used on the Virus Stand to count time
 !mfunc timer
     @s[$(initials)ti=1..] $(initials)ti - 1
-    $(virus.cmd_func("disp_time_text"))
-    $(virus.cmd_func("disp_time_score"))
+    function disp_time_text
+    function disp_time_score
 
 # used on the Virus Stand to display the time in tellraw messages
 !mfunc disp_time_text
@@ -369,30 +415,7 @@ TEAMS.new_str("""
     ScOP Minutes $(initials)ti = @s $(initials)ti
     ScOP Minutes $(initials)ti /= 1200 constants
     ScOP Minutes $(obj_name) = Minutes $(initials)ti
-
-
-# used on players to add them to the hider team
-!mfunc to_hider
-    clear @s
-    effect @s clear
-    @s[EC=0] $(virus.cmd_func("get_book"))
     
-    join $(hiders_team) @s
-
-# used on players to add them to the virus team
-!mfunc to_virus
-    clear @s
-    effect @s clear
-    @s[EC=0] $(virus.cmd_func("get_book"))
-
-    # adds a golden helmet lol
-    replaceitem entity @s slot.armor.head golden_helmet 1 0 {
-        Unbreakable:1,ench:[{id:$(Enchants.BIND),lvl:1},{id:$(Enchants.VANISH),lvl:1}]}
-
-    title @s title {"text":"You are now","color":"yellow"}
-    title @s subtitle {"text":"the virus!","color":"yellow"}
-    join $(virus_team) @s
-
 
 # Used on the Virus Stand during the normal round to determine whether glowing
 # can be removed or not, with the constant being (initials)Glowing
@@ -410,11 +433,11 @@ TEAMS.new_str("""
 # used on the Virus Stand to show the total number of virus and hiders
 !mfunc calc_player_numbers
     @s $(initials)chi = 0
-    @a[$(select_all),m=2,team=$(hiders_team)] @e[type=armor_stand,$(initials)Stand] $(initials)chi + 1
+    @a[gSA=1,m=2,team=$(hiders_team)] @e[type=armor_stand,$(initials)Stand] $(initials)chi + 1
     ScOP Hiders $(obj_name) = @s $(initials)chi
     
     @s $(initials)cvr = 0
-    @a[$(select_all),m=2,team=$(virus_team)] @e[type=armor_stand,$(initials)Stand] $(initials)cvr + 1
+    @a[gSA=1,m=2,team=$(virus_team)] @e[type=armor_stand,$(initials)Stand] $(initials)cvr + 1
     ScOP Virus $(obj_name) = @s $(initials)cvr
     
 
@@ -435,12 +458,12 @@ TEAMS.new_str("""
 
 # used as input to randomly select a virus
 !mfunc input_select_rand_virus
-    @r[$(select_all),m=2,team=$(hiders_team)] $(virus.cmd_func("to_virus"))
+    @r[gSA=1,m=2,team=$(hiders_team)] function to_virus
 
 
 # used as input to randomly convert a virus to a hider
 !mfunc input_remove_one_virus
-    @r[$(select_all),m=2,team=$(virus_team)] $(virus.cmd_func("to_hider"))
+    @r[gSA=1,m=2,team=$(virus_team)] function to_hider
 
 
 # used as input to select a team
@@ -456,9 +479,6 @@ TEAMS.new_str("""
             "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func("to_virus"))"},
             "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}}
         }]}
-
-!mfunc input_reset_consts
-    $(const_obj.cmd_reset())
 
 
 !mfunc input_add_one_min
@@ -479,7 +499,7 @@ TEAMS.new_str("""
 # used on players to get the custom book
 # requires additional backslashes because pyexpander is a potato
 # and changes double backslashes --> single backslash
-!mfunc get_book
+!mfunc book
     replaceitem entity @s slot.weapon.offhand written_book 1 0 {
         title:"$(virus.event.full_name) Book",author:"eGO",pages:["[\"\",
             {\"text\":\"$(virus.event.full_name) Settings\\\n\",\"bold\":true},
@@ -528,12 +548,6 @@ TEAMS.new_str("""
             {\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\\\n\",\"color\":\"gold\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_select_team"))\"}
-            },
-            
-            {\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-            {\"text\":\"[+]\\\n\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_reset_consts"))\"},
-                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets the time settings to their default values\",\"color\":\"gold\"}}
             },
             
             {\"text\":\"Time: \",\"color\":\"dark_gray\"},

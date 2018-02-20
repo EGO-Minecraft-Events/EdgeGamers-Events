@@ -1,0 +1,17 @@
+0.1.0
+    Actually made the version.txt file, so this is pretty much the start of the library lol
+
+0.2.0
+    Random changes to coords to make things work better idk
+
+0.2.1
+    Changed a bunch of events to use the new coordinate/vector system
+        to_selector() -> selector()
+        fixed a glitch with selector() not doing math properly
+        doing math on coords -> doing math on coords.vec
+
+0.3.0
+    Changed virus.ccu to use the function shortcut
+    Trying to the fact that players don't teleport where they should be teleported
+    Added Objectives.merge(), Objectives.get_objectives(), Objectives.get_names()
+    Added Teams.merge(), Teams.get_teams(), Teams.get_names()

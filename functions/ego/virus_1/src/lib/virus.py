@@ -30,10 +30,10 @@ class Virus(FlooEvent):
             self.obj_disp = obj_disp
 
         self.select_spawn_coords = select_spawn
-        self.select_spawn = select_spawn.to_selector()
+        self.select_spawn = select_spawn.selector()
 
         self.wait_coords = wait_coords
         self.arena_coords = arena_coords
 
         self.select_virus_coords = select_virus
-        self.select_virus = select_virus.to_selector()
+        self.select_virus = select_virus.selector()

@@ -229,17 +229,32 @@ class Objectives(Container):
         Adds any given number of Objective objects
 
         Args:
-            *objectives (Objective): An arbitrary objective
+            *objectives (Objective): An arbitrary number of objective
         """
         for objective in objectives:
             if objective.name not in self.objectives:
                 self.objectives[objective.name] = objective
 
+    def merge(self, objectives):
+        """
+        Gets and stores all objectives from a container
+
+        Args:
+            objectives (Objectives): An arbitrary objective container
+        """
+        self.add(*objectives.get_objectives())
+
+    def get_names(self):
+        return list(self.objectives.items())
+
+    def get_objectives(self):
+        return list(self.objectives.values())
+
     def cmd_init(self):
         """
         Creates each objective
         """
-        for objective in self.objectives.values():
+        for objective in self.get_objectives():
             self.cmd_queue.put(objective.cmd_init())
         return self._cmd_output()
 
@@ -247,15 +262,15 @@ class Objectives(Container):
         """
         Removes each objective
         """
-        for objective in self.objectives.values():
+        for objective in self.get_objectives():
             self.cmd_queue.put(objective.cmd_term())
         return self._cmd_output()
 
     def __str__(self):
-        return "Objectives[{}]".format(str([str(objective) for objective in self.objectives.values()]))
+        return "Objectives[{}]".format(str([str(objective) for objective in self.get_objectives()]))
 
     def __repr__(self):
-        return "Objectives[{}]".format(str([repr(objective) for objective in self.objectives.values()]))
+        return "Objectives[{}]".format(str([repr(objective) for objective in self.get_objectives()]))
 
     def __getitem__(self, name):
         """
@@ -480,6 +495,21 @@ class Teams(Container):
         for team in teams:
             if team.name not in self.teams:
                 self.teams[team.name] = team
+
+    def merge(self, teams):
+        """
+        Gets and stores all objectives from a container
+
+        Args:
+            objectives (Objectives): An arbitrary objective container
+        """
+        self.add(*teams.get_teams())
+
+    def get_names(self):
+        return list(self.teams.items())
+
+    def get_teams(self):
+        return list(self.teams.values())
 
     def cmd_init(self):
         """

@@ -1,4 +1,0 @@
-VR1Save _ Virus Save
-VR1Countdown = 60
-VR1GameTime = 600
-VR1Glowing = 300

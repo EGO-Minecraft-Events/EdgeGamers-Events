@@ -66,7 +66,7 @@ class Place(Container):
         """
         super().__init__()
         self.select_coords = select_coords
-        self.select = select_coords.to_selector()
+        self.select = select_coords.selector()
         self.message = message
         self.score = score
         self.additional_cmds = list(additional_cmds)
@@ -85,22 +85,20 @@ class Place(Container):
             self.cmd_queue.put(cmd)
 
         for coords, block in self.fills:
-            # self.cmd_queue.put(coords.to_fill(block))
             if isinstance(coords, RegionCoords):
-                cmd = "fill {0} {1}".format(coords, block)
+                cmd = coords.fill(block)
             else:
-                cmd = "setblock {0} {1}".format(coords, block)
+                cmd = coords.setblock(block)
             self.cmd_queue.put(cmd)
 
         return self._cmd_output()
 
     def cmd_term(self):
-        for coords, block in self.fills:
-            # self.cmd_queue.put(coords.to_fill("air"))
+        for coords, _ in self.fills:
             if isinstance(coords, RegionCoords):
-                cmd = "fill {0} {1}".format(coords, "air")
+                cmd = coords.fill("air")
             else:
-                cmd = "setblock {0} {1}".format(coords, "air")
+                cmd = coords.setblock("air")
             self.cmd_queue.put(cmd)
 
         return self._cmd_output()
@@ -121,7 +119,7 @@ class Checkpoint:
             tp_coords (Coords)
         """
         self.select_coords = select_coords
-        self.select = select_coords.to_selector()
+        self.select = select_coords.selector()
         self.tp_coords = tp_coords
 
 
@@ -200,10 +198,10 @@ class LapRace(Race):
         super().__init__(event, obj_disp, fill_air, fill_block, **options)
 
         self.lap_coords = lap
-        self.lap = lap.to_selector()
+        self.lap = lap.selector()
 
         self.lap_reset_coords = lap_reset
-        self.lap_reset = lap_reset.to_selector()
+        self.lap_reset = lap_reset.selector()
 
         self.spawn_coords = spawn
-        self.spawn = spawn.to_selector()
+        self.spawn = spawn.selector()

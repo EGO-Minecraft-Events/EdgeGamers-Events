@@ -46,6 +46,12 @@ class Container:
         """
         return ""
 
+    def cmd_post_main(self):
+        """
+        Clean up after the main commands, used at the end of the main function
+        """
+        return ""
+
     def cmd_term(self):
         """
         Terminate commands
