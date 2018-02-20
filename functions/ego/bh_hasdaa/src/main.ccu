@@ -1,0 +1,37 @@
+$py(
+from lib.virus import *
+from lib.floo_network import BH_HASDAA
+from lib.coords import Coords
+
+# all races must have a race object
+virus = Virus(BH_HASDAA,
+    select_spawn=Coords("692 25 227 619 20 178"),
+    wait_coords=Coords("640 17 154 0 0"),
+    arena_coords=Coords("634 4 202 -90 0"),
+    select_virus=Coords("641 19 155 639 16 154"))
+
+# virus_door = Coords("-73 52 -222 -66 52 -229")
+# mid_door = Coords("-73 49 -229 -66 49 -222")
+
+)
+
+# additional commands for the main start
+$macro(edit_round_start)
+$endmacro
+
+# additional commands for the main clock
+$macro(edit_countdown_end)
+$endmacro
+
+$macro(edit_round_end)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_round_reset)
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+$endmacro
+
+$include("lib/blockhunt.ccu")

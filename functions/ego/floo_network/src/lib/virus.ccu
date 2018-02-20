@@ -69,7 +69,7 @@ OBJECTIVES.new_str("""
     # The main display objective
     . _ .
 
-    # Holds all of the players
+    # Holds all of the players to initialize
     # 0 = being outside the map
     # 1 = part of the virus map, meaning the players are properly initialized
     pl _ Player List
@@ -163,6 +163,9 @@ TEAMS.new_str("""
     # resets the player if they die
     @a[m=2,gDE=1,$(initials)pl=1] $(initials)pl = 0
 
+    # also resets the player if they just rejoined the game
+    @a[m=2,gLG=1,$(initials)pl=1] function assign_teams
+
     # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] function wait_for_start
     @e[type=armor_stand,$(initials)Stand,$(initials)st=1] function start_round
     @e[type=armor_stand,$(initials)Stand,$(initials)st=2] function countdown
@@ -179,16 +182,17 @@ TEAMS.new_str("""
     
     # initializes the player
     @a $(initials)pl + 0
-    @a[gSA=1,m=2,$(initials)pl=0] function round_reset_player
+    @a[gSA=1,m=2,$(initials)pl=0] function assign_teams
 
     # teleports any players to the given location as necessary
-    function teleport_players
+    @a[m=2,$(initials)pl=1] function teleport_players
 
 !mfunc term
     $(virus.cmd_term())
 
-    kill @e[type=armor_stand,$(initials)Entity]
     @a[$(initials)pl=1,m=2] function full_reset_player
+
+    kill @e[type=armor_stand,$(initials)Entity]
 
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
@@ -236,7 +240,7 @@ TEAMS.new_str("""
     function timer
 
     # sets all hiders to virus if they stay in spawn
-    @a[$(virus.select_spawn),m=2] function round_reset_player
+    @a[$(virus.select_spawn),m=2,team=$(hiders_team)] function assign_teams
 
     # sets the player effects
     @a[gSA=1,m=2,$(initials)pl=1] function player_effects
@@ -291,7 +295,7 @@ TEAMS.new_str("""
 
 # used on the Virus Stand when the round actually resets
 !mfunc reset_round
-    @a[gSA=1,m=2,$(initials)pl=1] function round_reset_player
+    @a[gSA=1,m=2,$(initials)pl=1] function full_reset_player
     @s $(initials)gl = 1
     $edit_round_reset()
     
@@ -301,25 +305,29 @@ TEAMS.new_str("""
     @s $(initials)st = 0
 
 
-# used on a given player to have a round reset for something like
-# switching rounds, changing teams, etc.
-# This automatically sets their teams depending on the state of the game
-!mfunc round_reset_player
+# used on a given player to initialize and clear their inventory
+!mfunc reset_player
     clear @s
     effect @s clear
     $(virus.cmd_book("@s[EC=0]"))
 
-    # sets their play
+    # sets their player state to 1 to indicate they are initialized
     @s $(initials)pl = 1
+
+# used on a given player to have a during a round, which covers
+# default teleporting and setting of teams
+!mfunc assign_teams
+    function reset_player
     function to_hider if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
     function to_virus if @e[type=armor_stand,$(initials)Stand,$(initials)st=3]
     function to_hider if @e[type=armor_stand,$(initials)Stand,$(initials)st=4..6]
 
-
-# used on a player to fully reset themselves for command termination
+# used on a given player to reset them completely,
+# meant to be used at the end of a round
 !mfunc full_reset_player
-    function round_reset_player
+    function reset_player
     function tp_to_spawn
+    function to_hider
 
 
 # used on players to add them to the hider team
@@ -330,11 +338,8 @@ TEAMS.new_str("""
     
     join $(hiders_team) @s
 
-    # teleports back to the spawn if they are in the virus waiting room
-    function tp_to_spawn if @s[$(virus.select_virus)]
-
-    # teleports back to the spawn if they are in the arena
-    @s function tp_to_spawn if @e[type=armor_stand,$(initials)Stand,$(initials)st=6]
+    # teleports back to the spawn if the game hasn't started yet
+    function tp_to_spawn if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
 
 
 # used on players to add them to the virus team
@@ -347,15 +352,24 @@ TEAMS.new_str("""
     replaceitem entity @s slot.armor.head golden_helmet 1 0 {
         Unbreakable:1,ench:[{id:$(Enchants.BIND),lvl:1},{id:$(Enchants.VANISH),lvl:1}]}
 
+    title @s title {"text":"You are now","color":"yellow"}
+    title @s subtitle {"text":"the virus!","color":"yellow"}
+    join $(virus_team) @s
+
     # teleports to the waiting room during countdown
     function tp_to_wait if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
 
     # teleports to the arena during game time
-    @s function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
+    function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
 
-    title @s title {"text":"You are now","color":"yellow"}
-    title @s subtitle {"text":"the virus!","color":"yellow"}
-    join $(virus_team) @s
+
+# used on players to make sure that players that are in spawn will be properly teleported
+!mfunc teleport_players
+    # teleports to the waiting room during countdown
+    @s[$(virus.select_spawn),team=$(virus_team)] function tp_to_wait if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+
+    # teleports to the arena during game time
+    @s[$(virus.select_spawn),team=$(virus_team)] function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
 
 !mfunc tp_to_wait
     tp @s $(virus.wait_coords)
