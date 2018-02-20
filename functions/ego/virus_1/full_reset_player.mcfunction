@@ -1,1 +1,2 @@
-scoreboard players set @s FLtp 1561350378
+function ego:virus_1/round_reset_player
+function ego:virus_1/tp_to_spawn

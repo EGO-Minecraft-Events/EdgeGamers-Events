@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @a gSA 0
+scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181] gSA 1
 scoreboard objectives add constants dummy
 scoreboard players set 1200 constants 1200
 scoreboard players set 20 constants 20
@@ -12,7 +14,6 @@ scoreboard objectives add VR1 dummy Virus 1
 scoreboard objectives setdisplay sidebar VR1
 scoreboard objectives add VR1pl dummy Virus 1 Player List
 scoreboard objectives add VR1sa dummy Virus 1 Select All
-scoreboard objectives add VR1de deathCount Virus 1 Deaths
 scoreboard objectives add VR1ti dummy Virus 1 Timer
 scoreboard objectives add VR1chi dummy Virus 1 Count Hiders
 scoreboard objectives add VR1cvr dummy Virus 1 Count Virus

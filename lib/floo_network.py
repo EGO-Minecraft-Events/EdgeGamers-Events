@@ -1,6 +1,6 @@
 from lib.hash import djb2
 from lib.container import Container
-from lib.coords import Coords
+from lib.coords import Coords, TeleportCoords
 
 
 class FlooEvent(Container):
@@ -107,6 +107,10 @@ class FlooEvent(Container):
             self.cmd_queue.put(set_stand_str.format("FLwea", "1"))
         else:
             self.cmd_queue.put(set_stand_str.format("FLwea", "2"))
+
+        # global select all, specific for each event
+        self.cmd_queue.put("@a gSA = 0")
+        self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
 
         return self._cmd_output()
 
@@ -270,14 +274,18 @@ class Event:
         self.colors = tuple(colors.split(";"))
         self.coords = coords
         self.shortcut = tuple(shortcut.split(";"))
-        self.disp_coords = " ".join(map(str, map(int, self.coords.pos)))
+        if isinstance(self.coords, TeleportCoords):
+            self.disp_coords = " ".join(map(str, map(int, self.coords.pos.vec)))
+        else:
+            self.disp_coords = " ".join(map(str, map(int, self.coords.vec)))
+
         self.is_event = is_event
 
         if select_coords is None:
             self.select_coords = self.select_all = None
         else:
             self.select_coords = select_coords
-            self.select_all = select_coords.to_selector()
+            self.select_all = select_coords.selector()
         # self.disp_coords = round(self.coords.pos).simple_str()
 
         if initials is None:

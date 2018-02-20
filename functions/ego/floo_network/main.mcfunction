@@ -10,3 +10,4 @@ execute @e[type=armor_stand,tag=FlooStand] ~ ~ ~ function ego:floo_network/use_o
 scoreboard players enable * FLvot
 execute @a[score_FLvot_min=1] ~ ~ ~ function ego:floo_network/vote
 execute @a[score_FLvot=-1] ~ ~ ~ function ego:floo_network/vote
+function ego:floo_network/reset_global_scores
