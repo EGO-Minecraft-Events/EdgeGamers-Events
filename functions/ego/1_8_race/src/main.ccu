@@ -1,0 +1,89 @@
+$py(
+from lib.races import *
+from lib.floo_network import V1_8_RACE
+
+# all races must have a race object
+race = LapRace(V1_8_RACE,
+    lap=Coords("248 22 -221 255 22 -223"),
+    lap_reset=Coords("248 22 -221 255 22 -223"),
+    spawn=Coords("248 22 -221 255 22 -223"),
+    fill_air=Coords("249 24 -225 255 24 -219"),
+    fill_block=Coords("248 22 -221 255 22 -223"))
+
+
+# The top of the sand randomizer selection
+sand_top = Coords("239 22 -211")
+
+# How many blocks it will take to reach the next lower level
+sand_height_diff = 4
+
+# How many total selections there are
+sand_selection_tot = 5
+
+
+# Load Glass Structure Block Coords
+glass_struct_load = Coords("257 22 -211")
+
+# Load Glass Region to replace with barrier
+glass_replace_region = Coords("257 27 -211 288 27 -205")
+
+
+# Poison area
+poison_select = Coords("263 14 -221 263 18 -221").selector()
+
+
+# Selecting players inside the fence gate
+fence_gate_select = Coords("256 26 -238 256 27 -238").selector()
+
+# Teleport coords to teleport after being in the fence gate
+fence_gate_tp = Coords("250 26 -238 0 0")
+
+# Teleport coords to teleport them after they reach a gold block underwater
+underwater_tp = Coords("264 16 -226 -90 0")
+
+# Possible coordinates for the gold block to be underwater
+underwater_blocks = [
+    Coords("260 20 -216"),
+    Coords("267 20 -213"),
+    Coords("270 20 -215"),
+    Coords("264 20 -218"),
+    Coords("274 20 -229"),
+    Coords("270 20 -227"),
+    Coords("266 20 -228"),
+    Coords("262 20 -228"),
+    Coords("261 20 -221"),
+    Coords("257 20 -228"),
+]
+
+# Gold armor stand
+# gold_block_stand_tags = r'{Tags:["18Race","18RaceGold"],DisabledSlots:2096896,Invulnerable:1,PersistenceRequired:1,Invisible:1,NoGravity:1,ArmorItems:[{},{},{},{id:gold_block,Count:1b}]}'
+
+)
+
+
+
+
+# additional commands for the main start
+$macro(edit_main_start)
+$endmacro
+
+# additional commands for the main clock
+$macro(edit_main_clock)
+$endmacro
+
+$macro(add_functions)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_countdown_clock)
+    @s[$(initials)cd=120] fill $(race.fill_air) stonebrick 0 replace redstone_block 0
+    @s[$(initials)cd=120] fill $(race.fill_block) redstone_block 0 replace stonebrick 0
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+    fill $(race.fill_air) redstone_block 0 replace stonebrick 0
+    fill $(race.fill_block) stonebrick 0 replace redstone_block 0
+$endmacro
+
+$include("lib/races.ccu")
