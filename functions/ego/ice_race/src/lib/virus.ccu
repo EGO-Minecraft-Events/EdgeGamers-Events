@@ -10,7 +10,9 @@ from lib.coords import Coords
 virus = Virus(VIRUS_NAME,
     select_spawn=Coords(""),
     wait_coords=Coords(""),
-    select_virus=Coords(""))
+    arena_coords=Coords(""),
+    select_virus=Coords("")
+)
 
 virus_door = Coords("")
 mid_door = Coords("")
@@ -69,7 +71,7 @@ OBJECTIVES.new_str("""
     # The main display objective
     . _ .
 
-    # Holds all of the players
+    # Holds all of the players to initialize
     # 0 = being outside the map
     # 1 = part of the virus map, meaning the players are properly initialized
     pl _ Player List
