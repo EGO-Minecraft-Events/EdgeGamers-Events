@@ -1,8 +1,8 @@
-scoreboard players add @a[x=-107,y=2,z=-130,dx=193,dy=100,dz=241] FLid 0
-scoreboard players set @a[x=-107,y=2,z=-130,dx=193,dy=100,dz=241,score_FLid=-1561350380] FLid 1561350379
-scoreboard players set @a[x=-107,y=2,z=-130,dx=193,dy=100,dz=241,score_FLid_min=-1561350378] FLid 1561350379
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-107,y=2,z=-130,dx=193,dy=100,dz=241] gSA 1
+scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1561350380] FLid 1561350379
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1561350378] FLid 1561350379
 kill @e[x=-107,y=2,z=-130,dx=193,dy=100,dz=241,tag=!VR2Entity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_VR2pl_min=1,score_VR2pl=1] VR2pl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_VR2pl_min=1,score_VR2pl=1] ~ ~ ~ function ego:virus_2/assign_teams

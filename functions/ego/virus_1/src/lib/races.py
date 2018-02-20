@@ -112,15 +112,22 @@ class Place(Container):
 
 
 class Checkpoint:
+    """
+    Attributes:
+        select_coords (Coords): Selection to set the checkpoint
+        select (str)
+        tp_coords (Coords): Teleport coordinates when they fall into water or lava
+        tp (str)
+
+    Args:
+        select_coords (Coords)
+        tp_coords (Coords)
+    """
     def __init__(self, select_coords, tp_coords):
-        """
-        Args:
-            select_coords (Coords)
-            tp_coords (Coords)
-        """
         self.select_coords = select_coords
         self.select = select_coords.selector()
         self.tp_coords = tp_coords
+        self.tp = str(self.tp_coords)
 
 
 class RegularRace(Race):
@@ -167,6 +174,20 @@ class CheckpointRace(RegularRace):
     def __init__(self, event, obj_disp=None, fill_air=None, fill_block=None, **options):
         super().__init__(event, obj_disp, fill_air, fill_block, **options)
         self.checkpoints = []
+
+    def set_spawn(self, select_coords, tp_coords):
+        """
+        Sets the race spawn.
+
+        The spawn is internally stored as the first checkpoint of the list
+        """
+
+        # inserts at the beginning of the list if it is the spawn
+        if self.checkpoints:
+            checkpoint = Checkpoint(select_coords, tp_coords)
+            self.checkpoints.insert(0, checkpoint)
+        else:
+            self.add_checkpoint(select_coords, tp_coords)
 
     def add_checkpoint(self, select_coords, tp_coords):
         checkpoint = Checkpoint(select_coords, tp_coords)

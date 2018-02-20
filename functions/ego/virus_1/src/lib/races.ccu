@@ -14,14 +14,17 @@ team_name = race.initials + "r"
 )
 
 # Includes the specific race type
-$if(isinstance(race, RegularRace))
+
+# isinstance of the checkpoint race has to be checked first 
+# because a checkpoint race is an instance of a lap race
+$if(isinstance(race, CheckpointRace))
+$include("lib/race_checkpoint.ccu")
+
+$elif(isinstance(race, RegularRace))
 $include("lib/race_regular.ccu")
 
 $elif(isinstance(race, LapRace))
 $include("lib/race_lap.ccu")
-
-$elif(isinstance(race, CheckpointRace))
-$include("lib/race_checkpoint.ccu")
 $endif
 
 $py(
@@ -34,11 +37,9 @@ OBJECTIVES.new_str("""
     # Used by the temporary area effect cloud to act as a countdown timer
     cd _ Countdown
 
-    # Used on players to initially clear any items at the beginning of the race
-    cl _ Clear
+    # Holds all of the players to initialize
+    pl _ Player List
 
-    # Used on players to reset each player upon death
-    de deathCount Deaths
     """, initials, race.obj_disp)
     
 OBJECTIVES[initials].setdisplay("sidebar")
@@ -66,7 +67,7 @@ TEAMS.new_str("""
     $(TEAMS.cmd_init())
 
     # countdown start
-    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)countdown"]}
+    summon area_effect_cloud ~ ~ ~ {Duration:130,Tags:["$(initials)_cd"]}
 
     # adds the "/spawn" fakename to the proper color
     join $(team_name) /spawn
@@ -81,36 +82,45 @@ TEAMS.new_str("""
     # the floo network clock for setting spawnpoints
     $(race.cmd_main())
     
-    @e[type=area_effect_cloud,$(initials)countdown] function ego:$(race.event.folder_name)/countdown
+    @e[type=area_effect_cloud,$(initials)_cd] function countdown
     kill @e[$(select_all),type=item]
     
     # adds everyone to the clear objective
-    @a[$(select_all),m=2] $(initials)cl + 0
+    @a[gSA=1,m=2] $(initials)pl + 0
 
-    # uses the clear objective to initialize the death scoreboard
-    @a[$(select_all),m=2,$(initials)cl=0] $(initials)de = 1
-    @a[$(select_all),m=2,$(initials)cl=0] $(initials)cl = 1
-
-    # resets the player's everything upon death
-    # clears effects and inventory
-    effect @a[$(select_all),m=2,$(initials)de=1..] clear
-    clear @a[$(select_all),m=2,$(initials)de=1..]
-
-    # gives all ECs books
-    @a[$(select_all),m=2,$(initials)de=1..] FLbk = $(race.id)
+    # resets all players that have either just joined the game or just died
+    @a[gSA=1,m=2,$(initials)pl=0] function reset_player
+    @a[gSA=1,m=2,gDE=1] function reset_player
 
     # joins the race team
-    join $(team_name) @a[$(select_all),team=!$(team_name)]
+    join $(team_name) @a[gSA=1,team=!$(team_name)]
 
     # gives invis to all
-    effect @a[$(select_all),m=2,team=$(team_name)] $(Effects.invis) 3 0 true
+    effect @a[gSA=1,m=2,team=$(team_name)] $(Effects.invis) 3 0 true
     
     $race_main_clock()
     $edit_main_clock()
     
-    # resets the death scoreboard
-    @a[$(select_all),m=2,$(initials)de=1..] $(initials)de = 0
     $race_end_main_clock()
+
+
+# used on a given player to initialize and clear their inventory
+!mfunc reset_player
+    # resets the player's everything upon death
+    # clears effects and inventory
+    effect @s clear
+    clear @s
+
+    # gives all ECs books
+    $(race.event.cmd_book())
+    @s[$(initials)pl=0] $(initials)pl = 1
+
+
+# used on a given player to reset them completely,
+# meant to be used at the end of a race
+!mfunc full_reset_player
+    function reset_player
+    $(race.cmd_spawn())
 
 
 $add_functions()
@@ -121,19 +131,15 @@ $race_add_functions()
     # terminates the floo network
     $(race.cmd_term())
 
+    # general reset
+    @a[$(initials)pl=1,m=2] function full_reset_player
+    
     # terminates all scoreboards
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
     
     # removes the area effect cloud
-    kill @e[type=area_effect_cloud,$(initials)countdown]
-    
-    # general reset
-    effect @a[$(select_all)] clear
-    clear @a[$(select_all),m=2]
-    @a[$(select_all),m=2,EC=0] FLbk = $(race.id)
-    effect @a[$(select_all),m=2] $(Effects.hp) 20 100 true
-    @a[$(select_all),m=2] FLtp = $(race.id)
+    kill @e[type=area_effect_cloud,$(initials)_cd]
     
     $edit_main_end()
     $race_main_end()
@@ -144,23 +150,23 @@ $race_add_functions()
 !mfunc countdown
     @s $(initials)cd + 1
     
-    @s[$(initials)cd=20] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
-    @s[$(initials)cd=20] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 0.5
+    @s[$(initials)cd=20] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=20] @a[gSA=1] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 0.5
     
-    @s[$(initials)cd=40] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"4","color":"yellow","bold":"true"}'))
-    @s[$(initials)cd=40] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1
+    @s[$(initials)cd=40] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"4","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=40] @a[gSA=1] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1
     
-    @s[$(initials)cd=60] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"3","color":"yellow","bold":"true"}'))
-    @s[$(initials)cd=60] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1.5
+    @s[$(initials)cd=60] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"3","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=60] @a[gSA=1] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 1.5
     
-    @s[$(initials)cd=80] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"2","color":"yellow","bold":"true"}'))
-    @s[$(initials)cd=80] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
+    @s[$(initials)cd=80] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"2","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=80] @a[gSA=1] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-    @s[$(initials)cd=100] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"1","color":"yellow","bold":"true"}'))
-    @s[$(initials)cd=100] @a[$(select_all)] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
+    @s[$(initials)cd=100] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"1","color":"yellow","bold":"true"}'))
+    @s[$(initials)cd=100] @a[gSA=1] playsound $(Sounds.pling) voice @a[c=1] ~ ~ ~ 2
     
-    @s[$(initials)cd=120] @a[$(select_all)] playsound $(Sounds.wither) voice @a[c=1]
-    @s[$(initials)cd=120] tellraw @a[$(select_all)] $(race.event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
-    @s[$(initials)cd=120] title @a[$(select_all)] title {"text":"GO!","color":"green"}
+    @s[$(initials)cd=120] @a[gSA=1] playsound $(Sounds.wither) voice @a[c=1]
+    @s[$(initials)cd=120] tellraw @a[gSA=1] $(race.event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
+    @s[$(initials)cd=120] title @a[gSA=1] title {"text":"GO!","color":"green"}
     
     $edit_countdown_clock()

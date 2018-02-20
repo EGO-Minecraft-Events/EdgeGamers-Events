@@ -3,12 +3,13 @@ from lib.virus import *
 from lib.floo_network import VIRUS_1
 from lib.coords import Coords
 
-# all races must have a race object
+# all virus must have a virus object
 virus = Virus(VIRUS_1,
     select_spawn=Coords("-85 45 -241 -54 50 -210"),
     wait_coords=Coords("-69.0 53 -225.0"),
     arena_coords=Coords("-69.0 38 -225.0"),
-    select_virus=Coords("-70 53 -226 -69 56 -225"))
+    select_virus=Coords("-70 53 -226 -69 56 -225")
+)
 
 virus_door = Coords("-73 52 -222 -66 52 -229")
 mid_door = Coords("-73 49 -229 -66 49 -222")

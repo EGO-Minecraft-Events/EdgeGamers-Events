@@ -19,3 +19,8 @@
 0.4.0
     Fixed a bit of formatting with select all, by resetting their score at the end
     Fixed races.ccu, race_lap.ccu and race_regular.ccu by using gSA
+
+0.5.0
+    Removed a death specific objective in favor of gDE
+    Changed the naming of some objectives inside races, so (name)cl for clearing --> (name)pl for player list
+    Added a function as "reset_player" to reset any players
