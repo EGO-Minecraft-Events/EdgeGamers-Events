@@ -148,9 +148,9 @@ TEAMS.new_str("""
     join $(initials)d_y Countdown Minutes Seconds Virus
     join $(initials)d_g Hiders
 
-    $(initials)Countdown $(initials)calc = $(20 * 60)
-    $(initials)Glowing $(initials)calc = $(20 * 300)
-    $(initials)GameTime $(initials)calc = $(20 * 600)
+    &Countdown $(initials)calc = $(20 * 60)
+    &Glowing $(initials)calc = $(20 * 300)
+    &GameTime $(initials)calc = $(20 * 600)
 
     summon armor_stand ~ ~ ~ {Tags:["$(initials)Stand","$(initials)Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
     @e[type=armor_stand,$(initials)Stand] function reset_round
@@ -211,7 +211,7 @@ TEAMS.new_str("""
     $edit_round_start()
 
     # sets the round time
-    ScOP @s $(initials)ti = $(initials)Countdown $(initials)calc
+    ScOP @s $(initials)ti = &Countdown $(initials)calc
 
     # sets the state
     @s $(initials)st = 2
@@ -233,7 +233,7 @@ TEAMS.new_str("""
     @a playsound $(Sounds.wither) voice @s
     $edit_countdown_end()
     
-    ScOP @s $(initials)ti = $(initials)GameTime $(virus.initials)calc
+    ScOP @s $(initials)ti = &GameTime $(virus.initials)calc
     @s $(initials)st = 3
 
 
@@ -424,7 +424,7 @@ TEAMS.new_str("""
 # it is determined when the calculated score goes positive,
 # meaning the glowing score exceeds the timer (represented in seconds)
 !mfunc calc_glowing
-    ScOP @s $(initials)calc = $(initials)Glowing $(initials)calc
+    ScOP @s $(initials)calc = &Glowing $(initials)calc
     ScOP @s $(initials)calc -= @s $(initials)ti
 
     @s[$(initials)calc=0] tellraw @a $(virus.event.begin(r'{"text":"Glowing has been removed from all virus!","color":"yellow"}'))
