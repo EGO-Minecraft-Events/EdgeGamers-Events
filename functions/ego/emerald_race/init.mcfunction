@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @a gSA 0
+scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] gSA 1
 scoreboard objectives add ER dummy Emerald Race
 scoreboard objectives setdisplay sidebar ER
 scoreboard players set /spawn ER 99

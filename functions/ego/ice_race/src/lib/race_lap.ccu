@@ -52,7 +52,7 @@ $endmacro
 
 
 $macro(race_main_clock)
-    @a[$(select_all),m=2,team=$(team_name)] function ego:$(race.event.folder_name)/check_lap
+    @a[gSA=1,m=2,team=$(team_name)] function check_lap
 $endmacro
 
 
@@ -68,12 +68,12 @@ $macro(race_add_functions)
     @s[$(race.lap_reset),$(lap_tag)] - $(lap_tag)
 
     # lap detection
-    @s[$(race.lap),!$(lap_tag)] function ego:$(race.event.folder_name)/add_lap
+    @s[$(race.lap),!$(lap_tag)] function add_lap
 
 # used on players when a lap has been detected
 !mfunc add_lap
     @s $(obj_name) + 1
-    tellraw @a[$(select_all)] $(race.event.begin(r'{"selector":"@s"},{"text":" has finished a lap!","color":"yellow"}'))
+    tellraw @a[gSA=1] $(race.event.begin(r'{"selector":"@s"},{"text":" has finished a lap!","color":"yellow"}'))
     playsound $(Sounds.xp) voice @a
     
     @s + $(lap_tag)

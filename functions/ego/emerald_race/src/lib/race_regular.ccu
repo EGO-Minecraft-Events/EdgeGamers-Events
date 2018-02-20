@@ -14,11 +14,11 @@ $endmacro
 
 
 $macro(race_main_clock)
-    @a[$(select_all),m=2,team=$(team_name)] $(initials)bc + 0
+    @a[gSA=1,m=2,team=$(team_name)] $(initials)bc + 0
 
     # if a player is found inside a place region
     $for(index, place in enumerate(race.places))
-    @a[$(place.select),c=1,m=2,team=$(team_name),$(initials)bc=0] function ego:$(race.event.folder_name)/set_place$(index)
+    @a[$(place.select),c=1,m=2,team=$(team_name),$(initials)bc=0] function set_place$(index)
     $endfor
 $endmacro
 
@@ -31,12 +31,12 @@ $macro(race_add_functions)
 # for the edit_main_clock macro
 $for(index, place in enumerate(race.places))
 !mfunc set_place$(index)
-    tellraw @a[$(select_all)] $(race.event.begin(r'{"selector":"@s"},{"text":" ' + place.message + r'","color":"green"}'))
+    tellraw @a[gSA=1] $(race.event.begin(r'{"selector":"@s"},{"text":" ' + place.message + r'","color":"green"}'))
     playsound $(Sounds.level) voice @a
 
     $(place.cmd_main(select_all))
     @s $(initials)bc = $(place.score)
-    function ego:$(race.event.folder_name)/finalize_set_place
+    function finalize_set_place
 $endfor
 
 !mfunc finalize_set_place
@@ -46,7 +46,7 @@ $endmacro
 
 
 $macro(race_end_main_clock)
-    ScOP @a[$(select_all),m=2,$(initials)bc>=1] $(race.initials)bc *= -1 constants
+    ScOP @a[gSA=1,m=2,$(initials)bc=1..] $(race.initials)bc *= -1 constants
 $endmacro
 
 

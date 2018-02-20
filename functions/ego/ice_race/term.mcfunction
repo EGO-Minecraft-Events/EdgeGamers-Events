@@ -1,3 +1,4 @@
+scoreboard players set @a gSA 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -12,11 +13,11 @@ scoreboard objectives remove IRde
 scoreboard objectives remove IRbc
 scoreboard teams remove IRr
 kill @e[type=area_effect_cloud,tag=IRcountdown]
-effect @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43] clear
-clear @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43,m=2]
-scoreboard players set @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43,m=2,score_EC_min=0,score_EC=0] FLbk 227577150
-effect @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43,m=2] minecraft:instant_health 20 100 true
-scoreboard players set @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43,m=2] FLtp 227577150
+effect @a[score_gSA_min=1,score_gSA=1] clear
+clear @a[score_gSA_min=1,score_gSA=1,m=2]
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,m=2,score_EC_min=0,score_EC=0] FLbk 227577150
+effect @a[score_gSA_min=1,score_gSA=1,m=2] minecraft:instant_health 20 100 true
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,m=2] FLtp 227577150
 fill 66 34 -42 66 34 -48 redstone_block 0 replace stonebrick 0
 fill 42 33 -31 42 33 -32 air
 setblock 42 33 -28 air

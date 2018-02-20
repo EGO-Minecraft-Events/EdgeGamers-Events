@@ -1,9 +1,11 @@
-function ego:ice_race/stop_events.mcfunction
+function ego:floo_network/stop_events
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 227577150
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @a gSA 0
+scoreboard players set @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43] gSA 1
 scoreboard objectives add IR dummy Ice race
 scoreboard objectives setdisplay sidebar IR
 scoreboard players set /spawn IR 99
