@@ -1,0 +1,60 @@
+$macro(race_main_start)
+
+# scoreboard setting
+$py(
+from lib.const_ints import CONST_INTS
+CONST_INTS.add_consts(-1)
+
+OBJECTIVES.new_str("""
+    bc _ Broadcast
+    """, initials, race.obj_disp)
+)
+
+$endmacro
+
+
+$macro(race_main_clock)
+    @a[$(select_all),m=2,team=$(team_name)] $(initials)bc + 0
+
+    # if a player is found inside a place region
+    $for(index, place in enumerate(race.places))
+    @a[$(place.select),c=1,m=2,team=$(team_name),$(initials)bc=0] function ego:$(race.event.folder_name)/set_place$(index)
+    $endfor
+$endmacro
+
+
+$macro(race_add_functions)
+
+# used on players to set their place number upon completion of the race
+# each place has its on unique function lol
+# note that the (race.initials)bc is left at a positive number for calculations
+# for the edit_main_clock macro
+$for(index, place in enumerate(race.places))
+!mfunc set_place$(index)
+    tellraw @a[$(select_all)] $(race.event.begin(r'{"selector":"@s"},{"text":" ' + place.message + r'","color":"green"}'))
+    playsound $(Sounds.level) voice @a
+
+    $(place.cmd_main(select_all))
+    @s $(initials)bc = $(place.score)
+    function ego:$(race.event.folder_name)/finalize_set_place
+$endfor
+
+!mfunc finalize_set_place
+    ScOP @s $(obj_name) = @s $(initials)bc
+    ScOP @s $(obj_name) *= -1 constants
+$endmacro
+
+
+$macro(race_end_main_clock)
+    ScOP @a[$(select_all),m=2,$(initials)bc=1..] $(race.initials)bc *= -1 constants
+$endmacro
+
+
+$macro(race_main_end)
+    # terminates all places
+    $for(index, place in enumerate(race.places))
+    $(place.cmd_term())
+    $endfor
+
+$endmacro
+

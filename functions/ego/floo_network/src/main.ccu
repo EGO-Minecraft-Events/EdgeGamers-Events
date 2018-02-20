@@ -24,6 +24,9 @@ CONST_INTS.add_consts(-1)
 
 # General objectives from floo_network
 OBJECTIVES.new_str("""
+    # Used on players to hold all mcteams in a unique binary value
+    MCTeams _ MC Specialty Teams
+
     # used on players to hold the event id for teleporting
     # this is set to the negative value of itself once the spawnpoint has been set
     FLid _ ID
@@ -65,7 +68,6 @@ OBJECTIVES.new_str("""
 
 # General objectives for storage purposes
 OBJECTIVES.new_str("""
-    MCTeams _ MC Specialty Teams
     Health health
 """, remove_self=False)
 OBJECTIVES["Health"].setdisplay("list")
@@ -222,6 +224,10 @@ def set_rankings(text):
 
     @a[FLid=1..] function spawnpoint
     @a[FLtp=1..] function teleport
+
+    # only gets the book if they are alive
+    @e[type=player,FLbk=1..] function book
+
     @a[$(select_tree)] function in_spawn_tree
     @a[$(select_all)] function in_spawn
     
@@ -289,6 +295,16 @@ def set_rankings(text):
     @s FLtp = 0
 
 
+# used on players to get a book from a given event
+!mfunc book
+    $for(event in Event.members)
+    $if(event.is_event)
+    function ego:$(event.folder_name)/book if @s[FLbk=$(event.id)]
+    $endif
+    $endfor
+    @s FLbk = 0
+    
+
 # used on players when they are in the spawn tree
 !mfunc in_spawn_tree
     # gives saturation
@@ -319,7 +335,7 @@ def set_rankings(text):
 # used on the FlooStand to calculate whether players' ranking affects their
 # ability to change gamemodes or not
 !mfunc calc_rank
-    @s FLrac = 1
+    @a FLrac = 1
     
     ScOP @s[FLraa=1..] FLrac = @s[FLraa=1..] FLraa
     $for(score in [2**num for num in reversed(range(len(RANKINGS)))])
@@ -339,9 +355,6 @@ def set_rankings(text):
     
     # teleports them to spawn if they are re-entering the game
     ScOP @s[gLG=1..,FLdim=1] FLtp = spawn FLna
-
-    # resets scores
-    @s FLrac = 0
 
 
 # used on the FlooStand to use the given floo network options specified per event

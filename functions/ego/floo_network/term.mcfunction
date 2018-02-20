@@ -1,4 +1,5 @@
 function ego:floo_network/stop_events
+scoreboard objectives remove MCTeams
 scoreboard objectives remove FLid
 scoreboard objectives remove FLtp
 scoreboard objectives remove FLbk

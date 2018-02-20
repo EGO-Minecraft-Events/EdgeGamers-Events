@@ -53,7 +53,6 @@ $py(
 from lib.consts import Effects, Sounds, Enchants
 from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.const_ints import CONST_INTS
-from lib.const_obj import ConstObj
 
 # general constants
 select_all = virus.event.select_all
@@ -64,14 +63,6 @@ initials = obj_name = virus.initials
 # shorthand team names
 virus_team = virus.initials + "v"
 hiders_team = virus.initials + "h"
-
-
-# sets the constant objective
-const_obj = ConstObj(initials + "Save", "Virus Save")
-const_obj.add_const(initials + "GameTime", 600)
-const_obj.add_const(initials + "Countdown", 60)
-const_obj.add_const(initials + "Glowing", 300)
-const_obj.create_file()
 
 
 OBJECTIVES.new_str("""
@@ -155,14 +146,9 @@ TEAMS.new_str("""
     join $(initials)d_y Countdown Minutes Seconds Virus
     join $(initials)d_g Hiders
 
-    ScOP $(initials)GameTime $(initials)calc = $(initials)GameTime $(initials)Save
-    ScOP $(initials)GameTime $(initials)calc *= 20 constants
-
-    ScOP $(initials)Countdown $(initials)calc = $(initials)Countdown $(initials)Save
-    ScOP $(initials)Countdown $(initials)calc *= 20 constants
-
-    ScOP $(initials)Glowing $(initials)calc = $(initials)Glowing $(initials)Save
-    ScOP $(initials)Glowing $(initials)calc *= 20 constants
+    $(initials)Countdown $(initials)calc = $(20 * 60)
+    $(initials)Glowing $(initials)calc = $(20 * 300)
+    $(initials)GameTime $(initials)calc = $(20 * 600)
 
     summon armor_stand ~ ~ ~ {Tags:["$(initials)Stand","$(initials)Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
     @e[type=armor_stand,$(initials)Stand] function reset_round
@@ -170,6 +156,12 @@ TEAMS.new_str("""
 
 !mfunc main
     $(virus.cmd_main())
+
+    # kills all items
+    kill @e[$(select_all),tag=!$(initials)Entity,type=item]
+
+    # resets the player if they die
+    @a[m=2,gDE=1,$(initials)pl=1] $(initials)pl = 0
 
     # @e[type=armor_stand,$(initials)Stand,$(initials)st=0] function wait_for_start
     @e[type=armor_stand,$(initials)Stand,$(initials)st=1] function start_round
@@ -240,11 +232,11 @@ TEAMS.new_str("""
 
 
 !mfunc during_round
-    # kills all items
-    kill @e[$(select_all),type=item]
-
     # runs the timer
     function timer
+
+    # sets all hiders to virus if they stay in spawn
+    @a[$(virus.select_spawn),m=2] function round_reset_player
 
     # sets the player effects
     @a[gSA=1,m=2,$(initials)pl=1] function player_effects
@@ -252,10 +244,6 @@ TEAMS.new_str("""
 
     # detects whether the virus won
     @e[type=armor_stand,$(initials)Stand,$(initials)chi=0] $(initials)st = 4
-
-    # resets the player if they die
-    @a[m=2,$(initials)de=1..,$(initials)pl=1] $(initials)pl = 0
-    @a[$(initials)de=1..] $(initials)de = 0
 
 
 # used on players to set their effects
@@ -319,7 +307,7 @@ TEAMS.new_str("""
 !mfunc round_reset_player
     clear @s
     effect @s clear
-    @s[EC=0] function get_book
+    $(virus.cmd_book("@s[EC=0]"))
 
     # sets their play
     @s $(initials)pl = 1
@@ -328,19 +316,32 @@ TEAMS.new_str("""
     function to_hider if @e[type=armor_stand,$(initials)Stand,$(initials)st=4..6]
 
 
+# used on a player to fully reset themselves for command termination
+!mfunc full_reset_player
+    function round_reset_player
+    function tp_to_spawn
+
+
 # used on players to add them to the hider team
 !mfunc to_hider
     clear @s
     effect @s clear
-    @s[EC=0] function get_book
+    $(virus.cmd_book("@s[EC=0]"))
     
     join $(hiders_team) @s
+
+    # teleports back to the spawn if they are in the virus waiting room
+    function tp_to_spawn if @s[$(virus.select_virus)]
+
+    # teleports back to the spawn if they are in the arena
+    @s function tp_to_spawn if @e[type=armor_stand,$(initials)Stand,$(initials)st=6]
+
 
 # used on players to add them to the virus team
 !mfunc to_virus
     clear @s
     effect @s clear
-    @s[EC=0] function get_book
+    $(virus.cmd_book("@s[EC=0]"))
 
     # adds a golden helmet lol
     replaceitem entity @s slot.armor.head golden_helmet 1 0 {
@@ -350,7 +351,7 @@ TEAMS.new_str("""
     function tp_to_wait if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
 
     # teleports to the arena during game time
-    @s function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=0..2]
+    @s function tp_to_arena if @e[type=armor_stand,$(initials)Stand,$(initials)st=3..6]
 
     title @s title {"text":"You are now","color":"yellow"}
     title @s subtitle {"text":"the virus!","color":"yellow"}
@@ -365,11 +366,6 @@ TEAMS.new_str("""
 !mfunc tp_to_spawn
     $(virus.cmd_spawn())
 
-
-# used on a player to fully reset themselves for command termination
-!mfunc full_reset_player
-    function round_reset_player
-    function tp_to_spawn
 
 # used on the Virus Stand to count time
 !mfunc timer
@@ -470,9 +466,6 @@ TEAMS.new_str("""
             "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}}
         }]}
 
-!mfunc input_reset_consts
-    $(const_obj.cmd_reset())
-
 
 !mfunc input_add_one_min
     @e[type=armor_stand,$(initials)Stand] $(initials)ti + $(20*60)
@@ -492,7 +485,7 @@ TEAMS.new_str("""
 # used on players to get the custom book
 # requires additional backslashes because pyexpander is a potato
 # and changes double backslashes --> single backslash
-!mfunc get_book
+!mfunc book
     replaceitem entity @s slot.weapon.offhand written_book 1 0 {
         title:"$(virus.event.full_name) Book",author:"eGO",pages:["[\"\",
             {\"text\":\"$(virus.event.full_name) Settings\\\n\",\"bold\":true},
@@ -541,12 +534,6 @@ TEAMS.new_str("""
             {\"text\":\"Edit Teams: \",\"color\":\"dark_gray\"},
             {\"text\":\"[+]\\\n\",\"color\":\"gold\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_select_team"))\"}
-            },
-            
-            {\"text\":\"Reset Settings: \",\"color\":\"dark_gray\"},
-            {\"text\":\"[+]\\\n\",\"color\":\"gold\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(virus.cmd_func("input_reset_consts"))\"},
-                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets the time settings to their default values\",\"color\":\"gold\"}}
             },
             
             {\"text\":\"Time: \",\"color\":\"dark_gray\"},

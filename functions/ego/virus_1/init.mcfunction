@@ -1,4 +1,4 @@
-function ego:virus_1/stop_events
+function ego:floo_network/stop_events
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1561350378
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -37,12 +37,9 @@ scoreboard teams add VR1d_g Virus 1 Display Green
 scoreboard teams option VR1d_g color green
 scoreboard teams join VR1d_y Countdown Minutes Seconds Virus
 scoreboard teams join VR1d_g Hiders
-scoreboard players operation VR1GameTime VR1calc = VR1GameTime VR1Save
-scoreboard players operation VR1GameTime VR1calc *= 20 constants
-scoreboard players operation VR1Countdown VR1calc = VR1Countdown VR1Save
-scoreboard players operation VR1Countdown VR1calc *= 20 constants
-scoreboard players operation VR1Glowing VR1calc = VR1Glowing VR1Save
-scoreboard players operation VR1Glowing VR1calc *= 20 constants
+scoreboard players set VR1Countdown VR1calc 1200
+scoreboard players set VR1Glowing VR1calc 6000
+scoreboard players set VR1GameTime VR1calc 12000
 summon armor_stand ~ ~ ~ {Tags:["VR1Stand","VR1Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=VR1Stand] ~ ~ ~ function ego:virus_1/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1561350378"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Virus 1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1561350378"}},{"text":" has started!","color":"green"}]}
