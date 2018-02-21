@@ -37,9 +37,9 @@ scoreboard teams add VR2d_g Virus 2 Display Green
 scoreboard teams option VR2d_g color green
 scoreboard teams join VR2d_y Countdown Minutes Seconds Virus
 scoreboard teams join VR2d_g Hiders
-scoreboard players set VR2Countdown VR2calc 1200
-scoreboard players set VR2Glowing VR2calc 6000
-scoreboard players set VR2GameTime VR2calc 12000
+scoreboard players set &Countdown VR2calc 1200
+scoreboard players set &Glowing VR2calc 6000
+scoreboard players set &GameTime VR2calc 12000
 summon armor_stand ~ ~ ~ {Tags:["VR2Stand","VR2Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=VR2Stand] ~ ~ ~ function ego:virus_2/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"VR2","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 2","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1561350379"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Virus 2","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 2","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1561350379"}},{"text":" has started!","color":"green"}]}
