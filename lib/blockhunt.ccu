@@ -143,11 +143,14 @@ TEAMS.new_str("""
 $include("lib/prng.ccu")
 $create_prng_init(virus.event, initials + "prng")
 
+!mfunc step_prng
+    $(prng.cmd_next_seed())
+
 !mfunc init
-    $(prng.cmd_init())
     $(virus.cmd_init())
     $(OBJECTIVES.cmd_init())
     $(TEAMS.cmd_init())
+    $(prng.cmd_init())
 
     join $(initials)d_y Countdown Minutes Seconds Seekers
     join $(initials)d_g Hiders
@@ -340,7 +343,7 @@ $create_prng_init(virus.event, initials + "prng")
 
 # used on players to add them to the hider team
 !mfunc to_hider
-    $(prng.cmd_assign())
+    $(prng.cmd_main())
     clear @s
     effect @s clear
     $(virus.cmd_book("@s[EC=0]"))

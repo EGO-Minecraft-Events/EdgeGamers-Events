@@ -1,9 +1,3 @@
-summon area_effect_cloud ~ ~ ~ {Duration:1,Tags:["PRNG","True"]}
-summon area_effect_cloud ~ ~ ~ {Duration:1,Tags:["PRNG","False"]}
-summon area_effect_cloud ~ ~ ~ {Duration:1,Tags:["PRNGIterator"]}
-scoreboard players set &Iteration BHHDprng 1
-scoreboard players operation @e[tag=PRNGIterator] BHHDprng = &Max_Iteration BHHDprng
-function ego:bh_hasdaa/prng_init
 function ego:floo_network/stop_events
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 882469132
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
@@ -13,13 +7,12 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=692,y=25,z=227,dx=-74,dy=-25,dz=-74] gSA 1
 scoreboard objectives add constants dummy
+scoreboard players set -1 constants -1
 scoreboard players set 1200 constants 1200
 scoreboard players set 20 constants 20
 scoreboard players set 60 constants 60
 scoreboard objectives add BHHDprng dummy Pseudo-RNG
 scoreboard players set &Increment BHHDprng 12345
-scoreboard players set &Iteration BHHDprng 1
-scoreboard players set &Max_Iteration BHHDprng 1073741824
 scoreboard players set &Modulus BHHDprng 10
 scoreboard players set &Multiplier BHHDprng 1103515245
 scoreboard players set &Offset BHHDprng 0
@@ -49,6 +42,11 @@ scoreboard teams add BHHDd_y HASDaa Display Yellow
 scoreboard teams option BHHDd_y color yellow
 scoreboard teams add BHHDd_g HASDaa Display Green
 scoreboard teams option BHHDd_g color green
+summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
+summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","False"]}
+summon area_effect_cloud ~ ~ ~ {Tags:["PRNGIterator"]}
+scoreboard players set @e[tag=PRNGIterator] BHHDprng 1
+function ego:bh_hasdaa/prng_init
 scoreboard teams join BHHDd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHHDd_g Hiders
 scoreboard players set BHHDCountdown BHHDcalc 1200
