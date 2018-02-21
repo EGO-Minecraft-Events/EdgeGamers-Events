@@ -75,7 +75,7 @@ class FlooEvent(Container):
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
 
         # terminates any other games if they are running
-        self.cmd_queue.put(self.cmd_func("stop_events"))
+        self.cmd_queue.put(FLOO_NETWORK.cmd_func("stop_events"))
         # self.cmd_queue.put("function ego:floo_network/stop_events")
 
         # setting up the teleport id
@@ -127,13 +127,13 @@ class FlooEvent(Container):
         Used in the main loop to set everyone's floo network id value
         for spawning and teleportation
         """
-        self.cmd_queue.put("@a[{}] FLid + 0".format(self.event.select_all))
-        self.cmd_queue.put("@a[{0},FLid=..-{1}] FLid = {2}".format(self.event.select_all, self.id+1, self.id))
-        self.cmd_queue.put("@a[{0},FLid=-{1}..] FLid = {2}".format(self.event.select_all, self.id-1, self.id))
-
         # global select all, specific for each event
         self.cmd_queue.put("@a gSA = 0")
         self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
+
+        self.cmd_queue.put("@a[gSA=1] FLid + 0")
+        self.cmd_queue.put("@a[gSA=1,FLid=..-{0}] FLid = {1}".format(self.id+1, self.id))
+        self.cmd_queue.put("@a[gSA=1,FLid=-{0}..] FLid = {1}".format(self.id-1, self.id))
 
         return self._cmd_output()
 
@@ -142,6 +142,9 @@ class FlooEvent(Container):
         Resets all options for the floo network
         """
         set_stand_str = "@e[type=armor_stand,FlooStand] {0} = {1}"
+
+        # makes sure they aren't selected anymore idk
+        self.cmd_queue.put("@a gSA = 0")
 
         # Resets all options
         self.cmd_queue.put(set_stand_str.format("FLtp", "0"))

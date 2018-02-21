@@ -21,6 +21,7 @@ scoreboard objectives add gSA dummy Global Select All
 scoreboard objectives add gDE deathCount Global Death Count
 scoreboard objectives add gCS stat.useItem.minecraft.carrot_on_a_stick Global Carrot Stick
 scoreboard objectives add gLG stat.leaveGame Global Leave Game
+scoreboard objectives add gTEMP dummy Global Temp Calcs
 scoreboard objectives add APPS dummy
 scoreboard objectives add AT dummy
 scoreboard objectives add EC dummy

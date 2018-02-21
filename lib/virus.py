@@ -3,8 +3,14 @@ from lib.floo_network import FlooEvent
 
 class Virus(FlooEvent):
     """
+    Args:
+        event (Event)
+        select_spawn (Coords)
+        wait_coords (Coords)
+        arena_coords (Coords)
+        select_virus (Coords)
+        
     Attributes:
-
         initials (str)
         obj_disp (str): A possibly shortened version of display name to be put into objective display names
         select_spawn_coords (Coords): Region coordinates to select the spawn 

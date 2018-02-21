@@ -79,23 +79,26 @@ OBJECTIVES.new_str("""
     # in the game or not
     # 0 = not in the game
     # 1 = in the game
-    gSA _ Global Select All
+    gSA _ Select All
 
     # Automatically calculated on players to count their deaths
     # It is instantly set to 0 when the score is higher than one
-    gDE deathCount Global Death Count
+    gDE deathCount Death Count
 
     # Automatically calculated on players to increment when they have
     # right clicked with a carrot on a stick
     # It is instantly set to 0 when the score is higher than one
-    gCS stat.useItem.minecraft.carrot_on_a_stick Global Carrot Stick
+    gCS stat.useItem.minecraft.carrot_on_a_stick Carrot Stick
 
     # Automatically calculated on players to increment when they leave the game
     # Note that because of the nature of commands, this actually detects when
     # they rejoin the game
     # It is instantly set to 0 when the score is higher than one
-    gLG stat.leaveGame Global Leave Game
-""")
+    gLG stat.leaveGame Leave Game
+
+    # Literally a global temp scoreboard to do whatever calculations your heart desires
+    gTEMP _ Temp Calcs
+""", display="Global")
 
 # Adds objectives based on all event_name/src/consts.ccu files
 # all consts.ccu files have the following input (aka the same general format for Objectives.new_str):
