@@ -24,3 +24,7 @@
     Removed a death specific objective in favor of gDE
     Changed the naming of some objectives inside races, so (name)cl for clearing --> (name)pl for player list
     Added a function as "reset_player" to reset any players
+
+0.5.1
+    Changed the constant values in virus.ccu to have '&' in front of their names
+    
