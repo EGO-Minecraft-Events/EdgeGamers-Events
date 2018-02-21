@@ -13,7 +13,7 @@ scoreboard players set 20 constants 20
 scoreboard players set 60 constants 60
 scoreboard objectives add BHHDprng dummy Pseudo-RNG
 scoreboard players set &Increment BHHDprng 12345
-scoreboard players set &Modulus BHHDprng 10
+scoreboard players set &Modulus BHHDprng 16
 scoreboard players set &Multiplier BHHDprng 1103515245
 scoreboard players set &Offset BHHDprng 0
 scoreboard players set &Seed BHHDprng 0
@@ -42,11 +42,6 @@ scoreboard teams add BHHDd_y HASDaa Display Yellow
 scoreboard teams option BHHDd_y color yellow
 scoreboard teams add BHHDd_g HASDaa Display Green
 scoreboard teams option BHHDd_g color green
-summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
-summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","False"]}
-summon area_effect_cloud ~ ~ ~ {Tags:["PRNGIterator"]}
-scoreboard players set @e[tag=PRNGIterator] BHHDprng 1
-function ego:bh_hasdaa/prng_init
 scoreboard teams join BHHDd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHHDd_g Hiders
 scoreboard players set BHHDCountdown BHHDcalc 1200

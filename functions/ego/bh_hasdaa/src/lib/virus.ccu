@@ -196,6 +196,8 @@ TEAMS.new_str("""
 
     kill @e[type=armor_stand,$(initials)Entity]
 
+    $edit_main_end()
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
 
@@ -349,6 +351,8 @@ TEAMS.new_str("""
     clear @s
     effect @s clear
     $(virus.cmd_book("@s[EC=0]"))
+
+    $edit_to_virus()
 
     # adds a golden helmet lol
     replaceitem entity @s slot.armor.head golden_helmet 1 0 {

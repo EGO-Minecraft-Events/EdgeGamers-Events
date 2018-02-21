@@ -31,3 +31,6 @@
 
 0.7.0
     Remove prng.ccu in favor of a longer cmd_init in the PRNG class from prng.py
+
+0.8.0
+    Make BlockHunt work
