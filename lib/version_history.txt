@@ -28,3 +28,6 @@
 0.6.0
     Add PRNG module. Uses a Linear Congruential Generator to generate pseudo-random numbers.
     Add (Incomplete) BlockHunt module
+
+0.7.0
+    Remove prng.ccu in favor of a longer cmd_init in the PRNG class from prng.py
