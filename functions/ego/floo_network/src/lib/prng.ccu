@@ -2,12 +2,7 @@
 $macro(create_prng_init, event, objective_name)
 # event and objective_name must match those passed to the PRNG instance
 !mfunc prng_init
-    ScOP @e[PRNGIterator] $(objective_name) -= &Iteration $(objective_name)
-    @r[type=area_effect_cloud,PRNG] @s[True] &Seed $(objective_name) += &Iteration $(objective_name)
-    ScOP &Iteration $(objective_name) += &Iteration $(objective_name)
-
-    @e[PRNGIterator,$(objective_name)=0..0] @r[type=area_effect_cloud,PRNG] + Done
-    @e[PRNG] @s[Done] @e[PRNGIterator] reset $(objective_name)
-    @e[PRNG] @s[Done] kill @e[PRNGIterator]
-    function $(event.cmd_func("prng_init")) if @e[PRNGIteratorMax]
+    @r[type=area_effect_cloud,PRNG] @s[True] ScOP &Seed $(objective_name) += @e[PRNGIterator] $(objective_name)
+    ScOP @e[PRNGIterator] $(objective_name) += @e[PRNGIterator] $(objective_name)
+    $(event.cmd_func("prng_init")) unless @e[PRNGIterator,$(objective_name)=$(2**30)..]
 $endmacro
