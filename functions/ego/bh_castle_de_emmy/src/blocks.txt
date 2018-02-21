@@ -1,0 +1,25 @@
+minecraft:emerald_block
+minecraft:diamond_block
+minecraft:anvil
+minecraft:leaves2 --variant=dark_oak
+minecraft:wool --color=yellow
+minecraft:wool --color=green
+minecraft:wool --color=red
+minecraft:wool --color=orange
+minecraft:wool --color=purple
+minecraft:wool --color=black
+minecraft:wool --color=cyan
+minecraft:wool --color=blue
+minecraft:carpet --color=green
+minecraft:carpet --color=purple
+minecraft:tallgrass --type=tall_grass
+minecraft:carpet --color=white
+minecraft:quartz_block --variant=default
+minecraft:chest
+minecraft:web
+minecraft:brewing_stand
+minecraft:hay_block
+minecraft:flower_pot
+minecraft:grass
+minecraft:planks --variant=dark_oak
+minecraft:dark_oak_fence

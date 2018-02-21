@@ -1,1 +1,1 @@
-minecraft:tp @s 634 4 202 -90 0
+minecraft:tp @s -1103 7 -35 -90 0

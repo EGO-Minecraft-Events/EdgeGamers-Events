@@ -1,9 +1,9 @@
 scoreboard players set @a gSA 0
-scoreboard players set @a[x=692,y=25,z=227,dx=-74,dy=-25,dz=-74] gSA 1
+scoreboard players set @a[x=-1120,y=28,z=-10,dx=76,dy=-24,dz=-74] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
 scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-882469133] FLid 882469132
 scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-882469131] FLid 882469132
-kill @e[x=692,y=25,z=227,dx=-74,dy=-25,dz=-74,tag=!BHHDEntity,type=item]
+kill @e[x=-1120,y=28,z=-10,dx=76,dy=-24,dz=-74,tag=!BHHDEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHHDpl_min=1,score_BHHDpl=1] BHHDpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHHDpl_min=1,score_BHHDpl=1] ~ ~ ~ function ego:bh_hasdaa/assign_teams
 execute @e[type=armor_stand,tag=BHHDStand,score_BHHDst_min=1,score_BHHDst=1] ~ ~ ~ function ego:bh_hasdaa/start_round

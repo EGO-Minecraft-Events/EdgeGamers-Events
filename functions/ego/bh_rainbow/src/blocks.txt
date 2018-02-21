@@ -1,0 +1,9 @@
+minecraft:wool --color=purple
+minecraft:wool --color=orange
+minecraft:anvil
+minecraft:wool --color=yellow
+minecraft:wool --color=red
+minecraft:wool --color=blue
+minecraft:wool --color=black
+minecraft:glass
+minecraft:wool --color=lime

@@ -1,0 +1,4 @@
+      "BHTSh": "&a"
+      "BHTSv": "&e"
+      "BHTSd_y": "&e"
+      "BHTSd_g": "&a"

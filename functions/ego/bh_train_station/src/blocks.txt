@@ -1,0 +1,8 @@
+minecraft:wool --color=gray
+minecraft:wool --color=white
+minecraft:wool --color=yellow
+minecraft:stonebrick
+minecraft:iron_block
+minecraft:sand
+minecraft:wooden_slab --variant=spruce
+minecraft:grass

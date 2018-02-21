@@ -1,0 +1,18 @@
+minecraft:netherrack
+minecraft:glowstone
+minecraft:web
+minecraft:hay_block
+minecraft:sandstone
+minecraft:wool --color=black
+minecraft:gold_ore
+minecraft:sand
+minecraft:sandstone_stairs
+minecraft:planks --variant=oak
+minecraft:vine
+minecraft:stonebrick
+minecraft:stonebrick --variant=cracked_stonebrick
+minecraft:grass
+minecraft:stone 
+minecraft:dirt
+minecraft:iron_ore
+minecraft:torch

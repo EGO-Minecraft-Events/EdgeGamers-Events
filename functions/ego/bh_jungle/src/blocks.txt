@@ -1,0 +1,17 @@
+minecraft:tallgrass
+minecraft:grass
+minecraft:torch
+minecraft:lapis_block
+minecraft:log variant=oak
+minecraft:leaves variant=oak
+minecraft:redstone_block
+minecraft:anvil
+minecraft:crafting_table
+minecraft:glass
+minecraft:diamond_block
+minecraft:gold_block
+minecraft:sandstone
+minecraft:hay_block
+minecraft:web
+minecraft:brick_block
+minecraft:netherrack

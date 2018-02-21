@@ -1,0 +1,7 @@
+minecraft:gravel
+minecraft:tallgrass
+minecraft:red_flower --type=poppy
+minecraft:yellow_flower --type=dandelion
+minecraft:leaves --variant=oak
+minecraft:grass
+minecraft:oak_stairs

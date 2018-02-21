@@ -1,0 +1,23 @@
+minecraft:monster_egg --variant=stone_brick
+minecraft:tnt
+minecraft:redstone
+minecraft:unpowered_repeater
+minecraft:stone 
+minecraft:iron_ore
+minecraft:coal_ore
+minecraft:red_flower --type=poppy
+minecraft:red_flower --type=allium
+minecraft:red_flower --type=houstonia
+minecraft:red_flower --type=pink_tulip
+minecraft:red_flower --type=blue_orchid
+minecraft:tallgrass --type=fern
+minecraft:yellow_flower --type=dandelion
+minecraft:leaves --variant=jungle
+minecraft:log --variant=jungle
+minecraft:vine
+minecraft:iron_door
+minecraft:wooden_door
+minecraft:lever
+minecraft:redstone_torch
+minecraft:sapling --type=jungle
+minecraft:gold_ore

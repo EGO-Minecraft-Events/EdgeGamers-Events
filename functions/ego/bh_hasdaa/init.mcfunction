@@ -5,7 +5,7 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
 scoreboard players set @a gSA 0
-scoreboard players set @a[x=692,y=25,z=227,dx=-74,dy=-25,dz=-74] gSA 1
+scoreboard players set @a[x=-1120,y=28,z=-10,dx=76,dy=-24,dz=-74] gSA 1
 scoreboard objectives add constants dummy
 scoreboard players set -1 constants -1
 scoreboard players set 1200 constants 1200

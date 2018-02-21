@@ -1,0 +1,26 @@
+minecraft:pumpkin
+minecraft:melon_block
+minecraft:leaves --variant=spruce
+minecraft:diamond_ore
+minecraft:furance
+minecraft:gravel
+minecraft:cobblestone
+minecraft:lapis_ore
+minecraft:iron_block
+minecraft:redstone_block
+minecraft:purpur_block
+minecraft:emerald_ore
+minecraft:emerald_block
+minecraft:hay_block
+minecraft:lapis_block
+minecraft:bookshelf
+minecraft:iron_ore
+minecraft:crafting_table
+minecraft:redstone_ore
+minecraft:gold_ore
+minecraft:planks variant=oak
+minecraft:diamond_block
+minecraft:gold_block
+minecraft:leaves --variant=jungle
+minecraft:leaves --variant=oak
+minecraft:emerald_ore

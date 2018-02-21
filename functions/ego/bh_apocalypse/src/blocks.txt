@@ -1,0 +1,14 @@
+minecraft:sandstone_stairs 
+minecraft:sandstone --type=sandstone
+minecraft:sand
+minecraft:cactus
+minecraft:deadbush
+minecraft:sandstone --type=smooth_sandstone
+minecraft:stone_slab --variant=sandstone
+minecraft:reeds
+minecraft:grass
+minecraft:leaves2 --variant=acacia
+minecraft:double_plant --variant=double_grass
+minecraft:fence
+minecraft:stone_slab --variant=stone
+minecraft:gravel

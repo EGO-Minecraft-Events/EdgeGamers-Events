@@ -1,0 +1,16 @@
+minecraft:pumpkin
+minecraft:melon_block
+minecraft:cobblestone
+minecraft:red_mushroom
+minecraft:brown_mushroom
+minecraft:glowstone
+minecraft:mycelium
+minecraft:spruce_fence
+minecraft:gravel
+minecraft:crafting_table
+minecraft:bookshelf
+minecraft:emerald_ore
+minecraft:diamond_ore
+minecraft:gold_ore
+minecraft:iron_ore
+minecraft:rail

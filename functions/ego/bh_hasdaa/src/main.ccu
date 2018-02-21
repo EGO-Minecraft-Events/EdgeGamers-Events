@@ -7,10 +7,10 @@ from lib.prng import PRNG
 
 # all races must have a race object
 virus = Virus(BH_HASDAA,
-    select_spawn=Coords("692 25 227 619 20 178"),
-    wait_coords=Coords("640 17 154 0 0"),
-    arena_coords=Coords("634 4 202 -90 0"),
-    select_virus=Coords("641 19 155 639 16 154"))
+    select_spawn=Coords("-1120 28 -60 -1047 24 -11"),
+    wait_coords=Coords("-1098 20 -83 0 0"),
+    arena_coords=Coords("-1103 7 -35 -90 0"),
+    select_virus=Coords("-1097 22 -82 -1099 20 -83"))
 
 with open("blocks.txt") as blocks_file:
     blocks = list(map(lambda x: x.rstrip("\n"), blocks_file.readlines()))

@@ -34,3 +34,6 @@
 
 0.8.0
     Make BlockHunt work
+
+0.9.0
+    Add the rest of the BlockHunt maps

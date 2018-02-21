@@ -386,7 +386,21 @@ ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
     Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
 # BlockHunt
-BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("631 21 202 90 0"), "bh_hasdaa;bhhd", select_coords=Coords("692 25 227 618 0 153"))
+BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("-1107 24 -35 -90 0"), "bh_hasdaa;bhhd", select_coords=Coords("-1120 28 -10 -1044 4 -84"))
+BH_JUNGLE = Event("bh_jungle", "Jungle", "green", Coords("-1106 10 -97 180 0"), "bh_jungle;bhj", select_coords=Coords("-1046 55 -148 -1115 4 -88"))
+BH_MUSHROOM_VILLAGE = Event("bh_mushroom_village", "Mushroom Village", "green", Coords("-1081 43 -189 180 0"), "bh_mushroom_village;bhmv", select_coords=Coords("-1117 48 -153 -1044 4 -225"))
+BH_HOSPITAL = Event("bh_hospital", "Hospital", "green", Coords("-1073 26 -277 90 0"), "bh_hospital;bhh", select_coords=Coords("-1047 42 -190 -1137 3 -232"))
+BH_RAINBOW = Event("bh_rainbow", "Rainbow", "green", Coords("-1153 27 -69 -180 0"), "bh_rainbow;bhra", select_coords=Coords("-1130 38 -93 -1172 4 -10"))
+BHO = Event("bho", "BHO", "green", Coords("-1158 44 -139 180 0"), "bho", select_coords=Coords("-1194 45 -175 -1122 3 -103"))
+BH_ZELDA = Event("bh_zelda", "Zelda", "green", Coords("-1168 32 -191 -180 0"), "bh_zelda;bhz", select_coords=Coords("-1127 50 -218 -1213 3 -180"))
+BH_MASTERMIND = Event("bh_mastermind", "Mastermind", "green", Coords("-1175 46 -264"), "bh_mastermind;bhm", select_coords=Coords("-1213 45 -222 -1140 4 -294"))
+BH_TRAIN_STATION = Event("bh_train_station", "Train Station", "green", Coords("-1252 32 -88"), "bh_train_station;bhts", select_coords=Coords("-1208 34 -186 -1384 4 -10"))
+BH_PARK = Event("bh_park", "Park", "green", Coords("-1242 37 -246 0 0"), "bh_park;bhp", select_coords=Coords("-1263 38 -189 -1221 4 -288"))
+BH_FOUR_CORNERS = Event("bh_four_corners", "Four Corners", "green", Coords("-1313 102 -241 0 0"), "bh_four_corners;bhfc", select_coords=Coords("-1358 111 -190 -1268 4 -280"))
+BH_RESORT = Event("bh_resort", "Resort", "green", Coords("-1430 98 -46 0 0"), "bh_resort;bhre", select_coords=Coords("-1390 101 -13 -1482 4 -105"))
+BH_A_SMALL_VILLAGE = Event("bh_a_small_village", "A Small Village", "green", Coords("-1439 12 -228 90 0"), "bh_a_small_village;bhasv", select_coords=Coords("-1393 38 -271 -1554 3 -109"))
+BH_APOCALYPSE = Event("bh_apocalypse", "Apocalypse", "green", Coords("-1530 45 -50"), "bh_apocalypse;bha", select_coords=Coords("-1565 47 -102 -1489 4 -6"))
+BH_CASTLE_DE_EMMY = Event("bh_castle_de_emmy", "Castle de Emmy", "green", Coords("-1607 64 -60 90 0"), "bh_castle_de_emmy;bhcde", select_coords=Coords("-1570 73 -7 -1663 0 -102"))
 
 # Other
 SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)
