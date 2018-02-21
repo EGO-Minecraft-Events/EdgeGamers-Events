@@ -21,30 +21,30 @@ mid_door = Coords("")
 
 # additional commands for the main start
 $macro(edit_round_start)
-    fill $(str(mid_door)) stonebrick 0 replace redstone_block 0
+    fill $(mid_door) stonebrick 0 replace redstone_block 0
 $endmacro
 
 # additional commands for the main clock
 $macro(edit_countdown_end)
-    fill $(str(virus_door)) stonebrick 0 replace redstone_block 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) stonebrick 0 replace redstone_block 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 $macro(edit_round_end)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 # additional commands for the countdown clock
 $macro(edit_round_reset)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 # additional commands for the main end
 $macro(edit_main_end)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 $include("lib/virus.ccu")

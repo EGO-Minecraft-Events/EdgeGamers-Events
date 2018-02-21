@@ -385,6 +385,9 @@ PICTIONARY = Event("pictionary", "P;i;c;t;i;o;n;a;r;y", "light_purple;red;gold;y
 ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
     Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
+# BlockHunt
+BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("631 21 202 90 0"), "bh_hasdaa;bhhd", select_coords=Coords("692 25 227 618 0 153"))
+
 # Other
 SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)
 FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally",
