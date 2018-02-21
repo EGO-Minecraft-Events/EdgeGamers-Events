@@ -58,6 +58,8 @@ scoreboard players set rb FLna 1299512154
 scoreboard players set mm FLna 1807172851
 scoreboard players set pc FLna 1511200574
 scoreboard players set rr FLna 1698782159
+scoreboard players set bh_hasdaa FLna 882469132
+scoreboard players set bhhd FLna 882469132
 scoreboard players set spawn FLna 236718384
 scoreboard players set cmd FLna 674271822
 scoreboard players set floo FLna 674271822
