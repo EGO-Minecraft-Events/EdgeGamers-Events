@@ -2,7 +2,7 @@ import math
 from numbers import Real
 from abc import ABC, abstractmethod
 
-from lib.coord import Coord
+from coord import Coord
 # from coord import Coord
 
 """
@@ -730,6 +730,12 @@ $endfor
             >>> import math
             >>> round(Vector2(1, 0).rotated(math.pi/2))
             Vector2('0.0','-1.0')
+
+            >>> a = Vector3(1,0,0)
+            >>> a.xz.rotate(90, radians=False)
+            >>> a = Vector3(*map(int, a))
+            >>> a
+            Vector3('0','0','-1')
         """
         if not radians:
             angle = math.radians(angle)
@@ -765,6 +771,6 @@ $endfor
             radians (bool): if False, angle will be converted to degrees for internal calculations
         """
         rotated_vec = self.rotated(angle, point_vec, radians)
-        self.x = rotated_vec.x
-        self.y = rotated_vec.y
+        self.x._set_value(rotated_vec.x)
+        self.y._set_value(rotated_vec.y)
 
