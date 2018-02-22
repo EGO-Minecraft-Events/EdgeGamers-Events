@@ -1,9 +1,9 @@
 scoreboard players set @a gSA 0
-scoreboard players set @a[x=-1213,y=45,z=-222,dx=73,dy=-41,dz=-72] gSA 1
+scoreboard players set @a[x=-1213,y=51,z=-222,dx=73,dy=-47,dz=-72] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-498683801] FLid 498683800
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-498683799] FLid 498683800
-kill @e[x=-1213,y=45,z=-222,dx=73,dy=-41,dz=-72,tag=!BHMMEntity,type=item]
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-408217587] FLid 408217586
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-408217585] FLid 408217586
+kill @e[x=-1213,y=51,z=-222,dx=73,dy=-47,dz=-72,tag=!BHMMEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHMMpl_min=1,score_BHMMpl=1] BHMMpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHMMpl_min=1,score_BHMMpl=1] ~ ~ ~ function ego:bh_mastermind/assign_teams
 execute @e[type=armor_stand,tag=BHMMStand,score_BHMMst_min=1,score_BHMMst=1] ~ ~ ~ function ego:bh_mastermind/start_round

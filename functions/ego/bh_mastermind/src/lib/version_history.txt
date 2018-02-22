@@ -39,6 +39,32 @@
     Add the rest of the BlockHunt maps
 
 0.10.0
-    floo_network.py:
+    floo_network.py
         Changed all the ID hashes to use the folder_name and name
         Changed all shortcuts to automatically include the folder name
+        Renamed bho --> bh_office
+
+0.10.1
+    floo_network.py
+        Renamed bh_office --> bh_old
+
+0.10.2
+    floo_network.py
+        Added an option to not use the folder_name as a shortcut
+
+0.11.0
+    floo_network.py
+        Added a custom regen option
+
+    consts.py
+        Added MAX_INT
+
+0.12.0
+    races.ccu
+        Added a macro $edit_scoreboard_start() to initialize scoreboard teams and objectives
+
+    race_lap.ccu, race_checkpoint.ccu, race_regular.ccu
+        Added the macro in the copy/pasta region
+
+0.12.1
+    Fix BH_MASTERMIND select_coords

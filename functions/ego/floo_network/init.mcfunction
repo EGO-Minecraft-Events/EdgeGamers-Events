@@ -103,9 +103,9 @@ scoreboard players set bh_hospital FLna 1159673785
 scoreboard players set bhh FLna 1159673785
 scoreboard players set bh_jungle FLna 184603297
 scoreboard players set bhj FLna 184603297
-scoreboard players set bh_mastermind FLna 498683800
-scoreboard players set bhm FLna 498683800
-scoreboard players set bhmm FLna 498683800
+scoreboard players set bh_mastermind FLna 408217586
+scoreboard players set bhm FLna 408217586
+scoreboard players set bhmm FLna 408217586
 scoreboard players set bh_mushroom_village FLna 607841732
 scoreboard players set bhmv FLna 607841732
 scoreboard players set bh_old FLna 354536009
@@ -118,10 +118,10 @@ scoreboard players set bh_resort FLna 1456309508
 scoreboard players set bhre FLna 1456309508
 scoreboard players set bh_train_station FLna 993875352
 scoreboard players set bhts FLna 993875352
-scoreboard players set bh_virus_1 FLna 1387594773
-scoreboard players set bhvr1 FLna 1387594773
-scoreboard players set bh_virus_2 FLna 1478269764
-scoreboard players set bhvr2 FLna 1478269764
+scoreboard players set bh_virus_1 FLna 8130627
+scoreboard players set bhvr1 FLna 8130627
+scoreboard players set bh_virus_2 FLna 98805618
+scoreboard players set bhvr2 FLna 98805618
 scoreboard players set bh_zelda FLna 558233482
 scoreboard players set bhz FLna 558233482
 scoreboard players set spawn FLna 1360624640
