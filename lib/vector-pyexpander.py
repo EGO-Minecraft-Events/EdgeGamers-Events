@@ -1,4 +1,4 @@
-from math import sqrt
+import math
 from numbers import Real
 from abc import ABC, abstractmethod
 
@@ -34,7 +34,7 @@ class Vector(ABC):
         Returns:
             The length / norm / magnitude of this vector
         """
-        return sqrt(self.dot(self))
+        return math.sqrt(self.dot(self))
 
     def normalized(self):
         """Return a normalized version of this Vector
@@ -714,4 +714,57 @@ $endfor
 
     def __round__(self, n=0):
         return Vector2(round(self.x, n), round(self.y, n))
+
+    def rotated(self, angle, point_vec=None, radians=True):
+        """Performs a clockwise rotation of this vector about the given point_vec with the given angle
+
+        Args:
+            angle (numbers.Real, str, Coord): the angle to rotate by
+            point_vec (Vector2, optional): vector/point to rotate about
+            radians (bool): if False, angle will be converted to degrees for internal calculations
+        
+        Returns:
+            A copy of this vector with the completed rotation.
+        
+        Examples:
+            >>> import math
+            >>> round(Vector2(1, 0).rotated(math.pi/2))
+            Vector2('0.0','-1.0')
+        """
+        if not radians:
+            angle = math.radians(angle)
+        angle = Coord(angle).value
+
+        if point_vec is None:
+            point_vec = Vector2()
+        assert isinstance(point_vec, Vector2), "point_vec must be a Vector2"
+
+        # Create a copy of self to prevent overwritting self values
+        result = self.copy()
+        # Make point_vec the new origin
+        result -= point_vec
+        # Perform clockwise rotation about the origin
+        new_x = result.x * math.cos(angle) + result.y * math.sin(angle)
+        new_y = result.x * -math.sin(angle) + result.y * math.cos(angle)
+        # Assign the new rotated coordinates to the result vector
+        result.x, result.y = new_x, new_y
+        # Move the origin back to where it was before
+        result += point_vec
+        # Fix the prefixes so they are the same as the original vector (self)
+        result.x._prefix = self.x._prefix
+        result.y._prefix = self.y._prefix
+        # Return the result
+        return result
+    
+    def rotate(self, angle, point_vec=None, radians=True):
+        """Performs a clockwise rotation of this vector about the given point_vec with the given angle
+
+        Args:
+            angle (numbers.Real, str, Coord): the angle to rotate by
+            point_vec (Vector2, optional): vector/point to rotate about
+            radians (bool): if False, angle will be converted to degrees for internal calculations
+        """
+        rotated_vec = self.rotated(angle, point_vec, radians)
+        self.x = rotated_vec.x
+        self.y = rotated_vec.y
 
