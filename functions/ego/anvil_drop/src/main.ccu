@@ -459,7 +459,7 @@ $endfor
 
 
 !mfunc input_change_settings
-    tellraw @a[EC=0] $(event.begin())
+    tellraw @s[EC=0] $(event.begin())
     {"text":"Layer 1: ","color":"gray"},
     {"text":"[%]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the percent in layer 1","color":"gold"}},
