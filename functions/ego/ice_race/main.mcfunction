@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=34,y=2,z=-64,dx=141,dy=69,dz=43] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-227577151] FLid 227577150
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-227577149] FLid 227577150
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-803738519] FLid 803738518
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-803738517] FLid 803738518
 execute @e[type=area_effect_cloud,tag=IR_cd] ~ ~ ~ function ego:ice_race/countdown
 kill @e[x=34,y=2,z=-64,dx=141,dy=69,dz=43,type=item]
 scoreboard players add @a[score_gSA_min=1,score_gSA=1,m=2] IRpl 0

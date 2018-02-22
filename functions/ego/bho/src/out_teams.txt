@@ -1,4 +1,0 @@
-      "BHOh": "&a"
-      "BHOv": "&e"
-      "BHOd_y": "&e"
-      "BHOd_g": "&a"

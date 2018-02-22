@@ -1,0 +1,49 @@
+Ice race: ice_race, ir
+Slow Race: slow_race, sr
+Nether Race: nether_race, nr
+Evil Race: evil_race, evilr
+Diamond Race: diamond_race, dr
+Emerald Race: emerald_race, er
+Quartz Race: quartz_race, qr
+1.8 Race: 1_8_race, 18r
+Epic Race: epic_race, epicr
+Salt Race: salt_race, saltr
+Death Run: death_run, deathr
+Dirt Race: dirt_race, dirtr
+Mycelium Race: mycelium_race, mr
+Frostburn Run: frostburn_run, fbr
+EverChanging Race: ever_changing_race, ecr
+Virus 1: virus_1, virus1, vr1
+Virus 2: virus_2, virus2, vr2
+PVP: Old CTF: pvp, pvp1, oldctf
+Capture the flag: capture_the_flag, ctf
+The Pit 3: the_pit_3, tp, tpl3
+Sand Tomb: sand_tomb, st
+Anvil Drop: anvil_drop, ad
+Death Pit: death_pit, dp
+Rabbit Ball: rabbit_ball, rb
+Mastermind: mastermind, mm
+Pictionary: pictionary, pc
+Royal Rumble: royal_rumble, rr
+HASDaa: bh_hasdaa, bhhd
+Jungle: bh_jungle, bhj
+Mushroom Village: bh_mushroom_village, bhmv
+Hospital: bh_hospital, bhh
+Rainbow: bh_rainbow, bhra
+Office: bh_office, bho
+Zelda: bh_zelda, bhz
+Mastermind: bh_mastermind, bhm, bhmm
+Train Station: bh_train_station, bhts
+Park: bh_park, bhp
+Four Corners: bh_four_corners, bhfc
+Resort: bh_resort, bhre
+A Small Village: bh_a_small_village, bhasv
+Apocalypse: bh_apocalypse, bha
+Castle de Emmy: bh_castle_de_emmy, bhcde
+Spawn: floo_network, spawn
+Floo Network: floo_network, cmd, floo, diagonally
+Teamspeak Token: ts_token, ts, tstoken
+The Minigame Hub: floo_network, mghub
+The PVP hub: floo_network, pvphub
+The Mastermind Hub: floo_network, mmhub
+The Race Hub: floo_network, racehub

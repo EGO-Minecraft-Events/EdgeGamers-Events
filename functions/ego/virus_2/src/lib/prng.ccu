@@ -1,8 +1,0 @@
-# This macro must be created in every ccu module that wishes to use PRNG
-$macro(create_prng_init, event, objective_name)
-# event and objective_name must match those passed to the PRNG instance
-!mfunc prng_init
-    @r[type=area_effect_cloud,PRNG] @s[True] ScOP &Seed $(objective_name) += @e[PRNGIterator] $(objective_name)
-    ScOP @e[PRNGIterator] $(objective_name) += @e[PRNGIterator] $(objective_name)
-    $(event.cmd_func("prng_init")) unless @e[PRNGIterator,$(objective_name)=$(2**30)..]
-$endmacro

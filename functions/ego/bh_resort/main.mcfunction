@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1390,y=101,z=-13,dx=-92,dy=-97,dz=-92] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1317713610] FLid 1317713609
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1317713608] FLid 1317713609
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1456309509] FLid 1456309508
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1456309507] FLid 1456309508
 kill @e[x=-1390,y=101,z=-13,dx=-92,dy=-97,dz=-92,tag=!BHREEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHREpl_min=1,score_BHREpl=1] BHREpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHREpl_min=1,score_BHREpl=1] ~ ~ ~ function ego:bh_resort/assign_teams

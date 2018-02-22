@@ -1,4 +1,4 @@
-      "BHMh": "&a"
-      "BHMv": "&e"
-      "BHMd_y": "&e"
-      "BHMd_g": "&a"
+      "BHMMh": "&a"
+      "BHMMv": "&e"
+      "BHMMd_y": "&e"
+      "BHMMd_g": "&a"

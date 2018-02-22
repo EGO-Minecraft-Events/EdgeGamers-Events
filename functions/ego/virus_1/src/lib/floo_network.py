@@ -65,7 +65,7 @@ class FlooEvent(Container):
     def cmd_spawn(self, selector="@s"):
         return self.event.cmd_spawn(selector)
 
-    def cmd_book(self, selector="@s"):
+    def cmd_book(self, selector="@s[EC=0]"):
         return self.event.cmd_book(selector)
 
     def cmd_init(self):
@@ -272,14 +272,20 @@ class Event:
         """
 
         # Uses a unique ID value from the simple djb2 hash which hopefully ports to python nicely
-        self.id = djb2(name)
+        self.id = djb2(name + folder_name)
 
         self.folder_name = folder_name
         self.name = tuple(name.split(";"))
         self.full_name = name.replace(";", "")
         self.colors = tuple(colors.split(";"))
         self.coords = coords
-        self.shortcut = tuple(shortcut.split(";"))
+
+        # only adds the folder name if it's not already there
+        shortcuts = shortcut.split(";")
+        if folder_name not in shortcuts:
+            shortcuts.insert(0, folder_name)
+        self.shortcut = tuple(shortcuts)
+
         if isinstance(self.coords, TeleportCoords):
             self.disp_coords = " ".join(map(str, map(int, self.coords.pos.vec)))
         else:
@@ -335,7 +341,7 @@ class Event:
         """
         return "scoreboard players set {0} FLtp {1}".format(selector, self.id)
 
-    def cmd_book(self, selector="@s"):
+    def cmd_book(self, selector="@s[EC=0]"):
         """
         Returns the given book command to give a player
         the event book
@@ -386,7 +392,21 @@ ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
     Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
 # BlockHunt
-BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("631 21 202 90 0"), "bh_hasdaa;bhhd", select_coords=Coords("692 25 227 618 0 153"))
+BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("-1107 24 -35 -90 0"), "bhhd", select_coords=Coords("-1120 28 -10 -1044 4 -84"))
+BH_JUNGLE = Event("bh_jungle", "Jungle", "green", Coords("-1106 10 -97 180 0"), "bhj", select_coords=Coords("-1046 55 -148 -1115 4 -88"))
+BH_MUSHROOM_VILLAGE = Event("bh_mushroom_village", "Mushroom Village", "green", Coords("-1081 43 -189 180 0"), "bhmv", select_coords=Coords("-1117 48 -153 -1044 4 -225"))
+BH_HOSPITAL = Event("bh_hospital", "Hospital", "green", Coords("-1073 26 -277 90 0"), "bhh", select_coords=Coords("-1047 42 -190 -1137 3 -232"))
+BH_RAINBOW = Event("bh_rainbow", "Rainbow", "green", Coords("-1153 27 -69 -180 0"), "bhra", select_coords=Coords("-1130 38 -93 -1172 4 -10"))
+BH_OFFICE = Event("bh_office", "Office", "green", Coords("-1158 44 -139 180 0"), "bho", select_coords=Coords("-1194 45 -175 -1122 3 -103"))
+BH_ZELDA = Event("bh_zelda", "Zelda", "green", Coords("-1168 32 -191 -180 0"), "bhz", select_coords=Coords("-1127 50 -218 -1213 3 -180"))
+BH_MASTERMIND = Event("bh_mastermind", "Mastermind", "green", Coords("-1175 46 -264"), "bhm;bhmm", select_coords=Coords("-1213 45 -222 -1140 4 -294"))
+BH_TRAIN_STATION = Event("bh_train_station", "Train Station", "green", Coords("-1252 32 -88"), "bhts", select_coords=Coords("-1208 34 -186 -1384 4 -10"))
+BH_PARK = Event("bh_park", "Park", "green", Coords("-1242 37 -246 0 0"), "bhp", select_coords=Coords("-1263 38 -189 -1221 4 -288"))
+BH_FOUR_CORNERS = Event("bh_four_corners", "Four Corners", "green", Coords("-1313 102 -241 0 0"), "bhfc", select_coords=Coords("-1358 111 -190 -1268 4 -280"))
+BH_RESORT = Event("bh_resort", "Resort", "green", Coords("-1430 98 -46 0 0"), "bhre", select_coords=Coords("-1390 101 -13 -1482 4 -105"))
+BH_A_SMALL_VILLAGE = Event("bh_a_small_village", "A Small Village", "green", Coords("-1439 12 -228 90 0"), "bhasv", select_coords=Coords("-1393 38 -271 -1554 3 -109"))
+BH_APOCALYPSE = Event("bh_apocalypse", "Apocalypse", "green", Coords("-1530 45 -50"), "bha", select_coords=Coords("-1565 47 -102 -1489 4 -6"))
+BH_CASTLE_DE_EMMY = Event("bh_castle_de_emmy", "Castle de Emmy", "green", Coords("-1607 64 -60 90 0"), "bhcde", select_coords=Coords("-1570 73 -7 -1663 0 -102"))
 
 # Other
 SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)

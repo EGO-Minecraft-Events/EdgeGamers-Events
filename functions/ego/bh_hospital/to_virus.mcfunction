@@ -1,6 +1,6 @@
 clear @s
 effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 1666503593
+scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 1159673785
 bd undisguise @p[r=0]
 replaceitem entity @s slot.armor.head golden_helmet 1 0 {Unbreakable:1,ench:[{id:10,lvl:1},{id:71,lvl:1}]}
 title @s title {"text":"You are now","color":"yellow"}

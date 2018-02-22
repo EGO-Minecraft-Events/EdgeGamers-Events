@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=219,y=5,z=-121,dx=75,dy=100,dz=51] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-704022041] FLid 704022040
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-704022039] FLid 704022040
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1844105134] FLid 1844105133
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1844105132] FLid 1844105133
 execute @e[type=area_effect_cloud,tag=ER_cd] ~ ~ ~ function ego:emerald_race/countdown
 kill @e[x=219,y=5,z=-121,dx=75,dy=100,dz=51,type=item]
 scoreboard players add @a[score_gSA_min=1,score_gSA=1,m=2] ERpl 0
