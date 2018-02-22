@@ -65,7 +65,7 @@ class FlooEvent(Container):
     def cmd_spawn(self, selector="@s"):
         return self.event.cmd_spawn(selector)
 
-    def cmd_book(self, selector="@s"):
+    def cmd_book(self, selector="@s[EC=0]"):
         return self.event.cmd_book(selector)
 
     def cmd_init(self):
@@ -335,7 +335,7 @@ class Event:
         """
         return "scoreboard players set {0} FLtp {1}".format(selector, self.id)
 
-    def cmd_book(self, selector="@s"):
+    def cmd_book(self, selector="@s[EC=0]"):
         """
         Returns the given book command to give a player
         the event book
