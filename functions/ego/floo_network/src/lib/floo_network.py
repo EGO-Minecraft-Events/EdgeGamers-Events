@@ -386,6 +386,8 @@ ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",
     Coords("-103 19 482 -180 0"), "rr", initials=("R;R", "blue;dark_green"), select_coords=Coords("-153 0 299 5 110 494"))
 
 # BlockHunt
+BH_VIRUS_1 = Event("bh_virus_1", "BH Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "bh_virus1;bhvr1", select_coords=Coords("-130 4 -315 -9 64 -134"))
+BH_VIRUS_2 = Event("bh_virus_2", "BH Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "bh_virus2;bhvr2", select_coords=Coords("-107 2 -130 86 102 111"))
 BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("-1107 24 -35 -90 0"), "bh_hasdaa;bhhd", select_coords=Coords("-1120 28 -10 -1044 4 -84"))
 BH_JUNGLE = Event("bh_jungle", "Jungle", "green", Coords("-1106 10 -97 180 0"), "bh_jungle;bhj", select_coords=Coords("-1046 55 -148 -1115 4 -88"))
 BH_MUSHROOM_VILLAGE = Event("bh_mushroom_village", "Mushroom Village", "green", Coords("-1081 43 -189 180 0"), "bh_mushroom_village;bhmv", select_coords=Coords("-1117 48 -153 -1044 4 -225"))

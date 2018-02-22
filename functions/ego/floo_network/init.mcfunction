@@ -58,6 +58,10 @@ scoreboard players set rb FLna 1299512154
 scoreboard players set mm FLna 1807172851
 scoreboard players set pc FLna 1511200574
 scoreboard players set rr FLna 1698782159
+scoreboard players set bh_virus1 FLna 1237719705
+scoreboard players set bhvr1 FLna 1237719705
+scoreboard players set bh_virus2 FLna 1237719706
+scoreboard players set bhvr2 FLna 1237719706
 scoreboard players set bh_hasdaa FLna 882469132
 scoreboard players set bhhd FLna 882469132
 scoreboard players set bh_jungle FLna 1023416591

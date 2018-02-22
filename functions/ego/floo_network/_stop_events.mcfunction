@@ -25,6 +25,8 @@ function ego:rabbit_ball/term if @s[score_FLgam_min=1299512154,score_FLgam=12995
 function ego:mastermind/term if @s[score_FLgam_min=1807172851,score_FLgam=1807172851]
 function ego:pictionary/term if @s[score_FLgam_min=1511200574,score_FLgam=1511200574]
 function ego:royal_rumble/term if @s[score_FLgam_min=1698782159,score_FLgam=1698782159]
+function ego:bh_virus_1/term if @s[score_FLgam_min=1237719705,score_FLgam=1237719705]
+function ego:bh_virus_2/term if @s[score_FLgam_min=1237719706,score_FLgam=1237719706]
 function ego:bh_hasdaa/term if @s[score_FLgam_min=882469132,score_FLgam=882469132]
 function ego:bh_jungle/term if @s[score_FLgam_min=1023416591,score_FLgam=1023416591]
 function ego:bh_mushroom_village/term if @s[score_FLgam_min=1864175872,score_FLgam=1864175872]

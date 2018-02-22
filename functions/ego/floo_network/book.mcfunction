@@ -25,6 +25,8 @@ function ego:rabbit_ball/book if @s[score_FLbk_min=1299512154,score_FLbk=1299512
 function ego:mastermind/book if @s[score_FLbk_min=1807172851,score_FLbk=1807172851]
 function ego:pictionary/book if @s[score_FLbk_min=1511200574,score_FLbk=1511200574]
 function ego:royal_rumble/book if @s[score_FLbk_min=1698782159,score_FLbk=1698782159]
+function ego:bh_virus_1/book if @s[score_FLbk_min=1237719705,score_FLbk=1237719705]
+function ego:bh_virus_2/book if @s[score_FLbk_min=1237719706,score_FLbk=1237719706]
 function ego:bh_hasdaa/book if @s[score_FLbk_min=882469132,score_FLbk=882469132]
 function ego:bh_jungle/book if @s[score_FLbk_min=1023416591,score_FLbk=1023416591]
 function ego:bh_mushroom_village/book if @s[score_FLbk_min=1864175872,score_FLbk=1864175872]
