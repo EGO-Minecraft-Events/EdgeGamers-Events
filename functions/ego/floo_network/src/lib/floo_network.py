@@ -34,6 +34,7 @@ class FlooEvent(Container):
         "saturation": ("true", "false"),  # FLsat 0, 1
         "gamemode": ("adventure", "survival", "spectator"),  # FLgmd 1, 2, 3
         "weather": ("clear", "rain", "storm"),  # FLwea 0, 1, 2
+        "regen": ("POS_INT", "true", "false"),  # FLreg as any integer
     }
     
     def __init__(self, event, **options):
@@ -53,7 +54,8 @@ class FlooEvent(Container):
         if option not in FlooEvent.valid_options:
             raise SyntaxError("Invalid option name '{option}' for the floo network".format(option=option))
 
-        if option_value not in FlooEvent.valid_options[option]:
+        if (option_value not in FlooEvent.valid_options[option] and
+                not ("POS_INT" in FlooEvent.valid_options[option] and isinstance(option_value, int) and option_value >= 0)):
             raise SyntaxError("Invalid option value for option '{option}' for the floo network: '{op_value}'".format(
                     option=option, op_value=option_value))
 
@@ -111,6 +113,17 @@ class FlooEvent(Container):
         else:
             self.cmd_queue.put(set_stand_str.format("FLwea", "2"))
 
+        # setting up regen, defaults to true
+        if "regen" not in self.options or self.options["regen"] == "true":
+            self.cmd_queue.put("gamerule naturalRegeneration true")
+            self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        elif self.options["regen"] == "false":
+            self.cmd_queue.put("gamerule naturalRegeneration false")
+            self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        else:
+            self.cmd_queue.put("gamerule naturalRegeneration false")
+            self.cmd_queue.put(set_stand_str.format("FLreg", self.options["regen"]))
+
         # global select all, specific for each event
         self.cmd_queue.put("@a gSA = 0")
         self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
@@ -152,6 +165,8 @@ class FlooEvent(Container):
         self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
         self.cmd_queue.put(set_stand_str.format("FLgmd", "1"))
         self.cmd_queue.put(set_stand_str.format("FLwea", "0"))
+        self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        self.cmd_queue.put("gamerule naturalRegeneration true")
 
         # Sets the same game to 0
         self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam={0}] FLgam = 0".format(self.id))

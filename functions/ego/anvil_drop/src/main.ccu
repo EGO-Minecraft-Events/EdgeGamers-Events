@@ -8,13 +8,15 @@ from lib.coords import Coords
 
 
 event = ANVIL_DROP
-floo_event = FlooEvent(event, saturation="false")
+# regen every 100 ticks, or 5 seconds
+# this means 1 heart/10s
+floo_event = FlooEvent(event, regen=100)
 select_all = event.select_all
 
 select_spawn_coords = Coords("-19 4 85 -12 9 89")
 select_spawn = select_spawn_coords.selector()
 
-select_arena_coords = Coords("-33 2 81 -21 7 93")
+select_arena_coords = Coords("-33 3 81 -21 13 93")
 select_arena = select_arena_coords.selector()
 
 
@@ -33,7 +35,7 @@ layer_1 = Coords("-36 15 80")
 layer_2 = Coords("-36 14 80")
 layer_walls = Coords("-36 13 80")
 
-door_region = Coords("20 7 88 -20 5 86")
+door_region = Coords("-20 7 88 -20 5 86")
     
 OBJECTIVES.new_str("""
     . _ .
@@ -146,8 +148,15 @@ d_y . Display Yellow
     @a[gSA=1,m=2] ADpl + 0
     @a[gSA=1,ADpl=0,m=2] function reset_player
 
+    # gives instant health for all players not in the round
+    # if their health is less than 20
+    effect @a[gSA=1,m=2,ADpl=1,gHP=..19] $(Effects.hp) 1 100 true
+
     # resets players on death
     @a[gDE=1,ADpl=2,m=2] function reset_player
+
+    # resets players in the spectator area
+    @a[$(select_spawn),ADpl=2,m=2] function reset_player
 
     # @e[type=armor_stand,ADStand,ADst=0] function wait_for_start
     @e[type=armor_stand,ADStand,ADst=1] function start_round
@@ -158,36 +167,43 @@ d_y . Display Yellow
     # Displays the options to the ECs
     @a[gSA=1,EC=0] function display_settings
 
-    # Updates the layer percentage
-    @e[type=armor_stand,ADStand,ADpe1=0..] function change_percent_1
-    @e[type=armor_stand,ADStand,ADpe2=0..] function change_percent_2
-    @e[type=armor_stand,ADStand,ADpe3=0..] function toggle_walls
+    # Updates the layer percentage only if it is between 0 and 100 inclusive
+    @e[type=armor_stand,ADStand,ADpe1=0..100] function change_percent_1
+    @e[type=armor_stand,ADStand,ADpe2=0..100] function change_percent_2
+    @e[type=armor_stand,ADStand,ADpe3=0..100] function toggle_walls
 
-    # Updates the timer for each layer
+    # Updates the timer for each layer only if the time is greater than or equal to 0
     @e[type=armor_stand,ADStand,ADiti1=0..] function change_timer_1
     @e[type=armor_stand,ADStand,ADiti2=0..] function change_timer_2
     @e[type=armor_stand,ADStand,ADiti3=0..] function change_timer_3
-    
-    # effect @a[gSA=1,m=2,ADpl=1] 8 2 250 true
-    # effect @a[gSA=1,m=2,ADpl=1] 8 0 0 true
+
+    # gives jump boost so they can't jump
+    effect @a[gSA=1,m=2,ADpl=2] $(Effects.jump) 2 250 true
 
 !mfunc term
     $(floo_event.cmd_term())
+
+    # fully resets players
+    @a[ADpl=0..] function full_reset_player
 
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
     kill @e[ADEntity]
 
-    # fully resets players
-    @a[gSA=1] function full_reset_player
-
     # kills all falling anvils
     kill @e[$(select_all),type=falling_block]
+
+    # removes any anvil blocks if they somehow existed
+    fill $(select_arena_coords) air 0 replace anvil
+
+    # closes the door
+    function close_doors
 
 
 # !mfunc wait_for_start
 
 
+# Used on the ADStand to initialize the round
 !mfunc start_round
     # sets the countdown time
     @s ADti = $(6 * 20)
@@ -196,6 +212,11 @@ d_y . Display Yellow
     # adds all players to the round
     @a[$(select_arena),m=2,ADpl=1] function add_to_round
 
+    # ensures the doors are closed
+    function close_doors
+
+
+# Used on the ADStand during the countdown
 !mfunc countdown
     @s ADti - 1
     
@@ -210,30 +231,43 @@ d_y . Display Yellow
     # displays the countdown
     ScOP Countdown ADcl = @s ADti
     ScOP Countdown ADcl /= 20 constants
+    Countdown ADcl + 1
     ScOP Countdown AD = Countdown ADcl
 
     @s[ADti=..0] function end_countdown
 
 
+# Used on the ADStand once the countdown ends
 !mfunc end_countdown
     tellraw @a $(event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
     Countdown reset AD
     
     @a[gSA=1] playsound entity.experience_orb.touch voice @s
+
+    # sets their scores equal to the timer so they immediately drop the anvils
+    ScOP @s ADti1 = &Timer1 ADcl
+    ScOP @s ADti2 = &Timer2 ADcl
+    ScOP @s ADti3 = &Timer3 ADcl
+
     @s ADst = 3
 
 
+# Used on the ADStand during the round
 !mfunc during_round
-    function calc_time
+    function calc_anvil_drops
+
+    # displays the time elapsed and player count
     function display
 
 
+# Used on the ADStand once the round stops
 !mfunc stop_round
     Players reset AD
     Time_Elapsed reset AD
+    Countdown reset AD
 
     # announces who won if anyone did
-    @a[gSA=1,ADpl=1] function announce_player
+    @a[gSA=1,ADpl=2] function announce_player
 
     # resets the player to heal
     @a[gSA=1] function reset_player
@@ -244,10 +278,44 @@ d_y . Display Yellow
     # resets the state
     @s ADst = 0
 
+    # closes the door
+    function close_doors
+
 
 # Used on players to announce themselves as a winner
 !mfunc announce_player
     tellraw @a $(event.begin(r'''{"selector":"@s"},{"text":" has won ","color":"gray"},''' + event.name_text() + r',{"text":"!","color":"gray"}'))
+
+
+# Used on the ADStand when a change in layer 1 or 2's percent has been detected
+# In both cases, a "change" is an input from the EC, regardless of
+# whether the percent changed or not.
+!mfunc change_percent_1
+    $for(percent in range(0, 101))
+    @s[ADpe1=$(percent)] blockdata $(struct_1) {integrity:$(percent/100)f}
+    $endfor
+
+    ScOP &Percent1 ADcl = @s ADpe1
+    @s ADpe1 = -1
+
+!mfunc change_percent_2
+    $for(percent in range(0, 101))
+    @s[ADpe2=$(percent)] blockdata $(struct_2) {integrity:$(percent/100)f}
+    $endfor
+
+    ScOP &Percent2 ADcl = @s ADpe2
+    @s ADpe2 = -1
+
+
+# used on the ADStand to toggle walls
+!mfunc toggle_walls
+    @s[ADpe3=0] blockdata $(struct_walls) {integrity:0.0f}
+    @s[ADpe3=0] &WallsToggle ADcl = 0
+    
+    @s[ADpe3=1] blockdata $(struct_walls) {integrity:1.0f}
+    @s[ADpe3=1] &WallsToggle ADcl = 1
+
+    @s ADpe3 = -1
 
 
 # Used on the ADStand to change timers 1-3 and update fake player names
@@ -275,23 +343,34 @@ $endfor
 
 
 # Used on the ADStand to calculate when anvils will be dropped
-!mfunc calc_time
+!mfunc calc_anvil_drops
     @s ADti1 + 1
     @s ADti2 + 1
     @s ADti3 + 1
     
+    # Sets it equal to the timer
     ScOP @s ADcl = &Timer1 ADcl
+
+    # Sets its own value of ADti1 to be negative
+    # so subtracting itself will guarantee it to be a positive
+    @s[ADcl=0] ADcl = -1
+
+    # Subracts to calculate the difference
     ScOP @s ADcl -= @s ADti1
+
+    # If the armor stand timer exceeds the given time, it runs the layer
     @s[ADcl=..0] function run_layer_1
     @s[ADcl=..0] ADti1 = 0
 
     ScOP @s ADcl = &Timer2 ADcl
-    ScOP @s ADcl -= @s ADti2
+    @s[ADcl=0] ADcl = -1
+    ScOP @s[ADcl=1..] ADcl -= @s ADti2
     @s[ADcl=..0] function run_layer_2
     @s[ADcl=..0] ADti2 = 0
 
     ScOP @s ADcl = &Timer3 ADcl
-    ScOP @s ADcl -= @s ADti3
+    @s[ADcl=0] ADcl = -1
+    ScOP @s[ADcl=1..] ADcl -= @s ADti3
     @s[ADcl=..0] function run_walls
     @s[ADcl=..0] ADti3 = 0
 
@@ -300,14 +379,13 @@ $endfor
 # elapsed on the display main scoreboard
 !mfunc display
     Players ADpl = 0
-    @a[gSA=1,m=2,ADpl=1] Players ADpl + 1
+    @a[gSA=1,m=2,ADpl=2] Players ADpl + 1
     ScOP Players AD = Players ADpl
     
     @s ADti + 1
     ScOP Time_Elapsed ADcl = @s ADti
     ScOP Time_Elapsed ADcl /= 20 constants
     ScOP Time_Elapsed AD = Time_Elapsed ADcl
-
 
 
 !mfunc run_layer_1
@@ -352,36 +430,18 @@ $endfor
     # prevents them from dying lol
     # replaceitem entity @s slot.weapon totem_of_undying 1 0
 
-
-# Used on the ADStand when a change in layer 1 or 2's percent has been detected
-# In both cases, a "change" is an input from the EC, regardless of
-# whether the percent changed or not
-!mfunc change_percent_1
-    $for(percent in range(0, 101))
-    @s[ADpe1=$(percent)] blockdata $(struct_1) {integrity:$(percent/100)f}
-    $endfor
-
-    ScOP &Percent1 ADcl = @s ADpe1
-    @s ADpe1 = -1
-
-!mfunc change_percent_2
-    $for(percent in range(0, 101))
-    @s[ADpe2=$(percent)] blockdata $(struct_2) {integrity:$(percent/100)f}
-    $endfor
-
-    ScOP &Percent2 ADcl = @s ADpe2
-    @s ADpe2 = -1
+    @s ADpl = 2
 
 
-# used on the ADStand to toggle walls
-!mfunc toggle_walls
-    @s[ADpe3=0] blockdata $(struct_walls) {integrity:0.0f}
-    @s[ADpe3=0] &WallsToggle ADcl = 0
-    
-    @s[ADpe3=1] blockdata $(struct_walls) {integrity:1.0f}
-    @s[ADpe3=1] &WallsToggle ADcl = 1
+# Used arbitrarily to open the doors
+!mfunc open_doors
+    fill $(door_region) air 0 replace glass 0
+    @a playsound $(Sounds.xp) voice @s
+    title @a actionbar {"text":"The doors are now open","color":"green"}
 
-    @s ADpe3 = -1
+# Used arbitrarily to close the doors
+!mfunc close_doors
+    fill $(door_region) glass 0 replace air 0
 
 
 !mfunc input_start_round
@@ -392,11 +452,10 @@ $endfor
 
 
 !mfunc input_open_doors
-    fill $(door_region) air 0 replace glass 0
-    title @a actionbar {"text":"The doors are now open","color":"green"}
+    function open_doors
 
 !mfunc input_close_doors
-    fill $(door_region) glass 0 replace air 0
+    function close_doors
 
 
 !mfunc input_change_settings
@@ -496,6 +555,11 @@ $endfor
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends the virus map\",\"color\":\"red\"}}
             },
             
+            {\"text\":\"Doors: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_open_doors"))\"}},
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Closed\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_close_doors"))\"}},
+            
             {\"text\":\"Round: \",\"color\":\"dark_gray\"},
             {\"text\":\"Start\",\"color\":\"dark_green\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_start_round"))\"},
@@ -507,12 +571,7 @@ $endfor
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
             },
             
-            {\"text\":\"Doors: \",\"color\":\"dark_gray\"},
-            {\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_open_doors"))\"}},
-            {\"text\":\" / \",\"color\":\"gray\"},
-            {\"text\":\"Closed\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_close_doors"))\"}},
-            
-            {\"text\":\"Jump: \",\"color\":\"dark_gray\"},
+            {\"text\":\"(Not working): \",\"color\":\"dark_gray\"},
             {\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_add_jump"))\"}},
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Off\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_remove_jump"))\"}},

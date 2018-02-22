@@ -11,6 +11,8 @@ scoreboard objectives add FLpvp dummy FlooNetwork PVP toggle
 scoreboard objectives add FLsat dummy FlooNetwork Saturation toggle
 scoreboard objectives add FLwea dummy FlooNetwork Weather toggle
 scoreboard objectives add FLgmd dummy FlooNetwork Gamemode toggle
+scoreboard objectives add FLreg dummy FlooNetwork Custom Regen
+scoreboard objectives add FLrec dummy FlooNetwork Custom Regen Calc
 scoreboard objectives add FLraa dummy FlooNetwork Ranking Actions
 scoreboard objectives add FLrac dummy FlooNetwork Ranking Actions Calc
 scoreboard objectives add FLdim dummy FlooNetwork Dimension Number
@@ -23,6 +25,7 @@ scoreboard objectives add gCS stat.useItem.minecraft.carrot_on_a_stick Global Us
 scoreboard objectives add gLG stat.leaveGame Global Leave Game
 scoreboard objectives add gTO stat.useItem.minecraft.totem_of_undying Global Use Totem
 scoreboard objectives add gTEMP dummy Global Temp Calcs
+scoreboard objectives add gHP health Global Health
 scoreboard objectives add APPS dummy
 scoreboard objectives add AT dummy
 scoreboard objectives add EC dummy
@@ -183,6 +186,7 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgmd 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgam 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLraa 28

@@ -67,6 +67,8 @@ OBJECTIVES.new_str("""
     FLsat _ Saturation toggle
     FLwea _ Weather toggle
     FLgmd _ Gamemode toggle
+    FLreg _ Custom Regen
+    FLrec _ Custom Regen Calc
 
     # Calculates the rank of each player, see calc_rank and use_rank
     FLraa _ Ranking Actions
@@ -115,6 +117,9 @@ OBJECTIVES.new_str("""
 
     # Literally a global temp scoreboard to do whatever calculations your heart desires
     gTEMP _ Temp Calcs
+
+    # Just stores health
+    gHP health Health
 """, display="Global")
 
 # Adds objectives based on all event_name/src/consts.ccu files
@@ -233,6 +238,7 @@ def set_rankings(text):
     @e[type=armor_stand,FlooStand] FLpvp = 0
     @e[type=armor_stand,FlooStand] FLsat = 1
     @e[type=armor_stand,FlooStand] FLwea = 0
+    @e[type=armor_stand,FlooStand] FLreg = 0
     @e[type=armor_stand,FlooStand] FLgmd = 1
     @e[type=armor_stand,FlooStand] FLgam = 0
     @e[type=armor_stand,FlooStand] FLraa = $(get_ranking_val("EC", "LE", "CMD"))
@@ -395,6 +401,35 @@ def set_rankings(text):
     
     # gamemode
     @s[FLgmd=1] gamemode 2 @a[m=0,FLdim=1]
+
+    # regen
+    # sets all players FLreg to 0 to disable custom regen
+    # when the option doesn't allow it
+    @s[FLreg=0] @a[FLdim=1] FLreg = 0
+
+    # Resets their regen if their health is 20
+    @a[gHP=20..,FLreg=1..] FLreg = 0
+
+    # sets FLrec to 1 to ensure there is no infinite regen going on
+    @s[FLreg=0] FLrec = 1
+
+    # Adds to FLreg if custom regen is on AND health is less than 19
+    # note that @s here is the armor stand
+    @s[FLreg=1..] @a[FLdim=1,gHP=..19] FLreg + 1
+
+    # Calculates the difference in FLrec
+    # the @s here is the armor stand
+    ScOP @a[FLreg=1..] FLrec = @s FLreg
+
+    # the @s here is for the player
+    @a[FLreg=1..] ScOP @s FLrec -= @s FLreg
+
+    # Whenever FLrec is -1, it resets FLreg and removes regen
+    effect @a[FLrec=..-1] $(Effects.regen) 0 0 true
+    @a[FLrec=..-1] FLreg = 0
+
+    # Whenever FLrec is 0, it gives regen, which should last for 1 tick
+    effect @a[FLrec=0] $(Effects.regen) 2 10 true
 
     
 # used on players who wanted to vote (with a score of FLvot of not 0)

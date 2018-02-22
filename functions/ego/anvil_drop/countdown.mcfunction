@@ -11,5 +11,6 @@ execute @s[score_ADti_min=20,score_ADti=20] ~ ~ ~ tellraw @a {"text":"","extra":
 execute @s[score_ADti_min=20,score_ADti=20] ~ ~ ~ execute @a ~ ~ ~ playsound minecraft:block.note.pling voice @s
 scoreboard players operation Countdown ADcl = @s ADti
 scoreboard players operation Countdown ADcl /= 20 constants
+scoreboard players add Countdown ADcl 1
 scoreboard players operation Countdown AD = Countdown ADcl
 execute @s[score_ADti=0] ~ ~ ~ function ego:anvil_drop/end_countdown

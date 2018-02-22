@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration false
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 100
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-38,y=0,z=76,dx=22,dy=35,dz=22] gSA 1
 scoreboard objectives add constants dummy
