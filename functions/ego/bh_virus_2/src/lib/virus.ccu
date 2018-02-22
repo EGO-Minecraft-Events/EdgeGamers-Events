@@ -102,10 +102,10 @@ OBJECTIVES.new_str("""
 
     # used on the Virus Stand to store the state of the round
     # 0 = waiting for the round to start
-    # 1 = round start
+    # 1 = round start, tick
     # 2 = during countdown
     # 3 = after countdown, main game
-    # 4 = round end
+    # 4 = round end -->
     # 5 = during round end
     # 6 = reset round --> waiting
     st _ State
@@ -196,6 +196,8 @@ TEAMS.new_str("""
 
     kill @e[type=armor_stand,$(initials)Entity]
 
+    $edit_main_end()
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
 
@@ -217,6 +219,7 @@ TEAMS.new_str("""
     @s $(initials)st = 2
 
 
+# Used on the Virus Stand to go through the countdown
 !mfunc countdown
     # runs the timer
     function timer
@@ -227,6 +230,7 @@ TEAMS.new_str("""
     @s[$(initials)ti=..0] function end_countdown
 
 
+# Used on the Virus Stand once the countdown ends
 !mfunc end_countdown
     Countdown reset $(obj_name)
     title @a actionbar {"text":"The virus has been released!","color":"yellow"}
@@ -237,6 +241,7 @@ TEAMS.new_str("""
     @s $(initials)st = 3
 
 
+# Used on the Virus Stand during the round time
 !mfunc during_round
     # runs the timer
     function timer
@@ -250,24 +255,6 @@ TEAMS.new_str("""
 
     # detects whether the virus won
     @e[type=armor_stand,$(initials)Stand,$(initials)chi=0] $(initials)st = 4
-
-
-# used on players to set their effects
-!mfunc player_effects
-    effect @s[team=$(virus_team)] $(Effects.strength) 3 90 true
-    effect @s $(Effects.resist) 3 3 true
-    effect @s $(Effects.hp) 100 100 true
-
-!mfunc invuln_effect
-    effect @s $(Effects.resist) 3 10 true
-    effect @s $(Effects.hp) 100 100 true
-
-# used on the Virus Stand to set the glowing effect
-!mfunc set_glowing_effects
-    @s[$(initials)gl=2..] effect @a[gSA=1,m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
-    @s[$(initials)gl=2..] $(initials)gl - 2
-    @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
-    @s[$(initials)gl=2..] $(initials)gl - 1
 
 
 # used on the Virus Stand when there are no more hiders or when the timer runs out
@@ -305,6 +292,25 @@ TEAMS.new_str("""
     Minutes reset $(obj_name)
     Seconds reset $(obj_name)
     @s $(initials)st = 0
+
+
+# used on players to set their effects
+!mfunc player_effects
+    effect @s[team=$(virus_team)] $(Effects.strength) 3 90 true
+    effect @s $(Effects.resist) 3 3 true
+    effect @s $(Effects.hp) 100 100 true
+
+!mfunc invuln_effect
+    effect @s $(Effects.resist) 3 10 true
+    effect @s $(Effects.hp) 100 100 true
+
+# used on the Virus Stand to set the glowing effect
+!mfunc set_glowing_effects
+    @s[$(initials)gl=2..] effect @a[gSA=1,m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=2..] $(initials)gl - 2
+    @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=2..] $(initials)gl - 1
+
 
 
 # used on a given player to initialize and clear their inventory
