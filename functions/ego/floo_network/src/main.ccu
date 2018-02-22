@@ -88,13 +88,17 @@ OBJECTIVES.new_str("""
     # Automatically calculated on players to increment when they have
     # right clicked with a carrot on a stick
     # It is instantly set to 0 when the score is higher than one
-    gCS stat.useItem.minecraft.carrot_on_a_stick Carrot Stick
+    gCS stat.useItem.minecraft.carrot_on_a_stick Use Carrot Stick
 
     # Automatically calculated on players to increment when they leave the game
     # Note that because of the nature of commands, this actually detects when
     # they rejoin the game
     # It is instantly set to 0 when the score is higher than one
     gLG stat.leaveGame Leave Game
+
+    # Automatically calculated on players to increment when they use a totem of undying
+    # It is instantly set to 0 when the score is higher than one
+    gTO stat.useItem.minecraft.totem_of_undying Use Totem
 
     # Literally a global temp scoreboard to do whatever calculations your heart desires
     gTEMP _ Temp Calcs
@@ -417,6 +421,7 @@ def set_rankings(text):
     @a[gDE=1..] gDE = 0
     @a[gCS=1..] gCS = 0
     @a[gLG=1..] gLG = 0
+    @a[gTO=1..] gTO = 0
 
 
 # used by pretty much all external init mcfunctions to ensure that no other events are running
