@@ -18,6 +18,10 @@ race.add_place(Coords("41 36 -35 41 37 -35"))
 race.add_fill(Coords("42 33 -35"), "redstone_block")
 )
 
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
+
 # additional commands for the main start
 $macro(edit_main_start)
 $endmacro

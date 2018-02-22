@@ -63,6 +63,10 @@ underwater_blocks = [
 
 
 
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
+
 # additional commands for the main start
 $macro(edit_main_start)
 $endmacro

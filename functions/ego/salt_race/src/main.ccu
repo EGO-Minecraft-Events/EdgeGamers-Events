@@ -27,6 +27,10 @@ race.add_checkpoint(Coords("450 15 -44 452 18 -42"), Coords("451 16 -43 90 20"))
 race.add_checkpoint(Coords("422 11 -34 424 15 -32"), Coords("423 12 -33 -90 20"))
 )
 
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
+
 # additional commands for the main start
 $macro(edit_main_start)
 $endmacro

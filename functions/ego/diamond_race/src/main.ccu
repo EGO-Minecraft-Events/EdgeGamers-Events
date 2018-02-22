@@ -1,13 +1,20 @@
-from races import *
-from floo_network import EMERALD_RACE
+$py(
+from lib.races import *
+from lib.floo_network import DIAMOND_RACE
 
 # all races must have a race object
-race = LapRace(EMERALD_RACE,
-    lap=Coords("255 17 -94 269 27 -93"),
-    lap_reset=Coords("220 8 -104 221 20 -96"),
-    spawn=Coords("255 17 -97 280 27 -95"),
-    fill_air=Coords("269 19 -94 255 19 -94"),
-    fill_block=Coords("269 19 -98 255 19 -98"))
+race = LapRace(DIAMOND_RACE,
+    lap=Coords("224 18 -42 230 28 -41"),
+    lap_reset=Coords("249 4 -28 250 19 -22"),
+    spawn=Coords("214 16 -38 230 21 -35"),
+    fill_air=Coords("224 16 -34 230 16 -40"),
+    fill_block=Coords("224 14 -38 230 14 -36"))
+)
+
+
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
 
 # additional commands for the main start
 $macro(edit_main_start)
@@ -17,17 +24,22 @@ $endmacro
 $macro(edit_main_clock)
 $endmacro
 
+$macro(add_functions)
+$endmacro
+
 # additional commands for the countdown clock
 $macro(edit_countdown_clock)
     @s[$(initials)cd=120] fill $(race.fill_air) stonebrick 0 replace redstone_block 0
     @s[$(initials)cd=120] fill $(race.fill_block) redstone_block 0 replace stonebrick 0
+    @s[$(initials)cd=120] fill 223 17 -38 222 17 -36 stonebrick 3
 $endmacro
 
 # additional commands for the main end
 $macro(edit_main_end)
     fill $(race.fill_air) redstone_block 0 replace stonebrick 0
     fill $(race.fill_block) stonebrick 0 replace redstone_block 0
+    fill 223 17 -36 223 17 -38 air 0
+    fill 222 17 -36 222 17 -38 stone_slab 5
 $endmacro
 
 $include("lib/races.ccu")
-

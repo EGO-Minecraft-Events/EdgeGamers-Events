@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=419,y=4,z=-47,dx=79,dy=40,dz=32] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1290793336] FLid 1290793335
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1290793334] FLid 1290793335
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-942958521] FLid 942958520
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-942958519] FLid 942958520
 execute @e[type=area_effect_cloud,tag=SaltR_cd] ~ ~ ~ function ego:salt_race/countdown
 kill @e[x=419,y=4,z=-47,dx=79,dy=40,dz=32,type=item]
 scoreboard players add @a[score_gSA_min=1,score_gSA=1,m=2] SaltRpl 0

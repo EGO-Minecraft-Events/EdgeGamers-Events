@@ -12,6 +12,10 @@ fill_start = Coords("269 19 -94 255 19 -94")
 fill_finish = Coords("269 19 -98 255 19 -98")
 )
 
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
+
 # additional commands for the main start
 $macro(edit_main_start)
 $endmacro
