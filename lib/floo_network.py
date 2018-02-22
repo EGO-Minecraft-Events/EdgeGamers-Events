@@ -255,7 +255,7 @@ class Event:
             return self.json + "," + text + self.end
 
 
-    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None, is_event=True):
+    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None, is_event=True, use_folder_short=True):
         """
         Args:
             name (str): Name that can be split up with ";" for different colors ("Royal; ;Rumble")
@@ -269,6 +269,7 @@ class Event:
                 the initials contains ";". If so, it will be all colors provided in the color.
             select_coords (Coords): Coords to select the entire region of the event
             is_event (bool): Whether the event is actually an event or not (since it can just be a location)
+            use_folder_short (bool): Whether the folder name will be used as a shortcut for the event or not
         """
 
         # Uses a unique ID value from the simple djb2 hash which hopefully ports to python nicely
@@ -282,7 +283,7 @@ class Event:
 
         # only adds the folder name if it's not already there
         shortcuts = shortcut.split(";")
-        if folder_name not in shortcuts:
+        if folder_name not in shortcuts and use_folder_short:
             shortcuts.insert(0, folder_name)
         self.shortcut = tuple(shortcuts)
 
@@ -411,13 +412,13 @@ BH_VIRUS_2 = Event("bh_virus_2", "BH Virus 2", "yellow", Coords("-77 56 -85 -45 
 BH_ZELDA = Event("bh_zelda", "Zelda", "green", Coords("-1168 32 -191 -180 0"), "bhz", select_coords=Coords("-1127 50 -218 -1213 3 -180"))
 
 # Other
-SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)
+SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False, use_folder_short=False)
 FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally",
     initials="Floo", select_coords=Coords("350 14 13 440 44 103"), is_event=False)
 TEAMFLEAK_TOKEN = Event("ts_token", "Teamspeak Token", "dark_aqua", Coords("549 20 42"), "ts;tstoken", initials="TsToken", is_event=False)
-MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub", is_event=False)
-PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False)
-MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False)
-RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False)
+MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub", is_event=False, use_folder_short=False)
+PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False, use_folder_short=False)
+MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False, use_folder_short=False)
+RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False, use_folder_short=False)
 # BLOCK_HUNT_HUB = Event("floo_network", "The BlockHunt Hub", "dark_red", Coords(""), "bhhub", initials="BHhub", is_event=False)
 

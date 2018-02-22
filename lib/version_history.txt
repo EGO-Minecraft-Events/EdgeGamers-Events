@@ -48,3 +48,6 @@
     floo_network.py:
         Renamed bh_office --> bh_old
 
+0.10.2
+    floo_network.py
+        Added an option to not use the folder_name as a shortcut

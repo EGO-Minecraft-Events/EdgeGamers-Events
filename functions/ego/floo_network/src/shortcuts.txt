@@ -25,25 +25,27 @@ Rabbit Ball: rabbit_ball, rb
 Mastermind: mastermind, mm
 Pictionary: pictionary, pc
 Royal Rumble: royal_rumble, rr
-HASDaa: bh_hasdaa, bhhd
-Jungle: bh_jungle, bhj
-Mushroom Village: bh_mushroom_village, bhmv
-Hospital: bh_hospital, bhh
-Rainbow: bh_rainbow, bhra
-Office: bh_office, bho
-Zelda: bh_zelda, bhz
-Mastermind: bh_mastermind, bhm, bhmm
-Train Station: bh_train_station, bhts
-Park: bh_park, bhp
-Four Corners: bh_four_corners, bhfc
-Resort: bh_resort, bhre
 A Small Village: bh_a_small_village, bhasv
 Apocalypse: bh_apocalypse, bha
 Castle de Emmy: bh_castle_de_emmy, bhcde
-Spawn: floo_network, spawn
+Four Corners: bh_four_corners, bhfc
+HASDaa: bh_hasdaa, bhhd
+Hospital: bh_hospital, bhh
+Jungle: bh_jungle, bhj
+Mastermind: bh_mastermind, bhm, bhmm
+Mushroom Village: bh_mushroom_village, bhmv
+Old: bh_old, bho
+Park: bh_park, bhp
+Rainbow: bh_rainbow, bhra
+Resort: bh_resort, bhre
+Train Station: bh_train_station, bhts
+BH Virus 1: bh_virus_1, bhvr1
+BH Virus 2: bh_virus_2, bhvr2
+Zelda: bh_zelda, bhz
+Spawn: spawn
 Floo Network: floo_network, cmd, floo, diagonally
 Teamspeak Token: ts_token, ts, tstoken
-The Minigame Hub: floo_network, mghub
-The PVP hub: floo_network, pvphub
-The Mastermind Hub: floo_network, mmhub
-The Race Hub: floo_network, racehub
+The Minigame Hub: mghub
+The PVP hub: pvphub
+The Mastermind Hub: mmhub
+The Race Hub: racehub
