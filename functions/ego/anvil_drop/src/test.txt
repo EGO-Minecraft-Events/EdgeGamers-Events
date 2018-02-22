@@ -1,0 +1,279 @@
+
+
+
+!mfunc init
+    $(OBJECTIVES.cmd_init())
+    $(TEAMS.cmd_init())
+    join ADd_y Countdown Players Time_Elapsed
+
+    # saves AD_layer and AD_walls
+    $(save_layers.fill("redstone_block"))
+    $(save_layers.fill("stonebrick"))
+
+    # sets the structure blocks required for running AD_layer and AD_walls
+    setblock $(struct_1) structure_block 0 replace {integrity:0.5f,mode:"LOAD",posX:3,posY:-3,posZ:2,name="AD_layer"}
+    setblock $(struct_2) structure_block 0 replace {integrity:0.5f,mode:"LOAD",posX:3,posY:-2,posZ:2,name="AD_layer"}
+    setblock $(struct_walls) structure_block 0 replace {integrity:1.0f,mode:"LOAD",posX:3,posY:-1,posZ:2,name="AD_walls"}
+
+    summon armor_stand ~ ~ ~ {Tags:["ADEntity","ADStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+
+    # sets the default timer and percent values
+    @e[type=armor_stand,ADStand] ADpe1 = 50
+    @e[type=armor_stand,ADStand] ADpe2 = 0
+    function input_remove_walls
+
+!mfunc main
+    # General reset
+    clear @a[gSA=1] anvil
+    kill @e[$(event.select_all),type=item]
+    
+    # inititializes players
+    @a[gSA=1,m=2] ADpl + 0
+    @a[gSA=1,ADpl=0,m=2] function reset_player
+
+    # resets players on death
+    @a[gDE=1,ADpl=2,m=2] function reset_player
+
+    # @e[type=armor_stand,ADStand,ADst=0] function wait_for_start
+    @e[type=armor_stand,ADStand,ADst=1] function start_round
+    @e[type=armor_stand,ADStand,ADst=2] function countdown
+    @e[type=armor_stand,ADStand,ADst=3] function during_round
+    @e[type=armor_stand,ADStand,ADst=4] function stop_round
+    
+
+///    Display
+    Players ADpl = 0
+    @a[$SA$,m=2,ADpl=1] Players ADpl + 1
+    ScOP Players AD = Players ADpl
+    
+    @e[type=armor_stand,ADStand1,ADte>=0] ADte + 1
+    @e[type=armor_stand,ADStand1,ADte=20] ADte2 + 1
+    @e[type=armor_stand,ADStand1,ADte=20] ADte = 0
+    ScOP Time_Elapsed AD = @e[type=armor_stand,ADStand1,ADte>=0] ADte2
+    
+///    Calculating percent
+    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc = @e[c=1,r=1,type=armor_stand,ADStand] ADpe
+    ScOP @e[type=armor_stand,ADStand1] ADpe = Percent1 ADSave
+    ScOP @e[type=armor_stand,ADStand2] ADpe = Percent2 ADSave
+    ScOP @e[type=armor_stand,ADStand3] ADpe = Walls ADSave
+    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc -= @e[c=1,r=1,type=armor_stand,ADStand] ADpe
+    
+    @e[type=armor_stand,ADStand,ADpc<=-1] ADps = 1
+    @e[type=armor_stand,ADStand,ADpc>=1] ADps = 1
+    
+///    Jump effect
+    Jump ADSave ? 0 0
+    COND:
+        effect @a[$SA$,m=2,ADpl=1] 8 2 250 true
+    
+    Jump ADSave ? 1 1
+    COND:
+        effect @a[$SA$,m=2,ADpl=1] 8 0 0 true
+
+!mfunc term
+    $(OBJECTIVES.cmd_term())
+    $(TEAMS.cmd_term())
+    kill @e[ADEntity]
+
+
+# !mfunc wait_for_start
+
+
+!mfunc start_round
+    # sets the countdown time
+    @s ADti = $(6 * 20)
+    @s ADst = 2
+
+!mfunc countdown
+    @s ADti - 1
+    
+    # [120], 100, ... 20 as ([6], 5, ... 1)
+    # although the timer starts at 120, the following
+    # range only outputs commands for 100 and below since the first second is ignored
+    $for(num in reversed(range(1, 6)))
+    @s[ADti=$(num*20)] tellraw @a $(event.begin(r'{"text":"' + str(num) + '","color":"yellow","bold":"true"}'))
+    @s[ADti=$(num*20)] @a playsound $(Sounds.pling) voice @s
+    $endfor
+
+    # displays the countdown
+    ScOP Countdown ADcl = @s ADti
+    ScOP Countdown ADcl %= 20 constants
+
+    @s[ADti=..0] function end_countdown
+
+
+!mfunc end_countdown
+    tellraw @a $(event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
+    
+    @e[type=armor_stand,ADStand1] ADte + 0
+    @e[type=armor_stand,ADStand1] ADte2 + 0
+    Countdown reset AD
+    
+    @a[gSA=1] playsound entity.experience_orb.touch voice @s
+
+    kill @s
+
+
+!mfunc during_round
+    @s[ADpe1=0..] function change_layer_1_percent
+    @s[ADpe2=0..] function change_layer_2_percent
+    function calc_time
+
+
+!mfunc stop_round
+    
+
+# Used on the ADStand to calculate when anvils will be dropped
+!mfunc calc_time
+    @s ADti1 + 1
+    @s ADti2 + 1
+    @s ADti3 + 1
+    
+    ScOP @s ADcl = &Timer1 ADcl
+    ScOP @s ADcl -= @s ADti1
+    @s[ADcl=..0] function run_layer_1
+    @s[ADcl=..0] ADti1 = 0
+
+    ScOP @s ADcl = &Timer2 ADcl
+    ScOP @s ADcl -= @s ADti2
+    @s[ADcl=..0] function run_layer_2
+    @s[ADcl=..0] ADti2 = 0
+
+    ScOP @s ADcl = &Timer3 ADcl
+    ScOP @s ADcl -= @s ADti3
+    @s[ADcl=..0] function run_walls
+    @s[ADcl=..0] ADti3 = 0
+
+
+!mfunc run_layer_1
+    $(layer_1.setblock("redstone_block"))
+    $(layer_1.setblock("stonebrick"))
+
+!mfunc run_layer_2
+    $(layer_2.setblock("redstone_block"))
+    $(layer_2.setblock("stonebrick"))
+
+!mfunc run_walls
+    $(layer_walls.setblock("redstone_block"))
+    $(layer_walls.setblock("stonebrick"))
+
+
+!mfunc reset_player
+    clear @s
+    $(event.cmd_book("@s[EC=0]"))
+
+    effect @s clear
+    effect @s $(Effects.hp) 1 100 true
+    xp -1000L @s
+
+    join AD @s
+    @s ADpl = 1
+
+!mfunc full_reset_player
+    function reset_player
+    $(event.cmd_spawn())
+
+
+# used on players to add the player to the round
+!mfunc add_to_round
+    function reset_player
+
+    # prevents the players from getting knocked back
+    replaceitem entity @s slot.armor.head stained_glass 1 5 {
+        ench:[{id:$(Enchants.BIND),lvl:1},{id:$(Enchants.VANISH),lvl:1}],
+        AttributeModifiers:[{AttributeName:"generic.knockbackResistance",Name:"anything",Amount:1,Operation:0,UUIDLeast:1,UUIDMost:1,Slot:"head"}]
+        }
+
+    # prevents them from dying lol
+    # replaceitem entity @s slot.weapon totem_of_undying 1 0
+
+
+# Used on the ADStand when a change in layer 1 or 2's percent has been detected
+# In both cases, a "change" is an input from the EC, regardless of
+# whether the percent changed or not
+!mfunc change_layer_1_percent
+    $for(percent in range(0, 101)):
+    @s[ADpe1=$(percent)] blockdata $(struct_1) {integrity:$(percent/100)f}
+    $endfor
+
+    ScOP &Percent1 ADcl = @s ADpe1
+    @s ADpe1 = -1
+
+!mfunc change_layer_2_percent
+    $for(percent in range(0, 101)):
+    @s[ADpe2=$(percent)] blockdata $(struct_2) {integrity:$(percent/100)f}
+    $endfor
+
+    ScOP &Percent2 ADcl = @s ADpe2
+    @s ADpe2 = -1
+
+
+# used on the ADStand to turn on walls
+!mfunc add_walls
+    blockdata $(struct_walls) {integrity:1.0f}
+    &WallsToggle ADcl = 1
+
+# used on the ADStand to turn off walls
+!mfunc remove_walls
+    blockdata $(struct_walls) {integrity:0.0f}
+    &WallsToggle ADcl = 0
+    
+
+# Used as input to turn on walls
+!mfunc input_add_walls
+    @e[type=armor_stand,ADStand] function add_walls
+
+# Used as input to turn off walls
+!mfunc input_remove_walls
+    @e[type=armor_stand,ADStand] function remove_walls
+
+
+!mfunc input_open_doors
+    fill $(door_region) air 0 replace glass 0
+    title @a actionbar {"text":"The doors are now open","color":"green"}
+
+!mfunc input_close_doors
+    fill $(door_region) glass 0 replace air 0
+
+
+!mfunc input_change_settings
+    tellraw @a[EC=0] $(virus.event.begin())
+    {"text":"Layer 1: ","color":"gray"},
+    {"text":"[%]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Edit the percent in layer 1","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Percent1 ADSave #"}
+    },
+    
+    {"text":" ","color":"gray"},
+    {"text":"[T]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer in layer 1","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer1 ADSave #"}
+    },
+    
+    {"text":"    Layer 2: ","color":"gray"},
+    {"text":"[%]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Edit the percent in layer 2","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Percent2 ADSave #"}
+    },
+    {"text":" ","color":"gray"},
+    {"text":"[T]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer in layer 2","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer2 ADSave #"}
+    },
+    
+    {"text":"    Walls : ","color":"gray"},
+    {"text":"[+]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Turn on walls","color":"gold"}},
+        "clickEvent":{"action":"run_command","value":"/scoreboard players set Walls ADSave 1"}
+    },
+    {"text":" ","color":"gray"},
+    {"text":"[-]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Turn off walls","color":"gold"}},
+        "clickEvent":{"action":"run_command","value":"/scoreboard players set Walls ADSave 0"}
+    },
+    {"text":" ","color":"gray"},
+    {"text":"[T]","color":"gold",
+        "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer for the walls","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer3 ADSave #"}
+    }
+    ]}

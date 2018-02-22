@@ -1,12 +1,15 @@
 $py(
+
 from lib.floo_network import ANVIL_DROP, FlooEvent
 from lib.const_ints import CONST_INTS
-from lib.scoreboard import *
+from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.consts import *
+from lib.coords import Coords
 
 
 event = ANVIL_DROP
 floo_event = FlooEvent(event, saturation="false")
+select_all = event.select_all
 
 select_spawn_coords = Coords("-19 4 85 -12 9 89")
 select_spawn = select_spawn_coords.selector()
@@ -40,7 +43,15 @@ OBJECTIVES.new_str("""
     # a value is detected that is greater than -1, then the percent
     # is changed
     pe1 _ Input Layer 1 %
-    pe2 _ Input Layer 2 &
+    pe2 _ Input Layer 2 %
+    pe3 _ Input Walls Toggle
+
+    # used by players to input a new time for all layers
+    # The default value is -1, and when a value is greater than
+    # 0, the time is changed
+    iti1 _ Input Timer 1
+    iti2 _ Input Timer 2
+    iti3 _ Input Timer 3
 
     # used by ADStand to hold the timer for all 3 layers
     # also used to do the countdown timer
@@ -65,17 +76,14 @@ OBJECTIVES.new_str("""
     # Holds a bunch of fake names
     dp _ display
 
-    # cl _ Calc
-    # te _ Time Elapsed
-    # te2 _ Time Elapsed
-    # de deathCount Anvil Drop Deaths
-    # pc _ Percent Calc
-    # ps _ Percent Set
-    # ti _ Timer
+    # Used on literally anything for general calculations
+    cl _ Calc
 
-""", initials="AD", display="Anvil Drop)
+""", initials="AD", display="Anvil Drop")
 
 OBJECTIVES["AD"].setdisplay("sidebar")
+
+CONST_INTS.add_consts(5, 20)
 
 TEAMS.new_str("""
 . .
@@ -85,14 +93,13 @@ TEAMS.new_str("""
 
 d_y . Display Yellow
     color yellow
-
-""",
-initials="AD", display="Anvil Drop")
-
+""", initials="AD", display="Anvil Drop")
 )
 
 
+
 !mfunc init
+    $(floo_event.cmd_init())
     $(OBJECTIVES.cmd_init())
     $(TEAMS.cmd_init())
     join ADd_y Countdown Players Time_Elapsed
@@ -107,13 +114,30 @@ initials="AD", display="Anvil Drop")
     setblock $(struct_walls) structure_block 0 replace {integrity:1.0f,mode:"LOAD",posX:3,posY:-1,posZ:2,name="AD_walls"}
 
     summon armor_stand ~ ~ ~ {Tags:["ADEntity","ADStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+    @e[type=armor_stand,ADStand] ADst = 0
 
-    # sets the default timer and percent values
+    # sets the default percent values
+    # initializes the following fake playernames:
+    # &Percent1
+    # &Percent2
+    # &WallsToggle (0 if off, 1 if on)
     @e[type=armor_stand,ADStand] ADpe1 = 50
     @e[type=armor_stand,ADStand] ADpe2 = 0
-    function input_remove_walls
+    @e[type=armor_stand,ADStand] ADpe3 = 0
+
+    # Sets the default timer values
+    # initializes the following fake playernames:
+    # &Timer1, &Timer2, &Timer3 (stored as time in ticks)
+    # &Seconds1, &Seconds2, &Seconds3 (stored as time in seconds)
+    # &Decimal1, &Decimal2, &Decimal3 (stored as time in the decimal places of seconds)
+    @e[type=armor_stand,ADStand] ADiti1 = 60
+    @e[type=armor_stand,ADStand] ADiti2 = 0
+    @e[type=armor_stand,ADStand] ADiti3 = 0
+    $(floo_event.cmd_post_init())
 
 !mfunc main
+    $(floo_event.cmd_main())
+
     # General reset
     clear @a[gSA=1] anvil
     kill @e[$(event.select_all),type=item]
@@ -130,41 +154,35 @@ initials="AD", display="Anvil Drop")
     @e[type=armor_stand,ADStand,ADst=2] function countdown
     @e[type=armor_stand,ADStand,ADst=3] function during_round
     @e[type=armor_stand,ADStand,ADst=4] function stop_round
-    
 
-///    Display
-    Players ADpl = 0
-    @a[$SA$,m=2,ADpl=1] Players ADpl + 1
-    ScOP Players AD = Players ADpl
+    # Displays the options to the ECs
+    @a[gSA=1,EC=0] function display_settings
+
+    # Updates the layer percentage
+    @e[type=armor_stand,ADStand,ADpe1=0..] function change_percent_1
+    @e[type=armor_stand,ADStand,ADpe2=0..] function change_percent_2
+    @e[type=armor_stand,ADStand,ADpe3=0..] function toggle_walls
+
+    # Updates the timer for each layer
+    @e[type=armor_stand,ADStand,ADiti1=0..] function change_timer_1
+    @e[type=armor_stand,ADStand,ADiti2=0..] function change_timer_2
+    @e[type=armor_stand,ADStand,ADiti3=0..] function change_timer_3
     
-    @e[type=armor_stand,ADStand1,ADte>=0] ADte + 1
-    @e[type=armor_stand,ADStand1,ADte=20] ADte2 + 1
-    @e[type=armor_stand,ADStand1,ADte=20] ADte = 0
-    ScOP Time_Elapsed AD = @e[type=armor_stand,ADStand1,ADte>=0] ADte2
-    
-///    Calculating percent
-    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc = @e[c=1,r=1,type=armor_stand,ADStand] ADpe
-    ScOP @e[type=armor_stand,ADStand1] ADpe = Percent1 ADSave
-    ScOP @e[type=armor_stand,ADStand2] ADpe = Percent2 ADSave
-    ScOP @e[type=armor_stand,ADStand3] ADpe = Walls ADSave
-    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc -= @e[c=1,r=1,type=armor_stand,ADStand] ADpe
-    
-    @e[type=armor_stand,ADStand,ADpc<=-1] ADps = 1
-    @e[type=armor_stand,ADStand,ADpc>=1] ADps = 1
-    
-///    Jump effect
-    Jump ADSave ? 0 0
-    COND:
-        effect @a[$SA$,m=2,ADpl=1] 8 2 250 true
-    
-    Jump ADSave ? 1 1
-    COND:
-        effect @a[$SA$,m=2,ADpl=1] 8 0 0 true
+    # effect @a[gSA=1,m=2,ADpl=1] 8 2 250 true
+    # effect @a[gSA=1,m=2,ADpl=1] 8 0 0 true
 
 !mfunc term
+    $(floo_event.cmd_term())
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
     kill @e[ADEntity]
+
+    # fully resets players
+    @a[gSA=1] function full_reset_player
+
+    # kills all falling anvils
+    kill @e[$(select_all),type=falling_block]
 
 
 # !mfunc wait_for_start
@@ -174,6 +192,9 @@ initials="AD", display="Anvil Drop")
     # sets the countdown time
     @s ADti = $(6 * 20)
     @s ADst = 2
+
+    # adds all players to the round
+    @a[$(select_arena),m=2,ADpl=1] function add_to_round
 
 !mfunc countdown
     @s ADti - 1
@@ -188,31 +209,70 @@ initials="AD", display="Anvil Drop")
 
     # displays the countdown
     ScOP Countdown ADcl = @s ADti
-    ScOP Countdown ADcl %= 20 constants
+    ScOP Countdown ADcl /= 20 constants
+    ScOP Countdown AD = Countdown ADcl
 
     @s[ADti=..0] function end_countdown
 
 
 !mfunc end_countdown
     tellraw @a $(event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
-    
-    @e[type=armor_stand,ADStand1] ADte + 0
-    @e[type=armor_stand,ADStand1] ADte2 + 0
     Countdown reset AD
     
     @a[gSA=1] playsound entity.experience_orb.touch voice @s
-
-    kill @s
+    @s ADst = 3
 
 
 !mfunc during_round
-    @s[ADpe1=0..] function change_layer_1_percent
-    @s[ADpe2=0..] function change_layer_2_percent
     function calc_time
+    function display
 
 
 !mfunc stop_round
+    Players reset AD
+    Time_Elapsed reset AD
+
+    # announces who won if anyone did
+    @a[gSA=1,ADpl=1] function announce_player
+
+    # resets the player to heal
+    @a[gSA=1] function reset_player
+
+    # kills all falling anvils
+    kill @e[$(select_all),type=falling_block]
+
+    # resets the state
+    @s ADst = 0
+
+
+# Used on players to announce themselves as a winner
+!mfunc announce_player
+    tellraw @a $(event.begin(r'''{"selector":"@s"},{"text":" has won ","color":"gray"},''' + event.name_text() + r',{"text":"!","color":"gray"}'))
+
+
+# Used on the ADStand to change timers 1-3 and update fake player names
+$for(num in (1, 2, 3))
+!mfunc change_timer_$(num)
+    ScOP &Timer$(num) ADcl = @s ADiti$(num)
+
+    # sets the seconds as rounded down
+    ScOP &Seconds$(num) ADcl = &Timer$(num) ADcl
+    ScOP &Seconds$(num) ADcl /= 20 constants
     
+    # sets the decimal place
+    ScOP &Decimal$(num) ADcl = &Timer$(num) ADcl
+    ScOP &Decimal$(num) ADcl %= 20 constants
+    ScOP &Decimal$(num) ADcl *= 5 constants
+
+    # sets the additional as a 0 if the decimal place is 5
+    # otherwise, it is reset
+    &Additional$(num) reset ADcl
+    ScOP @s ADcl = &Decimal$(num) ADcl
+    @s[ADcl=5] &Additional$(num) ADcl = 0
+
+    @s ADiti$(num) = -1
+$endfor
+
 
 # Used on the ADStand to calculate when anvils will be dropped
 !mfunc calc_time
@@ -234,6 +294,20 @@ initials="AD", display="Anvil Drop")
     ScOP @s ADcl -= @s ADti3
     @s[ADcl=..0] function run_walls
     @s[ADcl=..0] ADti3 = 0
+
+
+# used on the ADStand to display the player count and time
+# elapsed on the display main scoreboard
+!mfunc display
+    Players ADpl = 0
+    @a[gSA=1,m=2,ADpl=1] Players ADpl + 1
+    ScOP Players AD = Players ADpl
+    
+    @s ADti + 1
+    ScOP Time_Elapsed ADcl = @s ADti
+    ScOP Time_Elapsed ADcl /= 20 constants
+    ScOP Time_Elapsed AD = Time_Elapsed ADcl
+
 
 
 !mfunc run_layer_1
@@ -282,16 +356,16 @@ initials="AD", display="Anvil Drop")
 # Used on the ADStand when a change in layer 1 or 2's percent has been detected
 # In both cases, a "change" is an input from the EC, regardless of
 # whether the percent changed or not
-!mfunc change_layer_1_percent
-    $for(percent in range(0, 101)):
+!mfunc change_percent_1
+    $for(percent in range(0, 101))
     @s[ADpe1=$(percent)] blockdata $(struct_1) {integrity:$(percent/100)f}
     $endfor
 
     ScOP &Percent1 ADcl = @s ADpe1
     @s ADpe1 = -1
 
-!mfunc change_layer_2_percent
-    $for(percent in range(0, 101)):
+!mfunc change_percent_2
+    $for(percent in range(0, 101))
     @s[ADpe2=$(percent)] blockdata $(struct_2) {integrity:$(percent/100)f}
     $endfor
 
@@ -299,24 +373,22 @@ initials="AD", display="Anvil Drop")
     @s ADpe2 = -1
 
 
-# used on the ADStand to turn on walls
-!mfunc add_walls
-    blockdata $(struct_walls) {integrity:1.0f}
-    &WallsToggle ADcl = 1
-
-# used on the ADStand to turn off walls
-!mfunc remove_walls
-    blockdata $(struct_walls) {integrity:0.0f}
-    &WallsToggle ADcl = 0
+# used on the ADStand to toggle walls
+!mfunc toggle_walls
+    @s[ADpe3=0] blockdata $(struct_walls) {integrity:0.0f}
+    @s[ADpe3=0] &WallsToggle ADcl = 0
     
+    @s[ADpe3=1] blockdata $(struct_walls) {integrity:1.0f}
+    @s[ADpe3=1] &WallsToggle ADcl = 1
 
-# Used as input to turn on walls
-!mfunc input_add_walls
-    @e[type=armor_stand,ADStand] function add_walls
+    @s ADpe3 = -1
 
-# Used as input to turn off walls
-!mfunc input_remove_walls
-    @e[type=armor_stand,ADStand] function remove_walls
+
+!mfunc input_start_round
+    @e[type=armor_stand,ADStand] ADst = 1
+
+!mfunc input_reset_round
+    @e[type=armor_stand,ADStand] ADst = 4
 
 
 !mfunc input_open_doors
@@ -327,194 +399,125 @@ initials="AD", display="Anvil Drop")
     fill $(door_region) glass 0 replace air 0
 
 
-//<Change Settings
-FUNC {Func_ChangeSettings}:
-/*
-    tellraw @a[EC=0] $TextStart$
+!mfunc input_change_settings
+    tellraw @a[EC=0] $(event.begin())
     {"text":"Layer 1: ","color":"gray"},
     {"text":"[%]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the percent in layer 1","color":"gold"}},
-        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Percent1 ADSave #"}
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADpe1 #"}
     },
     
     {"text":" ","color":"gray"},
     {"text":"[T]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer in layer 1","color":"gold"}},
-        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer1 ADSave #"}
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADiti1 #"}
     },
     
     {"text":"    Layer 2: ","color":"gray"},
     {"text":"[%]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the percent in layer 2","color":"gold"}},
-        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Percent2 ADSave #"}
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADpe2 #"}
     },
     {"text":" ","color":"gray"},
     {"text":"[T]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer in layer 2","color":"gold"}},
-        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer2 ADSave #"}
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADiti2 #"}
     },
     
     {"text":"    Walls : ","color":"gray"},
     {"text":"[+]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Turn on walls","color":"gold"}},
-        "clickEvent":{"action":"run_command","value":"/scoreboard players set Walls ADSave 1"}
+        "clickEvent":{"action":"run_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADpe3 1"}
     },
     {"text":" ","color":"gray"},
     {"text":"[-]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Turn off walls","color":"gold"}},
-        "clickEvent":{"action":"run_command","value":"/scoreboard players set Walls ADSave 0"}
+        "clickEvent":{"action":"run_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADpe3 0"}
     },
     {"text":" ","color":"gray"},
     {"text":"[T]","color":"gold",
         "hoverEvent":{"action":"show_text","value":{"text":"Edit the timer for the walls","color":"gold"}},
-        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Timer3 ADSave #"}
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set @e[type=armor_stand,tag=ADStand] ADiti3 #"}
     }
     ]}
-*/
-//>
 
 
-//<General Scoreboard Clock
-FUNC {Func_GeneralScoreboardClock}:
-///    General Players
-    clear @a[$SA$] anvil
-    kill @e[$SA$,type=Item]
-    
-    @a[m=2,ADpl=1,ADde>=1] ADpl = 2
-    @a[$SP$,m=2,ADpl=1] ADpl = 2
-    clear @a[$SP$,m=2,ADpl=2]
-    @a[m=2,ADpl=2,EC=0] SPbk = $SPid$
-    @a[ADde>=1] ADde = 0
-    @a[ADpl=2] ADpl = 3
-    J> NoPVP @a[$SA$,m=2,team=!NoPVP,ADpl=3]
-    
-///    Display
-    Players ADpl = 0
-    @a[$SA$,m=2,ADpl=1] Players ADpl + 1
-    ScOP Players AD = Players ADpl
-    
-    @e[type=armor_stand,ADStand1,ADte>=0] ADte + 1
-    @e[type=armor_stand,ADStand1,ADte=20] ADte2 + 1
-    @e[type=armor_stand,ADStand1,ADte=20] ADte = 0
-    ScOP Time_Elapsed AD = @e[type=armor_stand,ADStand1,ADte>=0] ADte2
-    
-///    Calculating percent
-    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc = @e[c=1,r=1,type=armor_stand,ADStand] ADpe
-    ScOP @e[type=armor_stand,ADStand1] ADpe = Percent1 ADSave
-    ScOP @e[type=armor_stand,ADStand2] ADpe = Percent2 ADSave
-    ScOP @e[type=armor_stand,ADStand3] ADpe = Walls ADSave
-    @e[type=armor_stand,ADStand] ScOP @e[c=1,r=1,type=armor_stand,ADStand] ADpc -= @e[c=1,r=1,type=armor_stand,ADStand] ADpe
-    
-    @e[type=armor_stand,ADStand,ADpc<=-1] ADps = 1
-    @e[type=armor_stand,ADStand,ADpc>=1] ADps = 1
-    
-///    Calculating anvil timers
-    @e[type=armor_stand,ADStand,ADti>=0] ADti + 1
-    ScOP @e[type=armor_stand,ADStand1,ADti>=0] ADcl = Timer1 ADSave
-    ScOP @e[type=armor_stand,ADStand2,ADti>=0] ADcl = Timer2 ADSave
-    ScOP @e[type=armor_stand,ADStand3,ADti>=0] ADcl = Timer3 ADSave
-    @e[type=armor_stand,ADStand,ADcl=0] ADti = 0
-    @e[type=armor_stand,ADStand,ADti>=0] ScOP @e[c=1,r=1,type=armor_stand,ADStand,ADti>=0] ADcl -= @e[c=1,r=1,type=armor_stand,ADStand,ADti>=0] ADti
-    
-    @e[type=armor_stand,ADStand1,ADti>=1,ADpe>=1,ADcl<=0] setblock $RBlock1$ redstone_block 0
-    @e[type=armor_stand,ADStand2,ADti>=1,ADpe>=1,ADcl<=0] setblock $RBlock2$ redstone_block 0
-    @e[type=armor_stand,ADStand3,ADti>=1,ADpe>=1,ADcl<=0] setblock $RBlock3$ redstone_block 0
-    @e[type=armor_stand,ADStand,ADti>=1,ADcl<=0] ADti = 0
-    
-///    Jump effect
-    Jump ADSave ? 0 0
-    COND:
-        effect @a[$SA$,m=2,ADpl=1] 8 2 250 true
-    
-    Jump ADSave ? 1 1
-    COND:
-        effect @a[$SA$,m=2,ADpl=1] 8 0 0 true
-//>
+# used on EC players to display the settings
+!mfunc display_settings
+    title @s actionbar {"text":"","extra":[
+        {"text":"Layer 1: [","color":"green"},
+            {"score":{"name":"&Seconds1","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":".","color":"yellow","bold":"true"},
+            {"score":{"name":"&Additional1","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"score":{"name":"&Decimal1","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":"s","color":"yellow"},
+        {"text":", ","color":"green"},
+            {"score":{"name":"&Percent1","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":"%","color":"yellow"},
 
-//<General Scoreboard End
-FUNC {Func_GeneralScoreboardEnd}:
-    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
-    CCU.teamRemove(Team_GeneralScoreboardStart)
-    
-    clear @a[$SA$,m=2]
-    @a[$SA$,m=2] SPbk = $SPid$
-    
-    kill @e[ADEntity]
-    kill @e[$SA$,type=FallingSand]
-    fill $ArenaFill$ air 0
-    effect @a[$SA$] 6 1 100 true
-//>
+        {"text":"], Layer 2: [","color":"green"},
+            {"score":{"name":"&Seconds2","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":".","color":"yellow","bold":"true"},
+            {"score":{"name":"&Additional2","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"score":{"name":"&Decimal2","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":"s","color":"yellow"},
+        {"text":", ","color":"green"},
+            {"score":{"name":"&Percent2","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":"%","color":"yellow"},
+
+        {"text":"], Walls: [","color":"green"},
+            {"score":{"name":"&Seconds3","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":".","color":"yellow","bold":"true"},
+            {"score":{"name":"&Additional3","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"score":{"name":"&Decimal3","objective":"ADcl"},"color":"yellow","bold":"true"},
+            {"text":"s","color":"yellow"},
+        {"text":", ","color":"green"},
+            {"text":"T/F=","color":"yellow"},
+            {"score":{"name":"&WallsToggle","objective":"ADcl"},"color":"yellow","bold":"true"},
+            
+        {"text":"]","color":"green"}
+    ]}
 
 
-//<Groups
-GROUP {Grp_MainStart}:
-    CCU.spawnStandStart()
-    CCU_Deactivate(GSELF)
-    Func_GeneralScoreboardStart()
-    CCU_Activate(Grp_MainClock)
-    CCU.tfActivate(Grp_ChangePercentTFClock1)
-    CCU.tfActivate(Grp_ChangePercentTFClock2)
-    CCU.tfActivate(Grp_ChangePercentTFClock3)
-    CCU.tfActivate(Grp_CountdownTFClock)
-    CCU_Activate(Grp_CloseDoors)
-    CCU_FinalSpawnStand
-
-GROUP {Grp_MainClock}:
-    CCU.spawnIDSetting()
-    Func_GeneralScoreboardClock()
-
-GROUP {Grp_MainEnd}:
-    CCU.spawnStandEnd()
-    CCU_Deactivate(GSELF)
-    Func_GeneralScoreboardEnd()
-    CCU_Deactivate(Grp_MainClock)
-    CCU.tfDeactivate(Grp_ChangePercentTFClock1)
-    CCU.tfDeactivate(Grp_ChangePercentTFClock2)
-    CCU.tfDeactivate(Grp_ChangePercentTFClock3)
-    CCU.tfDeactivate(Grp_CountdownTFClock)
-
-GROUP {Grp_CountdownTFClock}:
-    Func_CountdownTFClock()
-
-LOOP {1 3 + 1}:
-    GROUP {CLOCK Grp_ChangePercentTFClock|0|}:
-        Func_ChangePercentTFClock|0|()
-
-GROUP {Grp_OpenDoors}:
-    CCU_Deactivate(GSELF)
-    Func_OpenDoors()
-
-GROUP {Grp_CloseDoors}:
-    CCU_Deactivate(GSELF)
-    Func_CloseDoors()
-
-GROUP {Grp_ResetSettings}:
-    CCU_Deactivate(GSELF)
-    Func_ResetSettings()
-
-GROUP {Grp_ChangeSettings}:
-    CCU_Deactivate(GSELF)
-    Func_ChangeSettings()
-
-CCU.cmdSave()
-//>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+!mfunc book
+    replaceitem entity @s slot.weapon.offhand written_book 1 0 {
+        title:"$(event.full_name) Book",author:"eGO",pages:["[\"\",
+            {\"text\":\"$(event.full_name) Settings\\\n\",\"bold\":true},
+            {\"text\":\"\\\n\"},
+            
+            {\"text\":\"AD: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("init"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the virus map so it can be ran\",\"color\":\"green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Stop\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("term"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends the virus map\",\"color\":\"red\"}}
+            },
+            
+            {\"text\":\"Round: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_start_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts an individual round\",\"color\":\"dark_green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Reset\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
+            },
+            
+            {\"text\":\"Doors: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_open_doors"))\"}},
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Closed\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_close_doors"))\"}},
+            
+            {\"text\":\"Jump: \",\"color\":\"dark_gray\"},
+            {\"text\":\"On\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_add_jump"))\"}},
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Off\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_remove_jump"))\"}},
+            
+            {\"text\":\"Edit settings: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_change_settings"))\"}}
+        ]"
+    ]}
