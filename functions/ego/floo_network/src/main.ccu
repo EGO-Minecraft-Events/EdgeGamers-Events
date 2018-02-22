@@ -6,6 +6,19 @@ from lib.coords import Coords
 from lib.container import Container
 from lib.consts import Sounds, Effects
 
+# creates the shortcuts text file
+with open("shortcuts_for_spreadsheet.txt", "w") as file:
+    for event in Event.members:
+        file.write(event.full_name + "\t")
+        file.write("\t".join(event.shortcut))
+        file.write("\n")
+
+with open("shortcuts.txt", "w") as file:
+    for event in Event.members:
+        file.write(event.full_name + ": ")
+        file.write(", ".join(event.shortcut))
+        file.write("\n")
+
 
 select_all = FLOO_NETWORK.select_all
 stand_coords = Coords("397 17 61")

@@ -1,1 +1,1 @@
-scoreboard players add @e[type=armor_stand,tag=BHMStand] BHMti 600
+scoreboard players add @e[type=armor_stand,tag=BHMMStand] BHMMti 600

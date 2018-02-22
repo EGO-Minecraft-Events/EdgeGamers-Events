@@ -1,5 +1,5 @@
 function ego:floo_network/stop_events
-scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1317713609
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1456309508
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -49,5 +49,5 @@ scoreboard players set BHREGlowing BHREcalc 6000
 scoreboard players set BHREGameTime BHREcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHREStand","BHREEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHREStand] ~ ~ ~ function ego:bh_resort/reset_round
-tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHRE","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1317713609"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Resort","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1317713609"}},{"text":" has started!","color":"green"}]}
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 1317713609
+tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHRE","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1456309508"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Resort","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1456309508"}},{"text":" has started!","color":"green"}]}
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 1456309508

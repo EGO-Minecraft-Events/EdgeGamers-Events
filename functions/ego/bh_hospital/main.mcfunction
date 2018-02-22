@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1047,y=42,z=-190,dx=-90,dy=-39,dz=-42] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1666503594] FLid 1666503593
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1666503592] FLid 1666503593
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1159673786] FLid 1159673785
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1159673784] FLid 1159673785
 kill @e[x=-1047,y=42,z=-190,dx=-90,dy=-39,dz=-42,tag=!BHHEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHHpl_min=1,score_BHHpl=1] BHHpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHHpl_min=1,score_BHHpl=1] ~ ~ ~ function ego:bh_hospital/assign_teams

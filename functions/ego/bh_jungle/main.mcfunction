@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1046,y=55,z=-148,dx=-69,dy=-51,dz=60] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1023416592] FLid 1023416591
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1023416590] FLid 1023416591
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-184603298] FLid 184603297
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-184603296] FLid 184603297
 kill @e[x=-1046,y=55,z=-148,dx=-69,dy=-51,dz=60,tag=!BHJEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHJpl_min=1,score_BHJpl=1] BHJpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHJpl_min=1,score_BHJpl=1] ~ ~ ~ function ego:bh_jungle/assign_teams

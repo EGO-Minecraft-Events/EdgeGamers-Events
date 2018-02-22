@@ -21,30 +21,30 @@ mid_door = Coords("")
 
 # additional commands for the main start
 $macro(edit_round_start)
-    fill $(str(mid_door)) stonebrick 0 replace redstone_block 0
+    fill $(mid_door) stonebrick 0 replace redstone_block 0
 $endmacro
 
 # additional commands for the main clock
 $macro(edit_countdown_end)
-    fill $(str(virus_door)) stonebrick 0 replace redstone_block 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) stonebrick 0 replace redstone_block 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 $macro(edit_round_end)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 # additional commands for the countdown clock
 $macro(edit_round_reset)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 # additional commands for the main end
 $macro(edit_main_end)
-    fill $(str(virus_door)) redstone_block 0 replace stonebrick 0
-    fill $(str(mid_door)) redstone_block 0 replace stonebrick 0
+    fill $(virus_door) redstone_block 0 replace stonebrick 0
+    fill $(mid_door) redstone_block 0 replace stonebrick 0
 $endmacro
 
 $include("lib/virus.ccu")
@@ -102,10 +102,10 @@ OBJECTIVES.new_str("""
 
     # used on the Virus Stand to store the state of the round
     # 0 = waiting for the round to start
-    # 1 = round start
+    # 1 = round start, tick
     # 2 = during countdown
     # 3 = after countdown, main game
-    # 4 = round end
+    # 4 = round end -->
     # 5 = during round end
     # 6 = reset round --> waiting
     st _ State
@@ -148,9 +148,9 @@ TEAMS.new_str("""
     join $(initials)d_y Countdown Minutes Seconds Virus
     join $(initials)d_g Hiders
 
-    $(initials)Countdown $(initials)calc = $(20 * 60)
-    $(initials)Glowing $(initials)calc = $(20 * 300)
-    $(initials)GameTime $(initials)calc = $(20 * 600)
+    &Countdown $(initials)calc = $(20 * 60)
+    &Glowing $(initials)calc = $(20 * 300)
+    &GameTime $(initials)calc = $(20 * 600)
 
     summon armor_stand ~ ~ ~ {Tags:["$(initials)Stand","$(initials)Entity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
     @e[type=armor_stand,$(initials)Stand] function reset_round
@@ -196,6 +196,8 @@ TEAMS.new_str("""
 
     kill @e[type=armor_stand,$(initials)Entity]
 
+    $edit_main_end()
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
 
@@ -211,12 +213,13 @@ TEAMS.new_str("""
     $edit_round_start()
 
     # sets the round time
-    ScOP @s $(initials)ti = $(initials)Countdown $(initials)calc
+    ScOP @s $(initials)ti = &Countdown $(initials)calc
 
     # sets the state
     @s $(initials)st = 2
 
 
+# Used on the Virus Stand to go through the countdown
 !mfunc countdown
     # runs the timer
     function timer
@@ -227,16 +230,18 @@ TEAMS.new_str("""
     @s[$(initials)ti=..0] function end_countdown
 
 
+# Used on the Virus Stand once the countdown ends
 !mfunc end_countdown
     Countdown reset $(obj_name)
     title @a actionbar {"text":"The virus has been released!","color":"yellow"}
     @a playsound $(Sounds.wither) voice @s
     $edit_countdown_end()
     
-    ScOP @s $(initials)ti = $(initials)GameTime $(virus.initials)calc
+    ScOP @s $(initials)ti = &GameTime $(virus.initials)calc
     @s $(initials)st = 3
 
 
+# Used on the Virus Stand during the round time
 !mfunc during_round
     # runs the timer
     function timer
@@ -250,24 +255,6 @@ TEAMS.new_str("""
 
     # detects whether the virus won
     @e[type=armor_stand,$(initials)Stand,$(initials)chi=0] $(initials)st = 4
-
-
-# used on players to set their effects
-!mfunc player_effects
-    effect @s[team=$(virus_team)] $(Effects.strength) 3 90 true
-    effect @s $(Effects.resist) 3 3 true
-    effect @s $(Effects.hp) 100 100 true
-
-!mfunc invuln_effect
-    effect @s $(Effects.resist) 3 10 true
-    effect @s $(Effects.hp) 100 100 true
-
-# used on the Virus Stand to set the glowing effect
-!mfunc set_glowing_effects
-    @s[$(initials)gl=2..] effect @a[gSA=1,m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
-    @s[$(initials)gl=2..] $(initials)gl - 2
-    @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
-    @s[$(initials)gl=2..] $(initials)gl - 1
 
 
 # used on the Virus Stand when there are no more hiders or when the timer runs out
@@ -305,6 +292,25 @@ TEAMS.new_str("""
     Minutes reset $(obj_name)
     Seconds reset $(obj_name)
     @s $(initials)st = 0
+
+
+# used on players to set their effects
+!mfunc player_effects
+    effect @s[team=$(virus_team)] $(Effects.strength) 3 90 true
+    effect @s $(Effects.resist) 3 3 true
+    effect @s $(Effects.hp) 100 100 true
+
+!mfunc invuln_effect
+    effect @s $(Effects.resist) 3 10 true
+    effect @s $(Effects.hp) 100 100 true
+
+# used on the Virus Stand to set the glowing effect
+!mfunc set_glowing_effects
+    @s[$(initials)gl=2..] effect @a[gSA=1,m=2,team=$(hiders_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=2..] $(initials)gl - 2
+    @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
+    @s[$(initials)gl=2..] $(initials)gl - 1
+
 
 
 # used on a given player to initialize and clear their inventory
@@ -424,7 +430,7 @@ TEAMS.new_str("""
 # it is determined when the calculated score goes positive,
 # meaning the glowing score exceeds the timer (represented in seconds)
 !mfunc calc_glowing
-    ScOP @s $(initials)calc = $(initials)Glowing $(initials)calc
+    ScOP @s $(initials)calc = &Glowing $(initials)calc
     ScOP @s $(initials)calc -= @s $(initials)ti
 
     @s[$(initials)calc=0] tellraw @a $(virus.event.begin(r'{"text":"Glowing has been removed from all virus!","color":"yellow"}'))

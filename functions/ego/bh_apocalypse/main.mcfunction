@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1565,y=47,z=-102,dx=76,dy=-43,dz=96] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-924805255] FLid 924805254
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-924805253] FLid 924805254
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-1203107458] FLid 1203107457
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-1203107456] FLid 1203107457
 kill @e[x=-1565,y=47,z=-102,dx=76,dy=-43,dz=96,tag=!BHAEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHApl_min=1,score_BHApl=1] BHApl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHApl_min=1,score_BHApl=1] ~ ~ ~ function ego:bh_apocalypse/assign_teams

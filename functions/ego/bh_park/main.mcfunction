@@ -1,8 +1,8 @@
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1263,y=38,z=-189,dx=42,dy=-34,dz=-99] gSA 1
 scoreboard players add @a[score_gSA_min=1,score_gSA=1] FLid 0
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-2089458070] FLid 2089458069
-scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-2089458068] FLid 2089458069
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid=-818788036] FLid 818788035
+scoreboard players set @a[score_gSA_min=1,score_gSA=1,score_FLid_min=-818788034] FLid 818788035
 kill @e[x=-1263,y=38,z=-189,dx=42,dy=-34,dz=-99,tag=!BHPEntity,type=item]
 scoreboard players set @a[m=2,score_gDE_min=1,score_gDE=1,score_BHPpl_min=1,score_BHPpl=1] BHPpl 0
 execute @a[m=2,score_gLG_min=1,score_gLG=1,score_BHPpl_min=1,score_BHPpl=1] ~ ~ ~ function ego:bh_park/assign_teams

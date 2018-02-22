@@ -1,5 +1,5 @@
 function ego:floo_network/stop_events
-scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 244635863
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 558233482
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -49,5 +49,5 @@ scoreboard players set BHZGlowing BHZcalc 6000
 scoreboard players set BHZGameTime BHZcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHZStand","BHZEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHZStand] ~ ~ ~ function ego:bh_zelda/reset_round
-tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHZ","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Zelda","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 244635863"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Zelda","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Zelda","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 244635863"}},{"text":" has started!","color":"green"}]}
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 244635863
+tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHZ","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Zelda","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 558233482"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Zelda","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Zelda","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 558233482"}},{"text":" has started!","color":"green"}]}
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 558233482

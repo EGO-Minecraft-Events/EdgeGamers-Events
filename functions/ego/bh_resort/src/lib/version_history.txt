@@ -37,3 +37,8 @@
 
 0.9.0
     Add the rest of the BlockHunt maps
+
+0.10.0
+    floo_network.py:
+        Changed all the ID hashes to use the folder_name and name
+        Changed all shortcuts to automatically include the folder name

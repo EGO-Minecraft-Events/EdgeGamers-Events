@@ -1,1 +1,1 @@
-scoreboard players set @e[type=armor_stand,tag=BHMStand] BHMst 1
+scoreboard players set @e[type=armor_stand,tag=BHMMStand] BHMMst 1

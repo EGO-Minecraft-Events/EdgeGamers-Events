@@ -1,5 +1,5 @@
 function ego:floo_network/stop_events
-scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 1498681551
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 606156446
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
@@ -49,5 +49,5 @@ scoreboard players set BHCDEGlowing BHCDEcalc 6000
 scoreboard players set BHCDEGameTime BHCDEcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHCDEStand","BHCDEEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHCDEStand] ~ ~ ~ function ego:bh_castle_de_emmy/reset_round
-tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHCDE","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Castle de Emmy","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1498681551"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Castle de Emmy","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Castle de Emmy","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1498681551"}},{"text":" has started!","color":"green"}]}
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 1498681551
+tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHCDE","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Castle de Emmy","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 606156446"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Castle de Emmy","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Castle de Emmy","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 606156446"}},{"text":" has started!","color":"green"}]}
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 606156446
