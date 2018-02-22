@@ -1,12 +1,12 @@
 $py(
 from lib.virus import *
-from lib.floo_network import BH_OFFICE
+from lib.floo_network import BH_OLD
 from lib.coords import Coords
 from lib.consts import Effects
 from lib.prng import PRNG
 
 # all races must have a race object
-virus = Virus(BH_OFFICE,
+virus = Virus(BH_OLD,
     select_spawn=Coords("-1193 45 -175 -1122 40 -104"),
     wait_coords=Coords("-1180 8 -136 0 0"),
     arena_coords=Coords("-1158.0 25 -135.0"),

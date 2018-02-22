@@ -42,3 +42,9 @@
     floo_network.py:
         Changed all the ID hashes to use the folder_name and name
         Changed all shortcuts to automatically include the folder name
+        Renamed bho --> bh_office
+
+0.10.1
+    floo_network.py:
+        Renamed bh_office --> bh_old
+

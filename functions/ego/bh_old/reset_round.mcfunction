@@ -1,4 +1,4 @@
-execute @a[score_gSA_min=1,score_gSA=1,m=2,score_BHOpl_min=1,score_BHOpl=1] ~ ~ ~ function ego:bh_office/full_reset_player
+execute @a[score_gSA_min=1,score_gSA=1,m=2,score_BHOpl_min=1,score_BHOpl=1] ~ ~ ~ function ego:bh_old/full_reset_player
 scoreboard players set @s BHOgl 1
 bd undisguiseall
 scoreboard players reset Countdown BHO
