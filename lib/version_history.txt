@@ -74,3 +74,6 @@
 
 0.13.1
     Fix .rotate behavior on swizzled Vector2
+
+0.13.2
+    Fix coord import in vector.py

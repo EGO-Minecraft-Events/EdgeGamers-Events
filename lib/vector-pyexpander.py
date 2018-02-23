@@ -2,7 +2,7 @@ import math
 from numbers import Real
 from abc import ABC, abstractmethod
 
-from coord import Coord
+from lib.coord import Coord
 # from coord import Coord
 
 """
@@ -736,6 +736,9 @@ $endfor
             >>> a = Vector3(*map(int, a))
             >>> a
             Vector3('0','0','-1')
+
+            >>> Vector2(*map(int, Vector2(2,1).rotated(90, Vector2(1,1), False)))
+            Vector2('1','0')
         """
         if not radians:
             angle = math.radians(angle)
