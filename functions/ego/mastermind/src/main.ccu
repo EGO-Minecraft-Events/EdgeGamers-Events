@@ -3,7 +3,9 @@ from lib.floo_network import MASTERMIND, FlooEvent
 from lib.const_ints import CONST_INTS
 from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.coords import Coords
+from lib.vector import Vector3
 from lib.consts import *
+from room import Room
 
 
 event = MASTERMIND
@@ -11,68 +13,118 @@ floo_event = FlooEvent(MASTERMIND)
 initials = "MM"
 select_all = event.select_all
 
-room_size = Coords(7, 5, 12)
 
-
-north_room = Coords("46 4 24")
-south_room = Coords("46 4 47")
-
-# difference between each room
-room_difference = 11
-
-# total number of rooms
-total_rooms = 12
-
-
-class Room:
-    def __init__(self, number, select_coords):
-        self.number = number
-        self.select_coords = select_coords
-        self.corner = select_coords.pos
-        self.select = select_coords.selector()
-
-    def __str__(self):
-        return "Room({0}: corner='{1}', selection='{2}')".format(self.number, self.corner, self.selection)
-
-rooms = {}
-
-for num in range(1, (total_rooms // 2) + 1):
-    position = (north_room.vec + Coords((num - 1) * room_difference, 0, 0).vec)
-    selection = Coords(*position, *(position + room_size.vec))
-    room = Room(num, selection)
-    rooms[num] = room
-
-for num in range((total_rooms // 2) + 1, total_rooms + 1):
-    position = south_room.vec + Coords(((num - 1) - total_rooms // 2) * room_difference, 0, 0).vec
-    selection = Coords(*position, *(position + room_size.vec))
-    room = Room(num, selection)
-    rooms[num] = room
-
+# activating the structure blocks to save the rooms
+activate_struct_save = Coords("107 4 82 96 4 82")
 
 # filling the doors
 fill_doors_north = Coords("49 8 37 105 6 37")
 fill_doors_south = Coords("49 8 46 105 6 46")
 
+# fills the buttons
 fill_buttons_north = Coords("46 6 26 101 6 34")
 fill_buttons_south = Coords("53 6 57 108 6 49")
 
+# activates the structure blocks underneath the map to reset the rooms
 activate_struct_reset = Coords("45 2 60 109 2 23")
+
+
+
+room_size_north = Vector3(7, 5, 12)
+room_size_south = Vector3(-7, 5, -12)
+
+north_room = Coords("53 4 36")
+south_room = Coords("46 4 47")
+
+select_hallway = Coords("46 5 38 108 10 45").selector()
+
+# difference of blocks between each room (+ 1)
+room_difference = 11
+
+# total number of rooms
+total_rooms = 12
+
+# block type that we are supposed to place our guess on
+place_on = "minecraft:glass"
+
+# how many blocks are between each guess (+ 1)
+guess_difference = 2
+
+# how many blocks are between the guessing bar and the stone button (+ 1)
+guess_button_difference = 2
+
+
+# each individual block that is avaliable
+blocks = ["wool 14", "wool 5", "wool 9", "wool 2", "wool 6", "wool 1"]
+
+# total number of possible choices
+blocks_total = len(blocks)
+
+# number of guesses
+total_guesses = 5
+
+# number of blocks per guesses
+blocks_per_guess = 4
+
+
+rooms = {}
+
+for num in range(1, (total_rooms // 2) + 1):
+    position = (north_room.vec + Coords((num - 1) * room_difference, 0, 0).vec)
+    selection = Coords(*position, *(position + room_size_south))
+    room = Room(num, selection)
+    rooms[num] = room
+
+for num in range((total_rooms // 2) + 1, total_rooms + 1):
+    position = south_room.vec + Coords(((num - 1) - total_rooms // 2) * room_difference, 0, 0).vec
+    selection = Coords(*position, *(position + room_size_north))
+    room = Room(num, selection)
+    rooms[num] = room
+
+# for room in map(str, rooms.values()):
+#     print(room)
 
 
 OBJECTIVES.new_str("""
     . _ .
+
+    # Used on players to store their player state
+    # Used on the Room Stand to calculate what to display on the EC board
     pl _ Player List
-    ti _ Timer
+
+    # Used on items to change their entity data so they are proper placable wool
+    # Used on players to temporarily set themselves to be used for validating the guess
+    # Used on the Room Stand = 1 to temporarily see if their guess is in the proper order
+    # Also used on the Room Stand = 2 to show that a guess has been successfully validated
+    # Used on the White and Red clouds to count how many white/red there are in a guess
+    # Used on the Repeating clouds to count the number of unique blocks in their guess
     cl _ Calculations
     st _ State
 
+    # used on the host to see what is going on
     ec _ EC scoreboard
+
+    # used on players and on the Room Stands
+    # to specify what room id they are in
     rn _ Room Number
 
-    rs _ Room Select
+    # used on the Room Stand to store what guess is expected
     gn _ Guess Number
-    pa _ Predicted Answer
+
+    # used on the Room Stand to store what guess has
+    # been inputted by the player
+    ign _ Guess Number Input
+
+    # used on Guess clouds to store what block id was guessed at that area
+    bi _ Block ID
+
+    # Used on the Guess clouds and the Correct stands to
+    # store what block id is correct at their position
+    # Used on the Room Stand to show that the correct answer has been reached
     ca _ Correct Answer
+
+    rs _ Room Select
+    pa _ Predicted Answer
     sd _ Sign Display
     ra _ Repeated Answer
     na _ No Answer
@@ -112,7 +164,6 @@ TEAMS.new_str("""
         color white
 
 """, initials=initials, display=event.full_name)
-
 )
 
 
@@ -123,14 +174,18 @@ TEAMS.new_str("""
 
     # sets the player as the host
     @s HOST = 0
+
+    # activates the save structure blocks
+    fill $(activate_struct_save) redstone_block 0 replace stonebrick 0
+    fill $(activate_struct_save) stonebrick 0 replace redstone_block 0
     
     summon armor_stand ~ ~ ~ {Tags:["MMEntity","MMStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
     $(floo_event.cmd_post_init())
-    
+
     $for(room in rooms.values())
     summon armor_stand $(room.corner) {Tags:["MMEntity","MMRoom","MMRoom$(room.number)"],
         Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
-    @e[type=armor_stand,MMRoom$(room.number)] MMrs = -$(room_number)
+    @e[type=armor_stand,MMRoom$(room.number)] MMrs = -$(room.number)
     $endfor
 
     # sets the room number as the positive version of the room select
@@ -142,14 +197,6 @@ TEAMS.new_str("""
     # @e[type=armor_stand,MMRoom] MMrg = 0
     # @e[type=armor_stand,MMStand] MMop = 16
     
-///    Summon Correct Answer Armor Stands
-    LOOP {1 4 + 1} {0 3 + 1}:
-        summon armor_stand $MMCACoords$[x - |1|, y, z] {Tags:["MMEntity","MMCA","MMCA|0|"],NoGravity:1,Invulnerable:1,Invisible:1,Marker:1}
-    
-///    Spawnpoint clock
-    Mastermind SPmm = 1
-//>
-
 
 !mfunc main
     $(floo_event.cmd_main())
@@ -160,25 +207,28 @@ TEAMS.new_str("""
 
     # @e[type=armor_stand,MMStand,MMst=0] function wait_for_start
     @e[type=armor_stand,MMStand,MMst=1] function start_round
-    @e[type=armor_stand,MMStand,MMst=4] function stop_round
+    @e[type=armor_stand,MMStand,MMst=3] function stop_round
+
+    # checks the guess if an input is found
+    @e[type=armor_stand,MMRoom,MMign=1..] function check_guess
     
     @a[m=2,MMpl=2,gDE=1..] function reset_player
 
-    @a[$SA$,MMpl=0] MMre = -100
-    join NoPVP @a[gSA=1,MMpl=0,team=!NoPVP]
-    join MMwhite @a[gSA=1,MMpl=0,HOST=0,team=!MMwhite]
-    @a[$SA$,MMpl=0] MMpl = 1
+    @e[$(select_all),type=item] MMcl + 0 {Item:{id:"minecraft:wool"}}
+    @e[$(select_all),type=item,MMcl=0] function change_wool
     
-    @e[$SA$,type=item] MMcl + 0 {Item:{id:"minecraft:wool"}}
-    @e[$(select_all)]
-    entitydata @e[$SA$,type=item,MMit=0] {Item:{tag:{CanPlaceOn:["minecraft:glass"],HideFlags:127,display:{Lore:["Mastermind Wool"]}}},PickupDelay:1s}
-    @e[$SA$,type=item,MMit=0] MMit = 1 {Item:{tag:{CanPlaceOn:["minecraft:glass"]}}}
-    
+    # TODO fix selection
     @a[$(select_hallway),m=2] MM = 0
     @a[$(select_hallway),m=1] MM = 0
-    @e[type=armor_stand,MMRoom] ScOP @a[$RoomSD$,m=2] MM = @s MMrn
-    @e[type=armor_stand,MMRoom] ScOP @a[$RoomSD$,m=1] MM = @s MMrn
-    @a[$SA$,m=3] reset MM
+
+    $for(room in rooms.values())
+    @a[$(room.select),m=2] MMrn = $(room.number)
+    @a[$(room.select),m=1] MMrn = $(room.number)
+    $endfor
+
+    @a[MMrn=1..] ScOP @s MM = @s MMrn
+    @a[gSA=1,m=3] reset MMrn
+    @a[gSA=1,m=3] reset MM
 
 
 !mfunc term
@@ -197,17 +247,224 @@ TEAMS.new_str("""
 
 # Used on the MMStand when the round is starting
 !mfunc start_round
-    @s MMst = 1
+    @s MMst = 2
 
 
 !mfunc stop_round
     @s MMst = 0
 
 
+!mfunc check_guess
+    $for(num in range(1, total_rooms + 1))
+    @s[MMRoom$(num)] function check_guess_$(num)
+    $endfor
+    @s MMign = 0
+
+
+# used on the Room Stand to check whether they guessed in the correct order
+$for(num in range(1, total_rooms + 1))
+!mfunc check_guess_$(num)
+    # sets their calc score to 0
+    @s MMcl = 0
+
+    # sets the calc store to 1 if the inputted guess number (MMign)
+    # matches the expected guess number (MMgn)
+    $for(guess in range(1, total_guesses + 1))
+    @s[MMign=$(guess),MMgn=$(guess)] MMcl = 1
+    $endfor
+    
+    # tellraw message to display the expected guess number (MMgn)
+    $for(guess in range(1, total_guesses + 1))
+    @s[MMcl=0,MMgn=$(guess)] tellraw @a[$(rooms[num].select)] $(event.begin())
+        {"text":"Warning: ","color":"red","bold":"true"},
+        {"text":"Please use guess $(guess).","color":"gold"}]}
+    $endfor
+
+    @s[MMcl=1] function validate_guess_$(num)
+
+    # -1 is guess on first try
+    # -2 is guess on second try
+    # -3 is guess on third try
+    # -4 is guess on fourth try
+    # -5 is guess on fifth try
+    
+    # -100 normal
+    # -102 is when first guess is successfully done
+    # -103 is when second guess is successfully done
+    # -104 is when third guess is successfully done
+    # -105 is when fourth guess is successfully done
+    # -106 is when fifth guess is successfully done
+    
+
+    # guess number is normally positive
+    ScOP @s[MMcl=2] MMpl = @s MMgn
+
+    # makes it negative
+    ScOP @s[MMcl=2] MMpl *= -1 constants
+
+    # subtracts 100 if the guess has been validated but not a winning guess
+    @s[MMcl=2,MMca=0] MMpl - 100
+    
+    # displays it on the EC board, and sets the calc back to 0
+    ScOP @a[MMrn=$(num)] MMec = @s MMpl
+    @s[MMcl=2] MMcl = 0
+
+
+# used on the Room Stand to select the player to be used for validating the guess
+!mfunc select_player_for_guess_$(num)
+
+    # summons an area effect cloud on the correct button
+    $for(guess in range(1, total_guesses + 1))
+    @s[MMgn=$(guess)] summon area_effect_cloud ~7 ~2 ~$(total_guesses*guess_difference - guess) {
+        Tags:["MMEntity","MMGuessTP$(num)"],Duration:5}
+    $endfor
+
+    @e[MMGuessTP$(num)] @p[r=5,MMrn=$(num)] function validate_guess_$(num)
+    kill @e[MMGuessTP$(num)]
+
+
+# used on a player to validate the guess they are standing on
+!mfunc validate_guess_$(num)
+    @s MMcl = 1
+    tp @s @e[MMRoom$(num)]
+
+    # summons area effect clouds on top of the guess
+
+    # for 0 to 3, summons area effect clouds over the blocks of the guess
+    $for(guess_block_num in range(blocks_per_guess))
+    summon area_effect_cloud ~-$(guess_button_difference + guess_block_num) ~ ~ {
+        Tags:["MMEntity","MMGuess","MMGuess$(guess_block_num+1)"],Duration:5}
+    $endfor
+
+    # summons one for each block possibility to check for repeating answers
+    $for(block_num in range(1, blocks_total+1))
+    summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMRepeat","MMRepeat$(block_num)"],Duration:5}
+    $endfor
+
+    # summons this right on the player
+    summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMDisplay","MMWhite"],Duration:5}
+    summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMDisplay","MMRed"],Duration:5}
+
+    # sets the score of MMrn for each temporary area effect cloud
+    @e[$(rooms[num].select),type=area_effect_cloud] MMrn = $(num)
+
+    # the block id defaults to 0 if there was no correct block detected
+    @e[MMrn=$(num),MMGuess] MMbi + 0
+
+    # sets the block id for the Guess clouds corresponding to the block
+    # their block id is the index+1 of the block list (1-6)
+    $for(index, block in enumerate(blocks))
+    @e[MMrn=$(num),MMGuess] ifblock ~ ~-1 ~ $(block) @s MMbi = $(index+1)
+    $endfor
+
+    # detects any repeating blocks by adding to a Repeating cloud with
+    # the tag Repeat(id), with each guess, and seeing if there are 2 or more of any
+    $for(block_num in range(1, blocks_total+1))
+    @e[MMrn=$(num),MMGuess,MMbi=$(block_num)] @e[MMrn=$(num),MMRepeat$(block_num)] MMcl + 1
+    $endfor
+
+    @s MMra + 0
+    @e[MMrn=$(num),MMRepeat,MMcl=2..] @a[c=1,r=1,MMcl=1] MMra = 1
+    
+    # Detects any non-wool blocks
+    @s MMna + 0
+    @e[MMGuess,MMbi=0] @a[c=1,r=1,MMcl=1] MMna = 1
+
+    # Shows the warning
+    @s[MMra=1] tellraw @a[MMrn=$(num)] $(event.begin())
+        {"text":"Warning: ","color":"red","bold":"true"},
+        {"text":"There are repeated colors. Please redo your guess.","color":"gold"}]}
+
+    @s[MMna=1] tellraw @a[MMrn=$(num)] $(event.begin())
+        {"text":"Warning: ","color":"red","bold":"true"},
+        {"text":"There is at least one missing block. Please redo your guess.","color":"gold"}]}
+
+    # only displays the number of red and white if there
+    # are no repeated colors or missing blocks
+    @s[MMra=0,MMna=0] function display_answer_$(num)
+
+    kill @e[type=area_effect_cloud,MMrn=$(num)]
+    @s reset MMra
+    @s reset MMna
+
+    @s MMcl = 0
+    
+
+!mfunc display_answer_$(num)
+    # Sets the correct answer to the Guess clouds to match the armor stand
+    $for(guess_block_num in range(blocks_per_guess))
+    ScOP @e[MMrn=$(num),MMGuess$(guess_block_num)] MMca = @e[MMrn=$(num),MMCorrect$(guess_block_num)] MMca
+    $endfor
+    
+    # Counts the number of white and red
+    $for(block_num in range(1, blocks_total+1))
+
+    # counts the number of white by counting the clouds
+    # around but not including the correct answer
+    @e[MMrn=$(num),MMGuess,MMca=$(block_num)] @e[MMrn=$(num),dist=1..$(blocks_per_guess-1),MMbi=$(block_num)] @e[MMrn=$(num),MMWhite] MMcl + 1
+
+    # counts the number of red by counting the number of clouds
+    # that have the same block id and correct answer id
+    @e[MMrn=$(num),MMGuess,MMca=$(block_num),MMbi=$(block_num)] @e[MMrn=$(num),MMRed] MMcl + 1
+    $endfor
+    
+    # Adds everything to 0 (to display 0 red/white, and to detect if there isn't a wool block placed)
+    @e[MMrn=$(num),MMRed] MMcl + 0
+    @e[MMrn=$(num),MMWhite] MMcl + 0
+    
+    # sets the sign if the guess is filled and has no repeating blocks
+    # sets a sign with both red and white
+    setblock ~-7 ~ ~ standing_sign 10 replace {
+        Text1:"{\"text\":\"-=-\"}",
+        Text2:"{\"text\":\"\",\"extra\":[
+            {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
+        Text3:"{\"text\":\"\",\"extra\":[
+            {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\:\" white\"}]}",
+        Text4:"{\"text\":\"-=-\"}"}
+
+    # sets a winning red sign
+    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] setblock ~-7 ~ ~ standing_sign 10 replace {
+        Text1:"{\"text\":\"--=--\"}",
+        Text2:"{"text":"4 red","bold":"true"}",
+        Text3:"{"text":"Shhhh","bold":"true"}",
+        Text4:"{\"text\":\"--=--\"}"}
+
+    # sets the sign will only show if you have red blocks and no white blocks
+    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] setblock ~-7 ~ ~ standing_sign 10 replace {
+        Text1:"{\"text\":\"-=-\"}",
+        Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
+        Text3:"{\"text\":\"-=-\"}",
+        Text4:"{\"text\":\"\"}"}
+
+    # sets the sign will only show if you have white blocks and no red blocks
+    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] setblock ~-7 ~ ~ standing_sign 10 replace {
+        Text1:"{\"text\":\"-=-\"}",
+        Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\":\" white\"}]}",
+        Text3:"{\"text\":\"-=-\"}",
+        Text4:"{\"text\":\"\"}"}
+    
+    setblock ~ ~ ~ tripwire 0 replace stone_button
+    
+    # sets the room stand to MMcl=2 when a guess has been successfully validated
+    @e[type=armor_stand,MMRoom$(num),MMca=0,MMcl=1] MMcl = 2
+
+    # sets the room stand to MMca=1 if an answer has been found
+    @e[MMrn=$(num),MMRed,MMcl=4] @e[type=armor_stand,MMRoom$(num),MMca=0] MMca = 1
+
+    @e[MMrn=$(num),MMRed,MMcl=4] fill ~ ~4 ~ ~ ~6 ~ sea_lantern 0 replace redstone_lamp
+    @s clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
+    @s setblock ~ ~5 ~ redstone_block 0
+
+$endfor
+
 
 !mfunc reset_player
     clear @s
     $(event.cmd_book("@s[EC=0]"))
+
+    @s MMec = -100
+    join NoPVP @s[team=!NoPVP]
+    join MMwhite @s[HOST=0,team=!MMwhite]
 
     effect @s clear
     effect @s $(Effects.hp) 1 100 true
@@ -226,14 +483,59 @@ TEAMS.new_str("""
 # used on players to add them to the round
 !mfunc add_to_round
     function reset_player
+
+    replaceitem entity @s slot.hotbar.0 wool 64 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s slot.hotbar.1 wool 64 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s slot.hotbar.2 wool 64 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s slot.hotbar.3 wool 64 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s slot.hotbar.4 wool 64 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s slot.hotbar.5 wool 64 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+
+    replaceitem entity @s[m=2] slot.hotbar.6 shears 1 0 {
+        CanDestroy:["minecraft:wool"],Unbreakable:1,ench:[{id:32,lvl:9001}],display:{Lore:["Mastermind Shears"]}}
+    replaceitem entity @s[m=2] slot.hotbar.8 golden_apple 64 0
+    replaceitem entity @s[m=1] slot.hotbar.6 sign 1 0 {ench:[{id:0,lvl:1}],HideFlags:127,display:{Name:"OP sign"}}
+
     @s MMpl = 2
+
+
+# used on dropped wool items to change their data tag
+# so they can be placed on glass and immediately picked up
+!mfunc change_wool
+    entitydata @s {Item:{tag:{CanPlaceOn:["minecraft:glass"],HideFlags:127,display:{Lore:["Mastermind Wool"]}}},PickupDelay:1s}
+    @s MMit = 1
 
 
 !mfunc input_start_round
     @e[type=armor_stand,MMStand] MMst = 1
 
 !mfunc input_reset_round
-    @e[type=armor_stand,MMStand] MMst = 4
+    @e[type=armor_stand,MMStand] MMst = 3
+
+
+
+
+!mfunc open_doors
+    fill $(fill_doors_north) air 0 replace bedrock 0
+    fill $(fill_doors_south) air 0 replace bedrock 0
+    
+!mfunc close_doors
+    fill $(fill_doors_north) bedrock 0 replace air 0
+    fill $(fill_doors_south) bedrock 0 replace air 0
+    
+!mfunc set_buttons
+    fill $(fill_buttons_north) stone_button 5 replace tripwire
+    fill $(fill_buttons_south) stone_button 5 replace tripwire
+    @a[gSA=1,m=2] function add_to_round
+
+    
+!mfunc clear_lanes
+    fill $(activate_struct_reset) redstone_block 0 replace planks 0
+    fill $(activate_struct_reset) planks 0 replace redstone_block 0
+    @e[type=armor_stand,MMRoom] MMgn = 1
+    @e[type=armor_stand,MMRoom] reset MMpl
+    @a[gSA=1,m=2] function reset_player
+
 
 
 !mfunc book
@@ -265,110 +567,4 @@ TEAMS.new_str("""
             }
         ]"
     ]}
-
-
-
-//<General Options Testfor Clock
-FUNC {Func_GeneralOptionsTFClock}:
-    testfor @e[type=armor_stand,MMStand,MMop>=1]
-    CCU_SetblockTestfor
-    
-///    2048 = Stop the game
-    @e[type=armor_stand,MMStand,MMop>=2048] CCU_Activate(Grp_MainEnd)
-    @e[type=armor_stand,MMStand,MMop>=2048] MMop - 2048
-    
-///    1024 = Open doors
-    @e[type=armor_stand,MMStand,MMop>=1024] fill $FillDoorsN$ air 0 replace bedrock 0
-    @e[type=armor_stand,MMStand,MMop>=1024] fill $FillDoorsS$ air 0 replace bedrock 0
-    @e[type=armor_stand,MMStand,MMop>=1024] MMop - 1024
-    
-///    512 = Close doors
-    @e[type=armor_stand,MMStand,MMop>=512] fill $FillDoorsN$ bedrock 0 replace air 0
-    @e[type=armor_stand,MMStand,MMop>=512] fill $FillDoorsS$ bedrock 0 replace air 0
-    @e[type=armor_stand,MMStand,MMop>=512] MMop - 512
-    
-///    256 = Set buttons
-    @e[type=armor_stand,MMStand,MMop>=256] fill $FillButtonsN$ stone_button 5 replace tripwire
-    @e[type=armor_stand,MMStand,MMop>=256] fill $FillButtonsS$ stone_button 5 replace tripwire
-    @e[type=armor_stand,MMStand,MMop>=256] MMop - 256
-    
-///    128 = Give Wool
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.6 shears 1 0 {CanDestroy:["minecraft:wool"],Unbreakable:1,ench:[{id:32,lvl:9001}],display:{Lore:["Mastermind Shears"]}}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.8 golden_apple 64 0
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.0 wool 64 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.1 wool 64 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.2 wool 64 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.3 wool 64 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.4 wool 64 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=2] slot.hotbar.5 wool 64 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.6 sign 1 0 {ench:[{id:0,lvl:1}],HideFlags:127,display:{Name:"OP sign"}}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.0 wool 1 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.1 wool 1 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.2 wool 1 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.3 wool 1 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.4 wool 1 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] replaceitem entity @a[$SA$,m=1] slot.hotbar.5 wool 1 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    @e[type=armor_stand,MMStand,MMop>=128] @a[$SA$,EC=0] SPbk = $SPid$
-    @e[type=armor_stand,MMStand,MMop>=128] MMop - 128
-    
-///    64 = Clear Inventory
-    @e[type=armor_stand,MMStand,MMop>=64] clear @a[$SA$]
-    @e[type=armor_stand,MMStand,MMop>=64] effect @a[$SA$] clear
-    @e[type=armor_stand,MMStand,MMop>=64] @a[$SA$,EC=0] SPbk = $SPid$
-    @e[type=armor_stand,MMStand,MMop>=64] MMop - 64
-    
-///    32 = Clear Lanes
-    @e[type=armor_stand,MMStand,MMop>=32] fill $FillStructure$ redstone_block 0 replace planks 0
-    @e[type=armor_stand,MMStand,MMop>=32] fill $FillStructure$ planks 0 replace redstone_block 0
-    @e[type=armor_stand,MMStand,MMop>=32] @e[type=armor_stand,MMRoom] MMgc = 1
-    @e[type=armor_stand,MMStand,MMop>=32] @e[type=armor_stand,MMRoom] MMrg = 0
-    @e[type=armor_stand,MMStand,MMop>=32] @e[type=armor_stand,MMRoom] reset MMpl
-    @e[type=armor_stand,MMStand,MMop>=32] * reset MMre
-    @e[type=armor_stand,MMStand,MMop>=32] @a[$SA$] MMre = -100
-    @e[type=armor_stand,MMStand,MMop>=32] MMop - 32
-    
-///    16 = Set answer
-    LOOP {1 6 + 1}:
-        @e[type=armor_stand,MMStand,MMop>=16] @e[type=armor_stand,MMCA] wool $WoolC|0|$ ~ ~-3 ~ @e[MMCA,r=0,c=1] MMca = |0|
-    
-    @e[type=armor_stand,MMStand,MMop>=16] setblock $StructureSave$ redstone_block 0
-    @e[type=armor_stand,MMStand,MMop>=16] MMop - 16
-    
-///    8 = Randomizer
-    @e[type=armor_stand,MMStand,MMop>=8] summon Item ~ ~ ~ $area_effect_cloudRand$
-
-    LOOP {1 6 + 1}:
-        @e[type=armor_stand,MMStand,MMop>=8] @e[type=area_effect_cloud,MMRAN|0|,c=1] MMca = |0|
-    
-    LOOP {1 3 + 1}:
-        @e[type=armor_stand,MMStand,MMop>=8] @r[type=area_effect_cloud,MMRAN] + MMRCA
-        @e[type=armor_stand,MMStand,MMop>=8] ScOP @e[type=armor_stand,MMCA|0|] MMca = @e[type=area_effect_cloud,MMRCA] MMca
-        @e[type=armor_stand,MMStand,MMop>=8] kill @e[type=area_effect_cloud,MMRCA]
-    
-    @e[type=armor_stand,MMStand,MMop>=8] @r[type=area_effect_cloud,MMRAN] + MMRCA
-    @e[type=armor_stand,MMStand,MMop>=8] ScOP @e[type=armor_stand,MMCA4] MMca = @e[type=area_effect_cloud,MMRCA] MMca
-    @e[type=armor_stand,MMStand,MMop>=8] kill @e[type=area_effect_cloud,MMRAN]
-    
-    LOOP {1 6 + 1}:
-        @e[type=armor_stand,MMStand,MMop>=8] @e[type=armor_stand,MMCA,MMca=|0|] setblock ~ ~-3 ~ wool $WoolC|0|$
-    
-    @e[type=armor_stand,MMStand,MMop>=8] setblock $StructureSave$ redstone_block 0
-    @e[type=armor_stand,MMStand,MMop>=8] MMop - 8
-    
-///    4 = Refresh rooms
-    @e[type=armor_stand,MMStand,MMop>=4] MMti = 0
-    @e[type=armor_stand,MMStand,MMop>=4] MMop - 4
-    
-///    2 = Auto broadcasts
-    LOOP {1 6 + 1}:
-        @e[type=armor_stand,MMStand,MMop>=2] entitydata @e[type=armor_stand,MMCA,MMca=|0|] {CustomName:"$WoolCW|0|$",Team:"MM$WoolCW|0|$"}
-    
-    @e[type=armor_stand,MMStand,MMop>=2] tellraw @a $FakeBroadcast$
-    @e[type=armor_stand,MMStand,MMop>=2] MMop - 2
-    
-///    1 = Clones answer
-    @e[type=armor_stand,MMStand,MMop>=1] fill $FillStructure$ redstone_block 0 replace planks 1
-    @e[type=armor_stand,MMStand,MMop>=1] fill $FillStructure$ planks 1 replace redstone_block 0
-    @e[type=armor_stand,MMStand,MMop>=1] MMop = 0
 
