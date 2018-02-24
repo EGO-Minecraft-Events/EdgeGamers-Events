@@ -31,6 +31,9 @@ select_walls_south = Coords("-107 6 203 -51 38 203").selector()
 # teleport to the arena inside the middle ball
 arena_tp = Coords("-79 18 174")
 
+# teleport to the spectator area
+spectate_tp = Coords("-110 17 205 -135 0")
+
 # activates the structure for loading up the middle ball
 activate_struct_mid = Coords("-80 7 174")
 
@@ -71,15 +74,11 @@ deg_activate_calc_save = Coords("-35 5 249 -33 5 251")
 # the calculated degrading platform
 deg_activate_calc_load = Coords("-80 2 175 -78 2 173")
 
-r'''
-DEF CCItem_Blaze3Reg blaze_rod 1 0 {display:{Name:"A Poking Stick",Lore:["Knockback 3"]},ench:[{id:19,lvl:3}],HideFlags:127}
-DEF CCItem_Blaze5Reg blaze_rod 1 0 {display:{Name:"A Better Poking Stick",Lore:["Knockback 5"]},ench:[{id:19,lvl:5}],HideFlags:127}
 
-DEF CCItem_Bow bow 1 0 {display:{Name:"A Bow",Lore:["Punch 2"]},ench:[{id:49,lvl:2},{id:51,lvl:1}],HideFlags:127,Unbreakable:1}
-DEF CCItem_Arrow arrow 1 0 {display:{Name:"An Arrow"},ench:[{id:0,lvl:1}],HideFlags:127}
 
-DEF CCItem_PorkchopReg porkchop 1 0 {display:{Name:"The Holy Porkchop"},ench:[{id:19,lvl:9001}],HideFlags:127}
-'''
+cs_to_spec_tags = r'{display:{Name:"Head to the spectator area",Lore:["Right click to use!"]}}'
+cs_to_lobby_tags = r'{display:{Name:"Head to the lobby",Lore:["Right click to use!"]}}'
+cs_toggle_tags = r'{display:{Name:"Toggle spectator status",Lore:["Right click to use!"]}}'
 
 OBJECTIVES.new_str("""
     . _ .
@@ -94,37 +93,32 @@ OBJECTIVES.new_str("""
     # when it is not a degrading arena
     dg _ Degrading Arena
 
-    # at _ Arena Type
-
     # Used on the TPStand to use as input to get the arena type
     # 0 = reg_small, 1 = reg_large, 2 = deg_small, 3 = deg_large
     iat _ Arena Type Input
+
+    # weapons
+    # 0 = normal
+    # 1 = knockback 5
+    # 2 = porkchop
+    # 3 = bow & arrow
+    iwt _ Weapon Type Input
 
     # 0 = being initialized
     # 1 = has been initialized
     # 2 = in game
     # 3 = forever as spectator (changes back to 1 if in lobby)
     pl _ Player List
-
-    # Used on players to store their states on what items
-    # they have within the spectator area
-    # 0 = in lobby, will get items
-    # 1 = got items in lobby (carrot stick with "Go to spectator area", "Toggle join round status")
-    # 2 = switched items (carrot stick with "Go back to lobby", "Toggle join round status")
-    is _ Item State
     
     # effects
     # ef dummy Effect
     # efc dummy Effect Calc
 
-    # weapons
-    # wtc dummy Weapon Type Calc 2
-    # wtg dummy Weapon Type Give
-
     # pu dummy Pumpkin
     # put dummy Pumpkin Timer
     # puc dummy Pumpkin Calc
 
+    # at _ Arena Type
     # oas _ Arena Size
     # oat _ Arena Type
     # owe _ Weapon
@@ -207,6 +201,7 @@ $endmacro
     summon armor_stand ~ ~ ~ {Tags:["TPEntity","TPStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
     @e[type=armor_stand,TPStand] TPst = 0
     @e[type=armor_stand,TPStand] TPiat = 1
+    @e[type=armor_stand,TPStand] TPiwt = -1
 
     $(floo_event.cmd_post_init())
     
@@ -222,15 +217,22 @@ $endmacro
     @e[type=armor_stand,TPStand,TPiat=0..] function change_arena
     @e[type=armor_stand,TPStand,TPdg=0..] function use_degrading
 
+    # gives weapons only during the countdown and round
+    @e[type=armor_stand,TPStand,TPst=2..3,TPiwt=0..] function give_weapons
+
     # initializes the player
     @a[gSA=1,m=2] TPpl + 0
     @a[gSA=1,TPpl=0,m=2] function reset_player
+
+    # calculates what happens when a carrot on a stick is used
+    @a[gSA=1,gCS=1..,m=2] function use_carrot_stick
 
     # gives resistance to all, even spectators
     effect @a[gSA=1,m=2,TPpl=0..] $(Effects.resist) 3 10 true
 
     # displays the player count during countdown and round
-    @e[type=armor_stand,TPStand,TPst=2..3] function display
+    @e[type=armor_stand,TPStand] function display_players
+    @a[gSA=1,m=2,TPpl=1..] function display_status
 
     # @e[type=armor_stand,TPStand,TPst=0] function wait_for_start
     @e[type=armor_stand,TPStand,TPst=1] function start_round
@@ -243,14 +245,24 @@ $endmacro
 
 !mfunc term
     $(floo_event.cmd_term())
+
+    @a[m=2,TPpl=1..] function full_reset_player
+
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
+
+    # sets the mid ball
+    $(activate_struct_mid.setblock("redstone_block"))
+    $(activate_struct_mid.setblock("air"))
     
     kill @e[TPEntity]
 
 
 # Used on the TPStand when the round is starting
 !mfunc start_round
+    # initializes the weapons if there is nothing to initialize it with
+    @s[TPiwt=-1] TPiwt = 0
+
     @s TPti = 120
     @s TPst = 2
     @a[gSA=1,m=2,TPpl=1] function add_to_round
@@ -267,8 +279,7 @@ $endmacro
     ScOP Countdown TP = Countdown TPcl
 
     # gives weakness
-    effect @a[gSA=1,m=2,TPpl=2] 18 3 100 true
-    
+    effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 3 100 true
 
     @s[TPti=100] tellraw @a $(event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
     @s[TPti=100] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 0.5
@@ -291,11 +302,13 @@ $endmacro
 # Used on the TPStand to stop the countdown
 !mfunc end_countdown
     @a playsound $(Sounds.wither) voice @s
-    tellraw @a $(event.begin(r'{"text":"Begin","color":"green","bold":"true"}'))
+    tellraw @a $(event.begin(r'{"text":"Begin!","color":"green","bold":"true"}'))
     Countdown reset TP
     $(mid_ball_region.fill("air"))
     @s TPst = 3
 
+    # removes weakness
+    effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 0 0 true
 
 !mfunc during_round
     @s TPti + 1
@@ -321,7 +334,7 @@ $endmacro
 
 
 !mfunc stop_round
-    @a[gSA=1,m=2,TPpl=1..] function full_reset_player
+    @a[gSA=1,m=2,TPpl=2] function full_reset_player
     
     # sets the mid ball
     $(activate_struct_mid.setblock("redstone_block"))
@@ -339,6 +352,9 @@ $endmacro
     clear @s
     $(event.cmd_book("@s[EC=0]"))
 
+    @s[TPpl=0] function give_items_in_lobby
+    @s[TPpl=2] function give_items_in_lobby
+
     effect @s clear
     effect @s $(Effects.hp) 1 100 true
     xp -1000L @s
@@ -351,10 +367,65 @@ $endmacro
 !mfunc full_reset_player
     function reset_player
     $(event.cmd_spawn())
+
+
+# used on players to give them the necessary carrot sticks
+# when they are in the lobby area
+!mfunc give_items_in_lobby
+    clear @s carrot_on_a_stick
+    replaceitem entity @s slot.hotbar.0 carrot_on_a_stick 1 0 $(cs_to_spec_tags)
+    replaceitem entity @s slot.hotbar.1 carrot_on_a_stick 1 0 $(cs_toggle_tags)
+
+# used on players to give them the necessary carrot sticks
+# when they are in the lobby area
+!mfunc give_items_in_spectate
+    clear @s carrot_on_a_stick
+    replaceitem entity @s slot.hotbar.0 carrot_on_a_stick 1 0 $(cs_to_lobby_tags)
+    replaceitem entity @s slot.hotbar.1 carrot_on_a_stick 1 0 $(cs_toggle_tags)
+
+!mfunc use_carrot_stick
+    # since it is global temp, set it to 0 to ensure you know what you're working with
+    @s gTEMP = 0
+    @s gTEMP = 1 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:$(cs_to_lobby_tags)}}
+    @s gTEMP = 2 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:$(cs_to_spec_tags)}}
+    @s gTEMP = 3 {SelectedItem:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:$(cs_toggle_tags)}}
+
+    # to lobby
+    $(event.cmd_spawn("@s[gTEMP=1]"))
+    @s[gTEMP=1] function give_items_in_lobby
+     
+    # to spectate
+    tp @s[gTEMP=2] $(spectate_tp)
+    @s[gTEMP=2] function give_items_in_spectate
+
+    # toggle spectator
+    # temporarily sets TPpl to 4 to be set back to 3 afterwards
+    @s[gTEMP=3,TPpl=1] TPpl = 4
+    @s[gTEMP=3,TPpl=3] TPpl = 1
+    @s[gTEMP=3,TPpl=4] TPpl = 3
+
+
+# Used on the TPStand to give players weapons
+# when an input is detected with TPiwt=0..
+# 0 = normal
+# 1 = knockback 5
+# 2 = porkchop
+# 3 = bow & arrow
+!mfunc give_weapons
+    clear @a[gSA=1,m=2,TPpl=2]
+    $(event.cmd_book("@a[gSA=1,m=2,TPpl=2]"))
     
+    @s[TPiwt=0] give @a[gSA=1,m=2,TPpl=2] blaze_rod 1 0 {display:{Name:"A Poking Stick",Lore:["Knockback 3"]},ench:[{id:19,lvl:3}],HideFlags:127}
+    @s[TPiwt=1] give @a[gSA=1,m=2,TPpl=2] blaze_rod 1 0 {display:{Name:"A Better Poking Stick",Lore:["Knockback 5"]},ench:[{id:19,lvl:3}],HideFlags:127}
+    @s[TPiwt=2] give @a[gSA=1,m=2,TPpl=2] porkchop 1 0 {display:{Name:"The Holy Porkchop"},ench:[{id:19,lvl:9001}],HideFlags:127}
+    @s[TPiwt=3] give @a[gSA=1,m=2,TPpl=2] bow 1 0 {display:{Name:"A Bow",Lore:["Punch 2"]},ench:[{id:49,lvl:2},{id:51,lvl:1}],HideFlags:127,Unbreakable:1}
+    @s[TPiwt=3] give @a[gSA=1,m=2,TPpl=2] arrow 1 0 {display:{Name:"An Arrow"},ench:[{id:0,lvl:1}],HideFlags:127}
+
+    @s TPiwt = -1
+
 
 # Used on the TPStand to change the arena when
-# an input is detected found
+# an input is detected with TPiat=0..
 !mfunc change_arena
     @s[TPiat=0] function arena_to_reg_small
     @s[TPiat=1] function arena_to_reg_large
@@ -388,16 +459,22 @@ $endmacro
 
 
 # used on the TPStand to display the number of players in the game
-!mfunc display
+!mfunc display_players
     Players TPcl = 0
     @a[gSA=1,m=2,TPpl=2] Players TPcl + 1
-    ScOP Players TP = Player TPcl
+    ScOP Players TP = Players TPcl
+
+
+# used on the players to display whether they are going into the round or not
+!mfunc display_status
+    title @s[TPpl=1] actionbar {"text":"","extra":[{"text":"Will join next round: ","color":"yellow"},{"text":"True","color":"green"}]}
+    title @s[TPpl=3] actionbar {"text":"","extra":[{"text":"Will join next round: ","color":"yellow"},{"text":"False","color":"red"}]}
 
 
 !mfunc input_start_round
     @e[type=armor_stand,TPStand] TPst = 1
 
-!mfunc input_end_round
+!mfunc input_reset_round
     @e[type=armor_stand,TPStand] TPst = 4
 
 
@@ -417,7 +494,7 @@ $endmacro
 !mfunc book
     replaceitem entity @s slot.weapon.offhand written_book 1 0 {
         title:"$(event.full_name) Book",author:"eGO",pages:["[\"\",
-            {\"text\":\"$(event.full_name) Settings\\\n\",\"bold\":true},
+            {\"text\":\"$(event.full_name) Settings\\\n\",\"bold\":\"true\"},
             {\"text\":\"\\\n\"},
             
             {\"text\":\"TP: \",\"color\":\"dark_gray\"},
@@ -458,11 +535,33 @@ $endmacro
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Degrading, Small\",\"color\":\"gold\"}}
             },
             {\"text\":\" \",\"color\":\"gray\"},
-            {\"text\":\"[DL]\",\"color\":\"gold\",
+            {\"text\":\"[DL]\\\n\\\n\",\"color\":\"gold\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_set_deg_large"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Degrading, Large\",\"color\":\"gold\"}}
-            }
+            },
 
+            {\"text\":\"Weapon Settings\",\"bold\":\"true\",\"color\":\"black\"},
+            {\"text\":\"\\\n\"},
+            
+            {\"text\":\"[0]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=armor_stand,tag=TPStand] TPiwt 0\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Knockback 3\",\"color\":\"gold\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[1]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=armor_stand,tag=TPStand] TPiwt 1\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Knockback 5\",\"color\":\"gold\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[2]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=armor_stand,tag=TPStand] TPiwt 2\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Porkchop\",\"color\":\"gold\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[3]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/scoreboard players set @e[type=armor_stand,tag=TPStand] TPiwt 3\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Bow (punch 2)\",\"color\":\"gold\"}}
+            }
         ]"
     ]}
 

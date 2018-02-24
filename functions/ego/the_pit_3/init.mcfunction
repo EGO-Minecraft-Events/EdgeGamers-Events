@@ -21,6 +21,7 @@ scoreboard objectives add TPwe dummy The Pit Weakness
 scoreboard objectives add TPst dummy The Pit State
 scoreboard objectives add TPdg dummy The Pit Degrading Arena
 scoreboard objectives add TPiat dummy The Pit Arena Type Input
+scoreboard objectives add TPiwt dummy The Pit Weapon Type Input
 scoreboard objectives add TPpl dummy The Pit Player List
 scoreboard teams add TP The Pit Players
 scoreboard teams option TP color green
@@ -39,6 +40,7 @@ fill -79 14 251 -79 11 251 redstone_block
 fill -79 14 251 -79 11 251 stonebrick
 summon armor_stand ~ ~ ~ {Tags:["TPEntity","TPStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
 scoreboard players set @e[type=armor_stand,tag=TPStand] TPst 0
-scoreboard players set @e[type=armor_stand,tag=TPStand] TPiat 0
+scoreboard players set @e[type=armor_stand,tag=TPStand] TPiat 1
+scoreboard players set @e[type=armor_stand,tag=TPStand] TPiwt -1
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TPL3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 586508005"}},{"text":"]","color":"gray"},{"text":": "},{"text":"The Pit 3","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"The Pit 3","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 586508005"}},{"text":" has started!","color":"green"}]}
 scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=0,score_FLgam=0] FLgam 586508005

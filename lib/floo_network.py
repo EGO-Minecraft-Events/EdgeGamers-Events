@@ -115,7 +115,6 @@ class FlooEvent(Container):
 
         # setting up regen, defaults to true
         if "regen" not in self.options or self.options["regen"] == "true":
-            self.cmd_queue.put("gamerule naturalRegeneration true")
             self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
         elif self.options["regen"] == "false":
             self.cmd_queue.put("gamerule naturalRegeneration false")
