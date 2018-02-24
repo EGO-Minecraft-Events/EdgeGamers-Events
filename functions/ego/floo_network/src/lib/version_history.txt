@@ -65,3 +65,6 @@
 
     race_lap.ccu, race_checkpoint.ccu, race_regular.ccu
         Added the macro in the copy/pasta region
+
+0.12.1
+    Fix BH_MASTERMIND select_coords

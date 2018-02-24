@@ -32,15 +32,15 @@ Four Corners	bh_four_corners	bhfc
 HASDaa	bh_hasdaa	bhhd
 Hospital	bh_hospital	bhh
 Jungle	bh_jungle	bhj
-Mastermind	bh_mastermind	bhm	bhmm
+BH Mastermind	bh_mastermind	bhm	bhmm
 Mushroom Village	bh_mushroom_village	bhmv
 Old	bh_old	bho
 Park	bh_park	bhp
 Rainbow	bh_rainbow	bhra
 Resort	bh_resort	bhre
 Train Station	bh_train_station	bhts
-BH Virus 1	bh_virus_1	bhvr1
-BH Virus 2	bh_virus_2	bhvr2
+Virus 1	bh_virus_1	bhvr1
+Virus 2	bh_virus_2	bhvr2
 Zelda	bh_zelda	bhz
 Spawn	spawn
 Floo Network	floo_network	cmd	floo	diagonally

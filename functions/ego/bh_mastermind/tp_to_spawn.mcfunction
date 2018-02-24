@@ -1,1 +1,1 @@
-scoreboard players set @s FLtp 498683800
+scoreboard players set @s FLtp 408217586
