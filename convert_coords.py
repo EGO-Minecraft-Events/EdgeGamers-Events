@@ -21,9 +21,6 @@ activate_struct_mid = -80 7 174
 # fill region to clear out the middle ball
 mid_ball_region = -77 17 172 -81 22 176
 
-"""
-inputList = """
-
 # ending position for the clone of the floor to the calculation area
 platform_clone_destination = -54 4 230
 
@@ -40,6 +37,17 @@ platform_region = -59 10 194 -99 10 154
 # region to activate the structure blocks for loading
 # the calculated degrading platform
 activate_struct_load = -80 2 175 -78 2 173
+
+
+fill_doors_south = 49 8 46 105 6 46
+
+fill_buttons_north = 46 6 26 101 6 34
+fill_buttons_south = 53 6 57 108 6 49
+
+activate_struct_reset = 45 2 60 109 2 23
+
+"""
+inputList = """
 
 """.splitlines()
 

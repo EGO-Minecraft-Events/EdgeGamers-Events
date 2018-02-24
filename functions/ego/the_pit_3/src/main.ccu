@@ -6,6 +6,11 @@ from lib.consts import Sounds, Effects
 from lib.coords import Coords
 
 
+# TODO
+# degrading arena
+# kill items
+# announce winners
+
 event = THE_PIT_3
 floo_event = FlooEvent(THE_PIT_3, pvp="true")
 initials = "TP"

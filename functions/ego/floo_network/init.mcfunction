@@ -19,6 +19,7 @@ scoreboard objectives add FLdim dummy FlooNetwork Dimension Number
 scoreboard objectives add FLvot trigger FlooNetwork Vote Trigger
 scoreboard objectives add Health health
 scoreboard objectives setdisplay list Health
+scoreboard objectives add HOST dummy Host
 scoreboard objectives add gSA dummy Global Select All
 scoreboard objectives add gDE deathCount Global Death Count
 scoreboard objectives add gCS stat.useItem.minecraft.carrot_on_a_stick Global Use Carrot Stick
