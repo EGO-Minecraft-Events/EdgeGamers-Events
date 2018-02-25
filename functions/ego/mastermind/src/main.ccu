@@ -33,6 +33,12 @@ activate_struct_reset = Coords("45 2 60 109 2 23")
 room_size_north = Vector3(7, 5, 12)
 room_size_south = Vector3(-7, 5, -12)
 
+def to_relative(coords):
+    return Coords(*map(lambda x: "~" + x, coords.split()))
+
+dist_to_ans_north = to_relative("-5 5 -12")
+dist_to_ans_south = to_relative("5 5 12")
+
 north_room = Coords("53 4 36")
 south_room = Coords("46 4 47")
 
@@ -56,6 +62,9 @@ guess_button_difference = 2
 
 # each individual block that is avaliable
 blocks = ["wool 14", "wool 5", "wool 9", "wool 2", "wool 6", "wool 1"]
+
+# each block display name with their team name
+blocks_disp = [("red", "MMred"), ("lime", "MMlime"), ("cyan", "MMcyan"), ("magenta", "MMmagenta"), ("pink", "MMpink"), ("orange", "MMorange")]
 
 # total number of possible choices
 blocks_total = len(blocks)
@@ -123,16 +132,18 @@ OBJECTIVES.new_str("""
     # Used on the Room Stand to show that the correct answer has been reached
     ca _ Correct Answer
 
-    rs _ Room Select
-    pa _ Predicted Answer
-    sd _ Sign Display
+
     ra _ Repeated Answer
     na _ No Answer
-    gc _ Guess Check
-    gl _ Guess Calc
-    it _ Item
-    op _ Options
-    rg _ Right Guess
+
+    # rs _ Room Select
+    # pa _ Predicted Answer
+    # sd _ Sign Display
+    # gc _ Guess Check
+    # gl _ Guess Calc
+    # it _ Item
+    # op _ Options
+    # rg _ Right Guess
     
 """, initials=initials, display=event.full_name)
 
@@ -175,6 +186,9 @@ TEAMS.new_str("""
     # sets the player as the host
     @s HOST = 0
 
+    # set tiledrops to true so wool drops when you break it
+    gamerule doTileDrops true
+
     # activates the save structure blocks
     fill $(activate_struct_save) redstone_block 0 replace stonebrick 0
     fill $(activate_struct_save) stonebrick 0 replace redstone_block 0
@@ -183,30 +197,31 @@ TEAMS.new_str("""
     $(floo_event.cmd_post_init())
 
     $for(room in rooms.values())
-    summon armor_stand $(room.corner) {Tags:["MMEntity","MMRoom","MMRoom$(room.number)"],
+    summon armor_stand $(room.corner) {Tags:["MMEntity","MMRoom","MMRoom$(room.number)","MMInRoom$(room.number)"],
         Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
-    @e[type=armor_stand,MMRoom$(room.number)] MMrs = -$(room.number)
+
+    $for(guess_block_num in range(1, blocks_per_guess+1))
+    summon armor_stand $(room.corner) {Tags:["MMEntity","MMCorrect","MMCorrect$(guess_block_num)","MMInRoom$(room.number)"],
+        Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
+    $endfor
+    @e[type=armor_stand,MMInRoom$(room.number)] MMrn = $(room.number)
     $endfor
 
-    # sets the room number as the positive version of the room select
-    @e[type=armor_stand,MMRoom] ScOP @s MMrn = @s MMrs
-    ScOP @e[type=armor_stand,MMRoom] MMrn *= -1 Number
-
-    # @e[type=armor_stand,MMRoom] MMgc = 1
-    # @e[type=armor_stand,MMRoom] MMgl = 0
-    # @e[type=armor_stand,MMRoom] MMrg = 0
-    # @e[type=armor_stand,MMStand] MMop = 16
+    # @e[type=armor_stand,MMCorrect] function teleport_correct
+    function teleport_correct
+    function randomize
     
 
 !mfunc main
     $(floo_event.cmd_main())
     
     # initializes the player
-    @a[gSA=1,m=2] MMpl + 0
-    @a[gSA=1,MMpl=0,m=2] function reset_player
+    @a[gSA=1] MMpl + 0
+    @a[gSA=1,MMpl=0] function reset_player
 
     # @e[type=armor_stand,MMStand,MMst=0] function wait_for_start
     @e[type=armor_stand,MMStand,MMst=1] function start_round
+    @e[type=armor_stand,MMStand,MMst=2] function during_round
     @e[type=armor_stand,MMStand,MMst=3] function stop_round
 
     # checks the guess if an input is found
@@ -216,19 +231,22 @@ TEAMS.new_str("""
 
     @e[$(select_all),type=item] MMcl + 0 {Item:{id:"minecraft:wool"}}
     @e[$(select_all),type=item,MMcl=0] function change_wool
-    
-    # TODO fix selection
-    @a[$(select_hallway),m=2] MM = 0
-    @a[$(select_hallway),m=1] MM = 0
+
+    # sets the display for the player list
+    @a[$(select_hallway),m=1] MMrn = 0
+    @a[$(select_hallway),m=2] MMrn = 0
+    @a[gSA=1,m=3] MMrn = 0
 
     $for(room in rooms.values())
     @a[$(room.select),m=2] MMrn = $(room.number)
     @a[$(room.select),m=1] MMrn = $(room.number)
     $endfor
 
+    # displays the correct answer for the host
+    @a[HOST=0] function display_answer_actionbar
+    
     @a[MMrn=1..] ScOP @s MM = @s MMrn
-    @a[gSA=1,m=3] reset MMrn
-    @a[gSA=1,m=3] reset MM
+    @a[MMrn=0] reset MM
 
 
 !mfunc term
@@ -237,6 +255,10 @@ TEAMS.new_str("""
     # all players are removed from hosting mastermind
     * reset HOST
 
+    gamerule doTileDrops false
+
+    function clear_lanes
+    function open_doors
     @a[m=2,MMpl=1..] function full_reset_player
 
     $(OBJECTIVES.cmd_term())
@@ -247,13 +269,43 @@ TEAMS.new_str("""
 
 # Used on the MMStand when the round is starting
 !mfunc start_round
+    function close_doors
+    function randomize
+    function set_buttons
+
+    # sets the guess number as 1
+    @e[type=armor_stand,MMRoom] MMgn = 1
+
+    # resets whether the correct answer has been gotten or not
+    @e[type=armor_stand,MMRoom] MMca = 0
+    @e[type=armor_stand,MMRoom] reset MMpl
+
+    # resets their inventories for next round
+    @a[gSA=1,MMpl=2] MMpl = 1
+
+
     @s MMst = 2
 
 
+!mfunc during_round
+    @a[gSA=1,MMpl=1,m=1] function add_to_round
+    @a[gSA=1,MMpl=1,m=2] function add_to_round
+
 !mfunc stop_round
+    function clear_lanes
     @s MMst = 0
 
 
+# creates a bunch of input_guess mcfunctions
+$for(num in range(1, total_rooms + 1))
+$for(guess in range(1, total_guesses + 1))
+!mfunc input_guess_$(num)_$(guess)
+    @e[type=armor_stand,MMRoom$(num)] MMign = $(guess)
+$endfor
+$endfor
+
+
+# used on the Room Stand to determine what guess number is being ran
 !mfunc check_guess
     $for(num in range(1, total_rooms + 1))
     @s[MMRoom$(num)] function check_guess_$(num)
@@ -264,6 +316,7 @@ TEAMS.new_str("""
 # used on the Room Stand to check whether they guessed in the correct order
 $for(num in range(1, total_rooms + 1))
 !mfunc check_guess_$(num)
+    say @s check_guess_$(num)
     # sets their calc score to 0
     @s MMcl = 0
 
@@ -275,12 +328,12 @@ $for(num in range(1, total_rooms + 1))
     
     # tellraw message to display the expected guess number (MMgn)
     $for(guess in range(1, total_guesses + 1))
-    @s[MMcl=0,MMgn=$(guess)] tellraw @a[$(rooms[num].select)] $(event.begin())
+    @s[MMcl=0,MMgn=$(guess)] tellraw @a[MMrn=$(num)] $(event.begin())
         {"text":"Warning: ","color":"red","bold":"true"},
         {"text":"Please use guess $(guess).","color":"gold"}]}
     $endfor
 
-    @s[MMcl=1] function validate_guess_$(num)
+    @s[MMcl=1] function select_player_for_guess_$(num)
 
     # -1 is guess on first try
     # -2 is guess on second try
@@ -295,7 +348,6 @@ $for(num in range(1, total_rooms + 1))
     # -105 is when fourth guess is successfully done
     # -106 is when fifth guess is successfully done
     
-
     # guess number is normally positive
     ScOP @s[MMcl=2] MMpl = @s MMgn
 
@@ -305,28 +357,36 @@ $for(num in range(1, total_rooms + 1))
     # subtracts 100 if the guess has been validated but not a winning guess
     @s[MMcl=2,MMca=0] MMpl - 100
     
-    # displays it on the EC board, and sets the calc back to 0
+    # displays it on the EC board
     ScOP @a[MMrn=$(num)] MMec = @s MMpl
-    @s[MMcl=2] MMcl = 0
+
+    # Increases the guess number by one
+    @s[MMcl=2] MMgn + 1
+
+    # sets the calc back to 0
+    @s MMcl = 0
 
 
 # used on the Room Stand to select the player to be used for validating the guess
 !mfunc select_player_for_guess_$(num)
+    say @s select_player_for_guess_$(num)
 
     # summons an area effect cloud on the correct button
     $for(guess in range(1, total_guesses + 1))
-    @s[MMgn=$(guess)] summon area_effect_cloud ~7 ~2 ~$(total_guesses*guess_difference - guess) {
+    @s[MMgn=$(guess)] summon area_effect_cloud ~7 ~2 ~$((total_guesses-guess)*guess_difference + 2) {
         Tags:["MMEntity","MMGuessTP$(num)"],Duration:5}
     $endfor
 
-    @e[MMGuessTP$(num)] @p[r=5,MMrn=$(num)] function validate_guess_$(num)
+    @e[MMGuessTP$(num)] @p[r=5,MMrn=$(num)] MMcl = 1
+    tp @a[MMrn=$(num),MMcl=1] @e[MMGuessTP$(num)]
+    @a[MMrn=$(num),MMcl=1] function validate_guess_$(num)
+
     kill @e[MMGuessTP$(num)]
 
 
 # used on a player to validate the guess they are standing on
 !mfunc validate_guess_$(num)
-    @s MMcl = 1
-    tp @s @e[MMRoom$(num)]
+    say @s validate_guess_$(num)
 
     # summons area effect clouds on top of the guess
 
@@ -368,7 +428,8 @@ $for(num in range(1, total_rooms + 1))
     
     # Detects any non-wool blocks
     @s MMna + 0
-    @e[MMGuess,MMbi=0] @a[c=1,r=1,MMcl=1] MMna = 1
+    @e[MMGuess,MMbi=0] @a[MMrn=$(num),MMcl=1] MMna = 1
+    @e[MMGuess,MMbi=0] say WTF @a[MMrn=$(num),MMcl=1] WTF
 
     # Shows the warning
     @s[MMra=1] tellraw @a[MMrn=$(num)] $(event.begin())
@@ -381,7 +442,7 @@ $for(num in range(1, total_rooms + 1))
 
     # only displays the number of red and white if there
     # are no repeated colors or missing blocks
-    @s[MMra=0,MMna=0] function display_answer_$(num)
+    @s[MMra=0,MMna=0] function display_guess_$(num)
 
     kill @e[type=area_effect_cloud,MMrn=$(num)]
     @s reset MMra
@@ -390,9 +451,12 @@ $for(num in range(1, total_rooms + 1))
     @s MMcl = 0
     
 
-!mfunc display_answer_$(num)
+# used on the player to display the guess
+!mfunc display_guess_$(num)
+    say @s display_guess_$(num)
+
     # Sets the correct answer to the Guess clouds to match the armor stand
-    $for(guess_block_num in range(blocks_per_guess))
+    $for(guess_block_num in range(1, blocks_per_guess+1))
     ScOP @e[MMrn=$(num),MMGuess$(guess_block_num)] MMca = @e[MMrn=$(num),MMCorrect$(guess_block_num)] MMca
     $endfor
     
@@ -401,7 +465,7 @@ $for(num in range(1, total_rooms + 1))
 
     # counts the number of white by counting the clouds
     # around but not including the correct answer
-    @e[MMrn=$(num),MMGuess,MMca=$(block_num)] @e[MMrn=$(num),dist=1..$(blocks_per_guess-1),MMbi=$(block_num)] @e[MMrn=$(num),MMWhite] MMcl + 1
+    @e[MMrn=$(num),MMGuess,MMca=$(block_num)] @e[MMrn=$(num),MMGuess,dist=1..$(blocks_per_guess-1),MMbi=$(block_num)] @e[MMrn=$(num),MMWhite] MMcl + 1
 
     # counts the number of red by counting the number of clouds
     # that have the same block id and correct answer id
@@ -419,17 +483,19 @@ $for(num in range(1, total_rooms + 1))
         Text2:"{\"text\":\"\",\"extra\":[
             {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
         Text3:"{\"text\":\"\",\"extra\":[
-            {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\:\" white\"}]}",
+            {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\":\" white\"}]}",
         Text4:"{\"text\":\"-=-\"}"}
 
     # sets a winning red sign
+    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] setblock ~-7 ~ ~ air 0
     @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] setblock ~-7 ~ ~ standing_sign 10 replace {
         Text1:"{\"text\":\"--=--\"}",
-        Text2:"{"text":"4 red","bold":"true"}",
-        Text3:"{"text":"Shhhh","bold":"true"}",
+        Text2:"{\"text\":\"4 red\",\"bold\":\"true\"}",
+        Text3:"{\"text\":\"Shhhh\",\"bold\":\"true\"}",
         Text4:"{\"text\":\"--=--\"}"}
 
     # sets the sign will only show if you have red blocks and no white blocks
+    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] setblock ~-7 ~ ~ air 0
     @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] setblock ~-7 ~ ~ standing_sign 10 replace {
         Text1:"{\"text\":\"-=-\"}",
         Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
@@ -437,6 +503,7 @@ $for(num in range(1, total_rooms + 1))
         Text4:"{\"text\":\"\"}"}
 
     # sets the sign will only show if you have white blocks and no red blocks
+    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] setblock ~-7 ~ ~ air 0
     @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] setblock ~-7 ~ ~ standing_sign 10 replace {
         Text1:"{\"text\":\"-=-\"}",
         Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\":\" white\"}]}",
@@ -456,6 +523,75 @@ $for(num in range(1, total_rooms + 1))
     @s setblock ~ ~5 ~ redstone_block 0
 
 $endfor
+
+
+
+# used on arbitrary to teleport the Correct stands
+# to the correct places
+!mfunc teleport_correct
+    # teleports all to one corner of the guess display
+    tp @e[type=armor_stand,MMCorrect,MMrn=1..$(total_rooms // 2)] $(dist_to_ans_north)
+    tp @e[type=armor_stand,MMCorrect,MMrn=$(total_rooms//2 + 1)..$(total_rooms)] $(dist_to_ans_south)
+    
+    # teleports relative so each armor stand can be alligned
+    # to the correct slot in the guess display
+    $for(guess_block_num in range(blocks_per_guess))
+    tp @e[type=armor_stand,MMCorrect,MMCorrect$(guess_block_num+1),MMrn=1..$(total_rooms // 2)] ~$(guess_block_num) ~ ~
+    $endfor
+
+    $for(guess_block_num in range(blocks_per_guess))
+    tp @e[type=armor_stand,MMCorrect,MMCorrect$(guess_block_num+1),MMrn=$(total_rooms//2 + 1)..$(total_rooms)] ~$(-guess_block_num) ~ ~
+    $endfor
+
+
+# used on arbitrary to randomize all rooms
+!mfunc randomize
+    $for(num in range(1, total_rooms + 1))
+    @e[type=armor_stand,MMRoom$(num)] function randomize_$(num)
+    $endfor
+
+    # sets their names and team color equal to the correct answer
+    function update_colors
+
+
+# used on the Room Stands to randomize their specific room
+$for(num in range(1, total_rooms + 1))
+!mfunc randomize_$(num)
+
+    # summons 6 area effect clouds to be chosen from to randomize each room
+    $for(block_num in range(1, blocks_total+1))
+    summon area_effect_cloud ~ ~ ~ {Duration:5,Tags:["MMRandom","MMRandom$(block_num)"]}
+    $endfor
+
+    # sets their scores depending on their tag
+    # so MMRandom2 will have a MMca score of 2
+    $for(block_num in range(1, blocks_total+1))
+    @e[type=area_effect_cloud,MMRandom$(block_num)] MMca = $(block_num)
+    $endfor
+    
+    # goes through all guess block numbers other than the last one (1, 2, 3)
+    # and randomly chooses an area effect cloud using MMcl=0
+    $for(guess_block_num in range(1, blocks_per_guess))
+    @r[type=area_effect_cloud,MMRandom] MMcl + 0
+    ScOP @e[MMrn=$(num),type=armor_stand,MMCorrect$(guess_block_num)] MMca = @e[type=area_effect_cloud,MMRandom,MMcl=0] MMca
+    kill @e[type=area_effect_cloud,MMcl=0]
+    $endfor
+
+    # uses the last number as the total blocks per guess (4) and
+    # kills off any remaining area effect clouds
+    @r[type=area_effect_cloud,MMRandom] MMcl + 0
+    ScOP @e[MMrn=$(num),type=armor_stand,MMCorrect$(blocks_per_guess)] MMca = @e[type=area_effect_cloud,MMRandom,MMcl=0] MMca
+    kill @e[type=area_effect_cloud,MMRandom]
+
+$endfor
+
+# used on arbitrary to update their names and team colors
+!mfunc update_colors
+    $for(block_num in range(1, blocks_total+1))
+    $py(color, team = blocks_disp[block_num-1])
+
+    entitydata @e[type=armor_stand,MMCorrect,MMca=$(block_num)] {CustomName:"$(color)",Team:"$(team)"}
+    $endfor
 
 
 !mfunc reset_player
@@ -484,12 +620,20 @@ $endfor
 !mfunc add_to_round
     function reset_player
 
-    replaceitem entity @s slot.hotbar.0 wool 64 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    replaceitem entity @s slot.hotbar.1 wool 64 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    replaceitem entity @s slot.hotbar.2 wool 64 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    replaceitem entity @s slot.hotbar.3 wool 64 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    replaceitem entity @s slot.hotbar.4 wool 64 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
-    replaceitem entity @s slot.hotbar.5 wool 64 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    # gives 64 wool to gamemode 2, but 1 wool to gamemode 1
+    replaceitem entity @s[m=2] slot.hotbar.0 wool 64 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=2] slot.hotbar.1 wool 64 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=2] slot.hotbar.2 wool 64 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=2] slot.hotbar.3 wool 64 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=2] slot.hotbar.4 wool 64 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=2] slot.hotbar.5 wool 64 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+
+    replaceitem entity @s[m=1] slot.hotbar.0 wool 1 1 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=1] slot.hotbar.1 wool 1 2 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=1] slot.hotbar.2 wool 1 6 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=1] slot.hotbar.3 wool 1 9 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=1] slot.hotbar.4 wool 1 5 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
+    replaceitem entity @s[m=1] slot.hotbar.5 wool 1 14 {CanPlaceOn:["minecraft:glass"],display:{Lore:["Mastermind Wool"]},HideFlags:127}
 
     replaceitem entity @s[m=2] slot.hotbar.6 shears 1 0 {
         CanDestroy:["minecraft:wool"],Unbreakable:1,ench:[{id:32,lvl:9001}],display:{Lore:["Mastermind Shears"]}}
@@ -503,17 +647,7 @@ $endfor
 # so they can be placed on glass and immediately picked up
 !mfunc change_wool
     entitydata @s {Item:{tag:{CanPlaceOn:["minecraft:glass"],HideFlags:127,display:{Lore:["Mastermind Wool"]}}},PickupDelay:1s}
-    @s MMit = 1
-
-
-!mfunc input_start_round
-    @e[type=armor_stand,MMStand] MMst = 1
-
-!mfunc input_reset_round
-    @e[type=armor_stand,MMStand] MMst = 3
-
-
-
+    @s MMcl = 1
 
 !mfunc open_doors
     fill $(fill_doors_north) air 0 replace bedrock 0
@@ -526,16 +660,74 @@ $endfor
 !mfunc set_buttons
     fill $(fill_buttons_north) stone_button 5 replace tripwire
     fill $(fill_buttons_south) stone_button 5 replace tripwire
-    @a[gSA=1,m=2] function add_to_round
 
     
 !mfunc clear_lanes
     fill $(activate_struct_reset) redstone_block 0 replace planks 0
     fill $(activate_struct_reset) planks 0 replace redstone_block 0
-    @e[type=armor_stand,MMRoom] MMgn = 1
-    @e[type=armor_stand,MMRoom] reset MMpl
-    @a[gSA=1,m=2] function reset_player
 
+
+# used on arbitrary to show the correct answer blocks
+# for each room
+!mfunc show_answer_blocks
+    $for(block_num in range(1, blocks_total+1))
+    @e[type=armor_stand,MMCorrect,MMca=$(block_num)] setblock ~ ~ ~ $(blocks[block_num-1])
+    $endfor
+
+
+
+!mfunc display_answer_actionbar
+    $for(num in range(1, (total_rooms) + 1))
+    title @s[$(rooms[num].select)] actionbar {"text":"","extra":[
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect1]"},
+        {"text":" "},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect2]"},
+        {"text":" "},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect3]"},
+        {"text":" "},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect4]"}
+        ]}
+    $endfor
+
+
+!mfunc bcast_answer
+    $for(num in range(1, (total_rooms) + 1))
+    tellraw @a[MMrn=$(num)] $(event.begin())
+        {"text":"The correct combo is ","color":"green"},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect1]"},
+        {"text":", ","color":"green"},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect2]"},
+        {"text":", ","color":"green"},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect3]"},
+        {"text":" and ","color":"green"},
+        {"selector":"@e[type=armor_stand,score_MMrn_min=$(num),score_MMrn=$(num),tag=MMCorrect4]"},
+        {"text":"!","color":"green"}
+        ]}
+    $endfor
+
+
+
+!mfunc input_start_round
+    @e[type=armor_stand,MMStand] MMst = 1
+
+!mfunc input_reset_round
+    @e[type=armor_stand,MMStand] MMst = 3
+
+!mfunc input_open_doors
+    function open_doors
+
+!mfunc input_close_doors
+    function close_doors
+
+!mfunc input_reset_all
+    @a[MMpl=1..] MMpl = 0
+
+!mfunc input_randomize
+    function randomize
+
+!mfunc input_show_answer
+    function show_answer_blocks
+    function bcast_answer
 
 
 !mfunc book
@@ -564,7 +756,31 @@ $endfor
             {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
+            },
+
+
+            {\"text\":\"Doors: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Open\",\"color\":\"dark_green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_open_doors"))\"}},
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Closed\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_close_doors"))\"}},
+            
+            {\"text\":\"Resets all: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\\\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_all"))\"}},
+            
+            {\"text\":\"\\\n\"},
+            
+            {\"text\":\"Randomizer: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\\\n\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_randomize"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Randomizes the answer (auto sets answer if pressed)\",\"color\":\"gold\"}}
+            },
+            
+            {\"text\":\"Bcasts answer: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\\\n\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_show_answer"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Bcasts and clones answer\",\"color\":\"gold\"}}
             }
         ]"
     ]}
+
 

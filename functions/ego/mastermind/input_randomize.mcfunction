@@ -1,0 +1,1 @@
+function ego:mastermind/randomize

@@ -1,7 +1,10 @@
-execute @s[score_MMgn_min=1,score_MMgn=1] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~9 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
+say @s select_player_for_guess_2
+execute @s[score_MMgn_min=1,score_MMgn=1] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~10 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
 execute @s[score_MMgn_min=2,score_MMgn=2] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~8 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
-execute @s[score_MMgn_min=3,score_MMgn=3] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~7 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
-execute @s[score_MMgn_min=4,score_MMgn=4] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~6 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
-execute @s[score_MMgn_min=5,score_MMgn=5] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~5 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
-execute @e[tag=MMGuessTP2] ~ ~ ~ execute @p[r=5,score_MMrn_min=2,score_MMrn=2] ~ ~ ~ function ego:mastermind/validate_guess_2
+execute @s[score_MMgn_min=3,score_MMgn=3] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~6 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
+execute @s[score_MMgn_min=4,score_MMgn=4] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~4 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
+execute @s[score_MMgn_min=5,score_MMgn=5] ~ ~ ~ summon area_effect_cloud ~7 ~2 ~2 {Tags:["MMEntity","MMGuessTP2"],Duration:5}
+execute @e[tag=MMGuessTP2] ~ ~ ~ scoreboard players set @p[r=5,score_MMrn_min=2,score_MMrn=2] MMcl 1
+minecraft:tp @a[score_MMrn_min=2,score_MMrn=2,score_MMcl_min=1,score_MMcl=1] @e[tag=MMGuessTP2]
+execute @a[score_MMrn_min=2,score_MMrn=2,score_MMcl_min=1,score_MMcl=1] ~ ~ ~ function ego:mastermind/validate_guess_2
 kill @e[tag=MMGuessTP2]
