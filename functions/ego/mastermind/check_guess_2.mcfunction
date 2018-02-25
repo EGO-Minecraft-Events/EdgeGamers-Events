@@ -1,4 +1,3 @@
-say @s check_guess_2
 scoreboard players set @s MMcl 0
 scoreboard players set @s[score_MMign_min=1,score_MMign=1,score_MMgn_min=1,score_MMgn=1] MMcl 1
 scoreboard players set @s[score_MMign_min=2,score_MMign=2,score_MMgn_min=2,score_MMgn=2] MMcl 1

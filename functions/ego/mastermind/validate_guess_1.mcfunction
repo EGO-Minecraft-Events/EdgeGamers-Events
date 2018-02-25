@@ -1,8 +1,7 @@
-say @s validate_guess_1
-summon area_effect_cloud ~-2 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess1"],Duration:5}
-summon area_effect_cloud ~-3 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess2"],Duration:5}
-summon area_effect_cloud ~-4 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess3"],Duration:5}
-summon area_effect_cloud ~-5 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess4"],Duration:5}
+summon area_effect_cloud ~2 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess1"],Duration:5}
+summon area_effect_cloud ~3 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess2"],Duration:5}
+summon area_effect_cloud ~4 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess3"],Duration:5}
+summon area_effect_cloud ~5 ~ ~ {Tags:["MMEntity","MMGuess","MMGuess4"],Duration:5}
 summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMRepeat","MMRepeat1"],Duration:5}
 summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMRepeat","MMRepeat2"],Duration:5}
 summon area_effect_cloud ~ ~ ~ {Tags:["MMEntity","MMRepeat","MMRepeat3"],Duration:5}
@@ -26,10 +25,9 @@ execute @e[score_MMrn_min=1,score_MMrn=1,tag=MMGuess,score_MMbi_min=4,score_MMbi
 execute @e[score_MMrn_min=1,score_MMrn=1,tag=MMGuess,score_MMbi_min=5,score_MMbi=5] ~ ~ ~ scoreboard players add @e[score_MMrn_min=1,score_MMrn=1,tag=MMRepeat5] MMcl 1
 execute @e[score_MMrn_min=1,score_MMrn=1,tag=MMGuess,score_MMbi_min=6,score_MMbi=6] ~ ~ ~ scoreboard players add @e[score_MMrn_min=1,score_MMrn=1,tag=MMRepeat6] MMcl 1
 scoreboard players add @s MMra 0
-execute @e[score_MMrn_min=1,score_MMrn=1,tag=MMRepeat,score_MMcl_min=2] ~ ~ ~ scoreboard players set @a[c=1,r=1,score_MMcl_min=1,score_MMcl=1] MMra 1
+execute @e[score_MMrn_min=1,score_MMrn=1,tag=MMRepeat,score_MMcl_min=2] ~ ~ ~ scoreboard players set @a[score_MMrn_min=1,score_MMrn=1,score_MMcl_min=1,score_MMcl=1] MMra 1
 scoreboard players add @s MMna 0
 execute @e[tag=MMGuess,score_MMbi_min=0,score_MMbi=0] ~ ~ ~ scoreboard players set @a[score_MMrn_min=1,score_MMrn=1,score_MMcl_min=1,score_MMcl=1] MMna 1
-execute @e[tag=MMGuess,score_MMbi_min=0,score_MMbi=0] ~ ~ ~ say WTF @a[score_MMrn_min=1,score_MMrn=1,score_MMcl_min=1,score_MMcl=1] WTF
 execute @s[score_MMra_min=1,score_MMra=1] ~ ~ ~ tellraw @a[score_MMrn_min=1,score_MMrn=1] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MM","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mastermind","color":"gold"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1217546713"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Warning: ","color":"red","bold":"true"},{"text":"There are repeated colors. Please redo your guess.","color":"gold"}]}
 execute @s[score_MMna_min=1,score_MMna=1] ~ ~ ~ tellraw @a[score_MMrn_min=1,score_MMrn=1] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"MM","color":"gold","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Mastermind","color":"gold"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1217546713"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Warning: ","color":"red","bold":"true"},{"text":"There is at least one missing block. Please redo your guess.","color":"gold"}]}
 execute @s[score_MMra_min=0,score_MMra=0,score_MMna_min=0,score_MMna=0] ~ ~ ~ function ego:mastermind/display_guess_1

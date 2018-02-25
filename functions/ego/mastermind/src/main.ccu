@@ -33,11 +33,20 @@ activate_struct_reset = Coords("45 2 60 109 2 23")
 room_size_north = Vector3(7, 5, 12)
 room_size_south = Vector3(-7, 5, -12)
 
-def to_relative(coords):
-    return Coords(*map(lambda x: "~" + x, coords.split()))
+def relative(*coords):
+    return Coords(*map(lambda x: "~" + str(x), coords))
 
-dist_to_ans_north = to_relative("-5 5 -12")
-dist_to_ans_south = to_relative("5 5 12")
+def rotate_180(coords):
+    # you literally can't use round since that returns a float, and I need an int
+    # coords.vec.xz.rotate(180, radians=False)
+    # coords.vec = round(coords.vec)
+
+    # quick fix for the following because glitch
+    # coords.vec.xz *= -1
+    coords.vec.xz = coords.vec.xz * -1
+
+dist_to_ans_north = relative(-5, 5, -12)
+dist_to_ans_south = relative(5, 5, 12)
 
 north_room = Coords("53 4 36")
 south_room = Coords("46 4 47")
@@ -316,7 +325,7 @@ $endfor
 # used on the Room Stand to check whether they guessed in the correct order
 $for(num in range(1, total_rooms + 1))
 !mfunc check_guess_$(num)
-    say @s check_guess_$(num)
+    # say @s check_guess_$(num)
     # sets their calc score to 0
     @s MMcl = 0
 
@@ -369,16 +378,27 @@ $for(num in range(1, total_rooms + 1))
 
 # used on the Room Stand to select the player to be used for validating the guess
 !mfunc select_player_for_guess_$(num)
-    say @s select_player_for_guess_$(num)
+    # say @s select_player_for_guess_$(num)
 
     # summons an area effect cloud on the correct button
     $for(guess in range(1, total_guesses + 1))
-    @s[MMgn=$(guess)] summon area_effect_cloud ~7 ~2 ~$((total_guesses-guess)*guess_difference + 2) {
-        Tags:["MMEntity","MMGuessTP$(num)"],Duration:5}
+
+    $py(summon_coords = relative(7, 2, ((total_guesses-guess)*guess_difference) + 2))
+    $if(num <= 6)
+    # rotate around origin
+    $py(rotate_180(summon_coords))
+    $endif
+
+    @s[MMgn=$(guess)] summon area_effect_cloud $(summon_coords) {Tags:["MMEntity","MMGuessTP$(num)"],Duration:5}
     $endfor
 
     @e[MMGuessTP$(num)] @p[r=5,MMrn=$(num)] MMcl = 1
     tp @a[MMrn=$(num),MMcl=1] @e[MMGuessTP$(num)]
+
+    $if(num <= 6)
+    tp @a[MMrn=$(num),MMcl=1] ~ ~ ~ ~180 ~
+    $endif
+
     @a[MMrn=$(num),MMcl=1] function validate_guess_$(num)
 
     kill @e[MMGuessTP$(num)]
@@ -386,14 +406,19 @@ $for(num in range(1, total_rooms + 1))
 
 # used on a player to validate the guess they are standing on
 !mfunc validate_guess_$(num)
-    say @s validate_guess_$(num)
+    # say @s validate_guess_$(num)
 
     # summons area effect clouds on top of the guess
-
     # for 0 to 3, summons area effect clouds over the blocks of the guess
     $for(guess_block_num in range(blocks_per_guess))
-    summon area_effect_cloud ~-$(guess_button_difference + guess_block_num) ~ ~ {
-        Tags:["MMEntity","MMGuess","MMGuess$(guess_block_num+1)"],Duration:5}
+
+    $py(summon_coords = relative(-(guess_button_difference + guess_block_num), 0, 0))
+    $if(num <= 6)
+    # rotate around origin
+    $py(rotate_180(summon_coords))
+    $endif
+
+    summon area_effect_cloud $(summon_coords) {Tags:["MMEntity","MMGuess","MMGuess$(guess_block_num+1)"],Duration:5}
     $endfor
 
     # summons one for each block possibility to check for repeating answers
@@ -424,12 +449,11 @@ $for(num in range(1, total_rooms + 1))
     $endfor
 
     @s MMra + 0
-    @e[MMrn=$(num),MMRepeat,MMcl=2..] @a[c=1,r=1,MMcl=1] MMra = 1
+    @e[MMrn=$(num),MMRepeat,MMcl=2..] @a[MMrn=$(num),MMcl=1] MMra = 1
     
     # Detects any non-wool blocks
     @s MMna + 0
     @e[MMGuess,MMbi=0] @a[MMrn=$(num),MMcl=1] MMna = 1
-    @e[MMGuess,MMbi=0] say WTF @a[MMrn=$(num),MMcl=1] WTF
 
     # Shows the warning
     @s[MMra=1] tellraw @a[MMrn=$(num)] $(event.begin())
@@ -453,7 +477,7 @@ $for(num in range(1, total_rooms + 1))
 
 # used on the player to display the guess
 !mfunc display_guess_$(num)
-    say @s display_guess_$(num)
+    # say @s display_guess_$(num)
 
     # Sets the correct answer to the Guess clouds to match the armor stand
     $for(guess_block_num in range(1, blocks_per_guess+1))
@@ -478,7 +502,16 @@ $for(num in range(1, total_rooms + 1))
     
     # sets the sign if the guess is filled and has no repeating blocks
     # sets a sign with both red and white
-    setblock ~-7 ~ ~ standing_sign 10 replace {
+
+    $if(num <= 6)
+    $py(set_sign = "setblock ~7 ~ ~ standing_sign 2")
+    $py(set_air = "setblock ~7 ~ ~ air 0")
+    $else
+    $py(set_sign = "setblock ~-7 ~ ~ standing_sign 10")
+    $py(set_air = "setblock ~-7 ~ ~ air 0")
+    $endif
+
+    $(set_sign) replace {
         Text1:"{\"text\":\"-=-\"}",
         Text2:"{\"text\":\"\",\"extra\":[
             {\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
@@ -487,24 +520,24 @@ $for(num in range(1, total_rooms + 1))
         Text4:"{\"text\":\"-=-\"}"}
 
     # sets a winning red sign
-    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] setblock ~-7 ~ ~ air 0
-    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] setblock ~-7 ~ ~ standing_sign 10 replace {
+    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] $(set_air)
+    @e[MMrn=$(num),MMRed,MMcl=$(blocks_per_guess)] $(set_sign) replace {
         Text1:"{\"text\":\"--=--\"}",
         Text2:"{\"text\":\"4 red\",\"bold\":\"true\"}",
         Text3:"{\"text\":\"Shhhh\",\"bold\":\"true\"}",
         Text4:"{\"text\":\"--=--\"}"}
 
     # sets the sign will only show if you have red blocks and no white blocks
-    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] setblock ~-7 ~ ~ air 0
-    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] setblock ~-7 ~ ~ standing_sign 10 replace {
+    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] $(set_air)
+    @e[MMrn=$(num),MMWhite,MMcl=0] @e[MMrn=$(num),MMRed,MMcl=1..$(blocks_per_guess-1)] $(set_sign) replace {
         Text1:"{\"text\":\"-=-\"}",
         Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMRed]\",\"objective\":\"MMcl\"}},{\"text\":\" red\"}]}",
         Text3:"{\"text\":\"-=-\"}",
         Text4:"{\"text\":\"\"}"}
 
     # sets the sign will only show if you have white blocks and no red blocks
-    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] setblock ~-7 ~ ~ air 0
-    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] setblock ~-7 ~ ~ standing_sign 10 replace {
+    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] $(set_air)
+    @e[MMrn=$(num),MMWhite,MMcl=1..$(blocks_per_guess)] @e[MMrn=$(num),MMRed,MMcl=0] $(set_sign) replace {
         Text1:"{\"text\":\"-=-\"}",
         Text2:"{\"text\":\"\",\"extra\":[{\"score\":{\"name\":\"@e[type=area_effect_cloud,tag=MMWhite]\",\"objective\":\"MMcl\"}},{\"text\":\" white\"}]}",
         Text3:"{\"text\":\"-=-\"}",
@@ -519,8 +552,14 @@ $for(num in range(1, total_rooms + 1))
     @e[MMrn=$(num),MMRed,MMcl=4] @e[type=armor_stand,MMRoom$(num),MMca=0] MMca = 1
 
     @e[MMrn=$(num),MMRed,MMcl=4] fill ~ ~4 ~ ~ ~6 ~ sea_lantern 0 replace redstone_lamp
-    @s clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
-    @s setblock ~ ~5 ~ redstone_block 0
+
+    $if(num <= 6)
+    clone ~2 ~-1 ~ ~5 ~-1 ~ ~2 ~-3 ~
+    $else
+    clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
+    $endif
+
+    setblock ~ ~5 ~ redstone_block 0
 
 $endfor
 
@@ -675,7 +714,7 @@ $endfor
     $endfor
 
 
-
+# used on the host to show the correct answer for each room
 !mfunc display_answer_actionbar
     $for(num in range(1, (total_rooms) + 1))
     title @s[$(rooms[num].select)] actionbar {"text":"","extra":[

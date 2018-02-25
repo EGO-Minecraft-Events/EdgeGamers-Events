@@ -1,4 +1,3 @@
-say @s display_guess_8
 scoreboard players operation @e[score_MMrn_min=8,score_MMrn=8,tag=MMGuess1] MMca = @e[score_MMrn_min=8,score_MMrn=8,tag=MMCorrect1] MMca
 scoreboard players operation @e[score_MMrn_min=8,score_MMrn=8,tag=MMGuess2] MMca = @e[score_MMrn_min=8,score_MMrn=8,tag=MMCorrect2] MMca
 scoreboard players operation @e[score_MMrn_min=8,score_MMrn=8,tag=MMGuess3] MMca = @e[score_MMrn_min=8,score_MMrn=8,tag=MMCorrect3] MMca
@@ -28,5 +27,5 @@ setblock ~ ~ ~ tripwire 0 replace stone_button
 scoreboard players set @e[type=armor_stand,tag=MMRoom8,score_MMca_min=0,score_MMca=0,score_MMcl_min=1,score_MMcl=1] MMcl 2
 execute @e[score_MMrn_min=8,score_MMrn=8,tag=MMRed,score_MMcl_min=4,score_MMcl=4] ~ ~ ~ scoreboard players set @e[type=armor_stand,tag=MMRoom8,score_MMca_min=0,score_MMca=0] MMca 1
 execute @e[score_MMrn_min=8,score_MMrn=8,tag=MMRed,score_MMcl_min=4,score_MMcl=4] ~ ~ ~ fill ~ ~4 ~ ~ ~6 ~ sea_lantern 0 replace redstone_lamp
-execute @s ~ ~ ~ clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
-execute @s ~ ~ ~ setblock ~ ~5 ~ redstone_block 0
+clone ~-2 ~-1 ~ ~-5 ~-1 ~ ~-5 ~-3 ~
+setblock ~ ~5 ~ redstone_block 0
