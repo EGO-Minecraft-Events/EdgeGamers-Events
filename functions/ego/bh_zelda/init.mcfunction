@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1127,y=50,z=-218,dx=-86,dy=-47,dz=38] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHZgl dummy Zelda Glowing Players
 scoreboard objectives add BHZcalc dummy Zelda Calculations
 scoreboard objectives add BHZst dummy Zelda State
 scoreboard teams add BHZh Zelda Hiders
-scoreboard teams option BHZh friendlyfire false
-scoreboard teams option BHZh collisionRule never
-scoreboard teams option BHZh deathMessageVisibility never
-scoreboard teams option BHZh color green
 scoreboard teams option BHZh nametagVisibility hideForOtherTeams
+scoreboard teams option BHZh color green
+scoreboard teams option BHZh friendlyfire false
+scoreboard teams option BHZh deathMessageVisibility never
+scoreboard teams option BHZh collisionRule never
 scoreboard teams add BHZv Zelda Virus
-scoreboard teams option BHZv friendlyfire false
-scoreboard teams option BHZv collisionRule never
-scoreboard teams option BHZv deathMessageVisibility never
 scoreboard teams option BHZv color yellow
+scoreboard teams option BHZv friendlyfire false
+scoreboard teams option BHZv deathMessageVisibility never
+scoreboard teams option BHZv collisionRule never
 scoreboard teams add BHZd_y Zelda Display Yellow
 scoreboard teams option BHZd_y color yellow
 scoreboard teams add BHZd_g Zelda Display Green

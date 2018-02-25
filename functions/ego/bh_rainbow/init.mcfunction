@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1130,y=38,z=-93,dx=-42,dy=-34,dz=83] gSA 1
 scoreboard objectives add constants dummy
@@ -28,14 +30,14 @@ scoreboard objectives add BHRAgl dummy Rainbow Glowing Players
 scoreboard objectives add BHRAcalc dummy Rainbow Calculations
 scoreboard objectives add BHRAst dummy Rainbow State
 scoreboard teams add BHRAh Rainbow Hiders
-scoreboard teams option BHRAh friendlyfire false
 scoreboard teams option BHRAh collisionRule never
+scoreboard teams option BHRAh friendlyfire false
 scoreboard teams option BHRAh deathMessageVisibility never
 scoreboard teams option BHRAh color green
 scoreboard teams option BHRAh nametagVisibility hideForOtherTeams
 scoreboard teams add BHRAv Rainbow Virus
-scoreboard teams option BHRAv friendlyfire false
 scoreboard teams option BHRAv collisionRule never
+scoreboard teams option BHRAv friendlyfire false
 scoreboard teams option BHRAv deathMessageVisibility never
 scoreboard teams option BHRAv color yellow
 scoreboard teams add BHRAd_y Rainbow Display Yellow

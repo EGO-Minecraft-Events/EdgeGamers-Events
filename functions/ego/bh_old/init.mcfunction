@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1194,y=45,z=-175,dx=72,dy=-42,dz=72] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHOgl dummy Old Glowing Players
 scoreboard objectives add BHOcalc dummy Old Calculations
 scoreboard objectives add BHOst dummy Old State
 scoreboard teams add BHOh Old Hiders
-scoreboard teams option BHOh friendlyfire false
-scoreboard teams option BHOh collisionRule never
 scoreboard teams option BHOh deathMessageVisibility never
+scoreboard teams option BHOh collisionRule never
 scoreboard teams option BHOh color green
 scoreboard teams option BHOh nametagVisibility hideForOtherTeams
+scoreboard teams option BHOh friendlyfire false
 scoreboard teams add BHOv Old Virus
-scoreboard teams option BHOv friendlyfire false
-scoreboard teams option BHOv collisionRule never
 scoreboard teams option BHOv deathMessageVisibility never
+scoreboard teams option BHOv collisionRule never
 scoreboard teams option BHOv color yellow
+scoreboard teams option BHOv friendlyfire false
 scoreboard teams add BHOd_y Old Display Yellow
 scoreboard teams option BHOd_y color yellow
 scoreboard teams add BHOd_g Old Display Green

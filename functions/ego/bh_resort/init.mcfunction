@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1390,y=101,z=-13,dx=-92,dy=-97,dz=-92] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHREgl dummy Resort Glowing Players
 scoreboard objectives add BHREcalc dummy Resort Calculations
 scoreboard objectives add BHREst dummy Resort State
 scoreboard teams add BHREh Resort Hiders
+scoreboard teams option BHREh color green
+scoreboard teams option BHREh deathMessageVisibility never
+scoreboard teams option BHREh nametagVisibility hideForOtherTeams
 scoreboard teams option BHREh friendlyfire false
 scoreboard teams option BHREh collisionRule never
-scoreboard teams option BHREh deathMessageVisibility never
-scoreboard teams option BHREh color green
-scoreboard teams option BHREh nametagVisibility hideForOtherTeams
 scoreboard teams add BHREv Resort Virus
+scoreboard teams option BHREv color yellow
+scoreboard teams option BHREv deathMessageVisibility never
 scoreboard teams option BHREv friendlyfire false
 scoreboard teams option BHREv collisionRule never
-scoreboard teams option BHREv deathMessageVisibility never
-scoreboard teams option BHREv color yellow
 scoreboard teams add BHREd_y Resort Display Yellow
 scoreboard teams option BHREd_y color yellow
 scoreboard teams add BHREd_g Resort Display Green

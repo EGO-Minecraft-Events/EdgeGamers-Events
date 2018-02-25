@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1208,y=34,z=-186,dx=-176,dy=-30,dz=176] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHTSgl dummy Train Station Glowing Players
 scoreboard objectives add BHTScalc dummy Train Station Calculations
 scoreboard objectives add BHTSst dummy Train Station State
 scoreboard teams add BHTSh Train Station Hiders
-scoreboard teams option BHTSh friendlyfire false
-scoreboard teams option BHTSh collisionRule never
-scoreboard teams option BHTSh deathMessageVisibility never
 scoreboard teams option BHTSh color green
+scoreboard teams option BHTSh deathMessageVisibility never
+scoreboard teams option BHTSh friendlyfire false
 scoreboard teams option BHTSh nametagVisibility hideForOtherTeams
+scoreboard teams option BHTSh collisionRule never
 scoreboard teams add BHTSv Train Station Virus
+scoreboard teams option BHTSv color yellow
+scoreboard teams option BHTSv deathMessageVisibility never
 scoreboard teams option BHTSv friendlyfire false
 scoreboard teams option BHTSv collisionRule never
-scoreboard teams option BHTSv deathMessageVisibility never
-scoreboard teams option BHTSv color yellow
 scoreboard teams add BHTSd_y Train Station Display Yellow
 scoreboard teams option BHTSd_y color yellow
 scoreboard teams add BHTSd_g Train Station Display Green

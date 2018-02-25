@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1046,y=55,z=-148,dx=-69,dy=-51,dz=60] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHJgl dummy Jungle Glowing Players
 scoreboard objectives add BHJcalc dummy Jungle Calculations
 scoreboard objectives add BHJst dummy Jungle State
 scoreboard teams add BHJh Jungle Hiders
-scoreboard teams option BHJh friendlyfire false
-scoreboard teams option BHJh collisionRule never
 scoreboard teams option BHJh deathMessageVisibility never
-scoreboard teams option BHJh color green
+scoreboard teams option BHJh collisionRule never
 scoreboard teams option BHJh nametagVisibility hideForOtherTeams
+scoreboard teams option BHJh color green
+scoreboard teams option BHJh friendlyfire false
 scoreboard teams add BHJv Jungle Virus
-scoreboard teams option BHJv friendlyfire false
-scoreboard teams option BHJv collisionRule never
 scoreboard teams option BHJv deathMessageVisibility never
+scoreboard teams option BHJv collisionRule never
 scoreboard teams option BHJv color yellow
+scoreboard teams option BHJv friendlyfire false
 scoreboard teams add BHJd_y Jungle Display Yellow
 scoreboard teams option BHJd_y color yellow
 scoreboard teams add BHJd_g Jungle Display Green

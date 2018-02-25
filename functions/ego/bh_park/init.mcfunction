@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1263,y=38,z=-189,dx=42,dy=-34,dz=-99] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHPgl dummy Park Glowing Players
 scoreboard objectives add BHPcalc dummy Park Calculations
 scoreboard objectives add BHPst dummy Park State
 scoreboard teams add BHPh Park Hiders
-scoreboard teams option BHPh friendlyfire false
-scoreboard teams option BHPh collisionRule never
-scoreboard teams option BHPh deathMessageVisibility never
 scoreboard teams option BHPh color green
+scoreboard teams option BHPh deathMessageVisibility never
 scoreboard teams option BHPh nametagVisibility hideForOtherTeams
+scoreboard teams option BHPh collisionRule never
+scoreboard teams option BHPh friendlyfire false
 scoreboard teams add BHPv Park Virus
-scoreboard teams option BHPv friendlyfire false
-scoreboard teams option BHPv collisionRule never
-scoreboard teams option BHPv deathMessageVisibility never
 scoreboard teams option BHPv color yellow
+scoreboard teams option BHPv deathMessageVisibility never
+scoreboard teams option BHPv collisionRule never
+scoreboard teams option BHPv friendlyfire false
 scoreboard teams add BHPd_y Park Display Yellow
 scoreboard teams option BHPd_y color yellow
 scoreboard teams add BHPd_g Park Display Green

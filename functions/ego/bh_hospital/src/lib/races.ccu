@@ -62,6 +62,9 @@ TEAMS.new_str("""
     # from the include files
     $race_main_start()
 
+    # from the main.ccu file
+    $edit_scoreboard_start()
+
     # initializes objectives and teams
     $(OBJECTIVES.cmd_init())
     $(TEAMS.cmd_init())
@@ -72,7 +75,7 @@ TEAMS.new_str("""
     # adds the "/spawn" fakename to the proper color
     join $(team_name) /spawn
 
-    # from main ccu file
+    # from the main.ccu file
     $edit_main_start()
 
     # initialize the floo network

@@ -68,3 +68,12 @@
 
 0.12.1
     Fix BH_MASTERMIND select_coords
+
+0.13.0
+    Add .rotate and .rotated methods to Vector2
+
+0.13.1
+    Fix .rotate behavior on swizzled Vector2
+
+0.13.2
+    Fix coord import in vector.py

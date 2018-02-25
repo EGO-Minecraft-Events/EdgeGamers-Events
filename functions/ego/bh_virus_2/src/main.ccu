@@ -39,6 +39,7 @@ $endfor
 
 # additional commands for the main start
 $macro(edit_round_start)
+    $(prng.cmd_init())
     fill $(mid_door) stonebrick 0 replace redstone_block 0
     @a[team=$(virus.initials)h] function give_disguise
 $endmacro

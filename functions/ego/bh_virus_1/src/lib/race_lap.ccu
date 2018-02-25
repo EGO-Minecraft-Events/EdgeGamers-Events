@@ -11,9 +11,15 @@ race = LapRace(NAME_RACE,
     lap_reset=Coords(""),
     spawn=Coords(""),
     fill_air=Coords(""),
-    fill_block=Coords(""))
+    fill_block=Coords("")
 )
 
+)
+
+
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
 
 # additional commands for the main start
 $macro(edit_main_start)

@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1117,y=48,z=-153,dx=73,dy=-44,dz=-72] gSA 1
 scoreboard objectives add constants dummy
@@ -30,14 +32,14 @@ scoreboard objectives add BHMVst dummy Mushroom Village State
 scoreboard teams add BHMVh Mushroom Village Hiders
 scoreboard teams option BHMVh friendlyfire false
 scoreboard teams option BHMVh collisionRule never
-scoreboard teams option BHMVh deathMessageVisibility never
 scoreboard teams option BHMVh color green
+scoreboard teams option BHMVh deathMessageVisibility never
 scoreboard teams option BHMVh nametagVisibility hideForOtherTeams
 scoreboard teams add BHMVv Mushroom Village Virus
 scoreboard teams option BHMVv friendlyfire false
 scoreboard teams option BHMVv collisionRule never
-scoreboard teams option BHMVv deathMessageVisibility never
 scoreboard teams option BHMVv color yellow
+scoreboard teams option BHMVv deathMessageVisibility never
 scoreboard teams add BHMVd_y Mushroom Village Display Yellow
 scoreboard teams option BHMVd_y color yellow
 scoreboard teams add BHMVd_g Mushroom Village Display Green

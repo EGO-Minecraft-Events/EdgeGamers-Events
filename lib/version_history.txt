@@ -77,3 +77,6 @@
 
 0.13.2
     Fix coord import in vector.py
+
+0.13.3
+    Fix in-place arithmetic prefix assignment behavior with Coord
