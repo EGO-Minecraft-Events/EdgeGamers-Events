@@ -84,6 +84,7 @@ OBJECTIVES.new_str("""
 # General objectives for storage purposes
 OBJECTIVES.new_str("""
     Health health
+    HOST _ Host
 """, remove_self=False)
 OBJECTIVES["Health"].setdisplay("list")
 
@@ -382,6 +383,7 @@ def set_rankings(text):
     # teleports them to spawn if they are re-entering the game
     ScOP @s[gLG=1..,FLdim=1] FLtp = spawn FLna
 
+    clear @s[$(select_tree)]
 
 # used on the FlooStand to use the given floo network options specified per event
 # These include pvp true/false, saturation true/false,

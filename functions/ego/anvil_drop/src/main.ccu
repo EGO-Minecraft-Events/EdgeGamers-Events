@@ -184,7 +184,7 @@ d_y . Display Yellow
     $(floo_event.cmd_term())
 
     # fully resets players
-    @a[ADpl=0..] function full_reset_player
+    @a[ADpl=0..,m=2] function full_reset_player
 
     $(OBJECTIVES.cmd_term())
     $(TEAMS.cmd_term())
@@ -353,7 +353,7 @@ $endfor
 
     # Sets its own value of ADti1 to be negative
     # so subtracting itself will guarantee it to be a positive
-    @s[ADcl=0] ADcl = -1
+    @s[ADcl=0] ADti1 = -1
 
     # Subracts to calculate the difference
     ScOP @s ADcl -= @s ADti1
@@ -363,14 +363,14 @@ $endfor
     @s[ADcl=..0] ADti1 = 0
 
     ScOP @s ADcl = &Timer2 ADcl
-    @s[ADcl=0] ADcl = -1
-    ScOP @s[ADcl=1..] ADcl -= @s ADti2
+    @s[ADcl=0] ADti2 = -1
+    ScOP @s ADcl -= @s ADti2
     @s[ADcl=..0] function run_layer_2
     @s[ADcl=..0] ADti2 = 0
 
     ScOP @s ADcl = &Timer3 ADcl
-    @s[ADcl=0] ADcl = -1
-    ScOP @s[ADcl=1..] ADcl -= @s ADti3
+    @s[ADcl=0] ADti3 = -1
+    ScOP @s ADcl -= @s ADti3
     @s[ADcl=..0] function run_walls
     @s[ADcl=..0] ADti3 = 0
 
@@ -547,12 +547,12 @@ $endfor
             {\"text\":\"AD: \",\"color\":\"dark_gray\"},
             {\"text\":\"Start\",\"color\":\"dark_green\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("init"))\"},
-                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts the virus map so it can be ran\",\"color\":\"green\"}}
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts anvil drop so it can be ran\",\"color\":\"green\"}}
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Stop\\\n\",\"color\":\"red\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("term"))\"},
-                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends the virus map\",\"color\":\"red\"}}
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends anvil drop\",\"color\":\"red\"}}
             },
             
             {\"text\":\"Doors: \",\"color\":\"dark_gray\"},

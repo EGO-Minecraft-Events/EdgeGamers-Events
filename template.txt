@@ -1,0 +1,186 @@
+$py(
+from lib.floo_network import NAME, FlooEvent
+from lib.const_ints import CONST_INTS
+from lib.scoreboard import OBJECTIVES, TEAMS
+from lib.consts import *
+from lib.coords import Coords
+
+
+event = NAME
+floo_event = FlooEvent(NAME)
+initials = "INITIALS"
+select_all = event.select_all
+
+OBJECTIVES.new_str("""
+    . _ .
+    ti _ Timer
+    st _ State
+    pl _ Player List
+    cl _ Calculations
+    
+""", initials=initials, display=event.full_name)
+
+OBJECTIVES[initials].setdisplay("sidebar")
+
+CONST_INTS.add_consts()
+    
+TEAMS.new_str("""
+    . .
+        color color
+        friendlyfire true
+
+""", initials=initials, display=event.full_name)
+
+)
+
+
+!mfunc init
+    $(floo_event.cmd_init())
+    $(OBJECTIVES.cmd_init())
+    $(TEAMS.cmd_init())
+    
+    summon armor_stand ~ ~ ~ {Tags:["INITIALSEntity","INITIALSStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
+    $(floo_event.cmd_post_init())
+    
+
+!mfunc main
+    $(floo_event.cmd_main())
+    # initializes the player
+    @a[gSA=1,m=2] INITIALSpl + 0
+    @a[gSA=1,INITIALSpl=0,m=2] function reset_player
+
+    # @e[type=armor_stand,INITIALSStand,INITIALSst=0] function wait_for_start
+    @e[type=armor_stand,INITIALSStand,INITIALSst=1] function start_round
+    @e[type=armor_stand,INITIALSStand,INITIALSst=2] function countdown
+    @e[type=armor_stand,INITIALSStand,INITIALSst=3] function during_round
+    @e[type=armor_stand,INITIALSStand,INITIALSst=4] function stop_round
+    
+    @a[m=2,INITIALSpl=2,gDE=1..] function reset_player
+
+
+!mfunc term
+    $(floo_event.cmd_term())
+
+    @a[m=2,INITIALSpl=1..] function full_reset_player
+
+    $(OBJECTIVES.cmd_term())
+    $(TEAMS.cmd_term())
+    
+    kill @e[INITIALSEntity]
+
+
+# Used on the INITIALSStand when the round is starting
+!mfunc start_round
+    @s INITIALSst = 2
+    @a[gSA=1,m=2,INITIALSpl=1] function add_to_round
+
+
+# Used on the INITIALSStand during the countdown
+!mfunc countdown
+    @s[INITIALSti=1..] INITIALSti - 1
+
+    # displays the countdown
+    ScOP Countdown INITIALScl = @s INITIALSti
+    ScOP Countdown INITIALScl /= 20 constants
+    Countdown INITIALScl + 1
+    ScOP Countdown INITIALS = Countdown INITIALScl
+
+    @s[INITIALSti=100] tellraw @a $(event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
+    @s[INITIALSti=100] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 0.5
+
+    @s[INITIALSti=80] tellraw @a $(event.begin(r'{"text":"4","color":"yellow","bold":"true"}'))
+    @s[INITIALSti=80] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 1
+
+    @s[INITIALSti=60] tellraw @a $(event.begin(r'{"text":"3","color":"yellow","bold":"true"}'))
+    @s[INITIALSti=60] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 1.5
+
+    @s[INITIALSti=40] tellraw @a $(event.begin(r'{"text":"2","color":"yellow","bold":"true"}'))
+    @s[INITIALSti=40] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 2
+    
+    @s[INITIALSti=20] tellraw @a $(event.begin(r'{"text":"1","color":"yellow","bold":"true"}'))
+    @s[INITIALSti=20] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 2
+
+    @s[INITIALSti=0] function end_countdown
+    
+
+# Used on the INITIALSStand to stop the countdown
+!mfunc end_countdown
+    @a playsound $(Sounds.wither) voice @s
+    tellraw @a $(event.begin(r'{"text":"Begin!","color":"green","bold":"true"}'))
+    Countdown reset INITIALS
+    @s INITIALSst = 3
+
+!mfunc during_round
+
+
+!mfunc stop_round
+    @a[gSA=1,m=2,INITIALSpl=2] function full_reset_player
+    
+    @s INITIALSst = 0
+
+
+
+!mfunc reset_player
+    clear @s
+    $(event.cmd_book("@s[EC=0]"))
+
+    effect @s clear
+    effect @s $(Effects.hp) 1 100 true
+    xp -1000L @s
+
+    join INITIALS @s
+    @s INITIALSpl = 1
+
+
+# Used on players to reset them fully
+!mfunc full_reset_player
+    function reset_player
+    $(event.cmd_spawn())
+
+
+# used on players to add them to the round
+!mfunc add_to_round
+    function reset_player
+    @s INITIALSpl = 2
+
+
+!mfunc input_start_round
+    @e[type=armor_stand,INITIALSStand] INITIALSst = 1
+
+!mfunc input_stop_round
+    @e[type=armor_stand,INITIALSStand] INITIALSst = 4
+
+
+!mfunc book
+    replaceitem entity @s slot.weapon.offhand written_book 1 0 {
+        title:"$(event.full_name) Book",author:"eGO",pages:["[\"\",
+            {\"text\":\"$(event.full_name) Settings\\\n\",\"bold\":\"true\"},
+            {\"text\":\"\\\n\"},
+            
+            {\"text\":\"INITIALS: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("init"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts $(event.full_name) so it can be ran\",\"color\":\"green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Stop\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("term"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends $(event.full_name)\",\"color\":\"red\"}}
+            },
+            
+            {\"text\":\"Round: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_start_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts an individual round\",\"color\":\"dark_green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_stop_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
+            }
+        ]"
+    ]}
+
+    
+
+
