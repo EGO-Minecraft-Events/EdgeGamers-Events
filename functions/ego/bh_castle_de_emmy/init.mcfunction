@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1570,y=73,z=-7,dx=-93,dy=-73,dz=-95] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHCDEgl dummy Castle de Emmy Glowing Players
 scoreboard objectives add BHCDEcalc dummy Castle de Emmy Calculations
 scoreboard objectives add BHCDEst dummy Castle de Emmy State
 scoreboard teams add BHCDEh Castle de Emmy Hiders
-scoreboard teams option BHCDEh friendlyfire false
-scoreboard teams option BHCDEh collisionRule never
-scoreboard teams option BHCDEh deathMessageVisibility never
-scoreboard teams option BHCDEh color green
 scoreboard teams option BHCDEh nametagVisibility hideForOtherTeams
+scoreboard teams option BHCDEh color green
+scoreboard teams option BHCDEh friendlyfire false
+scoreboard teams option BHCDEh deathMessageVisibility never
+scoreboard teams option BHCDEh collisionRule never
 scoreboard teams add BHCDEv Castle de Emmy Virus
-scoreboard teams option BHCDEv friendlyfire false
-scoreboard teams option BHCDEv collisionRule never
-scoreboard teams option BHCDEv deathMessageVisibility never
 scoreboard teams option BHCDEv color yellow
+scoreboard teams option BHCDEv friendlyfire false
+scoreboard teams option BHCDEv deathMessageVisibility never
+scoreboard teams option BHCDEv collisionRule never
 scoreboard teams add BHCDEd_y Castle de Emmy Display Yellow
 scoreboard teams option BHCDEd_y color yellow
 scoreboard teams add BHCDEd_g Castle de Emmy Display Green

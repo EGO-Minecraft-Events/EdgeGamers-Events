@@ -121,3 +121,5 @@ class Enchants:
     SWEEPING_EDGE = "22"
     THORNS = "7"
     UNBREAKING = "34"
+
+MAX_INT = (1<<31)-1

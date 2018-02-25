@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1565,y=47,z=-102,dx=76,dy=-43,dz=96] gSA 1
 scoreboard objectives add constants dummy
@@ -28,11 +30,11 @@ scoreboard objectives add BHAgl dummy Apocalypse Glowing Players
 scoreboard objectives add BHAcalc dummy Apocalypse Calculations
 scoreboard objectives add BHAst dummy Apocalypse State
 scoreboard teams add BHAh Apocalypse Hiders
+scoreboard teams option BHAh nametagVisibility hideForOtherTeams
 scoreboard teams option BHAh friendlyfire false
 scoreboard teams option BHAh collisionRule never
 scoreboard teams option BHAh deathMessageVisibility never
 scoreboard teams option BHAh color green
-scoreboard teams option BHAh nametagVisibility hideForOtherTeams
 scoreboard teams add BHAv Apocalypse Virus
 scoreboard teams option BHAv friendlyfire false
 scoreboard teams option BHAv collisionRule never

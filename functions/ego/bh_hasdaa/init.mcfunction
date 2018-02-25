@@ -4,6 +4,8 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1120,y=28,z=-10,dx=76,dy=-24,dz=-74] gSA 1
 scoreboard objectives add constants dummy
@@ -28,16 +30,16 @@ scoreboard objectives add BHHDgl dummy HASDaa Glowing Players
 scoreboard objectives add BHHDcalc dummy HASDaa Calculations
 scoreboard objectives add BHHDst dummy HASDaa State
 scoreboard teams add BHHDh HASDaa Hiders
-scoreboard teams option BHHDh friendlyfire false
-scoreboard teams option BHHDh collisionRule never
-scoreboard teams option BHHDh deathMessageVisibility never
-scoreboard teams option BHHDh color green
 scoreboard teams option BHHDh nametagVisibility hideForOtherTeams
+scoreboard teams option BHHDh color green
+scoreboard teams option BHHDh collisionRule never
+scoreboard teams option BHHDh friendlyfire false
+scoreboard teams option BHHDh deathMessageVisibility never
 scoreboard teams add BHHDv HASDaa Virus
-scoreboard teams option BHHDv friendlyfire false
-scoreboard teams option BHHDv collisionRule never
-scoreboard teams option BHHDv deathMessageVisibility never
 scoreboard teams option BHHDv color yellow
+scoreboard teams option BHHDv collisionRule never
+scoreboard teams option BHHDv friendlyfire false
+scoreboard teams option BHHDv deathMessageVisibility never
 scoreboard teams add BHHDd_y HASDaa Display Yellow
 scoreboard teams option BHHDd_y color yellow
 scoreboard teams add BHHDd_g HASDaa Display Green

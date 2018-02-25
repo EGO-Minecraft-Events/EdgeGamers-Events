@@ -79,9 +79,13 @@
     Fix coord import in vector.py
 
 0.13.3
+<<<<<<< HEAD
     Fix in-place arithmetic prefix assignment behavior with Coord
 
 0.14.0
     floo_network.py
         Added mastermind hell
     
+=======
+    Fix in-place arithmetic prefix assignment behavior with Coord
+>>>>>>> upstream/master

@@ -30,16 +30,16 @@ scoreboard objectives add BHMMgl dummy BH Mastermind Glowing Players
 scoreboard objectives add BHMMcalc dummy BH Mastermind Calculations
 scoreboard objectives add BHMMst dummy BH Mastermind State
 scoreboard teams add BHMMh BH Mastermind Hiders
-scoreboard teams option BHMMh friendlyfire false
-scoreboard teams option BHMMh collisionRule never
 scoreboard teams option BHMMh deathMessageVisibility never
-scoreboard teams option BHMMh color green
 scoreboard teams option BHMMh nametagVisibility hideForOtherTeams
+scoreboard teams option BHMMh collisionRule never
+scoreboard teams option BHMMh color green
+scoreboard teams option BHMMh friendlyfire false
 scoreboard teams add BHMMv BH Mastermind Virus
-scoreboard teams option BHMMv friendlyfire false
-scoreboard teams option BHMMv collisionRule never
 scoreboard teams option BHMMv deathMessageVisibility never
+scoreboard teams option BHMMv collisionRule never
 scoreboard teams option BHMMv color yellow
+scoreboard teams option BHMMv friendlyfire false
 scoreboard teams add BHMMd_y BH Mastermind Display Yellow
 scoreboard teams option BHMMd_y color yellow
 scoreboard teams add BHMMd_g BH Mastermind Display Green

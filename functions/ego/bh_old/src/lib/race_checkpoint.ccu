@@ -9,7 +9,8 @@ from lib.floo_network import NAME_RACE
 
 race = CheckpointRace(NAME_RACE,
     fill_air=Coords(""),
-    fill_block=Coords(""))
+    fill_block=Coords("")
+)
 
 
 race.add_place(Coords(""))
@@ -23,10 +24,15 @@ race.add_fill(Coords(""), "redstone_block")
 
 
 # select, teleport
-race.add_checkpoint(Coords(""), Coords(""))
+race.set_spawn(Coords(""), Coords(""))
+
 race.add_checkpoint(Coords(""), Coords(""))
 race.add_checkpoint(Coords(""), Coords(""))
 )
+
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
 
 # additional commands for the main start
 $macro(edit_main_start)
@@ -72,7 +78,7 @@ CONST_INTS.add_consts(-1)
 OBJECTIVES.new_str("""
     bc _ Broadcast
     cp _ Checkpoints
-    """, initials, race.obj_disp)
+""", initials, race.obj_disp)
 )
 
 $endmacro

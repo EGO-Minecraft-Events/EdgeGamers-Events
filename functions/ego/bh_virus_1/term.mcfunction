@@ -4,8 +4,10 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLgmd 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=1387594773,score_FLgam=1387594773] FLgam 0
-tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHVR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"BH Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1387594773"}},{"text":"]","color":"gray"},{"text":": "},{"text":"BH Virus 1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"BH Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1387594773"}},{"text":" has stopped!","color":"red"}]}
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
+gamerule naturalRegeneration true
+scoreboard players set @e[type=armor_stand,tag=FlooStand,score_FLgam_min=8130627,score_FLgam=8130627] FLgam 0
+tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHVR1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 8130627"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Virus 1","color":"yellow","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Virus 1","color":"yellow"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 8130627"}},{"text":" has stopped!","color":"red"}]}
 execute @a[score_BHVR1pl_min=1,score_BHVR1pl=1,m=2] ~ ~ ~ function ego:bh_virus_1/full_reset_player
 kill @e[type=armor_stand,tag=BHVR1Entity]
 fill -73 52 -222 -66 52 -229 redstone_block 0 replace stonebrick 0

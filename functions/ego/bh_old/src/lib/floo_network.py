@@ -34,6 +34,7 @@ class FlooEvent(Container):
         "saturation": ("true", "false"),  # FLsat 0, 1
         "gamemode": ("adventure", "survival", "spectator"),  # FLgmd 1, 2, 3
         "weather": ("clear", "rain", "storm"),  # FLwea 0, 1, 2
+        "regen": ("POS_INT", "true", "false"),  # FLreg as any integer
     }
     
     def __init__(self, event, **options):
@@ -53,7 +54,8 @@ class FlooEvent(Container):
         if option not in FlooEvent.valid_options:
             raise SyntaxError("Invalid option name '{option}' for the floo network".format(option=option))
 
-        if option_value not in FlooEvent.valid_options[option]:
+        if (option_value not in FlooEvent.valid_options[option] and
+                not ("POS_INT" in FlooEvent.valid_options[option] and isinstance(option_value, int) and option_value >= 0)):
             raise SyntaxError("Invalid option value for option '{option}' for the floo network: '{op_value}'".format(
                     option=option, op_value=option_value))
 
@@ -111,6 +113,17 @@ class FlooEvent(Container):
         else:
             self.cmd_queue.put(set_stand_str.format("FLwea", "2"))
 
+        # setting up regen, defaults to true
+        if "regen" not in self.options or self.options["regen"] == "true":
+            self.cmd_queue.put("gamerule naturalRegeneration true")
+            self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        elif self.options["regen"] == "false":
+            self.cmd_queue.put("gamerule naturalRegeneration false")
+            self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        else:
+            self.cmd_queue.put("gamerule naturalRegeneration false")
+            self.cmd_queue.put(set_stand_str.format("FLreg", self.options["regen"]))
+
         # global select all, specific for each event
         self.cmd_queue.put("@a gSA = 0")
         self.cmd_queue.put("@a[{0}] gSA = 1".format(self.event.select_all))
@@ -152,6 +165,8 @@ class FlooEvent(Container):
         self.cmd_queue.put(set_stand_str.format("FLsat", "1"))
         self.cmd_queue.put(set_stand_str.format("FLgmd", "1"))
         self.cmd_queue.put(set_stand_str.format("FLwea", "0"))
+        self.cmd_queue.put(set_stand_str.format("FLreg", "0"))
+        self.cmd_queue.put("gamerule naturalRegeneration true")
 
         # Sets the same game to 0
         self.cmd_queue.put("@e[type=armor_stand,FlooStand,FLgam={0}] FLgam = 0".format(self.id))
@@ -255,7 +270,7 @@ class Event:
             return self.json + "," + text + self.end
 
 
-    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None, is_event=True):
+    def __init__(self, folder_name, name, colors, coords, shortcut, initials=None, select_coords=None, is_event=True, use_folder_short=True):
         """
         Args:
             name (str): Name that can be split up with ";" for different colors ("Royal; ;Rumble")
@@ -269,6 +284,7 @@ class Event:
                 the initials contains ";". If so, it will be all colors provided in the color.
             select_coords (Coords): Coords to select the entire region of the event
             is_event (bool): Whether the event is actually an event or not (since it can just be a location)
+            use_folder_short (bool): Whether the folder name will be used as a shortcut for the event or not
         """
 
         # Uses a unique ID value from the simple djb2 hash which hopefully ports to python nicely
@@ -282,7 +298,7 @@ class Event:
 
         # only adds the folder name if it's not already there
         shortcuts = shortcut.split(";")
-        if folder_name not in shortcuts:
+        if folder_name not in shortcuts and use_folder_short:
             shortcuts.insert(0, folder_name)
         self.shortcut = tuple(shortcuts)
 
@@ -399,25 +415,25 @@ BH_FOUR_CORNERS = Event("bh_four_corners", "Four Corners", "green", Coords("-131
 BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("-1107 24 -35 -90 0"), "bhhd", select_coords=Coords("-1120 28 -10 -1044 4 -84"))
 BH_HOSPITAL = Event("bh_hospital", "Hospital", "green", Coords("-1073 26 -277 90 0"), "bhh", select_coords=Coords("-1047 42 -190 -1137 3 -232"))
 BH_JUNGLE = Event("bh_jungle", "Jungle", "green", Coords("-1106 10 -97 180 0"), "bhj", select_coords=Coords("-1046 55 -148 -1115 4 -88"))
-BH_MASTERMIND = Event("bh_mastermind", "Mastermind", "green", Coords("-1175 46 -264"), "bhm;bhmm", select_coords=Coords("-1213 45 -222 -1140 4 -294"))
+BH_MASTERMIND = Event("bh_mastermind", "BH Mastermind", "green", Coords("-1175 46 -264"), "bhm;bhmm", select_coords=Coords("-1213 51 -222 -1140 4 -294"))
 BH_MUSHROOM_VILLAGE = Event("bh_mushroom_village", "Mushroom Village", "green", Coords("-1081 43 -189 180 0"), "bhmv", select_coords=Coords("-1117 48 -153 -1044 4 -225"))
 BH_OLD = Event("bh_old", "Old", "green", Coords("-1158 44 -139 180 0"), "bho", select_coords=Coords("-1194 45 -175 -1122 3 -103"))
 BH_PARK = Event("bh_park", "Park", "green", Coords("-1242 37 -246 0 0"), "bhp", select_coords=Coords("-1263 38 -189 -1221 4 -288"))
 BH_RAINBOW = Event("bh_rainbow", "Rainbow", "green", Coords("-1153 27 -69 -180 0"), "bhra", select_coords=Coords("-1130 38 -93 -1172 4 -10"))
 BH_RESORT = Event("bh_resort", "Resort", "green", Coords("-1430 98 -46 0 0"), "bhre", select_coords=Coords("-1390 101 -13 -1482 4 -105"))
 BH_TRAIN_STATION = Event("bh_train_station", "Train Station", "green", Coords("-1252 32 -88"), "bhts", select_coords=Coords("-1208 34 -186 -1384 4 -10"))
-BH_VIRUS_1 = Event("bh_virus_1", "BH Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "bhvr1", select_coords=Coords("-130 4 -315 -9 64 -134"))
-BH_VIRUS_2 = Event("bh_virus_2", "BH Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "bhvr2", select_coords=Coords("-107 2 -130 86 102 111"))
+BH_VIRUS_1 = Event("bh_virus_1", "Virus 1", "yellow", Coords("-85 45 -241 -45 0"), "bhvr1", select_coords=Coords("-130 4 -315 -9 64 -134"))
+BH_VIRUS_2 = Event("bh_virus_2", "Virus 2", "yellow", Coords("-77 56 -85 -45 0"), "bhvr2", select_coords=Coords("-107 2 -130 86 102 111"))
 BH_ZELDA = Event("bh_zelda", "Zelda", "green", Coords("-1168 32 -191 -180 0"), "bhz", select_coords=Coords("-1127 50 -218 -1213 3 -180"))
 
 # Other
-SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False)
+SPAWN = Event("floo_network", "Spawn", "dark_red", Coords("397 17 61 90 0"), "spawn", initials="Spawn", is_event=False, use_folder_short=False)
 FLOO_NETWORK = Event("floo_network", "Floo Network", "green", Coords("348 4 114 -90 0"), "cmd;floo;diagonally",
     initials="Floo", select_coords=Coords("350 14 13 440 44 103"), is_event=False)
 TEAMFLEAK_TOKEN = Event("ts_token", "Teamspeak Token", "dark_aqua", Coords("549 20 42"), "ts;tstoken", initials="TsToken", is_event=False)
-MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub", is_event=False)
-PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False)
-MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False)
-RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False)
+MINIGAME_HUB = Event("floo_network", "The Minigame Hub", "green", Coords("329 24.065 171 90 0"), "mghub", initials="MGhub", is_event=False, use_folder_short=False)
+PVP_HUB = Event("floo_network", "The PVP hub", "light_purple", Coords("385 15 159 180 0"), "pvphub", initials="PVPhub", is_event=False, use_folder_short=False)
+MASTERMIND_HUB = Event("floo_network", "The Mastermind Hub", "gold", Coords("329 24.065 154 90 0"), "mmhub", initials="MMhub", is_event=False, use_folder_short=False)
+RACE_HUB = Event("floo_network", "The Race Hub", "dark_aqua", Coords("329 24.076 137 90 0"), "racehub", initials="RaceHub", is_event=False, use_folder_short=False)
 # BLOCK_HUNT_HUB = Event("floo_network", "The BlockHunt Hub", "dark_red", Coords(""), "bhhub", initials="BHhub", is_event=False)
 

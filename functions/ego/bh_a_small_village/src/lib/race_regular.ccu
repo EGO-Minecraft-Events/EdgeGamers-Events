@@ -9,7 +9,8 @@ from lib.floo_network import NAME_RACE
 
 race = RegularRace(NAME_RACE,
     fill_air=Coords(""),
-    fill_block=Coords(""))
+    fill_block=Coords("")
+)
 
 
 race.add_place(Coords(""))
@@ -21,6 +22,10 @@ race.add_fill(Coords(""), "redstone_block")
 race.add_place(Coords(""))
 race.add_fill(Coords(""), "redstone_block")
 )
+
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
 
 # additional commands for the main start
 $macro(edit_main_start)
