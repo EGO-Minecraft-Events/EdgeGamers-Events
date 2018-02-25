@@ -23,6 +23,7 @@ function ego:anvil_drop/term if @s[score_FLgam_min=333805818,score_FLgam=3338058
 function ego:death_pit/term if @s[score_FLgam_min=1978548874,score_FLgam=1978548874]
 function ego:rabbit_ball/term if @s[score_FLgam_min=726964523,score_FLgam=726964523]
 function ego:mastermind/term if @s[score_FLgam_min=1217546713,score_FLgam=1217546713]
+function ego:mastermind_hell/term if @s[score_FLgam_min=525124045,score_FLgam=525124045]
 function ego:pictionary/term if @s[score_FLgam_min=1301307747,score_FLgam=1301307747]
 function ego:royal_rumble/term if @s[score_FLgam_min=1336970968,score_FLgam=1336970968]
 function ego:bh_a_small_village/term if @s[score_FLgam_min=244577678,score_FLgam=244577678]

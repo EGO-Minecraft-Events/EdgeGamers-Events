@@ -401,6 +401,7 @@ ANVIL_DROP = Event("anvil_drop", "Anvil Drop", "green", Coords("-16 5 87 90 0"),
 DEATH_PIT = Event("death_pit", "Death Pit", "red", Coords("-187 24 96 -90 0"), "dp")
 RABBIT_BALL = Event("rabbit_ball", "Rabbit; ;Ball", "red;white;blue", Coords("214 27 334 -90 0"), "rb", select_coords=Coords("206 73 262 320 56 415"))
 MASTERMIND = Event("mastermind", "Mastermind", "gold", Coords("77 5 41 0 -15"), "mm", select_coords=Coords("45 3 22 109 33 87"))
+MASTERMIND_HELL = Event("mastermind_hell", "Mastermind Hell", "red", Coords("177 5 45.0 -90 0"), "mmh", select_coords=Coords("172 21 71 234 4 18"))
 PICTIONARY = Event("pictionary", "P;i;c;t;i;o;n;a;r;y", "light_purple;red;gold;yellow;green;dark_green;blue;dark_aqua;aqua;white",
     Coords("161 4 180 90 0"), "pc", initials=("PC", "dark_aqua"), select_coords=Coords("110 3 148 174 18 212"))
 ROYAL_RUMBLE = Event("royal_rumble", "Royal; ;Rumble", "blue;white;dark_green",

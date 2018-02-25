@@ -23,6 +23,7 @@ Anvil Drop	anvil_drop	ad
 Death Pit	death_pit	dp
 Rabbit Ball	rabbit_ball	rb
 Mastermind	mastermind	mm
+Mastermind Hell	mastermind_hell	mmh
 Pictionary	pictionary	pc
 Royal Rumble	royal_rumble	rr
 A Small Village	bh_a_small_village	bhasv

@@ -86,6 +86,8 @@ scoreboard players set rabbit_ball FLna 726964523
 scoreboard players set rb FLna 726964523
 scoreboard players set mastermind FLna 1217546713
 scoreboard players set mm FLna 1217546713
+scoreboard players set mastermind_hell FLna 525124045
+scoreboard players set mmh FLna 525124045
 scoreboard players set pictionary FLna 1301307747
 scoreboard players set pc FLna 1301307747
 scoreboard players set royal_rumble FLna 1336970968

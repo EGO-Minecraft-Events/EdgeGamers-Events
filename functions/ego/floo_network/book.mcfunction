@@ -23,6 +23,7 @@ function ego:anvil_drop/book if @s[score_FLbk_min=333805818,score_FLbk=333805818
 function ego:death_pit/book if @s[score_FLbk_min=1978548874,score_FLbk=1978548874]
 function ego:rabbit_ball/book if @s[score_FLbk_min=726964523,score_FLbk=726964523]
 function ego:mastermind/book if @s[score_FLbk_min=1217546713,score_FLbk=1217546713]
+function ego:mastermind_hell/book if @s[score_FLbk_min=525124045,score_FLbk=525124045]
 function ego:pictionary/book if @s[score_FLbk_min=1301307747,score_FLbk=1301307747]
 function ego:royal_rumble/book if @s[score_FLbk_min=1336970968,score_FLbk=1336970968]
 function ego:bh_a_small_village/book if @s[score_FLbk_min=244577678,score_FLbk=244577678]
