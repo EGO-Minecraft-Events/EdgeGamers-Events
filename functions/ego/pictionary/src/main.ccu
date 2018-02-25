@@ -14,11 +14,13 @@ select_all = event.select_all
 
 # gets the guesses
 with open("topics.txt") as file:
-    # set to remove duplicates
-    topic_list = sorted(set(file.read().splitlines()))
+    topic_list = file.read().splitlines()
 
 # the first item in the file is the theme
 theme = topic_list.pop(0)
+
+# remove duplicates
+topic_list = sorted(set(topic_list))
 
 # fills the board
 fill_board = Coords("130 18 192 130 6 168")
@@ -61,10 +63,6 @@ OBJECTIVES.new_str("""
 
     # used on players to make sure they don't lose wool
     af _ Affected Items
-
-    tm _ Temp
-    ss _ Stop Selection
-    cl _ Stop Selection
     
 """, initials=initials, display=event.full_name)
 
@@ -205,7 +203,6 @@ TEAMS.new_str("""
 
     @s stats entity @s set AffectedItems @s PCaf
     @s PCaf = 0
-    @s PCss = 0
     
 
 # used on players to reset them for the round
