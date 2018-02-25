@@ -48,6 +48,18 @@ activate_struct_reset = 45 2 60 109 2 23
 
 """
 inputList = """
+# fills the board
+fill_board = 130 18 192 130 6 168
+
+# teleport coords to the board so the player can draw
+tp_to_draw = 133 4 180 90 0
+
+# teleport back to the arena
+tp_back = 152 8 180 90 -30
+
+# redstone block to open the door with
+activate_door = 158 1 180
+
 
 """.splitlines()
 

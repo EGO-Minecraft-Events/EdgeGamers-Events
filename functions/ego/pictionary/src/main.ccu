@@ -1,32 +1,40 @@
 $py(
 from lib.floo_network import PICTIONARY, FlooEvent
-from lib.scoreboard import TEAMS, OBJECTIVES
+from lib.const_ints import CONST_INTS
+from lib.scoreboard import OBJECTIVES, TEAMS
+from lib.consts import *
+from lib.coords import Coords
 
-with open("guesses.txt") as file:
+
+event = PICTIONARY
+floo_event = FlooEvent(PICTIONARY)
+initials = "PC"
+select_all = event.select_all
+
+
+# gets the guesses
+with open("topics.txt") as file:
     # set to remove duplicates
-    guess_list = set(file.read().splitlines())
+    topic_list = sorted(set(file.read().splitlines()))
 
-DEF COORDS $FillBoard$ 130 18 192 130 6 168
+# the first item in the file is the theme
+theme = topic_list.pop(0)
 
-///    Teleport player to drawing board
-DEF TELE $DrawingTP$ 132 4 180 90 0
+# fills the board
+fill_board = Coords("130 18 192 130 6 168")
 
-///    Teleport player back to the arena
-DEF TELE $AudienceTP$ 137 4 180 90 -30
+# teleport coords to the board so the player can draw
+tp_to_draw = Coords("133 4 180 90 0")
 
-///    Detect block to fill with
-DEF COORDS $DetectBlock$ 129 6 165
+# teleport back to the arena
+tp_back = Coords("152 8 180 90 -30")
 
-///    Redstone block to open the door with
-DEF COORDS $OpenDoorBlock$ 158 1 180
-
-///    Sets the cmd block for filling the board with wool
-DEF COORDS $FillBoardBlock$ 128 6 164
+# redstone block to open the door with
+activate_door = Coords("158 1 180")
 
 shear_tags = r'''{
     display:{Name:"Special Shears!",Lore:["Destroys wool... Destroy ALL THE WOOL MUAHAHAHA"]},
     Unbreakable:1,CanDestroy:["minecraft:wool"],ench:[{id:32,lvl:32767}],HideFlags:127}'''
-
 
 wool_tags = r'''{
     display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},
@@ -35,276 +43,272 @@ wool_tags = r'''{
 
 wool_ids = [14, 1, 4, 5, 3, 10, 0, 12, 15, 2, 6, 8, 7, 9, 11]
 
+
+OBJECTIVES.new_str("""
+    . _ .
+    ti _ Timer
+    st _ State
+
+    # 0 = initializing
+    # 1 = in the game
+    # 2 = artist
+    pl _ Player List
+
+    # used on the Guess clouds to randomly select one
+    rd _ Random Choose
+
+    cl _ Calculations
+
+    # used on players to make sure they don't lose wool
+    af _ Affected Items
+
+    tm _ Temp
+    ss _ Stop Selection
+    cl _ Stop Selection
+    
+""", initials=initials, display=event.full_name)
+
+OBJECTIVES[initials].setdisplay("sidebar")
+
+CONST_INTS.add_consts(20)
+    
+TEAMS.new_str("""
+    . .
+        color green
+        friendlyfire false
+        collisionRule never
+   
+    PCd_y Display yellow
+        color yellow
+
+""", initials=initials, display=event.full_name)
 )
 
 
+!mfunc init
+    $(floo_event.cmd_init())
+    $(OBJECTIVES.cmd_init())
+    $(TEAMS.cmd_init())
 
-FUNC {Func_GeneralScoreboardStart}:
-    ARRAY {GLOBAL ACTIVATE CCU.objectiveAdd(Obj_GeneralScoreboardStart) Obj_GeneralScoreboardStart}:
-        PC dummy Pictionary!
-        PCti dummy Pictionary Timer (ticks)
-        PCti2 dummy Pictionary Timer (seconds)
-        PCpl dummy Pictionary Player List
-        PCss dummy Pictionary Stop Selection
-        PCcl dummy Pictionary Stop Selection
-        PCaf dummy Pictionary Affected Items
-        PCtm dummy Pictionary Temp
-        
-    ARRAY {GLOBAL ACTIVATE CCU.teamAdd(Team_GeneralScoreboardStart) Team_GeneralScoreboardStart}:
-        PC Pictionary
-        OPT color green
-        OPT friendlyfire false
-        OPT collisionRule never
-    
-        PCd_y PC display yellow
-        OPT color yellow
-        
-    ARRAY {ACTIVATE CCU.iterateNumbers() ARGS}:
-        4
-        
-    CCU_ExecuteSpawnStand summon armor_stand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
-    CCU_ExecuteSpawnStand ScSS PC
-    
-    LOOP {Arr_GuessList[S]}:
-        CCU_ExecuteSpawnStand summon AreaEffectCloud ~ ~ ~ {$Duration$,CustomName:"|0|",Tags:["PCEntity","PCGuess"]}
-    
-///    Joins the PTJ team
-    CCU_ExecuteSpawnStand J> PC @e[type=AreaEffectCloud,PCGuess]
-    CCU_ExecuteSpawnStand J> PCd_y Time_Elapsed
-    
-///    Initialize area effect clouds
-    CCU_ExecuteSpawnStand @e[type=AreaEffectCloud,PCGuess] PCpl + 0
-    CCU_ExecuteSpawnStand @e[type=armor_stand,PCStand] PCti = -1
-    
-///    Removes redstone block at iron door
-    setblock $OpenDoorBlock$ air 0
-    
-///Says the Nights' Theme In Title and In Chat
-    title @a[$SA$] title ["",{"text":"Tonight's Theme:","color":"dark_aqua","bold":true,"italic":true}]
-    title @a[$SA$] subtitle ["",{"text":"$Theme$","color":"gold","bold":true,"italic":true}]
-    tellraw @a[$SA$] $TextStart${"text":"Tonight's Theme:","color":"gray"}]}
-    tellraw @a[$SA$] $TextStart${"text":"$Theme$","color":"gold"}]}
-    
-//>
+    summon armor_stand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
 
-//<Fills Board Pulse
-FUNC {Func_FillBoardPulse}:
-    LOOP {Arr_WoolIDs[S]}:
-        @e[type=armor_stand,PCStand] wool |0| $DetectBlock$ fill $FillBoard$ wool |0|
-    @e[type=armor_stand,PCStand] air 0 $DetectBlock$ fill $FillBoard$ air 0
-//>
+    $for(topic in topic_list)
+    summon area_effect_cloud ~ ~ ~ {Duration:$(MAX_INT),CustomName:"$(topic)",Tags:["PCEntity","PCTopic"]}
+    $endfor
+    
+    # Joins the PC team for some reason idk
+    join PC @e[type=area_effect_cloud,PCTopic]
+    join PCd_y Time_Elapsed
+    
+    # Initialize area effect clouds
+    @e[type=area_effect_cloud,PCTopic] PCrd + 0
+    
+    # Removes redstone block at iron door
+    setblock $(activate_door) air 0
+    
+    # says the nights' theme in the title and chat
+    title @a title {"text":"Tonight's Theme:","color":"dark_aqua"}
+    title @a subtitle {"text":"$(theme)","color":"gold","bold":"true"}
+    tellraw @a $(event.begin(r'''{"text":"Tonight's Theme: ","color":"dark_aqua"},{"text":"''' + theme + r'","color":"gold","bold":"true"}'))
 
-//<Selects Player Testfor Clock
-FUNC {Func_SelectsPlayerTFClock}:
-    testfor @a[$SA$,m=2,PCpl=2]
-    CCU_SetblockTestfor
+    $(floo_event.cmd_post_init())
     
-///    checks number of players --> 0 if there's no one previously active before the current one
-    @e[type=armor_stand,PCStand] PCcl = 0
-    @a[$SA$,m=2,PCpl=3] @e[type=armor_stand,PCStand] PCcl + 1
-    
-///    Fills board
-    @e[type=armor_stand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] fill $FillBoard$ air 0
-    
-///    Prevents the player from going again for the next x number of guesses according to PCtm (number of players divided by 4 round down)
-    @e[type=armor_stand,PCStand] PCtm = 0
-    @a[$SA$,m=2,PCpl>=0] @e[type=armor_stand,PCStand] PCtm + 1
-    ScOP @e[type=armor_stand,PCStand] PCtm /= 4 Number
-    
-    @e[type=armor_stand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @a[$SA$,m=2,PCss>=1] PCss - 1
-    @e[type=armor_stand,PCStand,PCcl=0] ScOP @a[$SA$,m=2,PCpl=2] PCss = @e[type=armor_stand,PCStand] PCtm
-    
-///    Activates the timer
-    @e[type=armor_stand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @e[type=armor_stand,PCStand] PCti2 = 120
-    @e[type=armor_stand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @e[type=armor_stand,PCStand] PCti = 0
-    
-///    Selects a random area effect cloud
-    @e[type=armor_stand,PCStand,PCcl=0] @a[$SA$,m=2,PCpl=2] @r[type=AreaEffectCloud,PCGuess,PCpl=0] PCpl = 1
 
-/// Sets the area effect cloud as the answer
-    tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~0.001 ~
-    execute @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~ ~ pictionary set entity @e[r=0]
-    tp @e[type=AreaEffectCloud,PCGuess,PCpl=1] ~ ~-0.001 ~
-    
-///    Gives wool
-    clear @a[$SA$,m=2,PCpl=2]
-    
-    replaceitem entity @a[$SA$,m=2,PCpl=2] slot.weapon.offhand CCItem_Shears
-    LOOP {0 Arr_WoolIDs[-1] + 1}:
-        IF {|0| >= 8}:
-            replaceitem entity @a[$SA$,m=2,PCpl=2] slot.hotbar.|0| CCItem_Wool(|1|)
-        ELSE:
-            give @a[$SA$,m=2,PCpl=2] CCItem_Wool(|1|)
-        
-        
-    @a[$SA$,m=2,EC=0,PCpl=2] SPbk = $SPid$
-    
-///    Teleports
-    tp @a[$SA$,m=2,PCpl=2] $DrawingTP$
-    @a[m=2,PCpl=2,$SA$] pictionary set artist @p[$SA$]
-    @p[x=130,y=4,z=152,dx=3,dy=50,dz=43] pictionary set artist @p[r=0]
-    
-///    Says who's the artist
-    @e[type=armor_stand,PCStand,PCcl=0] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" is the artist.","color":"gray"}]}
-    @e[type=armor_stand,PCStand,PCcl>=1] @p[$SA$,m=2,PCpl=2] tellraw @a[$SA$] $TextStart${"selector":"@a[$SA$,m=2,PCpl=2]"},{"text":" are the artists.","color":"gray"}]}
-    
-///    Says what the topic name is
-    tellraw @a[$SA$,m=2,PCpl=2] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
-    tellraw @a[PCss>=95] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is your topic.","color":"gray"}]}
-    @a[PCss>=95] PCss = 0
-    
-///    General reset
-    @a[$SA$,m=2,PCpl=2] PCpl = 3
-    @e[type=armor_stand,PCStand,PCcl>=1] PCcl = 0
-//>
+!mfunc main
+    $(floo_event.cmd_main())
 
-//<General Scoreboard Clock
-FUNC {Func_GeneralScoreboardClock}:
-///    Initialize: PCpl = 0
-    @a[$SA$,m=2] PCpl + 0
-    
-    clear @a[$SA$,m=2,PCpl=0]
-    @a[$SA$,m=2,PCpl=0,EC=0] SPbk = $SPid$
-    effect @a[$SA$,m=2,PCpl=0] clear
-    J> PC @a[$SA$,m=2,PCpl=0]
-    @a[$SA$,m=2,PCpl=0] stats entity @a[r=0,c=1,m=2,PCpl=0] set AffectedItems @a[r=0,c=1] PCaf
-    @a[$SA$,m=2,PCpl=0] PCss = 0
-    @a[$SA$,m=2,PCpl=0] PCaf = 0
-    
-///    Normal: PCpl = 1
-    @a[$SA$,m=2,PCpl=0] PCpl = 1
-    
-///    Replaces any items dropped
-    kill @e[$SA$,type=Item]
-    
-///    Stats entity to detect missing items
-///    baby i'm ballin
-    LOOP {Arr_WoolIDs[S]}:
-        @a[$SA$,m=2,PCpl=3] clear @a[c=1,r=1,PCpl=3] wool |0| 0
-        give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Wool(|0|)
-        
-    @a[$SA$,m=2,PCpl=3] clear @a[c=1,r=1,PCpl=3] shears -1 0
-    give @a[$SA$,m=2,PCpl=3,PCaf=0] CCItem_Shears
-    
-///    If PCss of a player is set to 100, activates guess
-///    It's an option in the book to select anyone EXCEPT themself
-    @a[PCss=100] @r[$SA$,m=2,PCpl=1,PCss=0] PCpl = 2
-    @a[PCss=100] PCss - 1
-    @e[type=armor_stand,PCStand,PCss=100] @r[$SA$,m=2,PCpl=1,PCss=0] PCpl = 2
-    @e[type=armor_stand,PCStand,PCss=100] PCss = 0
-//>
+    # initializes the player
+    @a[gSA=1,m=2] PCpl + 0
+    @a[gSA=1,PCpl=0,m=2] function reset_player
 
-//<Timer Testfor Clock
-FUNC {Func_TimerTFClock}:
-    testfor @e[type=armor_stand,PCStand,PCti>=0]
-    CCU_SetblockTestfor
-    
-    # PROBLEM! No conditional stuff anymore
-    pictionary status
-    COND:
-        @e[type=armor_stand,PCStand] PCti2 = 0
-    
-    @e[type=armor_stand,PCStand,PCti>=0] PCti + 1
-    @e[type=armor_stand,PCStand,PCti=20] PCti2 - 1
-    @e[type=armor_stand,PCStand,PCti=20] PCti = 0
-    @e[type=armor_stand,PCStand,PCti2<=0] PCti2 = 0
-    
-    @e[type=armor_stand,PCStand,PCti>=0] ScOP Time_Elapsed PC = @e[type=armor_stand,PCStand,PCti>=0] PCti2
-    
-///    Display message
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] title @a[$SA$] title {"text":"Round Over!","color":"dark_aqua","underlined":true}
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] tellraw @a[$SA$] $TextStart${"selector":"@e[type=AreaEffectCloud,PCGuess,PCpl=1]","bold":"true"},{"text":" is the answer!","color":"gray"}]}
-    
-/// Clear answer
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] pictionary clear
-    
-///    General reset: clear, reset score, etc.
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] clear @a[$SA$,m=2,PCpl=3]
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] @a[$SA$,m=2,PCpl=3,EC=0] SPbk = $SPid$
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] tp @a[$SA$,m=2,PCpl=3] $AudienceTP$
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] @a[$SA$,m=2,PCpl=3] PCpl = 1
-    
-///    Resets all
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] @e[type=AreaEffectCloud,PCGuess,PCpl=1] PCpl = 2
-    @e[type=armor_stand,PCStand,PCti2=0,PCti>=0] PCti = -1
-//>
+    # kills any items dropped
+    kill @e[$(select_all),type=item]
 
-//<General Scoreboard End
-FUNC {Func_GeneralScoreboardEnd}:
-    CCU.objectiveRemove(Obj_GeneralScoreboardStart)
-    CCU.teamRemove(Team_GeneralScoreboardStart)
+    # @e[type=armor_stand,PCStand,PCst=0] function wait_for_start
+    @e[type=armor_stand,PCStand,PCst=1] function start_round
+    @e[type=armor_stand,PCStand,PCst=2] function during_round
+    @e[type=armor_stand,PCStand,PCst=3] function stop_round
+
+    # pictionary status
+    # @e[type=armor_stand,PCStand] PCti = 0
     
-    effect @a[$SA$,m=2] clear
-    clear @a[$SA$,m=2]
-    @a[$SA$,m=2,EC=0] SPbk = $SPid$
-    effect @a[$SA$] 6 1 100 true
-    @a[$SA$,m=2] SPtp = $SPid$
+    @a[m=2,PCpl=2,gDE=1..] function reset_player
+
+
+!mfunc term
+    $(floo_event.cmd_term())
+
+    @a[m=2,PCpl=1..] function full_reset_player
+
+    $(OBJECTIVES.cmd_term())
+    $(TEAMS.cmd_term())
+    
     kill @e[PCEntity]
-    fill $FillBoard$ air 0
+
+    # clears the board
+    fill $(fill_board) air 0
     
-///    Adds redstone block at iron door
-    setblock $OpenDoorBlock$ redstone_block 0
-//>
+    # closes the iron door
+    setblock $(activate_door) redstone_block 0
 
-//<Groups
-GROUP {Grp_ActivateMainEnd}:
-    CCU_Deactivate(GSELF)
-    CCU_Activate(Grp_MainEnd)
+
+
+# Used on the PCStand when the round is starting
+!mfunc start_round
+    @s PCst = 2
+    @a[gSA=1,m=2,PCpl=1] function add_to_round
+
+    # clears the board
+    fill $(fill_board) air 0
+
+    # Activates the timer
+    @e[type=armor_stand,PCStand] PCti2 = 120
+    @e[type=armor_stand,PCStand] PCti = 0
     
-GROUP {Grp_MainStart}:
-    CCU.spawnStandStart()
-    CCU_Deactivate(GSELF)
-    Func_GeneralScoreboardStart()
-    CCU_Activate(Grp_MainClock)
-    CCU_Activate(Grp_TimerTFClock)
-    CCU_Activate(Grp_SelectsPlayerTFClock)
-    CCU_FinalSpawnStand
+
+!mfunc during_round
+    # timer
+    @s[PCti=1..] PCti - 1
+    ScOP Time_Elapsed PCcl = @s PCti
+    ScOP Time_Elapsed PCcl /= 20 constants
+    ScOP Time_Elapsed PC = Time_Elapsed PCcl
+
+    # updates the artist
+    @a[gSA=1,m=2,PCpl=2] function update_artist
+
+
+!mfunc stop_round
+    @a[gSA=1,m=2,PCpl=2] function round_reset_player
+    Time_Elapsed reset PC
     
-GROUP {Grp_FillBoardPulse}:
-    CCU_Deactivate(GSELF)
-    Func_FillBoardPulse()
+    # display message
+    title @a title {"text":"Round Over!","color":"dark_aqua","underlined":true}
+    tellraw @a $(event.begin(r'{"selector":"@e[type=area_effect_cloud,PCTopic,PCrd=1]","bold":"true"},{"text":" is the answer!","color":"gray"}'))
     
-GROUP {Grp_SelectsPlayerTFClock}:
-    Func_SelectsPlayerTFClock()
+    # clear answer
+    pictionary clear
     
-GROUP {Grp_TimerTFClock}:
-    Func_TimerTFClock()
+    # general reset: clear, reset score, etc.
+    @s PCst = 0
+
+
+!mfunc reset_player
+    clear @s
+    $(event.cmd_book("@s[EC=0]"))
+
+    effect @s clear
+    effect @s $(Effects.hp) 1 100 true
+    xp -1000L @s
+
+    join PC @s
+    @s PCpl = 1
+
+    @s stats entity @s set AffectedItems @s PCaf
+    @s PCaf = 0
+    @s PCss = 0
     
-GROUP {Grp_MainClock}:
-    CCU.spawnIDSetting()
-    Func_GeneralScoreboardClock()
-    Func_GeneralEndClock()
 
-GROUP {Grp_MainEnd}:
-    CCU.spawnStandEnd()
-    CCU_Deactivate(GSELF)
-    Func_GeneralScoreboardEnd()
-    CCU_Deactivate(Grp_MainClock)
-    CCU_Deactivate(Grp_TimerTFClock)
-    CCU_Deactivate(Grp_SelectsPlayerTFClock)
+# used on players to reset them for the round
+!mfunc round_reset_player
+    function reset_player
+    tp @s $(tp_back)
+    
 
-CCU.cmdSave()
-//>
+# Used on players to reset them fully
+!mfunc full_reset_player
+    function reset_player
+    $(event.cmd_spawn())
 
 
+# used on the artist to replace their items and
+# display the current topic
+!mfunc update_artist
+    # says the topic name to the artist
+    title @s actionbar $(event.begin(r'{"text":"Topic ","color":"gray"},{"selector":"@e[type=area_effect_cloud,PCTopic,PCrd=1]"}'))
+
+    # gives back wool according to affected items
+    $for(id in wool_ids)
+    clear @s wool $(id) 0
+    give @s[PCaf=0] wool 64 $(id) $(wool_tags)
+    $endfor
+
+    # same idea for shears
+    clear @s shears -1 0
+    give @s[PCaf=0] shears 1 0 $(shear_tags)
 
 
+# used on players to add them to the round
+!mfunc add_to_round
+    function reset_player
+    @r[type=area_effect_cloud,PCTopic,PCrd=0] function choose_topic
+    
+    replaceitem entity @s slot.weapon.offhand shears 1 0 $(shear_tags)
+    $for(index, id in enumerate(wool_ids))
+    $if(index <= 8)
+
+    # sets it to their hotbar for the first 8
+    replaceitem entity @s slot.hotbar.$(index) wool 64 $(id) $(wool_tags)
+
+    $else
+    # gives the rest
+    give @s wool 64 $(id) $(wool_tags)
+    $endif
+
+    $endfor
+    
+    tp @s $(tp_to_draw)
+    @s pictionary set artist @p[r=0]
+    
+    # says who's the artist
+    tellraw @a $(event.begin(r'{"selector":"@s"},{"text":" is the artist.","color":"gray"}'))
+    
+
+# used on the Topic Clouds to make it be the topic
+!mfunc choose_topic
+    # Selects a random area effect cloud
+    @r[type=area_effect_cloud,PCTopic,PCrd=0] PCrd = 1
+
+    # Sets the area effect cloud as the answer
+    # teleports up to make sure that the selector gets the correct entity
+    tp @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~0.1 ~
+    execute @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~ ~ pictionary set entity @e[r=0]
+    tp @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~-0.1 ~
 
 
+!mfunc input_start_round
+    @e[type=armor_stand,PCStand] PCst = 1
+
+!mfunc input_stop_round
+    @e[type=armor_stand,PCStand] PCst = 3
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+!mfunc book
+    replaceitem entity @s slot.weapon.offhand written_book 1 0 {
+        title:"$(event.full_name) Book",author:"eGO",pages:["[\"\",
+            {\"text\":\"$(event.full_name) Settings\\\n\",\"bold\":\"true\"},
+            {\"text\":\"\\\n\"},
+            
+            {\"text\":\"PC: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("init"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts $(event.full_name) so it can be ran\",\"color\":\"green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Stop\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("term"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Ends $(event.full_name)\",\"color\":\"red\"}}
+            },
+            
+            {\"text\":\"Round: \",\"color\":\"dark_gray\"},
+            {\"text\":\"Start\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_start_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Starts an individual round\",\"color\":\"dark_green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_round"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
+            }
+        ]"
+    ]}
+    

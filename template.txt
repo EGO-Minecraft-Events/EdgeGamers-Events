@@ -147,7 +147,7 @@ TEAMS.new_str("""
 !mfunc input_start_round
     @e[type=armor_stand,INITIALSStand] INITIALSst = 1
 
-!mfunc input_reset_round
+!mfunc input_stop_round
     @e[type=armor_stand,INITIALSStand] INITIALSst = 4
 
 
@@ -175,7 +175,7 @@ TEAMS.new_str("""
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_round"))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_stop_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
             }
         ]"
