@@ -14,7 +14,12 @@ select_all = event.select_all
 
 # gets the guesses
 with open("topics.txt") as file:
-    topic_list = file.read().splitlines()
+    lines = file.read().splitlines()
+
+    # removes empty lines
+    topic_list = [line for line in lines if line.strip()]
+    print(topic_list)
+
 
 # the first item in the file is the theme
 theme = topic_list.pop(0)
