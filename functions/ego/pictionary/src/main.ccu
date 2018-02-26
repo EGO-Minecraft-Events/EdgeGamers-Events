@@ -49,6 +49,12 @@ wool_ids = [14, 1, 4, 5, 3, 10, 0, 12, 15, 2, 6, 8, 7, 9, 11]
 OBJECTIVES.new_str("""
     . _ .
     ti _ Timer
+
+    # 0 = waiting for the round to start
+    # 1 = starting the round pulse
+    # 2 = successfully found an artist pulse
+    # 3 = during the round
+    # 4 = stopping the round --> 0 pulse
     st _ State
 
     # 0 = initializing
@@ -90,8 +96,8 @@ TEAMS.new_str("""
 
     summon armor_stand ~ ~ ~ {Tags:["PCEntity","PCStand"],Invulnerable:1,NoGravity:1,Invisible:1,Marker:1b}
 
-    $for(topic in topic_list)
-    summon area_effect_cloud ~ ~ ~ {Duration:$(MAX_INT),CustomName:"$(topic)",Tags:["PCEntity","PCTopic"]}
+    $for(y_coord, topic in enumerate(topic_list))
+    summon area_effect_cloud ~ ~$((y_coord+1) / 100) ~ {Duration:$(MAX_INT),CustomName:"$(topic)",Tags:["PCEntity","PCTopic"]}
     $endfor
     
     # Joins the PC team for some reason idk
@@ -109,6 +115,9 @@ TEAMS.new_str("""
     title @a subtitle {"text":"$(theme)","color":"gold","bold":"true"}
     tellraw @a $(event.begin(r'''{"text":"Tonight's Theme: ","color":"dark_aqua"},{"text":"''' + theme + r'","color":"gold","bold":"true"}'))
 
+    # sets the host so they can never be chosen and they know the answer
+    @s HOST = 0
+
     $(floo_event.cmd_post_init())
     
 
@@ -124,8 +133,8 @@ TEAMS.new_str("""
 
     # @e[type=armor_stand,PCStand,PCst=0] function wait_for_start
     @e[type=armor_stand,PCStand,PCst=1] function start_round
-    @e[type=armor_stand,PCStand,PCst=2] function during_round
-    @e[type=armor_stand,PCStand,PCst=3] function stop_round
+    @e[type=armor_stand,PCStand,PCst=3] function during_round
+    @e[type=armor_stand,PCStand,PCst=4] function stop_round
 
     # pictionary status
     # @e[type=armor_stand,PCStand] PCti = 0
@@ -149,19 +158,28 @@ TEAMS.new_str("""
     # closes the iron door
     setblock $(activate_door) redstone_block 0
 
+    # resets host
+    * reset HOST
 
 
 # Used on the PCStand when the round is starting
 !mfunc start_round
-    @s PCst = 2
-    @a[gSA=1,m=2,PCpl=1] function add_to_round
+    function choose_artist
 
+    # doesn't start the round if no artist has been chosen
+    @s[PCst=1] tellraw @a[HOST=0] $(event.begin(r'{"text":"No artist was chosen","color":"red"}'))
+    @s[PCst=1] PCst = 0
+    @s[PCst=2] function finalize_start_round
+
+
+# used on the PCStand when an artist has been chosen
+!mfunc finalize_start_round
     # clears the board
     fill $(fill_board) air 0
 
-    # Activates the timer
-    @e[type=armor_stand,PCStand] PCti2 = 120
-    @e[type=armor_stand,PCStand] PCti = 0
+    # Activates the timer (2 minutes)
+    @s PCti = $(20 * 120)
+    @s PCst = 3
     
 
 !mfunc during_round
@@ -174,6 +192,11 @@ TEAMS.new_str("""
     # updates the artist
     @a[gSA=1,m=2,PCpl=2] function update_artist
 
+    # displays the topic to the host
+    @a[gSA=1,HOST=0] function display_topic
+
+    # displays the answer to the host
+
 
 !mfunc stop_round
     @a[gSA=1,m=2,PCpl=2] function round_reset_player
@@ -181,10 +204,14 @@ TEAMS.new_str("""
     
     # display message
     title @a title {"text":"Round Over!","color":"dark_aqua","underlined":true}
-    tellraw @a $(event.begin(r'{"selector":"@e[type=area_effect_cloud,PCTopic,PCrd=1]","bold":"true"},{"text":" is the answer!","color":"gray"}'))
+    tellraw @a $(event.begin(r'''{"selector":"@e[type=area_effect_cloud,tag=PCTopic,score_PCrd_min=1,score_PCrd=1]","bold":"true"},
+                             {"text":" is the answer!","color":"gray"}'''))
     
     # clear answer
     pictionary clear
+
+    # removes the current answer
+    kill @e[type=area_effect_cloud,PCTopic,PCrd=1]
     
     # general reset: clear, reset score, etc.
     @s PCst = 0
@@ -220,8 +247,7 @@ TEAMS.new_str("""
 # used on the artist to replace their items and
 # display the current topic
 !mfunc update_artist
-    # says the topic name to the artist
-    title @s actionbar $(event.begin(r'{"text":"Topic ","color":"gray"},{"selector":"@e[type=area_effect_cloud,PCTopic,PCrd=1]"}'))
+    function display_topic
 
     # gives back wool according to affected items
     $for(id in wool_ids)
@@ -232,6 +258,25 @@ TEAMS.new_str("""
     # same idea for shears
     clear @s shears -1 0
     give @s[PCaf=0] shears 1 0 $(shear_tags)
+
+
+# used on the artist and the host to display the topic name
+!mfunc display_topic
+    title @s actionbar {"text":"","extra":[
+        {"text":"Topic: ","color":"gray"},
+        {"selector":"@e[type=area_effect_cloud,tag=PCTopic,score_PCrd_min=1,score_PCrd=1]"}
+    ]}
+
+
+# used on arbitrary to choose a random player to be added to the round
+!mfunc choose_artist
+    # sets all scores of PCcl to 1 except for the host
+    @a PCcl = 0
+    @a[gSA=1,m=2,PCpl=1] PCcl = 1
+    @a[gSA=1,HOST=0] PCcl = 0
+
+    # chooses from the PCcl to add to the round
+    @r[PCcl=1] function add_to_round
 
 
 # used on players to add them to the round
@@ -258,6 +303,10 @@ TEAMS.new_str("""
     
     # says who's the artist
     tellraw @a $(event.begin(r'{"selector":"@s"},{"text":" is the artist.","color":"gray"}'))
+
+    # because this function implies an artist has been chosen, the PCStand
+    # PCst = 2 to indicate that an artist has been successfully chosen
+    @e[type=armor_stand,PCStand] PCst = 2
     
 
 # used on the Topic Clouds to make it be the topic
@@ -267,16 +316,17 @@ TEAMS.new_str("""
 
     # Sets the area effect cloud as the answer
     # teleports up to make sure that the selector gets the correct entity
-    tp @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~0.1 ~
-    execute @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~ ~ pictionary set entity @e[r=0]
-    tp @e[type=area_effect_cloud,PCTopic,PCpl=1] ~ ~-0.1 ~
+    # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~0.1 ~
+    @e[type=area_effect_cloud,PCTopic,PCrd=1] pictionary set entity @e[r=0]
+    @e[type=area_effect_cloud,PCTopic,PCrd=1] say set @e[r=0]
+    # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~-0.1 ~
 
 
 !mfunc input_start_round
     @e[type=armor_stand,PCStand] PCst = 1
 
 !mfunc input_stop_round
-    @e[type=armor_stand,PCStand] PCst = 3
+    @e[type=armor_stand,PCStand] PCst = 4
 
 
 !mfunc book
@@ -303,7 +353,7 @@ TEAMS.new_str("""
             },
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
-                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_round"))\"},
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_stop_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
             }
         ]"

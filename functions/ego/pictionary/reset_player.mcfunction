@@ -7,4 +7,3 @@ scoreboard teams join PC @s
 scoreboard players set @s PCpl 1
 execute @s ~ ~ ~ stats entity @s set AffectedItems @s PCaf
 scoreboard players set @s PCaf 0
-scoreboard players set @s PCss 0

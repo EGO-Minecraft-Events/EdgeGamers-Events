@@ -1,4 +1,4 @@
-title @s actionbar {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1301307747"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Topic ","color":"gray"},{"selector":"@e[type=area_effect_cloud,PCTopic,PCrd=1]"}]}
+function ego:pictionary/display_topic
 clear @s wool 14 0
 give @s[score_PCaf_min=0,score_PCaf=0] wool 64 14 {display:{Name:"Pictionary Wool!",Lore:["Wool for Pictionary.. Fear the Shears!!"]},CanPlaceOn:["minecraft:quartz_block"],CanDestroy:["minecraft:wool"],HideFlags:127}
 clear @s wool 1 0

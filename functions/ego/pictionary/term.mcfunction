@@ -16,10 +16,9 @@ scoreboard objectives remove PCpl
 scoreboard objectives remove PCrd
 scoreboard objectives remove PCcl
 scoreboard objectives remove PCaf
-scoreboard objectives remove PCtm
-scoreboard objectives remove PCss
 scoreboard teams remove PC
 scoreboard teams remove PCPCd_y
 kill @e[tag=PCEntity]
 fill 130 18 192 130 6 168 air 0
 setblock 158 1 180 redstone_block 0
+scoreboard players reset * HOST

@@ -1,1 +1,1 @@
-scoreboard players set @e[type=armor_stand,tag=PCStand] PCst 3
+scoreboard players set @e[type=armor_stand,tag=PCStand] PCst 4
