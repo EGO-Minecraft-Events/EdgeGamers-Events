@@ -4,7 +4,6 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-122,y=4,z=133,dx=79,dy=50,dz=91] gSA 1
@@ -16,11 +15,10 @@ scoreboard objectives add TP dummy The Pit
 scoreboard objectives setdisplay sidebar TP
 scoreboard objectives add TPti dummy The Pit Timer
 scoreboard objectives add TPcl dummy The Pit Random Calcs
-scoreboard objectives add TPaf dummy The Pit Affected Items
-scoreboard objectives add TPwe dummy The Pit Weakness
 scoreboard objectives add TPst dummy The Pit State
 scoreboard objectives add TPdg dummy The Pit Degrading Arena
 scoreboard objectives add TPiat dummy The Pit Arena Type Input
+scoreboard objectives add TPat dummy The Pit Arena Type
 scoreboard objectives add TPiwt dummy The Pit Weapon Type Input
 scoreboard objectives add TPpl dummy The Pit Player List
 scoreboard teams add TP The Pit Players

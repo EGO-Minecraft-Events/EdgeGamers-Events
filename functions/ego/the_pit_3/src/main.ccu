@@ -8,7 +8,6 @@ from lib.coords import Coords
 
 # TODO
 # degrading arena
-# kill items
 # announce winners
 
 event = THE_PIT_3
@@ -22,9 +21,6 @@ select_arena = Coords("-107 6 146 -51 56 202").selector()
 # teleport coords to get to the spectator area
 # selection of the area around the above teleport coords
 select_spectate = Coords("-111 16 204 -109 20 206").selector()
-
-# region on top of the middle ball
-mid_ball_upper_select = Coords("-81 23 172 -77 23 176").selector()
 
 # select the walls
 select_walls_west = Coords("-108 6 146 -108 38 202").selector()
@@ -54,14 +50,12 @@ floor_select = floor_region.selector()
 pillar_sides_select = Coords("-81 6 172 -77 9 176").selector()
 
 # region to kill all players actually on the middle pillar
-on_pillar_select = Coords("-82 10 171 -82 10 177").selector()
-
+on_pillar_select = Coords("-82 10 171 -76 10 177").selector()
 
 tp_to_west = Coords("~-1 ~ ~")
 tp_to_east = Coords("~1 ~ ~")
 tp_to_south = Coords("~ ~ ~1")
 tp_to_north = Coords("~ ~ ~-1")
-
 
 # region to select the entire platform
 platform_region = Coords("-59 10 194 -99 10 154")
@@ -80,6 +74,22 @@ deg_activate_calc_save = Coords("-35 5 249 -33 5 251")
 deg_activate_calc_load = Coords("-80 2 175 -78 2 173")
 
 
+# region to save the original platform blocks
+init_struct_save = Coords("-79 14 251 -79 11 251")
+
+# the coordinates for the four structure blocks required to load in a platform
+struct_load_plat_1 = Coords("-78 5 174")
+struct_load_plat_2 = Coords("-79 5 175")
+struct_load_plat_3 = Coords("-80 5 174")
+struct_load_plat_4 = Coords("-79 5 173")
+
+# region to activate the platform loading
+activate_load_plat = Coords("-79 5 174")
+
+# all tags that are universal with all structure blocks for initializing the platform
+init_struct_tags = r'sizeX:21,sizeY:1,sizeZ:21,showboundingbox:0b,mode:"LOAD",ignoreEntities:1b'
+
+
 
 cs_to_spec_tags = r'{display:{Name:"Head to the spectator area",Lore:["Right click to use!"]}}'
 cs_to_lobby_tags = r'{display:{Name:"Head to the lobby",Lore:["Right click to use!"]}}'
@@ -89,8 +99,6 @@ OBJECTIVES.new_str("""
     . _ .
     ti _ Timer
     cl _ Random Calcs
-    af _ Affected Items
-    we _ Weakness
     st _ State
 
     # Used on the TPStand to calculate the timer
@@ -101,6 +109,9 @@ OBJECTIVES.new_str("""
     # Used on the TPStand to use as input to get the arena type
     # 0 = reg_small, 1 = reg_large, 2 = deg_small, 3 = deg_large
     iat _ Arena Type Input
+
+    # Saved arena type to reset itself when the round ends
+    at _ Arena Type
 
     # weapons
     # 0 = normal
@@ -114,6 +125,9 @@ OBJECTIVES.new_str("""
     # 2 = in game
     # 3 = forever as spectator (changes back to 1 if in lobby)
     pl _ Player List
+
+    # af _ Affected Items
+    # we _ Weakness
     
     # effects
     # ef dummy Effect
@@ -158,22 +172,6 @@ TEAMS.new_str("""
 """, initials=initials, display="The Pit")
 
 
-
-# region to save the original platform blocks
-init_struct_save = Coords("-79 14 251 -79 11 251")
-
-# the coordinates for the four structure blocks required to load in a platform
-struct_load_plat_1 = Coords("-78 5 174")
-struct_load_plat_2 = Coords("-79 5 175")
-struct_load_plat_3 = Coords("-80 5 174")
-struct_load_plat_4 = Coords("-79 5 173")
-
-# region to activate the platform loading
-activate_load_plat = Coords("-78 6 175 -80 6 173")
-
-# all tags that are universal with all structure blocks for initializing the platform
-init_struct_tags = r'sizeX:21,sizeY:1,sizeZ:21,showboundingbox:0b,mode:"LOAD",ignoreEntities:1b'
-
 )
 
 $macro(structs_platform_load_with, name)
@@ -215,12 +213,14 @@ $endmacro
     $(floo_event.cmd_main())
 
     # kills all arrows that are in the ground
-    @e[type=arrow] TPcl = 1 {inGround:1b}
+    @e[$(select_all),type=arrow] TPcl = 1 {inGround:1b}
     kill @e[type=arrow,TPcl=1]
+
+    # kills all items
+    kill @e[$(select_all),type=item]
     
     # checks for input in changing the arena
     @e[type=armor_stand,TPStand,TPiat=0..] function change_arena
-    @e[type=armor_stand,TPStand,TPdg=0..] function use_degrading
 
     # gives weapons only during the countdown and round
     @e[type=armor_stand,TPStand,TPst=2..3,TPiwt=0..] function give_weapons
@@ -284,7 +284,7 @@ $endmacro
     ScOP Countdown TP = Countdown TPcl
 
     # gives weakness
-    effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 3 100 true
+    effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 1 100 true
 
     @s[TPti=100] tellraw @a $(event.begin(r'{"text":"5","color":"yellow","bold":"true"}'))
     @s[TPti=100] @a playsound $(Sounds.pling) voice @s ~ ~ ~ 0.5
@@ -313,7 +313,7 @@ $endmacro
     @s TPst = 3
 
     # removes weakness
-    effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 0 0 true
+    # effect @a[gSA=1,m=2,TPpl=2] $(Effects.weak) 0 0 true
 
 !mfunc during_round
     @s TPti + 1
@@ -327,9 +327,6 @@ $endmacro
     tp @a[$(select_walls_north),m=2,TPpl=2] $(tp_to_south)
     tp @a[$(select_walls_south),m=2,TPpl=2] $(tp_to_north)
 
-    # if they somehow get above the mid ball
-    tp @a[$(mid_ball_upper_select),m=2,TPpl=1] ~ ~-8 ~
-
     # kills all players on the floor
     kill @a[$(floor_select),m=2,TPpl=2]
 
@@ -337,13 +334,19 @@ $endmacro
     kill @a[$(on_pillar_select),m=2,TPpl=2]
     kill @a[$(pillar_sides_select),m=2,TPpl=2]
 
+    @e[type=armor_stand,TPStand,TPdg=0..] function use_degrading
 
+
+# used on the TPStand to stop the round
 !mfunc stop_round
-    @a[gSA=1,m=2,TPpl=2] function full_reset_player
+    @a[gSA=1,m=2,TPpl=2] function round_reset_player
     
     # sets the mid ball
     $(activate_struct_mid.setblock("redstone_block"))
     $(activate_struct_mid.setblock("air"))
+
+    # resets the arena in general
+    ScOP @s TPiat = @s TPat
     
     Countdown reset TP
     Time_Elapsed reset TP
@@ -368,10 +371,16 @@ $endmacro
     @s TPpl = 1
 
 
-# Used on players to reset them fully
-!mfunc full_reset_player
+# Used on players to reset them when a round has stopped
+!mfunc round_reset_player
     function reset_player
     $(event.cmd_spawn())
+
+
+# Used on players to reset them fully
+!mfunc full_reset_player
+    function round_reset_player
+    clear @s carrot_on_a_stick
 
 
 # used on players to give them the necessary carrot sticks
@@ -432,16 +441,26 @@ $endmacro
 # Used on the TPStand to change the arena when
 # an input is detected with TPiat=0..
 !mfunc change_arena
+    # loads in the structure blocks
     @s[TPiat=0] function arena_to_reg_small
     @s[TPiat=1] function arena_to_reg_large
     @s[TPiat=2] function arena_to_deg_small
     @s[TPiat=3] function arena_to_deg_large
     
-    $(activate_load_plat.fill("redstone_block 0 replace air 0"))
-    $(activate_load_plat.fill("air 0 replace redstone_block 0"))
+    # activates the structure blocks
+    $(activate_load_plat.setblock("redstone_block"))
+    $(activate_load_plat.setblock("air 0"))
+
+    # sets degrading to -1 if the arena is regular
+    @s TPdg = 0
+    @s[TPiat=0..1] TPdg = -1
+
+    # saves the arena type
+    ScOP @s TPat = @s TPiat
     @s TPiat = -1
 
 
+# Used on the TPStand to load in the structure blocks
 !mfunc arena_to_reg_small
     $structs_platform_load_with("reg_small")
 
@@ -454,6 +473,46 @@ $endmacro
 !mfunc arena_to_deg_large
     $structs_platform_load_with("deg_large")
 
+
+# used on the TPStand to calculate the degrading arena
+!mfunc use_degrading
+    @s[TPdg=0..] TPdg + 1
+
+    # clones the platform to the destination to convert the blocks to green stained clay
+    @s[TPdg=10] clone $(platform_region) $(deg_clone_calc_dest)
+    @s[TPdg=10] fill $(platform_region) air 0 replace double_stone_slab
+
+    # removes any stone (?) and colored stained clay that isn't light_blue or blue
+    @s[TPdg=10] fill $(deg_select_calc) air 0 replace stone
+    @s[TPdg=10] fill $(deg_select_calc) air 0 replace stained_hardened_clay color=lime
+    @s[TPdg=10] fill $(deg_select_calc) air 0 replace stained_hardened_clay color=yellow
+    @s[TPdg=10] fill $(deg_select_calc) air 0 replace stained_hardened_clay color=orange
+    @s[TPdg=10] fill $(deg_select_calc) air 0 replace stained_hardened_clay color=red
+
+    # replaces all the remaining stained_hardened_clay with lime stained clay
+    @s[TPdg=10] fill $(deg_select_calc) stained_hardened_clay color=lime replace stained_hardened_clay
+
+    # fills all air blocks with structure void to prevent air blocks from overriding other blocks
+    @s[TPdg=10] fill $(deg_select_calc) structure_void 0 replace air 0
+
+    # saves the calculated region
+    @s[TPdg=15] fill $(deg_activate_calc_save) redstone_block 0 replace air 0
+    
+    # lime --> yellow
+    @s[TPdg=40] fill $(platform_region) stained_hardened_clay color=yellow replace stained_hardened_clay color=lime
+
+    # orange --> red
+    @s[TPdg=40] fill $(platform_region) stained_hardened_clay color=red replace stained_hardened_clay color=orange
+    
+    # loads in the calculated region, creating random green stained clay
+    @s[TPdg=80] fill $(deg_activate_calc_load) redstone_block 0 replace air 0
+
+    # yellow --> orange
+    @s[TPdg=80] fill $(platform_region) stained_hardened_clay color=orange replace stained_hardened_clay color=yellow
+
+    # red --> air
+    @s[TPdg=80] fill $(platform_region) air 0 replace stained_hardened_clay color=red
+    @s[TPdg=80] TPdg = 0
 
 
 # used on players to add them to the round

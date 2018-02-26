@@ -12,11 +12,10 @@ execute @a[m=2,score_TPpl_min=1] ~ ~ ~ function ego:the_pit_3/full_reset_player
 scoreboard objectives remove TP
 scoreboard objectives remove TPti
 scoreboard objectives remove TPcl
-scoreboard objectives remove TPaf
-scoreboard objectives remove TPwe
 scoreboard objectives remove TPst
 scoreboard objectives remove TPdg
 scoreboard objectives remove TPiat
+scoreboard objectives remove TPat
 scoreboard objectives remove TPiwt
 scoreboard objectives remove TPpl
 scoreboard teams remove TP

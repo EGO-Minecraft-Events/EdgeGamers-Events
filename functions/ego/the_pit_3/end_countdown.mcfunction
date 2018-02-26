@@ -3,4 +3,3 @@ tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"TPL3","color
 scoreboard players reset Countdown TP
 fill -77 17 172 -81 22 176 air
 scoreboard players set @s TPst 3
-effect @a[score_gSA_min=1,score_gSA=1,m=2,score_TPpl_min=2,score_TPpl=2] minecraft:weakness 0 0 true

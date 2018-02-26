@@ -80,11 +80,17 @@ class Coord:
     """A value container for Minecraft coordinates
 
     Attributes:
-        val (numbers.Real): The value of this coordinate
+        value (numbers.Real): The value of this coordinate
         prefix (str): The prefix of this coordinate. Can be either "", "~", or "^"
     """
 
     def _set_value(self, val=0):
+        """Sets the value of this coord
+
+        Args:
+            val (numbers.Real, str, Coord): The value to assign this Coord to.
+                If val is Coord, self will copy the values.
+        """
         if isinstance(val, Coord):
             self._value = val.value
             self._prefix = val._prefix
@@ -175,30 +181,47 @@ class Coord:
 
     def set_int(self):
         """Sets the value of this coordinate to an integer
+        The prefix is unchanged
         """
         self.value = int(value)
     
     def set_float(self):
         """Sets the value of this coordinate to a float
+        The prefix is unchanged.
         """
         self.value = float(value)
 
     def set_global(self):
+        """Removes the prefix of this Coord
+        """
         self._prefix = ""
 
     def is_global(self):
+        """Returns whether or not this Coord has a prefix.
+        True if no prefix is present.
+        """
         return self._prefix == ""
 
     def set_relative(self):
+        """Sets the prefix of this Coord to "~"
+        """
         self._prefix = "~"
 
     def is_relative(self):
+        """Returns True if the prefix of this Coord is "~"
+        False otherwise.
+        """
         return self._prefix == "~"
 
     def set_local(self):
+        """Sets the prefix of this Coord to "^"
+        """
         self._prefix = "^"
 
     def is_local(self):
+        """Returns True if the prefix of this Coord is "^"
+        False otherwise.
+        """
         return self._prefix == "^"
 
 #    def __set__(self, instance, value):
@@ -221,9 +244,14 @@ class Coord:
     """In all numeric type comparisons, the prefix of the Coord is ignored
 
     Examples:
-        (~15 == ^15) == True
-        (~10 == ~15) == False
-        (^3 == 3) == True
+        >>> Coord("~15") == Coord("^15")
+        True
+        >>> Coord("~10") <= Coord("~15")
+        True
+        >>> Coord("~9") <= Coord("9")
+        True
+        >>> Coord("^3") > Coord("3")
+        False
     """
 
 $py(comparisons = {"__lt__":"<", "__le__":"<=", "__eq__":"==", "__ne__":"!=", "__gt__":">", "__ge__":">="})
@@ -238,13 +266,29 @@ $for(name, symbol in comparisons.items())
             return NotImplemented
 $endfor
 
+    def equals(val):
+        """Returns true if this Coord equals the value given.
+        This is different from __eq__ as this comparison includes prefixes.
+        
+        Args:
+            val (Coord, str, numbers.Real): value to compare to
+        
+        Returns:
+            True if both the value and the prefix of Coord(val) and self are equal.
+        """
+        coord = Coord(val)
+        return coord._prefix == self._prefix and coord.value == self.value
+
+
     """In all numeric type operations, the prefix of the result is inherited from the left of the operator.
 
     Examples:
-        Note: === is used to signify that the prefixes are included in the equality, unlike the comparison operations above
-        ~15 + ^5 === ~20
-        ^15 - ~5 === ~10
-         15 / ^5 ===  3
+        >>> Coord("~15") + Coord("^5")
+        Coord('~20')
+        >>> Coord("^15") + Coord("~5")
+        Coord('^20')
+        >>> 15 / Coord("^5")
+        Coord('3')
     """
 
 $py(ops = {"add__":"+", "sub__":"-", "mul__":"*", "truediv__":"/", "floordiv__":"//", "mod__":"%", "pow__":"**", "lshift__":"<<", "rshift__":">>", "and__":"&", "xor__":"^", "or__":"|"})
@@ -278,11 +322,11 @@ $for(name, symbol in ops.items())
 
     def __i$(name)(self, other):
         if isinstance(other, Coord):
-            self.value $(symbol)= other.value
+            self._value $(symbol)= other.value
         elif isinstance(other, Real):
-            self.value $(symbol)= other
+            self._value $(symbol)= other
         elif isinstance(other, str):
-            self.value $(symbol)= _tonum_strip_prefix(other)
+            self._value $(symbol)= _tonum_strip_prefix(other)
         else:
             return NotImplemented
         return self
@@ -315,6 +359,15 @@ $endfor
         new_coordval._prefix = _prefix
         return new_coordval
 
+        """Unary operators apply to the value of the Coord.
+
+        Examples:
+            >>> -Coord("5")
+            Coord('-5')
+            >>> -Coord("^7")
+            Coord('^-7')
+        """
+
 $py(unary_ops = {"__neg__":"-", "__pos__":"+", "__invert__":"~"})
 $for(name, symbol in unary_ops.items())
     def $(name)(self):
@@ -324,6 +377,14 @@ $for(name, symbol in unary_ops.items())
 $endfor
 
     def __abs__(self):
+        """Takes the absolute value of this Coord's value
+
+        Examples:
+            >>> abs(Coord("-7"))
+            Coord('7')
+            >>> abs(Coord("~-6"))
+            Coord('~6')
+        """
         new_coordval = Coord(abs(self.value))
         new_coordval._prefix = self._prefix
         return new_coordval
@@ -335,6 +396,12 @@ $for(name, func in conversion_ops.items())
 $endfor
 
     def __round__(self, n=0):
+        """Rounds this Coord's value to the n'th decimal place
+
+        Examples:
+            >>> round(Coord("3.141592653589793"), 2)
+            Coord('3.14')
+        """
         new_coordval = Coord(round(self.value, n))
         new_coordval._prefix = self._prefix
         return new_coordval
