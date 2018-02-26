@@ -46,8 +46,6 @@ fill_buttons_south = 53 6 57 108 6 49
 
 activate_struct_reset = 45 2 60 109 2 23
 
-"""
-inputList = """
 # fills the board
 fill_board = 130 18 192 130 6 168
 
@@ -59,6 +57,50 @@ tp_back = 152 8 180 90 -30
 
 # redstone block to open the door with
 activate_door = 158 1 180
+
+"""
+inputList = """
+
+# select spawn
+select_spawn = x=-266,y=25,z=9,dx=28,dy=5,dz=17
+
+
+# particle coordinates
+portal_particles_af = -252 26.25 27
+portal_particles_cl = -237 26.25 18
+
+# select for the portal
+select_portal_af = x=-253,y=25,z=27,dx=2,dy=2
+select_portal_cl = x=-237,y=25,z=17,dy=2,dz=2
+
+# door bar
+portal_bar_af = -251 26 27 -253 26 27
+portal_bar_cl = -237 26 17 -237 26 19
+
+# teleport to the arena
+portal_tp_af = -249 5 37.0
+portal_tp_cl = -216 4 18
+
+
+# select Arenas
+select_af = x=-272,y=4,z=35,dx=44,dy=45,dz=6
+select_cl = x=-222,y=4,z=12,dx=20,dy=40,dz=13
+
+# select winners
+win_select_af = x=-272,y=40,z=40,dx=44
+win_select_cl = x=-207,y=11,z=16,dy=1,dz=3
+
+# pre select winners
+win_pre_select_af = x=-272,y=41,z=40,dx=44,dy=1
+win_pre_select=cl = x=-207,y=10,z=16,dy=24,dz=3
+
+# sand block area
+activate_struct_af = -273 42 36 -273 42 37
+activate_struct_cl = -207 40 18
+
+# clearing the sand in the arena
+sand_fill_af = -229 41 36 -271 5 37
+sand_fill_cl = -211 4 13 -221 33 23
 
 
 """.splitlines()

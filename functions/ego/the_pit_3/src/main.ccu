@@ -7,7 +7,6 @@ from lib.coords import Coords
 
 
 # TODO
-# degrading arena
 # announce winners
 
 event = THE_PIT_3
