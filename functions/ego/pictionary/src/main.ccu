@@ -18,7 +18,6 @@ with open("topics.txt") as file:
 
     # removes empty lines
     topic_list = [line for line in lines if line.strip()]
-    print(topic_list)
 
 
 # the first item in the file is the theme
@@ -304,7 +303,7 @@ TEAMS.new_str("""
     $endfor
     
     tp @s $(tp_to_draw)
-    @s pictionary set artist @p[r=0]
+    @s pictionary artist set @p[r=0]
     
     # says who's the artist
     tellraw @a $(event.begin(r'{"selector":"@s"},{"text":" is the artist.","color":"gray"}'))
@@ -322,7 +321,7 @@ TEAMS.new_str("""
     # Sets the area effect cloud as the answer
     # teleports up to make sure that the selector gets the correct entity
     # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~0.1 ~
-    @e[type=area_effect_cloud,PCTopic,PCrd=1] pictionary set entity @e[r=0]
+    @e[type=area_effect_cloud,PCTopic,PCrd=1] pictionary answer setbyentity @e[r=0]
     @e[type=area_effect_cloud,PCTopic,PCrd=1] say set @e[r=0]
     # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~-0.1 ~
 
