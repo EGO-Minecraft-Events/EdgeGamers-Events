@@ -1,0 +1,46 @@
+$py(
+from lib.races import *
+from lib.floo_network import QUARTZ_RACE
+
+# all races must have a race object
+race = LapRace(QUARTZ_RACE,
+    lap=Coords("232 7 -163 240 12 -161"),
+    lap_reset=Coords("241 8 -142 241 11 -140"),
+    spawn=Coords("226 6 -158 240 12 -156"),
+    fill_air=Coords("240 6 -160 232 6 -154"),
+    fill_block=Coords("232 4 -156 240 4 -158")
+)
+
+)
+
+
+# additional commands for scoreboard initialization
+$macro(edit_scoreboard_start)
+$endmacro
+
+# additional commands for the main start
+$macro(edit_main_start)
+$endmacro
+
+# additional commands for the main clock
+$macro(edit_main_clock)
+$endmacro
+
+$macro(add_functions)
+$endmacro
+
+# additional commands for the countdown clock
+$macro(edit_countdown_clock)
+    @s[$(initials)cd=120] fill $(race.fill_air) stonebrick 0 replace redstone_block 0
+    @s[$(initials)cd=120] fill $(race.fill_block) redstone_block 0 replace stonebrick 0
+    @s[$(initials)cd=120] fill 231 7 -158 231 7 -156 quartz_block 0
+$endmacro
+
+# additional commands for the main end
+$macro(edit_main_end)
+    fill $(race.fill_air) redstone_block 0 replace stonebrick 0
+    fill $(race.fill_block) stonebrick 0 replace redstone_block 0
+    fill 231 7 -158 231 7 -156 quartz_stairs 1
+$endmacro
+
+$include("lib/races.ccu")

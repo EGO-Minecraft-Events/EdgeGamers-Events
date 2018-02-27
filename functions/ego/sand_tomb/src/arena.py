@@ -1,8 +1,11 @@
+
 class Arena:
-    def __init__(self, select, portal, win_select, win_pre_select, activate_struct):
+    def __init__(self, id, name, fake_name, select, portal, win_select, win_pre_select, activate_struct):
         """
         Args:
             id (int)
+            name (str): Display name
+            fake_name (str): Display name used as a fake player
             select (Coords)
             portal (Portal)
             win_select (Coords)
@@ -11,6 +14,8 @@ class Arena:
 
         Attributes:
             id (int)
+            name (str)
+            fake_name (str)
             region (Coords)
             select (str)
             portal (Portal)
@@ -18,6 +23,9 @@ class Arena:
             win_pre_select (str)
             activate_struct (Coords)
         """
+        self.id = id
+        self.name = name
+        self.fake_name = fake_name
         self.region = select
         self.select = select.selector()
         self.portal = portal
@@ -35,14 +43,14 @@ class Portal:
             tp_to (Coords)
 
         Attributes:
-            select_region (Coords)
+            region (Coords)
             select (str)
             particle_pos (Coords)
             fill_bar (Coords)
             tp_to (Coords)
         """
 
-        self.select_region = select
+        self.region = select
         self.select = select.selector()
         self.particle = particle
         self.fill_bar = fill_bar

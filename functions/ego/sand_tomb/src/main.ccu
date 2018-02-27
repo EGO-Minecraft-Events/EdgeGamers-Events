@@ -60,8 +60,8 @@ sand_fill_cl = Coords("-211 4 13 -221 33 23")
 portal_af = Portal(select_portal_af, select_portal_af, portal_bar_af, portal_tp_af)
 portal_cl = Portal(select_portal_cl, select_portal_cl, portal_bar_cl, portal_tp_cl)
 
-CLASSIC = Arena(1, select_cl, portal_cl, win_select_cl, win_pre_select_cl, activate_struct_cl)
-ANT_FARM = Arena(2, select_af, portal_af, win_select_af, win_pre_select_af, activate_struct_af)
+CLASSIC = Arena(1, "Classic", "Classic", select_cl, portal_cl, win_select_cl, win_pre_select_cl, activate_struct_cl)
+ANT_FARM = Arena(2, "Ant Farm", "Ant_Farm", select_af, portal_af, win_select_af, win_pre_select_af, activate_struct_af)
 ARENAS = (CLASSIC, ANT_FARM)
 
 
@@ -170,6 +170,46 @@ TEAMS.new_str("""
     @a[m=2,STpl=2,gDE=1..] function reset_player
 
 
+///    General
+    kill @e[$SA$,type=Item]
+    
+///    Spawn area
+    @a[$SpawnArea$,m=2] STpl + 0
+    J> ST @a[$SpawnArea$,m=2,STpl=0,team=!ST] @a[$SpawnArea$,m=2,STpl=3,team=!ST]
+    @a[$SpawnArea$,m=2,STpl=2] summon $Firework$
+    @a[$SpawnArea$,m=2,STpl>=0] STpl = 3
+    @a[$SpawnArea$,m=2,STpl=3,STti>=1] STti = 0
+    effect @a[$SpawnArea$,m=2,STpl=3] 12 3 0 true
+    effect @a[$SpawnArea$,m=2] 23 2 0 true
+    
+///    Collision option
+    @e[type=armor_stand,STco=0] ScTO ST collisionRule never
+    @e[type=armor_stand,STco=0] STco = 1
+    @e[type=armor_stand,STco=2] ScTO ST collisionRule always
+    @e[type=armor_stand,STco=2] STco = 3
+    
+///    Player Counter Display
+    @e[type=armor_stand,STStand] STpl = 0
+    @a[$SA$,m=2,STpl=1] @e[type=armor_stand,STStand] STpl + 1
+    ScOP Players ST = @e[type=armor_stand,STStand] STpl
+    
+///    general teleports
+    tp @a[m=2,STtp=1] $PortalTeleportCL$
+    tp @a[m=2,STtp=2] $PortalTeleportAF$
+    @a[m=2,STtp>=1] playsound Snd_TP voice @a[c=1]
+    @a[m=2,STtp>=1] STtp = 0
+
+/// Reset on death
+    @a[STde>=1,STpl=1,EC=0] SPbk = $SPid$
+    @a[STde>=1,STpl=1] STti = 0
+    @a[STde>=1,STpl=1] STpl = 3
+    @a[STde>=1] STde = 0
+//>
+
+
+
+
+
 !mfunc term
     $(floo_event.cmd_term())
 
@@ -190,13 +230,18 @@ TEAMS.new_str("""
 !mfunc wait_for_start
     $for(arena in ARENAS)
     @s[STid=$(arena.id)] particle enchantmenttable $(arena.portal.particle) 0 0 0 1 4 force
-    @s[STid=$(arena.id)] SPtp = $(arena.id)
+    @s[STid=$(arena.id)] STtp = $(arena.id)
     $endfor
 
 
 # Used on the STStand when the round is starting
 !mfunc start_round
+    # resets anyone in the opposite arena
+    @s[STid=$(ant_farm.id)] @a[m=2,$(classic.select)] function full_reset_player
+    @s[STid=$(classic.id)] @a[m=2,$(ant_farm.select)] function full_reset_player
+    
     @s STst = 2
+
     @a[gSA=1,m=2,STpl=1] function add_to_round
 
 
@@ -234,16 +279,64 @@ TEAMS.new_str("""
     tellraw @a $(event.begin(r'{"text":"GO!","color":"green","bold":"true"}'))
 
     Countdown reset ST
-    ScOP @s STti = Delay STop
+    ScOP @s STti = &Delay STcl
 
     @s STst = 3
 
 
 !mfunc during_round
+    effect @a[$WinPreSelectCL$,m=2,STpl=1] 12 15 0 true
+    effect @a[$WinPreSelectCL$,m=2,STpl=1] 11 2 10 true
+    effect @a[$WinPreSelectAF$,m=2,STpl=1] 12 15 0 true
+    effect @a[$WinPreSelectAF$,m=2,STpl=1] 11 2 10 true
+    @e[type=armor_stand,STStand,STid=1] ScOP @a[c=1,$WinSelectCL$,STpl=1,STwl=0] STwl = WinnerCount STop
+    @e[type=armor_stand,STStand,STid=2] ScOP @a[c=1,$WinSelectAF$,STpl=1,STwl=0] STwl = WinnerCount STop
+    @a[$SA$,m=2,STpl=1,STwl=-1] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-1]"},{"text":" got 1st place!","color":"green"}]}
+    @a[$SA$,m=2,STpl=1,STwl=-2] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-2]"},{"text":" got 2nd place!","color":"green"}]}
+    @a[$SA$,m=2,STpl=1,STwl=-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-3]"},{"text":" got 3rd place!","color":"green"}]}
+    @a[$SA$,m=2,STpl=1,STwl<-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl<-3]"},{"text":" has escaped the sand tomb!","color":"green"}]}
+    @a[$SA$,m=2,STpl=1,STwl>=-3<=-1] ScOP @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] ST = @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] STwl
+    @a[$SA$,m=2,STpl=1,STwl<=-1] WinnerCount STop - 1
+    @a[$SA$,m=2,STpl=1,STwl<=-1] SPtp = $SPid$
+    @a[$SA$,m=2,STpl=1,STwl<=-1] STpl = 2
+    
+///    Delay
+    @e[type=armor_stand,STStand,STst=2,STcd=-1] STti + 1
+    ScOP @e[type=armor_stand,STStand,STst=2,STcd=-1] STcl = Delay STop
+    ScOP @e[type=armor_stand,STStand,STst=2,STcd=-1] STcl -= @e[c=1,type=armor_stand,STStand,STst=2] STti
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ redstone_block 0
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ air 0
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ redstone_block 0
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ air 0
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STcd=-1] @a[$SA$] playsound Snd_XP voice @a[c=1] ~ ~ ~ 0.5
+    @e[type=armor_stand,STStand,STst=2,STcl<=0,STcd=-1] STti = 0
+    
+///    Suffocation
+    @a[$SA$,m=2,STpl=1] sand 0 ~ ~1 ~ @a[r=1,c=1] STti + 1
+    @a[$SA$,m=2,STpl=1] air 0 ~ ~2 ~ @a[r=1,c=1] STti = 0
+    kill @a[$SA$,m=2,STti>=100]
+    
 
 
 !mfunc stop_round
     @a[gSA=1,m=2,STpl=2] function full_reset_player
+    
+    @e[type=armor_stand,STStand,STst=3] fill $SandFillCL$ air 0
+    @e[type=armor_stand,STStand,STst=3] fill $SandFillAF$ air 0
+    @e[type=armor_stand,STStand,STst=3] kill @e[$SA$,type=FallingSand]
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl>=1<=2] STpl = 3
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STti = 0
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STpo = 0
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STwl = 0
+    @e[type=armor_stand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] clear
+    @e[type=armor_stand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] 10 10 100 true
+    @e[type=armor_stand,STStand,STst=3] clear @a[$SA$,m=2,STpl=3]
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3,EC=0] SPbk = $SPid$
+    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] SPtp = $SPid$
+    
+    @e[type=armor_stand,STStand,STst=3] WinnerCount STop = -1
+    @e[type=armor_stand,STStand,STst=3] * reset ST
+    @e[type=armor_stand,STStand,STst=3] STst = 0
     
     @s STst = 0
 
@@ -271,6 +364,31 @@ TEAMS.new_str("""
 !mfunc add_to_round
     function reset_player
     @s STpl = 2
+
+
+# used on the STStand to open the doors to the proper arena
+!mfunc open_doors
+    $for(arena in ARENAS)
+    @s[STid=$(arena.id)] title @a actionbar {"text":"$(arena.name) arena is now open","color":"green"}
+
+    # puts the fake name on the scoreboard to indicate which arena to go to
+    @s[STid=$(arena.id)] $(arena.fake_name) ST = 0
+
+    # removes the bar from the portal
+    @s[STid=$(arena.id)] fill $(arena.portal.region) air 0
+    $endfor
+    
+    @a playsound $(Sounds.xp) voice @s
+        
+# closes doors
+!mfunc close_doors
+    Classic reset ST
+    Ant_Farm reset ST
+    @e[type=armor_stand,STStand,STpt=1] fill $PortalFillCL$ stone_slab 1
+    @e[type=armor_stand,STStand,STpt=1] fill $PortalFillAF$ stone_slab 1
+    @e[type=armor_stand,STStand,STpt=1] @e[type=armor_stand,SpawnStand] SPtp = 0
+    @e[type=armor_stand,STStand,STpt=1] STpt = 0
+
 
 
 !mfunc input_start_round
@@ -311,224 +429,3 @@ TEAMS.new_str("""
     ]}
 
 
-
-
-
-
-
-
-
-
-
-//<Countdown Testfor Clock
-FUNC {Func_CountdownTFClock}:
-//>
-
-//<Round Start Testfor Clock
-FUNC {Func_RoundStartTFClock}:
-    testfor @e[type=armor_stand,STStand,STst=1]
-    CCU_SetblockTestfor
-    
-    @e[type=armor_stand,STStand,STst=1] STcd = 0 /// starts countdown
-    @e[type=armor_stand,STStand,STst=1] STop = 4 /// closes portals
-    
-    @e[type=armor_stand,STStand,STst=1,STid=1] @a[m=2,$SelectCL$] STpl = 0
-    @e[type=armor_stand,STStand,STst=1,STid=2] @a[m=2,$SelectAF$] STpl = 0
-    
-    @e[type=armor_stand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STpo + 0
-    @e[type=armor_stand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STsa + 0
-    @e[type=armor_stand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STwl + 0
-    @e[type=armor_stand,STStand,STst=1] @a[$SA$,m=2,STpl=0] STpl = 1
-    
-    @e[type=armor_stand,STStand,STst=1] STst = 2
-//>
-
-//<Round Testfor Clock
-FUNC {Func_RoundTFClock}:
-    testfor @e[type=armor_stand,STStand,STst=2]
-    CCU_SetblockTestfor
-    
-///    Scoreboard display
-    effect @a[$WinPreSelectCL$,m=2,STpl=1] 12 15 0 true
-    effect @a[$WinPreSelectCL$,m=2,STpl=1] 11 2 10 true
-    effect @a[$WinPreSelectAF$,m=2,STpl=1] 12 15 0 true
-    effect @a[$WinPreSelectAF$,m=2,STpl=1] 11 2 10 true
-    @e[type=armor_stand,STStand,STid=1] ScOP @a[c=1,$WinSelectCL$,STpl=1,STwl=0] STwl = WinnerCount STop
-    @e[type=armor_stand,STStand,STid=2] ScOP @a[c=1,$WinSelectAF$,STpl=1,STwl=0] STwl = WinnerCount STop
-    @a[$SA$,m=2,STpl=1,STwl=-1] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-1]"},{"text":" got 1st place!","color":"green"}]}
-    @a[$SA$,m=2,STpl=1,STwl=-2] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-2]"},{"text":" got 2nd place!","color":"green"}]}
-    @a[$SA$,m=2,STpl=1,STwl=-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl=-3]"},{"text":" got 3rd place!","color":"green"}]}
-    @a[$SA$,m=2,STpl=1,STwl<-3] tellraw @a[$SA$] $TextStart${"selector":"@a[r=0,c=1,m=2,STpl=1,STwl<-3]"},{"text":" has escaped the sand tomb!","color":"green"}]}
-    @a[$SA$,m=2,STpl=1,STwl>=-3<=-1] ScOP @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] ST = @a[c=1,r=1,m=2,STpl=1,STwl>=-3<=-1] STwl
-    @a[$SA$,m=2,STpl=1,STwl<=-1] WinnerCount STop - 1
-    @a[$SA$,m=2,STpl=1,STwl<=-1] SPtp = $SPid$
-    @a[$SA$,m=2,STpl=1,STwl<=-1] STpl = 2
-    
-///    Delay
-    @e[type=armor_stand,STStand,STst=2,STcd=-1] STti + 1
-    ScOP @e[type=armor_stand,STStand,STst=2,STcd=-1] STcl = Delay STop
-    ScOP @e[type=armor_stand,STStand,STst=2,STcd=-1] STcl -= @e[c=1,type=armor_stand,STStand,STst=2] STti
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ redstone_block 0
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=1,STcd=-1] setblock $StructureBlockCL$ air 0
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ redstone_block 0
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STid=2,STcd=-1] fill $StructureBlockAF$ air 0
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STcd=-1] @a[$SA$] playsound Snd_XP voice @a[c=1] ~ ~ ~ 0.5
-    @e[type=armor_stand,STStand,STst=2,STcl<=0,STcd=-1] STti = 0
-    
-///    Suffocation
-    @a[$SA$,m=2,STpl=1] sand 0 ~ ~1 ~ @a[r=1,c=1] STti + 1
-    @a[$SA$,m=2,STpl=1] air 0 ~ ~2 ~ @a[r=1,c=1] STti = 0
-    kill @a[$SA$,m=2,STti>=100]
-    
-///    Options
-///    Saturation
-    @e[type=armor_stand,STsa=1] effect @a[$SA$,m=2,STpl=1] 23 3 0 true
-    @e[type=armor_stand,STsa=0] effect @a[$SA$,m=2,STpl=1] 17 2 127 true
-    @e[type=armor_stand,STsa=0] @a[$SA$,m=2,STpl=1,STsa<30] STsa + 1
-    @e[type=armor_stand,STsa=0] effect @a[$SA$,m=2,STpl=1,STsa=30] 23 1 0 true
-    @e[type=armor_stand,STsa=0] @a[$SA$,m=2,STpl=1,STsa=30] STsa = 0
-
-///    Blindness
-    @e[type=armor_stand,STbl=1] effect @a[$SA$,m=2,STpl=1] 15 2 0 true
-    
-///    Jump boost
-    @e[type=armor_stand,STju=1] effect @a[$SA$,m=2,STpl=1] 8 2 1 true
-    
-///    Potion
-    @e[type=armor_stand,STpo=0] @a[$SA$,m=2,STpl=1,STpo=1] STpo = 0
-    @e[type=armor_stand,STpo=0] clear @a[$SA$,m=2,STpl=1] CCItem_Potion(-1;-1)
-    @e[type=armor_stand,STpo=1] give @a[$SA$,m=2,STpl=1,STpo=0] CCItem_Potion(1;0)
-    @e[type=armor_stand,STpo=1] @a[$SA$,m=2,STpl=1,STpo=0] STpo = 1
-    @e[type=armor_stand,STpo=1] effect @a[$SA$,m=2,STpl=1,STpo=1] 8 0 0 true
-    clear @a[$SA$,m=2] glass_bottle
-//>
-
-//<Round End Testfor Clock
-FUNC {Func_RoundEndTFClock}:
-    testfor @e[type=armor_stand,STStand,STst=3]
-    CCU_SetblockTestfor
-    
-    @e[type=armor_stand,STStand,STst=3] fill $SandFillCL$ air 0
-    @e[type=armor_stand,STStand,STst=3] fill $SandFillAF$ air 0
-    @e[type=armor_stand,STStand,STst=3] kill @e[$SA$,type=FallingSand]
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl>=1<=2] STpl = 3
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STti = 0
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STpo = 0
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] STwl = 0
-    @e[type=armor_stand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] clear
-    @e[type=armor_stand,STStand,STst=3] effect @a[$SA$,m=2,STpl=3] 10 10 100 true
-    @e[type=armor_stand,STStand,STst=3] clear @a[$SA$,m=2,STpl=3]
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3,EC=0] SPbk = $SPid$
-    @e[type=armor_stand,STStand,STst=3] @a[$SA$,m=2,STpl=3] SPtp = $SPid$
-    
-    @e[type=armor_stand,STStand,STst=3] WinnerCount STop = -1
-    @e[type=armor_stand,STStand,STst=3] * reset ST
-    @e[type=armor_stand,STStand,STst=3] STst = 0
-//>
-
-//<General Scoreboard Clock
-FUNC {Func_GeneralScoreboardClock}:
-///    General
-    kill @e[$SA$,type=Item]
-    
-///    Spawn area
-    @a[$SpawnArea$,m=2] STpl + 0
-    J> ST @a[$SpawnArea$,m=2,STpl=0,team=!ST] @a[$SpawnArea$,m=2,STpl=3,team=!ST]
-    @a[$SpawnArea$,m=2,STpl=2] summon $Firework$
-    @a[$SpawnArea$,m=2,STpl>=0] STpl = 3
-    @a[$SpawnArea$,m=2,STpl=3,STti>=1] STti = 0
-    effect @a[$SpawnArea$,m=2,STpl=3] 12 3 0 true
-    effect @a[$SpawnArea$,m=2] 23 2 0 true
-    
-///    Collision option
-    @e[type=armor_stand,STco=0] ScTO ST collisionRule never
-    @e[type=armor_stand,STco=0] STco = 1
-    @e[type=armor_stand,STco=2] ScTO ST collisionRule always
-    @e[type=armor_stand,STco=2] STco = 3
-    
-///    Player Counter Display
-    @e[type=armor_stand,STStand] STpl = 0
-    @a[$SA$,m=2,STpl=1] @e[type=armor_stand,STStand] STpl + 1
-    ScOP Players ST = @e[type=armor_stand,STStand] STpl
-    
-///    general teleports
-    tp @a[m=2,STtp=1] $PortalTeleportCL$
-    tp @a[m=2,STtp=2] $PortalTeleportAF$
-    @a[m=2,STtp>=1] playsound Snd_TP voice @a[c=1]
-    @a[m=2,STtp>=1] STtp = 0
-
-/// Reset on death
-    @a[STde>=1,STpl=1,EC=0] SPbk = $SPid$
-    @a[STde>=1,STpl=1] STti = 0
-    @a[STde>=1,STpl=1] STpl = 3
-    @a[STde>=1] STde = 0
-//>
-
-
-
-
-//<General Options Testfor Clock
-FUNC {Func_GeneralOptionsTFClock}:
-    testfor @e[type=armor_stand,STStand,STop>=1]
-    CCU_SetblockTestfor
-    
-    ARRAY {GLOBAL ACTIVATE CCU.setOptions(@e[type=armor_stand,STStand,STop>=$TempScore$];STop) ARGS}:
-        { /// 1 - end game
-            CCU_Activate(Grp_MainEnd)
-            
-        } { /// 2 - open doors
-            @e[type=armor_stand,STStand,STpt=0,STid=1] title @a[$SA$] title {"text":"Classic Arena","color":"green"}
-            @e[type=armor_stand,STStand,STpt=0,STid=2] title @a[$SA$] title {"text":"Ant Farm","color":"green"}
-            @e[type=armor_stand,STStand,STpt=0] title @a[$SA$] subtitle {"text":"The door is now open","color":"green"}
-            
-            @e[type=armor_stand,STStand,STpt=0,STid=1] Classic ST = 0
-            @e[type=armor_stand,STStand,STpt=0,STid=2] Ant_Farm ST = 0
-            @e[type=armor_stand,STStand,STpt=0,STid=1] fill $PortalFillCL$ air 0
-            @e[type=armor_stand,STStand,STpt=0,STid=2] fill $PortalFillAF$ air 0
-            
-            @e[type=armor_stand,STStand,STpt=0] @a[$SA$] playsound Snd_XP voice @a[c=1]
-            @e[type=armor_stand,STStand,STpt=0] @e[type=armor_stand,SpawnStand] SPtp = $SPid$
-            @e[type=armor_stand,STStand,STpt=0] STpt = 1
-            
-        } { /// 4 - close doors
-            Classic reset ST
-            Ant_Farm reset ST
-            @e[type=armor_stand,STStand,STpt=1] fill $PortalFillCL$ stone_slab 1
-            @e[type=armor_stand,STStand,STpt=1] fill $PortalFillAF$ stone_slab 1
-            @e[type=armor_stand,STStand,STpt=1] @e[type=armor_stand,SpawnStand] SPtp = 0
-            @e[type=armor_stand,STStand,STpt=1] STpt = 0
-            
-        } { /// 8 - reset all options
-            STsa = 1
-            STbl = 0
-            STju = 0
-            STpo = 0
-            STco = 0
-            Delay STop = 60
-            
-        } { /// 16 - edit delay
-            /*
-            tellraw @a[EC=0] $TextStart$
-                {"text":"Edit Delay: ","color":"gray"},
-                {"text":"[+]","color":"gold","italic":true,
-                    "hoverEvent":{"action":"show_text","value":{"text":"Edit the delay (in ticks)","color":"gold"}},
-                    "clickEvent":{"action":"suggest_command","value":"/scoreboard players set Delay STop #"}
-                }]}
-            */
-            
-        } { /// 32 - switch to CL
-            @e[type=armor_stand,STStand,STst=0,STid=2,STpt=1] @a[$SA$,m=2,SPpl=3] SPtp = $SPid$ /// teleports to spawn
-            @e[type=armor_stand,STStand,STst=0,STid=2,STpt=1] STop + 6 /// close and opens doors
-            @e[type=armor_stand,STStand,STst=0,STid=2] @a playsound Snd_XP voice @a[c=1]
-            @e[type=armor_stand,STStand,STst=0,STid=2] STid = 1
-            @e[type=armor_stand,STStand,STst>=1,STid=2] tellraw @a[EC=0] $TextStart${"text":"You cannot switch an arena when a game has started!","color":"yellow"}]}
-            
-        } { /// 64 - switch to AF
-            @e[type=armor_stand,STStand,STst=0,STid=1,STpt=1] @a[$SA$,m=2,SPpl=3] SPtp = $SPid$ /// teleports to spawn
-            @e[type=armor_stand,STStand,STst=0,STid=1,STpt=1] STop + 6 /// close and opens doors
-            @e[type=armor_stand,STStand,STst=0,STid=1] @a playsound Snd_XP voice @a[c=1]
-            @e[type=armor_stand,STStand,STst=0,STid=1] STid = 2
-            @e[type=armor_stand,STStand,STst>=1,STid=1] tellraw @a[EC=0] $TextStart${"text":"You cannot switch an arena when a game has started!","color":"yellow"}]}
-            
-        }
-//>
