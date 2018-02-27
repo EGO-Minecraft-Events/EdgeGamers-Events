@@ -413,7 +413,7 @@ BH_APOCALYPSE = Event("bh_apocalypse", "Apocalypse", "green", Coords("-1530 45 -
 BH_CASTLE_DE_EMMY = Event("bh_castle_de_emmy", "Castle de Emmy", "green", Coords("-1607 64 -60 90 0"), "bhcde", select_coords=Coords("-1570 73 -7 -1663 0 -102"))
 BH_FOUR_CORNERS = Event("bh_four_corners", "Four Corners", "green", Coords("-1313 102 -241 0 0"), "bhfc", select_coords=Coords("-1358 111 -190 -1268 4 -280"))
 BH_HASDAA = Event("bh_hasdaa", "HASDaa", "green", Coords("-1107 24 -35 -90 0"), "bhhd", select_coords=Coords("-1120 28 -10 -1044 4 -84"))
-BH_HOSPITAL = Event("bh_hospital", "Hospital", "green", Coords("-1073 26 -277 90 0"), "bhh", select_coords=Coords("-1047 42 -190 -1137 3 -232"))
+BH_HOSPITAL = Event("bh_hospital", "Hospital", "green", Coords("-1073 26 -277 90 0"), "bhh", select_coords=Coords("-1047 42 -290 -1137 3 -232"))
 BH_JUNGLE = Event("bh_jungle", "Jungle", "green", Coords("-1106 10 -97 180 0"), "bhj", select_coords=Coords("-1046 55 -148 -1115 4 -88"))
 BH_MASTERMIND = Event("bh_mastermind", "BH Mastermind", "green", Coords("-1175 46 -264"), "bhm;bhmm", select_coords=Coords("-1213 51 -222 -1140 4 -294"))
 BH_MUSHROOM_VILLAGE = Event("bh_mushroom_village", "Mushroom Village", "green", Coords("-1081 43 -189 180 0"), "bhmv", select_coords=Coords("-1117 48 -153 -1044 4 -225"))
