@@ -322,7 +322,7 @@ TEAMS.new_str("""
     # teleports up to make sure that the selector gets the correct entity
     # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~0.1 ~
     @e[type=area_effect_cloud,PCTopic,PCrd=1] pictionary answer setbyentity @e[r=0]
-    @e[type=area_effect_cloud,PCTopic,PCrd=1] say set @e[r=0]
+    # @e[type=area_effect_cloud,PCTopic,PCrd=1] say set @e[r=0]
     # tp @e[type=area_effect_cloud,PCTopic,PCrd=1] ~ ~-0.1 ~
 
 

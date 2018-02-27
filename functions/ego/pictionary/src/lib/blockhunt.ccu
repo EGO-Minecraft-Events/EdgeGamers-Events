@@ -36,6 +36,7 @@ $endfor
 
 # additional commands for the main start
 $macro(edit_round_start)
+    $(prng.cmd_init())
     @a[team=$(virus.initials)h] function give_disguise
     tp @a[$(virus.select_spawn),team=$(virus.initials)h] $(virus.arena_coords)
 $endmacro
@@ -148,14 +149,14 @@ TEAMS.new_str("""
     h Hiders
         friendlyfire false
         collisionRule never
-        deathMessageVisibility never
+        deathMessageVisibility always
         color green
         nametagVisibility hideForOtherTeams
     
     v Virus
         friendlyfire false
         collisionRule never
-        deathMessageVisibility never
+        deathMessageVisibility always
         color yellow
     
     d_y Display Yellow

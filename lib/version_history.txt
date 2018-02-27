@@ -91,3 +91,6 @@
 
 0.14.2
     BlockHunt Hospital (BH_HOSPITAL) select_coords fixed
+    virus.ccu and blockhunt.ccu
+        Changed the team options deathMessageVisbility --> always
+
