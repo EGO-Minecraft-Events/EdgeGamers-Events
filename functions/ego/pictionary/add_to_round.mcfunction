@@ -20,3 +20,4 @@ minecraft:tp @s 133 4 180 90 0
 execute @s ~ ~ ~ pictionary artist set @p[r=0]
 tellraw @a {"text":"","extra":[{"text":"[","color":"gray"},{"text":"PC","color":"dark_aqua","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Pictionary","color":"dark_aqua"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1301307747"}},{"text":"]","color":"gray"},{"text":": "},{"selector":"@s"},{"text":" is the artist.","color":"gray"}]}
 scoreboard players set @e[type=armor_stand,tag=PCStand] PCst 2
+scoreboard players set @s PCpl 2

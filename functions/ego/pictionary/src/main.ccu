@@ -189,6 +189,10 @@ TEAMS.new_str("""
 !mfunc during_round
     # timer
     @s[PCti=1..] PCti - 1
+
+    # stops the round once the timer reaches 0 or below
+    @s[PCti=..0] function stop_round
+
     ScOP Time_Elapsed PCcl = @s PCti
     ScOP Time_Elapsed PCcl /= 20 constants
     ScOP Time_Elapsed PC = Time_Elapsed PCcl
@@ -208,6 +212,7 @@ TEAMS.new_str("""
     
     # display message
     title @a title {"text":"Round Over!","color":"dark_aqua","underlined":true}
+    @a function display_topic
     tellraw @a $(event.begin(r'''{"selector":"@e[type=area_effect_cloud,tag=PCTopic,score_PCrd_min=1,score_PCrd=1]","bold":"true"},
                              {"text":" is the answer!","color":"gray"}'''))
     
@@ -311,6 +316,9 @@ TEAMS.new_str("""
     # because this function implies an artist has been chosen, the PCStand
     # PCst = 2 to indicate that an artist has been successfully chosen
     @e[type=armor_stand,PCStand] PCst = 2
+
+    # updates the player state to indicate they are an artist
+    @s PCpl = 2
     
 
 # used on the Topic Clouds to make it be the topic
@@ -331,6 +339,19 @@ TEAMS.new_str("""
 
 !mfunc input_stop_round
     @e[type=armor_stand,PCStand] PCst = 4
+
+!mfunc input_add_30s
+    @e[type=armor_stand,PCStand] PCti + $(20 * 30)
+
+!mfunc input_remove_30s
+    @e[type=armor_stand,PCStand] PCti - $(20 * 30)
+
+!mfunc input_add_one_min
+    @e[type=armor_stand,PCStand] PCti + $(20 * 60)
+
+!mfunc input_remove_one_min
+    @e[type=armor_stand,PCStand] PCti - $(20 * 60)
+
 
 
 !mfunc book
@@ -359,7 +380,29 @@ TEAMS.new_str("""
             {\"text\":\"Reset\\\n\\\n\",\"color\":\"red\",
                 \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_stop_round"))\"},
                 \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Stops an individual round\",\"color\":\"gold\"}}
+            },
+
+            {\"text\":\"Time: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\",\"color\":\"dark_green\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_add_one_min"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 1 minute\",\"color\":\"dark_green\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[+]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_add_30s"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Adds 30 seconds\",\"color\":\"gold\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[-]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_remove_30s"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 30 seconds\",\"color\":\"gold\"}}
+            },
+            {\"text\":\" \",\"color\":\"gray\"},
+            {\"text\":\"[-]\",\"color\":\"red\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_remove_one_min"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Removes 1 minute\",\"color\":\"red\"}}
             }
+
         ]"
     ]}
     

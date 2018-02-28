@@ -1,4 +1,5 @@
 scoreboard players remove @s[score_PCti_min=1] PCti 1
+execute @s[score_PCti=0] ~ ~ ~ function ego:pictionary/stop_round
 scoreboard players operation Time_Elapsed PCcl = @s PCti
 scoreboard players operation Time_Elapsed PCcl /= 20 constants
 scoreboard players operation Time_Elapsed PC = Time_Elapsed PCcl

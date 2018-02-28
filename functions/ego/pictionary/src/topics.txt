@@ -12,7 +12,7 @@ Pb&J
 Glass of Water
 Tea
 Ramen
-Speghetti and Meatballs
+Spaghetti and Meatballs
 Grilled Cheese
 Corn
 Mashed Potatoes and Gravy
@@ -20,7 +20,7 @@ Soup
 M&M
 Lollipop
 Skittles
-Pockey
+Pocky
 Sushi
 Pie
 Hot Dog
@@ -31,7 +31,7 @@ Fish and Chips
 Coffee
 Strawberry Milkshake
 Cookie
-Chocolate Cookie
+Chocolate Chip Cookie
 Chocolate Cake
 Strawberry Short Cake
 Cupcake
