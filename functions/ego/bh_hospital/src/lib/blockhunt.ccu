@@ -149,14 +149,14 @@ TEAMS.new_str("""
     h Hiders
         friendlyfire false
         collisionRule never
-        deathMessageVisibility never
+        deathMessageVisibility always
         color green
         nametagVisibility hideForOtherTeams
     
     v Virus
         friendlyfire false
         collisionRule never
-        deathMessageVisibility never
+        deathMessageVisibility always
         color yellow
     
     d_y Display Yellow

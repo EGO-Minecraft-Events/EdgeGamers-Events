@@ -4,10 +4,9 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
-scoreboard players set @a[x=-1047,y=42,z=-190,dx=-90,dy=-39,dz=-42] gSA 1
+scoreboard players set @a[x=-1047,y=42,z=-290,dx=-90,dy=-39,dz=58] gSA 1
 scoreboard objectives add constants dummy
 scoreboard players set -1 constants -1
 scoreboard players set 1200 constants 1200
@@ -30,16 +29,16 @@ scoreboard objectives add BHHgl dummy Hospital Glowing Players
 scoreboard objectives add BHHcalc dummy Hospital Calculations
 scoreboard objectives add BHHst dummy Hospital State
 scoreboard teams add BHHh Hospital Hiders
-scoreboard teams option BHHh nametagVisibility hideForOtherTeams
-scoreboard teams option BHHh collisionRule never
-scoreboard teams option BHHh color green
 scoreboard teams option BHHh friendlyfire false
-scoreboard teams option BHHh deathMessageVisibility never
+scoreboard teams option BHHh collisionRule never
+scoreboard teams option BHHh deathMessageVisibility always
+scoreboard teams option BHHh color green
+scoreboard teams option BHHh nametagVisibility hideForOtherTeams
 scoreboard teams add BHHv Hospital Virus
-scoreboard teams option BHHv collisionRule never
-scoreboard teams option BHHv color yellow
 scoreboard teams option BHHv friendlyfire false
-scoreboard teams option BHHv deathMessageVisibility never
+scoreboard teams option BHHv collisionRule never
+scoreboard teams option BHHv deathMessageVisibility always
+scoreboard teams option BHHv color yellow
 scoreboard teams add BHHd_y Hospital Display Yellow
 scoreboard teams option BHHd_y color yellow
 scoreboard teams add BHHd_g Hospital Display Green
