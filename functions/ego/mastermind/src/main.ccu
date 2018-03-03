@@ -254,6 +254,10 @@ TEAMS.new_str("""
 
     # displays the correct answer for the host
     @a[HOST=0] function display_answer_actionbar
+
+    # joins the correct team for the host and players
+    join NoPVP @a[team=!NoPVP]
+    join MMwhite @a[HOST=0,team=!MMwhite]
     
     @a[MMrn=1..] ScOP @s MM = @s MMrn
     @a[MMrn=0] reset MM
@@ -639,14 +643,11 @@ $endfor
     $(event.cmd_book("@s[EC=0]"))
 
     @s MMec = -100
-    join NoPVP @s[team=!NoPVP]
-    join MMwhite @s[HOST=0,team=!MMwhite]
 
     effect @s clear
     effect @s $(Effects.hp) 1 100 true
     xp -1000L @s
 
-    join MM @s
     @s MMpl = 1
 
 
@@ -762,6 +763,13 @@ $endfor
 !mfunc input_reset_all
     @a[MMpl=1..] MMpl = 0
 
+!mfunc input_reset_one
+    tellraw @s $(event.begin())
+    {"text":"[-]","color":"red",
+        "hoverEvent":{"action":"show_text","value":{"text":"Reset one player","color":"gold"}},
+        "clickEvent":{"action":"suggest_command","value":"/scoreboard players set NAME MMpl 0"}
+    }]}
+
 !mfunc input_randomize
     function randomize
 
@@ -804,9 +812,18 @@ $endfor
             {\"text\":\" / \",\"color\":\"gray\"},
             {\"text\":\"Closed\\\n\",\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_close_doors"))\"}},
             
-            {\"text\":\"Resets all: \",\"color\":\"dark_gray\"},
-            {\"text\":\"[+]\\\n\",\"color\":\"gold\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_all"))\"}},
+            {\"text\":\"Resets: \",\"color\":\"dark_gray\"},
+            {\"text\":\"[+]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_one"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets a single player\",\"color\":\"dark_green\"}}
+            },
+            {\"text\":\" / \",\"color\":\"gray\"},
+            {\"text\":\"[+]\",\"color\":\"gold\",
+                \"clickEvent\":{\"action\":\"run_command\",\"value\":\"/$(event.cmd_func("input_reset_all"))\"},
+                \"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"Resets all players\",\"color\":\"dark_green\"}}
+            },
             
+            {\"text\":\"\\\n\"},
             {\"text\":\"\\\n\"},
             
             {\"text\":\"Randomizer: \",\"color\":\"dark_gray\"},

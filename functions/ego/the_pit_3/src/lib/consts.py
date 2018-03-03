@@ -19,7 +19,7 @@ class Effects:
     """
     absorption = "minecraft:absorption"
     blind = "minecraft:blindness"
-    fire_resist = "minecraft:fire_resist"
+    fire_resist = "minecraft:fire_resistance"
     glow = "minecraft:glowing"
     haste = "minecraft:haste"
     hp_boost = "minecraft:health_boost"

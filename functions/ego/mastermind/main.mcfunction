@@ -40,5 +40,7 @@ scoreboard players set @a[x=90,y=4,z=47,dx=7,dy=5,dz=12,m=1] MMrn 11
 scoreboard players set @a[x=101,y=4,z=47,dx=7,dy=5,dz=12,m=2] MMrn 12
 scoreboard players set @a[x=101,y=4,z=47,dx=7,dy=5,dz=12,m=1] MMrn 12
 execute @a[score_HOST_min=0,score_HOST=0] ~ ~ ~ function ego:mastermind/display_answer_actionbar
+scoreboard teams join NoPVP @a[team=!NoPVP]
+scoreboard teams join MMwhite @a[score_HOST_min=0,score_HOST=0,team=!MMwhite]
 execute @a[score_MMrn_min=1] ~ ~ ~ scoreboard players operation @s MM = @s MMrn
 scoreboard players reset @a[score_MMrn_min=0,score_MMrn=0] MM

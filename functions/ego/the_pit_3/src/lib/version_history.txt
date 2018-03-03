@@ -85,3 +85,12 @@
     floo_network.py
         Added mastermind hell
     
+0.14.1
+    consts.py
+        Fixed a typo for fire resistance
+
+0.14.2
+    BlockHunt Hospital (BH_HOSPITAL) select_coords fixed
+    virus.ccu and blockhunt.ccu
+        Changed the team options deathMessageVisbility --> always
+
