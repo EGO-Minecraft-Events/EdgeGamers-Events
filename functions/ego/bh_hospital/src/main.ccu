@@ -3,7 +3,6 @@ from lib.virus import *
 from lib.floo_network import BH_HOSPITAL
 from lib.coords import Coords
 from lib.consts import Effects
-from lib.prng import PRNG
 
 # all races must have a race object
 virus = Virus(BH_HOSPITAL,
@@ -11,28 +10,7 @@ virus = Virus(BH_HOSPITAL,
     wait_coords=Coords("-1074 25 -267 0 0"),
     arena_coords=Coords("-1067 7 -236 145 0"),
     select_virus=Coords("-1073 27 -266 -1075 24 -268"))
-
-with open("blocks.txt") as blocks_file:
-    blocks = list(map(lambda x: x.rstrip("\n"), blocks_file.readlines()))
-prng = PRNG(virus.initials + "prng", len(blocks))
-
 )
-
-$for(num in range(len(blocks)))
-$py(block = blocks[num].split())
-!mfunc disguise_$(num)
-$if(len(block) > 1)
-    bd disguise $(block[0]) @p[r=0] $(" ".join(block[1:]))
-$else
-    bd disguise $(block[0]) @p[r=0]
-$endif
-$endfor
-
-!mfunc give_disguise
-    $(prng.cmd_main())
-$for(num in range(len(blocks)))
-    @s[$(prng.objective_name)=$(num)] function disguise_$(num)
-$endfor
 
 # additional commands for the main start
 $macro(edit_round_start)

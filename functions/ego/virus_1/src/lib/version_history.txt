@@ -39,6 +39,61 @@
     Add the rest of the BlockHunt maps
 
 0.10.0
-    floo_network.py:
+    floo_network.py
         Changed all the ID hashes to use the folder_name and name
         Changed all shortcuts to automatically include the folder name
+        Renamed bho --> bh_office
+
+0.10.1
+    floo_network.py
+        Renamed bh_office --> bh_old
+
+0.10.2
+    floo_network.py
+        Added an option to not use the folder_name as a shortcut
+
+0.11.0
+    floo_network.py
+        Added a custom regen option
+
+    consts.py
+        Added MAX_INT
+
+0.12.0
+    races.ccu
+        Added a macro $edit_scoreboard_start() to initialize scoreboard teams and objectives
+
+    race_lap.ccu, race_checkpoint.ccu, race_regular.ccu
+        Added the macro in the copy/pasta region
+
+0.12.1
+    Fix BH_MASTERMIND select_coords
+
+0.13.0
+    Add .rotate and .rotated methods to Vector2
+
+0.13.1
+    Fix .rotate behavior on swizzled Vector2
+
+0.13.2
+    Fix coord import in vector.py
+
+0.13.3
+    Fix in-place arithmetic prefix assignment behavior with Coord
+
+0.14.0
+    floo_network.py
+        Added mastermind hell
+    
+0.14.1
+    consts.py
+        Fixed a typo for fire resistance
+
+0.14.2
+    BlockHunt Hospital (BH_HOSPITAL) select_coords fixed
+    virus.ccu and blockhunt.ccu
+        Changed the team options deathMessageVisbility --> always
+
+0.15.0
+    virus.ccu and blockhunt.ccu
+        Integrated blockhunt.ccu with virus.ccu so blockhunt.ccu completely depends on virus.ccu

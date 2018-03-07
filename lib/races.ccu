@@ -126,10 +126,6 @@ TEAMS.new_str("""
     $(race.cmd_spawn())
 
 
-$add_functions()
-$race_add_functions()
-
-
 !mfunc term
     # terminates the floo network
     $(race.cmd_term())
@@ -173,3 +169,7 @@ $race_add_functions()
     @s[$(initials)cd=120] title @a[gSA=1] title {"text":"GO!","color":"green"}
     
     $edit_countdown_clock()
+
+$add_functions()
+$race_add_functions()
+

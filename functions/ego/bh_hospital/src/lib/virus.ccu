@@ -6,6 +6,9 @@ from lib.virus import *
 from lib.floo_network import VIRUS_NAME
 from lib.coords import Coords
 
+if 'is_blockhunt' not in globals():
+    is_blockhunt = False
+
 # all virus maps must have a virus object
 virus = Virus(VIRUS_NAME,
     select_spawn=Coords(""),
@@ -56,6 +59,24 @@ from lib.consts import Effects, Sounds, Enchants
 from lib.scoreboard import OBJECTIVES, TEAMS
 from lib.const_ints import CONST_INTS
 
+if is_blockhunt:
+    virus_name = "Seeker"
+    viruses_name = "Seekers"
+    
+    hider_name = "Hider"
+    hiders_name = "Hiders"
+
+    map_name = "Blockhunt"
+else:
+    virus_name = "Virus"
+    # not plural because there is only one virus which spread, not multiple different viruses
+    viruses_name = "Virus"
+    
+    hider_name = "Hider"
+    hiders_name = "Hiders"
+
+    map_name = "Virus"
+
 # general constants
 select_all = virus.event.select_all
 
@@ -87,8 +108,8 @@ OBJECTIVES.new_str("""
 
     # Used on the armor stand to count how many hiders and virus
     # players exist
-    chi _ Count Hiders
-    cvr _ Count Virus
+    chi _ Count $(hider_name)
+    cvr _ Count $(virus_name)
 
     # Used on the armor stand to show whether the players glow or not
     # 0 = None
@@ -118,14 +139,14 @@ OBJECTIVES[initials].setdisplay("sidebar")
 CONST_INTS.add_consts(20, 60, 1200)
 
 TEAMS.new_str("""
-    h Hiders
+    h $(hiders_name)
         friendlyfire false
         collisionRule never
         deathMessageVisibility always
         color green
         nametagVisibility hideForOtherTeams
     
-    v Virus
+    v $(viruses_name)
         friendlyfire false
         collisionRule never
         deathMessageVisibility always
@@ -145,8 +166,8 @@ TEAMS.new_str("""
     $(OBJECTIVES.cmd_init())
     $(TEAMS.cmd_init())
 
-    join $(initials)d_y Countdown Minutes Seconds Virus
-    join $(initials)d_g Hiders
+    join $(initials)d_y Countdown Minutes Seconds $(virus_name)
+    join $(initials)d_g $(hider_name)
 
     &Countdown $(initials)calc = $(20 * 60)
     &Glowing $(initials)calc = $(20 * 300)
@@ -161,6 +182,9 @@ TEAMS.new_str("""
 
     # kills all items
     kill @e[$(select_all),tag=!$(initials)Entity,type=item]
+
+    # TODO
+    # prevents pvp inside the spawn
 
     # resets the player if they die
     @a[m=2,gDE=1,$(initials)pl=1] $(initials)pl = 0
@@ -225,15 +249,15 @@ TEAMS.new_str("""
     function timer
     
     # sets the player effects
-    @a[$(initials)pl=1,m=2] function player_effects
+    @a[gSA=1,$(initials)pl=1,m=2] function player_effects
 
-    @s[$(initials)ti=..0] function end_countdown
+    @s[gSA=1,$(initials)ti=..0] function end_countdown
 
 
 # Used on the Virus Stand once the countdown ends
 !mfunc end_countdown
     Countdown reset $(obj_name)
-    title @a actionbar {"text":"The virus has been released!","color":"yellow"}
+    title @a actionbar {"text":"The $(viruses_name) has been released!","color":"yellow"}
     @a playsound $(Sounds.wither) voice @s
     $edit_countdown_end()
     
@@ -263,13 +287,13 @@ TEAMS.new_str("""
     @s $(initials)gl = 3
 
     # if the virus won, the hider number is 0
-    @s[$(initials)chi=0] title @a title {"text":"The virus won!","color":"yellow"}
-    @s[$(initials)chi=0] tellraw @a $(virus.event.begin(r'{"text":"The virus won!","color":"yellow"}'))
+    @s[$(initials)chi=0] title @a title {"text":"The $(viruses_name) won!","color":"yellow"}
+    @s[$(initials)chi=0] tellraw @a $(virus.event.begin(r'{"text":"The ' + viruses_name + r' won!","color":"yellow"}'))
 
     # if the hiders won, then is more than one hider
     @s[$(initials)chi=1..] title @a title {"text":"Time!","color":"green"}
-    @s[$(initials)chi=1..] title @a subtitle {"text":"The hiders won!","color":"green"}
-    @s[$(initials)chi=1..] tellraw @a $(virus.event.begin(r'{"text":"The time is up! Hiders win!","color":"yellow"}'))
+    @s[$(initials)chi=1..] title @a subtitle {"text":"The $(hiders_name) won!","color":"green"}
+    @s[$(initials)chi=1..] tellraw @a $(virus.event.begin(r'{"text":"The time is up! ' + hiders_team + r' win!","color":"yellow"}'))
     @s[$(initials)chi=1..] Seconds reset $(obj_name)
     @s[$(initials)chi=1..] Minutes reset $(obj_name)
     $edit_round_end()
@@ -294,12 +318,14 @@ TEAMS.new_str("""
     @s $(initials)st = 0
 
 
-# used on players to set their effects
+# used on arbitrary to set their effects
 !mfunc player_effects
-    effect @s[team=$(virus_team)] $(Effects.strength) 3 90 true
-    effect @s $(Effects.resist) 3 3 true
-    effect @s $(Effects.hp) 100 100 true
+    effect @a[gSA=1,m=2,$(initials)pl=1,team=$(virus_team)] $(Effects.strength) 3 90 true
+    effect @a[gSA=1,m=2,$(initials)pl=1] $(Effects.resist) 3 3 true
+    effect @a[gSA=1,m=2,$(initials)pl=1] $(Effects.hp) 100 100 true
 
+
+# used on players to give them invulnerability for a time being
 !mfunc invuln_effect
     effect @s $(Effects.resist) 3 10 true
     effect @s $(Effects.hp) 100 100 true
@@ -310,7 +336,6 @@ TEAMS.new_str("""
     @s[$(initials)gl=2..] $(initials)gl - 2
     @s[$(initials)gl=1..] effect @a[gSA=1,m=2,team=$(virus_team)] $(Effects.glow) 3 0 true
     @s[$(initials)gl=2..] $(initials)gl - 1
-
 
 
 # used on a given player to initialize and clear their inventory
@@ -361,7 +386,7 @@ TEAMS.new_str("""
         Unbreakable:1,ench:[{id:$(Enchants.BIND),lvl:1},{id:$(Enchants.VANISH),lvl:1}]}
 
     title @s title {"text":"You are now","color":"yellow"}
-    title @s subtitle {"text":"the virus!","color":"yellow"}
+    title @s subtitle {"text":"the $(virus_name)!","color":"yellow"}
     join $(virus_team) @s
 
     # teleports to the waiting room during countdown
@@ -433,7 +458,7 @@ TEAMS.new_str("""
     ScOP @s $(initials)calc = &Glowing $(initials)calc
     ScOP @s $(initials)calc -= @s $(initials)ti
 
-    @s[$(initials)calc=0] tellraw @a $(virus.event.begin(r'{"text":"Glowing has been removed from all virus!","color":"yellow"}'))
+    @s[$(initials)calc=0] tellraw @a $(virus.event.begin(r'{"text":"Glowing has been removed from all ' + viruses_name + r'!","color":"yellow"}'))
     @s[$(initials)calc=0] @a playsound $(Sounds.xp) voice @a[c=1]
     @s[$(initials)calc=0] $(initials)gl = 0
     
@@ -478,14 +503,14 @@ TEAMS.new_str("""
 !mfunc input_select_team
     tellraw @a[EC=0] $(virus.event.begin())
         {"text":"Choose team: ","color":"gray"},
-        {"text":"Hider","color":"green","italic":true,
+        {"text":"$(hider","color":"green","italic":true,
             "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func("to_hider"))"},
-            "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the hiders","color":"green"}}
+            "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the $(hiders_name.lower())","color":"green"}}
         },
         {"text":", ","color":"gray","italic":true},
         {"text":"Virus","color":"yellow","italic":true,
             "clickEvent":{"action":"suggest_command","value":"/execute PLAYER_NAME ~ ~ ~ $(virus.cmd_func("to_virus"))"},
-            "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the virus","color":"yellow"}}
+            "hoverEvent":{"action":"show_text","value":{"text":"Force someone to join the $(viruses_name.lower())","color":"yellow"}}
         }]}
 
 
@@ -580,4 +605,3 @@ TEAMS.new_str("""
             }
         ]"
     ]}
-

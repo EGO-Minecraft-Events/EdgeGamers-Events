@@ -94,3 +94,6 @@
     virus.ccu and blockhunt.ccu
         Changed the team options deathMessageVisbility --> always
 
+0.15.0
+    virus.ccu and blockhunt.ccu
+        Integrated blockhunt.ccu with virus.ccu so blockhunt.ccu completely depends on virus.ccu

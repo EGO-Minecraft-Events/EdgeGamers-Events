@@ -4,6 +4,7 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
+scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-130,y=4,z=-315,dx=121,dy=60,dz=181] gSA 1
 scoreboard objectives add constants dummy
@@ -23,13 +24,13 @@ scoreboard objectives add VR1st dummy Virus 1 State
 scoreboard teams add VR1h Virus 1 Hiders
 scoreboard teams option VR1h friendlyfire false
 scoreboard teams option VR1h collisionRule never
-scoreboard teams option VR1h deathMessageVisibility never
+scoreboard teams option VR1h deathMessageVisibility always
 scoreboard teams option VR1h color green
 scoreboard teams option VR1h nametagVisibility hideForOtherTeams
 scoreboard teams add VR1v Virus 1 Virus
 scoreboard teams option VR1v friendlyfire false
 scoreboard teams option VR1v collisionRule never
-scoreboard teams option VR1v deathMessageVisibility never
+scoreboard teams option VR1v deathMessageVisibility always
 scoreboard teams option VR1v color yellow
 scoreboard teams add VR1d_y Virus 1 Display Yellow
 scoreboard teams option VR1d_y color yellow
