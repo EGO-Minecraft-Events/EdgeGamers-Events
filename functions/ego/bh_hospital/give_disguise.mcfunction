@@ -1,3 +1,4 @@
+say running ego:bh_hospital/give_disguise
 scoreboard players operation &Seed BHHprng *= &Multiplier BHHprng
 scoreboard players operation &Seed BHHprng += &Increment BHHprng
 scoreboard players operation @s BHHprng = &Seed BHHprng

@@ -6,6 +6,8 @@ from lib.coords import Coords
 from lib.consts import Effects
 from lib.prng import PRNG
 
+is_blockhunt = True
+
 virus = Virus(BH_NAME,
     select_spawn=Coords(""),
     wait_coords=Coords(""),

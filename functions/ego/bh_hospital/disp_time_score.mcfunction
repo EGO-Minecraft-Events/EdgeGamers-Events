@@ -1,3 +1,4 @@
+say running ego:bh_hospital/disp_time_score
 scoreboard players operation Seconds BHHti = @s BHHti
 scoreboard players operation Seconds BHHti /= 20 constants
 scoreboard players operation Seconds BHHti %= 60 constants

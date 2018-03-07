@@ -1,3 +1,4 @@
+say running ego:bh_hospital/end_countdown
 scoreboard players reset Countdown BHH
 title @a actionbar {"text":"The seeker has been released!","color":"yellow"}
 execute @a ~ ~ ~ playsound minecraft:entity.wither.death voice @s

@@ -1,3 +1,4 @@
+say running ego:bh_hospital/term
 scoreboard players set @a gSA 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLtp 0
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 0
