@@ -58,18 +58,16 @@ $include("lib/blockhunt.ccu")
 
 
 $py(
-is_blockhunt = True
-)
-
-$include("lib/virus.ccu")
-
-$py(
 from lib.prng import PRNG
+
+is_blockhunt = True
 
 with open("blocks.txt") as blocks_file:
     blocks = list(map(lambda x: x.rstrip("\n"), blocks_file.readlines()))
 prng = PRNG(virus.initials + "prng", len(blocks))
 )
+
+$include("lib/virus.ccu")
 
 # used on players to disguise the player given the disguise id value
 $for(num in range(len(blocks)))
