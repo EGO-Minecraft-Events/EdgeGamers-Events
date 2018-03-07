@@ -17,7 +17,7 @@ with open("topics.txt") as file:
     lines = file.read().splitlines()
 
     # removes empty lines
-    topic_list = [line for line in lines if line.strip()]
+    topic_list = [line.strip() for line in lines if line.strip()]
 
 
 # the first item in the file is the theme
