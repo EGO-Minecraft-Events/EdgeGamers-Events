@@ -13,8 +13,9 @@ virus = Virus(VIRUS_1,
 
 virus_door = Coords("-73 52 -222 -66 52 -229")
 mid_door = Coords("-73 49 -229 -66 49 -222")
-
 )
+
+$include("lib/virus_common_macros.ccu")
 
 # additional commands for the main start
 $macro(edit_round_start)

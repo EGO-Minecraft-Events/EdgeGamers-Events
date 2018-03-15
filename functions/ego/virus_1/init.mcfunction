@@ -36,6 +36,7 @@ scoreboard teams add VR1d_y Virus 1 Display Yellow
 scoreboard teams option VR1d_y color yellow
 scoreboard teams add VR1d_g Virus 1 Display Green
 scoreboard teams option VR1d_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join VR1d_y Countdown Minutes Seconds Virus
 scoreboard teams join VR1d_g Hiders
 scoreboard players set &Countdown VR1calc 1200

@@ -258,7 +258,7 @@ def set_rankings(text):
     @a[$(select_tree)] function in_spawn_tree
     @a[$(select_all)] function in_spawn
     
-    @a function calc_dimension
+    function calc_dimension
     @e[type=armor_stand,FlooStand] function calc_rank
     @a[FLrac=1] function use_rank
     @e[type=armor_stand,FlooStand] function use_options
@@ -355,8 +355,8 @@ def set_rankings(text):
 
 # used on players to calculate their dimension score
 !mfunc calc_dimension
-    @s FLdim = 0
-    @s FLdim = 1 {Dimension:$(dimension_id)}
+    @a FLdim = 0
+    @a FLdim = 1 {Dimension:$(dimension_id)}
 
 
 # used on the FlooStand to calculate whether players' ranking affects their

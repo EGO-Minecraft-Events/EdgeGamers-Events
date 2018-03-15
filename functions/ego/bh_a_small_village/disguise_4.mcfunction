@@ -1,1 +1,1 @@
-bd disguise minecraft:furance @p[r=0]
+bd disguise minecraft:furnace @p[r=0]

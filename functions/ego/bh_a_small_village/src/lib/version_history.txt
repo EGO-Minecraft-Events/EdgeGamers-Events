@@ -77,3 +77,26 @@
 
 0.13.2
     Fix coord import in vector.py
+
+0.13.3
+    Fix in-place arithmetic prefix assignment behavior with Coord
+
+0.14.0
+    floo_network.py
+        Added mastermind hell
+    
+0.14.1
+    consts.py
+        Fixed a typo for fire resistance
+
+0.14.2
+    BlockHunt Hospital (BH_HOSPITAL) select_coords fixed
+    virus.ccu and blockhunt.ccu
+        Changed the team options deathMessageVisbility --> always
+
+0.15.0
+    virus.ccu and blockhunt.ccu
+        Integrated blockhunt.ccu with virus.ccu so blockhunt.ccu completely depends on virus.ccu
+
+0.16.0
+    added virus_common.ccu to be used by both virus.ccu and blockhunt.ccu

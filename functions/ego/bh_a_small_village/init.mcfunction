@@ -4,7 +4,6 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1393,y=38,z=-271,dx=-161,dy=-35,dz=162] gSA 1
@@ -25,30 +24,32 @@ scoreboard objectives add BHASVpl dummy A Small Village Player List
 scoreboard objectives add BHASVsa dummy A Small Village Select All
 scoreboard objectives add BHASVti dummy A Small Village Timer
 scoreboard objectives add BHASVchi dummy A Small Village Count Hiders
-scoreboard objectives add BHASVcvr dummy A Small Village Count Virus
+scoreboard objectives add BHASVcvr dummy A Small Village Count Seekers
 scoreboard objectives add BHASVgl dummy A Small Village Glowing Players
 scoreboard objectives add BHASVcalc dummy A Small Village Calculations
 scoreboard objectives add BHASVst dummy A Small Village State
 scoreboard teams add BHASVh A Small Village Hiders
 scoreboard teams option BHASVh friendlyfire false
 scoreboard teams option BHASVh collisionRule never
-scoreboard teams option BHASVh deathMessageVisibility never
+scoreboard teams option BHASVh deathMessageVisibility always
 scoreboard teams option BHASVh color green
-scoreboard teams option BHASVh nametagVisibility hideForOtherTeams
-scoreboard teams add BHASVv A Small Village Virus
+scoreboard teams option BHASVh nametagVisibility never
+scoreboard teams option BHASVh seeFriendlyInvisibles false
+scoreboard teams add BHASVv A Small Village Seekers
 scoreboard teams option BHASVv friendlyfire false
 scoreboard teams option BHASVv collisionRule never
-scoreboard teams option BHASVv deathMessageVisibility never
+scoreboard teams option BHASVv deathMessageVisibility always
 scoreboard teams option BHASVv color yellow
 scoreboard teams add BHASVd_y A Small Village Display Yellow
 scoreboard teams option BHASVd_y color yellow
 scoreboard teams add BHASVd_g A Small Village Display Green
 scoreboard teams option BHASVd_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join BHASVd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHASVd_g Hiders
-scoreboard players set BHASVCountdown BHASVcalc 1200
-scoreboard players set BHASVGlowing BHASVcalc 6000
-scoreboard players set BHASVGameTime BHASVcalc 12000
+scoreboard players set &Countdown BHASVcalc 1200
+scoreboard players set &Glowing BHASVcalc 6000
+scoreboard players set &GameTime BHASVcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHASVStand","BHASVEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHASVStand] ~ ~ ~ function ego:bh_a_small_village/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHASV","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"A Small Village","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 244577678"}},{"text":"]","color":"gray"},{"text":": "},{"text":"A Small Village","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"A Small Village","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 244577678"}},{"text":" has started!","color":"green"}]}

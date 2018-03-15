@@ -188,6 +188,7 @@ TEAMS.new_str("""
 )
 
 
+# used on a player to initialize the game and set themselves as the host
 !mfunc init
     $(floo_event.cmd_init())
     $(OBJECTIVES.cmd_init())

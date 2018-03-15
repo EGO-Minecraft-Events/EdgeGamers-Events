@@ -359,7 +359,8 @@ class Event:
     def cmd_book(self, selector="@s[EC=0]"):
         """
         Returns the given book command to give a player
-        the event book
+        the event book. Note that the book is given only when the
+        player is alive.
         """
         return "scoreboard players set {0} FLbk {1}".format(selector, self.id)
 

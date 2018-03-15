@@ -15,6 +15,8 @@ mid_door = Coords("-65 60 -66 -58 60 -73")
 
 )
 
+$include("lib/virus_common_macros.ccu")
+
 # additional commands for the main start
 $macro(edit_round_start)
     fill $(mid_door) stonebrick 0 replace redstone_block 0
