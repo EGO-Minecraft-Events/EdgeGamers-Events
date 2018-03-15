@@ -1,2 +1,0 @@
-FUNC {GLOBAL CCU.isImport}:
-	PRINT [Import] |0|

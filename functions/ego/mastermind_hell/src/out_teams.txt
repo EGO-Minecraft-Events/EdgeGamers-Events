@@ -1,8 +1,0 @@
-      "MMHblack": "&0"
-      "MMHred": "&c"
-      "MMHblue": "&9"
-      "MMHgreen": "&a"
-      "MMHgray": "&7"
-      "MMHgold": "&6"
-      "MMHaqua": "&b"
-      "MMHwhite": "&f"

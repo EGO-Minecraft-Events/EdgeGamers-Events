@@ -1,4 +1,0 @@
-      "BHZh": "&a"
-      "BHZv": "&e"
-      "BHZd_y": "&e"
-      "BHZd_g": "&a"

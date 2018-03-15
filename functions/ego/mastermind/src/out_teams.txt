@@ -1,7 +1,0 @@
-      "MMred": "&c"
-      "MMlime": "&a"
-      "MMcyan": "&3"
-      "MMmagenta": "&5"
-      "MMpink": "&d"
-      "MMorange": "&6"
-      "MMwhite": "&f"

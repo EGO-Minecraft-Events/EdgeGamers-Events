@@ -1,4 +1,0 @@
-      "BHCDEh": "&a"
-      "BHCDEv": "&e"
-      "BHCDEd_y": "&e"
-      "BHCDEd_g": "&a"

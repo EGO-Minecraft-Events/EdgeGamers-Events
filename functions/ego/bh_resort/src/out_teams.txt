@@ -1,4 +1,0 @@
-      "BHREh": "&a"
-      "BHREv": "&e"
-      "BHREd_y": "&e"
-      "BHREd_g": "&a"

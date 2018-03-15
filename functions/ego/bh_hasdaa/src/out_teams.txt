@@ -1,4 +1,0 @@
-      "BHHDh": "&a"
-      "BHHDv": "&e"
-      "BHHDd_y": "&e"
-      "BHHDd_g": "&a"

@@ -1,4 +1,0 @@
-      "BHVR2h": "&a"
-      "BHVR2v": "&e"
-      "BHVR2d_y": "&e"
-      "BHVR2d_g": "&a"

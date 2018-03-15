@@ -1,4 +1,0 @@
-      "BHAh": "&a"
-      "BHAv": "&e"
-      "BHAd_y": "&e"
-      "BHAd_g": "&a"

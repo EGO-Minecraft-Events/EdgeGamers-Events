@@ -1,4 +1,0 @@
-      "BHASVh": "&a"
-      "BHASVv": "&e"
-      "BHASVd_y": "&e"
-      "BHASVd_g": "&a"

@@ -1,4 +1,0 @@
-      "BHRAh": "&a"
-      "BHRAv": "&e"
-      "BHRAd_y": "&e"
-      "BHRAd_g": "&a"

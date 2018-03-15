@@ -1,4 +1,0 @@
-      "BHPh": "&a"
-      "BHPv": "&e"
-      "BHPd_y": "&e"
-      "BHPd_g": "&a"

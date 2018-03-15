@@ -1,8 +1,0 @@
-minecraft:log --variant=oak
-minecraft:planks --variant=oak
-minecraft:leaves --variant=oak
-minecraft:leaves --variant=jungle
-minecraft:leaves --variant=birch
-minecraft:leaves --variant=spruce
-minecraft:stone
-minecraft:sand
