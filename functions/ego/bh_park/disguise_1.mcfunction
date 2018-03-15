@@ -1,1 +1,1 @@
-bd disguise minecraft:tallgrass @p[r=0]
+bd disguise minecraft:tallgrass @p[r=0] --type=tall_grass

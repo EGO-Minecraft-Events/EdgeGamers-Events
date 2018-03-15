@@ -2,8 +2,6 @@ $py(
 from lib.virus import *
 from lib.floo_network import BH_OLD
 from lib.coords import Coords
-from lib.consts import Effects
-from lib.prng import PRNG
 
 # all races must have a race object
 virus = Virus(BH_OLD,
@@ -11,69 +9,20 @@ virus = Virus(BH_OLD,
     wait_coords=Coords("-1180 8 -136 0 0"),
     arena_coords=Coords("-1158.0 25 -135.0"),
     select_virus=Coords("-1181 10 -134 -1179 7 -137"))
-
-with open("blocks.txt") as blocks_file:
-    blocks = list(map(lambda x: x.rstrip("\n"), blocks_file.readlines()))
-prng = PRNG(virus.initials + "prng", len(blocks))
-
 )
 
-$for(num in range(len(blocks)))
-$py(block = blocks[num].split())
-!mfunc disguise_$(num)
-$if(len(block) > 1)
-    bd disguise $(block[0]) @p[r=0] $(" ".join(block[1:]))
-$else
-    bd disguise $(block[0]) @p[r=0]
-$endif
-$endfor
+$include("lib/virus_common_macros.ccu")
 
-!mfunc give_disguise
-    $(prng.cmd_main())
-$for(num in range(len(blocks)))
-    @s[$(prng.objective_name)=$(num)] function disguise_$(num)
-$endfor
-
-# additional commands for the main start
 $macro(edit_round_start)
-    $(prng.cmd_init())
-    @a[team=$(virus.initials)h] function give_disguise
-    tp @a[$(virus.select_spawn),team=$(virus.initials)h] $(virus.arena_coords)
+    tp @a[$(virus.select_spawn),team=$(hiders_team)] $(virus.arena_coords)
 $endmacro
 
-# additional commands for adding someone to virus
-$macro(edit_to_virus)
-    bd undisguise @p[r=0]
+$macro(edit_add_to_round)
+    tp @s[team=$(hiders_team)] $(virus.arena_coords)
 $endmacro
 
-# additional commands for status effects
-$macro(edit_player_effects)
-    effect @s[team=$(virus.initials)h] $(Effects.invis) 3 0 true
-$endmacro
-
-# additional commands to run during countdown
-$macro(edit_countdown)
-    @a[$(virus.select_spawn),team=$(virus.initials)h] function give_disguise
-    tp @a[$(virus.select_spawn),team=$(virus.initials)h] $(virus.arena_coords)
-$endmacro
-
-# additional commands for the main clock
 $macro(edit_countdown_end)
-    tp @a[$(virus.select_virus),team=$(virus.initials)v] $(virus.arena_coords)
-$endmacro
-
-# additional commands for round ending
-$macro(edit_round_end)
-$endmacro
-
-# additional commands for the countdown clock
-$macro(edit_round_reset)
-    bd undisguiseall
-$endmacro
-
-# additional commands for the main end
-$macro(edit_main_end)
-    bd undisguiseall
+    tp @a[$(virus.select_virus),team=$(virus_team)] $(virus.arena_coords)
 $endmacro
 
 $include("lib/blockhunt.ccu")

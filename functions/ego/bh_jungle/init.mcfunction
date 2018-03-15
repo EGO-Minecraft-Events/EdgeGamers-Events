@@ -4,7 +4,6 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1046,y=55,z=-148,dx=-69,dy=-51,dz=60] gSA 1
@@ -25,30 +24,32 @@ scoreboard objectives add BHJpl dummy Jungle Player List
 scoreboard objectives add BHJsa dummy Jungle Select All
 scoreboard objectives add BHJti dummy Jungle Timer
 scoreboard objectives add BHJchi dummy Jungle Count Hiders
-scoreboard objectives add BHJcvr dummy Jungle Count Virus
+scoreboard objectives add BHJcvr dummy Jungle Count Seekers
 scoreboard objectives add BHJgl dummy Jungle Glowing Players
 scoreboard objectives add BHJcalc dummy Jungle Calculations
 scoreboard objectives add BHJst dummy Jungle State
 scoreboard teams add BHJh Jungle Hiders
-scoreboard teams option BHJh deathMessageVisibility never
-scoreboard teams option BHJh collisionRule never
-scoreboard teams option BHJh nametagVisibility hideForOtherTeams
-scoreboard teams option BHJh color green
 scoreboard teams option BHJh friendlyfire false
-scoreboard teams add BHJv Jungle Virus
-scoreboard teams option BHJv deathMessageVisibility never
-scoreboard teams option BHJv collisionRule never
-scoreboard teams option BHJv color yellow
+scoreboard teams option BHJh collisionRule never
+scoreboard teams option BHJh deathMessageVisibility always
+scoreboard teams option BHJh color green
+scoreboard teams option BHJh nametagVisibility never
+scoreboard teams option BHJh seeFriendlyInvisibles false
+scoreboard teams add BHJv Jungle Seekers
 scoreboard teams option BHJv friendlyfire false
+scoreboard teams option BHJv collisionRule never
+scoreboard teams option BHJv deathMessageVisibility always
+scoreboard teams option BHJv color yellow
 scoreboard teams add BHJd_y Jungle Display Yellow
 scoreboard teams option BHJd_y color yellow
 scoreboard teams add BHJd_g Jungle Display Green
 scoreboard teams option BHJd_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join BHJd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHJd_g Hiders
-scoreboard players set BHJCountdown BHJcalc 1200
-scoreboard players set BHJGlowing BHJcalc 6000
-scoreboard players set BHJGameTime BHJcalc 12000
+scoreboard players set &Countdown BHJcalc 1200
+scoreboard players set &Glowing BHJcalc 6000
+scoreboard players set &GameTime BHJcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHJStand","BHJEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHJStand] ~ ~ ~ function ego:bh_jungle/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHJ","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Jungle","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 184603297"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Jungle","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Jungle","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 184603297"}},{"text":" has started!","color":"green"}]}

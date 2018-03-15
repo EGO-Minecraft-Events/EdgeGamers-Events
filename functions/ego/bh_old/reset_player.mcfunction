@@ -1,4 +1,2 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 354536009
+function ego:bh_old/to_hider
 scoreboard players set @s BHOpl 1

@@ -322,11 +322,11 @@ $for(name, symbol in ops.items())
 
     def __i$(name)(self, other):
         if isinstance(other, Coord):
-            self.value $(symbol)= other.value
+            self._value $(symbol)= other.value
         elif isinstance(other, Real):
-            self.value $(symbol)= other
+            self._value $(symbol)= other
         elif isinstance(other, str):
-            self.value $(symbol)= _tonum_strip_prefix(other)
+            self._value $(symbol)= _tonum_strip_prefix(other)
         else:
             return NotImplemented
         return self

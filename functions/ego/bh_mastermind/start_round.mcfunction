@@ -1,3 +1,4 @@
+title @a actionbar {"text":"The doors are now open","color":"green"}
 execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @s
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG"]}
@@ -32,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMMprng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMMprng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMMprng 1073741824
-execute @a[team=BHMMh] ~ ~ ~ function ego:bh_mastermind/give_disguise
 minecraft:tp @a[x=-1213,y=51,z=-222,dx=71,dy=-6,dz=-71,team=BHMMh] -1177 21 -273
-scoreboard players operation @s BHMMti = BHMMCountdown BHMMcalc
+scoreboard players operation @s BHMMti = &Countdown BHMMcalc
 scoreboard players set @s BHMMst 2

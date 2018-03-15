@@ -4,7 +4,6 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1208,y=34,z=-186,dx=-176,dy=-30,dz=176] gSA 1
@@ -25,30 +24,32 @@ scoreboard objectives add BHTSpl dummy Train Station Player List
 scoreboard objectives add BHTSsa dummy Train Station Select All
 scoreboard objectives add BHTSti dummy Train Station Timer
 scoreboard objectives add BHTSchi dummy Train Station Count Hiders
-scoreboard objectives add BHTScvr dummy Train Station Count Virus
+scoreboard objectives add BHTScvr dummy Train Station Count Seekers
 scoreboard objectives add BHTSgl dummy Train Station Glowing Players
 scoreboard objectives add BHTScalc dummy Train Station Calculations
 scoreboard objectives add BHTSst dummy Train Station State
 scoreboard teams add BHTSh Train Station Hiders
-scoreboard teams option BHTSh color green
-scoreboard teams option BHTSh deathMessageVisibility never
 scoreboard teams option BHTSh friendlyfire false
-scoreboard teams option BHTSh nametagVisibility hideForOtherTeams
 scoreboard teams option BHTSh collisionRule never
-scoreboard teams add BHTSv Train Station Virus
-scoreboard teams option BHTSv color yellow
-scoreboard teams option BHTSv deathMessageVisibility never
+scoreboard teams option BHTSh deathMessageVisibility always
+scoreboard teams option BHTSh color green
+scoreboard teams option BHTSh nametagVisibility never
+scoreboard teams option BHTSh seeFriendlyInvisibles false
+scoreboard teams add BHTSv Train Station Seekers
 scoreboard teams option BHTSv friendlyfire false
 scoreboard teams option BHTSv collisionRule never
+scoreboard teams option BHTSv deathMessageVisibility always
+scoreboard teams option BHTSv color yellow
 scoreboard teams add BHTSd_y Train Station Display Yellow
 scoreboard teams option BHTSd_y color yellow
 scoreboard teams add BHTSd_g Train Station Display Green
 scoreboard teams option BHTSd_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join BHTSd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHTSd_g Hiders
-scoreboard players set BHTSCountdown BHTScalc 1200
-scoreboard players set BHTSGlowing BHTScalc 6000
-scoreboard players set BHTSGameTime BHTScalc 12000
+scoreboard players set &Countdown BHTScalc 1200
+scoreboard players set &Glowing BHTScalc 6000
+scoreboard players set &GameTime BHTScalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHTSStand","BHTSEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHTSStand] ~ ~ ~ function ego:bh_train_station/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHTS","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Train Station","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 993875352"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Train Station","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Train Station","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 993875352"}},{"text":" has started!","color":"green"}]}

@@ -1,3 +1,4 @@
+title @a actionbar {"text":"The doors are now open","color":"green"}
 execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @s
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG"]}
@@ -32,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMVprng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMVprng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHMVprng 1073741824
-execute @a[team=BHMVh] ~ ~ ~ function ego:bh_mushroom_village/give_disguise
 minecraft:tp @a[x=-117,y=48,z=-225,dx=-929,dy=-5,dz=72,team=BHMVh] -1075 23 -196
-scoreboard players operation @s BHMVti = BHMVCountdown BHMVcalc
+scoreboard players operation @s BHMVti = &Countdown BHMVcalc
 scoreboard players set @s BHMVst 2

@@ -33,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHHprng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHHprng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHHprng 1073741824
-execute @a[team=BHHh] ~ ~ ~ function ego:bh_hospital/give_disguise
 minecraft:tp @a[x=-1080,y=37,z=-283,dx=12,dy=-12,dz=12,team=BHHh] -1067 7 -236 145 0
 scoreboard players operation @s BHHti = &Countdown BHHcalc
 scoreboard players set @s BHHst 2

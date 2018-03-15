@@ -1,4 +1,2 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 993875352
+function ego:bh_train_station/to_hider
 scoreboard players set @s BHTSpl 1

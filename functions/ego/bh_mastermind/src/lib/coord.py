@@ -74,15 +74,20 @@ class Coord:
   return self._prefix=="^"
  """In all numeric type comparisons, the prefix of the Coord is ignored
     Examples:
-        (~15 == ^15) == True
-        (~10 == ~15) == False
-        (^3 == 3) == True
+        >>> Coord("~15") == Coord("^15")
+        True
+        >>> Coord("~10") <= Coord("~15")
+        True
+        >>> Coord("~9") <= Coord("9")
+        True
+        >>> Coord("^3") > Coord("3")
+        False
     """ 
- def __eq__(self,other):
+ def __ge__(self,other):
   if isinstance(other,Coord):
-   return self.value==other.value
+   return self.value>=other.value
   elif isinstance(other,Real):
-   return self.value==other
+   return self.value>=other
   else:
    return NotImplemented
  def __lt__(self,other):
@@ -92,11 +97,11 @@ class Coord:
    return self.value<other
   else:
    return NotImplemented
- def __gt__(self,other):
+ def __ne__(self,other):
   if isinstance(other,Coord):
-   return self.value>other.value
+   return self.value!=other.value
   elif isinstance(other,Real):
-   return self.value>other
+   return self.value!=other
   else:
    return NotImplemented
  def __le__(self,other):
@@ -106,62 +111,32 @@ class Coord:
    return self.value<=other
   else:
    return NotImplemented
- def __ge__(self,other):
+ def __gt__(self,other):
   if isinstance(other,Coord):
-   return self.value>=other.value
+   return self.value>other.value
   elif isinstance(other,Real):
-   return self.value>=other
+   return self.value>other
   else:
    return NotImplemented
- def __ne__(self,other):
+ def __eq__(self,other):
   if isinstance(other,Coord):
-   return self.value!=other.value
+   return self.value==other.value
   elif isinstance(other,Real):
-   return self.value!=other
+   return self.value==other
   else:
    return NotImplemented
+ def equals(val):
+  coord=Coord(val)
+  return coord._prefix==self._prefix and coord.value==self.value
  """In all numeric type operations, the prefix of the result is inherited from the left of the operator.
     Examples:
-        Note: === is used to signify that the prefixes are included in the equality, unlike the comparison operations above
-        ~15 + ^5 === ~20
-        ^15 - ~5 === ~10
-         15 / ^5 ===  3
+        >>> Coord("~15") + Coord("^5")
+        Coord('~20')
+        >>> Coord("^15") + Coord("~5")
+        Coord('^20')
+        >>> 15 / Coord("^5")
+        Coord('3')
     """ 
- def __rshift__(self,other):
-  if isinstance(other,Coord):
-   result=self.value>>other.value
-  elif isinstance(other,Real):
-   result=self.value>>other
-  elif isinstance(other,str):
-   result=self.value>>_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rrshift__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other>>self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)>>self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __irshift__(self,other):
-  if isinstance(other,Coord):
-   self.value>>=other.value
-  elif isinstance(other,Real):
-   self.value>>=other
-  elif isinstance(other,str):
-   self.value>>=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
  def __mod__(self,other):
   if isinstance(other,Coord):
    result=self.value%other.value
@@ -189,256 +164,11 @@ class Coord:
   return new_coordval
  def __imod__(self,other):
   if isinstance(other,Coord):
-   self.value%=other.value
+   self._value%=other.value
   elif isinstance(other,Real):
-   self.value%=other
+   self._value%=other
   elif isinstance(other,str):
-   self.value%=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __sub__(self,other):
-  if isinstance(other,Coord):
-   result=self.value-other.value
-  elif isinstance(other,Real):
-   result=self.value-other
-  elif isinstance(other,str):
-   result=self.value-_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rsub__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other-self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)-self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __isub__(self,other):
-  if isinstance(other,Coord):
-   self.value-=other.value
-  elif isinstance(other,Real):
-   self.value-=other
-  elif isinstance(other,str):
-   self.value-=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __and__(self,other):
-  if isinstance(other,Coord):
-   result=self.value&other.value
-  elif isinstance(other,Real):
-   result=self.value&other
-  elif isinstance(other,str):
-   result=self.value&_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rand__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other&self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)&self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __iand__(self,other):
-  if isinstance(other,Coord):
-   self.value&=other.value
-  elif isinstance(other,Real):
-   self.value&=other
-  elif isinstance(other,str):
-   self.value&=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __floordiv__(self,other):
-  if isinstance(other,Coord):
-   result=self.value//other.value
-  elif isinstance(other,Real):
-   result=self.value//other
-  elif isinstance(other,str):
-   result=self.value//_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rfloordiv__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other//self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)//self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __ifloordiv__(self,other):
-  if isinstance(other,Coord):
-   self.value//=other.value
-  elif isinstance(other,Real):
-   self.value//=other
-  elif isinstance(other,str):
-   self.value//=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __lshift__(self,other):
-  if isinstance(other,Coord):
-   result=self.value<<other.value
-  elif isinstance(other,Real):
-   result=self.value<<other
-  elif isinstance(other,str):
-   result=self.value<<_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rlshift__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other<<self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)<<self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __ilshift__(self,other):
-  if isinstance(other,Coord):
-   self.value<<=other.value
-  elif isinstance(other,Real):
-   self.value<<=other
-  elif isinstance(other,str):
-   self.value<<=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __truediv__(self,other):
-  if isinstance(other,Coord):
-   result=self.value/other.value
-  elif isinstance(other,Real):
-   result=self.value/other
-  elif isinstance(other,str):
-   result=self.value/_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rtruediv__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other/self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)/self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __itruediv__(self,other):
-  if isinstance(other,Coord):
-   self.value/=other.value
-  elif isinstance(other,Real):
-   self.value/=other
-  elif isinstance(other,str):
-   self.value/=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __xor__(self,other):
-  if isinstance(other,Coord):
-   result=self.value^other.value
-  elif isinstance(other,Real):
-   result=self.value^other
-  elif isinstance(other,str):
-   result=self.value^_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rxor__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other^self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)^self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __ixor__(self,other):
-  if isinstance(other,Coord):
-   self.value^=other.value
-  elif isinstance(other,Real):
-   self.value^=other
-  elif isinstance(other,str):
-   self.value^=_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  return self
- def __pow__(self,other):
-  if isinstance(other,Coord):
-   result=self.value**other.value
-  elif isinstance(other,Real):
-   result=self.value**other
-  elif isinstance(other,str):
-   result=self.value**_tonum_strip_prefix(other)
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=self._prefix
-  return new_coordval
- def __rpow__(self,other):
-  _prefix=""
-  if isinstance(other,Real):
-   result=other**self.value
-  elif isinstance(other,str):
-   result=_tonum_strip_prefix(other)**self.value
-   if not other[0].isdigit():
-    _prefix=other[0]
-  else:
-   return NotImplemented
-  new_coordval=Coord(result)
-  new_coordval._prefix=_prefix
-  return new_coordval
- def __ipow__(self,other):
-  if isinstance(other,Coord):
-   self.value**=other.value
-  elif isinstance(other,Real):
-   self.value**=other
-  elif isinstance(other,str):
-   self.value**=_tonum_strip_prefix(other)
+   self._value%=_tonum_strip_prefix(other)
   else:
    return NotImplemented
   return self
@@ -469,11 +199,11 @@ class Coord:
   return new_coordval
  def __iadd__(self,other):
   if isinstance(other,Coord):
-   self.value+=other.value
+   self._value+=other.value
   elif isinstance(other,Real):
-   self.value+=other
+   self._value+=other
   elif isinstance(other,str):
-   self.value+=_tonum_strip_prefix(other)
+   self._value+=_tonum_strip_prefix(other)
   else:
    return NotImplemented
   return self
@@ -504,11 +234,11 @@ class Coord:
   return new_coordval
  def __ior__(self,other):
   if isinstance(other,Coord):
-   self.value|=other.value
+   self._value|=other.value
   elif isinstance(other,Real):
-   self.value|=other
+   self._value|=other
   elif isinstance(other,str):
-   self.value|=_tonum_strip_prefix(other)
+   self._value|=_tonum_strip_prefix(other)
   else:
    return NotImplemented
   return self
@@ -539,11 +269,291 @@ class Coord:
   return new_coordval
  def __imul__(self,other):
   if isinstance(other,Coord):
-   self.value*=other.value
+   self._value*=other.value
   elif isinstance(other,Real):
-   self.value*=other
+   self._value*=other
   elif isinstance(other,str):
-   self.value*=_tonum_strip_prefix(other)
+   self._value*=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __and__(self,other):
+  if isinstance(other,Coord):
+   result=self.value&other.value
+  elif isinstance(other,Real):
+   result=self.value&other
+  elif isinstance(other,str):
+   result=self.value&_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rand__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other&self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)&self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __iand__(self,other):
+  if isinstance(other,Coord):
+   self._value&=other.value
+  elif isinstance(other,Real):
+   self._value&=other
+  elif isinstance(other,str):
+   self._value&=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __sub__(self,other):
+  if isinstance(other,Coord):
+   result=self.value-other.value
+  elif isinstance(other,Real):
+   result=self.value-other
+  elif isinstance(other,str):
+   result=self.value-_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rsub__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other-self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)-self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __isub__(self,other):
+  if isinstance(other,Coord):
+   self._value-=other.value
+  elif isinstance(other,Real):
+   self._value-=other
+  elif isinstance(other,str):
+   self._value-=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __floordiv__(self,other):
+  if isinstance(other,Coord):
+   result=self.value//other.value
+  elif isinstance(other,Real):
+   result=self.value//other
+  elif isinstance(other,str):
+   result=self.value//_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rfloordiv__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other//self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)//self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __ifloordiv__(self,other):
+  if isinstance(other,Coord):
+   self._value//=other.value
+  elif isinstance(other,Real):
+   self._value//=other
+  elif isinstance(other,str):
+   self._value//=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __xor__(self,other):
+  if isinstance(other,Coord):
+   result=self.value^other.value
+  elif isinstance(other,Real):
+   result=self.value^other
+  elif isinstance(other,str):
+   result=self.value^_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rxor__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other^self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)^self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __ixor__(self,other):
+  if isinstance(other,Coord):
+   self._value^=other.value
+  elif isinstance(other,Real):
+   self._value^=other
+  elif isinstance(other,str):
+   self._value^=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __rshift__(self,other):
+  if isinstance(other,Coord):
+   result=self.value>>other.value
+  elif isinstance(other,Real):
+   result=self.value>>other
+  elif isinstance(other,str):
+   result=self.value>>_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rrshift__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other>>self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)>>self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __irshift__(self,other):
+  if isinstance(other,Coord):
+   self._value>>=other.value
+  elif isinstance(other,Real):
+   self._value>>=other
+  elif isinstance(other,str):
+   self._value>>=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __pow__(self,other):
+  if isinstance(other,Coord):
+   result=self.value**other.value
+  elif isinstance(other,Real):
+   result=self.value**other
+  elif isinstance(other,str):
+   result=self.value**_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rpow__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other**self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)**self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __ipow__(self,other):
+  if isinstance(other,Coord):
+   self._value**=other.value
+  elif isinstance(other,Real):
+   self._value**=other
+  elif isinstance(other,str):
+   self._value**=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __lshift__(self,other):
+  if isinstance(other,Coord):
+   result=self.value<<other.value
+  elif isinstance(other,Real):
+   result=self.value<<other
+  elif isinstance(other,str):
+   result=self.value<<_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rlshift__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other<<self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)<<self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __ilshift__(self,other):
+  if isinstance(other,Coord):
+   self._value<<=other.value
+  elif isinstance(other,Real):
+   self._value<<=other
+  elif isinstance(other,str):
+   self._value<<=_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  return self
+ def __truediv__(self,other):
+  if isinstance(other,Coord):
+   result=self.value/other.value
+  elif isinstance(other,Real):
+   result=self.value/other
+  elif isinstance(other,str):
+   result=self.value/_tonum_strip_prefix(other)
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __rtruediv__(self,other):
+  _prefix=""
+  if isinstance(other,Real):
+   result=other/self.value
+  elif isinstance(other,str):
+   result=_tonum_strip_prefix(other)/self.value
+   if not other[0].isdigit():
+    _prefix=other[0]
+  else:
+   return NotImplemented
+  new_coordval=Coord(result)
+  new_coordval._prefix=_prefix
+  return new_coordval
+ def __itruediv__(self,other):
+  if isinstance(other,Coord):
+   self._value/=other.value
+  elif isinstance(other,Real):
+   self._value/=other
+  elif isinstance(other,str):
+   self._value/=_tonum_strip_prefix(other)
   else:
    return NotImplemented
   return self
@@ -572,16 +582,16 @@ class Coord:
   new_coordval=Coord(result)
   new_coordval._prefix=_prefix
   return new_coordval
- def __pos__(self):
-  new_coordval=Coord(+self.value)
-  new_coordval._prefix=self._prefix
-  return new_coordval
  def __invert__(self):
   new_coordval=Coord(~self.value)
   new_coordval._prefix=self._prefix
   return new_coordval
  def __neg__(self):
   new_coordval=Coord(-self.value)
+  new_coordval._prefix=self._prefix
+  return new_coordval
+ def __pos__(self):
+  new_coordval=Coord(+self.value)
   new_coordval._prefix=self._prefix
   return new_coordval
  def __abs__(self):

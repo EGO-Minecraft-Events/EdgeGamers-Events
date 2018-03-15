@@ -1,7 +1,4 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 993875352
-bd undisguise @p[r=0]
+function ego:bh_train_station/clear_player
 replaceitem entity @s slot.armor.head golden_helmet 1 0 {Unbreakable:1,ench:[{id:10,lvl:1},{id:71,lvl:1}]}
 title @s title {"text":"You are now","color":"yellow"}
 title @s subtitle {"text":"the seeker!","color":"yellow"}

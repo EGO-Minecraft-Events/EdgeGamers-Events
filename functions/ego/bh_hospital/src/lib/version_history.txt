@@ -97,3 +97,7 @@
 0.15.0
     virus.ccu and blockhunt.ccu
         Integrated blockhunt.ccu with virus.ccu so blockhunt.ccu completely depends on virus.ccu
+
+0.16.0
+    added virus_common.ccu and virus_common_macros.ccu to be used by both virus.ccu and blockhunt.ccu
+    fixed a glitch where blockhunt does not properly give and remove disguises for all players

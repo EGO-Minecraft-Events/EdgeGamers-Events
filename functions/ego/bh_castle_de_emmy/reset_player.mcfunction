@@ -1,4 +1,2 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 606156446
+function ego:bh_castle_de_emmy/to_hider
 scoreboard players set @s BHCDEpl 1

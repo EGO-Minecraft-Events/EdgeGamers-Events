@@ -1,0 +1,46 @@
+# predefines all the macros so all macros even when unused
+
+# additional commands for initializing the python variables
+$macro(edit_py_init) $endmacro
+$macro(edit_type_py_init) $endmacro
+
+# additional commands for the main start
+$macro(edit_round_start) $endmacro
+$macro(edit_type_round_start) $endmacro
+
+# additional commands for adding someone to the hider team
+$macro(edit_add_to_round) $endmacro
+$macro(edit_type_add_to_round) $endmacro
+
+# additional commands to run during countdown
+$macro(edit_countdown) $endmacro
+$macro(edit_type_countdown) $endmacro
+
+# additional commands to run when the countdown ends
+$macro(edit_countdown_end) $endmacro
+$macro(edit_type_countdown_end) $endmacro
+
+# additional commands for the round ending
+$macro(edit_round_end) $endmacro
+$macro(edit_type_round_end) $endmacro
+
+# additional commands for the round reset
+$macro(edit_round_reset) $endmacro
+$macro(edit_type_round_reset) $endmacro
+
+# additional commands for the main end
+$macro(edit_main_end) $endmacro
+$macro(edit_type_main_end) $endmacro
+
+$macro(edit_clear_player) $endmacro
+$macro(edit_type_clear_player) $endmacro
+
+# additional commands for status effects
+$macro(edit_player_effects) $endmacro
+$macro(edit_type_player_effects) $endmacro
+
+$macro(edit_to_virus) $endmacro
+$macro(edit_type_to_virus) $endmacro
+
+$macro(edit_to_hider) $endmacro
+$macro(edit_type_to_hider) $endmacro

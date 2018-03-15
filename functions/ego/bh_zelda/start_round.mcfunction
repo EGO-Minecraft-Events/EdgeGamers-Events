@@ -1,3 +1,4 @@
+title @a actionbar {"text":"The doors are now open","color":"green"}
 execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @s
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG"]}
@@ -32,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHZprng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHZprng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHZprng 1073741824
-execute @a[team=BHZh] ~ ~ ~ function ego:bh_zelda/give_disguise
 minecraft:tp @a[x=-1130,y=31,z=-218,dx=-83,dy=9,dz=38,team=BHZh] -1169 7 -184 180 0
-scoreboard players operation @s BHZti = BHZCountdown BHZcalc
+scoreboard players operation @s BHZti = &Countdown BHZcalc
 scoreboard players set @s BHZst 2

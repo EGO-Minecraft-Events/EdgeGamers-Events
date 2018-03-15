@@ -1,5 +1,5 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 1203107457
+function ego:bh_apocalypse/clear_player
 scoreboard teams join BHAh @s
-function ego:bh_apocalypse/tp_to_spawn if @e[type=armor_stand,tag=BHAStand,score_BHAst_min=0,score_BHAst=2]
+scoreboard players set @s gTEMP 0
+scoreboard players set @s[x=-1565,y=47,z=-102,dx=74,dy=-3,dz=94] gTEMP 1
+execute @s[score_gTEMP_min=0,score_gTEMP=0] ~ ~ ~ function ego:bh_apocalypse/tp_to_spawn if @e[type=armor_stand,tag=BHAStand,score_BHAst_min=0,score_BHAst=1]

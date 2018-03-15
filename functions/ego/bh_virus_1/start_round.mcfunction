@@ -1,3 +1,4 @@
+title @a actionbar {"text":"The doors are now open","color":"green"}
 execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @s
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG"]}
@@ -32,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHVR1prng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHVR1prng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHVR1prng 1073741824
-fill -73 49 -229 -66 49 -222 stonebrick 0 replace redstone_block 0
-execute @a[team=BHVR1h] ~ ~ ~ function ego:bh_virus_1/give_disguise
-scoreboard players operation @s BHVR1ti = BHVR1Countdown BHVR1calc
+minecraft:tp @a[x=-85,y=45,z=-241,dx=31,dy=5,dz=31,team=BHVR1h] -69.0 38 -225.0
+scoreboard players operation @s BHVR1ti = &Countdown BHVR1calc
 scoreboard players set @s BHVR1st 2

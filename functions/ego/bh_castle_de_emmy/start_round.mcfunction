@@ -1,3 +1,4 @@
+title @a actionbar {"text":"The doors are now open","color":"green"}
 execute @a ~ ~ ~ playsound minecraft:entity.player.levelup voice @s
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG","True"]}
 summon area_effect_cloud ~ ~ ~ {Tags:["PRNG"]}
@@ -32,7 +33,6 @@ execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ sco
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHCDEprng 268435456
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHCDEprng 536870912
 execute @r[type=area_effect_cloud,tag=PRNG] ~ ~ ~ execute @s[tag=True] ~ ~ ~ scoreboard players add &Seed BHCDEprng 1073741824
-execute @a[team=BHCDEh] ~ ~ ~ function ego:bh_castle_de_emmy/give_disguise
 minecraft:tp @a[x=-1662,y=73,z=-7,dx=1505,dy=-10,dz=-93,team=BHCDEh] -1616 4 -59
-scoreboard players operation @s BHCDEti = BHCDECountdown BHCDEcalc
+scoreboard players operation @s BHCDEti = &Countdown BHCDEcalc
 scoreboard players set @s BHCDEst 2

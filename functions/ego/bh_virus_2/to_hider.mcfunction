@@ -1,5 +1,5 @@
-clear @s
-effect @s clear
-scoreboard players set @s[score_EC_min=0,score_EC=0] FLbk 98805618
+function ego:bh_virus_2/clear_player
 scoreboard teams join BHVR2h @s
-function ego:bh_virus_2/tp_to_spawn if @e[type=armor_stand,tag=BHVR2Stand,score_BHVR2st_min=0,score_BHVR2st=2]
+scoreboard players set @s gTEMP 0
+scoreboard players set @s[x=-77,y=56,z=-85,dx=31,dy=5,dz=31] gTEMP 1
+execute @s[score_gTEMP_min=0,score_gTEMP=0] ~ ~ ~ function ego:bh_virus_2/tp_to_spawn if @e[type=armor_stand,tag=BHVR2Stand,score_BHVR2st_min=0,score_BHVR2st=1]

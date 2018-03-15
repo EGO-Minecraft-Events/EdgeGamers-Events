@@ -33,7 +33,8 @@ scoreboard teams option BHHh friendlyfire false
 scoreboard teams option BHHh collisionRule never
 scoreboard teams option BHHh deathMessageVisibility always
 scoreboard teams option BHHh color green
-scoreboard teams option BHHh nametagVisibility hideForOtherTeams
+scoreboard teams option BHHh nametagVisibility never
+scoreboard teams option BHHh seeFriendlyInvisibles false
 scoreboard teams add BHHv Hospital Seekers
 scoreboard teams option BHHv friendlyfire false
 scoreboard teams option BHHv collisionRule never
@@ -43,6 +44,7 @@ scoreboard teams add BHHd_y Hospital Display Yellow
 scoreboard teams option BHHd_y color yellow
 scoreboard teams add BHHd_g Hospital Display Green
 scoreboard teams option BHHd_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join BHHd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHHd_g Hiders
 scoreboard players set &Countdown BHHcalc 1200

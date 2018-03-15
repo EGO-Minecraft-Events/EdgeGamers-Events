@@ -4,7 +4,6 @@ scoreboard players set @e[type=armor_stand,tag=FlooStand] FLpvp 2
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLsat 1
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLwea 0
-gamerule naturalRegeneration true
 scoreboard players set @e[type=armor_stand,tag=FlooStand] FLreg 0
 scoreboard players set @a gSA 0
 scoreboard players set @a[x=-1390,y=101,z=-13,dx=-92,dy=-97,dz=-92] gSA 1
@@ -25,30 +24,32 @@ scoreboard objectives add BHREpl dummy Resort Player List
 scoreboard objectives add BHREsa dummy Resort Select All
 scoreboard objectives add BHREti dummy Resort Timer
 scoreboard objectives add BHREchi dummy Resort Count Hiders
-scoreboard objectives add BHREcvr dummy Resort Count Virus
+scoreboard objectives add BHREcvr dummy Resort Count Seekers
 scoreboard objectives add BHREgl dummy Resort Glowing Players
 scoreboard objectives add BHREcalc dummy Resort Calculations
 scoreboard objectives add BHREst dummy Resort State
 scoreboard teams add BHREh Resort Hiders
-scoreboard teams option BHREh color green
-scoreboard teams option BHREh deathMessageVisibility never
-scoreboard teams option BHREh nametagVisibility hideForOtherTeams
 scoreboard teams option BHREh friendlyfire false
 scoreboard teams option BHREh collisionRule never
-scoreboard teams add BHREv Resort Virus
-scoreboard teams option BHREv color yellow
-scoreboard teams option BHREv deathMessageVisibility never
+scoreboard teams option BHREh deathMessageVisibility always
+scoreboard teams option BHREh color green
+scoreboard teams option BHREh nametagVisibility never
+scoreboard teams option BHREh seeFriendlyInvisibles false
+scoreboard teams add BHREv Resort Seekers
 scoreboard teams option BHREv friendlyfire false
 scoreboard teams option BHREv collisionRule never
+scoreboard teams option BHREv deathMessageVisibility always
+scoreboard teams option BHREv color yellow
 scoreboard teams add BHREd_y Resort Display Yellow
 scoreboard teams option BHREd_y color yellow
 scoreboard teams add BHREd_g Resort Display Green
 scoreboard teams option BHREd_g color green
+scoreboard players set @s HOST 0
 scoreboard teams join BHREd_y Countdown Minutes Seconds Seekers
 scoreboard teams join BHREd_g Hiders
-scoreboard players set BHRECountdown BHREcalc 1200
-scoreboard players set BHREGlowing BHREcalc 6000
-scoreboard players set BHREGameTime BHREcalc 12000
+scoreboard players set &Countdown BHREcalc 1200
+scoreboard players set &Glowing BHREcalc 6000
+scoreboard players set &GameTime BHREcalc 12000
 summon armor_stand ~ ~ ~ {Tags:["BHREStand","BHREEntity"],Invulnerable:1,PersistenceRequired:1,Invisible:1,Marker:1,NoGravity:1}
 execute @e[type=armor_stand,tag=BHREStand] ~ ~ ~ function ego:bh_resort/reset_round
 tellraw @a[score_EC_min=0,score_EC=0] {"text":"","extra":[{"text":"[","color":"gray"},{"text":"BHRE","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1456309508"}},{"text":"]","color":"gray"},{"text":": "},{"text":"Resort","color":"green","bold":"true","hoverEvent":{"action":"show_text","value":{"text":"Resort","color":"green"}},"clickEvent":{"action":"run_command","value":"/scoreboard players set @p FLtp 1456309508"}},{"text":" has started!","color":"green"}]}

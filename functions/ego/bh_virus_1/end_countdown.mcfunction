@@ -1,7 +1,7 @@
 scoreboard players reset Countdown BHVR1
-title @a actionbar {"text":"The seeker has been released!","color":"yellow"}
+title @a actionbar {"text":"The seekers has been released!","color":"yellow"}
 execute @a ~ ~ ~ playsound minecraft:entity.wither.death voice @s
-fill -73 52 -222 -66 52 -229 stonebrick 0 replace redstone_block 0
-fill -73 49 -229 -66 49 -222 redstone_block 0 replace stonebrick 0
-scoreboard players operation @s BHVR1ti = BHVR1GameTime BHVR1calc
+minecraft:tp @a[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,team=BHVR1v] -69.0 38 -225.0
+minecraft:tp @a[x=-70,y=53,z=-226,dx=1,dy=3,dz=1,team=BHVR1v] -69.0 38 -225.0
+scoreboard players operation @s BHVR1ti = &GameTime BHVR1calc
 scoreboard players set @s BHVR1st 3
